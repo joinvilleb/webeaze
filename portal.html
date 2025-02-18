@@ -1058,11 +1058,11 @@
  
         <br>
         <br>
-        <br>
+
     
 
 
-        <h1><strong>Client Portal</strong></h1>
+        <h1 id="random-question"></h1>
 
         <br>
 
@@ -1071,16 +1071,9 @@
             Welcome to WebEaze. Bookmark this page for easy access to this client portal. We're working on an integrated user portal, <a href="contact-us.html">depending on feedback we receive from this page</a>.
         </h2>
 
-        <p id="discount-notice" style="padding: 40px; font-size: 14px; text-align: left">
 
-            <strong>Growth package clients</strong>: We'll cover up to $124.90 of any domain and hosting costs in the form of a discount from the package cost, or the direct payment to your domain and hosting preferences. 
-
-            <br>
-            <br>
             
-            <strong>Elite package clients</strong>: We'll cover all domain and hosting costs in the form of a discount from the package cost, or the direct payment to your domain and hosting preferences. This will be valid during the 12-month period of your package.
-        
-        </p>
+    
 
          <nav class="navbar navbar-expand-lg navbar-light bg-transparent">
 
@@ -1212,8 +1205,32 @@
             <br>
             <br>
 
+        </section>
+
+        <hr>
+
+        <section id="contact-form">
+
+            <br>
+            <br>
+
+            <h1><strong>Domain and hosting costs?</strong></h1>
+
+            <br>
+
+            <p style="font-size: 18px; padding: 40px; "><strong>Growth package clients</strong>: We'll cover up to $124.90 of any domain and hosting costs in the form of a discount from the package cost, or the direct payment to your domain and hosting preferences. It is only available once. 
+
+            </p>
 
 
+            
+            <p style="font-size: 18px; padding: 40px; "><strong>Elite package clients</strong>: We'll cover all domain and hosting costs in the form of a discount from the package cost, or the direct payment to your domain and hosting preferences. It is only available once. 
+
+            </p>
+
+            <br>
+            <br>
+          
  
 </main>
 
@@ -1263,6 +1280,42 @@
 
         menuToggle.addEventListener('click', () => {
             navbarMenu.classList.toggle('open');
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const questions = [
+                "Your Client Portal",
+                "Welcome to WebEaze",
+                "Everything WebEaze",
+                "Easy access to support",
+                "We got you.",
+                "Your website, your way.",
+                "Client Portal",
+
+            ];
+
+            const randomIndex = Math.floor(Math.random() * questions.length);
+            const randomQuestion = questions[randomIndex];
+            const randomQuestionElement = document.getElementById('random-question');
+
+            randomQuestionElement.innerText = randomQuestion;
+
+            // Simple fade-in effect
+            let opacity = 0;
+            randomQuestionElement.style.opacity = opacity;
+            randomQuestionElement.style.display = 'block';
+
+            const fadeIn = () => {
+                opacity += 0.02;
+                if (opacity <= 3) {
+                    randomQuestionElement.style.opacity = opacity;
+                    requestAnimationFrame(fadeIn);
+                }
+            };
+
+            fadeIn();
         });
     </script>
 

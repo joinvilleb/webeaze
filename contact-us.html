@@ -1244,11 +1244,14 @@
  
         <br>
         <br>
-        <br>
+
     
 
 
-        <h1><strong>We're here to help!</strong></h1>
+        <h1 id="random-question"></h1>
+
+
+        <br>
 
 
 
@@ -1316,7 +1319,7 @@
                 </select>
             </label>
             <label>
-                How can I help: *
+                How can we help: *
                 <textarea name="message" required></textarea>
             </label>
 
@@ -1444,6 +1447,42 @@
             navbarMenu.classList.toggle('open');
         });
     </script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const questions = [
+            "Contact Us",
+            "Get In Touch",
+            "We're here to help!",
+            "Need anything?",
+            "We'll get back to you soon.",
+            "Hope it's nothing serious!",
+            "We got you.",
+            "We're here for you.",
+        ];
+
+        const randomIndex = Math.floor(Math.random() * questions.length);
+        const randomQuestion = questions[randomIndex];
+        const randomQuestionElement = document.getElementById('random-question');
+
+        randomQuestionElement.innerText = randomQuestion;
+
+        // Simple fade-in effect
+        let opacity = 0;
+        randomQuestionElement.style.opacity = opacity;
+        randomQuestionElement.style.display = 'block';
+
+        const fadeIn = () => {
+            opacity += 0.02;
+            if (opacity <= 3) {
+                randomQuestionElement.style.opacity = opacity;
+                requestAnimationFrame(fadeIn);
+            }
+        };
+
+        fadeIn();
+    });
+</script>
 
 
 
