@@ -979,6 +979,7 @@
  
 
         .menu-toggle {
+
             display: flex;
             
         }
@@ -1178,6 +1179,12 @@
 #offer-header p { animation-delay: 0.2s; }
 
 
+#countdown-timer {
+    font-weight: bold;
+    color: #ff0000; /* Red color for emphasis */
+}
+
+
 
 
 </style>
@@ -1195,9 +1202,11 @@
         <p id="offer-header" style="color: white; font-size: 14px; margin: 10px;"><strong>Don't Rely on Luck! 🍀</strong>
 
             <br>
-       Get a stunning website & 15% OFF any of our packages using code <u>STPATTY15</u> at checkout. 
-        <br>
-        Offer ends March 17th.</p>
+     
+                Get a stunning website & 15% OFF any of our packages using code <u>STPATTY15</u> at checkout. 
+                <br>
+                Offer ends <span id="countdown-timer"></span>.
+            </p>
     </header>
 
     
@@ -1832,6 +1841,32 @@
 
         fadeIn();
     });
+</script>
+
+<script>
+    // Set the date we're counting down to
+const countdownDate = new Date("Mar 17, 2025 23:59:59").getTime();
+
+// Update the countdown every 1 second
+const countdownFunction = setInterval(function() {
+    // Get today's date and time
+    const now = new Date().getTime();
+
+    // Find the distance between now and the countdown date
+    const distance = countdownDate - now;
+
+    // Time calculations for days
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+
+    // Display the result in the element with id="countdown-timer"
+    document.getElementById("countdown-timer").innerHTML = `in ${days} days`;
+
+    // If the countdown is over, write some text
+    if (distance < 0) {
+        clearInterval(countdownFunction);
+        document.getElementById("countdown-timer").innerHTML = "EXPIRED";
+    }
+}, 1000);
 </script>
 
     
