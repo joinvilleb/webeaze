@@ -1186,10 +1186,10 @@
 }
 
 .typing-text::after {
-    content: "|";
+    content: " 👨‍💻 ";
     
     display: inline-block;
-    animation: blink 0.7s steps(1) 3, disappear 30s ease-in-out 2.1s forwards;
+    animation: blink 0.7s steps(12) 3, disappear 25s ease-in-out 2.1s forwards;
     
 }
 
@@ -1203,10 +1203,12 @@
 }
 
 @keyframes blink {
+    0%, 100% { opacity: 1; }
     50% { opacity: 0; }
 }
 
 @keyframes disappear {
+    from { opacity: 1; }
     to { opacity: 0; }
 }
 
@@ -1963,7 +1965,7 @@ const countdownFunction = setInterval(function() {
         }
 
         const observer = new IntersectionObserver(startTyping, {
-            threshold: 0.6 // Start when 60% visible
+            threshold: 0.6 
         });
 
         textElements.forEach(el => observer.observe(el));
