@@ -403,7 +403,7 @@
 
         footer, #footnote1, #footnote2, #footnote3, #footnote4 {
 
-            background-color: #5D4037 !important;
+            background-color: #7851a9 !important;
             
         }
 
@@ -438,7 +438,7 @@
 
         #intro-services-html-next2 {
 
-            font-size: 16px;
+            font-size: 19px;
             color: white;
             margin-top: 10px;
             margin-bottom: 10px;
@@ -478,6 +478,7 @@
 
             width: 80%;
             margin-bottom: 60px;
+            font-size: 14px;
         }
 
 
@@ -1181,8 +1182,30 @@
 
 #countdown-timer {
     font-weight: bold;
-    color: #ff0000; /* Red color for emphasis */
+    color: #ff0000; 
 }
+
+.typing-text::after {
+    content: "👨‍💻";
+    
+    display: inline-block;
+    animation: blink 0.7s infinite;
+    
+}
+
+.typing-text {
+    font-size: 19px;
+    color: white;
+    margin-top: 10px;
+    margin-bottom: 30px;
+    text-align: center !important;
+    width: 100%;
+}
+
+@keyframes blink {
+    50% { opacity: 0; }
+}
+
 
 
 
@@ -1286,20 +1309,24 @@
 
             <img src="images/cover-background-1.png" alt="Cover Background">
 
-            <p id="intro-services-html-next2">Design that Inspires.</p>
+            <p class="typing-text" data-text="Reliable, Timely, Ongoing Support. Guaranteed."></p>
 
             <br>
             <br>
 
             <img src="images/cover-background-3.png" alt="Cover Background">
             <br>
-            <p id="intro-services-html-next2">Priced Right for You.</p>
+
+            <p class="typing-text" data-text="Mobile Responsive Designs. 
+             Over 62.4% of online traffic are from mobile devices."><a href="#footnote1">*</a></p>
+            
             <br>
 
 
             <br>
             <img src="images/cover-background-2.png" alt="Cover Background">
-            <p id="intro-services-html-next2">We're With You Every Step. </p>
+            <p class="typing-text" data-text="SEO Optimization from the beginning. 
+            We're not happy until your site traffic starts growing."></p>
 
             <br>
             <br>
@@ -1314,8 +1341,9 @@
 
             <h1><strong>Don't take our word for it</strong></h1>
 
-            <p style="color: white; font-size: 16px; text-align: center;">We're proud to be listed on DesignRush as a verified agency. See what our clients have to say!
-                 </p>
+            <br>
+
+                 <p class="typing-text" data-text="We're proud to be listed on DesignRush as a verified agency. See some of our top clients!"></p>
 
             <br>
 
@@ -1327,8 +1355,7 @@
             <br>
             <br>
 
-            <p style="color: white; font-size: 16px; text-align: center;">Timely support? Highly visited website? Tell us about it!</p>
-            <br>
+            <p class="typing-text" data-text="Timely support? Better website traffic? Tell us about it!"></p>
 
             <script type="text/javascript" src="https://www.designrush.com/topbest/js/widgets/agency-reviews.js"></script><div data-designrush-widget data-agency-id="86840" data-style="dark"></div><noscript><a href="https://www.designrush.com/agency/profile/webeaze#reviews" target="_blank">REVIEW US ON DESIGNRUSH</a></noscript>
 
@@ -1653,11 +1680,12 @@
 
             <h1 id="questions-heading"><strong>Let's talk.
             </strong></h1>
+
+            <br>
+
+            <p class="typing-text" data-text="Schedule a FREE consultation with us. We'll discuss website needs, goals, timeline and budget. No obligation, No pressure. "></p>
     
-            <p id="intro-services-html-next1">
-            
-                Schedule a FREE consultation with us. We'll discuss website needs, goals, timeline and budget. No obligation, No pressure. 
-            </p>
+ 
 
         
             <br>
@@ -1677,6 +1705,10 @@
 </main>
 
 <footer style="background-color: #7851a9 !important">
+
+    <br>
+
+    <p id="footnote1">* <a href="https://www.statista.com/statistics/277125/share-of-website-traffic-coming-from-mobile-devices/#:~:text=Created%20with%20Highcharts%207.2.2,23%20Q1%20'24%20Q3%20'24">Source: Percentage of mobile device website traffic worldwide from 1st quarter 2015 to 4th quarter 2024, from Statista.</a></p>
     <div class="social-media-links">
         <a href="https://www.facebook.com/share/129pv5HzLz7/?mibextid=LQQJ4d" target="_blank" aria-label="Facebook">
             <i class="fab fa-facebook"></i>
@@ -1692,6 +1724,7 @@
     </div>
 
     <br>
+    
 
    
     <p>
@@ -1902,6 +1935,35 @@ const countdownFunction = setInterval(function() {
         document.getElementById("countdown-timer").innerHTML = "EXPIRED";
     }
 }, 1000);
+</script>
+
+<script>
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const textElements = document.querySelectorAll(".typing-text");
+
+        function typeText(element, text, index = 0) {
+            if (index < text.length) {
+                element.textContent += text[index];
+                setTimeout(() => typeText(element, text, index + 1), 40); // Adjust speed here
+            }
+        }
+
+        function startTyping(entries, observer) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !entry.target.classList.contains("typed")) {
+                    entry.target.classList.add("typed"); // Prevents re-triggering
+                    typeText(entry.target, entry.target.getAttribute("data-text"));
+                }
+            });
+        }
+
+        const observer = new IntersectionObserver(startTyping, {
+            threshold: 0.6 // Start when 60% visible
+        });
+
+        textElements.forEach(el => observer.observe(el));
+    });
 </script>
 
     
