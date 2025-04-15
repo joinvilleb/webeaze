@@ -53,7 +53,19 @@
         width: 100vw;
         overflow-x: hidden; 
         box-sizing: border-box;
+
+
     }
+
+    section {
+
+        border-radius: 0;
+    }
+
+    section:hover {
+  transform: none !important;
+  transition: none !important;
+}
 
     header, .about-services-page, .testimonials-section, .faq-section, .footnotes {
         width: 100vw !important; 
@@ -911,6 +923,8 @@
 
     body {
         padding-top: 60px;
+        
+
     }
 
     nav {
@@ -1071,7 +1085,7 @@
         }
 
         .card {
-            background-color: #7851a9;
+            background-color: #5D4037;
             border: 2px solid #ccc;
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -1088,7 +1102,7 @@
             margin-top: 10px;
             text-decoration: none;
             color: #fff;
-            background-color: #7851a9;
+            background-color: #5D4037;
             border: 1px solid rgba(255, 255, 255, 0.6);
             border-radius: 25px;
             font-size: 1em;
@@ -1230,6 +1244,197 @@
     }
 }
 
+.who-we-help-card {
+  flex: 1 1 250px;
+  text-align: center;
+  color: white;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 30px 20px;
+  border-radius: 15px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  backdrop-filter: blur(5px);
+}
+
+.who-we-help-card i {
+  font-size: 40px;
+  margin-bottom: 15px;
+  transition: color 0.3s ease;
+}
+
+.who-we-help-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 12px 28px rgba(0,0,0,0.4);
+}
+
+.who-we-help-card:hover i {
+  color: #FFD700;
+}
+
+.who-we-help-card h4 {
+  margin: 10px 0 5px;
+  font-size: 18px;
+}
+
+.who-we-help-card p {
+  font-size: 13px;
+  color: #f0f0f0;
+}
+
+
+.fade-in-on-scroll {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.fade-in-on-scroll.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.cta-button-schedule {
+  background-color: #5D4037;
+  color: #5D4037;
+  padding: 15px 30px;
+  border-radius: 50px;
+  font-weight: bold;
+  font-size: 16px;
+  text-decoration: none;
+  display: inline-block;
+  transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  align-items: center !important;
+}
+
+.cta-button-schedule:hover {
+  background-color: #7851a9;
+  transform: scale(1.05);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.3);
+}
+
+.slam-in {
+  font-size: 2.4rem;
+  color: white;
+  text-align: center;
+  transform: translateY(-200px) scale(1.5);
+  opacity: 0;
+  animation: slamDrop 0.6s ease-out forwards;
+}
+
+.slam-in-delayed {
+  font-size: 1.2rem;
+  color: white;
+  text-align: center;
+  margin-top: 20px;
+  transform: scale(0.9);
+  opacity: 0;
+  animation: slamFade 0.8s ease-out 0.7s forwards;
+}
+
+.highlight {
+  position: relative;
+  display: inline-block;
+  color: #fff;
+  z-index: 1;
+  padding: 4px 16px; 
+
+}
+
+.highlight::before {
+content: "";
+  position: absolute;
+  left: -2px; 
+  bottom: 1px;
+  width: calc(100% + 12px); 
+  height: 1.3em;
+  background: #5D4037;
+  z-index: -1;
+  border-radius: 6px;
+  animation: highlight-swipe 0.8s ease-out forwards;
+  transform: skew(-3deg);
+
+  
+}
+
+@keyframes highlight-swipe {
+  0% {
+    width: 0;
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+
+
+
+@keyframes slamDrop {
+  0% {
+    transform: translateY(-200px) scale(1.5);
+    opacity: 0;
+  }
+  80% {
+    transform: translateY(10px) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes slamFade {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.carousel-track {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  padding: 20px 10px;
+  scrollbar-width: none;
+}
+
+.carousel-track::-webkit-scrollbar {
+  display: none;
+}
+
+.carousel-card {
+  flex: 0 0 80%;
+  max-width: 300px;
+  background-color: #7851a9;
+  color: white;
+  padding: 20px;
+  border-radius: 12px;
+  scroll-snap-align: center;
+  text-align: center;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease;
+}
+
+
+.carousel-card:hover {
+  transform: scale(1.03);
+}
+
+.carousel-card a {
+  color: #caffd0 !important;
+  text-decoration: underline;
+}
+
+
+
+
+
 
 
 
@@ -1274,17 +1479,21 @@
         <br>
         <br>
 
-        <h2 id="intro-services-html-next1">
+        <h2 id="intro-slam" class="slam-in">
+            Welcome to WebEaze —
+            <br>
+            <span class="highlight">Websites made eazily.</span>
+          </h2>
+          <p id="sub-slam" class="slam-in-delayed">
+            We build high-performing, mobile-ready websites for tutors, trades, and travel pros. No hourly billing. No tech headaches. Just results.
+          </p>
+          
+          <br>
+          <br>
 
-            Welcome to WebEaze — Websites made eazily for your business.
-            
-           <br>
-           <br>
+          
 
-           We help tutors, travel professionals, and trade businesses build beautiful, mobile-ready websites that drive results. From idea to launch, you'll get full support—no hourly billing, no tech headaches. Just clean design and real support.
-
-
-        </h2>
+        <a href="https://calendly.com/webeaze/free-consultation" class="cta-button-schedule">Schedule Your Free Consult</a>
 
 
          <nav class="navbar navbar-expand-lg navbar-light bg-transparent">
@@ -1362,164 +1571,176 @@
         
             <br><br>
             <br>
-            <br>
+           
+
+           
         
         </div>
 
        
-<section style="padding: 3rem 1rem; text-align: center; background: linear-gradient(to bottom, #7851a9 0%, #5D4037 50%); pointer-events: none !important;
-">
-    <h2 style="font-size: 2rem; margin-bottom: 1rem;">Helping <span id="total-counter">0</span>+ small businesses show up and stand out online.</h2>
+
+
+  <section style="background: #5D4037; padding: 60px 20px; border-radius: 0;">
+    <h2 style="font-size: 30px; color: white; text-align: center;" class="fade-in-on-scroll">Who We Help</h2>
   
-    <div style="display: flex; justify-content: center; gap: 3rem; flex-wrap: wrap; margin-top: 2rem;">
-      <div>
-        <div style="font-size: 2.5rem; font-weight: bold; color: white;" id="tutoring-counter">0</div>
-        <p style="color: white; font-size: 20px;">
-            <i class="fas fa-chalkboard-teacher" style="font-size: 40px;"></i>
-            Tutoring/Training Centers</p>
+    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; margin-top: 30px; text-align: center;">
+      <div class="who-we-help-card fade-in-on-scroll">
+        <i class="fas fa-tools"></i>
+        <h4>Local Trades</h4>
+        <p style="text-align: center; ">Electricians, plumbers, contractors & more</p>
       </div>
-      <div>
-        <div style="font-size: 2.5rem; font-weight: bold;  color: white;" id="travel-counter">0</div>
-        <p style="color: white; font-size: 20px;">
-            <i class="fas fa-plane-departure" style="font-size: 40px;"></i>
-             Travel Agencies</p>
+      <div class="who-we-help-card fade-in-on-scroll">
+        <i class="fas fa-chalkboard-teacher"></i>
+        <h4>Tutors & Educators</h4>
+        <p style="text-align: center;">Private tutors, test prep centers, personal trainers</p>
       </div>
-      <div>
-        <div style="font-size: 2.5rem; font-weight: bold; color: white;" id="trades-counter">0</div>
-        <p style="color: white; font-size: 20px;">
-            <i class="fas fa-tools" style="font-size: 40px;"></i> Trade Professionals</p>
+      <div class="who-we-help-card fade-in-on-scroll">
+        <i class="fas fa-plane-departure"></i>
+        <h4>Travel Services</h4>
+        <p style="text-align: center;">Independent travel agents, trip planners, travel brands</p>
       </div>
     </div>
   </section>
+          
+
+       
+  <section style="padding: 3rem 1rem; text-align: center; background-color: #7851a9; position: relative; overflow: hidden;">
+
+    <style>
+      @keyframes pulseBackground {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+      }
+  
+      @keyframes bounce {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-8px); }
+      }
+  
+      .fun-icon {
+        font-size: 50px;
+        animation: bounce 2s infinite;
+      }
+  
+      .fun-counter {
+        font-size: 2.7rem;
+        font-weight: bold;
+        color: #fff;
+      }
+  
+      .fun-label {
+        color: #fff;
+        font-size: 18px;
+        margin-top: 10px;
+        text-align: center;
+      }
+  
+      .fun-wrapper {
+        display: flex;
+        justify-content: center;
+        gap: 3rem;
+        flex-wrap: wrap;
+        margin-top: 2rem;
+      }
+  
+      .fun-box {
+        background: rgba(255, 255, 255, 0.05);
+        padding: 20px 30px;
+        border-radius: 12px;
+        width: 250px;
+        box-shadow:
+    0 4px 6px rgba(0, 0, 0, 0.2),
+    0 10px 20px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+
+      }
+  
+      .total-impact {
+        margin-top: 3rem;
+        font-size: 1.8rem;
+        color: #fff;
+        font-weight: bold;
+        text-align: center;
+
+      }
+    </style>
+  
+    <h2 style="color: white; font-size: 30px;">Who We've Helped 🚀</h2>
+  
+    <div class="fun-wrapper">
+      <div class="fun-box">
+        <div class="fun-icon"><i class="fas fa-chalkboard-teacher"></i></div>
+        <div class="fun-counter" id="tutoring-counter">0</div>
+        <p class="fun-label">Tutoring / Training</p>
+      </div>
+      <div class="fun-box">
+        <div class="fun-icon"><i class="fas fa-plane-departure"></i></div>
+        <div class="fun-counter" id="travel-counter">0</div>
+        <p class="fun-label">Travel Agencies</p>
+      </div>
+      <div class="fun-box">
+        <div class="fun-icon"><i class="fas fa-tools"></i></div>
+        <div class="fun-counter" id="trades-counter">0</div>
+        <p class="fun-label">Trade Professionals</p>
+      </div>
+    </div>
+  
+    <p class="total-impact">
+      💼 Helping <span id="total-counter">0</span>+ small businesses shine online!
+    </p>
+  
+  </section>
 
   
-
-  <hr style="font-weight: bold;">
+  
   
 
-        
 
-        <div id="testimonials" class="testimonials-section">
-
-
-                 <p id="intro-services-html-next2" style="font-size: 20px;">
-                    <strong>From tutors to trades, our clients trust us to get their businesses online and growing fast.
-
-                    </strong>
-                 </p>
-
-
-                 <br>
-
-
-           
-            <a href="https://www.designrush.com/agency/profile/webeaze" target="_blank" style="size: 50% !important;">
-                <img src="images/designrush-profile.svg" alt="WebEaze verified agency on DesignRush" >
-            </a>
 
   
-
-        </div>
-
-        <section style="background: linear-gradient(to bottom, #5D4037 0%, #7851a9 100%); padding: 60px 20px;  border-radius: 0; pointer-events: none;">
-
-            <br>
-            <h2 style="font-size: 2rem !important; color: white; text-align: center;">Who We Help</h2>
-            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; margin-top: 30px;">
-                <div style="flex: 1 1 250px; text-align: center; color: white;">
-                    <i class="fas fa-tools" style="font-size: 40px;"></i>
-                    <h4>Local Trades</h4>
-                    <p style="color: white; text-align: center; font-size: 13px;">Electricians, plumbers, handypeople, contractors & more</p>
-                </div>
-                <div style="flex: 1 1 250px; text-align: center; color: white;">
-                    <i class="fas fa-chalkboard-teacher" style="font-size: 40px;"></i>
-                    <h4>Tutors & Educators</h4>
-                    <p style="color: white; text-align: center; text-align: center; font-size: 13px;">Private tutors, test prep centers, personal trainers</p>
-                </div>
-                <div style="flex: 1 1 250px; text-align: center; color: white;">
-                    <i class="fas fa-plane-departure" style="font-size: 40px;"></i>
-                    <h4>Travel Services</h4>
-                    <p style="color: white; text-align: center; font-size: 13px;">Independent travel agents, group trip leaders, travel brands</p>
-                </div>
-            </div>
-
-            <br>
-        </section>
 
 
 
     <!-- </div> -->
 
-    <div id="samples-are-important" class="testimonials-samples" style="background-color: #7851a9;">
+    <section id="samples-are-important" style="background-color: #5D4037; padding: 60px 20px;">
+        <h1 style="text-align: center; font-size: 30px; color: white;"><strong>We've Got Proof</strong></h1>
+        <br><br>
+      
+        <div class="carousel-track">
+          <div class="carousel-card">
+            <img src="images/algonquin-ultras.jpeg" alt="Algonquin Ultras Logo" class="portfolio-img">
+            <h3>Algonquin Ultras</h3>
+            <a href="https://alqultras.org" target="_blank">alqultras.org</a>
+          </div>
+          
+          <div class="carousel-card">
+            <img src="images/luxevo-prov-logo.png" alt="Luxevo Vacations with Irma Logo" class="portfolio-img">
+            <h3>Luxevo Vacations with Irma</h3>
+            <a href="https://luxevovacationswithirma.com" target="_blank">luxevovacationswithirma.com</a>
+          </div>
+      
+          <div class="carousel-card">
+            <img src="images/island-immersion.png" alt="Island Immersion Logo" class="portfolio-img">
+            <h3>Island Immersion</h3>
+            <a href="https://islandimmersion.com" target="_blank">islandimmersion.com</a>
+          </div>
+      
+          <div class="carousel-card">
+            <img src="images/ibis-prep.png" alt="Ibis Prep Logo" class="portfolio-img">
+            <h3>Ibis Prep</h3>
+            <a href="https://ibisprep.com" target="_blank">ibisprep.com</a>
+          </div>
 
-        <br>
-        <br>
-
-        <h1 style="text-align: center; font-size: 30px;"><strong>Samples are important</strong></h1>
-
-            <br>
-            <br>
-            <div class="card-container">
-
-                <div class="card">
-
-                    <img src="images/algonquin-ultras.jpeg" alt="Algonquin Ultras Logo" class="portfolio-img">
-
-                    <br>
-        
-                    <h3>Algonquin Ultras</h3>
-        
-                    <a href="https://alqultras.org" target="_blank">alqultras.org</a> 
-        
-                </div>
-        
-
-
-                <div class="card">
-
-                    <img src="images/luxevo-prov-logo.png" alt="Luxevo Vacations with Irma Logo" class="portfolio-img">
-        
-                    <br>
-
-                    <h3>Luxevo Vacations with Irma</h3>
-        
-    
-        
-                    <a href="https://luxevovacationswithirma.com" target="_blank">luxevovacationswithirma.com</a>
-        
-                </div>
-
-
-                <div class="card">
-
-                    <img src="images/island-immersion.png" alt="Island Immersion Logo" class="portfolio-img">
-        
-                    <br>
-
-                    <h3>Island Immersion</h3>
-        
-        
-                    <a href="https://islandimmersion.com" target="_blank">islandimmersion.com</a> 
-        
-                </div>
-
-                <div class="card">
-
-                    <img src="images/ibis-prep.png" alt="Ibis Prep Logo" class="portfolio-img">
-        
-                    <br>
-
-                    <h3>Ibis Prep</h3>
-        
-        
-                    <a href="https://ibisprep.com" target="_blank">ibisprep.com</a>
-
-                </div>
-
-            
-
-            
-    </div>
+            <div class="carousel-card">
+                <img src="images/GalaxyLogo2-1.webp" alt="Galaxy Gymnast Logo" class="portfolio-img" style="max-width: 1000px;">
+                <h3>Galaxy Gymnastics</h3>
+                <a href="https://galaxygymnast.com" target="_blank">galaxygymnast.com</a>
+            </div>
+        </div>
+      </section>
+      
 
     <br>
 
@@ -1533,7 +1754,7 @@
 
         <br>
 
-        <div id="website-setup-section" style="background-color:#5D4037;">
+        <div id="website-setup-section" style="background-color:#7851a9;">
 
 
 
@@ -1569,7 +1790,7 @@
 
         <h1 id="faq-title"><strong>Maybe you have questions</strong></h1>
 
-        <section id="faq" class="faq-section">
+        <section id="faq" class="faq-section fade-in-on-scroll">
         
             <br>
             <br>
@@ -1636,34 +1857,14 @@
 
 
 
+        <section style="padding: 60px 20px; text-align: center; color: white; background-color: #1c1c1c; padding: 60px 20px; text-align: center; color: white; background-image: url('https://www.transparenttextures.com/patterns/black-linen.png');">
+            <h2 style="font-size: 2.2rem; margin-bottom: 20px;" class="fade-in-on-scroll">You Work Hard. So Should Your Site.</h2>
+            <p style="font-size: 1.2rem; max-width: 700px; margin: 0 auto 30px; color: white; text-align: center;" class="fade-in-on-scroll">Let's get your business online, optimized, and looking amazing. Schedule a free consultation—no strings attached.</p>
 
-        <div class="contact-services" style="background: linear-gradient(to bottom, #7851a9 0%, #5D4037 20%)">
-
-            <br>
-            <br>
-
-            <h1 id="questions-heading"><strong>Let's talk.
-            </strong></h1>
-
- 
-
-            <p id="intro-services-html-next1">
-                Whether you teach, build, or book trips—we'll help you get found online. Schedule your free website consult today.
-            </p>
-
-            <br>
-
-
-           
- 
-
-        
-      
+                 <a href="https://calendly.com/webeaze/free-consultation" class="cta-button-schedule">Schedule Your Free Consult</a>
             
-    
-            <a href="https://calendly.com/webeaze/free-consultation" class="contact-button-tempted">Schedule Now</a>
-    
-        </div>
+           
+          </section>
 
  
 
@@ -1674,12 +1875,8 @@
 
 </main>
 
-<footer style="background: linear-gradient(to bottom, #5D4037 0%, #7851a9 30%)">
+<footer>
 
-
-
-    <br>
-    <br>
     <br>
     <br>
 
@@ -1701,9 +1898,19 @@
         </a>
     </div>
 
-    <br>
 
-    <script type="text/javascript" src="https://www.designrush.com/topbest/js/widgets/agency-reviews.js"></script><div data-designrush-widget data-agency-id="86840" data-style="dark"></div><noscript><a href="https://www.designrush.com/agency/profile/webeaze#reviews" target="_blank">REVIEW US ON DESIGNRUSH</a></noscript>
+    <div class="social-media-links">
+
+        <br>
+        <script type="text/javascript" src="https://www.designrush.com/topbest/js/widgets/agency-reviews.js"></script><div data-designrush-widget data-agency-id="86840" data-style="dark"></div><noscript><a href="https://www.designrush.com/agency/profile/webeaze#reviews" target="_blank">REVIEW US ON DESIGNRUSH</a></noscript>
+
+    
+        <a href="https://www.designrush.com/agency/profile/webeaze" target="_blank" style="size: 10% !important;">
+            <img src="images/designrush-profile.svg" alt="WebEaze verified agency on DesignRush" style="max-width: 50% !important;" >
+        </a>
+    </div>
+
+    
 
    
 
@@ -1861,16 +2068,17 @@
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         const questions = [
-        "Websites for Tutors/Trainers, Trades, and Travel Pros—Done Right.",
-        "Do your students, clients, or customers know how to find you?",
-        "We build websites for local experts who mean business.",
-        "Need a site that books more calls, lessons, or trips?",
-        "Helping tutors, travelers & trades stand out online.",
-        "Your business deserves a website that works as hard as you do.",
-        "One less thing to worry about. We handle the website.",
-        "Ready to turn visitors into customers?",
-        "Tailored websites for real-world businesses.",
-        "From teaching to travel—we've got your website covered.",
+
+  "Your website should work as hard as you do.",
+  "Let’s turn clicks into clients. Effortlessly.",
+  "We build websites for tutors, travelers & tradespeople.",
+  "Don’t just be online. Stand out.",
+  "Need a site that sells your services, not just lists them?",
+  "Affordable websites. Real support. No headaches.",
+  "Custom sites for people who don't have time to DIY.",
+  "From idea to launch — we handle everything.",
+  "Mobile-first, SEO-ready websites for small businesses.",
+  "Your business deserves better than a template."
 
         ];
 
@@ -1938,7 +2146,7 @@ const countdownFunction = setInterval(function() {
         function startTyping(entries, observer) {
             entries.forEach(entry => {
                 if (entry.isIntersecting && !entry.target.classList.contains("typed")) {
-                    entry.target.classList.add("typed"); // Prevents re-triggering
+                    entry.target.classList.add("typed"); 
                     typeText(entry.target, entry.target.getAttribute("data-text"));
                 }
             });
@@ -1981,6 +2189,22 @@ let hasAnimated = false;
       animateCounter("total-counter", total, 1000);
     };
   </script>
+
+  <script>
+
+document.addEventListener("DOMContentLoaded", () => {
+    const elements = document.querySelectorAll(".fade-in-on-scroll");
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+        }
+      });
+    }, { threshold: 0.2 });
+  
+    elements.forEach(el => observer.observe(el));
+  });
+</script>  
 
     
 
