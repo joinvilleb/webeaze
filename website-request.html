@@ -91,7 +91,7 @@
 
 
         form:hover {
-            transform: translateY(-5px);
+            
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
@@ -1233,6 +1233,92 @@
           
         }
 
+.form-wrapper {
+  background: linear-gradient(to bottom, #7851a9, #5D4037);
+  padding: 60px 20px;
+  text-align: center;
+  color: white;
+  border-radius: 0;
+  transform: none !important;
+  
+}
+
+.request-form {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid #fff2;
+  border-radius: 15px;
+  max-width: 600px;
+  margin: 30px auto;
+  padding: 30px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.request-form label {
+  display: block;
+  margin-top: 20px;
+  margin-bottom: 6px;
+  text-align: left;
+  font-weight: 500;
+  color: #fff;
+}
+
+.request-form input,
+.request-form textarea,
+.request-form select {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  font-size: 16px;
+  outline: none;
+  margin-bottom: 10px;
+}
+
+.request-form input:focus,
+.request-form textarea:focus,
+.request-form select:focus {
+  border: 2px solid #7851a9;
+  background-color: #fff;
+  color: #000;
+}
+
+.request-form button {
+  background: #7851a9;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 25px;
+  font-size: 16px;
+  margin-top: 20px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.request-form button:hover {
+  background: #fff;
+  color: #5D4037;
+  transform: scale(1.03);
+}
+
+.form-heading {
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.form-subtext {
+  font-size: 16px;
+  opacity: 0.8;
+}
+
+.form-note {
+  font-size: 13px;
+  margin-top: 10px;
+  color: #ccc;
+}
+
+
 
 
         
@@ -1273,13 +1359,12 @@
         <h1 id="random-question"></h1>
 
 
-        <br>
+
 
 
 
         <h2 id="intro-services-html-next1">
-
-            Submit your website request below and we'll complete it as soon as possible. Fields required are marked with an asterisk (*). 
+     Fields required are marked with an asterisk (*). 
         </h2>
 
 
@@ -1322,55 +1407,52 @@
         </nav>
 
 
-        <br>
-        <br>
-
-        <form action="https://formspree.io/f/mrbpbpre" method="POST">
-            
-            <label>
-                Email: *
-                <input type="email" name="email" required>
-            </label>
-
-            <label>
-                Website URL: *
-                <input type="text" name="link" required>
-            </label>
-            <label>
-                Subject: *
-                <select name="subject" required>
-                    <option value="website-request">Website Change</option>
-                    <option value="website-issue">Website Issue</option>
-                    <option value="feedback">Feedback</option>
-                    <option value="other">Other</option>
-                  
-                </select>
-            </label>
-
-            <label>
-                How can we help? *
-                <textarea style="height: 75px;"name="message" required></textarea>
-            </label>
-
-            <p id="notice">Upload images <strong>after</strong> writing your request. Don't remove the link that's added automatically; we'll need it to access your attachments.</p>
-         
-            <script async src="https://imgbb.com/upload.js" data-palette="purple"></script>
-
-            
-            <br>
-            <button type="submit">Submit Request</button>
-        </form>
-
-
-        <br>
-        <br>
+ 
 
        
+
+
+
+
 
     </header>
 
 
     <main id="content">
+
+        <section class="form-wrapper">
+            <h2 class="form-heading">Request Support</h2>
+            <p class="form-subtext">Need a change, fix, or update? Submit below — we're on it.</p>
+          
+            <form action="https://formspree.io/f/mrbpbpre" method="POST" class="request-form">
+              <label>Email *</label>
+              <input type="email" name="email" placeholder="you@example.com" required>
+          
+              <label>Website URL *</label>
+              <input type="text" name="link" placeholder="https://yourwebsite.com" required>
+          
+              <label>Subject *</label>
+              <select name="subject" required>
+                <option value="">Select a topic...</option>
+                <option value="website-request">Website Change</option>
+                <option value="website-issue">Website Issue</option>
+                <option value="feedback">Feedback</option>
+                <option value="other">Other</option>
+              </select>
+          
+              <label>How can we help? *</label>
+              <textarea name="message" placeholder="Brief description..." required></textarea>
+
+             
+          
+              <p class="form-note">Tip: Add screenshots using the upload tool above after filling this out.</p>
+              <script async src="https://imgbb.com/upload.js" data-palette="purple"></script>
+          
+              <button type="submit">Submit Request</button>
+            </form>
+
+          </section>
+          
 
  
 </main>
@@ -1482,14 +1564,8 @@
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         const questions = [
-            "Submit a Request",
-            "Website Requests Only",
-            "We're here to help!",
-            "Let's take care of you.",
-            "We'll get back to you soon.",
-            "Hope it's nothing serious!",
-            "We got you.",
-            "We're here for you.",
+            "Hi there!",
+            "How can we help?",
         ];
 
         const randomIndex = Math.floor(Math.random() * questions.length);
