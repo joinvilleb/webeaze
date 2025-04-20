@@ -556,7 +556,7 @@
         }
 
         #random-question h1 {
-            font-size: 20px;
+            font-size: 40px !important;
             }
         }
 
@@ -1436,13 +1436,132 @@ content: "";
   text-decoration: underline;
 }
 
+.benefits-row {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 40px;
+  flex-wrap: wrap;
+  margin: 0 0;
+  text-align: center;
+  background-color: #7851a9;
+}
+
+.benefit-box {
+  flex: 1 1 300px;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.benefit-box img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.benefit-box .typing-text {
+  font-size: 16px;
+  color: white;
+}
+
+
+@media (min-width: 768px) {
+  #random-question {
+    font-size: 60px !important;
+    font-weight: bold;
+  }
+
+  .benefits-row {
+    flex-direction: row;
+  }
+}
+
+@media (max-width: 767px) {
+  .benefits-row {
+    flex-direction: column;
+  }
+
+  #random-question {
+    font-size: 24px !important;
+  }
+}
+
+
+.bg-video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  z-index: 1;
+  transform: translate(-50%, -50%);
+  object-fit: cover;
+  filter: brightness(0.5);
+}
 
 
 
+.video-overlay h1,
+.video-overlay h2,
+.video-overlay p {
+  color: white;
+}
 
+.video-header {
+  position: relative;
+  width: 100%;
+  height: 100vh; 
+  overflow: hidden;
+  display: flex;
+  align-items: center; 
+  justify-content: center; 
+  text-align: center;
+  color: white;
+}
 
+.video-overlay {
+  position: relative;
+  z-index: 2;
+  max-width: 800px;
+  padding: 20px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+  justify-content: center;
+}
+.carousel-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
 
+.carousel-controls {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 20px;
+}
 
+.carousel-arrow {
+  background-color: rgba(255,255,255,0.2);
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  font-size: 24px;
+  cursor: pointer;
+  border-radius: 30%;
+  transition: background-color 0.3s ease;
+
+}
+
+.carousel-arrow:hover {
+  background-color: rgba(255,255,255,0.5);
+}
 
 
 </style>
@@ -1467,18 +1586,22 @@ content: "";
             </p>
     </header> -->
 
-    
 
-    <header id="header-services">
+      
+    <header id="header-services" class="video-header">
+        <video autoplay muted loop playsinline class="bg-video">
+            <source src="videos/header-bg.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
 
 
         <br>
  
         <br>
-        <br>
+
     
 
-
+        <div class="video-overlay">
         <h1 id="random-question"></h1>
 
         <br>
@@ -1489,7 +1612,7 @@ content: "";
             <br>
             <span class="highlight">Websites made eazily.</span>
           </h2>
-          <p id="sub-slam" class="slam-in-delayed">
+          <p id="sub-slam" class="slam-in-delayed" style="align-items: center; ">
             We build high-performing, mobile-ready websites for tutors, trades, and travel pros. No hourly billing. No tech headaches. Just results.
           </p>
           
@@ -1499,6 +1622,8 @@ content: "";
           
 
         <a href="https://calendly.com/webeaze/free-consultation" class="cta-button-schedule">Schedule Your Free Consult</a>
+
+        </div>
 
 
          <nav class="navbar navbar-expand-lg navbar-light bg-transparent">
@@ -1546,42 +1671,9 @@ content: "";
 
     <main id="content">
         
-
-
+      
         
-        <div class="video-section">
-
-            <br>
-        
-            <div class="cover-img-wrapper">
-                <img src="images/cover-background-1.png" alt="Cover Background">
-            </div>
-            <p class="typing-text" data-text="Reliable, Timely, Ongoing Support. Guaranteed."></p>
-        
-            <br><br>
-        
-            <div class="cover-img-wrapper">
-                <img src="images/cover-background-3.png" alt="Cover Background">
-            </div>
-            <p class="typing-text" data-text="Mobile Responsive Designs. Over 62.4% of online traffic are from mobile devices.">
-                <a href="#footnote1">*</a>
-            </p>
-        
-            <br><br>
-        
-            <div class="cover-img-wrapper">
-                <img src="images/cover-background-2.png" alt="Cover Background">
-            </div>
-            <p class="typing-text" data-text="SEO expertise & tools from the beginning. We're not happy until your site traffic starts growing."></p>
-        
-            <br><br>
-            <br>
-           
-
-           
-        
-        </div>
-
+  
        
 
 
@@ -1606,148 +1698,92 @@ content: "";
       </div>
     </div>
   </section>
-          
 
-       
-  <section style="padding: 3rem 1rem; text-align: center; background-color: #7851a9; position: relative; overflow: hidden;">
+  <div class="benefits-row">
 
-    <style>
-      @keyframes pulseBackground {
-        0% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
-        100% { background-position: 0% 50%; }
-      }
-  
-      @keyframes bounce {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-8px); }
-      }
-  
-      .fun-icon {
-        font-size: 50px;
-        animation: bounce 2s infinite;
-      }
-  
-      .fun-counter {
-        font-size: 2.7rem;
-        font-weight: bold;
-        color: #fff;
-      }
-  
-      .fun-label {
-        color: #fff;
-        font-size: 18px;
-        margin-top: 10px;
-        text-align: center;
-      }
-  
-      .fun-wrapper {
-        display: flex;
-        justify-content: center;
-        gap: 3rem;
-        flex-wrap: wrap;
-        margin-top: 2rem;
-      }
-  
-      .fun-box {
-        background: rgba(255, 255, 255, 0.05);
-        padding: 20px 30px;
-        border-radius: 12px;
-        width: 250px;
-        box-shadow:
-    0 4px 6px rgba(0, 0, 0, 0.2),
-    0 10px 20px rgba(0, 0, 0, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05);
 
-      }
-  
-      .total-impact {
-        margin-top: 3rem;
-        font-size: 1.8rem;
-        color: #fff;
-        font-weight: bold;
-        text-align: center;
-
-      }
-    </style>
-  
-    <h2 style="color: white; font-size: 30px;">Who We've Helped 🚀</h2>
-  
-    <div class="fun-wrapper">
-      <div class="fun-box">
-        <div class="fun-icon"><i class="fas fa-chalkboard-teacher"></i></div>
-        <div class="fun-counter" id="tutoring-counter">0</div>
-        <p class="fun-label">Tutoring / Training</p>
+    <div class="benefit-box">
+        <br>
+        <br>
+        <img src="images/cover-background-1.png" alt="Support Image">
+        <p class="typing-text" data-text="Reliable, Timely, Ongoing Support. Guaranteed."></p>
       </div>
-      <div class="fun-box">
-        <div class="fun-icon"><i class="fas fa-plane-departure"></i></div>
-        <div class="fun-counter" id="travel-counter">0</div>
-        <p class="fun-label">Travel Agencies</p>
+      
+      <div class="benefit-box">
+        <br>
+        <br>
+  
+        <img src="images/cover-background-3.png" alt="Mobile Image">
+        <p class="typing-text" data-text="Mobile Responsive Designs. Over 62.4% of online traffic are from mobile devices.">
+          <a href="#footnote1">*</a>
+        </p>
       </div>
-      <div class="fun-box">
-        <div class="fun-icon"><i class="fas fa-tools"></i></div>
-        <div class="fun-counter" id="trades-counter">0</div>
-        <p class="fun-label">Trade Professionals</p>
+      
+      <div class="benefit-box">
+        <br>
+        <br>
+        <img src="images/cover-background-2.png" alt="SEO Image">
+        <p class="typing-text" data-text="SEO expertise & tools from the beginning. We're not happy until your site traffic starts growing."></p>
       </div>
+      <br>
     </div>
-  
-    <p class="total-impact">
-      💼 Helping <span id="total-counter">0</span>+ small businesses shine online!
-    </p>
-  
-  </section>
-
-  
-  
-  
-
-
-
-  
 
 
 
     <!-- </div> -->
 
     <section id="samples-are-important" style="background-color: #5D4037; padding: 60px 20px;">
-        <h1 style="text-align: center; font-size: 30px; color: white;"><strong>We've Got Proof</strong></h1>
+        <h1 style="text-align: center; font-size: 30px; color: white;"><strong>These businesses are thriving</strong></h1>
         <br><br>
       
-        <div class="carousel-track">
-          <div class="carousel-card">
-            <img src="images/algonquin-ultras.jpeg" alt="Algonquin Ultras Logo" class="portfolio-img">
-            <h3>Algonquin Ultras</h3>
-            <a href="https://alqultras.org" target="_blank">alqultras.org</a>
+        <div style="position: relative; overflow: hidden;">
+            <div class="carousel-wrapper">
+          <div class="carousel-track" id="carouselTrack">
+            <div class="carousel-card">
+              <img src="images/algonquin-ultras.jpeg" alt="Algonquin Ultras Logo" class="portfolio-img">
+              <h3>Algonquin Ultras</h3>
+              <a href="https://alqultras.org" target="_blank">alqultras.org</a>
+            </div>
+      
+            <div class="carousel-card">
+              <img src="images/luxevo-prov-logo.png" alt="Luxevo Vacations with Irma Logo" class="portfolio-img">
+              <h3>Luxevo Vacations with Irma</h3>
+              <a href="https://luxevovacationswithirma.com" target="_blank">luxevovacationswithirma.com</a>
+            </div>
+      
+            <div class="carousel-card">
+              <img src="images/island-immersion.png" alt="Island Immersion Logo" class="portfolio-img">
+              <h3>Island Immersion</h3>
+              <a href="https://islandimmersion.com" target="_blank">islandimmersion.com</a>
+            </div>
+      
+            <div class="carousel-card">
+              <img src="images/ibis-prep.png" alt="Ibis Prep Logo" class="portfolio-img">
+              <h3>Ibis Prep</h3>
+              <a href="https://ibisprep.com" target="_blank">ibisprep.com</a>
+            </div>
+      
+            <div class="carousel-card">
+              <img src="images/GalaxyLogo2-1.webp" alt="Galaxy Gymnast Logo" class="portfolio-img">
+              <h3>Galaxy Gymnastics</h3>
+              <a href="https://galaxygymnast.com" target="_blank">galaxygymnast.com</a>
+            </div>
+          </div>
+            </div>
+      
+          <!-- Arrows -->
+         
+          <div class="carousel-controls">
+            <button class="carousel-arrow" onclick="scrollCarousel(-1)">&#10094;</button>
+            <button class="carousel-arrow" onclick="scrollCarousel(1)">&#10095;</button>
           </div>
           
-          <div class="carousel-card">
-            <img src="images/luxevo-prov-logo.png" alt="Luxevo Vacations with Irma Logo" class="portfolio-img">
-            <h3>Luxevo Vacations with Irma</h3>
-            <a href="https://luxevovacationswithirma.com" target="_blank">luxevovacationswithirma.com</a>
-          </div>
-      
-          <div class="carousel-card">
-            <img src="images/island-immersion.png" alt="Island Immersion Logo" class="portfolio-img">
-            <h3>Island Immersion</h3>
-            <a href="https://islandimmersion.com" target="_blank">islandimmersion.com</a>
-          </div>
-      
-          <div class="carousel-card">
-            <img src="images/ibis-prep.png" alt="Ibis Prep Logo" class="portfolio-img">
-            <h3>Ibis Prep</h3>
-            <a href="https://ibisprep.com" target="_blank">ibisprep.com</a>
-          </div>
-
-            <div class="carousel-card">
-                <img src="images/GalaxyLogo2-1.webp" alt="Galaxy Gymnast Logo" class="portfolio-img" style="max-width: 1000px;">
-                <h3>Galaxy Gymnastics</h3>
-                <a href="https://galaxygymnast.com" target="_blank">galaxygymnast.com</a>
-            </div>
         </div>
       </section>
       
+      
 
-    <br>
+
 
 
 
@@ -1757,7 +1793,7 @@ content: "";
 
     
 
-        <br>
+
 
         <div id="website-setup-section" style="background-color:#7851a9;">
 
@@ -1792,6 +1828,8 @@ content: "";
 
 
         </div>
+
+ 
 
         <h1 id="faq-title"><strong>Maybe you have questions</strong></h1>
 
@@ -1858,6 +1896,120 @@ content: "";
             
         
         </section>
+
+                      
+  <section style="padding: 3rem 1rem; text-align: center; background-color: #7851a9; position: relative; overflow: hidden;">
+
+    <video autoplay muted loop playsinline class="bg-video">
+        <source src="videos/bg-counters.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+
+    <style>
+      @keyframes pulseBackground {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+      }
+  
+      @keyframes bounce {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-8px); }
+      }
+  
+      .fun-icon {
+        font-size: 50px;
+        animation: bounce 2s infinite;
+      }
+  
+      .fun-counter {
+        font-size: 2.7rem;
+        font-weight: bold;
+        color: #fff;
+      }
+  
+      .fun-label {
+        color: #fff;
+        font-size: 18px;
+        margin-top: 10px;
+        text-align: center;
+      }
+  
+      .fun-wrapper {
+        display: flex;
+        justify-content: center;
+        gap: 3rem;
+        flex-wrap: wrap;
+        margin-top: 2rem;
+      }
+  
+      .fun-box {
+        background: rgba(255, 255, 255, 0.05);
+        padding: 20px 30px;
+        border-radius: 12px;
+        width: 250px;
+        box-shadow:
+    0 4px 6px rgba(0, 0, 0, 0.2),
+    0 10px 20px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+
+      }
+  
+      .total-impact {
+        margin-top: 3rem;
+        font-size: 1.8rem;
+        color: #fff;
+        font-weight: bold;
+        text-align: center;
+
+      }
+
+      @media screen and (max-width: 768px) {
+        .bg-video {
+            object-fit: cover;
+            width: 100vw;
+            height: 100%;
+        }
+
+        .video-overlay {
+            padding: 40px 15px;
+        }
+
+        .fun-box {
+            width: 90%;
+            margin: 10px auto;
+        }
+}
+    </style>
+
+    <div class="video-overlay">
+  
+    <h2 style="color: white; font-size: 30px;">Who We've Helped 🚀</h2>
+  
+    <div class="fun-wrapper">
+      <div class="fun-box">
+        <div class="fun-icon"><i class="fas fa-chalkboard-teacher"></i></div>
+        <div class="fun-counter" id="tutoring-counter">0</div>
+        <p class="fun-label">Tutoring / Training</p>
+      </div>
+      <div class="fun-box">
+        <div class="fun-icon"><i class="fas fa-plane-departure"></i></div>
+        <div class="fun-counter" id="travel-counter">0</div>
+        <p class="fun-label">Travel Agencies</p>
+      </div>
+      <div class="fun-box">
+        <div class="fun-icon"><i class="fas fa-tools"></i></div>
+        <div class="fun-counter" id="trades-counter">0</div>
+        <p class="fun-label">Trade Professionals</p>
+      </div>
+    </div>
+  
+    <p class="total-impact">
+      💼 Helping <span id="total-counter">0</span>+ small businesses shine online!
+    </p>
+</div>
+  
+  </section>
 
 
 
@@ -2033,6 +2185,18 @@ content: "";
 
     </script>
 
+
+<script>
+    function scrollCarousel(direction) {
+      const track = document.getElementById('carouselTrack');
+      const cardWidth = track.querySelector('.carousel-card').offsetWidth + 20; 
+      track.scrollBy({
+        left: cardWidth * direction,
+        behavior: 'smooth'
+      });
+    }
+  </script>
+  
 
 
     <script>
