@@ -1415,6 +1415,41 @@
   transform: translateY(-5px);
 }
 
+@media screen and (max-width: 768px) {
+  .table thead {
+    display: none;
+  }
+
+  .table, .table tbody, .table tr, .table td {
+    display: block;
+    width: 100%;
+  }
+
+  .table tr {
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+
+  .table td {
+    text-align: left;
+    padding-left: 50%;
+    position: relative;
+  }
+
+  .table td::before {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    width: 45%;
+    white-space: nowrap;
+    font-weight: bold;
+    color: #ccc;
+    content: attr(data-label);
+  }
+}
 
 
 
@@ -1529,7 +1564,8 @@
 
         <section style="background-color:#5D4037; padding: 40px 20px; color: white; border-radius: 0;">
             <h2 style="text-align:center; margin-bottom: 30px;">What's Included in Each Plan</h2>
-            <div class="ttable-responsive pricing-table-wrapper">
+            <div class="table-responsive pricing-table-wrapper">
+
               <table class="table table-bordered text-white text-center">
                 <thead>
                   <tr>
@@ -1540,17 +1576,22 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr><td>Custom Website Design</td><td><i class="fas fa-check"></i></td><td><i class="fas fa-check"></i></td><td><i class="fas fa-check"></i></td></tr>
-                  <tr><td>Domain & Hosting Setup</td><td> <i class="fas fa-check"></i></td><td> <i class="fas fa-check"></i></td><td> <i class="fas fa-check"></i></td></tr>
+                  <tr><td data-label="Feature">Custom Website Design</td><td data-label="Essential"><i class="fas fa-check"></i></td><td data-label="Growth"><i class="fas fa-check"></i></td>
+                    <td data-label="Elite"><i class="fas fa-check"></i></td></tr>
+
+                  <tr><td data-label="Feature">Domain & Hosting Setup</td><td data-label="Essential"> <i class="fas fa-check"></i></td>
+                    <td data-label="Growth"> <i class="fas fa-check"></i></td><td data-label="Elite"> <i class="fas fa-check"></i></td>
+                </tr>
                   
-                  <tr><td>Mobile Optimization</td><td> <i class="fas fa-check"></i></td><td> <i class="fas fa-check"></i></td><td> <i class="fas fa-check"></i></td></tr>
-                  <tr><td><a href="https://webeaze.tawk.help/article/domain-credit" target="_blank">$50 Domain Credit</a></td><td> <i class="fas fa-times"></i></td><td> <i class="fas fa-check"></i></td><td> <i class="fas fa-check"></i><br>100% covered</td></tr>
+                  <tr><td data-label="Feature">Mobile Optimization</td><td data-label="Essential"> <i class="fas fa-check"></i></td><td data-label="Growth"> <i class="fas fa-check"></i></td><td data-label="Elite"> <i class="fas fa-check"></i></td></tr>
+
+                  <tr><td data-label="Feature"><a href="https://webeaze.tawk.help/article/domain-credit" target="_blank">Domain & Hosting Coverage</a></td><td data-label="Essential"> <i class="fas fa-times"></i></td><td data-label="Growth"> <i class="fas fa-check"></i><br>Up to $50</td><td data-label="Elite"> <i class="fas fa-check"></i><br></td></tr>
                   
-                  <tr><td>SEO Tools</td><td> <i class="fas fa-times"></i></td><td> <i class="fas fa-check"></i></td><td> <i class="fas fa-check"></i></td></tr>
-                  <tr><td>Unlimited Support</td><td>Email Only</td><td>Email, Zoom, Live Chat</td><td>Priority Email, Zoom, Live Chat</td></tr>
-                  <tr><td>Ad Campaign Management</td><td><i class="fas fa-times"></i></td><td>
-                    <i class="fas fa-times"></i></td><td> <i class="fas fa-check"></i></td></tr>
-                    <tr><td>Monthly Performance Reports</td><td><i class="fas fa-times"></i></td><td> <i class="fas fa-times"></i><br></td><td> <i class="fas fa-check"></i></td></tr>
+                  <tr><td data-label="Feature">SEO Tools</td><td data-label="Essential"> <i class="fas fa-times"></i></td><td data-label="Growth"> <i class="fas fa-check"></i></td><td data-label="Elite"> <i class="fas fa-check"></i></td></tr>
+                  <tr><td data-label="Feature">Unlimited Support</td><td data-label="Essential">Email Only</td><td data-label="Growth">Email, Zoom, Live Chat</td><td data-label="Elite">Priority Email, Zoom, Live Chat</td></tr>
+                  <tr><td data-label="Feature">Ad Campaign Management</td><td data-label="Essential"><i class="fas fa-times"></i></td><td data-label="Growth">
+                    <i class="fas fa-times"></i></td><td data-label="Elite"> <i class="fas fa-check"></i></td></tr>
+                    <tr><td data-label="Feature">Monthly Performance Reports</td><td data-label="Essential"><i class="fas fa-times"></i></td><td data-label="Growth"> <i class="fas fa-times"></i><br></td><td data-label="Elite"> <i class="fas fa-check"></i></td></tr>
                     
     
                 </tbody>
