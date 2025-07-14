@@ -1477,25 +1477,22 @@ section:hover {
 
         <section class="form-wrapper">
 
-            <p class="form-subtext">All fields are required, except for images.</p>
+            <p class="form-subtext">Please note: All fields are required, except for image uploads.</p>
           
             <form action="https://formspree.io/f/mrbpbpre" method="POST" class="request-form">
               <label>Email *</label>
               <input type="email" name="email" placeholder="you@example.com" required>
           
-              <label>Website URL *</label>
-              <input type="text" name="link" placeholder="yourwebsite.com" required>
-          
               <label>Subject *</label>
               <select name="subject" required>
-                <option value="Website Request">Website Change</option>
+                <option value="" disabled selected>Choose a subject</option>
+                <option value="Website Request">Website Edit</option>
                 <option value="Website Issue">Website Issue</option>
-                <option value="URGENT - Please read">URGENT, site down</option>
+                <option value="Add-On Request">Add-On Request</option>          
                 <option value="Paid Ad Campaign Request">Paid Ad Campaign Request</option>
-                <option value="Add-On Request">Add-On Request</option>
                 <option value="Site Deactivation/Reactivation">Pause Subscription/Site</option>
                 <option value="Feedback">Feedback</option>
-                <option value="Other Inquiry">Other</option>
+                <option value="URGENT - Please read">URGENT, site down</option>
               </select>
           
               <label>How can we help? *</label>
@@ -1649,7 +1646,7 @@ section:hover {
         const questions = [
             "Website Request",
             "How can we help?",
-            "Need a tune-up?",
+            "Need a change?",
         ];
 
         const randomIndex = Math.floor(Math.random() * questions.length);
@@ -1658,7 +1655,7 @@ section:hover {
 
         randomQuestionElement.innerText = randomQuestion;
 
-        // Simple fade-in effect
+
         let opacity = 0;
         randomQuestionElement.style.opacity = opacity;
         randomQuestionElement.style.display = 'block';
@@ -1691,10 +1688,10 @@ section:hover {
       const isBusinessHours = hour >= 9 && hour < 17;
   
       if (isWeekday && isBusinessHours) {
-        message.textContent = "🟢 We're available now until 5:00pm Eastern Time.";
+        message.textContent = "We're available now until 5:00pm ET.";
         message.style.backgroundColor = "#3CB371";
       } else {
-        message.textContent = "🔴 We're away! We'll get back to you as soon as we can. "; 
+        message.textContent = "We're away! We'll get back to you as soon as we can. "; 
         message.style.backgroundColor = "#CD5C5C"; 
       }
 
