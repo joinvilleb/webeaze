@@ -1234,6 +1234,7 @@ p strong, p b, strong, b {
     }
 
 
+
 </style>
 
 <header id="header-services" style="padding-top: 100px;">
@@ -1288,6 +1289,21 @@ p strong, p b, strong, b {
 
        </div>
    </nav>
+
+   <div id="hours-container" style="width: 100%; z-index: 999; text-align: center;">
+    <p id="hours-message" style="
+      margin: 0;
+      padding: 6px 15px;
+      font-size: 15px;
+      font-weight: 500;
+      color: white;
+      background-color: gray;
+      font-family: 'Poppins', sans-serif;
+    ">
+      Checking availability...
+    </p>
+  </div>
+  
 
 
    <br>
@@ -1506,6 +1522,42 @@ p strong, p b, strong, b {
 <!-- Start of HubSpot Embed Code -->
 <script type="text/javascript" id="hs-script-loader" async defer src="//js-na2.hs-scripts.com/242171361.js"></script>
 <!-- End of HubSpot Embed Code -->
+
+<script>
+    function getEasternTime() {
+      const nowUTC = new Date();
+      return new Date(nowUTC.toLocaleString('en-US', { timeZone: 'America/New_York' }));
+    }
+  
+    function updateHoursMessage() {
+      const now = getEasternTime();
+      const day = now.getDay(); // 0 = Sunday, 6 = Saturday
+      const hour = now.getHours();
+      const message = document.getElementById("hours-message");
+  
+      const isWeekday = day >= 1 && day <= 5;
+      const isBusinessHours = hour >= 9 && hour < 17;
+  
+      if (isWeekday && isBusinessHours) {
+        message.textContent = "We're available now until 5:00pm ET.";
+        message.style.backgroundColor = "#3CB371"; // green
+      } else if (isWeekday && hour >= 17 && day < 5) {
+        message.textContent = "We're closed for today. We'll return tomorrow at 9:00am ET.";
+        message.style.backgroundColor = "#CD5C5C"; // red
+      } else if (isWeekday && hour >= 17 && day === 5) {
+        message.textContent = "We're closed for the weekend. We'll return Monday at 9:00am ET.";
+        message.style.backgroundColor = "#CD5C5C"; // red
+      } else {
+        message.textContent = "We're away. We'll return Monday at 9:00am ET.";
+        message.style.backgroundColor = "#CD5C5C"; // red
+      }
+    }
+  
+    updateHoursMessage();
+    setInterval(updateHoursMessage, 60000); // refresh every minute
+  </script>
+  
+  
 
 
 
