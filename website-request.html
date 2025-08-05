@@ -1645,33 +1645,65 @@ section:hover {
 <script>
     function getEasternTime() {
       const nowUTC = new Date();
-      return new Date(nowUTC.toLocaleString('en-US', { timeZone: 'America/New_York' }))
+      return new Date(nowUTC.toLocaleString('en-US', { timeZone: 'America/New_York' }));
     }
+  
+    const holidayClosures = {
+      "01-01": "New Year's Day",
+      "05-27": "Memorial Day",
+      "06-19": "Juneteenth",
+      "07-04": "Independence Day",
+      "09-01": "Labor Day",
+      "11-28": "Thanksgiving Day",
+      "11-29": "Day after Thanksgiving",
+      "12-24": "Christmas Eve",
+      "12-25": "Christmas Day",
+      "12-31": "New Year's Eve",
+    };
   
     function updateHoursMessage() {
       const now = getEasternTime();
       const day = now.getDay(); // 0 = Sunday, 6 = Saturday
       const hour = now.getHours();
+      const month = (now.getMonth() + 1).toString().padStart(2, '0');
+      const date = now.getDate().toString().padStart(2, '0');
+      const todayKey = `${month}-${date}`;
+  
       const message = document.getElementById("hours-message");
+  
+      const isHoliday = holidayClosures.hasOwnProperty(todayKey);
+      const holidayName = holidayClosures[todayKey];
   
       const isWeekday = day >= 1 && day <= 5;
       const isBusinessHours = hour >= 9 && hour < 17;
+      const isBeforeBusinessHours = hour < 9;
   
-      if (isWeekday && isBusinessHours) {
+      if (isHoliday) {
+        message.textContent = `Closed today in observance of ${holidayName}. We'll return next business day at 9:00am ET.`;
+        message.style.backgroundColor = "#CD5C5C";
+      } else if (isWeekday && isBusinessHours) {
         message.textContent = "We're available now until 5:00pm ET.";
-        message.style.backgroundColor = "#3CB371";
+        message.style.backgroundColor = "#3CB371"; // green
+      } else if (isWeekday && isBeforeBusinessHours) {
+        message.textContent = "We're away. We'll return today at 9:00am ET.";
+        message.style.backgroundColor = "#CD5C5C";
+      } else if (isWeekday && hour >= 17 && day < 5) {
+        message.textContent = "We're closed for today. We'll return tomorrow at 9:00am ET.";
+        message.style.backgroundColor = "#CD5C5C";
+      } else if (isWeekday && hour >= 17 && day === 5) {
+        message.textContent = "We're closed for the weekend. We'll return Monday at 9:00am ET.";
+        message.style.backgroundColor = "#CD5C5C";
       } else {
-        message.textContent = "We're away! We'll get back to you as soon as we can. "; 
-        message.style.backgroundColor = "#CD5C5C"; 
+        message.textContent = "We're away. We'll return Monday at 9:00am ET.";
+        message.style.backgroundColor = "#CD5C5C";
       }
-
-      
     }
   
-    updateHoursMessage();
-    setInterval(updateHoursMessage, 60000);
+    document.addEventListener("DOMContentLoaded", () => {
+      updateHoursMessage();
+      setInterval(updateHoursMessage, 60000); // refresh every 60 seconds
+    });
   </script>
-  
     
 
 
