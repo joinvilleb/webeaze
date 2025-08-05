@@ -1661,6 +1661,9 @@ section:hover {
       "12-31": "New Year's Eve",
     };
   
+    const showDelayMessage = true; 
+    const delayText = " We're experiencing a high volume of requests. Response times may be longer than usual. ";
+  
     function updateHoursMessage() {
       const now = getEasternTime();
       const day = now.getDay(); // 0 = Sunday, 6 = Saturday
@@ -1678,25 +1681,30 @@ section:hover {
       const isBusinessHours = hour >= 9 && hour < 17;
       const isBeforeBusinessHours = hour < 9;
   
+      let mainStatus = "";
+  
       if (isHoliday) {
-        message.textContent = `Closed today in observance of ${holidayName}. We'll return next business day at 9:00am ET.`;
+        mainStatus = `Closed today in observance of ${holidayName}. We'll return next business day at 9:00am ET.`;
         message.style.backgroundColor = "#CD5C5C";
       } else if (isWeekday && isBusinessHours) {
-        message.textContent = "We're available now until 5:00pm ET.";
+        mainStatus = "We're available now until 5:00pm ET.";
         message.style.backgroundColor = "#3CB371"; // green
       } else if (isWeekday && isBeforeBusinessHours) {
-        message.textContent = "We're away. We'll return today at 9:00am ET.";
+        mainStatus = "We're away. We'll return today at 9:00am ET.";
         message.style.backgroundColor = "#CD5C5C";
       } else if (isWeekday && hour >= 17 && day < 5) {
-        message.textContent = "We're closed for today. We'll return tomorrow at 9:00am ET.";
+        mainStatus = "We're closed for today. We'll return tomorrow at 9:00am ET.";
         message.style.backgroundColor = "#CD5C5C";
       } else if (isWeekday && hour >= 17 && day === 5) {
-        message.textContent = "We're closed for the weekend. We'll return Monday at 9:00am ET.";
+        mainStatus = "We're closed for the weekend. We'll return Monday at 9:00am ET.";
         message.style.backgroundColor = "#CD5C5C";
       } else {
-        message.textContent = "We're away. We'll return Monday at 9:00am ET.";
+        mainStatus = "We're away. We'll return Monday at 9:00am ET.";
         message.style.backgroundColor = "#CD5C5C";
       }
+  
+      // ✅ Update the DOM with full message
+      message.textContent = showDelayMessage ? `${mainStatus}${delayText}` : mainStatus;
     }
   
     document.addEventListener("DOMContentLoaded", () => {
@@ -1704,6 +1712,7 @@ section:hover {
       setInterval(updateHoursMessage, 60000); // refresh every 60 seconds
     });
   </script>
+  
     
 
 
