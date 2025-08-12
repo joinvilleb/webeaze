@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>HVAC Services — Mockup</title>
+  <meta name="description" content="One-page HVAC services mockup: mobile-first, fast, and clean. Replace tokens to brand it in seconds." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%230a66c2' d='M32 6a4 4 0 0 1 4 4v6.1A16 16 0 1 1 17.9 36H12a4 4 0 0 1 0-8h5.9A16 16 0 0 1 36 16.1V10a4 4 0 0 1 4-4z'/%3E%3C/svg%3E" />
+  <style>
+    /* ----------------------
+       Design Tokens
+       Replace these to brand
+    ----------------------- */
+    :root{
+      --brand: #0A66C2;          /* Primary brand color */
+      --brand-2: #0E7490;        /* Secondary / accents */
+      --accent: #22C55E;         /* Success accent */
+      --bg: #0B1220;             /* Page background */
+      --surface: #0f172a;        /* Card/section background */
+      --surface-2:#111827;       /* Alternate */
+      --text: #E5E7EB;           /* Primary text */
+      --muted: #9CA3AF;          /* Secondary text */
+      --border: #1f2937;         /* Hairlines */
+      --radius: 16px;            /* Rounded corners */
+      --shadow: 0 10px 30px rgba(0,0,0,.25);
+      --container: 1120px;       /* Max width */
+    }
+
+    /* ----------------------
+       Base + Reset
+    ----------------------- */
+    *,*::before,*::after{ box-sizing: border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, Helvetica, "Apple Color Emoji", "Segoe UI Emoji";
+      line-height:1.6; color:var(--text); background:var(--bg);
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+    }
+    img{ max-width:100%; display:block; height:auto; }
+    a{ color:inherit; text-decoration:none; }
+    button{ font:inherit; }
+    .container{ width:100%; max-width:var(--container); padding:0 20px; margin-inline:auto; }
+    .section{ padding: clamp(48px, 6vw, 96px) 0; }
+
+    /* ----------------------
+       Header / Nav
+    ----------------------- */
+    .header{ position:sticky; top:0; z-index:50; backdrop-filter: blur(8px); background:rgba(11,18,32,.6); border-bottom:1px solid var(--border); }
+    .nav{ display:flex; align-items:center; justify-content:space-between; gap:16px; min-height:64px; }
+    .brand{ display:flex; align-items:center; gap:12px; font-weight:700; letter-spacing:.2px; }
+    .brand-logo{ width:36px; height:36px; border-radius:10px; background:linear-gradient(135deg, var(--brand), var(--brand-2)); display:grid; place-items:center; box-shadow: var(--shadow); }
+    .brand-logo svg{ width:22px; height:22px; fill:white; opacity:.95; }
+
+    .nav-links{ display:flex; align-items:center; gap:20px; }
+    .nav-links a{ padding:10px 12px; color:var(--muted); border-radius:10px; }
+    .nav-links a:hover, .nav-links a:focus{ color:var(--text); background:rgba(255,255,255,.06); outline: none; }
+
+    .call-btn{ display:inline-flex; align-items:center; gap:10px; padding:10px 14px; border-radius:12px; background:var(--brand); border:1px solid rgba(255,255,255,.12); color:white; box-shadow: var(--shadow); }
+    .call-btn:hover{ filter:brightness(1.05); }
+
+    .menu-toggle{ display:none; padding:10px 12px; border-radius:10px; border:1px solid var(--border); background:transparent; color:var(--text); }
+
+    @media (max-width: 800px){
+      .nav-links{ display:none; }
+      .menu-toggle{ display:inline-flex; }
+      .nav.open .nav-links{ display:flex; position:absolute; left:0; right:0; top:64px; background:rgba(15,23,42,.98); border-bottom:1px solid var(--border); padding:12px 20px; flex-direction:column; gap:6px; }
+      .nav.open .nav-links a{ padding:12px; }
+    }
+
+    /* ----------------------
+       Hero
+    ----------------------- */
+    .hero{ position:relative; overflow:hidden; background: radial-gradient(1200px 480px at 10% -10%, rgba(10,102,194,.35), transparent 60%), radial-gradient(900px 480px at 90% 10%, rgba(34,197,94,.25), transparent 60%); }
+    .hero-inner{ display:grid; grid-template-columns: 1.1fr .9fr; align-items:center; gap: clamp(24px, 4vw, 48px); min-height: clamp(420px, 70vh, 720px); }
+    .eyebrow{ color: var(--accent); font-weight:700; text-transform:uppercase; letter-spacing:.12em; font-size:.8rem; }
+    .hero h1{ margin:.2em 0 .4em; font-size: clamp(28px, 5vw, 56px); line-height:1.1; letter-spacing:.2px; }
+    .hero p{ color: var(--muted); font-size: clamp(15px, 1.4vw, 18px); }
+    .actions{ display:flex; flex-wrap:wrap; gap:12px; margin-top:18px; }
+    .btn{ display:inline-flex; align-items:center; gap:10px; padding:12px 16px; border-radius:12px; border:1px solid var(--border); background:#111827; color:var(--text); }
+    .btn-primary{ background:linear-gradient(135deg, var(--brand), var(--brand-2)); color:white; border-color:transparent; }
+    .btn:hover{ transform: translateY(-1px); }
+
+    .statbar{ display:grid; grid-template-columns: repeat(3,1fr); gap:16px; margin-top:28px; }
+    .stat{ padding:14px; border:1px solid var(--border); border-radius:14px; background: rgba(255,255,255,.03); }
+    .stat b{ font-size: clamp(18px, 2.2vw, 24px); display:block; }
+    .stat small{ color:var(--muted); }
+
+    .hero-art{ display:grid; gap:16px; }
+    .glass-card{ border:1px solid var(--border); border-radius:16px; padding:16px; background:linear-gradient( to bottom right, rgba(255,255,255,.06), rgba(255,255,255,.02)); box-shadow: var(--shadow); }
+
+    @media (max-width: 900px){
+      .hero-inner{ grid-template-columns: 1fr; padding-top:20px; padding-bottom:30px; }
+      .statbar{ grid-template-columns: 1fr 1fr; }
+    }
+
+    /* ----------------------
+       Services Grid
+    ----------------------- */
+    .services .grid{ display:grid; grid-template-columns: repeat(4, 1fr); gap:16px; }
+    .card{ background: var(--surface); border:1px solid var(--border); border-radius: var(--radius); padding:22px; transition: transform .2s ease, border-color .2s ease, background .2s ease; height:100%; }
+    .card:hover{ transform: translateY(-3px); border-color: rgba(255,255,255,.18); background: #0b152a; }
+    .card .icon{ width:44px; height:44px; border-radius:12px; display:grid; place-items:center; background: rgba(10,102,194,.2); }
+    .card h3{ margin:.6em 0 .35em; font-size: clamp(18px, 2vw, 22px); }
+    .card p{ margin:0; color:var(--muted); font-size: 15px; }
+    .pill{ display:inline-block; margin-top:10px; font-size:12px; color:#b9e6ff; background:rgba(10,102,194,.18); border:1px solid rgba(10,102,194,.35); padding:4px 8px; border-radius:999px; }
+
+    @media (max-width: 1000px){ .services .grid{ grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 560px){ .services .grid{ grid-template-columns: 1fr; } }
+
+    /* ----------------------
+       CTA Banner
+    ----------------------- */
+    .cta{ background: linear-gradient(135deg, rgba(10,102,194,.2), rgba(14,116,144,.2)); border:1px solid var(--border); border-radius: var(--radius); padding: clamp(18px, 3vw, 28px); display:grid; grid-template-columns: 1fr auto; align-items:center; gap:16px; }
+    .cta p{ margin:0; color:var(--muted); }
+    @media (max-width: 640px){ .cta{ grid-template-columns: 1fr; } }
+
+    /* ----------------------
+       Contact
+    ----------------------- */
+    .contact .wrap{ display:grid; grid-template-columns: 1.1fr .9fr; gap:18px; }
+    .panel{ background: var(--surface); border:1px solid var(--border); border-radius: var(--radius); padding:22px; }
+    form{ display:grid; gap:12px; }
+    .field{ display:grid; gap:6px; }
+    .field label{ font-size:14px; color:var(--muted); }
+    .field input, .field textarea, .field select{
+      width:100%; padding:12px 14px; border-radius:12px; border:1px solid var(--border); background:#0b1220; color:var(--text);
+    }
+    .hint{ color:var(--muted); font-size:12px; }
+
+    @media (max-width: 900px){ .contact .wrap{ grid-template-columns: 1fr; } }
+
+    /* ----------------------
+       Footer
+    ----------------------- */
+    footer{ border-top:1px solid var(--border); color:var(--muted); }
+    .foot{ display:flex; gap:16px; align-items:center; justify-content:space-between; padding:18px 0; flex-wrap:wrap; }
+    .foot .row{ display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+    .foot a:hover{ color:var(--text); }
+
+    /* Focus styles for a11y */
+    :focus-visible{ outline:2px solid var(--accent); outline-offset:4px; border-radius:8px; }
+  </style>
+</head>
+<body>
+  <header class="header" role="banner">
+    <div class="container nav" id="siteNav">
+      <a href="#top" class="brand" aria-label="HVAC brand home">
+<img src="images/mockupimg/martinshvac-service.jpg" alt="CoolBreeze HVAC Logo" style="width: 10%; border-radius: 40px  !important;">
+
+        </span>
+        <span>Martins HVAC Service</span>
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="#services">Services</a>
+        <a href="#contact">Contact</a>
+        <a href="#service-area">Service Area</a>
+      </nav>
+      <a class="call-btn" href="tel:+15551234567" aria-label="Call 24/7">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.6 10.8a15.9 15.9 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11 11 0 0 0 3.4.55 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 7a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11 11 0 0 0 .55 3.4 1 1 0 0 1-.25 1l-2.2 2.4z"/></svg>
+        <span>Contact
+        </span>
+      </a>
+      <button class="menu-toggle" aria-expanded="false" aria-controls="mobileMenu" id="menuToggle">Menu</button>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- Hero -->
+    <section class="hero section" aria-labelledby="heroTitle">
+      <div class="container hero-inner">
+        <div>
+          <div class="eyebrow">Heating • Cooling • Air Quality</div>
+          <h1 id="heroTitle">Comfort you can feel. Service you can trust.</h1>
+          <p>Expert HVAC installation, repair, and maintenance—done right the first time. Upfront pricing, fast scheduling, and friendly techs.</p>
+          <div class="actions">
+            <a class="btn btn-primary" href="#contact">Get a fast quote</a>
+            <a class="btn" href="tel:+15551234567">Emergency? Call now</a>
+          </div>
+          <div class="statbar" role="list" aria-label="Quick stats">
+            <div class="stat" role="listitem"><b>24/7</b><small>Emergency Service</small></div>
+            <div class="stat" role="listitem"><b>4.9★</b><small>Local Rating</small></div>
+            <div class="stat" role="listitem"><b>15+ yrs</b><small>Experience</small></div>
+          </div>
+        </div>
+        <div class="hero-art">
+          <div class="glass-card">
+            <b>Same‑day installs</b>
+            <p class="hint">When available. Ask about financing and rebates.</p>
+          </div>
+          <div class="glass-card">
+            <b>Certified technicians</b>
+            <p class="hint">Licensed, insured, background‑checked.</p>
+          </div>
+          <div class="glass-card">
+            <b>Maintenance plans</b>
+            <p class="hint">Keep systems efficient year‑round.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Services -->
+    <section id="services" class="services section" aria-labelledby="servicesTitle">
+      <div class="container">
+        <h2 id="servicesTitle">HVAC Services</h2>
+        <p class="hint">Everything you need for reliable comfort at home or at work.</p>
+        <div class="grid" role="list">
+          <article class="card" role="listitem">
+            <div class="icon" aria-hidden="true">❄️</div>
+            <h3>AC Installation & Replacement</h3>
+            <p>High‑efficiency central air and heat pump installs sized for your home.</p>
+            <span class="pill">Free estimate</span>
+          </article>
+          <article class="card" role="listitem">
+            <div class="icon" aria-hidden="true">🛠️</div>
+            <h3>AC Repair</h3>
+            <p>Fast diagnostics and repairs for no‑cool, leaks, and electrical issues.</p>
+            <span class="pill">Same‑day</span>
+          </article>
+          <article class="card" role="listitem">
+            <div class="icon" aria-hidden="true">🔥</div>
+            <h3>Furnace & Boiler Service</h3>
+            <p>Installations, tune‑ups, and repairs for gas, electric, and oil systems.</p>
+            <span class="pill">Heating pros</span>
+          </article>
+          <article class="card" role="listitem">
+            <div class="icon" aria-hidden="true">🌬️</div>
+            <h3>Ductless Mini‑Splits</h3>
+            <p>Room‑by‑room comfort and efficiency without new ductwork.</p>
+            <span class="pill">Great for additions</span>
+          </article>
+          <article class="card" role="listitem">
+            <div class="icon" aria-hidden="true">🧼</div>
+            <h3>Duct Cleaning & Sealing</h3>
+            <p>Cleaner air and better airflow with professional duct service.</p>
+            <span class="pill">NADCA‑style</span>
+          </article>
+          <article class="card" role="listitem">
+            <div class="icon" aria-hidden="true">🌿</div>
+            <h3>Indoor Air Quality</h3>
+            <p>Filters, UV lights, and air purifiers to reduce dust, pollen, and odors.</p>
+            <span class="pill">Allergy relief</span>
+          </article>
+          <article class="card" role="listitem">
+            <div class="icon" aria-hidden="true">📱</div>
+            <h3>Smart Thermostats</h3>
+            <p>Install & configure Nest, Ecobee, Honeywell for comfort & savings.</p>
+            <span class="pill">Rebates available</span>
+          </article>
+          <article class="card" role="listitem">
+            <div class="icon" aria-hidden="true">🏢</div>
+            <h3>Commercial HVAC</h3>
+            <p>RTUs, split systems, and maintenance plans for offices & retail.</p>
+            <span class="pill">Custom SLAs</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Service Area / CTA -->
+    <section id="service-area" class="section" aria-labelledby="areaTitle">
+      <div class="container">
+        <div class="cta">
+          <div>
+            <h2 id="areaTitle" style="margin:0 0 .25em">Proudly serving YourTown & nearby communities</h2>
+            <p>Same‑day appointments in most zip codes. Ask about energy‑efficiency rebates in your area.</p>
+          </div>
+          <a class="btn btn-primary" href="#contact">Schedule today</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="contact section" aria-labelledby="contactTitle">
+      <div class="container wrap">
+        <div class="panel">
+          <h2 id="contactTitle">Request a fast quote</h2>
+          <form method="post" action="#" onsubmit="event.preventDefault(); alert('This is a mockup. Connect to Formspree or your backend to submit.');">
+            <div class="field">
+              <label for="name">Full name</label>
+              <input id="name" name="name" required placeholder="Jane Doe" />
+            </div>
+            <div class="field">
+              <label for="phone">Phone</label>
+              <input id="phone" name="phone" inputmode="tel" placeholder="(555) 123‑4567" />
+            </div>
+            <div class="field">
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" placeholder="you@example.com" />
+            </div>
+            <div class="field">
+              <label for="service">Service needed</label>
+              <select id="service" name="service">
+                <option>AC repair</option>
+                <option>AC install / replacement</option>
+                <option>Heating service</option>
+                <option>Ductless mini‑split</option>
+                <option>Duct cleaning</option>
+                <option>Indoor air quality</option>
+                <option>Maintenance plan</option>
+                <option>Commercial</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="msg">Details</label>
+              <textarea id="msg" name="message" rows="4" placeholder="Tell us what’s going on…"></textarea>
+            </div>
+            <button class="btn btn-primary" type="submit">Get my quote</button>
+            <p class="hint">We’ll get back to you within 24 hours. For urgent issues, call us directly.</p>
+          </form>
+        </div>
+        <aside class="panel" aria-label="Contact details">
+          <h3>Contact</h3>
+          <div class="row">
+            <p><strong>Phone:</strong> <a href="tel:+15551234567">1 401-692-4822            </a><br>
+            <strong>Email:</strong> <a href="mailto:martinshvacservice@gmail.com">martinshvacservice@gmail.com</a><br>
+            <strong>Hours:</strong> Mon–Sat 7am–7pm • 24/7 emergency</p>
+          </div>
+          <h3>Why choose us</h3>
+          <ul>
+            <li>Up‑front pricing & no surprises</li>
+            <li>Licensed & insured technicians</li>
+            <li>Financing and rebates available</li>
+            <li>Maintenance plans that save money</li>
+          </ul>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <footer role="contentinfo">
+    <div class="container foot">
+      <div class="row">
+        
+        <img src="images/mockupimg/martinshvac-service.jpg" alt="CoolBreeze HVAC Logo" style="width: 20%; border-radius: 30px;">
+        <small>© <span id="year"></span>, Martins HVAC Services
+        </small>
+    </div>
+       
+      </div>
+      <div class="row">
+        <a href="#services">Services</a>
+        <span>•</span>
+        <a href="#contact">Contact</a>
+        <span>•</span>
+        <a href="#top">Back to top</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu toggle
+    const nav = document.getElementById('siteNav');
+    const btn = document.getElementById('menuToggle');
+    btn?.addEventListener('click', ()=>{
+      const open = nav.classList.toggle('open');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+
+    // Year
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
