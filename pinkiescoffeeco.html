@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pinkies Coffee Co. — Coming Soon</title>
+  <meta name="description" content="Coming‑soon one‑page for Pinkies Coffee Co. Mobile‑first, tokenized CSS, GitHub Pages–ready." />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --pink: #f9c6cf;
+      --coffee-900: #2b1f1a;
+      --coffee-800: #3a2720;
+      --coffee-700: #4a2e23;
+      --cream: #fcf6ee;
+      --cream-2:#f7efe5;
+      --accent: #ff7fad; /* brand pink */
+      --text: #2a221d;
+      --muted:#6c584c;
+      --border:#eadfd6;
+      --radius: 16px;
+      --shadow: 0 10px 30px rgba(0,0,0,.15);
+      --container: 1140px;
+    }
+    *,*::before,*::after{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{ margin:0; background:var(--cream); color:var(--text); font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji","Segoe UI Emoji"; line-height:1.65; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; }
+    h1,h2,h3,h4{ font-family:Poppins, Inter, sans-serif; line-height:1.2; margin:0 0 .4em; }
+    h1{ font-weight:800; }
+    h2{ font-weight:800; }
+    h3{ font-weight:700; }
+    p{ margin:.4em 0 1em; }
+    img{ max-width:100%; display:block; height:auto; border-radius:12px; }
+    a{ color:inherit; text-decoration:none; }
+    .container{ width:100%; max-width:var(--container); padding:0 20px; margin-inline:auto; }
+    .section{ padding: clamp(48px, 6vw, 96px) 0; }
+    .eyebrow{ color:var(--accent); text-transform:uppercase; letter-spacing:.14em; font-size:.8rem; font-weight:700; }
+    .btn{ display:inline-flex; align-items:center; justify-content:center; gap:10px; padding:12px 18px; border-radius:12px; border:1px solid var(--coffee-700); background:var(--coffee-900); color:#fff; box-shadow:var(--shadow); }
+    .btn:hover{ filter:brightness(1.05); transform:translateY(-1px); }
+    .btn-ghost{ background:#fff; color:var(--coffee-900); border-color:var(--border); }
+    .pill{ display:inline-block; padding:4px 10px; border-radius:999px; background:#f2e7da; color:var(--coffee-800); font-size:12px; border:1px solid var(--border); }
+
+    /* Header */
+    .topbar{ background:var(--pink); color:var(--coffee-900); }
+    .nav{ display:flex; align-items:center; justify-content:space-between; gap:16px; min-height:64px; }
+    .brand{ display:flex; align-items:center; gap:12px; font-weight:800; letter-spacing:.3px; }
+    .brand-logo{ width:36px; height:36px; border-radius:10px; display:grid; place-items:center; background:linear-gradient(135deg, var(--accent), #f3c57e); color:#fff; box-shadow:var(--shadow); }
+    .nav-links{ display:flex; align-items:center; gap:18px; font-weight:600; }
+    .nav-links a{ color:#7b5246; padding:10px 12px; border-radius:10px; }
+    .nav-links a:hover{ background:rgba(255,255,255,.6); }
+    .menu-toggle{ display:none; background:transparent; border:1px solid rgba(0,0,0,.08); padding:8px 12px; border-radius:10px; }
+    @media (max-width: 880px){ .nav-links{ display:none; } .menu-toggle{ display:inline-flex; } .nav.open .nav-links{ display:flex; position:absolute; left:0; right:0; top:64px; background:var(--pink); padding:10px 20px 14px; border-bottom:1px solid rgba(0,0,0,.06); flex-direction:column; gap:6px; } }
+
+    /* Hero */
+    .hero{ position:relative; color:#fff; }
+    .hero-bg{ position:absolute; inset:0; z-index:-1; background: linear-gradient(rgba(43,31,26,.45), rgba(43,31,26,.65)), url('images/mockupimg/pinkiescoffee.png') center/cover no-repeat; }
+    .hero-inner{ min-height: clamp(460px, 68vh, 720px); display:grid; place-items:center; text-align:center; padding:60px 0; }
+    .hero h1{ font-size: clamp(36px, 7vw, 86px); letter-spacing:.02em; }
+    .hero .sub{ font-size: clamp(14px, 2vw, 18px); opacity:.95; }
+
+    /* About */
+    .about .grid{ display:grid; grid-template-columns: 1fr auto 1fr; gap:24px; align-items:center; }
+    .about .splash{ width:min(360px, 60vw); aspect-ratio: 3/4; background: radial-gradient(circle at 30% 20%, #ffd9a7, transparent 40%), radial-gradient(circle at 70% 80%, #f2b38d, transparent 45%), var(--cream-2); border-radius: 999px 999px 30px 30px; margin-inline:auto; position:relative; box-shadow: var(--shadow); }
+    .about .splash::after{ content:""; position:absolute; inset:8px; border-radius: 999px 999px 26px 26px; border:2px dashed rgba(0,0,0,.05); }
+    .about h2{ font-size: clamp(24px, 4vw, 44px); }
+    .about p{ color:var(--muted); }
+    .list{ display:grid; gap:8px; padding-left:0; list-style:none; }
+    .list li{ display:flex; align-items:flex-start; gap:10px; }
+    .list li::before{ content:"✔"; color:var(--accent); margin-top:2px; }
+    @media (max-width: 980px){ .about .grid{ grid-template-columns: 1fr; text-align:center; } .about .list{ place-items:center; } }
+
+    /* Features */
+    .features{ background: #fff; }
+    .feature-grid{ display:grid; gap:16px; grid-template-columns: repeat(4,1fr); }
+    .feature{ border:1px solid var(--border); border-radius:var(--radius); padding:16px; background:var(--cream); display:grid; grid-template-columns: 72px 1fr; gap:14px; align-items:center; }
+    .thumb{ width:72px; height:72px; border-radius:14px; background: #e8d8c6 center/cover no-repeat; }
+    .thumb.f1{ background-image:url('https://images.unsplash.com/photo-1527698266440-12104e498b76?q=80&w=200&auto=format&fit=crop'); }
+    .thumb.f2{ background-image:url('https://images.unsplash.com/photo-1509042239860-f550ce710b93?q=80&w=200&auto=format&fit=crop'); }
+    .thumb.f3{ background-image:url('https://images.unsplash.com/photo-1498804103079-a6351b050096?q=80&w=200&auto=format&fit=crop'); }
+    .thumb.f4{ background-image:url('https://images.unsplash.com/photo-1459755486867-b55449bb39ff?q=80&w=200&auto=format&fit=crop'); }
+    @media (max-width: 1024px){ .feature-grid{ grid-template-columns: repeat(2,1fr); } }
+    @media (max-width: 560px){ .feature-grid{ grid-template-columns: 1fr; } }
+
+    /* Offer strip */
+    .offer{ color:#fff; position:relative; }
+    .offer-bg{ position:absolute; inset:0; z-index:-1; background: linear-gradient(rgba(43,31,26,.88), rgba(43,31,26,.9)), url('https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?q=80&w=1600&auto=format&fit=crop') center/cover no-repeat; mask: radial-gradient(100% 20px at 50% 0, transparent 19px, #000 20px) top/100% 40px repeat-x, radial-gradient(100% 20px at 50% 100%, transparent 19px, #000 20px) bottom/100% 40px repeat-x, linear-gradient(#000, #000); }
+    .offer-inner{ display:grid; grid-template-columns: 1.2fr .8fr; gap:20px; align-items:center; }
+    .offer h2{ font-size: clamp(28px, 5vw, 56px); }
+    .emailbar{ display:flex; gap:10px; flex-wrap:wrap; }
+    .emailbar input{ padding:12px 14px; border-radius:12px; border:1px solid rgba(255,255,255,.25); background:rgba(255,255,255,.1); color:#fff; min-width:min(320px, 60vw); }
+    @media (max-width: 860px){ .offer-inner{ grid-template-columns: 1fr; text-align:center; } .emailbar{ justify-content:center; } }
+
+    /* Menu & Pricing */
+    .menu .grid{ display:grid; grid-template-columns: 1fr 1fr; gap:24px; }
+    .menu h3{ font-size: clamp(18px, 2.2vw, 22px); margin-bottom:12px; }
+    .item{ display:grid; grid-template-columns: 64px 1fr auto; gap:14px; align-items:center; padding:12px; border-radius:12px; border:1px solid var(--border); background:#fff; }
+    .item + .item{ margin-top:10px; }
+    .item .circle{ width:64px; height:64px; border-radius:50%; background:#e5d2c4 center/cover no-repeat; }
+    .item .price{ position:relative; font-weight:800; }
+    .badge{ display:inline-flex; align-items:center; justify-content:center; width:32px; height:32px; border-radius:999px; background:var(--accent); color:#fff; font-size:12px; margin-right:8px; }
+    @media (max-width: 840px){ .menu .grid{ grid-template-columns: 1fr; } }
+
+    /* Reservation */
+    .reserve{ position:relative; color:#fff; }
+    .reserve-bg{ position:absolute; inset:0; z-index:-1; background: linear-gradient(rgba(43,31,26,.9), rgba(43,31,26,.9)), url('https://images.unsplash.com/photo-1507133750040-4a8f57021524?q=80&w=1600&auto=format&fit=crop') center/cover no-repeat; }
+    .reserve-inner{ display:grid; grid-template-columns: 1fr 1fr; gap:22px; align-items:start; }
+    .panel{ background: rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.18); border-radius:var(--radius); padding:20px; box-shadow: var(--shadow); }
+    form{ display:grid; gap:10px; }
+    .field{ display:grid; gap:6px; }
+    .field input, .field select{ width:100%; padding:12px 14px; border-radius:10px; border:1px solid rgba(255,255,255,.25); background: rgba(255,255,255,.1); color:#fff; }
+    .field ::placeholder{ color: #f0e4d8; }
+    @media (max-width: 900px){ .reserve-inner{ grid-template-columns: 1fr; } }
+
+    /* Testimonials */
+    .testimonials{ background:#fff; }
+    .cards{ display:grid; grid-template-columns: repeat(3,1fr); gap:16px; }
+    .card{ background:#fff; border:1px solid var(--border); border-radius:var(--radius); padding:18px; }
+    .avatar{ width:56px; height:56px; border-radius:50%; background:#e5d2c4 center/cover no-repeat; }
+    .stars{ color:#ffb300; }
+    .dots{ display:flex; gap:6px; justify-content:center; margin-top:14px; }
+    .dot{ width:8px; height:8px; border-radius:999px; background:#d5c6b8; }
+    .dot.active{ background:var(--accent); }
+    @media (max-width: 980px){ .cards{ grid-template-columns: 1fr; } }
+
+    /* Footer */
+    footer{ background:var(--coffee-900); color:#e9e0d7; }
+    .foot-grid{ display:grid; grid-template-columns: 1.2fr 1fr 1fr 1fr; gap:22px; }
+    .foot-grid h4{ margin:0 0 .6em; font-family:Poppins; }
+    .foot-grid a{ color:#e9e0d7; opacity:.9; }
+    .foot-grid a:hover{ opacity:1; }
+    .social{ display:flex; gap:10px; }
+    .newsletter{ display:flex; gap:10px; }
+    .newsletter input{ padding:10px 12px; border-radius:10px; border:1px solid rgba(255,255,255,.2); background:rgba(255,255,255,.08); color:#fff; }
+    .copyright{ border-top:1px solid rgba(255,255,255,.15); margin-top:18px; padding-top:12px; color:#d9cec3; }
+    @media (max-width: 920px){ .foot-grid{ grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 560px){ .foot-grid{ grid-template-columns: 1fr; } }
+
+    :focus-visible{ outline:2px solid var(--accent); outline-offset:4px; border-radius:8px; }
+  </style>
+</head>
+<body>
+  <header class="topbar" role="banner">
+    <div class="container nav" id="nav">
+      <a class="brand" href="#top" aria-label="Pinkies Coffee Co. home">
+        <img src="images/mockupimg/pinkiescoffeeco.png" alt="Coffee cup logo" style="width:24px; height:24px; border-radius:6px; object-fit:cover;">
+        <span>Pinkies Coffee Co.</span>
+      </a>
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="#about">About</a>
+        <a href="#features">Service</a>
+        <a href="#menu">Menu</a>
+        <a href="#reserve">Book Cart</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <button class="menu-toggle" id="menuToggle" aria-expanded="false">Menu</button>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero section" aria-labelledby="heroTitle">
+      <div class="hero-bg" aria-hidden="true">
+        <img src="images/mockupimg/pinkiescoffeeco-2.png" alt="Pinkies Coffee Co. cart" style="width:100%; height:100%; object-fit:cover; opacity:.8; border-radius: 0;">
+      </div>
+      <div class="container hero-inner">
+        <div>
+          <div class="eyebrow">Coming Soon</div>
+          <h1 id="heroTitle">Pinkies Coffee Co.</h1>
+          <div class="sub">Sign up for launch dates & pop‑ups</div>
+          <div style="margin-top:18px; display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+            <a class="btn" href="#menu">See menu</a>
+            <a class="btn btn-ghost" href="#reserve">Book the cart</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="about section" aria-labelledby="aboutTitle">
+      <div class="container">
+        <div class="eyebrow" style="text-align:center;">About Us</div>
+        <h2 style="text-align:center; margin-bottom:12px;">Serving Since 2024</h2>
+        <div class="about grid">
+          <div>
+            <h3>Our Story</h3>
+            <p>We’re a mobile pink coffee cart serving specialty espresso drinks at pop‑ups, offices, and private events across the city.</p>
+            <p class="pill">Learn More</p>
+          </div>
+          <div class="splash" aria-hidden="true" title="Coffee splash placeholder"></div>
+          <div>
+            <h3>Our Vision</h3>
+            <p>Bold flavors, friendly vibes, and flexible service—bringing café‑quality coffee wherever you are.</p>
+            <ul class="list">
+              <li>Freshly roasted beans</li>
+              <li>Signature drinks & seasonal menus</li>
+              <li>Community‑first events</li>
+            </ul>
+            <p class="pill">Learn More</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="features" class="features section" aria-labelledby="featTitle">
+      <div class="container">
+        <h2 id="featTitle" style="text-align:center; margin-bottom:12px;">Fresh & Organic Beans</h2>
+        <div class="feature-grid" role="list">
+          <div class="feature" role="listitem">
+            <div class="thumb f1" aria-hidden="true"></div>
+            <div>
+              <h3>Fastest Door Delivery</h3>
+              <p class="muted">Order online and get your favorites delivered while they’re still warm.</p>
+            </div>
+          </div>
+          <div class="feature" role="listitem">
+            <div class="thumb f2" aria-hidden="true"></div>
+            <div>
+              <h3>Fresh Coffee Beans</h3>
+              <p>Small‑batch roasting for bold, balanced flavor in every cup.</p>
+            </div>
+          </div>
+          <div class="feature" role="listitem">
+            <div class="thumb f3" aria-hidden="true"></div>
+            <div>
+              <h3>Best Quality Coffee</h3>
+              <p>Carefully dialed shots, silky microfoam, consistent craft.</p>
+            </div>
+          </div>
+          <div class="feature" role="listitem">
+            <div class="thumb f4" aria-hidden="true"></div>
+            <div>
+              <h3>Online Table Booking</h3>
+              <p>Reserve your spot for brunch, meetups, or study sessions.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="offer section" aria-labelledby="offerTitle">
+      <div class="offer-bg" aria-hidden="true"></div>
+      <div class="container offer-inner">
+        <div>
+          <div class="eyebrow" style="color:#ffd9a7">Launch List</div>
+          <h2 id="offerTitle">Be first in line</h2>
+          <p class="sub">Pop‑up dates, merch drops, and giveaways—straight to your inbox.</p>
+        </div>
+        <form class="emailbar" onsubmit="event.preventDefault(); alert('Mock signup — connect your email tool.');">
+          <input type="email" placeholder="Your Email" required>
+          <button class="btn" type="submit" aria-label="Sign up">Sign Up</button>
+        </form>
+      </div>
+    </section>
+
+    <section id="menu" class="menu section" aria-labelledby="menuTitle">
+      <div class="container">
+        <div class="eyebrow" style="text-align:center;">Menu & Pricing</div>
+        <h2 id="menuTitle" style="text-align:center; margin-bottom:22px;">Competitive Pricing</h2>
+        <div class="grid">
+          <div>
+            <h3>Hot Coffee</h3>
+            <div class="item">
+              <div class="circle" style="background-image:url('https://images.unsplash.com/photo-1504639725590-34d0984388bd?q=80&w=200&auto=format&fit=crop');"></div>
+              <div>
+                <strong>Black Coffee</strong>
+                <div class="muted">Rich and toasty, no frills.</div>
+              </div>
+              <div class="price"><span class="badge">$5</span></div>
+            </div>
+            <div class="item">
+              <div class="circle" style="background-image:url('https://images.unsplash.com/photo-1485808191679-5f86510681a2?q=80&w=200&auto=format&fit=crop');"></div>
+              <div>
+                <strong>Chocolate Coffee</strong>
+                <div class="muted">Dark cocoa with a velvety finish.</div>
+              </div>
+              <div class="price"><span class="badge">$7</span></div>
+            </div>
+          </div>
+          <div>
+            <h3>Cold Coffee</h3>
+            <div class="item">
+              <div class="circle" style="background-image:url('https://images.unsplash.com/photo-1541167760496-1628856ab772?q=80&w=200&auto=format&fit=crop');"></div>
+              <div>
+                <strong>Iced Black Coffee</strong>
+                <div class="muted">Brisk, bright, and refreshing.</div>
+              </div>
+              <div class="price"><span class="badge">$5</span></div>
+            </div>
+            <div class="item">
+              <div class="circle" style="background-image:url('https://images.unsplash.com/photo-1453614512568-c4024d13c247?q=80&w=200&auto=format&fit=crop');"></div>
+              <div>
+                <strong>Chocolate Frappe</strong>
+                <div class="muted">Blended chocolate, cream, and espresso.</div>
+              </div>
+              <div class="price"><span class="badge">$7</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="reserve" class="reserve section" aria-labelledby="reserveTitle">
+      <div class="reserve-bg" aria-hidden="true"></div>
+      <div class="container reserve-inner">
+        <div class="panel">
+          <div class="eyebrow" style="color:#ffd9a7">Now Booking</div>
+          <h2>Private Events & Pop‑ups</h2>
+          <p>Bring Pinkies Coffee Co. to your office, wedding, or street pop‑up. Tell us the basics and we’ll confirm availability.</p>
+          <ul class="list">
+            <li>Valid on dine‑in beverages</li>
+            <li>One voucher per table</li>
+            <li>Excludes bottled drinks</li>
+          </ul>
+        </div>
+        <div class="panel">
+          <h3 id="reserveTitle">Book the Cart</h3>
+          <form onsubmit="event.preventDefault(); alert('Mock reservation — wire up to your backend or Formspree.');">
+            <div class="field"><label for="rname">Name</label><input id="rname" placeholder="Jane Doe" required></div>
+            <div class="field"><label for="remail">Email</label><input id="remail" type="email" placeholder="you@example.com" required></div>
+            <div class="field"><label for="rdate">Event Date</label><input id="rdate" type="date" required></div>
+            <div class="field"><label for="rtime">Event Time</label><input id="rtime" type="time" required></div>
+            <div class="field"><label for="rloc">Location</label><input id="rloc" placeholder="Venue or address"></div>
+            <button class="btn" type="submit">Check availability</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section class="testimonials section" aria-labelledby="testTitle">
+      <div class="container">
+        <div class="eyebrow" style="text-align:center;">Testimonial</div>
+        <h2 id="testTitle" style="text-align:center;">Our Clients Say</h2>
+        <div class="cards">
+          <article class="card">
+            <div style="display:flex; align-items:center; gap:12px;">
+              <div class="avatar" style="background-image:url('https://images.unsplash.com/photo-1607746882042-944635dfe10e?q=80&w=96&auto=format&fit=crop');"></div>
+              <div><strong>Alex M.</strong><div class="muted">Local Guide</div></div>
+            </div>
+            <p>“Best cappuccino in town. Cozy space, great playlists, and quick service.”</p>
+            <div class="stars">★★★★★</div>
+          </article>
+          <article class="card">
+            <div style="display:flex; align-items:center; gap:12px;">
+              <div class="avatar" style="background-image:url('https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=96&auto=format&fit=crop');"></div>
+              <div><strong>Sara K.</strong><div class="muted">Designer</div></div>
+            </div>
+            <p>“Love the seasonal drinks and pastries. Staff is always friendly.”</p>
+            <div class="stars">★★★★★</div>
+          </article>
+          <article class="card">
+            <div style="display:flex; align-items:center; gap:12px;">
+              <div class="avatar" style="background-image:url('https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?q=80&w=96&auto=format&fit=crop');"></div>
+              <div><strong>Diego R.</strong><div class="muted">Student</div></div>
+            </div>
+            <p>“Great study vibe. Strong Wi‑Fi, lots of outlets, and phenomenal cold brew.”</p>
+            <div class="stars">★★★★★</div>
+          </article>
+        </div>
+        <div class="dots"><span class="dot active"></span><span class="dot"></span><span class="dot"></span></div>
+      </div>
+    </section>
+  </main>
+
+  <footer role="contentinfo" id="contact">
+    <div class="container foot section" style="padding-top:36px; padding-bottom:24px;">
+      <div class="foot-grid">
+        <div>
+          <div class="brand" style="margin-bottom:8px;">
+            
+            <img src="images/mockupimg/pinkiescoffeeco.png" alt="Coffee cup logo" style="width:24px; height:24px; border-radius:6px; object-fit:cover;">
+            
+            <strong>Pinkies Coffee Co.</strong></div>
+          <p>Stunning coffee, warm company. Drop by or order online.</p>
+          <div><strong>Email:</strong> <a href="mailto:pinkiescoffeeco@gmail.com">pinkiescoffeeco@gmail.com</a></div>
+        </div>
+        <div>
+          <h4>Follow Us</h4>
+          <p class="muted">News, specials, and behind‑the‑scenes.</p>
+          <div class="social">
+            <a href="#" aria-label="Facebook">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#e9e0d7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2H6a4 4 0 0 0-4 4v12a4 4 0 0 0 4 4h12a4 4 0 0 0 4-4V6a4 4 0 0 0-4-4z"/><path d="M16.5 11H14v7h-3v-7H9V9h2.5V7.5c0-1.38.56-2.5 2.5-2.5H16v3h-1.5c-.55 0-.5.45-.5.5V11z"/></svg>
+            </a>
+            <a href="#" aria-label="Twitter / X">𝕏</a>
+            <a href="#" aria-label="Instagram">📸</a>
+            <a href="#" aria-label="LinkedIn">in</a>
+          </div>
+        </div>
+        <div>
+          <h4>Open Hours</h4>
+          <p>Mon–Fri 8:00 AM–8:00 PM<br>Sat–Sun 2:00 PM–8:00 PM</p>
+        </div>
+        <div>
+          <h4>Newsletter</h4>
+          <form class="newsletter" onsubmit="event.preventDefault(); alert('Mock newsletter — connect provider.');">
+            <input type="email" placeholder="Your Email" required>
+            <button class="btn" type="submit">Sign Up</button>
+          </form>
+        </div>
+      </div>
+      <div class="copyright">© <span id="year"></span> Pinkies Coffee Co. • Mockup</div>
+    </div>
+  </footer>
+
+  <script>
+    const nav = document.getElementById('nav');
+    const toggle = document.getElementById('menuToggle');
+    toggle?.addEventListener('click', () => {
+      const open = nav.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
