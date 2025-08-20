@@ -1355,9 +1355,62 @@ section:hover {
 }
 
 
+.fun-gradient {
+  background: linear-gradient(90deg, #ffde59, #ffffff, #ffde59);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shimmer 5s linear infinite;
+}
+@keyframes shimmer { 
+  0% { background-position: 0% 50%; } 
+  100% { background-position: 200% 50%; } 
+}
 
 
-        
+.website-request-header {
+  position: relative;
+  overflow: hidden;
+}
+.website-request-header::before,
+.website-request-header::after {
+  content: "";
+  position: absolute;
+  width: 380px; height: 380px;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: .18;
+  z-index: 0;
+}
+.website-request-header::before {
+  background: #ffde59;
+  top: -120px; left: -120px;
+  animation: floatA 12s ease-in-out infinite alternate;
+}
+.website-request-header::after {
+  background: #ffffff;
+  bottom: -140px; right: -140px;
+  animation: floatB 14s ease-in-out infinite alternate;
+}
+@keyframes floatA { from { transform: translateY(0) } to { transform: translateY(30px) } }
+@keyframes floatB { from { transform: translateY(0) } to { transform: translateY(-30px) } }
+
+.reveal { opacity: 0; transform: translateY(14px); transition: 600ms ease; }
+.reveal.show { opacity: 1; transform: none; }
+
+.cta-button-schedule, .cta-learn-more {
+  position: relative; overflow: hidden;
+}
+.cta-button-schedule::after, .cta-learn-more::after {
+  content: ""; position: absolute; top:0; left:-120%;
+  width: 80%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.35), transparent);
+  transform: skewX(-20deg);
+  transition: left .5s ease;
+}
+.cta-button-schedule:hover::after, .cta-learn-more:hover::after { left: 140%; }
+
 
 </style>
 
@@ -1422,32 +1475,46 @@ section:hover {
         
 
 
-        <section class="website-request-header" style= "padding: 50px 10px; text-align: center; background-color: transparent;"> 
+        <section class="website-request-header reveal" style= "padding: 50px 10px; text-align: center; background-color: transparent;"> 
             
-            <h1 id="random-question"></h1> 
+            <h1 id="random-question" class="fun-gradient"></h1> 
             <br>
             
-        <p style="color: white; font-size: 20px !important; max-width: 700px; margin: 20px auto; text-align: center;"> 
-            We keep it simple: one consultation is all it takes to get started with a site that works. 
-         </p>
+            <p id="sub-rotator" style="color:white; font-size:20px; max-width:700px; margin: 8px auto 20px; text-align:center;"></p>
+
     
         <br>
            
         </section>
 
-        <div class="contact-form-container">
+        <div class="contact-form-container reveal">
             <script src="https://js-na2.hsforms.net/forms/embed/242171361.js" defer></script>
             <div class="hs-form-frame" data-region="na2" data-form-id="1f05f7a7-a5be-4f1f-b7cf-501b8cc3a87c" data-portal-id="242171361"></div>
             
         </div>
 
-        <section style="background-image: url(images/painter.png); color: white; text-align: center; padding: 60px 20px; border-radius: 0; background-repeat: no-repeat; background-size: cover;">
-            <h1 id="title-of-service">Your Website Awaits</h1>
+        <section class="reveal" style="background-image: url(images/painter.png); color: white; text-align: center; padding: 60px 20px; border-radius: 0; background-repeat: no-repeat; background-size: cover;">
+            <h1 style="font-weight: bold; font-size: 45px; margin-bottom: 40px;">What we'll cover in your consult</h1>
 
 
-            <p style="font-size: 18px; max-width: 600px; margin: auto;">
-                Explore our portfolio and see how we can elevate your online presence with stunning designs and seamless functionality.
-            </p>
+            <h2 style="color:white; font-size:28px; margin-bottom:10px;"></h2>
+            <div style="display:flex; flex-wrap:wrap; gap:16px; justify-content:center; max-width:1000px; margin:10px auto 0;">
+              <div style="flex:1 1 260px; min-width:240px; background:rgba(255,255,255,0.06); border:1px solid #ffffff22; border-radius:14px; padding:18px;">
+                <i class="fas fa-lightbulb" style="font-size:24px; color:#ffde59;"></i>
+                <h3 style="color:white; font-size:18px; margin:8px 0 4px;">Your goals</h3>
+                <p style="color:white; opacity:.9; margin:0;">What success looks like for your business.</p>
+              </div>
+              <div style="flex:1 1 260px; min-width:240px; background:rgba(255,255,255,0.06); border:1px solid #ffffff22; border-radius:14px; padding:18px;">
+                <i class="fas fa-sitemap" style="font-size:24px; color:#ffde59;"></i>
+                <h3 style="color:white; font-size:18px; margin:8px 0 4px;">Site outline</h3>
+                <p style="color:white; opacity:.9; margin:0;">Pages, features, integrations—no fluff.</p>
+              </div>
+              <div style="flex:1 1 260px; min-width:240px; background:rgba(255,255,255,0.06); border:1px solid #ffffff22; border-radius:14px; padding:18px;">
+                <i class="fas fa-rocket" style="font-size:24px; color:#ffde59;"></i>
+                <h3 style="color:white; font-size:18px; margin:8px 0 4px;">Next steps</h3>
+                <p style="color:white; opacity:.9; margin:0;">Timeline, handoff, and launch plan.</p>
+              </div>
+            </div>
             <br>
             
             <a href="samples.html" class="cta-button-schedule">Check Out Our Samples</a>
@@ -1596,6 +1663,30 @@ section:hover {
         fadeIn();
     });
 </script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const lines = [
+        "One friendly chat → a website that works.",
+        "Show us your vision. We'll handle the pixels.",
+        "No tech stress. Just progress.",
+        "Your brand + our craft = ✨"
+      ];
+      const el = document.getElementById('sub-rotator');
+      let i = 0;
+      const swap = () => { el.textContent = lines[i % lines.length]; i++; };
+      swap();
+      setInterval(swap, 3500);
+    });
+  </script>
+  <script>
+    const rEls = document.querySelectorAll('.reveal');
+    const io = new IntersectionObserver((entries)=> {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('show'); });
+    }, { threshold: 0.1 });
+    rEls.forEach(el => io.observe(el));
+  </script>
+  
 
 
 
