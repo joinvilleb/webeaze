@@ -1,1637 +1,361 @@
 <!DOCTYPE html>
 <html lang="en" class="page-website-setup-main">
-
-
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Client Portal | WebEaze</title>
+  <meta name="description" content="Track your progress, request changes, and get support—all in one place." />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="shortcut icon" href="images/favicon.png" type="image/png" />
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"> 
+  <!-- Open Graph / Twitter -->
+  <meta property="og:title" content="WebEaze Client Portal" />
+  <meta property="og:description" content="Support, requests, and updates—all in one place." />
+  <meta property="og:url" content="https://www.webeaze.io/portal" />
+  <meta property="og:image" content="images/favicon.png" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="WebEaze Client Portal" />
+  <meta name="twitter:description" content="Support, requests, and updates—all in one place." />
+  <meta name="twitter:image" content="images/favicon.png" />
 
+  <!-- Ads -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4466809892932219" crossorigin="anonymous"></script>
 
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JQM6ZR4JCB"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-JQM6ZR4JCB');
+  </script>
 
+  <style>
+    :root{
+      --bg:#000;
+      --brand:#7851a9;
+      --brand-2:#5D4037;
+      --accent:#ffcc66;
+      --text:#fff;
+      --muted:#cfcfcf;
+      --glass: rgba(255,255,255,.08);
+      --border: rgba(255,255,255,.18);
+      --radius: 14px;
+      --shadow: 0 8px 24px rgba(0,0,0,.25);
+    }
+    html,body{background:#000;color:var(--text);font-family:'Poppins',sans-serif}
+    *{box-sizing:border-box}
+    a{color:var(--text);font-weight:600}
+    a:hover{text-decoration:none;color:#e6ddff}
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Client Portal | WebEaze</title>
-    <meta name="description" content="Elegant & Effortless. Affordable. With Personalized Support.">
-    <link href="css/billy-joinville.css" rel="stylesheet">
-    <link rel="shortcut icon" href="images/favicon.png" type="image/png">
+    /* Top promo bar */
+    .promo-bar{
+      position:sticky;top:0;z-index:1100;
+      width:100%;background:linear-gradient(90deg,var(--brand),var(--brand-2));
+      color:#fff;text-align:center;padding:.6rem .75rem;border-bottom:1px solid var(--border)
+    }
+    .promo-bar b{color:var(--accent)}
+    .promo-bar .btn{
+      margin-left:.5rem;background:var(--accent);color:#2b1e12;border:none;padding:.35rem .7rem;border-radius:999px;font-weight:700
+    }
+    .promo-bar .btn:hover{opacity:.9}
 
-    <meta property="og:title" content="WebEaze">
-    <meta property="og:description" content="Elegant & Effortless. Affordable. With Personalized Support.">
-    <meta property="og:url" content="https://www.webeaze.io">
-    <meta property="og:image" content="images/favicon.png">
+    /* Navbar */
+    nav.navbar{
+      position:sticky;top:48px; /* below promo bar */
+      background:rgba(255,255,255,.06)!important;backdrop-filter:saturate(120%) blur(6px);
+      border-bottom:1px solid var(--border);z-index:1000
+    }
+    .navbar-brand img{height:48px}
+    .nav-link{color:#fff!important;padding:.4rem .6rem;border-radius:10px}
+    .nav-link:hover{background:var(--glass)}
 
-    <meta name="twitter:card" content="images/favicon.png">
-    <meta name="twitter:title" content="WebEaze - Elegant & Effortless. Affordable. With Personalized Support.">
-    <meta name="twitter:description" content="Elegant & Effortless. Affordable. With Personalized Support.">
-    <meta name="twitter:image" content="images/favicon.png">
+    /* Hero */
+    header#portal-hero{
+      background:linear-gradient(180deg,var(--brand) 0%, var(--brand-2) 100%);
+      padding:84px 20px 36px;text-align:center
+    }
+    #random-question{font-size:36px;font-weight:700;margin:0}
+    #hero-sub{margin-top:10px;color:#f2eaff}
+    #dynamic-greeting{font-weight:600;margin-top:14px}
 
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4466809892932219"
-     crossorigin="anonymous"></script>
+    /* Hours bar */
+    #hours-container{max-width:860px;margin:18px auto 0}
+    #hours-message{
+      margin:0;padding:10px 16px;border-radius:12px;background:#666;color:#fff;box-shadow:var(--shadow);
+      font-weight:500
+    }
 
+    /* Tabs */
+    .tabs{
+      display:flex;justify-content:center;align-items:center;gap:.5rem;
+      background:var(--glass);border:1px solid var(--border);
+      border-radius:999px;width:fit-content;margin:22px auto;padding:.35rem
+    }
+    .tabs button{
+      background:transparent;border:none;color:#fff;font-weight:600;padding:.6rem 1rem;border-radius:999px;cursor:pointer
+    }
+    .tabs button[aria-selected="true"]{background:rgba(255,255,255,.14);border:1px solid var(--border)}
+
+    .tab-panel{
+      display:none;max-width:980px;margin:0 auto;padding:24px 16px
+    }
+    .tab-panel.active{display:block}
+
+    .card-ghost{
+      background:var(--glass);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow)
+    }
+
+    /* Quick help grid */
+    .help-grid{
+      display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:12px
+    }
+    @media (max-width:768px){.help-grid{grid-template-columns:1fr}}
+
+    .cta-chip{
+      display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:999px;
+      background:rgba(255,255,255,.10);border:1px solid var(--border);font-weight:600
+    }
+
+    /* Accordions */
+    .accordion-item{
+      border:1px solid var(--border);border-radius:12px;margin-bottom:10px;overflow:hidden;background:var(--glass)
+    }
+    .accordion-button{
+      width:100%;text-align:left;background:transparent;border:none;color:#fff;font-weight:600;
+      padding:14px 16px;display:flex;justify-content:space-between;align-items:center;cursor:pointer
+    }
+    .accordion-button i{transition:transform .25s}
+    .accordion-button[aria-expanded="true"] i{transform:rotate(180deg)}
+    .accordion-content{
+        margin: 20px;
+      display:none;padding:0 16px 16px;color:#fff
+    }
+    .accordion-item.open .accordion-content{display:block}
+
+    /* Footer */
+    footer.webeaze-footer{background:var(--brand);margin-top:48px}
+    .footer-grid{
+      max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:24px;padding:32px 16px
+    }
+    @media (max-width:900px){.footer-grid{grid-template-columns:1fr 1fr}}
+    @media (max-width:600px){.footer-grid{grid-template-columns:1fr}}
+    .footer-col h4{font-weight:700}
+    .footer-bottom{border-top:1px solid rgba(255,255,255,.25);text-align:center;padding:14px 10px;color:#f7edff}
+
+    /* Utility */
+    .btn-outline-accent{
+      border:2px solid var(--accent);color:#fff;border-radius:999px;padding:.6rem 1rem;font-weight:700
+    }
+    .btn-outline-accent:hover{background:var(--accent);color:#2b1e12}
+    .muted{color:var(--muted)}
+  </style>
 </head>
 
-
-
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-JQM6ZR4JCB"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-JQM6ZR4JCB');
-</script>
-
-<style>
-
-    /* contact-form styling */ 
-
-    html, body, main, header, footer, section {
-        background-color: #000000 !important;
-    }
-
-    .form-container {
-        display: flex;
-        justify-content: center; 
-        align-items: center;   
-        min-height: 80vh;       
-        padding: 20px;
-    }
-    #notice {
-        text-align: left; 
-    }
-    @media screen and (max-width: 768px) {
-        iframe {
-            width: 100%;
-            padding-top: 0;
-        }
-    }
-    .menu-toggle {
-        display: none;
-        flex-direction: column;
-        cursor: pointer;
-    }
-    .menu-toggle span {
-        width: 25px;
-        height: 3px;
-        background-color: white !important;
-        margin: 3px 0; 
-        transition: all 0.3s ease;
-        margin-right: 20px;
-    }
-    .menu-toggle {
-        display: flex;
-    }
-
-
-    h1, p {
-        width: 100%;
-        text-align: center;
-        margin: 10px 0;
-        font-family: 'Poppins', sans-serif;
-     
-        
-    }
-    p {
-        font-size: 16px;
-        margin: 10px 0 !important;
-        font-weight: 300;
-        
-    }
-    textarea {
-        height: 200px;
-    }
-    h1, h2, h3, h4, p, label {
-        color: white !important;
-        font-family: 'Poppins', sans-serif !important;
-    }
-
-    .services-cards-container {
-
-        padding: 0 !important;
-        margin: 0 !important;
-        text-align: left;
-
-
-    }
-
-        /* end of ontact-form styling */ 
-
-
-    html, body, main, header, footer, section {
-        margin: 0;
-        padding: 0;
-        width: 100vw;
-        overflow-x: hidden; 
-        box-sizing: border-box;
-        scroll-behavior: smooth !important;
-     
-    }
-
-
-   
-
-
-
-    header, .about-services-page, .testimonials-section, .faq-section, .footnotes {
-        width: 100vw !important; 
-        padding: 60px 0; 
-    }
-
-    .about-services-page, .testimonials-section, .faq-section {
-        padding: 40px 20px; 
-        box-sizing: border-box; 
-    }
-
-    .dot-container {
-
-    text-align: center;
-    padding: 10px 10px;
-
-    }
-
-
-    
-        main {
-            display: block;
-            align-items: center;
-        }
-
-        .services-card h3 {
-            color: white;
-        }
-
-        .services-card li {
-            color: white;
-        }
-
-        .services-card {
-            background-color: transparent !important;
-            padding: 20px;
-            border-radius: 5px;
-            border-color: black !important;
-            margin: 0 auto;
-            width: 100%;
-            margin-bottom: 20px;
-        }
-
-        li {
-            font-family: 'Poppins', sans-serif !important;
-        }
-        
-        body.page-website-setup {
-
-            background-color:  #000000;
-
-            width: 100%;
-            min-height: 100vh;
-            margin: 0;
-            padding: 0;
-            color:  #5D4037;
-        }
-
-        header.page-website-setup-header {
-
-            background-color: #5D4037;
-            color: white; 
-            text-align: center;
-            padding: 50px 20px;
-            
-        }
-
-
-
-        header.page-website-setup-header h1 {
-            font-size: 36px;
-            margin-bottom: 10px;
-        
-        }
-
-        header.page-website-setup-header h2 {
-            font-size: 18px;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        main.page-website-setup-main {
-          
-            flex-direction: column;
-            align-items: center;
-            justify-content: center; 
-            padding: 40px 20px;
-            background-color: rgba(255, 255, 255, 0.85); 
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
-            width: 100%;
-            margin: 0 auto;
-}
-
-
-        section.about-services-page {
-            display: flex;
-            flex-direction: column;
-            justify-content: center; /* | centers the content */
-            align-items: center;     /* -- centers the content */
-            text-align: center;     
-            padding: 40px;
-   
-            margin: 0 auto;         
-        }
-
-
-     
-
-        #plan-features-free-consultation {
-            font-size: 16px;
-            color: white;
-            text-align: left;
-            margin-top: 20px;
-        }
-
-        #free-consultation, #full-setup {
-
-            background-color: #f1f1f1;
-            padding: 20px;
-            border-radius: 5px;
-            margin: 0 auto;
-            width: 100%;
-            margin-bottom: 20px;
-
-        }
-
-        #price {
-            font-size: 30px;
-            color: white;
-            text-align: center; 
-        }
-
-
-        .services-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .buy-now-btn {
-            background-color: black !important;
-            color: white !important;
-            padding: 10px 20px;
-            border-radius: 5px;
-            border: 1px solid;
-            border-color: transparent;
-            cursor: pointer;
-            font-size: 16px;
-            margin: 0 auto;
-            display: inline-block;
-            margin-top: 20px;
-        }
-
-        a:hover {
-            color: #7851a9 !important;
-            text-decoration: none !important;
-        }
-
-     
-    @media (max-width: 768px) {
-        .video-background-section {
-            flex: 1 1 100%;
-            max-width: 100%;
-        }
-    }
-
-
-
-        .faq-section {
-            width: 100%;
-            max-width: 900px;
-            margin: 0 auto;
-
-
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 10px;
-            padding: 40px;
-            word-wrap: break-word;
-            align-items: center;
-            background-color: transparent;
-        }
-
-        .faq-item {
-            margin-bottom: 0;
-        }
-
-        .faq-question {
-            font-size: 16px;
-            cursor: pointer;
-            color: white;
-            display: flex;
-            justify-content: space-between; 
-            align-items: center; 
-        }
-
-        .arrow {
-            font-size: 18px;
-            transition: transform 0.3s;
-        }
-
-        a {
-            color: white !important;
-            text-align: center !important;
-
-        }
-
-        .faq-answer {
-            padding: 10px;
-            background-color: transparent;
-            border-radius: 5px;
-            margin-top: 10px;
-            transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
-            max-height: 0;
-            opacity: 0;
-            overflow: hidden;
-            color: white;
-        }
-
-
-
-        .faq-question .arrow {
-        display: inline-block;
-        transition: transform 0.3s ease-in-out;
-        }
-
-        .arrow {
-            margin-left: 10px;
-        }
-
-
-        .contact-button {
-            display: inline-block;
-            background-color: none;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 5px;
-            border-color: white;
-            text-decoration: none;
-            transition: background-color 0.3s;
-            align-items: center !important;
-        }
-
-        .contact-button:hover {
-            background-color: transparent;
-        }
-
-        footer.page-website-setup-footer {
-            
-            color:#5D4037;
-            text-align: center;
-            padding: 20px;
-        }
-
-        footer p {
-
-
-            color: white;
-            text-align: center;
-        }
-
-        ul, li {
-            margin-top: 20px;
-
-        }
-
-        ul {
-
-            list-style-type: none;
-
-        }
-
-        #plan-features {
-            padding-left: 0;
-            margin-left: 10px;
-            text-align: left;
-        }
-
-        #plan-features li {
-            margin-top: 10px;
-            color: white !important;
-        }
-
-        #about-services-page-h2, h2, i {
-
-            color: white !important;
-            font-size: 20px !important;
-        }
-
-        #about-services-page-p {
-
-            color: white !important;
-            font-size: 16px;
-            text-align: center;
-            font-weight: bold;
-        }
-
-        footer, #footnote1, #footnote2, #footnote3, #footnote4 {
-
-            
-            
-        }
-
-        #footnotes {
-
-  
-
-            width: 100%;
-            padding: 20px;
-            margin: 30px;
-
-        }
-
-        #footnote1, #footnote2, #footnote3, #footnote4 {
-
-            width: 50%;
-            
-
-        }
-
-
-
-        #intro-services-html-next1 {
-
-            font-size: 16px;
-            color: white;
-            text-align: center;
-            margin-top: 30px;
-            margin-bottom: 0px;
-            line-height: 1.5;
-            font-family: 'Poppins', sans-serif !important;
-        }
-
-        #intro-services-html-next2 {
-
-            font-size: 16px;
-            color: white;
-            margin-top: 10px;
-            margin-bottom: 10px;
-            text-align: center !important;
-            width: 100%;
-            font-family: 'Poppins', sans-serif !important;
-        }
-
-        #view-more-faq {
-
-            background-color: transparent;
-            color: white !important;
-            padding: 10px 20px;
-            border-radius: 5px;
-            border-color: white;
-            text-decoration: none;
-            transition: background-color 0.3s;
-            margin-top: 20px;
-            display: inline-block;
-        }
-
-
-
-        @media screen and (max-width: 768px) {
-
-        .background-video {
-        height: 100%; 
-        width: 50%; 
-        }
-
-
-        #footnote1, #footnote2, #footnote3, #footnote4{
-
-        width: 80%;
-        }
-
-        #intro-services-html-next2 {
-
-            width: 80%;
-            margin-bottom: 60px;
-        }
-
-
-        .contact-button {
-
-            font-size: 13px;
-            width: 40%;
-
-        }
-
-        #plan-features {
-
-            text-align: left;
-        }
-
-
-    
-
-        body {
-            padding-top: 60px;
-        }
-
-
-
-        .services-card {
-            width: 100%;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: transparent !important;
-            border-color: transparent;
-            border-radius: 5px;
-        }
-
-        h1, h2, p {
-            font-size: 4.5vw; 
-            text-align: center;
-            margin: 0 auto;
-            font-family: 'Poppins', sans-serif !important;
-        }
-
-
-        .buy-now-btn {
-            width: 100%; 
-        }
-
-        .services-card {
-
-            width: 80% !important;
-
-        }
-
-
-        .about-services-page {
-            padding: 20px;
-            text-align: center; 
-            width: 100%;
-            margin: 0 auto;
-
-        }
-
-        #random-question h1 {
-            font-size: 20px;
-            font-family: 'Poppins', sans-serif;
-            }
-        }
-
-        #title-of-service, #random-question {
-            font-weight: bold !important;
-            margin-top: 40px;
-            font-size: 45px;
-            font-family: 'Poppins', sans-serif; 
-
-        }
-
-        
-
-        #random-question {
-            opacity: 0;
-            transition: opacity 1s ease-in-out;
-        }
-
-        #random-question.fade-in {
-            opacity: 1;
-        }
-
-
-        .portfolio-images-services {
-            display: flex;
-            justify-content: center; 
-            align-items: center; 
-            gap: 220px; 
-            margin: 0; 
-            width: 100%;
-            padding: 20px;
-        }
-
-        .portfolio-item {
-            display: flex;
-            flex-direction: column; 
-            align-items: center; 
-            text-align: center; 
-        }
-
-        .portfolio-img {
-            width: 90px; 
-            height: 90px; 
-            object-fit: cover;
-            transition: transform 0.3s ease;
-        }
-
-        .portfolio-img:hover {
-            transform: scale(1.05); 
-        }
-
-        .caption {
-            font-size: 16px; 
-            color: white; 
-            margin-top: 5px; 
-            text-wrap: wrap;
-        }
-
-        @media screen and (max-width: 768px) {
-
-        .portfolio-images-services {
-            flex-direction: column; 
-            gap: 70px; 
-            align-items: center;
-        }
-
-        .portfolio-img {
-            margin: 0 auto; 
-
-        }
-
-
-        footer p {
-
-                line-height: 1;
-        }
-
-
-
-        body.page-website-setup {
-            overflow: auto; 
-        }
-
-    }
-
-    
-        #footnotes {
-
-            padding: 20px;
-            margin: 0 auto;
-            width: 100%;
-
-        }
-
-        #footnote1, #footnote2, #footnote3, #footnote4 {
-            font-size: 10px;
-            margin: 0 auto;
-            padding: 10px;
-            text-align: left;
-            color: rgb(255, 255, 255);
-        }
-
-        #frequently-asked-questions-title {
-
-            color: white !important;
-            font-size: 20px;
-        }
-
-
-        .contact-button, .tos-link-services:visited {
-            color: white !important;
-        }
-
-        .portfolio-item-1 {
-
-            margin-bottom: 0;
-            margin-top: 0;
-            
-
-        }
-
-        .back-to-index a:visited {
-                
-                color: white !important;
-        }
-
-        .testimonial, .testimonial2 {
-
-        width: 100%;
-        transition: opacity 1s ease-in-out;
-        }
-
-
-
-        .testimonial.active, .testimonial2.active {
-            display: block;
-            opacity: 1;
-        }
-
-        .testimonial.fade-out {
-            opacity: 0;
-        }
-
-        .testimonials-section {
-        background-color: #7851a9;
-        padding: 40px 20px;
-        text-align: center;
-        margin: 0px auto;
-        width: 100%;
-        }
-
-    .testimonials-section h1 {
-        color: white;
-        font-size: 28px;
-        margin-bottom: 20px;
-    }
-
-    .testimonial-container, .testimonial2{
-        display: flex;
-        flex-direction: row;
-        gap: 30px;
-        justify-content: center;
-        align-items: center;
-        margin: 0;
-        width: 100%;
-
-    }
-
-    .testimonial, .testimonial2 {
-        background-color: transparent;
-        padding: 20px;
-        border-radius: 5px;
-
-    }
-
-
-    .testimonial p, .testimonial2 p {
-        font-size: 16px;
-        color: white;
-        margin-bottom: 10px;
-    }
-
-    .testimonial h4, .testimonial2 h4 {
-        font-size: 14px;
-        color: #4a90e2;
-        margin-top: 5px;
-        text-align: right;
-    }
-
-    #setup-packages-heading {
-        color: white;
-    }
-
-        .testimonial-container, .testimonial-container2 {
-        position: relative;
-        max-width: 600px; 
-        margin: 0 auto;
-        text-align: center;
-        overflow: hidden; 
-        padding: 20px; 
-    }
-
-
-    .testimonial:first-child {
-        display: block; 
-    }
-
-    .testimonial2 {
-
-        display: none;
-    }
-
-    .testimonial2:first-child {
-
-        display: block; 
-    }
-
-    
-    a.prev, a.next {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        color: rgba(0, 0, 0, 0);
-        font-size: 24px;
-        cursor: pointer;
-        text-decoration: none;
-        background-color: rgba(255, 255, 255, 0);
-        padding: 10px;
-        border-radius: 50%;
-        user-select: none;
-        z-index: 10; 
-    }
-
-    
-
-
-    @media screen and (max-width: 768px) {
-        .testimonial-container, .testimonial-container2 {
-            flex-direction: column;
-            width: 100%;
-        }
-
-        .testimonial, .testimonial2 {
-            width: 100%;
-        }
-
-        .testimonials-section {
-            padding: 20px;
-        }
-
-        .testimonials-section h1 {
-            font-size: 22px;
-        }
-
-        .video-section {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            padding: 20px;
-            background-color: #7851a9;
-            background-color: #7851a9;
-
-
-        }
-
-
-        .video-section iframe {
-            position: relative;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-
-            
-        }
-
-        #buy-now-button-section {
-            display: flex;
-            flex-direction: column; 
-            justify-content: center;
-            align-items: center; 
-            width: 80%;
-            max-width: 70px;
-            margin: auto;
-        }
-
-        #faq-title, #questions-heading {
-            font-size: 26px;
-        }
-
-        
-
-    }
-
-    @media (min-width: 768px) {
-
-    }
-
-    #header-services {
-
-        background-color: #7851a9;
-        color: white;
-        text-align: center;
-        padding: 40px 20px;
-        width: 100%;
-        margin: 0 auto;
-    }
-
-    .video-section {
-            padding: 20px;
-            background-color: #7851a9;
-            align-items: center;
-
-        }
-
-    iframe {
-        border: 1px solid #7851a9;
-        border-radius: 15px;
-        display: flex;
-        margin: 0 auto;
-    }
-
-
-    
-
-
-    .background-video {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 100vw;
-        height: auto; 
-        min-width: 100%; 
-        min-height: 100%; 
-        transform: translate(-50%, -50%); 
-        object-fit: cover; 
-        z-index: 1; 
-    }
-
-    #frequently-asked-questions-title {
-
-        margin-bottom: 40px;
-    }
-
-    #faq-title {
-
-        color: white;
-        text-align: center;
-
-        margin-top: 40px;
-
-    }
-
-    body {
-        padding-top: 60px;
-    }
-
-    nav {
-        position: fixed;
-        width: 100%;
-        top: 0;
-        z-index: 1000;
-        
-        
-    }
-
-    .navbar {
-        width: 100%;
-        background: rgba(255, 255, 255, 0.1);
-        position: fixed; 
-        top: -5;
-        left: 0;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 10px 10px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        z-index: 1000; 
-        margin: 0; 
-        margin-top: -5;
-    }
-
-    .navbar-nav {
-
-        display: flex;
-        justify-content: space-around;
-        width: 100%;
-        margin-top: -10px; 
-        font-weight: bold;
-        font-family: 'Poppins', sans-serif;
-
-    }
-
-    .navbar a {
-
-        color: #5D4037 !important;
-        text-decoration: none;
-        margin: 0 5px;
-        font-size: 1em;
-        transition: color 0.3s ease;
-        margin-top: -10px; 
-        border-radius: 30px; 
-
-    }
-
-    .navbar a:hover {
-        color: #000000; /* Change color on hover */
-    }
-
-    .navbar-brand img {
-        height: 70px; /* Adjust the height as needed */
-        margin-bottom: -5px; 
-    }
-
-
-    span {
-
-        color: white !important;
-    }
-
-
-        .menu-toggle {
-            display: flex;
-            
-        }
-
-
-        hr {
-
-            background-color: white; 
-        }
-
-        span {
-            color: white;
-        }
-
-        .social-media-links {
-
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 20px;
-            margin-top: 20px;
-
-        }
-
-       
-        @media screen and (max-width: 768px) {
-
-            .navbar-brand img {
-
-                align-items: center !important;
-            }
-
-        }
-
-        .nav-link:hover {
-
-            background-color: #5D4037;
-            transform: scale(1.05);
-            transition: background-color 0.3s ease, transform 0.3s ease;
-            border-radius: 10px;
-          
-        }
-
-        .spoiler.open {
-            background-color: #7851a9 !important;
-        }
-
-
-    .spoiler:hover {
-        background: hsl(0, 0%, 93%);
-    }
-
-    .spoiler-content {
-        display: none;
-        padding: 10px;
-        border-top: 1px solid #ffcc66;
-        background: #ffffff;
-        border-radius: 0 0 8px 8px;
-        text-align: left;
-
-    }
-
-    .spoiler.open .spoiler-content {
-        display: block;
-    }
-
-    .spoiler-icon {
-        float: right;
-        font-weight: bold;
-        transition: transform 0.3s ease;
-    }
-
-    .spoiler.open .spoiler-icon {
-        transform: rotate(180deg);
-    }
-
-@media (min-width: 768px) {
-    .client-sections-wrapper {
-        display: flex;
-        justify-content: space-between;
-        gap: 40px; 
-        align-items: flex-start;
-    }
-
-    .client-sections-wrapper section {
-        flex: 1; /* each takes up equal width */
-        padding: 0 20px; 
-    }
-
-}
-
-#track-request {
-    background: linear-gradient(to bottom, #7851a9, #5D4037);
-    padding: 20px;
-    color: white;
-    border-radius: 20px; 
-    margin: 0; 
-    transition: none !important;
-    border: none; 
-    box-shadow: none; 
-}
-
-#track-request:hover {
-
-    background: linear-gradient(to bottom, #7851a9, #5D4037);
-    padding: 20px;
-    margin: 0;
-    border: none;
-    box-shadow: none;
-    pointer-events: none !important;
-
-}
-
-.button-container {
-    display: flex;
-    justify-content: center;
-    align-items: center; 
-    margin: 20px 0;
-    border-radius: 10px;
-    padding: 10px;
-    background-color: #5D4037;
-    border: 2px solid #ffcc66;
-    width: 80%;
-    max-width: 400px;
-    margin: 10px auto;
-}
-
-#dynamic-greeting {
-
-    font-family: 'Poppins', sans-serif; 
-    font-size: 30px;
-    font-weight: bold; 
-    background: linear-gradient(to bottom, #a476dd, #d18f7b);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent; 
-    background-clip: text; 
-    -webkit-text-fill-color: transparent; 
-}
-
-p {
-    font-weight: 300 !important;
-}
-
-p strong, p b, strong, b {
-    font-weight: 600 !important;  
-}
-
-.tabs {
-    display: flex; 
-        justify-content: center; 
-        align-items: center; 
-        background: #5d4037a0;
-        padding: 0.5rem;
-        border-radius: 20px;
-        margin: 0 auto; 
-        width: fit-content; 
-    }
-
- 
-    .tabs button {
-      background: none;
-      border: none;
-      color: white;
-      font-weight: 600;
-      font-size: 1rem;
-      padding: 1rem;
-      margin: 0 0.5rem;
-      cursor: pointer;
-      transition: background-color 0.3s ease, color 0.3s ease;
-    }
-
-    .tabs button:hover,
-    .tabs button.active {
-      background-color: rgba(255, 255, 255, 0.1);
-      color: white;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 10px;
-    }
-
-    .tab-content {
-      display: none;
-      padding: 2rem 1rem;
-      max-width: 800px;
-      margin: 0 auto;
-      text-align: center !important;
-    }
-
-    #whats-new ul {
-      list-style-type: none;
-      padding: 0;
-      margin: 0;
-      text-align: left; 
-    }
-
-    
-    .tab-content.active {
-      display: block;
-    }
-
-    .spoiler {
-    display: inline-block;
-    background: transparent;
-    border-radius: 10px;
-    padding: 1rem;
-    margin-bottom: 1rem;
-    cursor: pointer;
-    color: white;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    transition: background-color 0.3s ease;
-    align-items: center !important;
-}
-
-    
-
-    .spoiler:hover {
-      background-color: #7851a9;
-    }
-
-    .spoiler-content {
-      display: none;
-      padding-top: 0.5rem;
-      background: transparent !important;
-    }
-
-    .spoiler.open .spoiler-content {
-      display: block;
-    }
-
-    a {
-        font-weight: bold; 
-    }
-
-    footer {
-
-        background-color: #7851a9 !important; 
-    }
-
-
-
-</style>
-
-<header id="header-services" style="padding-top: 100px;">
-    <h1 id="random-question"></h1>
-
-    <br>
-    <br>
-    <p>Track your progress, request changes, and get support all in one place.</p>
-
-    <h2 id="dynamic-greeting"></h2>
+<body>
+  <!-- Promo: Anniversary referral -->
+  <div class="promo-bar" role="region" aria-label="Anniversary promotion">
+    <!-- We're 1! Earn <b>$200/referral</b> this month only. -->
+
+    Get 1 month free when you switch to annual billing. Ends 9/30.
+    <a class="btn" href="https://billing.stripe.com/p/login/7sI3gfaO14CEdlm144" target="_blank" rel="noopener
+    ">Upgrade</a>
+  </div>
+
+  <!-- NAV -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-transparent">
+    <a class="navbar-brand" href="index.html">
+      <img src="images/default-monochrome-white.svg" alt="WebEaze logo">
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon" style="filter:invert(1)"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+        <li class="nav-item"><a class="nav-link" href="pricing.html">Pricing</a></li>
+        <li class="nav-item"><a class="nav-link" href="portal.html" aria-current="page">Client Portal</a></li>
+        <li class="nav-item"><a class="nav-link" href="contact-us.html">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header id="portal-hero">
+    <h1 id="random-question">Client Portal</h1>
+    <p id="hero-sub">Track your progress, request changes, and get support—all in one place.</p>
+    <p id="dynamic-greeting" class="muted"></p>
+
+    <!-- Hours / Availability -->
+    <div id="hours-container" aria-live="polite">
+      <p id="hours-message">Checking availability…</p>
+    </div>
   </header>
 
-
-
-
-    <nav class="navbar navbar-expand-lg navbar-light bg-transparent" style="background-color: #ffffff !important;">
-
-       <a class="navbar-brand" href="index.html">
-          
-           <img src="images/webeaze-transparent.png" alt="Brand Logo">
-       </a> 
-       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-         <span class="navbar-toggler-icon"></span>
-       </button>
-       <div class="collapse navbar-collapse" id="navbarNav">
-
-         <ul class="navbar-nav">
-
-           <li class="nav-item active">
-             <a class="nav-link" href="index.html">Home </a>
-           </li>
-
-           <li class="nav-item">
-             <a class="nav-link" href="about.html">About Us</a>
-           </li>
-
-           <li class="nav-item">
-            <a class="nav-link" href="pricing.html">Pricing</a>
-          </li>
-
-           <li class="nav-item">
-             <a class="nav-link" href="portal.html">Client Portal</a>
-           </li>
-
-
-
-           <li class="nav-item">
-             <a class="nav-link" href="contact-us.html">Contact Us</a>
-           </li>
-
-         </ul>
-
-       </div>
-   </nav>
-
-
-
-   <br>
-   <br>
-
-<body class="page-website-setup">
-
-    <main>
-        <div class="tabs">
-          <button class="tab-link active" onclick="showTab(event, 'help')"><i class="fas fa-hands-helping"></i> Get Help</button>
-          <button class="tab-link" onclick="showTab(event, 'whats-new')"><i class="fas fa-bolt"></i> What's New</button>
-          <button class="tab-link" onclick="showTab(event, 'faqs')"><i class="fas fa-question-circle"></i> FAQs</button>
-        </div>
-
-
-
-    
-        <div class="tab-content active" id="help">
-
-            <p>Your plan includes ongoing maintenance and support for your website. 
-                 </p>
-
-            <p>
-                Below, you'll find the resources you need to get help, request changes, or report issues with your website.  
-            </p>
-
-            <br>
-
-        <div class="spoiler" onclick="toggleSpoiler(this)">Need Help? <i class="fas fa-chevron-down arrow"></i>
-            <div class="spoiler-content">
-                <div id="hours-container" style="width: 100%; z-index: 999; text-align: center;">
-                    <p id="hours-message" style="
-                      margin: 0;
-                      padding: 6px 15px;
-                      font-size: 15px;
-                      font-weight: 500;
-                      color: white;
-                      background-color: gray;
-                      font-family: 'Poppins', sans-serif;
-                    ">
-                      Checking availability...
-                    </p>
-                  </div>
-              <ul>
-                <li><a href="website-request.html">Submit a Website Request</a> (fastest) </li>
-                <li><a href="https://calendly.com/webeaze/session-full-setups" target="_blank" rel="noopener">Book a Zoom Session</a></li>
-                <li><a href="https://webeaze.tawk.help" target="_blank" rel="noopener">Visit Our Help Center</a> </li>
-                <li><strong>Live Chat - bottom right corner of this page</strong></li>
-              </ul>
-            </div>
-        </div>
-
-        <div class="spoiler" onclick="toggleSpoiler(this)">Add-On Request? <i class="fas fa-chevron-down arrow"></i>
-                <div class="spoiler-content">Add-ons are additional services that can be added to your website. These are charged at a flat rate and can be requested at any time. You can request one following 
-                     <a href="https://webeaze.tawk.help/article/add-ons" target="_blank"><u>these steps</u></a>.</div>
-            </div>
-
-        <div class="spoiler" onclick="toggleSpoiler(this)">Website Down? <i class="fas fa-chevron-down arrow"></i>
-            <div class="spoiler-content">
-                We prioritize issues related to website uptime. Please submit a Website Request with the subject <strong>URGENT, Site down</strong> and we'll get it fixed as soon as possible. 
-                <br>
-                <br>
-
-                <a href="https://webeaze.io/website-request" target="_blank" class="cta-button-schedule">Submit Request</a>
-            </div>
-            </div>
-
-            <div class="spoiler" onclick="toggleSpoiler(this)">What does my plan include? <i class="fas fa-chevron-down arrow"></i>
-                <div class="spoiler-content">
-                    All plans include ongoing maintenance and support for your website. Select your plan below.
-              
-
-                    <ul><a href="https://webeaze.tawk.help/article/essential-plan" target="_blank">Essential Plan</a></li>
-                    <ul><a href="https://webeaze.tawk.help/article/growth-plan" target="_blank">Growth Plan</a></li>
-                    <ul><a href="https://webeaze.tawk.help/article/elite-plan" target="_blank">Elite Plan</a></li>
-
-                    
-                </div>
-                </div>
-        </div>
+  <!-- TABS -->
+  <main>
+    <div class="tabs" role="tablist" aria-label="Portal sections">
+      <button class="tab-link" role="tab" aria-selected="true" aria-controls="tab-help" id="tab-help-btn">
+        <i class="fas fa-hands-helping"></i> Get Help
+      </button>
+      <button class="tab-link" role="tab" aria-selected="false" aria-controls="tab-whatsnew" id="tab-whatsnew-btn">
+        <i class="fas fa-bolt"></i> What's New
+      </button>
+      <button class="tab-link" role="tab" aria-selected="false" aria-controls="tab-faqs" id="tab-faqs-btn">
+        <i class="fas fa-question-circle"></i> FAQs
+      </button>
     </div>
 
+    <!-- HELP -->
+    <section id="tab-help" class="tab-panel active" role="tabpanel" aria-labelledby="tab-help-btn">
+      <div class="card-ghost">
+        <p>Your plan includes ongoing maintenance and support. Choose the fastest path below.</p>
 
-
-        
-
-
-
-        
-        
-
+        <div class="help-grid">
+          <a class="cta-chip" href="website-request.html">
+            <i class="fas fa-paper-plane"></i> Submit a Website Request (fastest)
+          </a>
+          <a class="cta-chip" href="https://calendly.com/webeaze/session-full-setups" target="_blank" rel="noopener">
+            <i class="fas fa-video"></i> Book a Zoom Session
+          </a>
+          <a class="cta-chip" href="https://webeaze.tawk.help" target="_blank" rel="noopener">
+            <i class="fas fa-life-ring"></i> Visit Help Center
+          </a>
+          <span class="cta-chip">
+            <i class="fas fa-comments"></i> Live Chat 
+          </span>
         </div>
-    
-        <div class="tab-content" id="whats-new">
-          <h2>Latest Updates</h2>
-          <i>
-            Updated: September 5, 2025
-          </i>
-          <ul>
-            <li> 
-                <i class="fas fa-check"> </i>
-                Throughout the fall season, expect times where our response times may be longer than usual due to a high volume of requests. We appreciate your patience during these times, and we'll communicate any significant delays via email. 
-            </li>
 
+        <hr style="border-color:var(--border)">
 
-
-
-            <li>
-                <i class="fas fa-check"></i>
-                We are working on a new client portal that will allow you to submit and track requests directly, and view important information about your website. Stay tuned for updates!
-            </li>
-
-
-
-          </ul>
-        </div>
-    
-        <div class="tab-content" id="faqs">
-          <h2>FAQs</h2>
-          <br>
-          <div class="spoiler" onclick="toggleSpoiler(this)">When will my website launch?<i class="fas fa-chevron-down arrow"></i>
-            <div class="spoiler-content">Most new websites are completed within 1-2 weeks. If we didn't hold a consultation with you, we'll follow up via email to collect more information needed to build your website to your satisfaction. </div>
-          </div>
-          <div class="spoiler" onclick="toggleSpoiler(this)">Can I upgrade my plan? <i class="fas fa-chevron-down arrow"></i>
-            <div class="spoiler-content">You may upgrade your plan at any time. You can manage your plan through your Stripe account.
-                <br>
-                <br>
-
-              <a href="https://billing.stripe.com/p/login/7sI3gfaO14CEdlm144" class="cta-button-schedule">Manage Subscription</a>
-
+        <!-- Urgent -->
+        <div class="accordion-item" id="acc-urgent">
+          <button class="accordion-button" aria-expanded="false" aria-controls="acc-urgent-panel">
+            Website down?
+            <i class="fas fa-chevron-down"></i>
+          </button>
+          <div class="accordion-content" id="acc-urgent-panel">
+            Prioritized support for uptime issues. Submit a request with subject
+            <b>“URGENT, Site down”</b> and details.
+            <div class="mt-3">
+              <a class="btn-outline-accent" href="https://webeaze.io/website-request" target="_blank" rel="noopener">Submit Request</a>
             </div>
           </div>
-          <div class="spoiler" onclick="toggleSpoiler(this)">Where can I track my Website Request? <i class="fas fa-chevron-down arrow"></i>
-            <div class="spoiler-content">When you submit a 
-                <a href="website-request.html" target="_blank">website request</a>, we will send you an email confirmation, and we'll email you once your request is complete. 
-             </div>
-          </div>
-          
         </div>
 
+        <!-- Add-ons -->
+        <div class="accordion-item" id="acc-addons">
+          <button class="accordion-button" aria-expanded="false" aria-controls="acc-addons-panel">
+            Add-on request?
+            <i class="fas fa-chevron-down"></i>
+          </button>
+          <div class="accordion-content" id="acc-addons-panel">
+            Add-ons are flat-rate extras you can request anytime. Follow
+            <a href="https://webeaze.tawk.help/article/add-ons" target="_blank" rel="noopener"><u>these steps</u></a>
+            to order an add-on.
+          </div>
+        </div>
 
-
-
-    <script>
-        const menuToggle = document.querySelector('.menu-toggle');
-        const navbarMenu = document.querySelector('.navbar-menu');
-
-        menuToggle.addEventListener('click', () => {
-            navbarMenu.classList.toggle('open');
-        });
-    </script>
-
-    <script>
-
-        function toggleSpoiler(element) {
-            element.classList.toggle('open');
-            }
-
-            function showTab(evt, tabName) {
-            const contents = document.querySelectorAll('.tab-content');
-            contents.forEach(tab => tab.classList.remove('active'));
-
-            const buttons = document.querySelectorAll('.tab-link');
-            buttons.forEach(btn => btn.classList.remove('active'));
-
-            document.getElementById(tabName).classList.add('active');
-            evt.currentTarget.classList.add('active');
-            }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            const questions = [
-            "Welcome to your Client Portal",
-            "Client Portal",
-            "Need Help?",
-            "You're Home",
-            "WebEaze Hub",
-
-            ];
-
-            const randomIndex = Math.floor(Math.random() * questions.length);
-            const randomQuestion = questions[randomIndex];
-            const randomQuestionElement = document.getElementById('random-question');
-
-            randomQuestionElement.innerText = randomQuestion;
-
-            // Simple fade-in effect
-            let opacity = 0;
-            randomQuestionElement.style.opacity = opacity;
-            randomQuestionElement.style.display = 'block';
-
-            const fadeIn = () => {
-                opacity += 0.02;
-                if (opacity <= 3) {
-                    randomQuestionElement.style.opacity = opacity;
-                    requestAnimationFrame(fadeIn);
-                }
-            };
-
-            fadeIn();
-        });
-    </script>
-
-<script>
-    function toggleSpoiler(element) {
-        element.classList.toggle('open');
-    }
-</script>
-
-<script>
-    const now = new Date();
-    const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    const day = daysOfWeek[now.getDay()];
-  
-    const options = { year: 'numeric', month: 'long', day: 'numeric' };
-    const formattedDate = now.toLocaleDateString(undefined, options);
-    const formattedTime = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-  
-    const greetingText = `Today is ${day}, ${formattedDate} at ${formattedTime}`;
-    document.getElementById("dynamic-greeting").textContent = greetingText;
-  </script>
-  
-
-
-<!-- Start of HubSpot Embed Code -->
-<script type="text/javascript" id="hs-script-loader" async defer src="//js-na2.hs-scripts.com/242171361.js"></script>
-<!-- End of HubSpot Embed Code -->
-
-<script>
-    function getEasternTime() {
-      const nowUTC = new Date();
-      return new Date(nowUTC.toLocaleString('en-US', { timeZone: 'America/New_York' }));
-    }
-  
-    const holidayClosures = {
-      "01-01": "New Year's Day",
-      "05-27": "Memorial Day",
-      "06-19": "Juneteenth",
-      "07-04": "Independence Day",
-      "09-01": "Labor Day",
-      "11-28": "Thanksgiving Day",
-      "11-29": "Day after Thanksgiving",
-      "12-24": "Christmas Eve",
-      "12-25": "Christmas Day",
-      "12-31": "New Year's Eve",
-    };
-  
-    const showDelayMessage = false; 
-    const delayText = " We're experiencing a high volume of requests. Response times may be longer than usual. ";
-  
-    function updateHoursMessage() {
-      const now = getEasternTime();
-      const day = now.getDay(); // 0 = Sunday, 6 = Saturday
-      const hour = now.getHours();
-      const month = (now.getMonth() + 1).toString().padStart(2, '0');
-      const date = now.getDate().toString().padStart(2, '0');
-      const todayKey = `${month}-${date}`;
-  
-      const message = document.getElementById("hours-message");
-  
-      const isHoliday = holidayClosures.hasOwnProperty(todayKey);
-      const holidayName = holidayClosures[todayKey];
-  
-      const isWeekday = day >= 1 && day <= 5;
-      const isBusinessHours = hour >= 9 && hour < 17;
-      const isBeforeBusinessHours = hour < 9;
-  
-      let mainStatus = "";
-  
-      if (isHoliday) {
-        mainStatus = `Closed today in observance of ${holidayName}. We'll return next business day at 9:00am ET.`;
-        message.style.backgroundColor = "#CD5C5C";
-      } else if (isWeekday && isBusinessHours) {
-        mainStatus = "We're available now until 5:00pm ET.";
-        message.style.backgroundColor = "#3CB371"; // green
-      } else if (isWeekday && isBeforeBusinessHours) {
-        mainStatus = "We're away. We'll return today at 9:00am ET.";
-        message.style.backgroundColor = "#CD5C5C";
-      } else if (isWeekday && hour >= 17 && day < 5) {
-        mainStatus = "We're closed for today. We'll return tomorrow at 9:00am ET.";
-        message.style.backgroundColor = "#CD5C5C";
-      } else if (isWeekday && hour >= 17 && day === 5) {
-        mainStatus = "We're closed for the weekend. We'll return Monday at 9:00am ET.";
-        message.style.backgroundColor = "#CD5C5C";
-      } else {
-        mainStatus = "We're away. We'll return Monday at 9:00am ET.";
-        message.style.backgroundColor = "#CD5C5C";
-      }
-  
-      // ✅ Update the DOM with full message
-      message.textContent = showDelayMessage ? `${mainStatus}${delayText}` : mainStatus;
-    }
-  
-    document.addEventListener("DOMContentLoaded", () => {
-      updateHoursMessage();
-      setInterval(updateHoursMessage, 60000); // refresh every 60 seconds
-    });
-  </script>
-  
-  
-  
-  
-
-
-
-
-    
-</body>
-
-</main>
-
-
-
-
-
-
-<footer class="webeaze-footer">
-    <div class="footer-grid">
-  
-      <div class="footer-col">
-        <img src="images/default-monochrome-white.svg" style="max-width: 40%;" alt="WebEaze Logo" class="footer-logo">
-        <p>Stunning websites with support that scales with your business. One plan. One price. One powerful online presence.</p>
-
+        <!-- Plan includes -->
+        <div class="accordion-item" id="acc-plan">
+          <button class="accordion-button" aria-expanded="false" aria-controls="acc-plan-panel">
+            What does my plan include?
+            <i class="fas fa-chevron-down"></i>
+          </button>
+          <div class="accordion-content" id="acc-plan-panel">
+            All plans include ongoing maintenance and support. Learn more:
+            <ul class="mt-2" style="list-style:none;padding-left:0">
+              <li><a href="https://webeaze.tawk.help/article/essential-plan" target="_blank" rel="noopener">Essential Plan</a></li>
+              <li><a href="https://webeaze.tawk.help/article/growth-plan" target="_blank" rel="noopener">Growth Plan</a></li>
+              <li><a href="https://webeaze.tawk.help/article/elite-plan" target="_blank" rel="noopener">Elite Plan</a></li>
+            </ul>
+          </div>
+        </div>
       </div>
-  
+    </section>
+
+    <!-- WHAT'S NEW -->
+    <section id="tab-whatsnew" class="tab-panel" role="tabpanel" aria-labelledby="tab-whatsnew-btn">
+      <div class="card-ghost">
+        <h2 class="h4 mb-1">Latest Updates</h2>
+        <p class="muted mb-3"><i>Updated: September 9, 2025</i></p>
+        <ul style="margin:0;padding-left:1rem">
+          <li class="mb-2">
+            <i class="fas fa-check mr-1"></i>
+            Throughout the fall, response times may be longer during peak volume. We'll email if there are significant delays.
+          </li>
+          <li class="mb-2">
+            <i class="fas fa-check mr-1"></i>
+            We're building a new client portal for request tracking and site insights—more soon.
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- FAQS -->
+    <section id="tab-faqs" class="tab-panel" role="tabpanel" aria-labelledby="tab-faqs-btn">
+      <div class="card-ghost">
+        <h2 class="h4">FAQs</h2>
+
+        <div class="accordion-item" id="acc-launch">
+          <button class="accordion-button" aria-expanded="false" aria-controls="acc-launch-panel">
+            When will my website launch? <i class="fas fa-chevron-down"></i>
+          </button>
+          <div class="accordion-content" id="acc-launch-panel">
+            Most new websites are completed within 1-2 weeks. If we didn't hold a consultation, we'll follow up by email for the remaining details.
+          </div>
+        </div>
+
+        <div class="accordion-item" id="acc-upgrade">
+          <button class="accordion-button" aria-expanded="false" aria-controls="acc-upgrade-panel">
+            Can I upgrade my plan? <i class="fas fa-chevron-down"></i>
+          </button>
+          <div class="accordion-content" id="acc-upgrade-panel">
+            Yes—anytime. Manage your plan via Stripe:
+            <div class="mt-2">
+              <a class="btn-outline-accent" href="https://billing.stripe.com/p/login/7sI3gfaO14CEdlm144">Manage Subscription</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item" id="acc-tracking">
+          <button class="accordion-button" aria-expanded="false" aria-controls="acc-tracking-panel">
+            Where can I track my Website Request? <i class="fas fa-chevron-down"></i>
+          </button>
+          <div class="accordion-content" id="acc-tracking-panel">
+            After you <a href="website-request.html" target="_blank" rel="noopener">submit a request</a>, you'll get an email confirmation and a completion email when it's done.
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="webeaze-footer">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <img src="images/default-monochrome-white.svg" style="max-width:40%" alt="WebEaze logo" class="footer-logo" />
+
+        <br>
+        <br>
+        <p>Stunning websites with support that scales with your business. One plan. One price. One powerful online presence.</p>
+      </div>
       <div class="footer-col">
         <h4>Stay Connected</h4>
-        <p>We're on Facebook, LinkedIn, and Instagram. Follow us for updates, tips, and our latest offers! 
-        </p>
-        <div class="social-icons">
-          <a href="https://facebook.com/61568824951084" target="_blank"><i class="fab fa-facebook-f"></i></a>
-          <a href="https://linkedin.com/company/webeaze" target="_blank"><i class="fab fa-linkedin-in"></i></a>
-          <a href="https://instagram.com/webeaze.io" target="_blank"><i class="fab fa-instagram"></i></a>
+        <p>We're on Facebook, LinkedIn, and Instagram. Follow for tips and updates!</p>
+        <div class="social-icons" style="display:flex;gap:14px;font-size:18px">
+          <a href="https://facebook.com/61568824951084" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://linkedin.com/company/webeaze" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+          <a href="https://instagram.com/webeaze.io" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
         </div>
       </div>
-  
       <div class="footer-col">
         <h4>Quick Links</h4>
-        <ul>
+        <ul style="list-style:none;padding-left:0;margin:0">
           <li><a href="about.html">About Us</a></li>
           <li><a href="https://webeaze.tawk.help">Help Center</a></li>
           <li><a href="https://billyjoinville.me/terms">Terms & Privacy</a></li>
@@ -1639,22 +363,107 @@ p strong, p b, strong, b {
           <li><a href="#top">Back to Top</a></li>
         </ul>
       </div>
-  
       <div class="footer-col">
-        <h4>Our Recognition</h4>
-        <a href="https://www.designrush.com/agency/profile/webeaze" target="_blank">
-          <img src="images/designrush-profile.svg" alt="WebEaze verified agency on DesignRush" style="max-width: 100px; margin-bottom: 10px;">
-        </a>
-        <script type="text/javascript" src="https://www.designrush.com/topbest/js/widgets/agency-reviews.js"></script><div data-designrush-widget data-agency-id="86840" data-style="dark" aria-label="DesignRush agency reviews section"></div><noscript><a href="https://www.designrush.com/agency/profile/webeaze#reviews" target="_blank" aria-label="Visit WebEaze reviews on DesignRush">REVIEW US ON DESIGNRUSH</a></noscript>
+        <h4>Enjoying WebEaze?</h4>
+
+        <br>
+        
+        <script type="text/javascript" src="https://www.designrush.com/topbest/js/widgets/agency-reviews.js"></script>
+        <div data-designrush-widget data-agency-id="86840" data-style="dark" aria-label="DesignRush agency reviews section"></div>
+        <noscript><a href="https://www.designrush.com/agency/profile/webeaze#reviews" target="_blank" aria-label="Visit WebEaze reviews on DesignRush">REVIEW US ON DESIGNRUSH</a></noscript>
       </div>
-  
     </div>
-  
     <div class="footer-bottom">
       <p>© 2025 WebEaze. Created and designed by WebEaze. Published on <a href="https://pages.github.com/">GitHub</a>.</p>
     </div>
   </footer>
 
+  <!-- HubSpot -->
+  <script type="text/javascript" id="hs-script-loader" async defer src="//js-na2.hs-scripts.com/242171361.js"></script>
 
+  <!-- JS: tabs, accordions, hours, greeting -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <script>
+    // Random hero title
+    document.addEventListener('DOMContentLoaded', () => {
+      const choices = ["Welcome to your Client Portal","Client Portal","Need Help?","You're Home","WebEaze Hub"];
+      const el = document.getElementById('random-question');
+      el.textContent = choices[Math.floor(Math.random()*choices.length)];
+    });
+
+    // Local greeting
+    (function(){
+      const now = new Date();
+      const day = now.toLocaleDateString(undefined,{ weekday:'long'});
+      const date = now.toLocaleDateString(undefined,{ year:'numeric', month:'long', day:'numeric'});
+      const time = now.toLocaleTimeString([], { hour:'2-digit', minute:'2-digit'});
+      document.getElementById('dynamic-greeting').textContent = `Today is ${day}, ${date} at ${time}`;
+    })();
+
+    // Hours (in ET) with holiday exceptions
+    const holidayClosures = {
+      "01-01":"New Year's Day","05-27":"Memorial Day","06-19":"Juneteenth",
+      "07-04":"Independence Day","09-01":"Labor Day","11-28":"Thanksgiving Day",
+      "11-29":"Day after Thanksgiving","12-24":"Christmas Eve","12-25":"Christmas Day","12-31":"New Year's Eve"
+    };
+    function easternNow(){ return new Date(new Date().toLocaleString('en-US',{ timeZone:'America/New_York'})); }
+    function updateHoursMessage(){
+      const now = easternNow();
+      const d = now.getDay(), h = now.getHours();
+      const key = `${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
+      const msg = document.getElementById('hours-message');
+
+      let text, bg;
+      if (holidayClosures[key]){
+        text = `Closed today in observance of ${holidayClosures[key]}. We'll return next business day at 9:00am ET.`; bg = "#CD5C5C";
+      } else if (d>=1 && d<=5 && h>=9 && h<17){
+        text = "We're available now until 5:00pm ET."; bg = "#3CB371";
+      } else if (d>=1 && d<=5 && h<9){
+        text = "We're away. We'll return today at 9:00am ET."; bg = "#CD5C5C";
+      } else if (d>=1 && d<=4 && h>=17){
+        text = "We're closed for today. We'll return tomorrow at 9:00am ET."; bg = "#CD5C5C";
+      } else if (d===5 && h>=17){
+        text = "Were closed for the weekend. We'll return Monday at 9:00am ET."; bg = "#CD5C5C";
+      } else {
+        text = "Were away. We'll return Monday at 9:00am ET."; bg = "#CD5C5C";
+      }
+      msg.textContent = text;
+      msg.style.backgroundColor = bg;
+    }
+    document.addEventListener('DOMContentLoaded', ()=>{
+      updateHoursMessage();
+      setInterval(updateHoursMessage, 60000);
+    });
+
+    // Tabs (ARIA)
+    (function(){
+      const tabs = Array.from(document.querySelectorAll('.tab-link'));
+      const panels = {
+        'tab-help-btn': document.getElementById('tab-help'),
+        'tab-whatsnew-btn': document.getElementById('tab-whatsnew'),
+        'tab-faqs-btn': document.getElementById('tab-faqs'),
+      };
+      function selectTab(btn){
+        tabs.forEach(t=>t.setAttribute('aria-selected','false'));
+        Object.values(panels).forEach(p=>p.classList.remove('active'));
+        btn.setAttribute('aria-selected','true');
+        panels[btn.id].classList.add('active');
+      }
+      tabs.forEach(t=>t.addEventListener('click',()=>selectTab(t)));
+    })();
+
+    // Accordions (accessible)
+    document.querySelectorAll('.accordion-button').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        const item = btn.closest('.accordion-item');
+        const expanded = btn.getAttribute('aria-expanded') === 'true';
+        btn.setAttribute('aria-expanded', String(!expanded));
+        item.classList.toggle('open');
+      });
+    });
+  </script>
+</body>
 </html>
-
