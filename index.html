@@ -245,6 +245,11 @@ details.card-simple{
 }
 
 
+section[id] { scroll-margin-top: 72px; }
+html { scroll-behavior: smooth; } /* native smooth scroll */
+
+
+
 
 
   </style>
@@ -280,13 +285,14 @@ details.card-simple{
   <!-- Mobile menu -->
   <div id="mobileNav" class="collapse">
     <div class="container container-narrow py-2 d-flex flex-column">
-      <a class="nav-link py-2" href="/maintenance.html" data-toggle="collapse" data-target="#mobileNav">Unlimited Maintenance</a>
-      <a class="nav-link py-2" href="/pricing.html" data-toggle="collapse" data-target="#mobileNav">Services</a>
+      <a class="nav-link py-2" href="#benefits" data-toggle="collapse" data-target="#mobileNav">What We Do</a>
+      <a class="nav-link py-2" href="#plans" data-toggle="collapse" data-target="#mobileNav">Our Services</a>
+      <a class="nav-link py-2" href="#work" data-toggle="collapse" data-target="#mobileNav">About Us</a>
       <a class="nav-link py-2" href="#faq" data-toggle="collapse" data-target="#mobileNav">FAQ</a>
 
-      <a class="nav-link py-2" href="/contact-us.html" data-toggle="collapse" data-target="#mobileNav">Contact Us</a>
+ 
 
-      <a class="btn btn-brand my-2 align-self-start" href="/consultation.html">Get Started Today</a>
+      <a class="btn btn-brand my-2 align-self-start" href="#cta">Get Started Today</a>
   
     </div>
   </div>
@@ -512,7 +518,7 @@ details.card-simple{
   </section>
   
   <!-- EDGE-TO-EDGE CTA -->
-  <section class="py-5 text-center section-band bg-cta cta-stripe" data-parallax>
+  <section class="py-5 text-center section-band bg-cta cta-stripe" data-parallax id="cta">
     <div class="container container-narrow surface">
       <h2 class="h4 mb-2 reveal" style="font-weight: bold;">Ready to make your site pull its weight?</h2>
       <p class="subhead reveal">Book a free consultation. We'll map the fastest path to a clean, effective site.</p>
@@ -539,6 +545,8 @@ details.card-simple{
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
 
 <script>
   // (A) Scroll reveal
@@ -585,6 +593,36 @@ details.card-simple{
     onScroll();
   })();
 </script>
+
+<script>
+  (function () {
+    var menu = document.getElementById('mobileNav');
+    if (!menu) return;
+
+    // capture clicks on hash links inside the mobile menu
+    menu.addEventListener('click', function (e) {
+      var a = e.target.closest('a[href^="#"]');
+      if (!a) return;
+
+      var id = a.getAttribute('href').slice(1);
+      var target = document.getElementById(id);
+      if (!target) return; // nothing to scroll to
+
+      // prevent the default instant jump
+      e.preventDefault();
+
+      // collapse the menu (Bootstrap 4)
+      $(menu).collapse('hide');
+
+      // after collapse finishes, do a smooth scroll
+      $(menu).one('hidden.bs.collapse', function () {
+        // use scrollIntoView with smooth behavior
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+  })();
+</script>
+
 
 
 </body>
