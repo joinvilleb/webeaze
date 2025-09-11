@@ -88,6 +88,80 @@
     #random-question{font-size:40px;font-weight:800;margin:0}
     #sub{max-width:780px;margin:12px auto 0;color:#f2eaff}
 
+    /* --- HERO layout/content --- */
+#hero{
+  position:relative;
+  padding:64px 20px 56px; /* a touch taller for breathing room */
+  overflow:hidden;
+}
+#hero::before, #hero::after{
+  content:""; position:absolute; border-radius:50%; filter:blur(80px);
+  opacity:.35; pointer-events:none;
+}
+#hero::before{ width:680px; height:680px; background:#9e7cf0; top:-180px; left:-160px; }
+#hero::after { width:720px; height:720px; background:#5f3aa5; bottom:-220px; right:-220px; }
+
+.hero-wrap{ max-width:960px; margin:0 auto; text-align:center; position:relative; z-index:2; }
+
+/* Eyebrow badge */
+.eyebrow-badge{
+  display:inline-block; font-size:.85rem; letter-spacing:.04em; text-transform:uppercase;
+  background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.22);
+  padding:.35rem .6rem; border-radius:999px; margin-bottom:12px;
+}
+
+/* Title with subtle sheen */
+.hero-title{
+  position:relative; font-weight:800; letter-spacing:-.02em; line-height:1.1;
+  font-size: clamp(2rem, 4.6vw, 3rem);
+  margin: 4px auto 10px;
+}
+.title-sheen{
+  position:absolute; left:0; right:0; bottom:-8px; height:10px;
+  background:linear-gradient(90deg, transparent, rgba(255,222,89,.8), transparent);
+  filter:blur(3px); opacity:.9; animation: sheen-move 2.8s ease-in-out infinite;
+}
+@keyframes sheen-move{
+  0%,100%{ transform:translateX(-10%); opacity:.7; }
+  50%{ transform:translateX(10%); opacity:1; }
+}
+
+/* Subhead */
+.hero-sub{ color:#f2eaff; max-width:780px; margin:12px auto 18px; }
+
+/* CTAs */
+.hero-ctas{ display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin:14px 0 18px; }
+.btn-hero{
+  display:inline-block; background:#000; color:#fff; border:2px solid var(--accent);
+  padding:.7rem 1.15rem; border-radius:999px; font-weight:700;
+}
+.btn-hero:hover{ background:var(--accent); color:#2b1e12; }
+.btn-ghost-hero{
+  display:inline-block; background:transparent; border:1.5px solid rgba(255,255,255,.35);
+  color:#fff; padding:.7rem 1.15rem; border-radius:999px; font-weight:700;
+}
+.btn-ghost-hero:hover{ border-color:#fff; }
+
+/* Stats pills */
+.hero-stats{
+  list-style:none; padding:0; margin:14px 0 0;
+  display:flex; gap:10px; justify-content:center; flex-wrap:wrap;
+}
+.hero-stats li{
+  display:flex; flex-direction:column; align-items:center; min-width:140px;
+  background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.18);
+  border-radius:14px; padding:12px 14px;
+}
+.hero-stats i{ font-size:16px; margin-bottom:6px; opacity:.95; color:var(--accent); }
+.hero-stats b{ font-size:1.15rem; line-height:1; }
+.hero-stats span{ font-size:.85rem; color:#e9e3f7; opacity:.9; }
+
+/* Scroll cue */
+.scroll-cue{ margin-top:20px; }
+.scroll-cue .dot{
+  display:inline-block; width:6px; height:6px; border-radius:50
+}
+
     /* Seasonal banner (optional) */
     .seasonal{
       background:url('images/fall-image.png') center/cover no-repeat;
@@ -184,7 +258,7 @@
 <body>
   <!-- Anniversary promo -->
   <div class="promo-bar" role="region" aria-label="Anniversary promotion">
-    Fall in love with a $0 setup fee (usually $299) through September 30. 
+    Fall in love with a $0 setup fee (reg. $299). Through 9/30. 
     <a class="btn" href="https://webeaze.io/consultation">Get Started</a>
   </div>
 
@@ -210,9 +284,38 @@
 
   <!-- HERO -->
   <header id="hero">
-    <h1 id="random-question">Smart Pricing</h1>
-    <p id="sub">Monthly or yearly plans that scale with your business. No hourly billing—just one plan, one price, ongoing support.</p>
+    <div class="hero-wrap">
+      <span class="eyebrow-badge">Pricing made simple</span>
+  
+      <h1 class="hero-title">
+        Smart Pricing
+        <span class="title-sheen" aria-hidden="true"></span>
+      </h1>
+  
+      <p id="sub" class="hero-sub">
+        Monthly or yearly plans that scale with your business. No hourly billing —
+        one plan, one price, ongoing support.
+      </p>
+  
+      <div class="hero-ctas">
+        <a class="btn-hero" href="consultation.html">Free Consultation</a>
+        <a class="btn-ghost-hero" href="#compare">Compare Plans</a>
+      </div>
+  
+      <ul class="hero-stats" aria-label="Service highlights">
+        <li><i class="fas fa-rocket"></i><b>2-3 weeks</b><span>Avg go-live</span></li>
+        <li><i class="fas fa-users"></i><b>43+</b><span>Clients served</span></li>
+        <li><i class="fas fa-tools"></i><b>Ongoing</b><span>Maintenance</span></li>
+      </ul>
+  
+      <div class="scroll-cue">
+        <a href="#plans" aria-label="Scroll to pricing">
+          <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+        </a>
+      </div>
+    </div>
   </header>
+  
 
  
 
@@ -231,7 +334,7 @@
   </section>
 
   <!-- WHAT'S INCLUDED -->
-  <section class="section">
+  <section class="section" id="compare">
     <div class="card-ghost">
       <h2 class="h3 text-center mb-3">What's Included</h2>
       <div class="table-responsive">
