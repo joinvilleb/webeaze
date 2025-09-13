@@ -1,1583 +1,338 @@
-<!-- Maintenance Landing Page for WebEaze -->
 <!DOCTYPE html>
-<html lang="en" class="page-website-setup-main">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Unlimited Maintenance | WebEaze</title>
-  <meta name="description" content="Unlimited website updates, fixes, and support — all included in one simple monthly or yearly plan. No hourly billing. No tickets.">
-  <link rel="shortcut icon" href="images/favicon.png" type="image/png" />
+  <title>Unlimited Website Maintenance | WebEaze</title>
+  <meta name="description" content="Unlimited website updates, fixes, and support — proactive care in one simple monthly or yearly plan. No hourly billing." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
-  <link href="css/billy-joinville.css" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+  <link rel="shortcut icon" href="images/favicon.png" type="image/png" />
 
+  <style>
+    :root{
+      --bg:#7851a9; --ink:#120a2a; --text:#fff; --muted:#efeaf9;
+      --gold:#ffd700; --btn-hover:#f2c600;
+      --glass:rgba(255,255,255,.08); --border:rgba(255,255,255,.18);
+    }
+    html,body{height:100%}
+    body{margin:0; color:var(--text); background:var(--bg); font-family:'Poppins',sans-serif; -webkit-font-smoothing:antialiased}
+    a{color:var(--text)}
+    .container-narrow{max-width:1080px}
+    .logo{height:36px}
+
+    /* Buttons */
+    .btn-brand{background:var(--gold); color:#4e2f93; font-weight:700; border:none; border-radius:12px; padding:.9rem 1.25rem; box-shadow:0 10px 30px rgba(255,215,0,.25); transition:transform .15s ease, box-shadow .15s ease}
+    .btn-brand:hover{background:var(--btn-hover); color:#fff; transform:translateY(-1px); box-shadow:0 14px 34px rgba(255,215,0,.35)}
+    .btn-ghost{background:transparent; border:1.5px solid var(--border); color:#fff; border-radius:12px; padding:.9rem 1.25rem}
+
+    /* NAV */
+    .nav-wrap{position:sticky; top:0; z-index:999; backdrop-filter:saturate(120%) blur(8px); background:linear-gradient(180deg, rgba(0,0,0,.18), rgba(0,0,0,.05)); border-bottom:1px solid rgba(255,255,255,.15)}
+    .nav-link{opacity:.9}
+    .nav-link:hover{opacity:1}
+    .nav-wrap strong{font-size:1.25rem;font-weight:800;letter-spacing:-.4px;background:linear-gradient(90deg,var(--gold),#fff);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+
+    /* HERO */
+    .hero{position:relative; overflow:hidden; padding:72px 0}
+    .hero:before,.hero:after{content:""; position:absolute; border-radius:50%; filter:blur(60px); opacity:.35; pointer-events:none}
+    .hero:before{width:520px;height:520px;background:#b695ff;top:-120px;left:-120px}
+    .hero:after{width:620px;height:620px;background:#5a37c9;bottom:-180px;right:-160px}
+    .hero .confetti{position:absolute; inset:0; background-image:radial-gradient(rgba(255,255,255,.12) 1px, transparent 1px); background-size:18px 18px; mask-image:linear-gradient(#000, transparent 70%); opacity:.2}
+    .eyebrow{font-size:.85rem; letter-spacing:.04em; text-transform:uppercase; opacity:.92}
+    .headline{font-weight:800; letter-spacing:-.02em; line-height:1.08}
+    .headline .sparkle{position:relative; display:inline-block}
+    .headline .sparkle:after{content:""; position:absolute; left:0; right:0; bottom:-8px; height:10px; background:linear-gradient(90deg,transparent,rgba(255,215,0,.6),transparent); filter:blur(3px)}
+    .subhead{color:var(--muted)}
+    .hero-card{background:rgba(255,255,255,.08); border:1px solid var(--border); border-radius:16px}
+
+    /* SECTION BANDS */
+    .section-band{position:relative}
+    .section-band:before{content:""; position:absolute; inset:0; background:linear-gradient(180deg, rgba(34,18,71,.55), rgba(48,27,98,.55))}
+    .section-band .surface{position:relative; background:rgba(255,255,255,.07); border:none; border-radius:16px; padding:24px; box-shadow:0 8px 26px rgba(0,0,0,.18)}
+
+    /* LAYOUTS */
+    .features{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
+    .feat{grid-column:span 4;background:rgba(255,255,255,.08);border-radius:14px;padding:18px}
+    .feat h3{font-size:1.05rem;margin:0 0 6px}
+    @media (max-width:768px){.feat{grid-column:span 12}}
+
+    .media-split{display:grid;grid-template-columns:1.15fr 1fr;gap:22px;align-items:center}
+    .media-box{position:relative;border-radius:16px;overflow:hidden;background:rgba(255,255,255,.06);min-height:260px}
+    .media-box .mock{position:absolute;inset:0;background:url('images/construction-worker.png') no-repeat center 12%/cover;filter:contrast(1.05) saturate(1.05)}
+    @media (max-width:992px){.media-split{grid-template-columns:1fr}.media-box .mock{background-position:center 4%}}
+
+    .process{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .step{background:rgba(255,255,255,.08);border-radius:14px;padding:18px;text-align:center}
+    .step .num{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,.16);margin-bottom:6px;font-weight:700}
+    @media (max-width:900px){.process{grid-template-columns:1fr}}
+
+    .testi{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+    .quote{background:rgba(255,255,255,.08);border-radius:14px;padding:18px}
+    .quote .who{opacity:.85;font-size:.9rem;margin-top:6px}
+    @media (max-width:900px){.testi{grid-template-columns:1fr}}
+
+    .faq-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+    .faq-item{background:transparent;border-bottom:1px solid rgba(255,255,255,.14);padding:12px 0}
+    .faq-item summary{cursor:pointer;list-style:none}
+    .faq-item summary::-webkit-details-marker{display:none}
+    @media (max-width:768px){.faq-grid{grid-template-columns:1fr}}
+
+    footer{font-size:.95rem; color:#fff; opacity:.95}
+
+    /* Mobile hamburger (for top nav when not using bootstrap nav) */
+    .hamburger{background:transparent;border:0;display:inline-flex;flex-direction:column;gap:4px;padding:6px}
+    .hamburger span{display:block;width:22px;height:2px;background:#fff;border-radius:2px}
+    #mobileNav{background:rgba(0,0,0,.45); border-top:1px solid rgba(255,255,255,.15)}
+
+    /* Animations (GPU friendly) */
+    .reveal{opacity:0;transform:translateY(14px);transition:transform .5s ease,opacity .5s ease;will-change:transform,opacity}
+    .reveal.in-view{opacity:1;transform:translateY(0)}
+    .surface .reveal{transition-delay:.08s}
+    .surface .reveal:nth-child(2){transition-delay:.16s}
+    .surface .reveal:nth-child(3){transition-delay:.24s}
+    .surface .reveal:nth-child(4){transition-delay:.32s}
+    @media (prefers-reduced-motion:reduce){
+      *,*::before,*::after{animation:none!important;transition:none!important}
+      .reveal{opacity:1!important;transform:none!important}
+    }
+
+    section[id]{scroll-margin-top:72px}
+    html{scroll-behavior:smooth}
+    .divider{border-color:rgba(255,255,255,.10)}
+  </style>
 </head>
-
-<style>
-
-
-    /* contact-form styling */ 
-
-    .form-container {
-        display: flex;
-        justify-content: center; 
-        align-items: center;   
-        min-height: 80vh;       
-        padding: 20px;
-    }
-    #notice {
-        text-align: left; 
-        font-size: 14px;
-    }
-    @media screen and (max-width: 768px) {
-        iframe {
-            width: 100%;
-            padding-top: 0;
-        }
-    }
-    .menu-toggle {
-        display: none;
-        flex-direction: column;
-        cursor: pointer;
-    }
-    .menu-toggle span {
-        width: 25px;
-        height: 3px;
-        background-color: black;
-        margin: 3px 0; 
-        transition: all 0.3s ease;
-        margin-right: 20px;
-    }
-    .menu-toggle {
-        display: flex;
-    }
-    label {
-        display: block;
-        margin-bottom: 10px;
-        align-content: center !important;
-    }
-    form {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        width: 100%;
-        max-width: 600px;
-        margin: 0 auto;
-        padding: 20px;
-        border-radius: 10px;
-        background-color: #7951a9;
-        
-        
-
-    }
-
-
-        form:hover {
-            
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-    input[type="text"],
-    input[type="email"],
-    textarea,
-    select {
-        width: 100%;
-        padding: 10px;
-        margin-bottom: 20px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        font-size: 16px;
-    }
-    button[type="submit"] {
-        background-color: transparent;
-        color: white;
-        padding: 10px 20px;
-        border: 1px solid black;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 16px;
-    }
-    button[type="submit"]:hover {
-        background-color: #5D4037 !important;
-    }
-    h1, p {
-        width: 100%;
-        text-align: center;
-        margin: 10px 0;
-    }
-    p {
-        font-size: 16px;
-    }
-    textarea {
-        height: 200px;
-    }
-    h1, h2, h3, h4, p, label {
-        color: white !important;
-    }
-
-    .services-cards-container {
-
-        padding: 0 !important;
-        margin: 0 !important;
-        text-align: left;
-
-
-    }
-
-        /* end of ontact-form styling */ 
-
-
-
-    html, body, main, header, footer, section {
-        margin: 0;
-        padding: 0;
-        width: 100vw;
-        overflow-x: hidden; 
-        box-sizing: border-box;
-    }
-
-    section {
-        background-color: #5D4037;
-    }
-    
-
-    header, .testimonials-section, .faq-section, .footnotes {
-        width: 100vw !important; 
-        padding: 60px 0; 
-    }
-
- .testimonials-section, .faq-section {
-        padding: 40px 20px; 
-        box-sizing: border-box; 
-    }
-
-    .about-services-page {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 24px;
-  padding: 60px 20px;
-  max-width: 1200px;
-  margin: 0 auto;
-  background: none; 
-}
-
-.services-card {
-  background: #5D4037 !important;
-  border: 2px solid #5D4037 !important;
-  border-radius: 14px;
-  padding: 26px 28px;
-  position: relative;
-  overflow: hidden;
-  transition: transform 0.35s ease, box-shadow 0.35s ease;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.services-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 18px 40px -10px rgba(0,0,0,0.5);
-}
-
-.services-card h3 {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-size: 1.4rem;
-  margin: 0;
-}
-
-.services-card h3 i {
-  font-size: 1.6rem;
-  min-width: 24px;
-  color: #fff;
-}
-.services-card p {
-  margin: 0;
-  font-size: 1rem;
-  line-height: 1.4;
-  color: #f0f0f0;
-}
-
-
-
-    .dot-container {
-
-    text-align: center;
-    padding: 10px 10px;
-
-    }
-
-    .dot {
-        height: 5px;
-        width: 5px;
-        margin: 0 2px;
-        background-color: #bbb;
-        border-radius: 50%;
-        display: inline-block;
-        cursor: pointer;
-    }
-
-    .dot.active {
-        background-color: #717171;
-    }
-
-    .contact-services {
-        background-color: #7851a9;
-        margin-top: 20px;
-        padding: 60px;
-    }
-
-    
-        main {
-            display: block;
-            align-items: center;
-        }
-
-        .services-card h3 {
-            color: white;
-        }
-
-        .services-card li {
-            color: white;
-        }
-
-        .services-card {
-            background-color: transparent !important;
-            padding: 20px;
-            border-radius: 5px;
-            border-color: black !important;
-            margin: 0 auto;
-            width: 100%;
-            margin-bottom: 20px;
-        }
- 
-        
-body.page-website-setup {
-  background: radial-gradient(circle at top left, #020005 0%, #7851a9 100%);
-  color: #fff;
-  font-family: 'Poppins', sans-serif;
-}
-
-
-        header.page-website-setup-header {
-
-            background-color: #5D4037;
-            color: white; 
-            text-align: center;
-            padding: 50px 20px;
-            
-        }
-
-        header.page-website-setup-header h1 {
-            font-size: 36px;
-            margin-bottom: 10px;
-        
-        }
-
-        header.page-website-setup-header h2 {
-            font-size: 18px;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        main.page-website-setup-main {
-          
-            flex-direction: column;
-            align-items: center;
-            justify-content: center; 
-            padding: 40px 20px;
-            background-color: rgba(255, 255, 255, 0.85); 
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
-            width: 100%;
-            margin: 0 auto;
-}
-
-
-        #plan-features-free-consultation {
-            font-size: 16px;
-            color: white;
-            text-align: left;
-            margin-top: 20px;
-        }
-
-        #free-consultation, #full-setup {
-
-            background-color: #f1f1f1;
-            padding: 20px;
-            border-radius: 5px;
-            margin: 0 auto;
-            width: 100%;
-            margin-bottom: 20px;
-
-        }
-
-        #price {
-            font-size: 30px;
-            color: white;
-            text-align: center; 
-        }
-
-
-        .services-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .buy-now-btn {
-            background-color: black !important;
-            color: white !important;
-            padding: 10px 20px;
-            border-radius: 5px;
-            border: 1px solid;
-            border-color: transparent;
-            cursor: pointer;
-            font-size: 16px;
-            margin: 0 auto;
-            display: inline-block;
-            margin-top: 20px;
-        }
-
-        a.buy-now-btn {
-
-            color: white !important;
-
-        }
-
-        .buy-now-btn a::before {
-
-            color: white !important;
-
-        }
-
-        .buy-now-btn {
-
-            font-weight: normal;
-            color: white !important;
-        }
-
-        .buy-now-btn:visited { 
-
-            color: white !important;
-        }
-
-        .buy-now-btn:hover {
-            background-color: #218838;
-        }
-
-        .video-background-section-container {
-            display: flexbox;
-            flex-wrap: wrap;
-            justify-content: space-between;
-        }
-
-    .video-background-section {
-        flex: 1 1 30%; /* Adjust the percentage as needed */
-        max-width: 30%; /* Adjust the percentage as needed */
-        margin: 10px; /* Add some margin for spacing */
-    }
-
-    .video-background-section img {
-        width: 100%;
-        height: auto;
-    }
-
-    @media (max-width: 768px) {
-        .video-background-section {
-            flex: 1 1 100%;
-            max-width: 100%;
-        }
-    }
-
-
-
-        .faq-section {
-            width: 100%;
-            max-width: 900px;
-            margin: 0 auto;
-
-
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 10px;
-            padding: 40px;
-            word-wrap: break-word;
-            align-items: center;
-            background-color: transparent;
-        }
-
-        .faq-item {
-            margin-bottom: 0;
-        }
-
-        .faq-question {
-            font-size: 16px;
-            cursor: pointer;
-            color: white;
-            display: flex;
-            justify-content: space-between; 
-            align-items: center; 
-        }
-
-        .arrow {
-            font-size: 18px;
-            transition: transform 0.3s;
-        }
-
-        a {
-            color: white !important;
-        }
-
-        .faq-answer {
-            padding: 10px;
-            background-color: transparent;
-            border-radius: 5px;
-            margin-top: 10px;
-            transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
-            max-height: 0;
-            opacity: 0;
-            overflow: hidden;
-            color: white;
-        }
-
-
-
-        .faq-question .arrow {
-        display: inline-block;
-        transition: transform 0.3s ease-in-out;
-        }
-
-        .arrow {
-            margin-left: 10px;
-        }
-
-
-        .contact-button {
-            display: inline-block;
-            background-color: none;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 5px;
-            border-color: white;
-            text-decoration: none;
-            transition: background-color 0.3s;
-        }
-
-        .contact-button:hover {
-            background-color: transparent;
-        }
-
-        footer.page-website-setup-footer {
-            background-color: #5D4037 !important;
-            color:#5D4037;
-            text-align: center;
-            padding: 20px;
-        }
-
-        footer p {
-
-            line-height: 1;
-            color: white;
-            text-align: center;
-        }
-
-        ul, li {
-            margin-top: 20px;
-
-        }
-
-        ul {
-
-            list-style-type: none;
-
-        }
-
-        #plan-features {
-            padding-left: 0;
-            margin-left: 10px;
-            text-align: left;
-        }
-
-        #plan-features li {
-            margin-top: 10px;
-            color: white !important;
-        }
-
-        footer, #footnote1, #footnote2, #footnote3, #footnote4 {
-
-            background-color: #7851a9 !important;
-            
-        }
-
-        #footnotes {
-
-  
-
-            width: 100%;
-            padding: 20px;
-            margin: 30px;
-
-        }
-
-        #footnote1, #footnote2, #footnote3, #footnote4 {
-
-            width: 50%;
-            
-
-        }
-
-
-
-        #intro-services-html-next1 {
-
-            font-size: 16px;
-            color: white;
-            text-align: center;
-            margin-top: 30px;
-            margin-bottom: 0px;
-            line-height: 1.5;
-        }
-
-        #intro-services-html-next2 {
-
-            font-size: 16px;
-            color: white;
-            margin-top: 10px;
-            margin-bottom: 10px;
-            text-align: center !important;
-            width: 100%;
-        }
-
-        #view-more-faq {
-
-            background-color: transparent;
-            color: white !important;
-            padding: 10px 20px;
-            border-radius: 5px;
-            border-color: white;
-            text-decoration: none;
-            transition: background-color 0.3s;
-            margin-top: 20px;
-            display: inline-block;
-        }
-
-
-
-        @media screen and (max-width: 768px) {
-
-        .background-video {
-        height: 100%; 
-        width: 50%; 
-        }
-
-
-        #footnote1, #footnote2, #footnote3, #footnote4{
-
-        width: 80%;
-        }
-
-        #intro-services-html-next2 {
-
-            width: 80%;
-            margin-bottom: 60px;
-        }
-
-
-        .contact-button {
-
-            font-size: 10px;
-            width: 60%;
-            margin: 0 auto;
-        }
-
-        #plan-features {
-
-            text-align: left;
-        }
-
-
-    
-
-        body {
-            padding-top: 60px;
-        }
-
-
-
-        .services-card {
-            width: 100%;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: transparent !important;
-            border-color: transparent;
-            border-radius: 5px;
-        }
-
-        h1, h2, p {
-            font-size: 4.5vw; 
-            text-align: center;
-            margin: 0 auto;
-        }
-
-
-        .buy-now-btn {
-            width: 100%; 
-        }
-
-        .services-card {
-
-            width: 80% !important;
-
-        }
-
-
-        .about-services-page {
-            padding: 20px;
-            text-align: center; 
-            width: 100%;
-            margin: 0 auto;
-
-        }
-
-
-        }
-
-        #title-of-service, #random-question {
-            font-weight: bold !important;
-
-            font-size: 45px;
-
-        }
-
-        #title-of-service-1 {
-            font-weight: bold !important;
-            margin-top: 10px;
-            font-size: 45px;
-            padding: 10px;
-
-        }
-
-
-        #random-question {
-            opacity: 0;
-            transition: opacity 1s ease-in-out;
-        }
-
-        #random-question.fade-in {
-            opacity: 1;
-        }
-
-
-        .portfolio-images-services {
-            display: flex;
-            justify-content: center; 
-            align-items: center; 
-            gap: 220px; 
-            margin: 0; 
-            width: 100%;
-            padding: 20px;
-        }
-
-        .portfolio-item {
-            display: flex;
-            flex-direction: column; 
-            align-items: center; 
-            text-align: center; 
-        }
-
-        .portfolio-img {
-            width: 90px; 
-            height: 90px; 
-            object-fit: cover;
-            transition: transform 0.3s ease;
-        }
-
-        .portfolio-img:hover {
-            transform: scale(1.05); 
-        }
-
-        .caption {
-            font-size: 16px; 
-            color: white; 
-            margin-top: 5px; 
-            text-wrap: wrap;
-        }
-
-        @media screen and (max-width: 768px) {
-
-        .portfolio-images-services {
-            flex-direction: column; 
-            gap: 70px; 
-            align-items: center;
-        }
-
-        .portfolio-img {
-            margin: 0 auto; 
-
-        }
-
-
-        footer p {
-
-                line-height: 1.5;
-        }
-
-
-
-        body.page-website-setup {
-            overflow: auto; 
-        }
-
-    }
-
-    
-        #footnotes {
-
-            padding: 20px;
-            margin: 0 auto;
-            width: 100%;
-
-        }
-
-        #footnote1, #footnote2, #footnote3, #footnote4 {
-            font-size: 10px;
-            margin: 0 auto;
-            padding: 10px;
-            text-align: left;
-            color: rgb(255, 255, 255);
-        }
-
-        #frequently-asked-questions-title {
-
-            color: white !important;
-            font-size: 20px;
-        }
-
-
-        .contact-button, .tos-link-services:visited {
-            color: white !important;
-        }
-
-        .portfolio-item-1 {
-
-            margin-bottom: 0;
-            margin-top: 0;
-            
-
-        }
-
-        .back-to-index a:visited {
-                
-                color: white !important;
-        }
-
-        .testimonial, .testimonial2 {
-
-        width: 100%;
-        transition: opacity 1s ease-in-out;
-        }
-
-
-
-        .testimonial.active, .testimonial2.active {
-            display: block;
-            opacity: 1;
-        }
-
-        .testimonial.fade-out {
-            opacity: 0;
-        }
-
-        .testimonials-section {
-        background-color: #7851a9;
-        padding: 40px 20px;
-        text-align: center;
-        margin: 0px auto;
-        width: 100%;
-        }
-
-    .testimonials-section h1 {
-        color: white;
-        font-size: 28px;
-        margin-bottom: 20px;
-    }
-
-    .testimonial-container, .testimonial2{
-        display: flex;
-        flex-direction: row;
-        gap: 30px;
-        justify-content: center;
-        align-items: center;
-        margin: 0;
-        width: 100%;
-
-    }
-
-    .testimonial, .testimonial2 {
-        background-color: transparent;
-        padding: 20px;
-        border-radius: 5px;
-
-    }
-
-    .testimonial p, .testimonial2 p {
-        font-size: 16px;
-        color: white;
-        margin-bottom: 10px;
-    }
-
-    .testimonial h4, .testimonial2 h4 {
-        font-size: 14px;
-        color: #4a90e2;
-        margin-top: 5px;
-        text-align: right;
-    }
-
-    #setup-packages-heading {
-        color: white;
-    }
-
-        .testimonial-container, .testimonial-container2 {
-        position: relative;
-        max-width: 600px; 
-        margin: 0 auto;
-        text-align: center;
-        overflow: hidden; 
-        padding: 20px; 
-    }
-
-
-    .testimonial:first-child {
-        display: block; 
-    }
-
-    .testimonial2 {
-
-        display: none;
-    }
-
-    .testimonial2:first-child {
-
-        display: block; 
-    }
-
-    
-    a.prev, a.next {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        color: rgba(0, 0, 0, 0);
-        font-size: 24px;
-        cursor: pointer;
-        text-decoration: none;
-        background-color: rgba(255, 255, 255, 0);
-        padding: 10px;
-        border-radius: 50%;
-        user-select: none;
-        z-index: 10; 
-    }
-
-    
-    a.prev {
-        left: -10px; 
-    }
-
-    a.next {
-        right: -10px; 
-    }
-
-    a.prev:hover, a.next:hover {
-        background-color: rgba(0, 0, 0, 0);
-        color: white;
-    }
-
-    .contact-button-tempted {
-            display: inline-block;
-            background-color: rgb(65, 40, 104) !important;
-            color: white !important;
-            padding: 10px 20px;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-    }
-
-    @media screen and (max-width: 768px) {
-        .testimonial-container, .testimonial-container2 {
-            flex-direction: column;
-            width: 100%;
-        }
-
-        .testimonial, .testimonial2 {
-            width: 100%;
-        }
-
-        .testimonials-section {
-            padding: 20px;
-        }
-
-        .testimonials-section h1 {
-            font-size: 22px;
-        }
-
-        .video-section {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            padding: 20px;
-            background-color: #7851a9;
-            background-color: #7851a9;
-
-
-        }
-
-
-        .video-section iframe {
-            position: relative;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-
-            
-        }
-
-        #buy-now-button-section {
-            display: flex;
-            flex-direction: column; 
-            justify-content: center;
-            align-items: center; 
-            width: 80%;
-            max-width: 70px;
-            margin: auto;
-        }
-
-        #faq-title, #questions-heading {
-            font-size: 26px;
-        }
-
-        
-
-    }
-
-    @media (min-width: 768px) {
-
-    }
-
-    #header-services {
-
-        background-color: transparent;
-        color: white;
-        text-align: center;
-        padding: 60px 20px;
-        width: 100%;
-        margin: 0 auto;
-    }
-
-    .video-section {
-            padding: 20px;
-            background-color: #7851a9;
-            align-items: center;
-
-        }
-
-    iframe {
-        border: 1px solid #7851a9;
-        border-radius: 15px;
-        display: flex;
-        margin: 0 auto;
-    }
-
-
-    
-
-
-    .background-video {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 100vw;
-        height: auto; 
-        min-width: 100%; 
-        min-height: 100%; 
-        transform: translate(-50%, -50%); 
-        object-fit: cover; 
-        z-index: 1; 
-    }
-
-    #frequently-asked-questions-title {
-
-        margin-bottom: 40px;
-    }
-
-    #faq-title {
-
-        color: white;
-        text-align: center;
-
-        margin-top: 40px;
-
-    }
-
-    body {
-        padding-top: 60px;
-    }
-
-
-    span {
-
-        color: white !important;
-    }
-
-
-
- 
-
-        .menu-toggle {
-            display: flex;
-            
-        }
-
-        #completed-sites {
-
-            color: rgb(87, 255, 87);
-        }
-
-        /* completed work section */ 
-
-        #work-completed-text {
-
-            color: white;
-            font-size: 10px;
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        .testimonials-section2 {
-            background-color: #7851a9 !important;
-            padding: 40px 20px;
-            text-align: center;
-            margin: 0px auto;
-            width: 100%;
-        }
-
-        .testimonials-section2 h1 {
-            color: white;
-            font-size: 28px;
-            margin-bottom: 20px;
-        }
-
-        .testimonial2 {
-
-            background-color: transparent;
-            padding: 20px;
-            border-radius: 5px;
-            padding-top: 20px;
-
-        }
-
-        .testimonial2 p {
-            font-size: 16px;
-            color: white;
-            margin-bottom: 50px;
-        }
-
-        .testimonial2 h4 {
-            font-size: 14px;
-            color: #4a90e2;
-            margin-top: 5px;
-            text-align: right;
-        }
-
-        .testimonial2 a {
-
-            color: rgb(156, 255, 6) !important; 
-
-        }
-
-        hr {
-
-            background-color: white; 
-        }
-
-        span {
-            color: white;
-        }
-
-        .social-media-links {
-
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 20px;
-            margin-top: 20px;
-
-        }
-
-        /* client example section */ 
-
-        .card-container {
-            display: flex;
-            flex-wrap: wrap; 
-            gap: 20px; 
-            justify-content: center; 
-        }
-
-        .card {
-            background-color: #7851a9;
-            border: 2px solid #ccc;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            flex: 1 1 calc(50% - 20px); 
-            max-width: 500px; 
-            text-align: center;
-            box-sizing: border-box;
-        }
-
-        .card a {
-            display: inline-block;
-            padding: 5px 10px;
-            margin-top: 10px;
-            text-decoration: none;
-            color: #fff;
-            background-color: #7851a9;
-            border: 1px solid rgba(255, 255, 255, 0.6);
-            border-radius: 25px;
-            font-size: 1em;
-            transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
-        }
-
-        .card h3 {
-            margin-top: 0;
-            font-size: 1.5em;
-            color: #ffffff;
-        }
-
-        .card p {
-            font-size: 1em;
-            color: #ffffff;
-            text-align: center;
-        }
-
-        .card:hover {
-            transform: scale(1.05);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5); 
-        }
-
-nav {
-  background: #7851a9 !important;
-  position: fixed;
-  width: 100%;
-  top: 0;
-  z-index: 1000;
-  box-shadow: 0 6px 20px -5px rgba(0,0,0,0.4);
-}
-
-.navbar .nav-link {
-  color: #fff !important;
-  padding: 8px 12px;
-  border-radius: 8px;
-}
-
-.navbar .nav-link:hover {
-  background: #7851a9 !important;
-  transform: scale(1.03);
-}
-
-.navbar-toggler {
-  border: none;
-  background: rgba(255,255,255,0.2);
-}
-
-.navbar-toggler-icon {
-  filter: invert(1); /* make default icon visible on purple */
-}
-
-
-        @media screen and (max-width: 768px) {
-
-            .card {
-                flex: 1 1 100%; 
-            }
-
-            .navbar-brand img {
-
-                align-items: center !important;
-            }
-
-        }
-
-        .nav-link:hover {
-
-            background-color: #5D4037;
-            
-            
-            transform: scale(1.05);
-            transition: background-color 0.3s ease, transform 0.3s ease;
-            border-radius: 10px;
-          
-        }
-
-.form-wrapper {
-  background: black;
-  padding: 60px 20px;
-  text-align: center;
-  color: white;
-  border-radius: 0;
-  transform: none !important;
-  
-}
-
-.request-form {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid #fff2;
-  border-radius: 15px;
-  max-width: 600px;
-  margin: 30px auto;
-  padding: 30px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-}
-
-.request-form label {
-  display: block;
-  margin-top: 20px;
-  margin-bottom: 6px;
-  text-align: left;
-  font-weight: 500;
-  color: #fff;
-}
-
-.request-form input,
-.request-form textarea,
-.request-form select {
-  width: 100%;
-  padding: 12px;
-  border-radius: 10px;
-  border: none;
-  font-size: 16px;
-  outline: none;
-  margin-bottom: 10px;
-}
-
-.request-form input:focus,
-.request-form textarea:focus,
-.request-form select:focus {
-  border: 2px solid #7851a9;
-  background-color: #fff;
-  color: #000;
-}
-
-.request-form button {
-  background: #7851a9;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  padding: 12px 25px;
-  font-size: 16px;
-  margin-top: 20px;
-  cursor: pointer;
-  transition: 0.3s ease;
-}
-
-.request-form button:hover {
-  background: #fff;
-  color: #5D4037;
-  transform: scale(1.03);
-}
-
-.form-heading {
-  font-size: 32px;
-  font-weight: bold;
-  margin-bottom: 10px;
-  text-align: center;
-}
-
-.form-subtext {
-  font-size: 16px;
-  opacity: 0.8;
-}
-
-.form-note {
-  font-size: 13px;
-  margin-top: 10px;
-  color: #ccc;
-}
-
-.website-request-header {
-    background-image: url('images/website-request-header.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    border-radius: 0;
-}
-
-.help-center-info {
-    background-image: url('images/help-center-info-img.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    border-radius: 0;
-}
-
-section:hover {  
-    transform: none !important;
-    transition: none !important;
-}
-
-.navbar-toggler {
-    border-radius: 5px;
-    padding: 5px 5px;
-
-}
-
-.card-title {
-    color: white !important;
-}
-
-.webeaze-footer {
-    margin-top: 0;
-}
-
-
-
-
-@media screen and (max-width: 768px) {
-  .services-card i {
-    font-size: 1.3em;
-  }
-}
-
-.hero-title {
-  padding: 60px 20px;
-  font-weight: bold;
-  font-size: 40px;
-  margin: 0 auto;
-  max-width: 900px;
-  line-height: 1.1;
-  display: inline-block;
-  color: white;
-  white-space: nowrap;
-}
-
-.cursor {
-  display: inline-block;
-  width: 2px;
-  background: #fff;
-  margin-left: 4px;
-  vertical-align: bottom;
-  animation: blink 1s step-end infinite;
-}
-
-@keyframes blink {
-  0%,100% { opacity: 1; }
-  50% { opacity: 0; }
-}
-
-.slide-in-text {
-  opacity: 0;
-  transform: translateY(10px);
-  animation: slideIn 0.75s ease-out forwards;
-  animation-delay: 1.5s;
-}
-
-@keyframes slideIn {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-
-
-
-
-
-
-</style>
-
-<nav class="navbar navbar-expand-lg navbar-light">
-
-
-
-    <a class="navbar-brand" href="index.html">
-       
-        <img src="images/default-monochrome-white.svg" style="width: 70%;" alt="Brand Logo">
-    </a> 
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
+<body>
+
+<!-- NAV -->
+<div class="nav-wrap">
+  <div class="container container-narrow py-2 d-flex align-items-center justify-content-between">
+    <a href="/" class="d-inline-flex align-items-center">
+      <img class="logo mr-2" src="images/webeaze-transparent.png" alt="WebEaze" />
+      <strong>WebEaze</strong>
+    </a>
+
+    <!-- Desktop -->
+    <div class="d-none d-md-flex align-items-center">
+      <a class="nav-link mr-3" href="/pricing.html">Pricing</a>
+      <a class="nav-link mr-3" href="/about.html">About</a>
+      <a class="nav-link mr-3" href="#faq">FAQ</a>
+      <a class="btn btn-sm btn-brand" href="/consultation.html">Free Consultation</a>
+    </div>
+
+    <!-- Mobile hamburger -->
+    <button class="hamburger d-md-none" type="button" data-toggle="collapse" data-target="#mobileNav"
+            aria-controls="mobileNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span></span><span></span><span></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
+  </div>
 
-      <ul class="navbar-nav">
-
-        <li class="nav-item active">
-          <a class="nav-link" href="index.html">Home </a>
-        </li>
-
-        <li class="nav-item">
-          <a class="nav-link" href="about.html">About Us</a>
-        </li>
-
-        <li class="nav-item">
-         <a class="nav-link" href="pricing.html">Pricing</a>
-       </li>
-
-        <li class="nav-item">
-          <a class="nav-link" href="portal.html">Client Portal</a>
-        </li>
-
-
-
-        <li class="nav-item">
-          <a class="nav-link" href="contact-us.html">Contact Us</a>
-        </li>
-
-      </ul>
-
+  <!-- Mobile menu -->
+  <div id="mobileNav" class="collapse">
+    <div class="container container-narrow py-2 d-flex flex-column">
+      <a class="nav-link py-2" href="#benefits" data-toggle="collapse" data-target="#mobileNav">Why WebEaze</a>
+      <a class="nav-link py-2" href="#included" data-toggle="collapse" data-target="#mobileNav">What's Included</a>
+      <a class="nav-link py-2" href="#process" data-toggle="collapse" data-target="#mobileNav">How It Works</a>
+      <!-- <a class="nav-link py-2" href="#proof" data-toggle="collapse" data-target="#mobileNav">Proof</a> -->
+      <a class="nav-link py-2" href="#faq" data-toggle="collapse" data-target="#mobileNav">FAQ</a>
+      <a class="btn btn-brand my-2 align-self-start" href="/consultation.html">Get Started</a>
     </div>
-</nav>
+  </div>
+</div>
 
-<body class="page-website-setup">
-
-    <header class="promo-section">
-        <h1 class="hero-title">
-            <span id="typed-text"></span><span class="cursor"></span>
-          </h1>          
-          <span id="typed-text"></span>
-        </h1>
-        <p id="intro-services-html" class="slide-in-text">
-          No hourly surprises. No stress. Just proactive fixes, updates, and performance boosts. All under one clear monthly or yearly plan.
+<!-- HERO -->
+<header class="hero">
+  <div class="confetti"></div>
+  <div class="container container-narrow text-center text-md-left">
+    <div class="row align-items-center">
+      <div class="col-md-7">
+        <div class="eyebrow">Elegant • Effortless • Ongoing Care</div>
+        <h1 class="headline mt-2 display-4">Unlimited maintenance. <span class="sparkle">Seriously</span>.</h1>
+        <p class="subhead mt-3">
+          No hourly surprises. No stress. Just proactive fixes, updates, and performance boosts — all under one clear monthly or yearly plan.
         </p>
-
-        <p id="intro-services-html" class="slide-in-text">
-          See what we can do for you, all under one plan. 
-      </header>
-      
-      
-
-      <section class="about-services-page" style="border-radius: 0;">
-        <div class="services-card">
-          <h3><i class="fas fa-sync-alt"></i> Unlimited Updates</h3>
-          <p>Need to change text, swap images, or rearrange pages? It's included, always.</p>
+        <div class="mt-3">
+          <a href="/consultation.html" class="btn btn-brand mr-2 mb-2">Free Consultation</a>
+          <a href="/pricing.html" class="btn btn-ghost mb-2">See Plans</a>
         </div>
-        <div class="services-card">
-          <h3><i class="fas fa-mobile-alt"></i> Fast & Mobile-First</h3>
-          <p>We check and optimize your site monthly to ensure speed, security, and mobile-readiness.</p>
-        </div>
-        <div class="services-card">
-          <h3><i class="fas fa-search"></i> Built-in SEO Support</h3>
-          <p>Every plan includes keyword checks, meta tags, and performance visibility improvements.</p>
-        </div>
-        <div class="services-card">
-          <h3><i class="fas fa-bug"></i> Bugs? Fixed Fast.</h3>
-          <p>Something broken? We fix it quickly, typically in under 48 hours.</p>
-        </div>
-        <div class="services-card">
-          <h3><i class="fas fa-chart-line"></i> We Evolve With You</h3>
-          <p>Running a promo? Changing hours? Just send it over. We keep your site up-to-date.</p>
-        </div>
-        <div class="services-card">
-          <h3><i class="fas fa-credit-card"></i> One Price. One Plan.</h3>
-          <p>Forget hourly billing. Everything is included in one flat monthly or yearly subscription.</p>
-        </div>
-
-        <br>
-        <br>
-      </section>
-
-
-
-      <section style="background-image: url(images/painter.png); color: white; text-align: center; padding: 60px 20px; border-radius: 0; background-repeat: no-repeat; background-size: cover;">
-        <h1 class="hero-title slide-in-text" style="font-size: 36px; max-width: 800px; margin: auto; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); font-weight: bold; line-height: 1.2;
-        ">
-        Keep Your Website Fresh, Always</h1>
-        <p style="font-size: 18px; max-width: 600px; margin: auto;">
-        No more chasing developers or wondering if your site is up to date. One subscription keeps everything running smoothly.
-        </p>
-        <br />
-        <a href="consultation.html" class="cta-button-schedule">Start With a Free Consultation</a>        
-      </section>
-    
-      
-
-
-
-  <footer class="webeaze-footer">
-
-    
-    
-    <div class="footer-grid">
-  
-      <div class="footer-col">
-        <img src="images/default-monochrome-white.svg" style="max-width: 40%;" alt="WebEaze Logo" class="footer-logo">
-        <p>Stunning websites with support that scales with your business. One plan. One price. One powerful online presence.</p>
-
+        <div class="mt-3 small">Trusted by <strong>43+</strong> clients • Avg onboarding <strong>7-14 days</strong></div>
       </div>
-  
-      <div class="footer-col">
-        <h4>Stay Connected</h4>
-        <p>We're on Facebook, LinkedIn, and Instagram. Follow us for updates, tips, and our latest offers! 
-        </p>
- 
-        <div class="social-icons">
-          <a href="https://facebook.com/61568824951084" target="_blank"><i class="fab fa-facebook-f"></i></a>
-          <a href="https://linkedin.com/company/webeaze" target="_blank"><i class="fab fa-linkedin-in"></i></a>
-          <a href="https://instagram.com/webeaze.io" target="_blank"><i class="fab fa-instagram"></i></a>
+      <div class="col-md-5 mt-4 mt-md-0">
+        <div class="hero-card p-3 p-md-4 text-center">
+          <div class="small mb-1">🎉 Limited Time</div>
+          <div class="h5 mb-1">$0 setup on monthly plans</div>
+          <div class="small">Usually $299 • Ends Sept 30</div>
+          <a href="/consultation.html" class="btn btn-brand mt-3">Claim Offer</a>
         </div>
-        
       </div>
-  
-      <div class="footer-col">
-        <h4>Quick Links</h4>
-        <ul>
-          <li><a href="about.html">About Us</a></li>
-          <li><a href="https://webeaze.tawk.help">Help Center</a></li>
-          <li><a href="https://billyjoinville.me/terms">Terms & Privacy</a></li>
-          <li><a href="site-map.html">Site Map</a></li>
-          <li><a href="#top">Back to Top</a></li>
+    </div>
+  </div>
+</header>
+
+<!-- BENEFITS -->
+<section id="benefits" class="py-5 section-band">
+  <div class="container container-narrow surface">
+    <h2 class="h3 text-center mb-4 reveal" style="font-weight: bold;">Why WebEaze maintenance stands out</h2>
+    <div class="features">
+      <div class="feat reveal">
+        <h3>Unlimited updates</h3>
+        <p class="mb-0">Swap images, tweak copy, add sections, run promos. If it's part of your site, it's included.</p>
+      </div>
+      <div class="feat reveal">
+        <h3>Fast & mobile-first</h3>
+        <p class="mb-0">Monthly speed and mobile checks so your site feels great on every device.</p>
+      </div>
+      <div class="feat reveal">
+        <h3>Built-in SEO basics</h3>
+        <p class="mb-0">Meta tags, structure sanity checks, and performance visibility so you're findable.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT'S INCLUDED -->
+<section id="included" class="py-5 section-band" >
+  <div class="container container-narrow surface">
+    <div class="media-split">
+      <div class="media-box reveal"><div class="mock" aria-hidden="true"></div></div>
+      <div class="reveal">
+        <div class="eyebrow">What's inside every plan</div>
+        <ul class="mb-3 pl-3">
+          <li>Content edits & page tweaks (unlimited)</li>
+          <li>Bug fixes and link checks (typical turnaround &lt; 48 hours)</li>
+          <li>Speed, security, and mobile reviews</li>
+          <li>Light SEO (titles, descriptions, headings, alt text)</li>
+          <li>Help via email, chat, or Zoom</li>
         </ul>
+        <a href="/pricing.html" class="btn btn-brand mr-2 mb-2">View Pricing</a>
+        <a href="/samples.html" class="btn btn-ghost mb-2">See Past Work</a>
       </div>
-  
-      <div class="footer-col">
-        <h4>Our Recognition</h4>
-        <a href="https://www.designrush.com/agency/profile/webeaze" target="_blank">
-          <img src="images/designrush-profile.svg" alt="WebEaze verified agency on DesignRush" style="max-width: 100px; margin-bottom: 10px;">
-        </a>
-        <script type="text/javascript" src="https://www.designrush.com/topbest/js/widgets/agency-reviews.js"></script><div data-designrush-widget data-agency-id="86840" data-style="dark" aria-label="DesignRush agency reviews section"></div><noscript><a href="https://www.designrush.com/agency/profile/webeaze#reviews" target="_blank" aria-label="Visit WebEaze reviews on DesignRush">REVIEW US ON DESIGNRUSH</a></noscript>
-      </div>
-  
     </div>
-  
-    <div class="footer-bottom">
-      <p>© 2025 WebEaze. Created and designed by WebEaze. Published on <a href="https://pages.github.com/">GitHub</a>.</p>
-    </div>
-  </footer>
+  </div>
+</section>
 
-  <!-- Scripts -->
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-  <script>
-    const fullText = "Unlimited Website Maintenance. Yes. Seriously.";
-    const target = document.getElementById("typed-text");
-    let idx = 0;
-  
-    function typeWriter() {
-      if (idx < fullText.length) {
-        target.textContent += fullText[idx];
-        idx++;
-        setTimeout(typeWriter, 60);
-      }
-    }
-  
-    document.addEventListener("DOMContentLoaded", () => {
-      typeWriter();
+<!-- PROCESS -->
+<section id="process" class="py-5 section-band">
+  <div class="container container-narrow surface">
+    <h2 class="h3 text-center mb-3 reveal" style="font-weight: bold;">How it works</h2>
+    <div class="process">
+      <div class="step reveal">
+        <div class="num">1</div>
+        <h3 class="h6">Kickoff & brief</h3>
+        <p class="mb-0">We confirm goals, must-haves, and sites/platforms. Clear scope, clear timeline.</p>
+      </div>
+      <div class="step reveal">
+        <div class="num">2</div>
+        <h3 class="h6">We get to work</h3>
+        <p class="mb-0">We implement, QA, and send a quick summary. You review; we refine.</p>
+      </div>
+      <div class="step reveal">
+        <div class="num">3</div>
+        <h3 class="h6">Ongoing care</h3>
+        <p class="mb-0">Send requests anytime. We keep your site fresh, fast, and on-brand.</p>
+      </div>
+    </div>
+    <div class="text-center mt-3 reveal">
+      <a href="/consultation.html" class="btn btn-brand">Start in 15 minutes</a>
+    </div>
+  </div>
+</section>
+
+<!-- PROOF / TESTIMONIALS -->
+<!-- <section id="proof" class="py-5 section-band">
+  <div class="container container-narrow surface">
+    <h2 class="h3 text-center mb-3 reveal">Proof it works</h2>
+    <div class="testi">
+      <div class="quote reveal">
+        <p class="mb-1">“WebEaze got us live quickly and keeps improving the site every month. Easy to work with and genuinely proactive.”</p>
+        <div class="who">Local Services Owner</div>
+      </div>
+      <div class="quote reveal">
+        <p class="mb-1">“They fix things before I notice them and are super responsive when I want to run a promo.”</p>
+        <div class="who">Cafe Manager</div>
+      </div>
+    </div>
+    <div class="text-center mt-3 reveal">
+      <a href="/samples.html" class="btn btn-ghost">See more results</a>
+    </div>
+  </div>
+</section> -->
+
+<!-- FAQ -->
+<section id="faq" class="py-5 section-band">
+  <div class="container container-narrow surface">
+    <h2 class="h3 text-center mb-3 reveal" style="font-weight: bold;">FAQs</h2>
+    <div class="faq-grid">
+      <details class="faq-item reveal">
+        <summary><strong>Which platforms do you support?</strong></summary>
+        <div class="pt-2">We're flexible: clean HTML/CSS, Squarespace, WordPress, Wix, and more. We'll recommend the best fit during kickoff.</div>
+      </details>
+      <details class="faq-item reveal">
+        <summary><strong>How fast are updates?</strong></summary>
+        <div class="pt-2">Most content edits ship within 24-48 hours. Bigger changes are scheduled with you.</div>
+      </details>
+      <details class="faq-item reveal">
+        <summary><strong>Can you maintain my current site?</strong></summary>
+        <div class="pt-2">Yes. We refresh design, improve speed, and migrate hosting as needed—without breaking what works.</div>
+      </details>
+      <details class="faq-item reveal">
+        <summary><strong>What's the commitment?</strong></summary>
+        <div class="pt-2">Month-to-month or yearly (best value). Upgrade anytime; we keep scopes stable to protect quality. You may cancel at any time - we understand plans change.</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="py-5 text-center section-band" id="cta">
+  <div class="container container-narrow surface">
+    <h2 class="h4 mb-2 reveal" style="font-weight: bold;">Ready to keep your site fresh?</h2>
+    <p class="subhead reveal">Book a free consultation. We'll map the fastest path to calm, consistent website care.</p>
+    <a href="/consultation.html" class="btn btn-brand mt-2 reveal">Book a Free Consultation</a>
+  </div>
+</section>
+
+<footer class="py-4 text-center">
+  <div class="container container-narrow">
+    <div class="mb-1">&copy; <span id="yr"></span> WebEaze. All rights reserved.</div>
+    <div class="mb-2 small">
+      <a href="https://billyjoinville.me/terms#privacy-policy">Privacy Policy</a> ·
+      <a href="https://billyjoinville.me/terms">Terms</a>
+    </div>
+    <div class="small">Made with ☕ in Delaware, USA</div>
+  </div>
+</footer>
+
+<!-- JS -->
+<script>document.getElementById('yr').textContent=new Date().getFullYear();</script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+  // Reveal on scroll (once)
+  (function(){
+    var els=[].slice.call(document.querySelectorAll('.reveal'));
+    if(!('IntersectionObserver'in window)){els.forEach(e=>e.classList.add('in-view'));return;}
+    var io=new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){entry.target.classList.add('in-view');io.unobserve(entry.target);}
+      });
+    },{threshold:.14});
+    els.forEach(e=>io.observe(e));
+  })();
+
+  // Smooth section scroll after mobile menu closes
+  (function(){
+    var menu=document.getElementById('mobileNav'); if(!menu) return;
+    menu.addEventListener('click',function(e){
+      var a=e.target.closest('a[href^="#"]'); if(!a) return;
+      var id=a.getAttribute('href').slice(1), target=document.getElementById(id); if(!target) return;
+      e.preventDefault(); $(menu).collapse('hide');
+      $(menu).one('hidden.bs.collapse',function(){ target.scrollIntoView({behavior:'smooth',block:'start'}); });
     });
-  </script>
-  
-  
-
+  })();
+</script>
 </body>
 </html>
