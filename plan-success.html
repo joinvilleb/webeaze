@@ -1,105 +1,254 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Welcome to WebEaze | WebEaze</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="shortcut icon" href="images/favicon.png" type="image/png">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Welcome to WebEaze 🎉</title>
+  <meta name="description" content="You're in! Here's what happens next and how to get the most out of your new WebEaze subscription." />
+  <link rel="shortcut icon" href="images/favicon.png" type="image/png" />
+  <!-- Fonts & CSS -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" />
+
+  <!-- Social -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Welcome to WebEaze 🎉" />
+  <meta property="og:description" content="You're in! Here's what happens next and how to get the most out of your new WebEaze subscription." />
+  <meta property="og:image" content="images/default-monochrome.png" />
+  <meta property="og:url" content="https://www.webeaze.io/welcome" />
+  <meta name="twitter:card" content="summary_large_image" />
+
   <style>
-body {
-  background-color: #7851a9;
-  color: white;
-  font-family: 'Poppins', sans-serif;
-  text-align: center;
-  padding: 40px 20px;
-  margin: 0;
-}
-
-    h1 {
-      font-size: 2.5rem;
-      margin-bottom: 1rem;
+    :root{
+      --purple:#7851a9;
+      --brown:#5D4037;
+      --gold:#ffd700;
+      --ring:rgba(255,255,255,.18);
+      --ink:#1c1230;
     }
-    p {
-      font-size: 1.2rem;
-      color: #ccc;
-      margin-bottom: 2rem;
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0}
+    body{
+      font-family:Poppins,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      color:#fff;
+      background:
+        radial-gradient(1200px 800px at 10% -10%, rgba(255,255,255,.10), transparent 60%),
+        radial-gradient(900px 600px at 110% 0%, rgba(255,255,255,.06), transparent 50%),
+        var(--purple);
     }
-    .logo {
-      max-width: 180px;
-      margin-bottom: 2rem;
+
+    /* Header / Hero */
+    .hero{
+      position:relative;overflow:hidden;text-align:center;padding:72px 18px 32px;
+      border-bottom:1px solid rgba(255,255,255,.12);
     }
-    footer {
-  margin-top: 60px;
-  text-align: center;
-  font-size: 0.8rem;
-  color: #ffffff;
-}
+    .logo{height:64px;margin-bottom:14px}
+    .badge{display:inline-block;padding:6px 12px;border-radius:999px;border:1px solid var(--ring);background:rgba(255,255,255,.12);font-weight:600}
+    h1{font-size:clamp(28px,4.5vw,44px);font-weight:700;margin:12px 0 8px}
+    .lead{max-width:840px;margin:0 auto;color:#efeaf9;opacity:.98}
 
+    /* Celebration check */
+    .check-wrap{
+      display:flex;align-items:center;justify-content:center;margin:18px 0 8px;
+    }
+    .pulse{
+      width:68px;height:68px;border-radius:50%;
+      background:linear-gradient(135deg,#8c6cd1, #5b3e8d);
+      display:grid;place-items:center;
+      box-shadow:0 10px 25px rgba(0,0,0,.35), inset 0 0 0 2px rgba(255,255,255,.1);
+      animation:pulse 2.2s ease-in-out infinite;
+    }
+    .check{font-size:34px;line-height:1}
+    @keyframes pulse{
+      0%{transform:scale(1);box-shadow:0 10px 25px rgba(0,0,0,.35)}
+      50%{transform:scale(1.06);box-shadow:0 18px 36px rgba(0,0,0,.42)}
+      100%{transform:scale(1)}
+    }
 
-    p {
-        word-wrap: break-word;
-        overflow-wrap: break-word;
-        white-space: normal; 
+    /* Content wrapper */
+    main{padding:30px 18px 80px}
+    .container-narrow{max-width:1040px;margin:0 auto}
+
+    /* Cards / sections */
+    .card-soft{
+      background:rgba(255,255,255,.08);
+      border:1px solid var(--ring);
+      border-radius:18px;
+      padding:22px;
+      box-shadow:0 14px 32px rgba(0,0,0,.28);
+    }
+    .card-soft h3{margin-bottom:8px;color:#fff;font-weight:700;font-size:1.2rem}
+    .muted{color:#e9e4f6;opacity:.9}
+
+    /* Progress steps */
+    .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-top:10px}
+    .step{
+      background:rgba(0,0,0,.12); border:1px solid var(--ring); border-radius:14px; padding:16px;
+    }
+    .step .num{
+      width:30px;height:30px;border-radius:50%;display:inline-grid;place-items:center;
+      background:#6b49a1; font-weight:700; margin-right:8px;
+    }
+
+    /* Action buttons */
+    .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:14px}
+    .btn-brand{
+      background:var(--gold); color:#2a2140; border:none; border-radius:12px; padding:12px 18px; font-weight:700; text-decoration:none;
+      box-shadow:0 8px 18px rgba(0,0,0,.25); transition:transform .18s ease;
+    }
+    .btn-ghost{
+      border:1px solid rgba(255,255,255,.35); border-radius:12px; padding:12px 18px; font-weight:600; text-decoration:none; color:#fff;
+      background:transparent; transition:transform .18s ease;
+    }
+    .btn-brand:hover,.btn-ghost:hover{transform:translateY(-2px)}
+
+    /* Quick links tiles */
+    .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-top:14px}
+    .tile{
+      border:1px solid var(--ring); background:rgba(255,255,255,.06); border-radius:16px; padding:16px; height:100%;
+      transition:transform .2s ease, box-shadow .2s ease;
+    }
+    .tile:hover{transform:translateY(-3px); box-shadow:0 12px 26px rgba(0,0,0,.28)}
+    .tile .t-title{font-weight:700;margin-bottom:4px}
+    .tile p{margin:0;color:#f2eff7;opacity:.95}
+
+    /* Tips list */
+    .tips{display:grid;grid-template-columns:1fr;gap:10px}
+    .tip{display:flex;align-items:flex-start;gap:10px}
+    .tip .dot{width:10px;height:10px;border-radius:50%;background:#a88be1;margin-top:8px}
+
+    /* Footer */
+    footer{padding:32px 18px;text-align:center;color:#fff}
+    footer a{color:#fff;text-decoration:underline}
+
+    /* Mobile niceties */
+    @media (max-width: 560px){
+      .cta .btn-brand, .cta .btn-ghost{flex:1 1 100%; text-align:center}
     }
   </style>
 </head>
 <body>
-<a href="index.html">
-    <img src="images/webeaze-transparent.png" alt="WebEaze Logo" class="logo">
-</a>
-  <h1>
-    You're officially our newest client!
-  </h1>
-<p style="text-align: left; padding: 20px; max-width: 600px; margin: 0 auto; line-height: 1.6;" >Thanks for subscribing to a WebEaze plan.  We've sent you an email with more information. Here are some resources while we work on your 
-    website.
 
-   
-    
-
-</p>
-
-
-<script>
-    function toggleSpoiler() {
-        const content = document.querySelector('.spoiler-content');
-        content.style.display = content.style.display === 'none' ? 'block' : 'none';
-    }
-</script>
-
-<style>
-    .spoiler {
-        margin-top: 0 auto;
-        padding-bottom: 40px;
-    }
-    .spoiler-content {
-        margin-top: 10px;
-        background-color: rgba(120, 69, 69, 0.1);
-        padding: 10px;
-        border-radius: 5px;
-    }
-</style>
-
-
-    <a href="portal.html" class="btn btn-light btn-lg" >Visit Your Client Portal</a>
-
-    <br>
-    <br>
-
-    <a href="https://webeaze.tawk.help/article/website-completion" class="btn btn-light btn-lg">Website Launch Timeline</a>
-
-    <br>
-    <br>
-    <a href="https://webeaze.tawk.help/category/domain-support" class="btn btn-light btn-lg">
-        Connecting or Transferring Your Domain
+  <!-- HERO -->
+  <header class="hero">
+    <a href="index.html" aria-label="WebEaze Home">
+      <img src="images/webeaze-transparent.png" alt="WebEaze" class="logo" />
     </a>
 
- 
-  <footer>&copy; 2025 WebEaze. All rights reserved. 
-    <br>
-    <a href="https://billyjoinville.me/terms#privacy-policy" class="text-white">Privacy Policy</a> | 
-    <a href="https://billyjoinville.me/terms" class="text-white">Terms</a>
+    <div class="check-wrap" aria-hidden="true">
+      <div class="pulse"><span class="check">✓</span></div>
+    </div>
+
+    <span class="badge">Subscription Confirmed</span>
+    <h1>Welcome aboard! You’re officially our newest client 🎉</h1>
+    <p class="lead">We’ve emailed your receipt and onboarding details. Below is exactly what happens next and how to get a head start while we prep your build.</p>
+
+    <div class="cta" style="justify-content:center;margin-top:18px">
+      <a class="btn-brand" href="portal.html">Open Your Client Portal</a>
+      <a class="btn-ghost" href="https://webeaze.tawk.help/article/website-completion" target="_blank" rel="noopener">Launch Timeline</a>
+      <a class="btn-ghost" href="https://webeaze.tawk.help/category/domain-support" target="_blank" rel="noopener">Domain Support</a>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main>
+    <div class="container-narrow">
+      <!-- What happens next -->
+      <section class="card-soft">
+        <h3>What happens next</h3>
+        <p class="muted">We move fast, but we’ll keep things simple and transparent.</p>
+        <div class="steps">
+          <div class="step">
+            <div><span class="num">1</span><strong>Kickoff Review</strong></div>
+            <p class="muted" style="margin:8px 0 0">We confirm details from your order and prep your initial structure + theme.</p>
+          </div>
+          <div class="step">
+            <div><span class="num">2</span><strong>Content & Access</strong></div>
+            <p class="muted" style="margin:8px 0 0">Upload your logo, images, copy, and any logins right in the <a href="portal.html"><u>Portal</u></a>.</p>
+          </div>
+          <div class="step">
+            <div><span class="num">3</span><strong>First Preview</strong></div>
+            <p class="muted" style="margin:8px 0 0">We share a live preview for feedback. Most launches go live within <strong>1–2 weeks</strong>.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Do this now -->
+      <section class="card-soft" style="margin-top:16px">
+        <h3>Do this now (takes ~5 minutes)</h3>
+        <div class="tiles">
+          <div class="tile">
+            <div class="t-title">1) Log in to your Portal</div>
+            <p>Submit content, requests, and track progress in one place.</p>
+            <div class="cta" style="margin-top:10px">
+              <a class="btn-brand" href="portal.html">Go to Portal</a>
+            </div>
+          </div>
+          <div class="tile">
+            <div class="t-title">2) Skim the timeline</div>
+            <p>See milestones and how we hit your launch date.</p>
+            <div class="cta" style="margin-top:10px">
+              <a class="btn-ghost" href="https://webeaze.tawk.help/article/website-completion" target="_blank" rel="noopener">View Timeline</a>
+            </div>
+          </div>
+          <div class="tile">
+            <div class="t-title">3) Domain next steps</div>
+            <p>New domain or transfer? This guide keeps it painless.</p>
+            <div class="cta" style="margin-top:10px">
+              <a class="btn-ghost" href="https://webeaze.tawk.help/category/domain-support" target="_blank" rel="noopener">Domain Help</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Tips -->
+      <section class="card-soft" style="margin-top:16px">
+        <h3>Pro tips for a smooth (and speedy) launch</h3>
+        <div class="tips">
+          <div class="tip"><span class="dot"></span><p class="muted" style="margin:0">Send original, high-res images where possible (logo as SVG/PNG).</p></div>
+          <div class="tip"><span class="dot"></span><p class="muted" style="margin:0">Bullet your services and the #1 action you want visitors to take.</p></div>
+          <div class="tip"><span class="dot"></span><p class="muted" style="margin:0">If you sell time (tutoring, trades, travel), share your typical availability window.</p></div>
+        </div>
+      </section>
+
+      <!-- Help / Support -->
+      <section class="card-soft" style="margin-top:16px">
+        <h3>Need help?</h3>
+        <p class="muted">Our team is friendly, fast, and human.</p>
+        <div class="cta">
+          <a class="btn-ghost" href="https://webeaze.tawk.help" target="_blank" rel="noopener">Visit the Help Center</a>
+          <a class="btn-ghost" href="contact-us.html">Contact Support</a>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>&copy; 2025 WebEaze. All rights reserved. · <a href="https://billyjoinville.me/terms#privacy-policy" target="_blank" rel="noopener">Privacy Policy</a> · <a href="https://billyjoinville.me/terms" target="_blank" rel="noopener">Terms</a></p>
   </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Confetti (lightweight) -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  <script>
+    // Fire a tasteful confetti burst on load
+    (function celebrate(){
+      const duration = 1600;
+      const end = Date.now() + duration;
+      (function frame(){
+        confetti({
+          particleCount: 4,
+          spread: 70,
+          startVelocity: 42,
+          gravity: 0.7,
+          ticks: 200,
+          origin: { x: Math.random() * .6 + .2, y: Math.random() * .2 + .05 }
+        });
+        if (Date.now() < end) requestAnimationFrame(frame);
+      })();
+    })();
+  </script>
 </body>
 </html>
