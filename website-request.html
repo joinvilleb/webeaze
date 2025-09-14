@@ -494,5 +494,64 @@ Started: after update on (date)</pre>
       });
     });
   </script>
+
+<script>
+  (function(){
+    const nav = document.querySelector('.site-nav');
+    if(!nav) return;
+
+    // If you keep the sticky promo bar, we offset logic a bit so top-area feels natural
+    const PROMO_HEIGHT = (document.querySelector('.promo-bar')?.offsetHeight || 0);
+
+    let lastY = window.pageYOffset || document.documentElement.scrollTop || 0;
+    let ticking = false;
+    const DELTA = 6;                           // minimum px movement to react
+    const LOCK_CLASS = 'nav-locked';           // visible/locked (e.g., when menu open)
+    const HIDE_CLASS = 'nav-hide';             // hidden on scroll down
+
+    function onScroll(){
+      if (ticking) return;
+      window.requestAnimationFrame(() => {
+        const y = window.pageYOffset || document.documentElement.scrollTop || 0;
+        const diff = y - lastY;
+
+        // never hide when near very top (promo area)
+        const nearTop = y <= PROMO_HEIGHT + 4;
+
+        if (Math.abs(diff) > DELTA && !nav.classList.contains(LOCK_CLASS)) {
+          if (diff > 0 && !nearTop) {
+            // scrolling down
+            nav.classList.add(HIDE_CLASS);
+          } else {
+            // scrolling up
+            nav.classList.remove(HIDE_CLASS);
+          }
+        }
+
+        // always show if at the very top
+        if (nearTop) nav.classList.remove(HIDE_CLASS);
+
+        lastY = y <= 0 ? 0 : y;
+        ticking = false;
+      });
+      ticking = true;
+    }
+
+    // Keep nav visible while the collapse menu is open (Bootstrap)
+    const collapse = document.getElementById('mainNav');
+    if (collapse) {
+      collapse.addEventListener('show.bs.collapse', () => {
+        nav.classList.add(LOCK_CLASS);
+        nav.classList.remove(HIDE_CLASS);
+      });
+      collapse.addEventListener('hide.bs.collapse', () => {
+        nav.classList.remove(LOCK_CLASS);
+      });
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+  })();
+</script>
+
 </body>
 </html>
