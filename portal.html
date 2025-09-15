@@ -5,343 +5,289 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Client Portal | WebEaze</title>
   <meta name="description" content="Track your progress, request changes, and get support—all in one place." />
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="shortcut icon" href="images/favicon.png" type="image/png" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet"/>
+  <link rel="shortcut icon" href="images/favicon.png" type="image/png"/>
 
-  <!-- Open Graph / Twitter -->
-  <meta property="og:title" content="WebEaze Client Portal" />
-  <meta property="og:description" content="Support, requests, and updates—all in one place." />
-  <meta property="og:url" content="https://www.webeaze.io/portal" />
-  <meta property="og:image" content="images/favicon.png" />
-  <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="WebEaze Client Portal" />
-  <meta name="twitter:description" content="Support, requests, and updates—all in one place." />
-  <meta name="twitter:image" content="images/favicon.png" />
-
-  <!-- Ads -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4466809892932219" crossorigin="anonymous"></script>
-
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JQM6ZR4JCB"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-JQM6ZR4JCB');
-  </script>
+  <!-- OG/Twitter -->
+  <meta property="og:title" content="WebEaze Client Portal"/>
+  <meta property="og:description" content="Support, requests, and updates—all in one place."/>
+  <meta property="og:url" content="https://www.webeaze.io/portal.html"/>
+  <meta property="og:image" content="images/favicon.png"/>
+  <meta name="twitter:card" content="summary"/>
 
   <style>
     :root{
-      --bg:#000;
+      --bg:#0b0a10;
       --brand:#7851a9;
       --brand-2:#5D4037;
-      --accent:#ffcc66;
-      --text:#fff;
-      --muted:#cfcfcf;
-      --glass: rgba(255,255,255,.08);
-      --border: rgba(255,255,255,.18);
-      --radius: 14px;
-      --shadow: 0 8px 24px rgba(0,0,0,.25);
+      --ink:#eae6ff;
+      --muted:#cfcbd8;
+      --ring:rgba(255,255,255,.15);
+      --glass:rgba(255,255,255,.07);
+      --border:rgba(255,255,255,.18);
+      --accent:#ffd36b;
+      --green:#2ecc71;
+      --radius:16px;
+      --shadow:0 14px 40px rgba(0,0,0,.35);
     }
-    html,body{background:#000;color:var(--text);font-family:'Poppins',sans-serif}
     *{box-sizing:border-box}
-    a{color:var(--text);font-weight:600}
-    a:hover{text-decoration:none;color:#e6ddff}
+    html,body{margin:0;background:var(--bg);color:#fff;font-family:Poppins,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+    a{color:#fff;text-decoration:none} a:hover{opacity:.9}
+    .container-narrow{max-width:1080px;margin:0 auto;padding:0 18px}
 
-    /* Top promo bar */
-    .promo-bar{
-      position:sticky;top:0;z-index:1100;
-      width:100%;background:linear-gradient(90deg,var(--brand),var(--brand-2));
-      color:#fff;text-align:center;padding:.6rem .75rem;border-bottom:1px solid var(--border)
-    }
-    .promo-bar b{color:var(--accent)}
-    .promo-bar .btn{
-      margin-left:.5rem;background:var(--accent);color:#2b1e12;border:none;padding:.35rem .7rem;border-radius:999px;font-weight:700
-    }
-    .promo-bar .btn:hover{opacity:.9}
+    /* Promo */
+    .promo-bar{position:sticky;top:0;z-index:1100;background:linear-gradient(90deg,var(--brand),var(--brand-2));padding:.6rem .75rem;text-align:center;border-bottom:1px solid var(--border)}
+    .promo-bar .btn{margin-left:.5rem;background:var(--accent);color:#2b1e12;border:none;padding:.35rem .7rem;border-radius:999px;font-weight:700}
 
-    /* Navbar */
-    nav.navbar{
-      position:sticky;top:48px; /* below promo bar */
-      background:rgba(255,255,255,.06)!important;backdrop-filter:saturate(120%) blur(6px);
-      border-bottom:1px solid var(--border);z-index:1000
-    }
-    .navbar-brand img{height:48px}
-    .nav-link{color:#fff!important;padding:.4rem .6rem;border-radius:10px}
+    /* Nav (auto-hide on scroll) */
+    nav.site-nav{position:sticky;top:44px;z-index:1000;background:rgba(255,255,255,.06)!important;backdrop-filter:saturate(140%) blur(6px);border-bottom:1px solid var(--ring);transition:transform .25s ease}
+    .nav-hidden{transform:translateY(-100%)}
+    .navbar-brand img{height:50px}
+    .nav-link{color:#fff !important;border-radius:12px;padding:.45rem .7rem}
     .nav-link:hover{background:var(--glass)}
 
     /* Hero */
-    header#portal-hero{
-      background:linear-gradient(180deg,var(--brand) 0%, var(--brand-2) 100%);
-      padding:84px 20px 36px;text-align:center
+    header.hero{
+      position:relative;overflow:hidden;text-align:center;
+      background:
+        radial-gradient(900px 400px at 10% -10%, rgba(255,255,255,.10), transparent 60%),
+        radial-gradient(900px 400px at 90% -10%, rgba(255,255,255,.10), transparent 60%),
+        linear-gradient(180deg, rgba(120,81,169,.92), rgba(93,64,55,.95));
+      padding:90px 18px 40px; isolation:isolate;
     }
-    #random-question{font-size:36px;font-weight:700;margin:0}
-    #hero-sub{margin-top:10px;color:#f2eaff}
-    #dynamic-greeting{font-weight:600;margin-top:14px}
+    .hero .orb{position:absolute;width:520px;height:520px;border-radius:50%;background:radial-gradient(closest-side, rgba(255,255,255,.22), rgba(255,255,255,0));filter:blur(40px);z-index:0;opacity:.6;left:-180px;top:-120px}
+    .hero .orb2{left:auto;right:-220px;top:-160px;opacity:.45}
+    .hero h1{position:relative;z-index:1;font-size:clamp(32px,4.2vw,48px);font-weight:800;margin:0 0 8px}
+    .hero p.lead{position:relative;z-index:1;max-width:820px;margin:10px auto 0;opacity:.96;line-height:1.7}
+    .chip{display:inline-flex;gap:8px;align-items:center;margin-top:14px;background:rgba(255,255,255,.12);border:1px solid var(--ring);border-radius:999px;padding:8px 12px;font-weight:600}
 
-    /* Hours bar */
-    #hours-container{max-width:860px;margin:18px auto 0}
-    #hours-message{
-      margin:0;padding:10px 16px;border-radius:12px;background:#666;color:#fff;box-shadow:var(--shadow);
-      font-weight:500
-    }
+    /* Panels */
+    .card-glass{background:var(--glass);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow)}
+    section{padding:34px 0}
+
+    /* Auth card */
+    .auth-wrap{max-width:520px;margin:20px auto 0}
+    .auth-card{padding:22px;text-align:left}
+    .auth-card h2{font-size:1.35rem;margin-bottom:6px}
+    .auth-card label{font-weight:600}
+    .form-control{background:rgba(0,0,0,.25);border:1px solid var(--ring);color:#fff}
+    .btn-accent{border:2px solid var(--accent);background:transparent;color:#fff;border-radius:999px;padding:.6rem 1rem;font-weight:700}
+    .btn-accent:hover{background:var(--accent);color:#2b1e12}
+    .hint{font-size:.9rem;color:var(--muted)}
+
+    /* Dashboard */
+    .dash{display:grid;grid-template-columns:1.2fr .8fr;gap:20px}
+    @media (max-width:992px){.dash{grid-template-columns:1fr}}
+    .tile{padding:18px}
+    .tile h3{font-size:1.15rem;margin-bottom:10px}
+    .quick-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
+    .quick-link{display:flex;align-items:center;justify-content:center;gap:8px;border:1px solid var(--border);border-radius:12px;padding:12px;background:rgba(255,255,255,.06);font-weight:700;text-align:center}
+    .muted{color:var(--muted)}
 
     /* Tabs */
-    .tabs{
-      display:flex;justify-content:center;align-items:center;gap:.5rem;
-      background:var(--glass);border:1px solid var(--border);
-      border-radius:999px;width:fit-content;margin:22px auto;padding:.35rem
-    }
-    .tabs button{
-      background:transparent;border:none;color:#fff;font-weight:600;padding:.6rem 1rem;border-radius:999px;cursor:pointer
-    }
+    .tabs{display:flex;justify-content:center;align-items:center;gap:.5rem;background:var(--glass);border:1px solid var(--border);border-radius:999px;width:fit-content;margin:22px auto;padding:.35rem}
+    .tabs button{background:transparent;border:none;color:#fff;font-weight:600;padding:.6rem 1rem;border-radius:999px;cursor:pointer}
     .tabs button[aria-selected="true"]{background:rgba(255,255,255,.14);border:1px solid var(--border)}
-
-    .tab-panel{
-      display:none;max-width:980px;margin:0 auto;padding:24px 16px
-    }
+    .tab-panel{display:none;max-width:980px;margin:0 auto;padding:24px 16px}
     .tab-panel.active{display:block}
 
-    .card-ghost{
-      background:var(--glass);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow)
-    }
-
-    /* Quick help grid */
-    .help-grid{
-      display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:12px
-    }
-    @media (max-width:768px){.help-grid{grid-template-columns:1fr}}
-
-    .cta-chip{
-      display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:999px;
-      background:rgba(255,255,255,.10);border:1px solid var(--border);font-weight:600
-    }
-
-    /* Accordions */
-    .accordion-item{
-      border:1px solid var(--border);border-radius:12px;margin-bottom:10px;overflow:hidden;background:var(--glass)
-    }
-    .accordion-button{
-      width:100%;text-align:left;background:transparent;border:none;color:#fff;font-weight:600;
-      padding:14px 16px;display:flex;justify-content:space-between;align-items:center;cursor:pointer
-    }
-    .accordion-button i{transition:transform .25s}
-    .accordion-button[aria-expanded="true"] i{transform:rotate(180deg)}
-    .accordion-content{
-        margin: 20px;
-      display:none;padding:0 16px 16px;color:#fff
-    }
-    .accordion-item.open .accordion-content{display:block}
-
     /* Footer */
-    footer.webeaze-footer{background:var(--brand);margin-top:48px}
-    .footer-grid{
-      max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:24px;padding:32px 16px
-    }
+    footer{background:var(--brand);margin-top:48px}
+    .footer-grid{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:24px;padding:32px 16px}
     @media (max-width:900px){.footer-grid{grid-template-columns:1fr 1fr}}
     @media (max-width:600px){.footer-grid{grid-template-columns:1fr}}
-    .footer-col h4{font-weight:700}
-    .footer-bottom{border-top:1px solid rgba(255,255,255,.25);text-align:center;padding:14px 10px;color:#f7edff}
+    .footer-bottom{border-top:1px solid rgb(255, 255, 255);text-align:center;padding:14px 10px;color:#f7edff}
+    .account-chip{position:relative;display:inline-flex;align-items:center;gap:10px;padding:8px 12px;border-radius:999px;background:rgba(255,255,255,.12);border:1px solid var(--ring);font-weight:600}
 
-    /* Utility */
-    .btn-outline-accent{
-      border:2px solid var(--accent);color:#fff;border-radius:999px;padding:.6rem 1rem;font-weight:700
+    /* Request templates (simple, copy-only) */
+    .template{position:relative;border:1px dashed var(--border);border-radius:12px;padding:12px 12px 38px;margin-bottom:12px;background:rgba(255, 255, 255, 0.04)}
+    .template pre{white-space:pre-wrap;margin:0;font-family:inherit}
+    .copy-btn{position:absolute;right:10px;bottom:10px}
+
+    pre {
+      color: white !important;
     }
-    .btn-outline-accent:hover{background:var(--accent);color:#2b1e12}
-    .muted{color:var(--muted)}
   </style>
 </head>
 
 <body>
-  <!-- Promo: Anniversary referral -->
-  <div class="promo-bar" role="region" aria-label="Anniversary promotion">
-    <!-- We're 1! Earn <b>$200/referral</b> this month only. -->
-
+  <!-- Promo -->
+  <div class="promo-bar">
     Get 1 month free when you switch to annual billing. Ends 9/30.
-    <a class="btn" href="https://billing.stripe.com/p/login/7sI3gfaO14CEdlm144" target="_blank" rel="noopener
-    ">Upgrade</a>
+    <a class="btn" href="https://billing.stripe.com/p/login/7sI3gfaO14CEdlm144" target="_blank" rel="noopener">Upgrade</a>
   </div>
 
-  <!-- NAV -->
-  <nav class="navbar navbar-expand-lg navbar-light bg-transparent">
-    <a class="navbar-brand" href="index.html">
-      <img src="images/default-monochrome-white.svg" alt="WebEaze logo">
-    </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon" style="filter:invert(1)"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-        <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
-        <li class="nav-item"><a class="nav-link" href="pricing.html">Pricing</a></li>
-        <li class="nav-item"><a class="nav-link" href="portal.html" aria-current="page">Client Portal</a></li>
-        <li class="nav-item"><a class="nav-link" href="contact-us.html">Contact</a></li>
-      </ul>
+  <!-- NAV (unchanged) -->
+  <nav class="navbar navbar-expand-lg navbar-dark site-nav">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center" href="index.html">
+        <img src="images/default-monochrome-white.svg" alt="WebEaze"/>
+      </a>
+
+
+
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainNav"
+              aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse justify-content-end" id="mainNav">
+        <ul class="navbar-nav align-items-lg-center">
+          <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="pricing.html">Pricing</a></li>
+          <li class="nav-item"><a class="nav-link" href="samples.html">Samples</a></li>
+          <li class="nav-item"><a class="nav-link" href="portal.html" aria-current="page">Client Portal</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact-us.html">Contact</a></li>
+        </ul>
+      </div>
     </div>
   </nav>
 
   <!-- HERO -->
-  <header id="portal-hero">
-    <h1 id="random-question">Client Portal</h1>
-    <p id="hero-sub">Track your progress, request changes, and get support—all in one place.</p>
-    <p id="dynamic-greeting" class="muted"></p>
-
-    <!-- Hours / Availability -->
-    <div id="hours-container" aria-live="polite">
-      <p id="hours-message">Checking availability…</p>
+  <header class="hero">
+    <div class="orb"></div><div class="orb orb2"></div>
+    <div class="container-narrow">
+      <h1>Client Portal</h1>
+      <p class="lead">Track your progress, request changes, and get support — all in one place.</p>
+      <div id="hoursChip" class="chip" aria-live="polite"><i class="far fa-clock"></i>&nbsp;<span id="hoursText">Checking availability…</span></div>
     </div>
   </header>
 
-  <!-- TABS -->
-  <main>
-    <div class="tabs" role="tablist" aria-label="Portal sections">
-      <button class="tab-link" role="tab" aria-selected="true" aria-controls="tab-help" id="tab-help-btn">
-        <i class="fas fa-hands-helping"></i> Get Help
-      </button>
-      <button class="tab-link" role="tab" aria-selected="false" aria-controls="tab-whatsnew" id="tab-whatsnew-btn">
-        <i class="fas fa-bolt"></i> What's New
-      </button>
-      <button class="tab-link" role="tab" aria-selected="false" aria-controls="tab-faqs" id="tab-faqs-btn">
-        <i class="fas fa-question-circle"></i> FAQs
-      </button>
+  <!-- AUTH VIEW -->
+  <main id="auth-view" class="auth-wrap container-narrow">
+    <div class="card-glass auth-card">
+      <h2><i class="fas fa-lock"></i> Secure Access</h2>
+      <p class="hint mb-3">Enter the email you use with WebEaze.</p>
+      <form id="authForm" action="javascript:void(0)" autocomplete="email">
+        <div class="form-group">
+          <label for="emailInput">Email address</label>
+          <input id="emailInput" type="email" class="form-control" placeholder="you@business.com" required inputmode="email" />
+        </div>
+        <button class="btn-accent" type="submit"><i class="fas fa-arrow-right"></i> Continue</button>
+        <div id="authMsg" class="hint mt-2" role="status" aria-live="polite"></div>
+      </form>
     </div>
-
-    <!-- HELP -->
-    <section id="tab-help" class="tab-panel active" role="tabpanel" aria-labelledby="tab-help-btn">
-      <div class="card-ghost">
-        <p>Your plan includes ongoing maintenance and support. Choose the fastest path below.</p>
-
-        <div class="help-grid">
-          <a class="cta-chip" href="website-request.html">
-            <i class="fas fa-paper-plane"></i> Submit a Website Request (fastest)
-          </a>
-          <a class="cta-chip" href="https://calendly.com/webeaze/session-full-setups" target="_blank" rel="noopener">
-            <i class="fas fa-video"></i> Book a Zoom Session
-          </a>
-          <a class="cta-chip" href="https://webeaze.tawk.help" target="_blank" rel="noopener">
-            <i class="fas fa-life-ring"></i> Visit Help Center
-          </a>
-          <span class="cta-chip">
-            <i class="fas fa-comments"></i> Live Chat 
-          </span>
-        </div>
-
-        <hr style="border-color:var(--border)">
-
-        <!-- Urgent -->
-        <div class="accordion-item" id="acc-urgent">
-          <button class="accordion-button" aria-expanded="false" aria-controls="acc-urgent-panel">
-            Website down?
-            <i class="fas fa-chevron-down"></i>
-          </button>
-          <div class="accordion-content" id="acc-urgent-panel">
-            Prioritized support for uptime issues. Submit a request with subject
-            <b>“URGENT, Site down”</b> and details.
-            <div class="mt-3">
-              <a class="btn-outline-accent" href="https://webeaze.io/website-request" target="_blank" rel="noopener">Submit Request</a>
-            </div>
-          </div>
-        </div>
-
-        <!-- Add-ons -->
-        <div class="accordion-item" id="acc-addons">
-          <button class="accordion-button" aria-expanded="false" aria-controls="acc-addons-panel">
-            Add-on request?
-            <i class="fas fa-chevron-down"></i>
-          </button>
-          <div class="accordion-content" id="acc-addons-panel">
-            Add-ons are flat-rate extras you can request anytime. Follow
-            <a href="https://webeaze.tawk.help/article/add-ons" target="_blank" rel="noopener"><u>these steps</u></a>
-            to order an add-on.
-          </div>
-        </div>
-
-        <!-- Plan includes -->
-        <div class="accordion-item" id="acc-plan">
-          <button class="accordion-button" aria-expanded="false" aria-controls="acc-plan-panel">
-            What does my plan include?
-            <i class="fas fa-chevron-down"></i>
-          </button>
-          <div class="accordion-content" id="acc-plan-panel">
-            All plans include ongoing maintenance and support. Learn more:
-            <ul class="mt-2" style="list-style:none;padding-left:0">
-              <li><a href="https://webeaze.tawk.help/article/essential-plan" target="_blank" rel="noopener">Essential Plan</a></li>
-              <li><a href="https://webeaze.tawk.help/article/growth-plan" target="_blank" rel="noopener">Growth Plan</a></li>
-              <li><a href="https://webeaze.tawk.help/article/elite-plan" target="_blank" rel="noopener">Elite Plan</a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- WHAT'S NEW -->
-    <section id="tab-whatsnew" class="tab-panel" role="tabpanel" aria-labelledby="tab-whatsnew-btn">
-      <div class="card-ghost">
-        <h2 class="h4 mb-1">Latest Updates</h2>
-        <p class="muted mb-3"><i>Updated: September 9, 2025</i></p>
-        <ul style="margin:0;padding-left:1rem">
-          <li class="mb-2">
-            <i class="fas fa-check mr-1"></i>
-            Throughout the fall, response times may be longer during peak volume. We'll email if there are significant delays.
-          </li>
-          <li class="mb-2">
-            <i class="fas fa-check mr-1"></i>
-            We're building a new client portal for request tracking and site insights—more soon.
-          </li>
-        </ul>
-      </div>
-    </section>
-
-    <!-- FAQS -->
-    <section id="tab-faqs" class="tab-panel" role="tabpanel" aria-labelledby="tab-faqs-btn">
-      <div class="card-ghost">
-        <h2 class="h4">FAQs</h2>
-
-        <div class="accordion-item" id="acc-launch">
-          <button class="accordion-button" aria-expanded="false" aria-controls="acc-launch-panel">
-            When will my website launch? <i class="fas fa-chevron-down"></i>
-          </button>
-          <div class="accordion-content" id="acc-launch-panel">
-            Most new websites are completed within 1-2 weeks. If we didn't hold a consultation, we'll follow up by email for the remaining details.
-          </div>
-        </div>
-
-        <div class="accordion-item" id="acc-upgrade">
-          <button class="accordion-button" aria-expanded="false" aria-controls="acc-upgrade-panel">
-            Can I upgrade my plan? <i class="fas fa-chevron-down"></i>
-          </button>
-          <div class="accordion-content" id="acc-upgrade-panel">
-            Yes—anytime. Manage your plan via Stripe:
-            <div class="mt-2">
-              <a class="btn-outline-accent" href="https://billing.stripe.com/p/login/7sI3gfaO14CEdlm144">Manage Subscription</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="accordion-item" id="acc-tracking">
-          <button class="accordion-button" aria-expanded="false" aria-controls="acc-tracking-panel">
-            Where can I track my Website Request? <i class="fas fa-chevron-down"></i>
-          </button>
-          <div class="accordion-content" id="acc-tracking-panel">
-            After you <a href="website-request.html" target="_blank" rel="noopener">submit a request</a>, you'll get an email confirmation and a completion email when it's done.
-          </div>
-        </div>
-      </div>
-    </section>
   </main>
 
-  <!-- FOOTER -->
-  <footer class="webeaze-footer">
+  <!-- APP VIEW (shown when signed in & allowed) -->
+  <main id="app-view" class="d-none">
+
+    <br>
+    <br>
+
+    <div class="container-narrow">
+      <!-- Signed-in chip -->
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <div id="signedInChip" class="account-chip">
+          <i class="fas fa-user-circle"></i>
+          <span id="userEmail">you@business.com</span>
+        </div>
+        <button id="logoutBtn" class="btn-accent"><i class="fas fa-sign-out-alt"></i> Logout</button>
+      </div>
+
+      <!-- Quick actions -->
+      <div class="card-glass tile mb-3">
+        <h3>Quick actions</h3>
+        <div class="quick-grid">
+          <a class="quick-link" href="website-request.html"><i class="fas fa-paper-plane"></i> Submit a Request</a>
+          <a class="quick-link" href="https://calendly.com/webeaze/session-full-setups" target="_blank" rel="noopener"><i class="fas fa-video"></i> Book a Zoom</a>
+          <a class="quick-link" href="https://billing.stripe.com/p/login/7sI3gfaO14CEdlm144" target="_blank" rel="noopener"><i class="fas fa-file-invoice-dollar"></i> Billing Portal</a>
+          <a class="quick-link" href="https://webeaze.tawk.help" target="_blank" rel="noopener"><i class="fas fa-life-ring"></i> Help Center</a>
+        </div>
+      </div>
+
+      <!-- Dashboard split -->
+      <div class="dash">
+        <!-- Left: requests + tabs -->
+        <section class="card-glass tile">
+          <h3><i class="fas fa-tools"></i> Website Requests</h3>
+          <p class="muted">You’ll get an email confirmation when we receive your request, and again when it’s completed.</p>
+          <a class="btn-accent mb-3" href="website-request.html">New Request</a>
+
+          <!-- Tabs -->
+          <div class="tabs" role="tablist" aria-label="Portal sections">
+            <button class="tab-link" role="tab" aria-selected="true" aria-controls="tab-whatsnew" id="tab-whatsnew-btn">
+              <i class="fas fa-bolt"></i> What's New
+            </button>
+            <button class="tab-link" role="tab" aria-selected="false" aria-controls="tab-faqs" id="tab-faqs-btn">
+              <i class="fas fa-question-circle"></i> FAQs
+            </button>
+            <button class="tab-link" role="tab" aria-selected="false" aria-controls="tab-templates" id="tab-templates-btn">
+              <i class="far fa-copy"></i> Request Templates
+            </button>
+          </div>
+
+          <!-- WHAT'S NEW -->
+          <div id="tab-whatsnew" class="tab-panel active" role="tabpanel" aria-labelledby="tab-whatsnew-btn">
+            <p class="muted"><i>Updated: September 9, 2025</i></p>
+            <ul class="pl-3">
+              <li>New request ETA helper and simplified copy-paste templates.</li>
+              <li>Tracked tickets & site insights — in progress.</li>
+            </ul>
+          </div>
+
+          <!-- FAQS -->
+          <div id="tab-faqs" class="tab-panel" role="tabpanel" aria-labelledby="tab-faqs-btn">
+            <ul class="pl-3">
+              <li><a href="https://webeaze.tawk.help/article/website-completion" target="_blank" rel="noopener">Website launch timeline</a></li>
+              <li><a href="https://webeaze.tawk.help/category/domain-support" target="_blank" rel="noopener">Connect/transfer your domain</a></li>
+              <li><a href="https://webeaze.tawk.help/article/add-ons" target="_blank" rel="noopener">Add-ons & fee schedule</a></li>
+              <li><a href="https://webeaze.tawk.help/article/hosting" target="_blank" rel="noopener">Hosting platforms we support</a></li>
+            </ul>
+          </div>
+
+          <!-- REQUEST TEMPLATES (copy-only descriptions) -->
+          <div id="tab-templates" class="tab-panel" role="tabpanel" aria-labelledby="tab-templates-btn">
+            <p class="muted mb-2">Copy a description, paste it into your request, and tweak the details.</p>
+
+            <div class="template">
+              <pre id="tpl1">Add a new section on my homepage that highlights our fall promotion with a short headline, two bullet points, and a “Book Now” button linking to /contact.</pre>
+              <button class="btn btn-sm btn-outline-light copy-btn" data-target="tpl1">Copy</button>
+            </div>
+
+            <div class="template">
+              <pre id="tpl2">Create a simple page called “Summer Camps 2025” with a hero, a schedule table I’ll provide, a short pricing blurb, and an FAQ accordion.</pre>
+              <button class="btn btn-sm btn-outline-light copy-btn" data-target="tpl2">Copy</button>
+            </div>
+
+            <div class="template">
+              <pre id="tpl3">Swap the hero image on my homepage for the attached file and adjust the overlay so the headline stays readable on mobile.</pre>
+              <button class="btn btn-sm btn-outline-light copy-btn" data-target="tpl3">Copy</button>
+            </div>
+
+            <div class="template">
+              <pre id="tpl4">Add a testimonials carousel with three quotes I’ll send you, each with a name, role, and small headshot.</pre>
+              <button class="btn btn-sm btn-outline-light copy-btn" data-target="tpl4">Copy</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Right: announcements -->
+        <aside class="card-glass tile">
+          <h3><i class="far fa-bell"></i> Announcements</h3>
+          <div class="small muted">Business hours: Mon–Fri, 9:00am–5:00pm ET</div>
+          <div class="chip mt-2" id="hoursSmall"><i class="far fa-clock"></i>&nbsp;<span id="hoursTextSmall">Checking…</span></div>
+
+          <hr style="border-color:var(--border)">
+          <p class="muted mb-1"><strong>Status & Uptime</strong></p>
+          <a class="quick-link" href="https://webeaze.statuspage.io/" target="_blank" rel="noopener"><i class="fas fa-signal"></i> Status Page</a>
+
+          <hr style="border-color:var(--border)">
+          <p class="muted mb-1"><strong>Need something now?</strong></p>
+          <a class="quick-link" href="website-request.html"><i class="fas fa-paper-plane"></i> Submit a Request</a>
+        </aside>
+      </div>
+    </div>
+  </main>
+
+  <!-- FOOTER (unchanged) -->
+  <footer>
     <div class="footer-grid">
       <div class="footer-col">
-        <img src="images/default-monochrome-white.svg" style="max-width:40%" alt="WebEaze logo" class="footer-logo" />
-
-        <br>
-        <br>
+        <img src="images/default-monochrome-white.svg" style="max-width:40%" alt="WebEaze Logo" class="footer-logo"/>
+        <br><br>
         <p>Stunning websites with support that scales with your business. One plan. One price. One powerful online presence.</p>
       </div>
       <div class="footer-col">
@@ -357,17 +303,15 @@
         <h4>Quick Links</h4>
         <ul style="list-style:none;padding-left:0;margin:0">
           <li><a href="about.html">About Us</a></li>
-          <li><a href="https://webeaze.tawk.help">Help Center</a></li>
-          <li><a href="terms.html">Terms & Privacy</a></li>
+          <li><a href="https://webeaze.tawk.help" target="_blank" rel="noopener">Help Center</a></li>
+          <li><a href="terms.html" target="_blank" rel="noopener">Terms & Privacy</a></li>
           <li><a href="site-map.html">Site Map</a></li>
           <li><a href="#top">Back to Top</a></li>
         </ul>
       </div>
       <div class="footer-col">
         <h4>Enjoying WebEaze?</h4>
-
         <br>
-        
         <script type="text/javascript" src="https://www.designrush.com/topbest/js/widgets/agency-reviews.js"></script>
         <div data-designrush-widget data-agency-id="86840" data-style="dark" aria-label="DesignRush agency reviews section"></div>
         <noscript><a href="https://www.designrush.com/agency/profile/webeaze#reviews" target="_blank" aria-label="Visit WebEaze reviews on DesignRush">REVIEW US ON DESIGNRUSH</a></noscript>
@@ -378,92 +322,181 @@
     </div>
   </footer>
 
-  <!-- HubSpot -->
-  <script type="text/javascript" id="hs-script-loader" async defer src="//js-na2.hs-scripts.com/242171361.js"></script>
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 
-  <!-- JS: tabs, accordions, hours, greeting -->
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<!-- Obf da  -->
+
+<script id="__k" type="application/json"
+  data-a="=0lIt92YuwWah12ZAFDMyVGazFGbzJ2bjFmaiACLi02bj5CclJHczlmYpBUauFGZiACLi02bj5CbpFWbnBUesxWaiVGbslmdul2bqJCIsISbvNmL1JWaoBkbvNnbo9mauQnclJ2byJCIsISbvNmLslWYtdGQhZnch1GblRmb1JnIgwiIt92Yu42bpNncl1WbpRmbhx2cpBUeoRXYrJCIsISbvNmLslWYtdGQhBXZyF2Y0VGcyF2YyFWZiJCIsISbvNmLslWYtR3boBUelhWYsFWZzxWZoNmIgwiIt92YuwWah12ZANHduV2d0JyW"
+  data-b="salt-92"
+  style="display:none"></script>
+
+
 
   <script>
-    // Random hero title
-    document.addEventListener('DOMContentLoaded', () => {
-      const choices = ["Welcome to your Client Portal","Client Portal","Need Help?","You're Home","WebEaze Hub"];
-      const el = document.getElementById('random-question');
-      el.textContent = choices[Math.floor(Math.random()*choices.length)];
-    });
-
-    // Local greeting
-    (function(){
-      const now = new Date();
-      const day = now.toLocaleDateString(undefined,{ weekday:'long'});
-      const date = now.toLocaleDateString(undefined,{ year:'numeric', month:'long', day:'numeric'});
-      const time = now.toLocaleTimeString([], { hour:'2-digit', minute:'2-digit'});
-      document.getElementById('dynamic-greeting').textContent = `Today is ${day}, ${date} at ${time}`;
-    })();
-
-    // Hours (in ET) with holiday exceptions
+    /* ---------- Business Hours (ET) ---------- */
     const holidayClosures = {
       "01-01":"New Year's Day","05-27":"Memorial Day","06-19":"Juneteenth",
       "07-04":"Independence Day","09-01":"Labor Day","11-28":"Thanksgiving Day",
       "11-29":"Day after Thanksgiving","12-24":"Christmas Eve","12-25":"Christmas Day","12-31":"New Year's Eve"
     };
-    function easternNow(){ return new Date(new Date().toLocaleString('en-US',{ timeZone:'America/New_York'})); }
-    function updateHoursMessage(){
-      const now = easternNow();
-      const d = now.getDay(), h = now.getHours();
+    const enow = () => new Date(new Date().toLocaleString('en-US',{timeZone:'America/New_York'}));
+    function hoursText(){
+      const now=enow(), d=now.getDay(), h=now.getHours();
       const key = `${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
-      const msg = document.getElementById('hours-message');
-
-      let text, bg;
-      if (holidayClosures[key]){
-        text = `Closed today in observance of ${holidayClosures[key]}. We'll return next business day at 9:00am ET.`; bg = "#CD5C5C";
-      } else if (d>=1 && d<=5 && h>=9 && h<17){
-        text = "We're available now until 5:00pm ET."; bg = "#3CB371";
-      } else if (d>=1 && d<=5 && h<9){
-        text = "We're away. We'll return today at 9:00am ET."; bg = "#CD5C5C";
-      } else if (d>=1 && d<=4 && h>=17){
-        text = "We're closed for today. We'll return tomorrow at 9:00am ET."; bg = "#CD5C5C";
-      } else if (d===5 && h>=17){
-        text = "We're closed for the weekend. We'll return Monday at 9:00am ET."; bg = "#CD5C5C";
-      } else {
-        text = "We're away. We'll return Monday at 9:00am ET."; bg = "#CD5C5C";
-      }
-      msg.textContent = text;
-      msg.style.backgroundColor = bg;
+      if(holidayClosures[key]) return `Closed today (${holidayClosures[key]}). Back next business day 9:00am ET.`;
+      if(d>=1 && d<=5 && h>=9 && h<17) return 'We’re available now until 5:00pm ET.';
+      if(d>=1 && d<=5 && h<9) return 'We’re away. Back today at 9:00am ET.';
+      if(d>=1 && d<=4 && h>=17) return 'We’re closed for today. Back tomorrow 9:00am ET.';
+      if(d===5 && h>=17) return 'Closed for the weekend. Back Monday 9:00am ET.';
+      return 'We’re away. Back Monday 9:00am ET.';
     }
-    document.addEventListener('DOMContentLoaded', ()=>{
-      updateHoursMessage();
-      setInterval(updateHoursMessage, 60000);
-    });
+    function setHours(){
+      const t = hoursText();
+      const el1=document.getElementById('hoursText');
+      const el2=document.getElementById('hoursTextSmall');
+      if(el1) el1.textContent=t;
+      if(el2) el2.textContent=t;
+    }
+    document.addEventListener('DOMContentLoaded', ()=>{ setHours(); setInterval(setHours, 60000); });
 
-    // Tabs (ARIA)
+    /* ---------- Auto-hide nav on scroll ---------- */
+    (function(){
+      const nav=document.querySelector('.site-nav');
+      let last=window.scrollY;
+      window.addEventListener('scroll',()=>{
+        const y=window.scrollY;
+        if(y>last && y>80){ nav.classList.add('nav-hidden'); }
+        else { nav.classList.remove('nav-hidden'); }
+        last=y;
+      });
+    })();
+
+    /* ---------- Tabs ---------- */
     (function(){
       const tabs = Array.from(document.querySelectorAll('.tab-link'));
       const panels = {
-        'tab-help-btn': document.getElementById('tab-help'),
         'tab-whatsnew-btn': document.getElementById('tab-whatsnew'),
         'tab-faqs-btn': document.getElementById('tab-faqs'),
+        'tab-templates-btn': document.getElementById('tab-templates'),
       };
       function selectTab(btn){
         tabs.forEach(t=>t.setAttribute('aria-selected','false'));
         Object.values(panels).forEach(p=>p.classList.remove('active'));
         btn.setAttribute('aria-selected','true');
-        panels[btn.id].classList.add('active');
+        panels[btn.id]?.classList.add('active');
       }
       tabs.forEach(t=>t.addEventListener('click',()=>selectTab(t)));
     })();
 
-    // Accordions (accessible)
-    document.querySelectorAll('.accordion-button').forEach(btn=>{
-      btn.addEventListener('click',()=>{
-        const item = btn.closest('.accordion-item');
-        const expanded = btn.getAttribute('aria-expanded') === 'true';
-        btn.setAttribute('aria-expanded', String(!expanded));
-        item.classList.toggle('open');
+    /* ---------- Copy buttons for templates ---------- */
+    (function(){
+      function copyFrom(id){
+        const txt = document.getElementById(id)?.innerText || '';
+        navigator.clipboard.writeText(txt).then(()=>{
+          const b = document.querySelector(`.copy-btn[data-target="${id}"]`);
+          if(!b) return;
+          const old = b.textContent;
+          b.textContent='Copied!';
+          setTimeout(()=>b.textContent=old, 1200);
+        });
+      }
+      document.querySelectorAll('.copy-btn').forEach(btn=>{
+        btn.addEventListener('click', ()=>copyFrom(btn.getAttribute('data-target')));
+      });
+    })();
+
+    /* ---------- Email-only Login (obfuscated allowlist) ---------- */
+    const STORAGE_KEY='we_portal_user';
+
+
+    function getAllowList(){
+      try{
+        const s = document.getElementById('__k');
+        let rev = s.getAttribute('data-a') || '';
+        // optional salt (unused here but makes simple copy/paste less obvious)
+        const _salt = (s.getAttribute('data-b')||'').length;
+        // reverse the string back, then base64-decode, then JSON parse
+        const b64 = rev.split('').reverse().join('');
+        const json = atob(b64);
+        const arr = JSON.parse(json);
+
+        return new Set(arr.map(e=>String(e).trim().toLowerCase()));
+      }catch(e){
+        return new Set(); // empty => nobody can log in if broken
+      }
+    }
+
+    const ALLOW = getAllowList();
+
+    function normalizeEmail(v){
+      return String(v||'').trim().toLowerCase();
+    }
+
+    function renderSignedInAreas(email){
+      const app=document.getElementById('app-view');
+      const auth=document.getElementById('auth-view');
+      const ue=document.getElementById('userEmail');
+      const acct=document.getElementById('accountArea');
+
+      if(ue) ue.textContent=email;
+      if(acct){
+        acct.innerHTML = `<span class="account-chip"><i class="fas fa-user-circle"></i> ${email}</span>`;
+        acct.classList.remove('d-none');
+      }
+      auth.classList.add('d-none');
+      app.classList.remove('d-none');
+    }
+
+    function renderSignedOutAreas(){
+      const app=document.getElementById('app-view');
+      const auth=document.getElementById('auth-view');
+      const acct=document.getElementById('accountArea');
+      if(acct){ acct.innerHTML=''; acct.classList.add('d-none'); }
+      app.classList.add('d-none');
+      auth.classList.remove('d-none');
+    }
+
+    function tryAutoLogin(){
+      const saved=localStorage.getItem(STORAGE_KEY);
+      const email=normalizeEmail(saved);
+      if(email && ALLOW.has(email)){
+        renderSignedInAreas(email);
+      }else{
+        renderSignedOutAreas();
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', ()=>{
+      tryAutoLogin();
+
+      const form=document.getElementById('authForm');
+      const input=document.getElementById('emailInput');
+      const msg=document.getElementById('authMsg');
+      const logout=document.getElementById('logoutBtn');
+
+      form?.addEventListener('submit', ()=>{
+        const email=normalizeEmail(input.value);
+        if(!email){ msg.textContent='Enter your email to continue.'; return; }
+        if(ALLOW.has(email)){
+          localStorage.setItem(STORAGE_KEY, email);
+          renderSignedInAreas(email);
+          msg.textContent='';
+        }else{
+          msg.textContent='We couldn’t find that email. Please use the email on your WebEaze account.';
+        }
+      });
+
+      logout?.addEventListener('click', ()=>{
+        localStorage.removeItem(STORAGE_KEY);
+        renderSignedOutAreas();
+        const input=document.getElementById('emailInput');
+        if(input){ input.value=''; input.focus(); }
       });
     });
+
   </script>
 </body>
 </html>
