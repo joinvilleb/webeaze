@@ -284,7 +284,7 @@
               <select id="reqType" class="form-control">
                 <option value="minor">Minor content update</option>
                 <option value="bug">Bug fix / broken link</option>
-                <option value="newpage">New page (simple)</option>
+                <option value="newpage">New page</option>
                 <option value="feature">Feature / integration</option>
                 <option value="seo">SEO/meta updates</option>
                 <option value="style">Style / layout changes</option>
@@ -300,7 +300,7 @@
             </div>
           </div>
           <div class="eta"><span id="etaDot" class="dot good"></span><strong>Estimated turnaround:&nbsp;</strong><span id="etaText">24–72 hours (business hours)</span></div>
-          <p class="help mt-2 mb-0">Estimate for planning only. Add-ons/out-of-scope work may affect timing.</p>
+          <p class="help mt-2 mb-0">Estimate for planning only. Work is completed during business hours. Rush requests are subject to a $69 rush fee. </p>
         </div>
 
         <!-- HubSpot form (unchanged) -->
@@ -339,33 +339,21 @@
         <!-- Templates -->
         <div class="card-glass tile templates">
           <h3 class="mb-1"><i class="far fa-file-alt"></i> Request templates</h3>
-          <p class="help">Copy, fill in the blanks, and paste into your request.</p>
+          <p class="help">Copy, fill in the blanks, and paste into your request for these frequent inquiries. </p>
 
           <div class="template">
-            <pre id="tpl1">Type: Minor content update
-Page URL: https://yourdomain.com/services
-Change: Replace the second paragraph under “Packages” with:
-“Now offering evening sessions Mon–Thu, 6–9pm.”
-Assets: none
-Target date: (optional) </pre>
+            <pre id="tpl1">Please update the text and images on the About page to reflect the new team bio and headshots I'm attaching. </pre>
             <button class="btn btn-sm btn-outline-light copy-btn" data-target="tpl1">Copy</button>
           </div>
 
           <div class="template">
-            <pre id="tpl2">Type: New simple page
-Title: “Summer Camps 2025”
-URL: /summer-camps
-Sections: Hero, Schedule table, Pricing, FAQ, CTA to /contact
-Assets: camp-hero.jpg, schedule.csv</pre>
+            <pre id="tpl2">Please add a new Summer Specials section to the homepage featuring three promo boxes with short descriptions and a button linking to the contact page.
+            </pre>
             <button class="btn btn-sm btn-outline-light copy-btn" data-target="tpl2">Copy</button>
           </div>
 
           <div class="template">
-            <pre id="tpl3">Type: Bug fix
-Issue: “Book Now” on /pricing doesn’t scroll to #signup
-Expected: smooth scroll to #signup
-Seen on: iPhone (iOS 17) + Chrome desktop
-Started: after update on (date)</pre>
+            <pre id="tpl3">My website is down and I am not sure why. I have attached a screenshot of what happens when I load my website. Please advise. </pre>
             <button class="btn btn-sm btn-outline-light copy-btn" data-target="tpl3">Copy</button>
           </div>
         </div>
@@ -467,12 +455,12 @@ Started: after update on (date)</pre>
 
     // ETA estimator
     const etaMap = {
-      minor:{normal:"24–72 hours",soon:"24–48 hours",rush:"Same/Next biz day"},
-      bug:{normal:"24–48 hours",soon:"Same/Next biz day",rush:"Same biz day (prio)"},
-      newpage:{normal:"3–5 biz days",soon:"2–4 biz days",rush:"As scoped"},
-      feature:{normal:"As scoped",soon:"As scoped",rush:"As scoped"},
-      seo:{normal:"24–72 hours",soon:"24–48 hours",rush:"Same/Next biz day"},
-      style:{normal:"24–72 hours",soon:"24–48 hours",rush:"Same/Next biz day"}
+      minor:{normal:"24–72 hours",soon:"24–48 hours",rush:"Same Day"},
+      bug:{normal:"24–48 hours",soon:"Next business day",rush:"6 hours"},
+      newpage:{normal:"3–5 days",soon:"2 business days",rush:"Next business day"},
+      feature:{normal:"3-5 days",soon:"2-3 days",rush:"2 business days"},
+      seo:{normal:"24-72 hours",soon:"12-24 hours",rush:"6 hours"},
+      style:{normal:"24–72 hours",soon:"6-12 hours",rush:"4 hours"}
     };
     function setETA(){
       const t=document.getElementById('reqType').value;
