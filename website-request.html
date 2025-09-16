@@ -300,8 +300,9 @@
                   <div class="eta"><span id="etaDot" class="dot good"></span><strong>Estimated turnaround:&nbsp;</strong><span id="etaText">24–72 hours (business hours)</span></div>
                   <p class="help mt-2 mb-0">Estimate for planning only. Work is completed during business hours. Rush requests are subject to a $69 rush fee. </p>
                 </div>
-        
       </div>
+        
+ 
 
       
 
@@ -435,20 +436,6 @@
     }
     document.addEventListener('DOMContentLoaded', ()=>{ updateHours(); setInterval(updateHours, 60000); });
 
-    // Help Center Search: site-filtered Google across Help Center + WebEaze site
-    function goSearch(query){
-      if(!query) return;
-      const q = encodeURIComponent(`${query} (site:webeaze.tawk.help OR site:webeaze.io)`);
-      const url = `https://www.google.com/search?q=${q}`;
-      window.open(url,'_blank','noopener');
-    }
-    document.getElementById('help-search').addEventListener('submit', (e)=>{
-      e.preventDefault();
-      goSearch(document.getElementById('q').value.trim());
-    });
-    document.querySelectorAll('.suggest').forEach(s=>{
-      s.addEventListener('click',()=>goSearch(s.textContent));
-    });
 
     // ETA estimator
     const etaMap = {
