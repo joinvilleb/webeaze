@@ -14,237 +14,114 @@
   <meta property="og:image" content="https://webeaze.io/images/default-monochrome.png">
   <meta name="twitter:card" content="summary_large_image">
 
-  <!-- Libraries -->
+  <!-- Libs -->
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="shortcut icon" href="images/favicon.png" type="image/png">
 
-  <!-- Google tag (gtag.js) -->
+  <!-- GA -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-JQM6ZR4JCB"></script>
   <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date()); gtag('config', 'G-JQM6ZR4JCB');
+    window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}
+    gtag('js',new Date()); gtag('config','G-JQM6ZR4JCB');
   </script>
 
   <style>
     :root{
       --bg:#000;
-      --brand:#7851a9;        /* royal purple */
-      --brand-2:#5D4037;      /* warm brown */
-      --accent:#ffde59;       /* gold */
-      --text:#fff;
+      --brand:#7851a9;      /* royal purple */
+      --brand-2:#5D4037;    /* warm brown */
+      --accent:#ffde59;     /* gold */
+      --ink:#fff;
       --muted:#d7d1e6;
-      --glass: rgba(255,255,255,.08);
-      --border: rgba(255,255,255,.18);
-      --radius:14px;
-      --shadow:0 8px 24px rgba(0,0,0,.25);
+      --glass:rgba(255,255,255,.08);
+      --border:rgba(255,255,255,.18);
+      --ring:rgba(255,255,255,.22);
+      --radius:16px;
+      --shadow:0 14px 44px rgba(0,0,0,.35);
     }
-    html,body{background:#000;color:var(--text);font-family:'Poppins',sans-serif}
-    a{color:#fff;font-weight:600} a:hover{color:#e6ddff;text-decoration:none}
     *{box-sizing:border-box}
+    html,body{background:#000;color:var(--ink);font-family:Poppins,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+    a{color:#fff;font-weight:600} a:hover{opacity:.9;text-decoration:none}
 
-    /* Promo bar: Anniversary referral */
-    .promo-bar{
-      position:sticky;top:0;z-index:1100;width:100%;
-      background:linear-gradient(90deg,var(--brand),var(--brand-2));
-      color:#fff;text-align:center;padding:.6rem .75rem;border-bottom:1px solid var(--border)
-    }
-    .promo-bar b{color:var(--accent)}
-    .promo-bar .btn{
-      margin-left:.5rem;background:var(--accent);color:#2b1e12;border:none;
-      padding:.35rem .7rem;border-radius:999px;font-weight:700
-    }
+    /* Promo */
+    .promo-bar{position:sticky;top:0;z-index:1100;background:linear-gradient(90deg,var(--brand),var(--brand-2));padding:.6rem .75rem;text-align:center;border-bottom:1px solid var(--border)}
+    .promo-bar .btn{margin-left:.5rem;background:var(--accent);color:#2b1e12;border:none;padding:.35rem .7rem;border-radius:999px;font-weight:700}
 
-    /* Navbar */
-    nav.navbar{
-      position:sticky;top:48px;
-      background:rgba(255,255,255,.06)!important;backdrop-filter:saturate(120%) blur(6px);
-      border-bottom:1px solid var(--border);z-index:1000
-    }
+    /* Nav (glass, sticky) */
+    nav.navbar{position:sticky;top:44px;background:rgba(255,255,255,.06)!important;backdrop-filter:saturate(140%) blur(6px);border-bottom:1px solid var(--ring);z-index:1000}
     .navbar-brand img{height:48px}
-    .nav-link{color:#fff!important;padding:.4rem .6rem;border-radius:10px}
+    .nav-link{color:#fff!important;border-radius:12px;padding:.45rem .7rem}
     .nav-link:hover{background:var(--glass)}
 
     /* Hero */
-
-    header#hero{
-    background:#7851a9 !important;   
-    padding:40px 20px 40px;        
-    text-align:center;
+    header.hero{
+      position:relative;overflow:hidden;text-align:center;padding:74px 18px 48px;
+      background:
+        radial-gradient(1200px 600px at 10% -180px, #8b63d4 0%, #7851a9 60%, #5f3aa5 100%),
+        linear-gradient(180deg, rgba(120,81,169,.95), rgba(93,64,55,.95));
+      isolation:isolate;
     }
+    .hero .orb{position:absolute;border-radius:50%;filter:blur(70px);opacity:.45;pointer-events:none}
+    .hero .orb.one{width:720px;height:720px;left:-220px;top:-240px;background:#9d7ff0}
+    .hero .orb.two{width:700px;height:700px;right:-240px;bottom:-260px;background:#5a358f}
+    .eyebrow{display:inline-flex;gap:8px;align-items:center;background:rgba(255,255,255,.12);border:1px solid var(--ring);border-radius:999px;padding:6px 10px;font-size:.85rem;text-transform:uppercase;letter-spacing:.05em}
+    .hero h1{margin:10px 0 8px;font-weight:800;letter-spacing:-.02em;font-size:clamp(32px,4.8vw,46px)}
+    .hero p.lead{max-width:860px;margin:8px auto 14px;color:#efe9ff}
+    .hero-ctas{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:14px}
+    .btn-hero{border:2px solid var(--accent);background:#000;color:#fff;border-radius:999px;padding:.7rem 1.15rem;font-weight:700}
+    .btn-hero:hover{background:var(--accent);color:#2b1e12}
+    .btn-ghost{border:1.6px solid rgba(255,255,255,.35);border-radius:999px;padding:.7rem 1.15rem;font-weight:700}
+    .btn-ghost:hover{border-color:#fff}
 
-   
-    @supports (background: radial-gradient(circle,#000,#000)){
-    header#hero{
-        background:
-        radial-gradient(1200px 600px at 50% -200px, #8b63d4 0%, #7851a9 55%, #5f3aa5 100%) !important;
-    }
-    }
+    /* Value bar under hero */
+    .value-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;max-width:1100px;margin:18px auto 0;padding:0 16px}
+    @media (max-width:900px){.value-bar{grid-template-columns:1fr 1fr}}
+    @media (max-width:520px){.value-bar{grid-template-columns:1fr}}
+    .value-pill{display:flex;gap:10px;align-items:center;justify-content:center;background:rgba(0,0,0,.3);border:1px solid var(--border);border-radius:14px;padding:10px}
+    .value-pill i{color:var(--accent)}
 
+    /* Savings chips */
+    .savings{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:10px}
+    .save-chip{display:inline-flex;gap:8px;align-items:center;background:rgba(0,0,0,.35);border:1px dashed var(--accent);border-radius:999px;padding:6px 10px;font-weight:700}
 
-    
-    #random-question{font-size:40px;font-weight:800;margin:0}
-    #sub{max-width:780px;margin:12px auto 0;color:#f2eaff}
+    /* Stripe area */
+    .stripe-wrap{background:var(--brand);padding:28px 12px;text-align:center}
+    .stripe-wrap p{max-width:900px;margin:8px auto 0}
 
-    /* --- HERO layout/content --- */
-#hero{
-  position:relative;
-  padding:64px 20px 56px; /* a touch taller for breathing room */
-  overflow:hidden;
-}
-#hero::before, #hero::after{
-  content:""; position:absolute; border-radius:50%; filter:blur(80px);
-  opacity:.35; pointer-events:none;
-}
-#hero::before{ width:680px; height:680px; background:#9e7cf0; top:-180px; left:-160px; }
-#hero::after { width:720px; height:720px; background:#5f3aa5; bottom:-220px; right:-220px; }
+    /* Section cards */
+    .section{padding:44px 16px}
+    .card-ghost{background:var(--glass);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);max-width:1150px;margin:0 auto;padding:22px}
 
-.hero-wrap{ max-width:960px; margin:0 auto; text-align:center; position:relative; z-index:2; }
+    /* Compare grid (iconic list) */
+    .compare{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:10px;align-items:start}
+    .compare .head{background:rgba(255,255,255,.10);border:1px solid var(--border);border-radius:12px;padding:12px;font-weight:700;text-align:center}
+    .compare .row{display:contents}
+    .compare .cell{background:rgba(255,255,255,.05);border:1px solid var(--border);padding:12px;border-radius:12px}
+    .check{color:#23d88a} .x{opacity:.5}
 
-/* Eyebrow badge */
-.eyebrow-badge{
-  display:inline-block; font-size:.85rem; letter-spacing:.04em; text-transform:uppercase;
-  background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.22);
-  padding:.35rem .6rem; border-radius:999px; margin-bottom:12px;
-}
+    /* Process */
+    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:1100px;margin:0 auto}
+    @media (max-width:960px){.grid-3{grid-template-columns:1fr}}
+    .step{background:rgba(255,255,255,.06);border:1px solid var(--ring);border-radius:14px;padding:22px;text-align:center}
 
-/* Title with subtle sheen */
-.hero-title{
-  position:relative; font-weight:800; letter-spacing:-.02em; line-height:1.1;
-  font-size: clamp(2rem, 4.6vw, 3rem);
-  margin: 4px auto 10px;
-}
-.title-sheen{
-  position:absolute; left:0; right:0; bottom:-8px; height:10px;
-  background:linear-gradient(90deg, transparent, rgba(255,222,89,.8), transparent);
-  filter:blur(3px); opacity:.9; animation: sheen-move 2.8s ease-in-out infinite;
-}
-@keyframes sheen-move{
-  0%,100%{ transform:translateX(-10%); opacity:.7; }
-  50%{ transform:translateX(10%); opacity:1; }
-}
+    /* Creds/Trust */
+    .trust{background:linear-gradient(180deg,rgba(120,81,169,.18),rgba(93,64,55,.18));text-align:center}
+    .trust .logos{opacity:.9;display:flex;gap:24px;justify-content:center;flex-wrap:wrap}
+    .logos img{max-height:38px;filter:grayscale(100%) brightness(1.4);opacity:.9}
 
-/* Subhead */
-.hero-sub{ color:#f2eaff; max-width:780px; margin:12px auto 18px; }
-
-/* CTAs */
-.hero-ctas{ display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin:14px 0 18px; }
-.btn-hero{
-  display:inline-block; background:#000; color:#fff; border:2px solid var(--accent);
-  padding:.7rem 1.15rem; border-radius:999px; font-weight:700;
-}
-.btn-hero:hover{ background:var(--accent); color:#2b1e12; }
-.btn-ghost-hero{
-  display:inline-block; background:transparent; border:1.5px solid rgba(255,255,255,.35);
-  color:#fff; padding:.7rem 1.15rem; border-radius:999px; font-weight:700;
-}
-.btn-ghost-hero:hover{ border-color:#fff; }
-
-/* Stats pills */
-.hero-stats{
-  list-style:none; padding:0; margin:14px 0 0;
-  display:flex; gap:10px; justify-content:center; flex-wrap:wrap;
-}
-.hero-stats li{
-  display:flex; flex-direction:column; align-items:center; min-width:140px;
-  background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.18);
-  border-radius:14px; padding:12px 14px;
-}
-.hero-stats i{ font-size:16px; margin-bottom:6px; opacity:.95; color:var(--accent); }
-.hero-stats b{ font-size:1.15rem; line-height:1; }
-.hero-stats span{ font-size:.85rem; color:#e9e3f7; opacity:.9; }
-
-/* Scroll cue */
-.scroll-cue{ margin-top:20px; }
-.scroll-cue .dot{
-  display:inline-block; width:6px; height:6px; border-radius:50
-}
-
-    /* Seasonal banner (optional) */
-    .seasonal{
-      background:url('images/fall-image.png') center/cover no-repeat;
-      padding:46px 16px;text-align:center
-    }
-    .seasonal h2{font-size:34px;margin:0 0 8px}
-    .seasonal p{max-width:800px;margin:0 auto 14px}
-    .cta{display:inline-block;background:#000;border:2px solid var(--accent);color:#fff;
-      padding:.65rem 1.1rem;border-radius:999px;font-weight:700}
-    .cta:hover{background:var(--accent);color:#2b1e12}
-
-    /* Stripe section — KEEP purple bg to blend component */
-    .stripe-wrap{
-      background:var(--brand);padding:28px 12px;text-align:center
-    }
-    .stripe-wrap p{max-width:860px;margin:10px auto 0}
-    /* The <stripe-pricing-table> renders its own styles; background stays transparent over purple. */
-
-    /* Included table */
-    .section{
-      padding:44px 16px
-    }
-    .card-ghost{
-      background:var(--glass);border:1px solid var(--border);border-radius:var(--radius);
-      max-width:1100px;margin:0 auto;box-shadow:var(--shadow);padding:22px
-    }
-    .table thead th{
-      background:rgba(0,0,0,.2);border:none;color:#fff;font-weight:700
-    }
-    .table td{border:none;color:#fff;background:transparent}
-    .table tr{background:rgba(255,255,255,.05);border-radius:10px}
-    .table tr+tr{margin-top:10px}
-    .table-responsive{overflow-x:auto;-webkit-overflow-scrolling:touch}
-
-    /* Process cards */
-    .grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;max-width:1050px;margin:0 auto}
-    @media (max-width:900px){.grid-3{grid-template-columns:1fr}}
-    .step{
-      background:rgba(255,255,255,.06);border:1px solid #ffffff22;border-radius:12px;padding:22px;text-align:center
-    }
-
-    /* Info banner */
-    .info{max-width:760px;margin:18px auto 0;background:rgba(255,255,255,.06);
-      border:1px solid #ffffff22;border-radius:12px;padding:16px 18px}
-
-    /* FAQ (accessible) */
-    .faq h2{text-align:center;margin-bottom:18px}
-    .faq-item{max-width:900px;margin:10px auto;background:var(--glass);border:1px solid var(--border);border-radius:12px}
-    .faq-q{
-      width:100%;text-align:left;background:transparent;border:none;color:#fff;font-weight:700;
-      padding:14px 16px;display:flex;justify-content:space-between;align-items:center;cursor:pointer
-    }
-    .faq-a{padding:10px 16px 16px;display:none}
+    /* FAQ */
+    .faq h2{text-align:center;margin-bottom:10px}
+    .faq-item{max-width:980px;margin:10px auto;background:var(--glass);border:1px solid var(--border);border-radius:14px}
+    .faq-q{width:100%;text-align:left;background:transparent;border:none;color:#fff;font-weight:700;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;cursor:pointer}
+    .faq-a{padding:0 16px 16px;display:none;color:#efeaff}
     .faq-item.open .faq-a{display:block}
     .arrow{transition:transform .25s}
 
-    /* Testimonials */
-    .testimonials{background:var(--brand);text-align:center;padding:44px 16px}
-    .t-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;max-width:1050px;margin:0 auto}
-    @media (max-width:900px){.t-grid{grid-template-columns:1fr}}
-    .t-card{background:rgba(255,255,255,.08);border:1px solid var(--border);border-radius:14px;padding:26px}
-    .avatar{width:80px;height:80px;border-radius:50%;object-fit:cover;border:2px solid #fff;margin-bottom:12px}
-
-
-    .cta-band{
-    background:#000 !important;
-    border-top:1px solid rgba(120,81,169,.35) !important;
-    border-bottom:1px solid rgba(120,81,169,.18) !important;
-    text-align:center;
-    padding:38px 16px;
-    }
-    .cta-band h2,
-    .cta-band p{ color:#f0eef8 !important; }
-
-    .btn-ghost{
-    border:2px solid #ffde59 !important;
-    color:#fff !important;
-    border-radius:999px;
-    padding:.7rem 1.25rem;
-    font-weight:700;
-    }
-    .btn-ghost:hover{ background:#ffde59 !important; color:#2b1e12 !important; }
-
+    /* CTA */
+    .cta-band{background:#000;border-top:1px solid rgba(120,81,169,.35);border-bottom:1px solid rgba(120,81,169,.18);text-align:center;padding:40px 16px}
+    .cta-band h2,.cta-band p{color:#f0eef8}
 
     /* Footer */
     footer.webeaze-footer{background:var(--brand);margin-top:48px}
@@ -252,14 +129,122 @@
     @media (max-width:900px){.footer-grid{grid-template-columns:1fr 1fr}}
     @media (max-width:600px){.footer-grid{grid-template-columns:1fr}}
     .footer-bottom{border-top:1px solid rgba(255,255,255,.25);text-align:center;padding:14px 10px;color:#f7edff}
+
+    /* Compare grid: mobile vs desktop */
+#compare .compare-desktop{display:block}
+#compare .compare-mobile{display:none}
+
+@media (max-width:900px){
+  #compare .compare-desktop{display:none}
+  #compare .compare-mobile{display:grid;gap:12px}
+}
+
+
+#compare .head-row,
+#compare .row{
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr 1fr;
+  gap:10px;
+  align-items:stretch;
+  margin-bottom:10px;
+}
+
+#compare .head{
+  background:var(--glass, rgba(255,255,255,.08));
+  border:1px solid var(--border, rgba(255,255,255,.18));
+  border-radius:12px;
+  padding:12px;
+  font-weight:700;
+  text-align:center;
+}
+
+#compare .cell{
+  background:var(--glass, rgba(255,255,255,.06));
+  border:1px solid var(--border, rgba(255,255,255,.18));
+  border-radius:12px;
+  padding:12px;
+}
+
+
+.check{color:#23d88a}
+.x{opacity:.5}
+
+
+.plan-card{
+  background:var(--glass, rgba(255,255,255,.08));
+  border:1px solid var(--border, rgba(255,255,255,.18));
+  border-radius:16px;
+  box-shadow:var(--shadow, 0 12px 30px rgba(0,0,0,.25));
+  padding:16px;
+}
+.plan-card h3{margin:0 0 6px}
+.plan-meta{color:var(--muted,#cfcbd8);font-size:.95rem}
+.badge-pop{display:inline-block;margin-bottom:6px;padding:2px 8px;border-radius:999px;background:rgba(255,217,103,.18);border:1px dashed var(--accent,#ffde59);font-weight:700}
+.feature-list{list-style:none;padding-left:0;margin:10px 0 0}
+.feature-list li{display:flex;gap:8px;align-items:flex-start;margin:8px 0}
+.feature-list i{margin-top:3px}
+.feature-note{font-size:.9rem;opacity:.9}
+
+.logos.wordmarks{
+  display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-top:6px;
+}
+.brand-pill{
+  display:inline-flex; align-items:center; gap:8px;
+  padding:8px 12px; border:1px solid var(--border); border-radius:999px;
+  background:var(--glass); font-weight:700; letter-spacing:.03em;
+  text-transform:uppercase; font-size:.88rem; color:inherit;
+}
+.brand-pill:hover{ opacity:.9; text-decoration:none; }
+
+/* --- MOBILE CLARITY PATCH (kills blur & fuzz, ups contrast) --- */
+@media (max-width: 768px){
+  /* Replace hazy aurora with a solid gradient */
+  header.hero{
+    background:
+      linear-gradient(180deg,#8b63d4 0%, #7851a9 55%, #5f3aa5 100%) !important;
+    color:#fff;
+  }
+  /* Remove the blur sources */
+  .aurora, .blob{ display:none !important; }
+
+  /* Tighten text contrast */
+  .hero h1{ color:#fff; text-shadow:none; }
+  .hero p.lead{ color:rgba(255,255,255,.95); }
+
+  /* Crisper badges + buttons (no fuzzy shadows) */
+  .eyebrow{
+    background:#ffffff; border-color:#e9e2f7; color:#2b1e12;
+  }
+  .btn-hero, .btn-ghost{
+    box-shadow:none !important; backdrop-filter:none !important;
+  }
+  .btn-hero{
+    background:#fff; color:#2b1e12; border:2px solid var(--accent);
+  }
+  .btn-ghost{
+    background:#fff; color:#1a1226; border:1.6px solid #00000020;
+  }
+
+  /* Savings chips + value pills: solid, not translucent */
+  .savings .save-chip,
+  .value-bar .value-pill{
+    background:#ffffff !important;
+    border:1px solid #e9e2f7 !important;
+    box-shadow:none !important;
+    color:#1a1226;
+  }
+
+  /* Ditch dashed borders (read as fuzzy on small screens) */
+  .savings .save-chip{ border-style:solid; }
+}
+
   </style>
 </head>
-
 <body>
-  <!-- Anniversary promo -->
-  <div class="promo-bar" role="region" aria-label="Anniversary promotion">
-    Fall in love with a $0 setup fee (reg. $299). Through 9/30. 
-    <a class="btn" href="https://webeaze.io/consultation">Get Started</a>
+  <!-- Promo -->
+  <div class="promo-bar" role="region" aria-label="Promotion">
+    Fall in love with a <b>$0 setup fee</b> (reg. $299) on monthly plans — through 9/30.
+    <a class="btn" href="consultation.html">Get Started</a>
   </div>
 
   <!-- NAV -->
@@ -283,48 +268,30 @@
   </nav>
 
   <!-- HERO -->
-  <header id="hero">
-    <div class="hero-wrap">
-      <span class="eyebrow-badge">Pricing made simple</span>
-  
-      <h1 class="hero-title">
-        Smart Pricing
-        <span class="title-sheen" aria-hidden="true"></span>
-      </h1>
-  
-      <p id="sub" class="hero-sub">
-        Monthly or yearly plans that scale with your business. No hourly billing —
-        one plan, one price, ongoing support.
-      </p>
-  
-      <div class="hero-ctas">
-        <a class="btn-hero" href="consultation.html">Free Consultation</a>
-        <a class="btn-ghost-hero" href="#compare">Compare Plans</a>
-      </div>
-  
-      <ul class="hero-stats" aria-label="Service highlights">
-        <li><i class="fas fa-rocket"></i><b>2-3 weeks</b><span>Avg go-live</span></li>
-        <li><i class="fas fa-users"></i><b>43+</b><span>Clients served</span></li>
-        <li><i class="fas fa-tools"></i><b>Ongoing</b><span>Maintenance</span></li>
-      </ul>
-  
-      <div class="scroll-cue">
-        <a href="#plans" aria-label="Scroll to pricing">
-          <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-        </a>
-      </div>
+  <header class="hero" id="hero">
+    <div class="orb one"></div><div class="orb two"></div>
+    <span class="eyebrow"><i class="fas fa-bolt"></i> Pricing made simple</span>
+    <h1>One plan. One price. Ongoing support.</h1>
+    <p class="lead">Monthly or yearly plans that scale with your business. No hourly billing. No surprises.</p>
+    <div class="hero-ctas">
+      <a href="#plans" class="btn-hero">See Plans</a>
+      <a href="consultation.html" class="btn-ghost">Free 15-min Consultation</a>
+    </div>
+    <div class="savings" aria-label="Yearly savings">
+      <span class="save-chip"><i class="far fa-calendar-check"></i> Essential yearly ≈ <b>6.1 months free</b></span>
+      <span class="save-chip"><i class="far fa-calendar-check"></i> Growth yearly ≈ <b>4.8 months free</b></span>
+    </div>
+    <div class="value-bar" aria-label="Highlights">
+      <div class="value-pill"><i class="fas fa-rocket"></i> 2–3 week average go-live</div>
+      <div class="value-pill"><i class="fas fa-tools"></i> Maintenance & updates included</div>
+      <div class="value-pill"><i class="fas fa-mobile-alt"></i> Mobile-first & SEO basics</div>
+      <div class="value-pill"><i class="fas fa-headset"></i> Friendly support, real humans</div>
     </div>
   </header>
-  
 
- 
-
-  <!-- STRIPE PRICING: keep purple background to match component -->
-  <section class="stripe-wrap">
-    <p><i class="fas fa-tag"></i> Monthly plans require a one-time
-      <strong><a href="https://webeaze.tawk.help/article/setup-fee" style="text-decoration:underline;color:#fff"><s>$299</s> $0 setup fee</a></strong> through <b>September 30</b>.
-    </p>
-
+  <!-- STRIPE PRICING -->
+  <section class="stripe-wrap" id="plans">
+    <p><i class="fas fa-tag"></i> Monthly plans require a one-time <strong><a href="https://webeaze.tawk.help/article/setup-fee" style="text-decoration:underline;color:#fff"><s>$299</s> $0 setup fee</a></strong> through <b>September 30</b>. Yearly plans always waive the setup.</p>
     <br>
     <script async src="https://js.stripe.com/v3/pricing-table.js"></script>
     <stripe-pricing-table
@@ -333,102 +300,215 @@
     </stripe-pricing-table>
   </section>
 
-  <!-- WHAT'S INCLUDED -->
+  <!-- WHAT'S INCLUDED (visual compare) -->
   <section class="section" id="compare">
     <div class="card-ghost">
-      <h2 class="h3 text-center mb-3">What's Included</h2>
-      <div class="table-responsive">
-        <table class="table text-white text-center">
-          <thead>
-            <tr>
-              <th>Feature</th>
-              <th><a href="https://webeaze.tawk.help/article/essential-plan" target="_blank" rel="noopener">Essential</a></th>
-              <th><a href="https://webeaze.tawk.help/article/growth-plan" target="_blank" rel="noopener">Growth</a></th>
-              <th><a href="https://webeaze.tawk.help/article/elite-plan" target="_blank" rel="noopener">Elite</a></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td>Custom Website Design & Pages</td><td><i class="fas fa-check"></i><br>Up to 3 pages</td><td><i class="fas fa-check"></i><br>Up to 6 pages</td><td><i class="fas fa-check"></i><br>Unlimited</td></tr>
-            <tr><td>Domain & Hosting Setup</td><td><i class="fas fa-check"></i></td><td><i class="fas fa-check"></i></td><td><i class="fas fa-check"></i></td></tr>
-            <tr><td>Mobile Optimization</td><td><i class="fas fa-check"></i></td><td><i class="fas fa-check"></i></td><td><i class="fas fa-check"></i></td></tr>
-            <tr><td><a href="https://webeaze.tawk.help/article/domain-credit" target="_blank" rel="noopener">Domain & Hosting Coverage</a></td><td><i class="fas fa-times"></i></td><td><i class="fas fa-check"></i><br>Up to $50</td><td><i class="fas fa-check"></i></td></tr>
-            <tr><td>SEO Tools</td><td><i class="fas fa-check"></i></td><td><i class="fas fa-check"></i></td><td><i class="fas fa-check"></i></td></tr>
-            <tr><td>Maintenance & Support</td><td>Email</td><td>Email, Zoom, Live Chat</td><td>Expedited: Email, Zoom, Live Chat</td></tr>
-            <tr><td>Ad Campaign Management</td><td><i class="fas fa-times"></i><br>Avail. Add-On</td><td><i class="fas fa-times"></i><br>Avail. Add-On</td><td><i class="fas fa-check"></i></td></tr>
-            <tr><td>Monthly Performance Reports</td><td><i class="fas fa-times"></i></td><td><i class="fas fa-times"></i></td><td><i class="fas fa-check"></i></td></tr>
-          </tbody>
-        </table>
+      <h2 class="h3 text-center mb-3">What’s Included</h2>
+  
+      <!-- DESKTOP -->
+      <div class="compare-desktop">
+        <div class="head-row">
+          <div class="head">Feature</div>
+          <div class="head">Essential</div>
+          <div class="head">Growth</div>
+          <div class="head">Elite</div>
+        </div>
+  
+        <div class="row">
+          <div class="cell">Custom Design & Pages</div>
+          <div class="cell"><i class="fas fa-check check"></i> Up to 3</div>
+          <div class="cell"><i class="fas fa-check check"></i> Up to 6</div>
+          <div class="cell"><i class="fas fa-check check"></i> Unlimited</div>
+        </div>
+  
+        <div class="row">
+          <div class="cell">Domain & Hosting Setup</div>
+          <div class="cell"><i class="fas fa-check check"></i></div>
+          <div class="cell"><i class="fas fa-check check"></i></div>
+          <div class="cell"><i class="fas fa-check check"></i></div>
+        </div>
+  
+        <div class="row">
+          <div class="cell">Mobile Optimization</div>
+          <div class="cell"><i class="fas fa-check check"></i></div>
+          <div class="cell"><i class="fas fa-check check"></i></div>
+          <div class="cell"><i class="fas fa-check check"></i></div>
+        </div>
+  
+        <div class="row">
+          <div class="cell">
+            <a href="https://webeaze.tawk.help/article/domain-credit" target="_blank" rel="noopener" style="text-decoration:underline;color:inherit">
+              Domain/Hosting Coverage
+            </a>
+          </div>
+          <div class="cell"><i class="fas fa-times x"></i></div>
+          <div class="cell"><i class="fas fa-check check"></i> Up to $50</div>
+          <div class="cell"><i class="fas fa-check check"></i> Full</div>
+        </div>
+  
+        <div class="row">
+          <div class="cell">SEO Basics</div>
+          <div class="cell"><i class="fas fa-check check"></i></div>
+          <div class="cell"><i class="fas fa-check check"></i></div>
+          <div class="cell"><i class="fas fa-check check"></i></div>
+        </div>
+  
+        <div class="row">
+          <div class="cell">Maintenance & Support</div>
+          <div class="cell">Email</div>
+          <div class="cell">Email · Zoom · Live Chat</div>
+          <div class="cell"><b>Expedited</b> Email · Zoom · Chat</div>
+        </div>
+  
+        <div class="row">
+          <div class="cell">Ad Campaign Management</div>
+          <div class="cell"><i class="fas fa-times x"></i> Add-On</div>
+          <div class="cell"><i class="fas fa-times x"></i> Add-On</div>
+          <div class="cell"><i class="fas fa-check check"></i></div>
+        </div>
+  
+        <div class="row">
+          <div class="cell">Monthly Performance Reports</div>
+          <div class="cell"><i class="fas fa-times x"></i></div>
+          <div class="cell"><i class="fas fa-times x"></i></div>
+          <div class="cell"><i class="fas fa-check check"></i></div>
+        </div>
       </div>
-    </div>
-  </section>
+  
+      <!-- MOBILE -->
+      <div class="compare-mobile">
+        <article class="plan-card">
+          <h3>Essential</h3>
+          <div class="plan-meta">Great for new businesses</div>
+          <ul class="feature-list">
+            <li><i class="fas fa-check check"></i> Custom design — <b>up to 3 pages</b></li>
+            <li><i class="fas fa-check check"></i> Domain & hosting setup</li>
+            <li><i class="fas fa-check check"></i> Mobile optimization</li>
+            <li><i class="fas fa-times x"></i> Domain/hosting coverage</li>
+            <li><i class="fas fa-check check"></i> SEO basics</li>
+            <li><i class="fas fa-envelope"></i> Email support</li>
+            <li><i class="fas fa-plus-circle"></i> Ads management <span class="feature-note">Add-on</span></li>
+            <li><i class="fas fa-times x"></i> Monthly performance reports</li>
+          </ul>
+        </article>
+  
+        <article class="plan-card">
+          <span class="badge-pop">Most Popular</span>
+          <h3>Growth</h3>
+          <div class="plan-meta">More pages & support</div>
+          <ul class="feature-list">
+            <li><i class="fas fa-check check"></i> Custom design — <b>up to 6 pages</b></li>
+            <li><i class="fas fa-check check"></i> Domain & hosting setup</li>
+            <li><i class="fas fa-check check"></i> Mobile optimization</li>
+            <li><i class="fas fa-check check"></i> Domain/hosting coverage <span class="feature-note">up to $50</span></li>
+            <li><i class="fas fa-check check"></i> SEO basics</li>
+            <li><i class="fas fa-headset"></i> Email · Zoom · Live chat</li>
+            <li><i class="fas fa-plus-circle"></i> Ads management <span class="feature-note">Add-on</span></li>
+            <li><i class="fas fa-times x"></i> Monthly performance reports</li>
+          </ul>
+        </article>
+  
+        <article class="plan-card">
+          <h3>Elite</h3>
+          <div class="plan-meta">Everything + ads/reporting</div>
+          <ul class="feature-list">
+            <li><i class="fas fa-check check"></i> Custom design — <b>unlimited pages</b></li>
+            <li><i class="fas fa-check check"></i> Domain & hosting setup</li>
+            <li><i class="fas fa-check check"></i> Mobile optimization</li>
+            <li><i class="fas fa-check check"></i> Domain/hosting coverage <span class="feature-note">full</span></li>
+            <li><i class="fas fa-check check"></i> SEO basics</li>
+            <li><i class="fas fa-bolt"></i> <b>Expedited</b> Email · Zoom · Live chat</li>
+            <li><i class="fas fa-check check"></i> Ads management</li>
+            <li><i class="fas fa-check check"></i> Monthly performance reports</li>
+          </ul>
+        </article>
+      </div>
 
-  <!-- HOW SETUP WORKS -->
-  <section class="section" style="background:linear-gradient(180deg,rgba(120,81,169,.25),rgba(93,64,55,.25))">
+
+  </section>
+  
+
+  <!-- HOW IT WORKS -->
+  <section class="section">
     <h2 class="h3 text-center mb-2">How Setup Works</h2>
-    <p class="text-center" style="max-width:720px;margin:0 auto 18px;color:var(--muted)">
-      Simple, fast, and built for small businesses.
-    </p>
+    <p class="text-center" style="max-width:760px;margin:0 auto 18px;color:var(--muted)">Simple, fast, and built for small businesses.</p>
     <div class="grid-3">
       <div class="step">
         <i class="fas fa-clipboard-check" style="font-size:26px;color:var(--accent)"></i>
-        <h3 class="h5 mt-2">1. Kickoff & Brief</h3>
-        <p>We confirm goals, pages, and must-haves. Clear scope, clear timeline.</p>
+        <h3 class="h5 mt-2">1) Kickoff</h3>
+        <p>Goals, pages, brand assets. Clear scope, clear timeline.</p>
       </div>
       <div class="step">
         <i class="fas fa-laptop-code" style="font-size:26px;color:var(--accent)"></i>
-        <h3 class="h5 mt-2">2. Build & Review</h3>
-        <p>We design, optimize for mobile, and handle domain/hosting. You review & approve.</p>
+        <h3 class="h5 mt-2">2) Build</h3>
+        <p>Design & mobile optimizations. We handle domain + hosting config.</p>
       </div>
       <div class="step">
         <i class="fas fa-rocket" style="font-size:26px;color:var(--accent)"></i>
-        <h3 class="h5 mt-2">3. Launch & Ongoing</h3>
-        <p>Go live—and keep improving with included maintenance & support.</p>
-      </div>
-    </div>
-
-    <div class="info">
-      <div style="display:flex;gap:10px;align-items:flex-start">
-        <i class="fas fa-info-circle" style="color:var(--accent);margin-top:2px"></i>
-        <div>
-          <strong>Service status:</strong>
-          Ad management is temporarily paused while we roll out a new system. For updates, check the
-          <a href="https://webeaze.tawk.help" target="_blank" rel="noopener" style="text-decoration:underline;color:#fff">Help Center</a>.
-        </div>
+        <h3 class="h5 mt-2">3) Launch</h3>
+        <p>Go live — and keep improving with included maintenance & support.</p>
       </div>
     </div>
   </section>
 
+<!-- TRUST & GUARANTEE -->
+<section class="section trust">
+  <div class="card-ghost" style="text-align:left">
+    <div style="display:flex;gap:18px;align-items:flex-start;flex-wrap:wrap">
+      <i class="fas fa-shield-alt" style="color:var(--accent);font-size:26px"></i>
+      <div>
+        <h3 class="h5 m-0">Our “Make-It-Right” Guarantee</h3>
+        <p class="mb-0" style="color:#efeaff">
+          If we miss a published timeline by more than 7 business days due to us, we’ll comp your next month.
+          We succeed when your site succeeds.
+        </p>
+      </div>
+    </div>
+
+    <hr style="border-color:var(--border)">
+
+    <!-- Text-only partner wordmarks (no images) -->
+    <div class="logos wordmarks" aria-label="Tools & partners">
+      <a class="brand-pill" href="https://stripe.com" target="_blank" rel="noopener">Stripe</a>
+      <a class="brand-pill" href="https://github.com" target="_blank" rel="noopener">GitHub</a>
+      <a class="brand-pill" href="https://www.google.com" target="_blank" rel="noopener">Google</a>
+      <span class="brand-pill">WordPress</span>
+      <span class="brand-pill">Squarespace</span>
+      <span class="brand-pill">Wix</span>
+    </div>
+  </div>
+</section>
+
+
   <!-- FAQ -->
-  <section class="section faq">
+  <section class="section faq" id="faq">
     <h2 class="h3">Questions?</h2>
 
     <div class="faq-item">
       <button class="faq-q" aria-expanded="false">What is the $0 setup offer? <span class="arrow">&#9660;</span></button>
       <div class="faq-a">
-        For a limited time, we're waiving the one-time setup fee of $299 for monthly plans through <b>September 30</b>.
-        Yearly plans always waive this fee.
-        If you see an optional setup line at checkout before that date, ignore it—we'll remove it prior to posting the charge.
+        We’re waiving the $299 one-time setup fee on monthly plans through <b>September 30</b>. Yearly plans always waive the setup. If a setup line appears at checkout before that date, ignore it—we’ll remove it prior to posting the charge.
       </div>
     </div>
 
     <div class="faq-item">
-      <button class="faq-q" aria-expanded="false">Why is there a setup fee for monthly plans? <span class="arrow">&#9660;</span></button>
+      <button class="faq-q" aria-expanded="false">How much do I save on yearly? <span class="arrow">&#9660;</span></button>
       <div class="faq-a">
-        It covers initial design, domain, and hosting configuration. Choose a yearly plan to waive it entirely.
+        Essential yearly vs $169/mo ≈ <b>6.1 months free</b>. Growth yearly vs $249/mo ≈ <b>4.8 months free</b>. (Savings shown vs paying month-to-month for 12 months.)
       </div>
     </div>
 
     <div class="faq-item">
       <button class="faq-q" aria-expanded="false">How does payment work? <span class="arrow">&#9660;</span></button>
       <div class="faq-a">
-        We process payments securely via Stripe. Pay monthly or yearly (yearly saves the most). You can update payment info anytime from your portal.
+        We process payments via Stripe. Pay monthly or yearly (yearly saves the most). You can update payment details anytime from your client portal.
       </div>
     </div>
 
     <div class="faq-item">
       <button class="faq-q" aria-expanded="false">Can I switch or cancel later? <span class="arrow">&#9660;</span></button>
       <div class="faq-a">
-        You can upgrade anytime from the portal. Downgrades aren't available within a 12-month window to keep scopes stable.
+        You can upgrade anytime from the portal. Downgrades aren’t available within a 12-month window to keep scopes stable, but you can move to yearly at your next billing cycle.
       </div>
     </div>
   </section>
@@ -436,12 +516,8 @@
   <!-- CTA -->
   <section class="cta-band">
     <h2 class="h4">Ready to get started?</h2>
-    <p style="max-width:700px;margin:6px auto 16px;color:#f2eaff">
-      It's free, takes 15 minutes, and could change your business. Seriously.
-    </p>
-
-    <br> 
-    <a class="btn-ghost" href="consultation.html">Request a Free Consultation</a>
+    <p style="max-width:720px;margin:6px auto 16px;color:#f2eaff">It’s free, takes 15 minutes, and could change your business.</p>
+    <a class="btn-hero" href="consultation.html">Request a Free Consultation</a>
   </section>
 
   <!-- FOOTER -->
@@ -449,9 +525,7 @@
     <div class="footer-grid">
       <div class="footer-col">
         <img src="images/default-monochrome-white.svg" style="max-width:40%" alt="WebEaze Logo" class="footer-logo" loading="lazy" decoding="async">
-
-        <br>
-        <br>
+        <br><br>
         <p>Stunning websites with support that scales with your business. One plan. One price. One powerful online presence.</p>
       </div>
       <div class="footer-col">
@@ -474,11 +548,12 @@
         </ul>
       </div>
       <div class="footer-col">
-        <h4>We're verified!</h4>
+        <h4>We’re verified!</h4>
         <a href="https://www.designrush.com/agency/profile/webeaze" target="_blank" rel="noopener">
           <img src="images/designrush-profile.svg" alt="WebEaze verified agency on DesignRush" style="max-width:100px;margin-bottom:10px">
         </a>
         <script src="https://www.designrush.com/topbest/js/widgets/agency-reviews.js"></script>
+      </div>
     </div>
     <div class="footer-bottom">
       <p>© 2025 WebEaze. Created and designed by WebEaze. Published on <a href="https://pages.github.com/">GitHub</a>.</p>
@@ -489,26 +564,12 @@
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
   <script>
-    // Random hero line
-    document.addEventListener('DOMContentLoaded', () => {
-      const choices = ["Smart Pricing","One Plan. One Price.","Plans for Every Business","We’re With You, Start to Finish"];
-      document.getElementById('random-question').textContent = choices[Math.floor(Math.random()*choices.length)];
-    });
-
-    // FAQ toggles
+    // FAQ toggles (accessible)
     document.querySelectorAll('.faq-item').forEach(item=>{
-      const btn = item.querySelector('.faq-q');
-      const arrow = item.querySelector('.arrow');
-      btn.addEventListener('click', ()=>{
-        const open = item.classList.toggle('open');
-        btn.setAttribute('aria-expanded', String(open));
-        if(arrow) arrow.style.transform = open ? 'rotate(180deg)' : 'rotate(0deg)';
-      });
-      btn.addEventListener('keydown',(e)=>{
-        if(e.key==='Enter'||e.key===' '){ e.preventDefault(); btn.click(); }
-      });
+      const btn=item.querySelector('.faq-q'), arrow=item.querySelector('.arrow');
+      btn.addEventListener('click',()=>{const open=item.classList.toggle('open');btn.setAttribute('aria-expanded',String(open));if(arrow)arrow.style.transform=open?'rotate(180deg)':'rotate(0deg)';});
+      btn.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();btn.click();}});
     });
   </script>
 </body>
