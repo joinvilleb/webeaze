@@ -249,12 +249,94 @@ section[id] { scroll-margin-top: 72px; }
 html { scroll-behavior: smooth; } /* native smooth scroll */
 
 
+/* ===== BENEFITS — elevated, crisp, on-brand (scoped) ===== */
+#benefits .surface{background:rgba(255,255,255,.08)}
+
+#benefits .benefits-head{margin-bottom:14px}
+#benefits .kicker{
+  display:inline-block; padding:6px 10px; border-radius:999px;
+  background:rgba(255,255,255,.14); border:1px solid var(--border);
+  font-size:.82rem; letter-spacing:.04em; text-transform:uppercase; opacity:.95;
+}
+
+#benefits .benefits-grid{
+  display:grid; grid-template-columns:repeat(12,1fr); gap:16px;
+}
+#benefits .benefit{
+  grid-column:span 4;
+  position:relative; overflow:hidden;
+  background:rgba(255,255,255,.07);
+  border:1px solid var(--border); border-radius:16px;
+  padding:18px 18px 16px;
+  box-shadow:0 10px 28px rgba(0,0,0,.20);
+  transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+#benefits .benefit:hover{
+  transform:translateY(-2px);
+  box-shadow:0 16px 40px rgba(0,0,0,.25);
+  border-color:#ffffff2e;
+}
+/* sheen on hover */
+#benefits .benefit::after{
+  content:""; position:absolute; top:-40%; left:-30%; width:40%; height:200%;
+  background:linear-gradient(120deg, transparent, rgba(255,255,255,.22), transparent);
+  transform:translateX(-140%) rotate(18deg);
+  transition:transform .6s ease;
+  pointer-events:none;
+}
+#benefits .benefit:hover::after{ transform:translateX(260%) rotate(18deg); }
+
+/* icon badge */
+#benefits .badge{
+  width:54px; height:54px; border-radius:14px; margin-bottom:8px;
+  display:flex; align-items:center; justify-content:center; font-size:24px;
+  background:linear-gradient(180deg, rgba(255,255,255,.22), rgba(255,255,255,.10));
+  border:1px solid var(--border);
+  box-shadow:0 8px 16px rgba(0,0,0,.22);
+}
+
+/* text */
+#benefits h3{margin:2px 0 4px; font-weight:700}
+#benefits p{margin:0; color:var(--muted)}
+
+/* faint numeric watermark for hierarchy */
+#benefits .mark{
+  position:absolute; right:10px; bottom:-8px;
+  font-weight:800; font-size:64px; line-height:1;
+  color:#fff; opacity:.08; pointer-events:none;
+}
+
+/* stat chips row */
+#benefits .benefit-stats{
+  margin:14px 0 -2px; display:flex; gap:10px; flex-wrap:wrap; justify-content:center;
+  list-style:none; padding:0;
+}
+#benefits .benefit-stats li{
+  display:inline-flex; align-items:center; gap:8px;
+  padding:8px 12px; border:1px solid var(--border); border-radius:999px;
+  background:rgba(255,255,255,.10); font-weight:600;
+}
+
+/* responsive */
+@media (max-width:992px){ #benefits .benefit{grid-column:span 6} }
+@media (max-width:768px){
+  #benefits .benefit{grid-column:span 12}
+  #benefits .mark{font-size:56px}
+}
+
+
+#benefits .badge svg{width:24px;height:24px}
+#benefits .badge.is-plans{ color: var(--gold); } 
+
+
 
 
 
   </style>
 </head>
 <body>
+
+  
 
 <!-- NAV -->
 <div class="nav-wrap">
@@ -343,35 +425,49 @@ html { scroll-behavior: smooth; } /* native smooth scroll */
   <!-- BENEFITS -->
   <section class="py-5 section-band bg-benefits" id="benefits" data-parallax>
     <div class="container container-narrow surface">
-      <h2 class="h3 text-center mb-4 reveal" style="font-weight: bold !important;">Our styles. And likes. </h2>
-  
-      <div class="features-strip">
-        <div class="feature reveal">
-          <div class="tick">✓</div>
-          <div>
-            <h3 class="h6 mb-1">Simple plans</h3>
-            <p class="mb-0">Monthly or yearly with clear benefits. No hourly chaos. Outcomes over billable minutes.</p>
-          </div>
-        </div>
-  
-        <div class="feature reveal">
-          <div class="tick">⚡</div>
-          <div>
-            <h3 class="h6 mb-1">Fast launches</h3>
-            <p class="mb-0">Most sites live in 2-3 weeks, then ongoing maintenance for your business needs.</p>
-          </div>
-        </div>
-  
-        <div class="feature reveal">
-          <div class="tick">🤝</div>
-          <div>
-            <h3 class="h6 mb-1">Real support</h3>
-            <p class="mb-0">Zoom, live chat, or email. We act like a partner. Not a ticket bot.</p>
-          </div>
-        </div>
+      <div class="benefits-head text-center">
+        <span class="kicker">Why WebEaze</span>
+        <h2 class="h3 mb-2 reveal" style="font-weight:bold!important; padding-top: 20px;">Our styles. And likes.</h2>
+        <p class="subhead reveal" style="margin:0;color:var(--muted);">Three pillars we don't compromise on.</p>
       </div>
+  
+      <div class="benefits-grid">
+        <!-- 01 -->
+        <article class="benefit reveal">
+          <div class="badge">✓</div>
+          <h3 class="h6">Simple plans</h3>
+          <p>Monthly or yearly. A clear support plan with no hourly rate chaos.</p>
+    
+        </article>
+  
+        <!-- 02 -->
+        <article class="benefit reveal">
+          <div class="badge">⚡</div>
+          <h3 class="h6">Fast launches</h3>
+          <p>Live in <b>2-3 weeks</b>, then we maintain.</p>
+
+        </article>
+  
+        <!-- 03 -->
+        <article class="benefit reveal">
+          <div class="badge">🤝</div>
+          <h3 class="h6">Real support</h3>
+          <p>Zoom, chat, or email. <b>Humans</b>, not bots.</p>
+
+        </article>
+      </div>
+  
+      <!-- Stats -->
+      <ul class="benefit-stats reveal" aria-label="Quick stats">
+        <li>43+ clients</li>
+        <li>Relationship First Approach</li>
+        <li>Unlimited maintenance</li>
+      </ul>
     </div>
   </section>
+  
+  
+  
   
 
 
@@ -534,7 +630,8 @@ html { scroll-behavior: smooth; } /* native smooth scroll */
       <div class="mb-1">&copy; <span id="yr"></span> WebEaze. All rights reserved.</div>
       <div class="mb-2 small">
         <a href="terms.html#privacy">Privacy Policy</a> ·
-        <a href="terms.html">Terms</a>
+        <a href="terms.html">Terms</a> ·
+        <a href="site-map.html">Site Map</a>
       </div>
       <div class="small">Made with ☕ in Delaware, USA</div>
     </div>
