@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Refer & Earn $100 | WebEaze</title>
+  <meta name="description" content="Earn $100 for every business you refer that signs up with WebEaze. Simple steps, fast payouts.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"/>
+  <link rel="shortcut icon" href="images/favicon.png" type="image/png"/>
+
+  <style>
+    :root{
+      --bg:#7851a9;            /* brand purple */
+      --ink:#120a2a;
+      --text:#ffffff;
+      --muted:#efeaf9;
+      --gold:#ffd700;
+      --btn-hover:#f2c600;
+      --card:rgba(255,255,255,.08);
+      --border:rgba(255,255,255,.18);
+      --glass:rgba(255,255,255,.10);
+    }
+    html,body{height:100%}
+    body{margin:0;color:var(--text);background:var(--bg);font-family:'Poppins',sans-serif;-webkit-font-smoothing:antialiased}
+    a{color:var(--text)}
+    .container-narrow{max-width:1080px}
+    .logo{height:36px}
+    .btn-brand{background:var(--gold);color:#4e2f93;font-weight:700;border:none;border-radius:12px;padding:.9rem 1.25rem;box-shadow:0 10px 30px rgba(255,215,0,.25);transition:transform .15s ease, box-shadow .15s ease}
+    .btn-brand:hover{background:var(--btn-hover);color:#fff;transform:translateY(-1px);box-shadow:0 14px 34px rgba(255,215,0,.35)}
+    .btn-ghost{background:transparent;border:1.5px solid var(--border);color:#fff;border-radius:12px;padding:.9rem 1.25rem}
+    .chip{display:inline-block;padding:.3rem .65rem;border-radius:999px;background:rgba(255,255,255,.12);border:1px solid var(--border);font-size:.85rem}
+
+    /* NAV (match your provided page) */
+    .nav-wrap{position:sticky;top:0;z-index:999;backdrop-filter:saturate(120%) blur(8px);background:linear-gradient(180deg, rgba(0,0,0,.18), rgba(0,0,0,.05));border-bottom:1px solid rgba(255,255,255,.15)}
+    .nav-link{opacity:.9}
+    .nav-link:hover{opacity:1}
+    .hamburger{background:transparent;border:0;display:inline-flex;flex-direction:column;gap:4px;padding:6px}
+    .hamburger span{display:block;width:22px;height:2px;background:#fff;border-radius:2px}
+    #mobileNav{background:rgba(0,0,0,.45);border-top:1px solid rgba(255,255,255,.15)}
+    #mobileNav .nav-link{opacity:.95}
+    #mobileNav .nav-link:hover{opacity:1}
+    .nav-wrap strong{
+      font-size:1.25rem;font-weight:700;letter-spacing:-.5px;color:var(--text);
+      background:linear-gradient(90deg,var(--gold),#fff);
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+    }
+
+    /* HERO */
+    .hero{position:relative;overflow:hidden}
+    .hero:before,.hero:after{content:"";position:absolute;border-radius:50%;filter:blur(60px);opacity:.35;pointer-events:none}
+    .hero:before{width:520px;height:520px;background:#b695ff;top:-120px;left:-120px}
+    .hero:after{width:620px;height:620px;background:#5a37c9;bottom:-180px;right:-160px}
+    .hero .confetti{position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.12) 1px, transparent 1px);background-size:18px 18px;mask-image:linear-gradient(#000, transparent 70%);opacity:.2}
+    .eyebrow{font-size:.85rem;letter-spacing:.04em;text-transform:uppercase;opacity:.92}
+    .headline{font-weight:800;letter-spacing:-.02em;line-height:1.1}
+    .headline .sparkle{position:relative;display:inline-block}
+    .headline .sparkle:after{content:"";position:absolute;left:0;right:0;bottom:-8px;height:10px;background:linear-gradient(90deg, transparent, rgba(255,215,0,.6), transparent);filter:blur(3px)}
+    .subhead{color:var(--muted)}
+    .hero-card{background:var(--glass);border:1px solid var(--border);border-radius:16px}
+
+    /* SECTIONS */
+    .section-band{position:relative}
+    .section-band:before{content:"";position:absolute;inset:0;background:linear-gradient(180deg, rgba(34,18,71,.55), rgba(48,27,98,.55))}
+    .section-band .surface{position:relative;background:rgba(255,255,255,.06);border:none;border-radius:16px;padding:24px;box-shadow:0 8px 26px rgba(0,0,0,.18)}
+    .card-simple{background:rgba(255,255,255,.07);border:none;border-radius:16px;padding:18px;box-shadow:0 10px 28px rgba(0,0,0,.20);transition:transform .2s ease, box-shadow .2s ease}
+    .card-simple:hover{transform:translateY(-3px);box-shadow:0 16px 40px rgba(0,0,0,.25)}
+    .icon-badge{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:12px;background:rgba(255,255,255,.14);margin-right:.5rem;font-size:20px}
+
+    /* GRID */
+    .steps{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
+    .step{grid-column:span 4}
+    @media (max-width:768px){.step{grid-column:span 12}}
+
+    .gallery{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
+    .shot{grid-column:span 6;position:relative;border-radius:16px;overflow:hidden;background:rgba(255,255,255,.06);min-height:240px}
+    .shot img{width:100%;height:100%;object-fit:cover;display:block;filter:contrast(1.05) saturate(1.05)}
+    .shot .cap{position:absolute;left:12px;bottom:12px;background:rgba(0,0,0,.35);backdrop-filter:blur(4px);padding:.35rem .6rem;border-radius:10px;font-size:.85rem}
+    @media (max-width:768px){.shot{grid-column:span 12}}
+
+    /* FAQ-lite */
+    details.faq{background:transparent;border-bottom:1px solid rgba(255,255,255,.14);padding:12px 0}
+    details.faq summary{cursor:pointer;list-style:none}
+    details.faq summary::-webkit-details-marker{display:none}
+
+    /* Reveal animation */
+    .reveal{opacity:0;transform:translateY(14px);transition:transform .5s ease, opacity .5s ease;will-change:transform,opacity}
+    .reveal.in-view{opacity:1;transform:translateY(0)}
+
+    section[id]{scroll-margin-top:72px}
+    html{scroll-behavior:smooth}
+    footer{font-size:.95rem;color:#fff;opacity:.95}
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<div class="nav-wrap">
+  <div class="container container-narrow py-2 d-flex align-items-center justify-content-between">
+    <a href="/" class="d-inline-flex align-items-center">
+      <img class="logo mr-2" src="images/webeaze-transparent copy.png" alt="WebEaze"/>
+      <strong>WebEaze Web Design</strong>
+    </a>
+
+    <!-- Desktop -->
+    <div class="d-none d-md-flex align-items-center">
+      <a class="nav-link mr-3" href="/maintenance.html">Unlimited Maintenance</a>
+      <a class="nav-link mr-3" href="/pricing.html">Services</a>
+      <a class="nav-link mr-3" href="#faq">FAQ</a>
+      <a class="nav-link mr-3" href="/contact-us.html">Contact Us</a>
+      <a class="btn btn-sm btn-brand" href="/consultation.html">Get Started Today</a>
+    </div>
+
+    <!-- Mobile -->
+    <button class="hamburger d-md-none" type="button" data-toggle="collapse" data-target="#mobileNav" aria-controls="mobileNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+
+  <div id="mobileNav" class="collapse">
+    <div class="container container-narrow py-2 d-flex flex-column">
+      <a class="nav-link py-2" href="#how" data-toggle="collapse" data-target="#mobileNav">How It Works</a>
+      <a class="nav-link py-2" href="#work" data-toggle="collapse" data-target="#mobileNav">Past Work</a>
+      <a class="nav-link py-2" href="#faq" data-toggle="collapse" data-target="#mobileNav">FAQ</a>
+      <a class="btn btn-brand my-2 align-self-start" href="https://406km9.share-na2.hsforms.com/2dzuAwKMYSnOES4ubap3SiQ" target="_blank" rel="noopener">Submit a Referral</a>
+    </div>
+  </div>
+</div>
+
+<!-- HERO -->
+<header class="hero py-5 py-md-6">
+  <div class="confetti"></div>
+  <div class="container container-narrow text-center text-md-left">
+    <div class="row align-items-center">
+      <div class="col-md-7">
+        <div class="eyebrow">Referral Program</div>
+        <h1 class="headline mt-2 display-4">Earn <span class="sparkle">$100</span> for every client you send our way.</h1>
+        <p class="subhead mt-3">No codes. No limits. Share WebEaze with a business owner—once they sign up and clear the first week, you get paid.</p>
+        <div class="mt-3">
+          <a href="https://406km9.share-na2.hsforms.com/2dzuAwKMYSnOES4ubap3SiQ" class="btn btn-brand mr-2 mb-2" target="_blank" rel="noopener">Submit a Referral</a>
+          <a href="#how" class="btn btn-ghost mb-2">How it Works</a>
+        </div>
+        <div class="mt-3 small">Payouts via Venmo • Cash App • PayPal • Zelle</div>
+      </div>
+      <div class="col-md-5 mt-4 mt-md-0">
+        <div class="hero-card p-3 p-md-4 text-center">
+          <div class="small mb-1">Share your personal link</div>
+          <div class="h5 mb-2">https://webeaze.io/?ref=<span class="chip" id="suggestedRef">your-name</span></div>
+          <div class="small">We track it for 90 days. It's that simple.</div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- HOW IT WORKS -->
+<section id="how" class="py-5 section-band" data-parallax>
+  <div class="container container-narrow surface">
+    <h2 class="h3 text-center mb-2 reveal" style="font-weight:bold!important;">How it works</h2>
+    <p class="subhead text-center mb-4 reveal">Three steps. Unlimited earnings.</p>
+
+    <div class="steps">
+      <article class="step reveal">
+        <div class="card-simple h-100">
+          <div class="d-flex align-items-center mb-2"><span class="icon-badge">1</span><strong>Share WebEaze</strong></div>
+          <p class="mb-2">Send your link: <code>webeaze.io/?ref=firstname-lastname</code> or just tell them to mention your name.</p>
+          <a class="btn btn-ghost btn-sm" href="/about.html">Learn about us</a>
+        </div>
+      </article>
+
+      <article class="step reveal">
+        <div class="card-simple h-100">
+          <div class="d-flex align-items-center mb-2"><span class="icon-badge">2</span><strong>They sign up</strong></div>
+          <p class="mb-2">We track referrals for 90 days across the site and confirm at checkout/intake.</p>
+          <span class="chip">No limits</span>
+        </div>
+      </article>
+
+      <article class="step reveal">
+        <div class="card-simple h-100">
+          <div class="d-flex align-items-center mb-2"><span class="icon-badge">3</span><strong>You get paid</strong></div>
+          <p class="mb-2">After their first week clears, you receive <strong>$100</strong> via Venmo, Cash App, PayPal, or Zelle.</p>
+          <a class="btn btn-ghost btn-sm" href="https://406km9.share-na2.hsforms.com/2dzuAwKMYSnOES4ubap3SiQ" target="_blank" rel="noopener">Submit a Referral</a>
+        </div>
+      </article>
+    </div>
+
+    <div class="mt-4 text-center reveal">
+      <span class="chip">Covers: paid website support & management plans</span>
+    </div>
+  </div>
+</section>
+
+<!-- PAST WORK / SOCIAL PROOF -->
+<section id="work" class="py-5 section-band" data-parallax>
+  <div class="container container-narrow surface">
+    <h2 class="h3 text-center mb-2 reveal" style="font-weight:bold!important;">Recent work</h2>
+    <p class="subhead text-center mb-4 reveal">A few snapshots from sites we've shipped for small businesses.</p>
+
+    <div class="gallery">
+      <!-- Replace image paths with your real screenshots -->
+      <figure class="shot reveal">
+        <img src="images/service-based-business.png" alt="Service business homepage — clean hero, strong CTA">
+        <figcaption class="cap">Service business • Conversion-focused homepage</figcaption>
+      </figure>
+
+      <figure class="shot reveal">
+        <img src="images/ibis-prep-services.png" alt="Café menu page with seasonal promo banner">
+        <figcaption class="cap">Esteemed tutoring company • Custom services page</figcaption>
+        </figcaption>
+      </figure>
+
+      <!-- If you only want one image, delete this second figure and the grid still looks good -->
+    </div>
+
+    <div class="text-center mt-4 reveal">
+      <a href="/samples.html" class="btn btn-ghost">See more examples</a>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" class="py-5 section-band" data-parallax>
+  <div class="container container-narrow surface">
+    <h2 class="h4 mb-3 text-center reveal" style="font-weight:bold;">FAQ</h2>
+
+    <details class="faq reveal">
+      <summary><strong>Who can refer?</strong></summary>
+      <div class="pt-2">Anyone—clients and non-clients.</div>
+    </details>
+
+    <details class="faq reveal">
+      <summary><strong>What counts for the $100?</strong></summary>
+      <div class="pt-2">A referral who signs up for a paid website support & management plan and stays active for 7+ days from start.</div>
+    </details>
+
+    <details class="faq reveal">
+      <summary><strong>How do you pay me?</strong></summary>
+      <div class="pt-2">We send real money via Venmo, Cash App, PayPal, or Zelle within 7 business days after eligibility clears.</div>
+    </details>
+
+    <details class="faq reveal">
+      <summary><strong>Full terms?</strong></summary>
+      <div class="pt-2">Click the link below that will take you to our Help Center. There, you'll see more information regarding eligibility, verification, and tax notes. </div>
+    </details>
+
+    <div class="text-center mt-3 reveal">
+      <a class="btn btn-brand" href="https://webeaze.tawk.help/article/referral" target="_blank" rel="noopener">Learn More</a>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="py-5 text-center section-band" data-parallax id="cta">
+  <div class="container container-narrow surface">
+    <h2 class="h4 mb-2 reveal" style="font-weight:bold;">Know a business that needs a better website?</h2>
+    <p class="subhead reveal">Send them our way and earn <strong>$100</strong> when they sign up.</p>
+    <a href="https://406km9.share-na2.hsforms.com/2dzuAwKMYSnOES4ubap3SiQ" class="btn btn-brand mt-2 reveal" target="_blank" rel="noopener">Submit a Referral</a>
+  </div>
+</section>
+
+<!-- FOOTER (matches your style) -->
+<footer class="py-4 text-center">
+  <div class="container container-narrow">
+    <div class="mb-1">&copy; <span id="yr"></span> WebEaze. All rights reserved.</div>
+    <div class="mb-2 small">
+      <a href="terms.html#privacy">Privacy Policy</a> ·
+      <a href="terms.html">Terms</a> ·
+      <a href="site-map.html">Site Map</a>
+    </div>
+    <div class="small">Made with ☕ in Delaware, USA</div>
+  </div>
+</footer>
+
+<!-- Year -->
+<script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
+
+<!-- jQuery + Bootstrap -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<!-- Reveal on scroll -->
+<script>
+(function(){
+  var els=[].slice.call(document.querySelectorAll('.reveal'));
+  if(!('IntersectionObserver'in window)){els.forEach(e=>e.classList.add('in-view'));return;}
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){entry.target.classList.add('in-view');io.unobserve(entry.target);}
+    });
+  },{threshold:.14});
+  els.forEach(e=>io.observe(e));
+})();
+</script>
+
+<!-- Parallax-lite -->
+<script>
+(function(){
+  var bands=[].slice.call(document.querySelectorAll('.section-band[data-parallax] .surface'));
+  if(!bands.length) return;
+  var ticking=false;
+  function update(){
+    var vh=window.innerHeight||1;
+    bands.forEach(function(surf){
+      var rect=surf.getBoundingClientRect();
+      var pct=Math.min(1,Math.max(0,(vh-rect.top)/(vh+rect.height)));
+      var offset=(pct-.5)*24;
+      surf.style.transform='translateY('+offset.toFixed(2)+'px)';
+    });
+    ticking=false;
+  }
+  function onScroll(){ if(!ticking){ window.requestAnimationFrame(update); ticking=true; } }
+  window.addEventListener('scroll',onScroll,{passive:true});
+  window.addEventListener('resize',onScroll);
+  onScroll();
+})();
+</script>
+
+<!-- Simple referral link capture (works site-wide) -->
+<script>
+(function(){
+  var p=new URLSearchParams(location.search); var ref=p.get('ref');
+  if(ref){
+    var val=encodeURIComponent(ref.trim());
+    document.cookie="webeaze_ref="+val+"; path=/; max-age="+(60*60*24*90);
+    try{ localStorage.setItem('webeaze_ref', ref.trim()); }catch(e){}
+  }
+  // Suggest a ref slug in the hero (nice touch)
+  try{
+    var name=(localStorage.getItem('webeaze_ref')||'your-name').toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9\-]/g,'');
+    document.getElementById('suggestedRef').textContent=name||'your-name';
+  }catch(e){}
+})();
+</script>
+
+</body>
+</html>
