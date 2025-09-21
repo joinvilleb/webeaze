@@ -343,5 +343,44 @@
 })();
 </script>
 
+<script>
+    (function () {
+      var menu = document.getElementById('mobileNav');
+      if (!menu) return;
+    
+      var HEADER_OFFSET = 72; 
+    
+      menu.addEventListener('click', function (e) {
+        var a = e.target.closest('a');
+        if (!a) return;
+    
+
+        if (a.target === '_blank') return;
+    
+        var href = a.getAttribute('href') || '';
+        var isHash = href.startsWith('#');
+        var target = isHash ? document.getElementById(href.slice(1)) : null;
+    
+        // Close the drawer
+        $('#mobileNav').collapse('hide');
+    
+        if (target) {
+
+          e.preventDefault();
+
+          setTimeout(function () {
+            var y = target.getBoundingClientRect().top + window.pageYOffset - HEADER_OFFSET;
+            window.scrollTo({ top: y, behavior: 'smooth' });
+          }, 150);
+        } else if (!isHash && href) {
+          // Normal navigation: let it proceed after a tiny delay
+          e.preventDefault();
+          setTimeout(function () { window.location.href = href; }, 50);
+        }
+      });
+    })();
+    </script>
+    
+
 </body>
 </html>
