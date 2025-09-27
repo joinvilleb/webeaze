@@ -32,13 +32,8 @@
     a{color:inherit;text-decoration:none}
     .container-narrow{max-width:1100px}
 
-    /* Promo (kept cute & simple) */
-    .promo-bar{position:sticky;top:0;z-index:1100;background:#6b43c1;color:#fff;border-bottom:1px solid rgba(255,255,255,.18)}
-    .promo-inner{display:flex;align-items:center;justify-content:center;gap:12px;padding:.5rem .75rem}
-    .btn-promo{background:var(--gold);color:#2f1e66;border:none;border-radius:999px;padding:.35rem .75rem;font-weight:800}
-
     /* Nav (purple, glassy on scroll — matches home vibe) */
-    .nav-wrap{position:sticky;top:42px;z-index:1000;background:linear-gradient(180deg, rgb(98, 58, 218), #7851a9);backdrop-filter:saturate(130%) blur(8px);border-bottom:0 solid rgba(197, 186, 186, 0.14)}
+    .nav-wrap{position:relative;top:0;z-index:1000;background:linear-gradient(180deg, rgb(98, 58, 218), #7851a9);backdrop-filter:saturate(130%) blur(8px);border-bottom:0 solid rgba(197, 186, 186, 0.14)}
     .navbar{background:transparent!important;box-shadow:none!important;padding:.6rem 0;transition:padding .18s ease}
     .scrolled .navbar{padding:.45rem 0}
     .navbar-brand img{height:40px}
@@ -116,20 +111,58 @@
 
     /* Footer (leave your global footer on the site) */
     section[id]{scroll-margin-top:86px}
-  </style>
+
+    .promo-bar{
+  background: linear-gradient(180deg, rgba(255,255,255,.14), rgba(255,255,255,.08));
+  border-bottom: 1px solid rgba(255,255,255,.18);
+  color: #fff;
+}
+.promo-inner{
+  display:flex; align-items:center; justify-content:center; gap:10px;
+  padding:.45rem 0;
+  text-align:center;
+}
+.promo-text{ font-weight:600; }
+.promo-text strong{ font-weight:800; }
+.emoji{ animation: promo-pop 1.8s ease-in-out infinite }
+@keyframes promo-pop{ 0%,100%{transform:translateY(0)} 50%{transform:translateY(2px)} }
+
+.btn-promo{
+  display:inline-flex; align-items:center; justify-content:center;
+  padding:.4rem .75rem; border-radius:999px; font-weight:800;
+  background:#ffd700; color:#3b2a7a; border:none;
+  box-shadow:0 8px 22px rgba(255,215,0,.22);
+  transition:transform .15s ease, box-shadow .15s ease, background-color .15s ease;
+  white-space:nowrap;
+}
+.btn-promo:hover{ background:#f2c600; color:#fff; transform:translateY(-1px); box-shadow:0 12px 28px rgba(255,215,0,.3) }
+
+.promo-close{
+  background:transparent; border:0; color:#fff; opacity:.85; line-height:1;
+  font-size:18px; padding:2px 6px; border-radius:6px;
+}
+.promo-close:hover{ opacity:1; background:rgba(255,255,255,.12) }
+
+
+@media (max-width:768px){
+  .promo-inner{ flex-wrap:wrap; gap:8px; }
+  .promo-close{ position:absolute; right:10px; top:6px; }
+}
+
+
+</style>
+
+
 </head>
 <body>
-
-  <!-- Promo (dismiss optional; simple version) -->
-  <div class="promo-bar">
-    <div class="promo-inner container-narrow">
-      <span>🎉 <strong>$0 setup</strong> on monthly plans + free homepage mockup. Ends Sep 30.</span>
-      <a href="consultation.html" class="btn-promo">Yes!</a>
-    </div>
-  </div>
-
   <!-- NAV (purple, consistent) -->
   <div class="nav-wrap">
+    <div class="promo-bar">
+      <div class="promo-inner container-narrow">
+        <span>🎉 <strong>$0 setup</strong> on monthly plans + free homepage mockup. Ends 9/30.</span>
+        <a href="consultation.html" class="btn-promo">Yes!</a>
+      </div>
+    </div>
     <div class="container container-narrow">
       <nav class="navbar navbar-expand-lg navbar-dark" role="navigation" aria-label="Primary">
         <a class="navbar-brand d-flex align-items-center" href="index.html">
@@ -154,6 +187,7 @@
 
   <!-- HERO -->
   <header class="hero">
+    
     <div class="container container-narrow">
       <span class="chip reveal"><i class="fas fa-bolt"></i> Pricing made simple</span>
       <h1 class="reveal">One price. Ongoing maintenance. <br>No hourly rates — ever.</h1>
@@ -213,7 +247,7 @@
         </div>
         <div class="reason reveal">
           <div class="ico">🔁</div>
-          <h3>Ongoing care beats “big launches”</h3>
+          <h3>Ongoing maintenance beats “big launches”</h3>
           <p class="mb-0">Small, steady updates outperform expensive rebuilds. You pay for momentum, not meetings.</p>
         </div>
       </div>
@@ -360,5 +394,21 @@
       els.concat(barRows).concat(counters).forEach(function(node){ io.observe(node); });
     })();
   </script>
+
+<script>
+  // Dismiss + remember
+  (function(){
+    var KEY = 'promo_v1'; 
+    var bar = document.getElementById('promoBar');
+    if(!bar) return;
+    try { if(localStorage.getItem(KEY)==='hide'){ bar.remove(); return; } } catch(e){}
+    var btn = bar.querySelector('.promo-close');
+    if(btn) btn.addEventListener('click', function(){
+      bar.remove();
+      try { localStorage.setItem(KEY, 'hide'); } catch(e){}
+    });
+  })();
+</script>
+
 </body>
 </html>
