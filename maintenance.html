@@ -23,12 +23,12 @@
 
     .nav-wrap{
       position:sticky; top:0; z-index:9999;
-      background:linear-gradient(180deg, rgba(10,6,22,.55), rgba(10,6,22,.28));
+      background: #7e5fe0;
       backdrop-filter:saturate(130%) blur(8px); -webkit-backdrop-filter:saturate(130%) blur(8px);
       border-bottom:1px solid rgba(255,255,255,.14)
     }
     .logo{height:36px}
-    .brand-word{letter-spacing:-.3px;font-weight:700;background:linear-gradient(90deg,var(--gold),#fff);
+    .brand-word{letter-spacing:-.3px;font-weight:700;background:linear-gradient(90deg, #d5cfeb,#ffffff);
       -webkit-background-clip:text;-webkit-text-fill-color:transparent}
     .navbar-dark .nav-link{color:#fff!important;opacity:.92;border-radius:10px;padding:.45rem .7rem}
     .navbar-dark .nav-link:hover{opacity:1;background:rgba(255,255,255,.1)}
@@ -185,6 +185,22 @@
 }
 
 
+.strip{overflow:hidden}
+.strip .ticker{display:flex; width:max-content; animation:strip-slide 28s linear infinite}
+.strip .ticker:hover{animation-play-state:paused}
+.strip .ticker > .inner{display:flex; gap:28px; white-space:nowrap}
+.strip .ticker .dot{opacity:.35}
+
+@keyframes strip-slide{
+  from{transform:translateX(0)}
+  to{transform:translateX(-50%)} 
+}
+
+@media (prefers-reduced-motion:reduce){
+  .strip .ticker{animation:none}
+}
+
+
   </style>
 </head>
 <body class="maintenance-page">
@@ -237,7 +253,7 @@
           </p>
           <div class="btn-row mt-3">
             <a href="consultation.html" class="btn-brand">Start Free Consultation</a>
-            <a href="#included" class="btn-ghost">See what’s included</a>
+            <a href="#included" class="btn-ghost">See what's included</a>
           </div>
           <div class="mt-3" style="color:#616782;font-size:.92rem">
             Trusted by <strong>43+</strong> clients · Typical edits <strong>under 48 hours</strong>
@@ -259,6 +275,7 @@
       </div>
     </div>
   </section>
+  
 
   <!-- QUICK ACTIONS -->
   <section class="py-5">
@@ -459,6 +476,33 @@
       $(menu).one('hidden.bs.collapse',function(){ target.scrollIntoView({behavior:'smooth',block:'start'}); });
     });
   })();
+
+
+(function(){
+  var inner = document.querySelector('.strip .inner');
+  if(!inner) return;
+
+  // Respect reduced motion
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+
+  var wrapper = document.createElement('div');
+  wrapper.className = 'ticker';
+  var parent = inner.parentNode;
+  parent.replaceChild(wrapper, inner);
+  wrapper.appendChild(inner);
+
+
+  var dupe = inner.cloneNode(true);
+  dupe.setAttribute('aria-hidden','true'); // screen readers ignore duplicate
+  wrapper.appendChild(dupe);
+
+
+  if(reduce){ wrapper.style.animation = 'none'; }
+})();
+
+
+
 </script>
 </body>
 </html>
