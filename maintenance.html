@@ -4,294 +4,354 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Unlimited Website Maintenance | WebEaze</title>
-  <meta name="description" content="Unlimited website updates, fixes, and support — proactive care in one simple monthly or yearly plan. No hourly billing." />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
-  <link rel="shortcut icon" href="images/webeaze-transparent copy.png" type="image/png" />
+  <meta name="description" content="Unlimited site updates, fixes, and proactive care. Fast turnarounds, human support, and no hourly billing." />
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"/>
+  <link rel="shortcut icon" href="images/webeaze-transparent copy.png" type="image/png"/>
 
   <style>
     :root{
-      --bg:#7851a9; --ink:#120a2a; --text:#fff; --muted:#efeaf9;
-      --gold:#ffd700; --btn-hover:#f2c600;
-      --glass:rgba(255,255,255,.08); --border:rgba(255,255,255,.18);
+      --brand:#7851a9; --brand-ink:#3e257b; --gold:#ffd700; --ink:#101225;
+      --muted:#6b7280; --line:#e6e8ef; --white:#fff;
+      --glow: 0 12px 40px rgba(120,81,169,.35);
     }
     html,body{height:100%}
-    body{margin:0; color:var(--text); background:var(--bg); font-family:'Poppins',sans-serif; -webkit-font-smoothing:antialiased}
-    a{color:var(--text)}
-    .container-narrow{max-width:1080px}
+    body{margin:0;font-family:'Poppins',sans-serif;-webkit-font-smoothing:antialiased}
+
+    /* NAV (unchanged style) */
+    .nav-wrap{
+      position:sticky; top:0; z-index:9999;
+      background:linear-gradient(180deg, rgba(10,6,22,.55), rgba(10,6,22,.28));
+      backdrop-filter:saturate(130%) blur(8px); -webkit-backdrop-filter:saturate(130%) blur(8px);
+      border-bottom:1px solid rgba(255,255,255,.14)
+    }
     .logo{height:36px}
+    .brand-word{letter-spacing:-.3px;font-weight:700;background:linear-gradient(90deg,var(--gold),#fff);
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    .navbar-dark .nav-link{color:#fff!important;opacity:.92;border-radius:10px;padding:.45rem .7rem}
+    .navbar-dark .nav-link:hover{opacity:1;background:rgba(255,255,255,.1)}
 
-    /* Buttons */
-    .btn-brand{background:var(--gold); color:#4e2f93; font-weight:700; border:none; border-radius:12px; padding:.9rem 1.25rem; box-shadow:0 10px 30px rgba(255,215,0,.25); transition:transform .15s ease, box-shadow .15s ease}
-    .btn-brand:hover{background:var(--btn-hover); color:#fff; transform:translateY(-1px); box-shadow:0 14px 34px rgba(255,215,0,.35)}
-    .btn-ghost{background:transparent; border:1.5px solid var(--border); color:#fff; border-radius:12px; padding:.9rem 1.25rem}
+    /* Buttons: consistent sizing and alignment */
+    .btn-brand{
+      display:inline-flex; align-items:center; justify-content:center;
+      background:var(--gold); color:#2f1e66; border:none; border-radius:12px;
+      padding:.7rem 1.05rem; font-weight:700; line-height:1;
+      box-shadow:0 8px 22px rgba(255,215,0,.22);
+      transition:transform .15s ease, box-shadow .15s ease, background-color .15s ease, color .15s ease;
+    }
+    .btn-brand:hover{background:#f2c600;color:#fff;transform:translateY(-1px);box-shadow:0 12px 28px rgba(255,215,0,.33)}
+    .btn-ghost{
+      display:inline-flex; align-items:center; justify-content:center;
+      background:#fff; color:#0f1228; border:1px solid var(--line);
+      border-radius:12px; padding:.7rem 1.05rem; font-weight:700; line-height:1;
+      transition:transform .15s ease, box-shadow .15s ease, background-color .15s ease, color .15s ease;
+    }
+    .btn-ghost:hover{transform:translateY(-1px); box-shadow:0 8px 28px rgba(16,18,37,.10)}
+    .btn-sm-fix{padding:.55rem .9rem; font-weight:700; line-height:1}
 
-    /* NAV */
-    .nav-wrap{position:sticky; top:0; z-index:999; backdrop-filter:saturate(120%) blur(8px); background:linear-gradient(180deg, rgba(0,0,0,.18), rgba(0,0,0,.05)); border-bottom:1px solid rgba(255,255,255,.15)}
-    .nav-link{opacity:.9}
-    .nav-link:hover{opacity:1}
-    .nav-wrap strong{font-size:1.25rem;font-weight:800;letter-spacing:-.4px;background:linear-gradient(90deg,var(--gold),#fff);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    /* Reusable button row (Bootstrap 4 friendly spacing) */
+    .btn-row{display:flex; flex-wrap:wrap; align-items:center}
+    .btn-row > a{margin-right:.5rem; margin-bottom:.5rem}
+    .btn-row > a:last-child{margin-right:0}
+
+    /* Page look */
+    .maintenance-page main{background:linear-gradient(180deg,#f7f8fc,#f0f3ff 38%,#eef2ff); color:var(--ink)}
+    .container-narrow{max-width:1100px}
 
     /* HERO */
-    .hero{position:relative; overflow:hidden; padding:72px 0}
-    .hero:before,.hero:after{content:""; position:absolute; border-radius:50%; filter:blur(60px); opacity:.35; pointer-events:none}
-    .hero:before{width:520px;height:520px;background:#b695ff;top:-120px;left:-120px}
-    .hero:after{width:620px;height:620px;background:#5a37c9;bottom:-180px;right:-160px}
-    .hero .confetti{position:absolute; inset:0; background-image:radial-gradient(rgba(255,255,255,.12) 1px, transparent 1px); background-size:18px 18px; mask-image:linear-gradient(#000, transparent 70%); opacity:.2}
-    .eyebrow{font-size:.85rem; letter-spacing:.04em; text-transform:uppercase; opacity:.92}
-    .headline{font-weight:800; letter-spacing:-.02em; line-height:1.08}
-    .headline .sparkle{position:relative; display:inline-block}
-    .headline .sparkle:after{content:""; position:absolute; left:0; right:0; bottom:-8px; height:10px; background:linear-gradient(90deg,transparent,rgba(255,215,0,.6),transparent); filter:blur(3px)}
-    .subhead{color:var(--muted)}
-    .hero-card{background:rgba(255,255,255,.08); border:1px solid var(--border); border-radius:16px}
+    .hero{position:relative; padding:72px 0 56px; overflow:hidden}
+    .hero .bg-burst{
+      position:absolute; inset:-40% -20% auto -20%; height:420px;
+      background:
+        radial-gradient(40% 60% at 15% 20%, rgba(120,81,169,.30), transparent 60%),
+        radial-gradient(30% 50% at 85% 20%, rgba(255,215,0,.25), transparent 60%);
+      filter:blur(30px);
+    }
+    .confetti{
+      position:absolute; inset:0; pointer-events:none; opacity:.18;
+      background-image:radial-gradient(rgba(16,18,37,.15) 1px, transparent 1px);
+      background-size:18px 18px; mask-image:linear-gradient(#000, transparent 75%);
+    }
+    .eyebrow{font-size:.85rem;letter-spacing:.08em;text-transform:uppercase;color:#5b5f75}
+    .headline{font-weight:800;letter-spacing:-.02em;line-height:1.05;color:#0f1228}
+    .rotate{display:inline-grid; position:relative; width:13ch; vertical-align:top}
+    .rotate span{
+      grid-area:1/1; animation:swap 8s ease-in-out infinite;
+      background:linear-gradient(90deg,var(--brand),#7e5fe0); -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+      font-weight:800;
+    }
+    .rotate span:nth-child(2){animation-delay:2.66s}
+    .rotate span:nth-child(3){animation-delay:5.33s}
+    @keyframes swap{0%,10%{opacity:1;transform:translateY(0)} 20%,33%{opacity:0;transform:translateY(-10px)} 34%,100%{opacity:0}}
 
-    /* SECTION BANDS */
-    .section-band{position:relative}
-    .section-band:before{content:""; position:absolute; inset:0; background:linear-gradient(180deg, rgba(34,18,71,.55), rgba(48,27,98,.55))}
-    .section-band .surface{position:relative; background:rgba(255,255,255,.07); border:none; border-radius:16px; padding:24px; box-shadow:0 8px 26px rgba(0,0,0,.18)}
+    /* TRUST STRIP */
+    .strip{border-top:1px solid var(--line); border-bottom:1px solid var(--line); background:#fff}
+    .strip .inner{display:flex; gap:28px; white-space:nowrap; overflow:hidden}
+    .strip .inner span{opacity:.8}
+    .strip .inner .dot{opacity:.35}
 
-    /* LAYOUTS */
-    .features{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
-    .feat{grid-column:span 4;background:rgba(255,255,255,.08);border-radius:14px;padding:18px}
-    .feat h3{font-size:1.05rem;margin:0 0 6px}
-    @media (max-width:768px){.feat{grid-column:span 12}}
+    /* QUICK ACTIONS */
+    .actions{display:grid; grid-template-columns:repeat(12,1fr); gap:16px}
+    .action{grid-column:span 4; background:#fff; border:1px solid var(--line); border-radius:14px; padding:18px; transition:transform .15s ease, box-shadow .15s ease}
+    .action:hover{transform:translateY(-3px); box-shadow:var(--glow)}
+    .action .icon{display:inline-flex; width:40px; height:40px; border-radius:10px; align-items:center; justify-content:center; background:linear-gradient(180deg,#ede9fe,#ffffff); border:1px solid var(--line); margin-right:.5rem}
+    @media (max-width:900px){.action{grid-column:span 12}}
 
-    .media-split{display:grid;grid-template-columns:1.15fr 1fr;gap:22px;align-items:center}
-    .media-box{position:relative;border-radius:16px;overflow:hidden;background:rgba(255,255,255,.06);min-height:260px}
-    .media-box .mock{position:absolute;inset:0;background:url('images/construction-worker.png') no-repeat center 12%/cover;filter:contrast(1.05) saturate(1.05)}
-    @media (max-width:992px){.media-split{grid-template-columns:1fr}.media-box .mock{background-position:center 4%}}
+    /* COUNTERS */
+    .stats{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
+    .stat{grid-column:span 3;background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px;text-align:center}
+    .stat .num{font-weight:800;font-size:1.6rem; letter-spacing:-.5px; color:#0f1228}
+    .stat .lbl{color:var(--muted);font-size:.9rem}
+    @media (max-width:900px){.stat{grid-column:span 6}}
+    @media (max-width:600px){.stat{grid-column:span 12}}
 
-    .process{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-    .step{background:rgba(255,255,255,.08);border-radius:14px;padding:18px;text-align:center}
-    .step .num{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,.16);margin-bottom:6px;font-weight:700}
-    @media (max-width:900px){.process{grid-template-columns:1fr}}
+    /* SURFACE + INCLUDED */
+    .surface{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 12px 40px rgba(16,18,37,.06);padding:24px}
+    .chips{display:flex;flex-wrap:wrap}
+    .chip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:.45rem .75rem;font-weight:600; margin-right:.5rem; margin-bottom:.5rem}
 
-    .testi{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
-    .quote{background:rgba(255,255,255,.08);border-radius:14px;padding:18px}
-    .quote .who{opacity:.85;font-size:.9rem;margin-top:6px}
-    @media (max-width:900px){.testi{grid-template-columns:1fr}}
+    .inc-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:14px}
+    .inc{grid-column:span 6;background:#fafbff;border:1px solid #e8eaf5;border-radius:12px;padding:14px}
+    .inc strong{color:#0f1228}
+    @media (max-width:900px){.inc{grid-column:span 12}}
 
-    .faq-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-    .faq-item{background:transparent;border-bottom:1px solid rgba(255,255,255,.14);padding:12px 0}
-    .faq-item summary{cursor:pointer;list-style:none}
-    .faq-item summary::-webkit-details-marker{display:none}
-    @media (max-width:768px){.faq-grid{grid-template-columns:1fr}}
+    /* PROCESS */
+    .process{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
+    .step{grid-column:span 4; background:#fff; border:1px solid var(--line); border-radius:14px; padding:18px}
+    .bubble{display:inline-flex; width:34px; height:34px; border-radius:10px; align-items:center; justify-content:center; background:#ede9fe; color:#3a2577; font-weight:800; margin-bottom:6px}
+    @media (max-width:900px){.step{grid-column:span 12}}
 
-    footer{font-size:.95rem; color:#fff; opacity:.95}
+    /* FAQ */
+    .faq-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    details.faq{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px}
+    details.faq summary{cursor:pointer;list-style:none}
+    details.faq summary::-webkit-details-marker{display:none}
+    @media (max-width:900px){.faq-grid{grid-template-columns:1fr}}
 
-    /* Mobile hamburger (for top nav when not using bootstrap nav) */
-    .hamburger{background:transparent;border:0;display:inline-flex;flex-direction:column;gap:4px;padding:6px}
-    .hamburger span{display:block;width:22px;height:2px;background:#fff;border-radius:2px}
-    #mobileNav{background:rgba(0,0,0,.45); border-top:1px solid rgba(255,255,255,.15)}
+    /* CTA */
+    .cta{background:linear-gradient(180deg,#ede9fe,#ffffff); border:1px solid var(--line); border-radius:16px; padding:24px}
 
-    /* Animations (GPU friendly) */
+    /* Reveal */
     .reveal{opacity:0;transform:translateY(14px);transition:transform .5s ease,opacity .5s ease;will-change:transform,opacity}
     .reveal.in-view{opacity:1;transform:translateY(0)}
-    .surface .reveal{transition-delay:.08s}
-    .surface .reveal:nth-child(2){transition-delay:.16s}
-    .surface .reveal:nth-child(3){transition-delay:.24s}
-    .surface .reveal:nth-child(4){transition-delay:.32s}
-    @media (prefers-reduced-motion:reduce){
-      *,*::before,*::after{animation:none!important;transition:none!important}
-      .reveal{opacity:1!important;transform:none!important}
-    }
+    @media (prefers-reduced-motion:reduce){.reveal{opacity:1!important;transform:none!important;transition:none!important}}
 
-    section[id]{scroll-margin-top:72px}
-    html{scroll-behavior:smooth}
-    .divider{border-color:rgba(255,255,255,.10)}
+    section[id]{scroll-margin-top:76px}
   </style>
 </head>
-<body>
+<body class="maintenance-page">
 
 <!-- NAV -->
 <div class="nav-wrap">
-  <div class="container container-narrow py-2 d-flex align-items-center justify-content-between">
-    <a href="/" class="d-inline-flex align-items-center">
-      <img class="logo mr-2" src="images/webeaze-transparent copy.png" alt="WebEaze" />
-      <strong>WebEaze</strong>
-    </a>
+  <div class="container container-narrow">
+    <nav class="navbar navbar-expand-lg navbar-dark webeaze-nav" role="navigation" aria-label="Primary">
+      <a class="navbar-brand d-flex align-items-center" href="index.html">
+        <img class="logo" src="images/webeaze-transparent copy.png" alt="WebEaze" />
+        <strong class="ml-2 brand-word">WebEaze</strong>
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mobileNav"
+              aria-controls="mobileNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
-    <!-- Desktop -->
-    <div class="d-none d-md-flex align-items-center">
-      <a class="nav-link mr-3" href="/pricing.html">Pricing</a>
-      <a class="nav-link mr-3" href="/about.html">About</a>
-      <a class="nav-link mr-3" href="#faq">FAQ</a>
-      <a class="btn btn-sm btn-brand" href="/consultation.html">Free Consultation</a>
-    </div>
-
-    <!-- Mobile hamburger -->
-    <button class="hamburger d-md-none" type="button" data-toggle="collapse" data-target="#mobileNav"
-            aria-controls="mobileNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span></span><span></span><span></span>
-    </button>
-  </div>
-
-  <!-- Mobile menu -->
-  <div id="mobileNav" class="collapse">
-    <div class="container container-narrow py-2 d-flex flex-column">
-      <a class="nav-link py-2" href="#benefits" data-toggle="collapse" data-target="#mobileNav">Why WebEaze</a>
-      <a class="nav-link py-2" href="#included" data-toggle="collapse" data-target="#mobileNav">What's Included</a>
-      <a class="nav-link py-2" href="#process" data-toggle="collapse" data-target="#mobileNav">How It Works</a>
-      <!-- <a class="nav-link py-2" href="#proof" data-toggle="collapse" data-target="#mobileNav">Proof</a> -->
-      <a class="nav-link py-2" href="#faq" data-toggle="collapse" data-target="#mobileNav">FAQ</a>
-      <a class="btn btn-brand my-2 align-self-start" href="/consultation.html">Get Started</a>
-    </div>
+      <div id="mobileNav" class="collapse navbar-collapse">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item"><a class="nav-link active" href="maintenance.html">Maintenance</a></li>
+          <li class="nav-item"><a class="nav-link" href="pricing.html">Services</a></li>
+          <li class="nav-item"><a class="nav-link" href="faq.html">FAQ</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact-us.html">Contact</a></li>
+          <li class="nav-item ml-1"><a class="btn btn-sm btn-brand" href="consultation.html">Get Started</a></li>
+        </ul>
+      </div>
+    </nav>
   </div>
 </div>
 
-<!-- HERO -->
-<header class="hero">
-  <div class="confetti"></div>
-  <div class="container container-narrow text-center text-md-left">
-    <div class="row align-items-center">
-      <div class="col-md-7">
-        <div class="eyebrow">Elegant • Effortless • Ongoing Care</div>
-        <h1 class="headline mt-2 display-4">Live Chat, Email, Zoom. <span class="sparkle">Anytime</span>.</h1>
-        <p class="subhead mt-3">
-          Unlimited maintenance because we know your business doesn't stop. One simple monthly or yearly plan. No hourly billing.
-        </p>
-        <div class="mt-3">
-          <a href="/consultation.html" class="btn btn-brand mr-2 mb-2">Free Consultation</a>
-          <a href="/pricing.html" class="btn btn-ghost mb-2">See Plans</a>
+<main>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="bg-burst"></div>
+    <div class="confetti"></div>
+    <div class="container container-narrow">
+      <div class="row align-items-center">
+        <div class="col-lg-8">
+          <div class="eyebrow">Unlimited Care · Real Humans · Fast Turnarounds</div>
+          <h1 class="headline mt-2 display-4">
+            Ongoing maintenance that <span class="rotate">
+              <span>ships requests.</span>
+              <span>fixes issues.</span>
+              <span>moves revenue.</span>
+            </span>
+          </h1>
+          <p class="mt-3" style="color:#3a3f56">
+            One simple plan. Send updates anytime: copy, images, pages, promos, speed fixes, SEO basics. No hourly billing. No drama.
+          </p>
+          <div class="btn-row mt-3">
+            <a href="consultation.html" class="btn-brand">Start Free Consultation</a>
+            <a href="#included" class="btn-ghost">See what’s included</a>
+          </div>
+          <div class="mt-3" style="color:#616782;font-size:.92rem">
+            Trusted by <strong>43+</strong> clients · Typical edits <strong>under 48 hours</strong>
+          </div>
         </div>
-        <div class="mt-3 small">Trusted by <strong>43+</strong> clients • Avg onboarding <strong>7-14 days</strong></div>
       </div>
-      <div class="col-md-5 mt-4 mt-md-0">
-        <div class="hero-card p-3 p-md-4 text-center">
-          <div class="small mb-1">🎉 LIMITED TIME OFFER</div>
-          <div class="h5 mb-1">$0 setup on monthly plans</div>
-          <div class="small">Usually $299 • Ends Sept 30</div>
-          <a href="/consultation.html" class="btn btn-brand mt-3">Claim Offer Today</a>
+    </div>
+  </section>
+
+  <!-- TRUST STRIP -->
+  <section class="strip py-2">
+    <div class="container container-narrow">
+      <div class="inner py-1">
+        <span>Email, Chat, Zoom</span><span class="dot">•</span>
+        <span>Uptime and SSL checks</span><span class="dot">•</span>
+        <span>Mobile-first audits</span><span class="dot">•</span>
+        <span>Promo and seasonal updates</span><span class="dot">•</span>
+        <span>Speed and image compression</span><span class="dot">•</span>
+        <span>SEO basics</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUICK ACTIONS -->
+  <section class="py-5">
+    <div class="container container-narrow">
+      <h2 class="h3 mb-3 reveal" style="font-weight:800;color:#0f1228">What you can ask us any time</h2>
+      <div class="actions">
+        <div class="action reveal">
+          <div class="d-flex align-items-center mb-1">
+            <div class="icon">🖼️</div><strong>Add or replace content</strong>
+          </div>
+          <div class="text-muted">Swap images, add sections, update menus, run promos, add a new page.</div>
+        </div>
+        <div class="action reveal">
+          <div class="d-flex align-items-center mb-1">
+            <div class="icon">⚡</div><strong>Fix bugs and improve speed</strong>
+          </div>
+          <div class="text-muted">Broken links, layout glitches, image compression, Lighthouse wins.</div>
+        </div>
+        <div class="action reveal">
+          <div class="d-flex align-items-center mb-1">
+            <div class="icon">🔍</div><strong>SEO essentials</strong>
+          </div>
+          <div class="text-muted">Titles, meta descriptions, headings, alt text, indexing checks.</div>
         </div>
       </div>
     </div>
-  </div>
-</header>
+  </section>
 
-<!-- BENEFITS -->
-<section id="benefits" class="py-5 section-band">
-  <div class="container container-narrow surface">
-    <h2 class="h3 text-center mb-4 reveal" style="font-weight: bold;">Why WebEaze maintenance stands out</h2>
-    <div class="features">
-      <div class="feat reveal">
-        <h3>Unlimited updates</h3>
-        <p class="mb-0">Swap images, tweak copy, add sections, run promos. If it's part of your site, it's included.</p>
-      </div>
-      <div class="feat reveal">
-        <h3>Fast & mobile-first</h3>
-        <p class="mb-0">Monthly speed and mobile checks so your site feels great on every device.</p>
-      </div>
-      <div class="feat reveal">
-        <h3>Built-in SEO basics</h3>
-        <p class="mb-0">Meta tags, structure sanity checks, and performance visibility so you're findable.</p>
+  <!-- COUNTERS -->
+  <section class="pb-2">
+    <div class="container container-narrow">
+      <div class="stats">
+        <div class="stat reveal"><div class="num" data-count="31">0</div><div class="lbl">Average hours per edit</div></div>
+        <div class="stat reveal"><div class="num" data-count="9">0</div><div class="lbl">Average days to launch</div></div>
+        <div class="stat reveal"><div class="num" data-count="44">0</div><div class="lbl">Active clients</div></div>
+        <div class="stat reveal"><div class="num" data-count="171">0</div><div class="lbl">Tasks shipped this month</div></div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- WHAT'S INCLUDED -->
-<section id="included" class="py-5 section-band" >
-  <div class="container container-narrow surface">
-    <div class="media-split">
-      <div class="media-box reveal"><div class="mock" aria-hidden="true"></div></div>
-      <div class="reveal">
-        <div class="eyebrow">What's inside every plan</div>
-        <ul class="mb-3 pl-3">
-          <li>Content edits & page tweaks (unlimited)</li>
-          <li>Bug fixes and link checks (typical turnaround &lt; 48 hours)</li>
-          <li>Speed, security, and mobile reviews</li>
-          <li>Light SEO (titles, descriptions, headings, alt text)</li>
-          <li>Help via email, chat, or Zoom</li>
-        </ul>
-        <a href="/pricing.html" class="btn btn-brand mr-2 mb-2">View Pricing</a>
-        <a href="/samples.html" class="btn btn-ghost mb-2">See Past Work</a>
-      </div>
-    </div>
-  </div>
-</section>
+  <!-- INCLUDED -->
+  <section id="included" class="py-5">
+    <div class="container container-narrow">
+      <div class="surface reveal">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <h2 class="h4 mb-0" style="font-weight:800;color:#0f1228">What’s included</h2>
 
-<!-- PROCESS -->
-<section id="process" class="py-5 section-band">
-  <div class="container container-narrow surface">
-    <h2 class="h3 text-center mb-3 reveal" style="font-weight: bold;">How it works</h2>
-    <div class="process">
-      <div class="step reveal">
-        <div class="num">1</div>
-        <h3 class="h6">Kickoff & brief</h3>
-        <p class="mb-0">We confirm goals, must-haves, and sites/platforms. Clear scope, clear timeline.</p>
-      </div>
-      <div class="step reveal">
-        <div class="num">2</div>
-        <h3 class="h6">We get to work</h3>
-        <p class="mb-0">We implement, QA, and send a quick summary. You review; we refine.</p>
-      </div>
-      <div class="step reveal">
-        <div class="num">3</div>
-        <h3 class="h6">Ongoing care</h3>
-        <p class="mb-0">Send requests anytime. We keep your site fresh, fast, and on-brand.</p>
-      </div>
-    </div>
-    <div class="text-center mt-3 reveal">
-      <a href="/consultation.html" class="btn btn-brand">Start in 15 minutes</a>
-    </div>
-  </div>
-</section>
+        </div>
 
-<!-- PROOF / TESTIMONIALS -->
-<!-- <section id="proof" class="py-5 section-band">
-  <div class="container container-narrow surface">
-    <h2 class="h3 text-center mb-3 reveal">Proof it works</h2>
-    <div class="testi">
-      <div class="quote reveal">
-        <p class="mb-1">“WebEaze got us live quickly and keeps improving the site every month. Easy to work with and genuinely proactive.”</p>
-        <div class="who">Local Services Owner</div>
-      </div>
-      <div class="quote reveal">
-        <p class="mb-1">“They fix things before I notice them and are super responsive when I want to run a promo.”</p>
-        <div class="who">Cafe Manager</div>
-      </div>
-    </div>
-    <div class="text-center mt-3 reveal">
-      <a href="/samples.html" class="btn btn-ghost">See more results</a>
-    </div>
-  </div>
-</section> -->
+        <div class="inc-grid">
+          <div class="inc"><strong>Content and design:</strong> image swaps/additions, new sections, client testimonials, promotional banners.</div>
+          <div class="inc"><strong>Fixes and QA:</strong> broken links, layout glitches, browser and mobile performance checks.</div>
+          <div class="inc"><strong>Speed care:</strong> image compression, lazy loading, bloat reduction for smooth client browsing experience.</div>
+          <div class="inc"><strong>SEO basics:</strong> titles, descriptions, headings, alt text, indexing tailored to your business' target audience.</div>
+          <div class="inc"><strong>Security and SSL:</strong> certificate checks, content audits, and updates to keep your site safe and sound. </div>
+          <div class="inc"><strong>Support:</strong> reach out to us any time via Email, Zoom, or Live Chat.</div>
+        </div>
 
-<!-- FAQ -->
-<section id="faq" class="py-5 section-band">
-  <div class="container container-narrow surface">
-    <h2 class="h3 text-center mb-3 reveal" style="font-weight: bold;">FAQs</h2>
-    <div class="faq-grid">
-      <details class="faq-item reveal">
-        <summary><strong>Which platforms do you support?</strong></summary>
-        <div class="pt-2">We're flexible: clean HTML/CSS, Squarespace, WordPress, Wix, and more. We'll recommend the best fit during kickoff.</div>
-      </details>
-      <details class="faq-item reveal">
-        <summary><strong>How fast are updates?</strong></summary>
-        <div class="pt-2">Most content edits ship within 24-48 hours. Bigger changes are scheduled with you.</div>
-      </details>
-      <details class="faq-item reveal">
-        <summary><strong>Can you maintain my current site?</strong></summary>
-        <div class="pt-2">Yes. We refresh design, improve speed, and migrate hosting as needed—without breaking what works.</div>
-      </details>
-      <details class="faq-item reveal">
-        <summary><strong>What's the commitment?</strong></summary>
-        <div class="pt-2">Month-to-month or yearly (best value). Upgrade anytime; we keep scopes stable to protect quality. You may cancel at any time - we understand plans change.</div>
-      </details>
+        <div class="btn-row mt-3">
+          <a href="pricing.html" class="btn-brand">See Plans</a>
+          <a href="samples.html" class="btn-ghost">See Past Work</a>
+        </div>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- CTA -->
-<section class="py-5 text-center section-band" id="cta">
-  <div class="container container-narrow surface">
-    <h2 class="h4 mb-2 reveal" style="font-weight: bold;">Ready to keep your site fresh?</h2>
-    <p class="subhead reveal">Book a free consultation. We'll map the fastest path to calm, consistent website care.</p>
-    <a href="/consultation.html" class="btn btn-brand mt-2 reveal">Book a Free Consultation</a>
-  </div>
-</section>
+  <!-- PROCESS -->
+  <section id="process" class="py-4">
+    <div class="container container-narrow">
+      <h2 class="h4 mb-3 reveal" style="font-weight:800;color:#0f1228">How it works</h2>
+      <div class="process">
+        <div class="step reveal">
+          <div class="bubble">1</div>
+          <h3 class="h6 mb-1" style="font-weight:800;color:#0f1228">Kickoff and queue</h3>
+          <div class="text-muted">Share goals and priorities. We confirm scope and slot tasks in your queue.</div>
+        </div>
+        <div class="step reveal">
+          <div class="bubble">2</div>
+          <h3 class="h6 mb-1" style="font-weight:800;color:#0f1228">Build and QA</h3>
+          <div class="text-muted">We implement, test on mobile and desktop, and send a quick summary.</div>
+        </div>
+        <div class="step reveal">
+          <div class="bubble">3</div>
+          <h3 class="h6 mb-1" style="font-weight:800;color:#0f1228">Ship and iterate</h3>
+          <div class="text-muted">You review, we refine. Send new requests any time. Repeat.</div>
+        </div>
+      </div>
+      <div class="mt-3">
+        <a href="consultation.html" class="btn-brand">Start in 15 minutes</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="py-5">
+    <div class="container container-narrow">
+      <h2 class="h4 mb-3 reveal" style="font-weight:800;color:#0f1228">FAQs</h2>
+      <div class="faq-grid">
+        <details class="faq reveal">
+          <summary><strong>Which platforms do you support?</strong></summary>
+          <div class="pt-2">Clean HTML/CSS, WordPress, Squarespace, Wix, and more. We recommend the best fit during launch. We're platform-agnostic, so we're happy to work with you to find the best solution.</div>
+
+          </div>
+        </details>
+        <details class="faq reveal">
+          <summary><strong>How fast are updates?</strong></summary>
+          <div class="pt-2">Most edits ship in 24 to 48 hours. Larger items are scheduled with you. We communicate promptly through our Website Request Tracker. </div>
+        </details>
+        <details class="faq reveal">
+          <summary><strong>Is there a limit to requests?</strong></summary>
+          <div class="pt-2">No hard cap on volume. We work through your queue in priority order to keep quality high. We place fair-use limits to ensure everyone gets quality, speedy service. </div>
+        </details>
+        <details class="faq reveal">
+          <summary><strong>Can you maintain my current site?</strong></summary>
+          <div class="pt-2">Yes. We can refresh design, improve speed, or migrate hosting without breaking what works. Schedule a free consultation with us so we can understand your current site, and we'll go from there. </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-5">
+    <div class="container container-narrow">
+      <div class="cta reveal d-flex flex-column flex-md-row align-items-md-center justify-content-between">
+        <div class="mb-2 mb-md-0">
+          <div class="eyebrow">Let’s keep it fresh</div>
+          <h3 class="h5 mb-1" style="font-weight:800;color:#0f1228">Tell us what you want updated this week.</h3>
+          <div class="text-muted">We’ll handle it and report back quickly.</div>
+        </div>
+        <div class="btn-row">
+          <a href="consultation.html" class="btn-brand btn-sm-fix">Book Consultation</a>
+          <a href="pricing.html" class="btn-ghost btn-sm-fix">See Plans</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
 
 <footer class="py-4 text-center">
   <div class="container container-narrow">
@@ -305,26 +365,46 @@
   </div>
 </footer>
 
-<!-- JS -->
 <script>document.getElementById('yr').textContent=new Date().getFullYear();</script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <script>
-  // Reveal on scroll (once)
+  // Reveal once on scroll
   (function(){
     var els=[].slice.call(document.querySelectorAll('.reveal'));
-    if(!('IntersectionObserver'in window)){els.forEach(e=>e.classList.add('in-view'));return;}
+    if(!('IntersectionObserver'in window)){els.forEach(function(e){e.classList.add('in-view')});return;}
     var io=new IntersectionObserver(function(entries){
       entries.forEach(function(entry){
         if(entry.isIntersecting){entry.target.classList.add('in-view');io.unobserve(entry.target);}
       });
     },{threshold:.14});
-    els.forEach(e=>io.observe(e));
+    els.forEach(function(e){io.observe(e)});
   })();
 
-  // Smooth section scroll after mobile menu closes
+  // Animated counters
+  (function(){
+    var nums=[].slice.call(document.querySelectorAll('.stat .num'));
+    if(!('IntersectionObserver'in window)){nums.forEach(function(n){n.textContent=n.dataset.count});return;}
+    var seen=new WeakSet();
+    var io=new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting && !seen.has(entry.target)){
+          seen.add(entry.target);
+          var el=entry.target, end=+el.dataset.count, cur=0, step=Math.max(1,Math.round(end/48));
+          var t=setInterval(function(){
+            cur+=step; if(cur>=end){cur=end; clearInterval(t);}
+            el.textContent=cur;
+          }, 20);
+          io.unobserve(el);
+        }
+      });
+    },{threshold:.3});
+    nums.forEach(function(n){io.observe(n)});
+  })();
+
+  // Smooth internal links from collapsed mobile nav
   (function(){
     var menu=document.getElementById('mobileNav'); if(!menu) return;
     menu.addEventListener('click',function(e){

@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Domains — Connect, Transfer, or Register | WebEaze</title>
+  <meta name="description" content="Simple, secure domain setup. Connect your existing domain, transfer it for full management, or register a new name with WebEaze." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+  <link rel="shortcut icon" href="images/webeaze-transparent copy.png" type="image/png" />
+
+  <!-- Base theme (from your site) -->
+  <style>
+    :root{
+      --bg:#7851a9; --ink:#120a2a; --text:#ffffff; --muted:#efeaf9;
+      --gold:#ffd700; --btn-hover:#f2c600; --card:rgba(255,255,255,.08);
+      --border:rgba(255,255,255,.18); --glass:rgba(255,255,255,.10);
+    }
+    html,body{height:100%}
+    body{margin:0; color:var(--text); background:var(--bg); font-family:'Poppins',sans-serif; -webkit-font-smoothing:antialiased;}
+    a{color:var(--text)}
+    .container-narrow{max-width:1080px}
+    .logo{height:36px}
+    .btn-brand{background:var(--gold); color:#4e2f93; font-weight:700; border:none; border-radius:12px; padding:.9rem 1.25rem; box-shadow:0 10px 30px rgba(255,215,0,.25); transition:transform .15s ease, box-shadow .15s ease}
+    .btn-brand:hover{background:var(--btn-hover); color:#fff; transform:translateY(-1px); box-shadow:0 14px 34px rgba(255,215,0,.35)}
+    .btn-ghost{background:transparent; border:1.5px solid var(--border); color:#fff; border-radius:12px; padding:.9rem 1.25rem}
+
+    /* NAV (unchanged) */
+    .nav-wrap{position:sticky; top:0; z-index:9999; background:linear-gradient(180deg, rgba(10,6,22,.55), rgba(10,6,22,.28)); backdrop-filter:saturate(130%) blur(8px); -webkit-backdrop-filter:saturate(130%) blur(8px); border-bottom:1px solid rgba(255,255,255,.14)}
+    .webeaze-nav{background:transparent!important; box-shadow:none!important; padding:.6rem 0; transition:padding .18s ease}
+    .scrolled .webeaze-nav{padding:.45rem 0}
+    .webeaze-nav .logo{height:40px; transition:height .18s ease}
+    .scrolled .webeaze-nav .logo{height:34px}
+    .brand-word{letter-spacing:-.3px; font-weight:700; background:linear-gradient(90deg, var(--gold), #fff); -webkit-background-clip:text; -webkit-text-fill-color:transparent}
+    .webeaze-nav .nav-link{color:#fff !important; opacity:.92; border-radius:10px; padding:.45rem .7rem; transition:opacity .15s ease, background-color .15s ease}
+    .webeaze-nav .nav-link:hover{opacity:1; background:rgba(255,255,255,.08)}
+    .webeaze-nav .nav-link.active{background:rgba(255,255,255,.12)}
+    .btn-brand{background:var(--gold); color:#3b2a7a; border:none; border-radius:12px; padding:.6rem .9rem; box-shadow:0 8px 22px rgba(255,215,0,.22)}
+    .btn-brand:hover{background:#f2c600; color:#fff}
+    .navbar-dark .navbar-toggler{ border-color:rgba(255,255,255,.35); }
+    .navbar-dark .navbar-toggler-icon{
+      background-image:url("data:image/svg+xml,%3csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3e%3cpath stroke='rgba(255,255,255,.9)' stroke-width='2' stroke-linecap='round' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+    }
+    .navbar.navbar-dark, .navbar{background:transparent!important; box-shadow:none!important}
+    section[id]{ scroll-margin-top: 72px; }
+    html{ scroll-behavior: smooth; }
+  </style>
+
+  <!-- ========= Scoped Overrides for THIS PAGE ONLY ========= -->
+  <style>
+    /* Light, minimalist content area without touching the nav/footer */
+    .domains-page main {
+      --page-bg:#f8fafc;      /* soft light */
+      --page-ink:#1f2340;     /* deep slate */
+      --page-muted:#6b7280;   /* gray-600 */
+      --page-line:#e5e7eb;    /* gray-200 */
+      --accent:#7851a9;       /* brand purple (sparingly) */
+      --accent-ink:#432b7a;
+
+      background:var(--page-bg);
+      color:var(--page-ink);
+    }
+    .domains-page a{ color:var(--accent); }
+    .domains-page .content-wrap{
+      max-width:980px; margin:0 auto; padding:40px 20px 64px;
+    }
+
+    /* Minimal hero */
+    .domains-page .hero-min {
+      background:#ffffff;
+      border-bottom:1px solid var(--page-line);
+      padding:44px 0 28px;
+    }
+    .domains-page .eyebrow {
+      font-size:.8rem; letter-spacing:.08em; text-transform:uppercase; color:var(--page-muted);
+    }
+    .domains-page .headline {
+      font-weight:800; letter-spacing:-.01em; margin:.25rem 0 .35rem;
+      color:#111827;
+    }
+    .domains-page .subhead {
+      color:var(--page-muted); max-width:46ch; margin:0;
+    }
+
+    /* Quiet buttons for this page */
+    .domains-page .btn-neutral{
+      display:inline-block; border:1px solid var(--page-line); background:#fff; color:#111827;
+      padding:.7rem 1rem; border-radius:10px; font-weight:600;
+      transition:box-shadow .15s ease, transform .15s ease;
+    }
+    .domains-page .btn-neutral:hover{ box-shadow:0 4px 18px rgba(17,24,39,.08); transform:translateY(-1px); }
+    .domains-page .btn-accent{
+      display:inline-block; background:var(--accent); color:#fff; padding:.7rem 1rem; border-radius:10px; font-weight:700; border:0;
+    }
+    .domains-page .btn-accent:hover{ background:#6943a3; color:#fff; }
+
+    /* Cards */
+    .domains-page .card{
+      background:#fff; border:1px solid var(--page-line); border-radius:14px; padding:18px;
+    }
+    .domains-page .card + .card{ margin-top:14px; }
+
+    /* Grid */
+    .domains-page .grid-3{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+    .domains-page .grid-2{ display:grid; grid-template-columns:repeat(2,1fr); gap:16px; }
+    @media (max-width:880px){
+      .domains-page .grid-3, .domains-page .grid-2{ grid-template-columns:1fr; }
+    }
+
+    /* Comparison table */
+    .domains-page table.compare{
+      width:100%; border-collapse:separate; border-spacing:0; background:#fff; border:1px solid var(--page-line); border-radius:14px; overflow:hidden;
+    }
+    .domains-page table.compare thead th{
+      background:#f3f4f6; color:#111827; font-weight:700; padding:12px 14px; border-bottom:1px solid var(--page-line);
+    }
+    .domains-page table.compare td{
+      padding:12px 14px; border-top:1px solid var(--page-line);
+    }
+    .domains-page .tag{ display:inline-block; font-size:.75rem; padding:.2rem .5rem; border-radius:999px; background:#ede9fe; color:var(--accent-ink); font-weight:700; }
+
+    /* Small bits */
+    .domains-page .kicker{ font-size:.82rem; color:var(--page-muted); }
+    .domains-page .muted{ color:var(--page-muted); }
+    .domains-page hr{ border-color:var(--page-line); margin:28px 0; }
+    .domains-page .icon{ font-size:1.15rem; margin-right:.35rem; }
+    .domains-page .checklist li{ margin-bottom:.35rem; }
+  </style>
+</head>
+
+<body class="domains-page">
+  <!-- NAV (unchanged) -->
+  <div class="nav-wrap">
+    <div class="container container-narrow">
+      <nav class="navbar navbar-expand-lg navbar-dark webeaze-nav" role="navigation" aria-label="Primary">
+        <a class="navbar-brand d-flex align-items-center" href="index.html">
+          <img class="logo" src="images/webeaze-transparent copy.png" alt="WebEaze" />
+          <strong class="ml-2 brand-word">WebEaze</strong>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mobileNav"
+                aria-controls="mobileNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div id="mobileNav" class="collapse navbar-collapse">
+          <ul class="navbar-nav ml-auto main-nav">
+            <li class="nav-item"><a class="nav-link" href="maintenance.html">Maintenance</a></li>
+            <li class="nav-item"><a class="nav-link" href="pricing.html">Services</a></li>
+            <li class="nav-item"><a class="nav-link" href="faq.html">FAQ</a></li>
+            <li class="nav-item"><a class="nav-link" href="contact-us.html">Contact</a></li>
+            <li class="nav-item ml-1">
+              <a class="btn btn-sm btn-brand" href="consultation.html">Get Started</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <main>
+    <!-- Minimal hero -->
+    <section class="hero-min">
+      <div class="content-wrap">
+        <div class="eyebrow">Domain Setup</div>
+        <h1 class="headline">Connect, transfer, or register. Simple and secure.</h1>
+        <p class="subhead">Now that you've subscribed, let's get your domain set up. Choose to connect your existing domain, transfer it for full management, or register a new name with WebEaze. 
+
+        </p>
+        <div class="mt-3">
+          <a href="#options" class="btn-accent mr-2">See options</a>
+          <a href="website-request.html" class="btn-neutral">Submit Domain Request</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3 options -->
+    <section id="options">
+      <div class="content-wrap">
+        <div class="kicker mb-2">Choose one</div>
+        <div class="grid-3">
+          <article class="card">
+            <div class="mb-1"><span class="icon">🔗</span><strong>Connect (fastest)</strong></div>
+            <p class="muted mb-2">You can keep your domain at GoDaddy, Namecheap, Google Domains, etc. We update A/CNAME to point at your new website.</p>
+            <ul class="checklist muted">
+              <li>Stay in full control at your registrar</li>
+              <li>DIY with our DNS records or share a temporary login</li>
+              <li>Propagation typically <strong>0-24h</strong></li>
+            </ul>
+            <a href="#connect" class="btn-neutral mt-2">How connection works</a>
+          </article>
+
+          <article class="card">
+            <div class="mb-1"><span class="icon">📦</span><strong>Transfer (fully managed)</strong> <span class="tag ml-1">Managed</span></div>
+            <p class="muted mb-2">Move your domain into WebEaze's registrar (typically Namecheap). We handle renewals, DNS, and troubleshooting.</p>
+            <ul class="checklist muted">
+              <li>Adds about <strong>1 year</strong> to registration (most TLDs)</li>
+              <li>Typical timeline <strong>5-7 days</strong>, usually quicker</li>
+              <li>ICANN: <strong>60-day lock</strong> after new registration/transfer</li>
+            </ul>
+            <a href="#transfer" class="btn-neutral mt-2">How transfer works</a>
+          </article>
+
+          <article class="card">
+            <div class="mb-1"><span class="icon">✨</span><strong>New domain</strong></div>
+            <p class="muted mb-2">Starting fresh? We search availability, register your pick, and connect it immediately.</p>
+            <ul class="checklist muted">
+              <li>We propose best options (we prioritize .com unless you prefer otherwise)</li>
+              <li>We'll register the domain for you</li>
+              <li>Included with the <strong><a href="https://webeaze.tawk.help/article/domain-credit">Domain & Hosting Credit</a></strong></li>
+            </ul>
+            <a href="#new" class="btn-neutral mt-2">How new domains work</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Comparison -->
+    <section id="compare">
+      <div class="content-wrap">
+        <h2 class="h4 mb-3" style="color:#111827; font-weight:800;">At-a-glance comparison</h2>
+        <div class="table-responsive">
+          <table class="compare">
+            <thead>
+              <tr>
+                <th></th>
+                <th>Connect</th>
+                <th>Transfer <span class="tag ml-1">Managed</span></th>
+                <th>New</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Speed</strong></td><td>Same-day (0–24h DNS)</td><td>5–7 days</td><td>Same-day</td></tr>
+              <tr><td><strong>Who renews?</strong></td><td>You</td><td>WebEaze</td><td>You or WebEaze</td></tr>
+              <tr><td><strong>+1 year added</strong></td><td>No</td><td>Yes (most TLDs)</td><td>N/A (new term)</td></tr>
+              <tr><td><strong>ICANN 60-day lock</strong></td><td>No</td><td>Yes</td><td>Yes (after registration)</td></tr>
+              <tr>
+                <td></td>
+                <td><a class="btn-neutral btn-sm" href="#connect">Choose Connect</a></td>
+                <td><a class="btn-accent btn-sm" href="#transfer">Choose Transfer</a></td>
+                <td><a class="btn-neutral btn-sm" href="#new">Choose New</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Steps -->
+    <section id="connect">
+      <div class="content-wrap">
+        <h2 class="h5 mb-2" style="color:#111827; font-weight:800;">Connect your existing domain</h2>
+        <div class="grid-2">
+          <div class="card">
+            <h3 class="h6 mb-2">What we need</h3>
+            <ul class="checklist muted">
+              <li>Your domain and current registrar</li>
+              <li>Either: A/CNAME added by you, or a temporary login for us</li>
+              <li>Contact and communicatiom via email, for any DNS/SSL confirmations</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3 class="h6 mb-2">Steps</h3>
+            <ol class="muted">
+              <li>Choose "Connect Domain" on our <a href="website-request.html">Domain Request Form</a>.</li>
+              <li>We send DNS records or apply them with your temp login.</li>
+              <li>We verify DNS & SSL. Propagation usually completes in 0-24h.</li>
+            </ol>
+          </div>
+        </div>
+        <a class="btn-neutral mt-3" href="website-request.html">Start connection</a>
+      </div>
+    </section>
+
+    <section id="transfer">
+      <div class="content-wrap">
+        <h2 class="h5 mb-2" style="color:#111827; font-weight:800;">Transfer your domain to WebEaze</h2>
+        <div class="grid-2">
+          <div class="card">
+            <h3 class="h6 mb-2">What we need</h3>
+            <ul class="checklist muted">
+              <li>Unlock domain at your registrar</li>
+              <li><strong>EPP/Auth code</strong> (you must request from current registrar)</li>
+              <li>Written approval to proceed via email or to our mailing address</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3 class="h6 mb-2">Steps</h3>
+            <ol class="muted">
+              <li>Choose "Transfer Domain" and Submit EPP code via our <a href="website-request.html">Domain Request Form</a>.</li>
+              <li>You approve transfer emails from your registrar.</li>
+              <li>We monitor progress (typical 5-7 days). Most transferred domains add an additional registration year so you don't lose time.</li>
+            </ol>
+            <p class="muted mb-0"><strong>ICANN:</strong> domains are locked for 60 days after a new registration or prior transfer.</p>
+          </div>
+        </div>
+        <a class="btn-accent mt-3" href="website-request.html">Start transfer</a>
+      </div>
+    </section>
+
+    <section id="new">
+      <div class="content-wrap">
+        <h2 class="h5 mb-2" style="color:#111827; font-weight:800;">Register a new domain</h2>
+        <div class="grid-2">
+          <div class="card">
+            <h3 class="h6 mb-2">What we need</h3>
+            <ul class="checklist muted">
+              <li>3-5 name ideas or themes</li>
+              <li>Target audience (e.g., .com, .io, country). We can help compare if you're unsure</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3 class="h6 mb-2">Steps</h3>
+            <ol class="muted">
+              <li>We check availability and propose best options.</li>
+              <li>We register and connect DNS immediately.</li>
+              <li>Included if you're using our<strong><a href="https://webeaze.tawk.help/article/domain-credit">Domain & Hosting Credit</a></strong>.</li>
+            </ol>
+          </div>
+        </div>
+        <a class="btn-neutral mt-3" href="/client-portal/request">Request new domain</a>
+      </div>
+    </section>
+
+    <!-- Security -->
+    <section id="security">
+      <div class="content-wrap">
+        <h2 class="h5 mb-2" style="color:#111827; font-weight:800;">Security & communication</h2>
+        <div class="card">
+          <ul class="checklist muted mb-0">
+            <li>All changes are handled <strong>in writing only</strong> (email or U.S. mail).</li>
+            <li>We don't call third parties on your behalf to conduct or confirm any changes.</li>
+            <li>You must share any login information, or EPP codes directly in the email you receive from us. Do not email us directly if we do not ask for this information.</li>
+            <li>Email/MX records preserved. Just tell us your provider (Google Workspace, Microsoft 365, etc.).</li>
+          </ul>
+        </div>
+        <a class="btn-accent mt-3" href="website-request.html">Submit domain request</a>
+      </div>
+    </section>
+
+    <!-- Slim CTA -->
+    <section id="cta">
+      <div class="content-wrap">
+        <div class="card d-flex flex-column flex-md-row align-items-md-center justify-content-between">
+          <div>
+            <div class="kicker">Ready?</div>
+            <h3 class="h5 mb-1" style="color:#111827; font-weight:800;">Tell us your domain and preferred path.</h3>
+            <p class="muted mb-0">We'll handle DNS, SSL, and approvals—keeping downtime near zero.</p>
+          </div>
+          <div class="mt-3 mt-md-0">
+            <a href="website-request.html" class="btn-accent mr-2">Start now</a>
+            <a href="https://webeaze.tawk.help/category/domain-support" class="btn-neutral">Visit the Help Center</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER (unchanged) -->
+  <footer class="py-4 text-center">
+    <div class="container container-narrow">
+      <div class="mb-1">&copy; <span id="yr"></span> WebEaze. All rights reserved.</div>
+      <div class="mb-2 small">
+        <a href="terms.html#privacy">Privacy Policy</a> ·
+        <a href="terms.html">Terms</a> ·
+        <a href="site-map.html">Site Map</a>
+      </div>
+      <div class="small">Made with ☕ in Delaware, USA</div>
+    </div>
+  </footer>
+
+  <script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <!-- Tiny helper: mark in-page anchor active on click (optional) -->
+  <script>
+    (function(){
+      var links=[].slice.call(document.querySelectorAll('a[href^="#"]'));
+      links.forEach(function(a){
+        a.addEventListener('click', function(e){
+          var id=this.getAttribute('href').slice(1);
+          var t=document.getElementById(id);
+          if(t){ e.preventDefault(); t.scrollIntoView({behavior:'smooth', block:'start'}); }
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
