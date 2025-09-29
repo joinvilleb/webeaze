@@ -395,11 +395,27 @@ html,body{ overflow-x:hidden; }
   }
 }
 
-/* full = visually 100% with tiny overshoot to avoid sub-pixel gap */
-.meter.full{ --value: 1.02; }        /* 102% but safely clipped */
-.meter.full .fill{ transition: transform .8s ease; }  /* still animates */
 
+.meter.full{ --value: 1.02; }        
+.meter.full .fill{ transition: transform .8s ease; }  
 
+.mock-browser{
+  position:relative;border-radius:16px;overflow:hidden;
+  background:var(--glass);border:1px solid var(--border);
+  box-shadow:0 18px 40px rgba(0,0,0,.25);
+}
+.mock-browser .chrome{
+  display:flex;align-items:center;gap:8px;padding:10px 12px;
+  background:linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,255,255,.06));
+  border-bottom:1px solid var(--border);
+}
+.mock-browser .dot{width:10px;height:10px;border-radius:50%}
+.mock-browser .red{background:#ff5f56}.mock-browser .yellow{background:#ffbd2e}.mock-browser .green{background:#27c93f}
+.mock-browser .url{margin-left:auto;font-size:.85rem;opacity:.85;padding:.25rem .5rem;border-radius:8px;background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.12)}
+.mock-browser .screen{position:relative;aspect-ratio:16/10;background:linear-gradient(135deg, rgba(255,255,255,.06), rgba(0,0,0,.25))}
+.mock-browser .screen img{width:100%;height:100%;object-fit:cover;display:block;filter:contrast(1.03) saturate(1.02)}
+.mock-browser .glare{position:absolute;inset:0;background:linear-gradient(110deg, rgba(255,255,255,.12), transparent 35% 65%, rgba(255,255,255,.06));mix-blend-mode:soft-light;pointer-events:none}
+@media (max-width: 768px){ .mock-browser .url{display:none;} }
 
 
 </style>
@@ -411,7 +427,7 @@ html,body{ overflow-x:hidden; }
     <div class="container container-narrow promo-inner">
       <span class="emoji" aria-hidden="true">🎉</span>
       <span class="promo-text">
-        <strong>$0 setup</strong> on monthly plans + <strong>free homepage mockup</strong>. Ends 9/30.
+        <strong>$0 setup</strong> on monthly plans + <strong>free homepage mockup</strong>. Ends tomorrow.
       </span>
       <a href="consultation.html" class="btn-promo ml-2">Claim offer</a>
       <button class="promo-close" aria-label="Dismiss promotion">&times;</button>
@@ -430,6 +446,7 @@ html,body{ overflow-x:hidden; }
       </button>
       <div id="mobileNav" class="collapse navbar-collapse">
         <ul class="navbar-nav ml-auto main-nav">
+          <a class="nav-link mr-3" href="#year1">Year 1</a>
           <li class="nav-item"><a class="nav-link" href="maintenance.html">Maintenance</a></li>
           <li class="nav-item"><a class="nav-link" href="pricing.html">Services</a></li>
           <li class="nav-item"><a class="nav-link" href="faq.html">FAQ</a></li>
@@ -446,14 +463,18 @@ html,body{ overflow-x:hidden; }
   <div class="halo" aria-hidden="true"></div>
   <div class="container container-narrow">
     <div class="row align-items-center">
+      <!-- Left -->
       <div class="col-lg-8">
         <div class="eyebrow">Elegant • Effortless • Ongoing Care</div>
         <h1 class="headline mt-2 display-4">
           Websites that <span class="hl-underline">look great</span> and
           <span class="swap" aria-live="polite">
-            <span class="show">build trust</span>
-            <span>load fast</span>
-            <span>drive leads</span>
+            <span class="show">showcase your work.</span>
+            <span>load fast.</span>
+            <span>drive leads.</span>
+            <span>convert visitors.</span>
+            <span>grow your business.</span>
+            <span>works on any device.</span>
           </span>
         </h1>
         <p class="mt-3" style="color:#3f4564">
@@ -470,10 +491,27 @@ html,body{ overflow-x:hidden; }
           <a href="#standout" class="btn-brand">Learn More</a>
           <a href="/samples.html" class="btn-ghost">See past work</a>
         </div>
+      </div>
 
+
+      <div class="col-lg-4 mt-4 mt-lg-0">
+        <figure class="mock-browser reveal">
+          <div class="chrome">
+            <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+            <div class="url">https://alqultras.org</div>
+          </div>
+          <div class="screen">
+            <img src="images/featured-home.png" alt="Website preview">
+            <div class="glare"></div>
+          </div>
+        </figure>
+        <div class="small text-center mt-2" style="opacity:.8">Recent WebEaze build</div>
       </div>
     </div>
   </div>
+</header>
+
+
 
 
   
@@ -795,6 +833,8 @@ html,body{ overflow-x:hidden; }
     </div>
   </div>
 </section>
+
+
 
 <!-- CTA -->
 <section class="py-5">
