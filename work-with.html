@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Who We Work With | WebEaze</title>
+<meta name="description" content="WebEaze builds clean, fast websites for local trades and student portfolios. We also support tutoring agencies. Clear scope, quick onboarding, ongoing care."/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"/>
+<link rel="shortcut icon" href="images/webeaze-transparent copy.png" type="image/png"/>
+
+<style>
+  :root{
+    --brand:#7851a9; --gold:#ffd700;
+    --ink:#0f1228; --ink-2:#3c4260; --muted:#6b7280;
+    --line:#e7eaf4; --bg:#f7f8fc; --white:#fff;
+  }
+  html,body{height:100%}
+  body{margin:0;font-family:'Poppins',sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  .container-narrow{max-width:1100px}
+  .logo{height:36px}
+
+  /* ===== NAV (matches site) ===== */
+  .nav-wrap{position:sticky; top:0; z-index:9999; background:#000; border-bottom:1px solid rgba(255,255,255,.14)}
+  .webeaze-nav{background:transparent!important;box-shadow:none!important;padding:.6rem 0;transition:padding .18s ease}
+  .scrolled .webeaze-nav{padding:.45rem 0}
+  .brand-word{letter-spacing:-.3px;font-weight:700;background:linear-gradient(90deg,#e8e7ea,#66615f);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  .navbar-dark .nav-link{color:#fff!important;opacity:.92;border-radius:10px;padding:.45rem .7rem}
+  .navbar-dark .nav-link:hover{opacity:1;background:rgba(255,255,255,.08)}
+  .btn-nav{background:var(--gold);color:#2f1e66;border:none;border-radius:12px;padding:.6rem .9rem;font-weight:700;box-shadow:0 8px 22px rgba(255,215,0,.22)}
+
+  /* ===== Hero ===== */
+  .hero{position:relative;padding:clamp(64px,10vh,96px) 0 56px;background:linear-gradient(180deg,#ffffff,#f7f8fc 70%); overflow:hidden}
+  .halo{position:absolute; inset:-22% -10% auto -10%; height:460px; pointer-events:none;
+    background:
+      radial-gradient(34% 46% at 15% 20%, rgba(120,81,169,.22), transparent 60%),
+      radial-gradient(28% 42% at 85% 18%, rgba(255,215,0,.18), transparent 60%);
+  }
+  .eyebrow{font-size:.85rem;letter-spacing:.08em;text-transform:uppercase;color:#6b6f86}
+  .headline{font-weight:800;letter-spacing:-.02em;line-height:1.05; font-size: clamp(28px, 6vw, 56px)}
+  .hl-underline{position:relative;display:inline-block}
+  .hl-underline:after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:8px;border-radius:6px;
+    background:linear-gradient(90deg,rgba(255,215,0,.55),rgba(120,81,169,.45));filter:blur(2px);opacity:.9}
+  .sub{color:#3f4564}
+  .swap{display:inline-grid;min-width:12ch;vertical-align:top}
+  .swap span{grid-area:1/1;opacity:0;transform:translateY(12px)}
+  .swap span.show{opacity:1;transform:translateY(0);transition:opacity .4s ease, transform .4s ease}
+
+  /* Buttons */
+  .btn-brand{display:inline-flex;align-items:center;justify-content:center;background:var(--gold);color:#2f1e66;border:none;border-radius:12px;padding:.74rem 1.05rem;font-weight:700;box-shadow:0 10px 26px rgba(255,215,0,.22);transition:transform .15s ease, box-shadow .15s ease, background-color .15s ease}
+  .btn-brand:hover{background:#f2c600;color:#fff;transform:translateY(-1px);box-shadow:0 14px 34px rgba(255,215,0,.3)}
+  .btn-ghost{display:inline-flex;align-items:center;justify-content:center;background:#fff;color:var(--ink);border:1px solid var(--line);border-radius:12px;padding:.74rem 1.05rem;font-weight:700}
+  .btn-ghost:hover{transform:translateY(-1px);box-shadow:0 10px 24px rgba(16,18,37,.10)}
+
+  /* Sections */
+  section[id]{scroll-margin-top:76px}
+  .section{padding:56px 0}
+  .surface{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 10px 32px rgba(16,18,37,.06);padding:24px}
+  .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+  @media(max-width:992px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+
+  .card{border:1px solid var(--line);border-radius:16px;background:#fff;box-shadow:0 8px 24px rgba(16,18,37,.06);padding:18px;position:relative;overflow:hidden}
+  .card .title{font-weight:800}
+  .icon{width:36px;height:36px;border-radius:10px;background:linear-gradient(180deg,rgba(120,81,169,.12),rgba(255,215,0,.12));display:flex;align-items:center;justify-content:center;margin-bottom:8px}
+  .tag{display:inline-block;padding:.25rem .55rem;border:1px solid var(--line);border-radius:999px;font-size:.8rem;background:#fff;color:#3c4260}
+
+  /* Mock browser */
+  .mock-browser{position:relative;border-radius:16px;overflow:hidden;background:linear-gradient(180deg,rgba(120,81,169,.08),rgba(255,215,0,.08));border:1px solid var(--line)}
+  .mock-browser .chrome{display:flex;align-items:center;gap:8px;padding:10px 12px;background:#fff;border-bottom:1px solid var(--line)}
+  .mock-browser .dot{width:10px;height:10px;border-radius:50%}
+  .red{background:#ff5f56}.yellow{background:#ffbd2e}.green{background:#27c93f}
+  .mock-browser .url{margin-left:auto;font-size:.85rem;opacity:.85;padding:.25rem .5rem;border-radius:8px;background:#f3f4f9;border:1px solid #eaedf6}
+  .mock-browser .screen{position:relative;aspect-ratio:16/10;background:#fafbff}
+  .mock-browser .screen img{width:100%;height:100%;object-fit:cover;display:block;filter:contrast(1.03) saturate(1.02)}
+  .mock-browser .glare{position:absolute;inset:0;background:linear-gradient(110deg, rgba(255,255,255,.18), transparent 35% 65%, rgba(255,255,255,.08));mix-blend-mode:soft-light;pointer-events:none}
+
+  /* Reveal */
+  .reveal{opacity:0;transform:translateY(10px);transition:transform .45s ease,opacity .45s ease;will-change:transform,opacity}
+  .reveal.in-view{opacity:1;transform:translateY(0)}
+
+  /* CTA band */
+  .cta-band{display:grid;grid-template-columns:1.2fr .8fr;gap:16px;align-items:center}
+  @media(max-width:992px){.cta-band{grid-template-columns:1fr}}
+
+  footer{font-size:.95rem;color:#fff;background:#7851a9}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<div class="nav-wrap">
+  <div class="container container-narrow">
+    <nav class="navbar navbar-expand-lg navbar-dark webeaze-nav" role="navigation" aria-label="Primary">
+      <a class="navbar-brand d-flex align-items-center" href="index.html">
+        <img class="logo" src="images/webeaze-transparent copy.png" alt="WebEaze"/>
+        <strong class="ml-2 brand-word">WebEaze</strong>
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mobileNav"
+              aria-controls="mobileNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div id="mobileNav" class="collapse navbar-collapse">
+        <ul class="navbar-nav ml-auto main-nav">
+          <li class="nav-item"><a class="nav-link" href="maintenance.html">Maintenance</a></li>
+          <li class="nav-item"><a class="nav-link" href="pricing.html">Services</a></li>
+          <li class="nav-item"><a class="nav-link" href="faq.html">FAQ</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact-us.html">Contact</a></li>
+          <li class="nav-item ml-1"><a class="btn btn-sm btn-nav" href="consultation.html">Get Started</a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+</div>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="halo" aria-hidden="true"></div>
+  <div class="container container-narrow">
+    <div class="row align-items-center">
+      <div class="col-lg-7">
+        <div class="eyebrow">Who we work with</div>
+        <h1 class="headline mt-2">
+          Clean sites that build trust
+          <span class="swap" aria-live="polite">
+            <span class="show">for local trades</span>
+            <span>for student portfolios</span>
+            <span>for tutoring teams</span>
+          </span>
+        </h1>
+        <p class="sub mt-3">If you need a site that looks good, loads fast, and is easy to update, you are in the right place. We focus on two groups first. Local trades and students. We also support tutoring agencies.</p>
+        <div class="mt-3">
+          <a href="#groups" class="btn-brand mr-2 mb-2">See your fit</a>
+          <a href="consultation.html" class="btn-ghost mb-2">Book a free consult</a>
+        </div>
+      </div>
+      <div class="col-lg-5 mt-4 mt-lg-0">
+        <figure class="mock-browser reveal">
+          <div class="chrome">
+            <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+            <div class="url">https://webeaze.io/work-with</div>
+          </div>
+          <div class="screen">
+            <img src="images/cover-background-1.png" alt="WebEaze site preview">
+            <div class="glare"></div>
+          </div>
+        </figure>
+        <div class="small text-center mt-2" style="opacity:.8">Simple, fast, mobile first</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- GROUPS -->
+<section class="section" id="groups">
+  <div class="container container-narrow">
+    <div class="surface">
+      <h2 class="h4 mb-3 reveal" style="font-weight:800">Primary groups</h2>
+
+      <!-- Local trades -->
+      <div class="row align-items-center mb-3">
+        <div class="col-md-6 mb-3">
+          <div class="surface reveal" style="padding:18px">
+            <span class="tag mb-2">Local trades</span>
+            <h3 class="h5 mt-1" style="font-weight:800">Get more calls, book more jobs</h3>
+            <p class="mb-2" style="color:#3f4564">We build fast one to five page sites with clear calls to action. Ideal for plumbers, electricians, cleaners, lawn care, painters, gyms, and more.</p>
+            <ul class="mb-0 pl-3">
+              <li>Click to call and quick quote forms</li>
+              <li>Service pages with before and after photos</li>
+              <li>Local SEO basics set up right</li>
+            </ul>
+            <div class="mt-3">
+              <a href="pricing.html#trades" class="btn-brand mr-2 mb-2">See packages</a>
+              <a href="consultation.html" class="btn-ghost mb-2">Talk with us</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 mb-3">
+          <figure class="mock-browser reveal">
+            <div class="chrome">
+              <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+              <div class="url">Bear Carpet Care</div>
+            </div>
+            <div class="screen">
+              <img src="images/service-based-business.png" alt="Example site for a local trade">
+              <div class="glare"></div>
+            </div>
+          </figure>
+        </div>
+      </div>
+
+      <!-- Student portfolios -->
+      <div class="row align-items-center mb-3 flex-md-row-reverse">
+        <div class="col-md-6 mb-3">
+          <div class="surface reveal" style="padding:18px">
+            <span class="tag mb-2">Student portfolios</span>
+            <h3 class="h5 mt-1" style="font-weight:800">Show work, land interviews</h3>
+            <p class="mb-2" style="color:#3f4564">Launch a clean portfolio that looks sharp on mobile. Great for CS, design, business, health, media, and more.</p>
+            <ul class="mb-0 pl-3">
+              <li>Projects, resume, and contact in one place</li>
+              <li>Custom sections for awards and skills</li>
+              <li>Easy updates without a page builder</li>
+              <li>20% student discount on all monthly plans</li>
+            </ul>
+            <div class="mt-3">
+              <a href="pricing.html" class="btn-brand mr-2 mb-2">See Plans</a>
+              <a href="consultation.html" class="btn-ghost mb-2">Start now</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 mb-3">
+          <figure class="mock-browser reveal">
+            <div class="chrome">
+              <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+              <div class="url">portfolio.example</div>
+            </div>
+            <div class="screen">
+              <img src="images/student-portfolios.png" alt="Example student portfolio">
+              <div class="glare"></div>
+            </div>
+          </figure>
+        </div>
+      </div>
+
+      <!-- Tutoring agencies (small section) -->
+      <div class="surface reveal" style="padding:18px">
+        <span class="tag mb-2">Also supported</span>
+        <h3 class="h6 mt-1" style="font-weight:800">Tutoring agencies</h3>
+        <p class="mb-2" style="color:#3f4564">Simple sites that parents can trust. Clear value, easy booking, fast contact. We keep updates quick so your team can focus on teaching.</p>
+        <div class="grid">
+          <div class="card"><div class="icon">📚</div><div class="title">Programs overview</div><p class="mb-0" style="color:#3f4564">Math, reading, test prep pages with clear outcomes.</p></div>
+          <div class="card"><div class="icon">🗓️</div><div class="title">Booking links</div><p class="mb-0" style="color:#3f4564">Connect Calendly or your scheduler with one click.</p></div>
+          <div class="card"><div class="icon">💬</div><div class="title">Fast contact</div><p class="mb-0" style="color:#3f4564">Click to call, SMS, and live chat options.</p></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- HOW WE HELP -->
+<section class="section" id="how">
+  <div class="container container-narrow">
+    <div class="surface">
+      <h2 class="h4 mb-3 reveal" style="font-weight:800">How we help from day one</h2>
+      <div class="grid">
+        <div class="card reveal">
+          <div class="icon">✅</div>
+          <div class="title">Quick kickoff</div>
+          <p class="mb-0" style="color:#3f4564">A short call to map your goals and the main action you want visitors to take.</p>
+        </div>
+        <div class="card reveal">
+          <div class="icon">🚀</div>
+          <div class="title">Fast first draft</div>
+          <p class="mb-0" style="color:#3f4564">A clean homepage with key sections. You review. We refine.</p>
+        </div>
+        <div class="card reveal">
+          <div class="icon">🔧</div>
+          <div class="title">Launch and care</div>
+          <p class="mb-0" style="color:#3f4564">We host or connect your domain, then keep things updated and fast.</p>
+        </div>
+      </div>
+      <div class="mt-3">
+        <a href="pricing.html" class="btn-brand mr-2 mb-2">View plans</a>
+        <a href="consultation.html" class="btn-ghost mb-2">Free consult</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BAND -->
+<section class="section" id="cta">
+  <div class="container container-narrow">
+    <div class="surface cta-band">
+      <div>
+        <div class="eyebrow">Ready when you are</div>
+        <h2 class="h4 mt-1" style="font-weight:800">Let us build a site that feels like you</h2>
+        <p class="mb-2" style="color:#3f4564">Clear copy, quick load times, updates without hassle. Start this week.</p>
+        <div>
+          <a href="consultation.html" class="btn-brand mr-2 mb-2">Book a call</a>
+          <a href="pricing.html" class="btn-ghost mb-2">Compare plans</a>
+        </div>
+      </div>
+      <figure class="mock-browser reveal">
+        <div class="chrome">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <div class="url">Alq Ultra</div>
+        </div>
+        <div class="screen">
+          <img src="images/mockups-ad.png" alt="Example page preview">
+          <div class="glare"></div>
+        </div>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="py-4 text-center">
+  <div class="container container-narrow">
+    <div class="mb-1">&copy; <span id="yr"></span> WebEaze. All rights reserved.</div>
+    <div class="mb-2 small">
+      <a href="terms.html#privacy" style="color:#fff">Privacy Policy</a> ·
+      <a href="terms.html" style="color:#fff">Terms</a> ·
+      <a href="site-map.html" style="color:#fff">Site Map</a>
+    </div>
+    <div class="small">Made with ☕ in Delaware, USA</div>
+  </div>
+</footer>
+
+<!-- JS -->
+<script>document.getElementById('yr').textContent=new Date().getFullYear();</script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+  // Word swap animation
+  (function(){
+    var el=document.querySelector('.swap'); if(!el) return;
+    var items=[].slice.call(el.children), i=0;
+    setInterval(function(){
+      items[i].classList.remove('show');
+      i=(i+1)%items.length;
+      items[i].classList.add('show');
+    }, 2000);
+  })();
+
+  // Sticky nav padding tweak
+  (function(){
+    var wrap=document.querySelector('.nav-wrap'); if(!wrap) return;
+    function onScr(){ (window.scrollY>8)?wrap.classList.add('scrolled'):wrap.classList.remove('scrolled'); }
+    window.addEventListener('scroll',onScr,{passive:true}); onScr();
+  })();
+
+  // Reveal on scroll
+  (function(){
+    var els=[].slice.call(document.querySelectorAll('.reveal'));
+    if(!('IntersectionObserver'in window)){els.forEach(e=>e.classList.add('in-view'));return;}
+    var io=new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){ entry.target.classList.add('in-view'); io.unobserve(entry.target); }
+      });
+    },{threshold:.14});
+    els.forEach(e=>io.observe(e));
+  })();
+
+  // Smooth internal scroll on mobile menu
+  (function(){
+    var menu=document.getElementById('mobileNav'); if(!menu) return;
+    menu.addEventListener('click',function(e){
+      var a=e.target.closest('a[href^="#"]'); if(!a) return;
+      var id=a.getAttribute('href').slice(1), target=document.getElementById(id); if(!target) return;
+      e.preventDefault(); $(menu).collapse('hide');
+      $(menu).one('hidden.bs.collapse',function(){ target.scrollIntoView({behavior:'smooth',block:'start'}); });
+    });
+  })();
+</script>
+</body>
+</html>
