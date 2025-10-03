@@ -2,189 +2,299 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Site Map | WebEaze</title>
-  <meta name="description" content="All WebEaze pages in one place. Quickly jump to product pages, support, legal, and partner links." />
+  <meta name="description" content="Every WebEaze page and key resource—organized, searchable, and grouped." />
   <link rel="canonical" href="https://www.webeaze.io/site-map.html" />
-
-  <!-- Open Graph -->
-  <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="WebEaze" />
-  <meta property="og:title" content="Site Map | WebEaze" />
-  <meta property="og:description" content="Navigate WebEaze easily—links to all key pages and resources." />
-  <meta property="og:url" content="https://www.webeaze.io/site-map.html" />
-  <meta property="og:image" content="https://webeaze.io/images/default-monochrome.png" />
-
   <link rel="shortcut icon" href="images/webeaze-transparent copy.png" type="image/png" />
 
   <!-- Fonts & CSS -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" />
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
 
   <style>
-    :root{ --purple:#7851a9; --brown:#5D4037; --gold:#ffd700; --ink:#0f0f14; --ring:rgba(255,255,255,.18); }
-    *{box-sizing:border-box}
-    html,body{margin:0;padding:0}
-    body{font-family:Poppins,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:#fff;background:var(--purple)}
-    a{color:#fff}
-    .container-narrow{max-width:980px;margin:0 auto}
+    :root{
+      --brand:#7851a9; --gold:#ffd700;
+      --ink:#0f1228; --ink-2:#3c4260; --muted:#6b7280;
+      --line:#e7eaf4; --bg:#f7f8fc; --white:#fff;
+    }
+    html,body{height:100%}
+    body{margin:0;font-family:'Poppins',sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased}
+    a{color:inherit;text-decoration:none}
+    .container-narrow{max-width:1100px}
+    .logo{height:36px}
 
-    /* NAV (consistent) */
-    .navbar.navbar-dark{background:rgba(0,0,0,.12)}
-    .navbar-brand img{height:52px}
+    /* ===== Global Nav (matches homepage) ===== */
+    .nav-wrap{
+      position:sticky; top:0; z-index:9999;
+      background:#000; border-bottom:1px solid rgba(255,255,255,.14);
+      backdrop-filter:saturate(130%) blur(8px); -webkit-backdrop-filter:saturate(130%) blur(8px);
+    }
+    .webeaze-nav{background:transparent!important;box-shadow:none!important;padding:.6rem 0;transition:padding .18s ease}
+    .scrolled .webeaze-nav{padding:.45rem 0}
+    .brand-word{letter-spacing:-.3px;font-weight:700;background:linear-gradient(90deg,#e8e7ea,#66615f);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    .navbar-brand{ text-decoration:none !important; } /* ensure no underline on brand */
+    .navbar-dark .nav-link{color:#fff!important;opacity:.92;border-radius:10px;padding:.45rem .7rem}
+    .navbar-dark .nav-link:hover{opacity:1;background:rgba(255,255,255,.08)}
+    .btn-nav{background:var(--gold);color:#2f1e66;border:none;border-radius:12px;padding:.6rem .9rem;font-weight:700;box-shadow:0 8px 22px rgba(255,215,0,.22)}
 
-    /* HERO */
-    .hero{position:relative;overflow:hidden;background:linear-gradient(180deg, rgba(120,81,169,.9), rgba(120,81,169,1)), url('images/ongoing-support-image.jpg') center/cover no-repeat}
-    .hero-inner{padding:88px 18px 56px; text-align:center}
-    .hero h1{font-weight:700;letter-spacing:.2px;font-size:2.4rem}
-    .hero p.lead{max-width:820px;margin:12px auto 0;line-height:1.7;color:#f1f1f7}
+    /* Promo bar (same as homepage) */
+    .promo-bar{
+      background: linear-gradient(180deg, rgba(255,255,255,.14), rgba(255,255,255,.08));
+      border-bottom: 1px solid rgba(255,255,255,.18);
+      color:#fff;
+    }
+    .promo-inner{display:flex;align-items:center;justify-content:center;gap:10px;padding:.45rem 0;text-align:center}
+    .promo-text{font-weight:600}
+    .promo-text strong{font-weight:800}
+    .emoji{animation:promo-pop 1.8s ease-in-out infinite}
+    @keyframes promo-pop{0%,100%{transform:translateY(0)}50%{transform:translateY(2px)}}
+    .btn-promo{
+      display:inline-flex;align-items:center;justify-content:center;padding:.4rem .75rem;border-radius:999px;font-weight:800;
+      background:#ffd700;color:#3b2a7a;border:none;box-shadow:0 8px 22px rgba(255,215,0,.22);
+      transition:transform .15s ease, box-shadow .15s ease, background-color .15s ease; white-space:nowrap;
+    }
+    .btn-promo:hover{ background:#f2c600; color:#fff; transform:translateY(-1px); box-shadow:0 12px 28px rgba(255,215,0,.3) }
+    .promo-close{ background:transparent;border:0;color:#fff;opacity:.85;line-height:1;font-size:18px;padding:2px 6px;border-radius:6px }
+    .promo-close:hover{ opacity:1; background:rgba(255,255,255,.12) }
+    @media (max-width:768px){
+      .promo-inner{flex-wrap:wrap;gap:8px}
+      .promo-close{position:absolute;right:10px;top:6px}
+    }
 
-    /* Sections */
-    section{padding:56px 18px}
-    .section-light{background:#f9f7ff;color:#2a2140}
-    .section-light h2{color:#2a2140}
-    .section-dark{background:var(--purple);color:#fff}
-    .section-brown{background:var(--brown);color:#fff}
-    h2{font-size:1.9rem;font-weight:700;margin-bottom:18px}
-    .eyebrow{display:inline-block;font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;color:#b499e9;margin-bottom:6px}
+    /* ===== Hero (matches homepage light gradient/halo) ===== */
+    .hero{position:relative;padding:86px 0;background:linear-gradient(180deg,#ffffff,#f7f8fc 70%)}
+    .halo{
+      position:absolute; inset:-22% 0 auto 0; width:140%; left:50%; transform:translateX(-50%); height:420px; pointer-events:none;
+      background:
+        radial-gradient(34% 46% at 15% 20%, rgba(120,81,169,.18), transparent 60%),
+        radial-gradient(28% 42% at 85% 18%, rgba(255,215,0,.14), transparent 60%);
+    }
+    .headline{font-weight:800;letter-spacing:-.02em;line-height:1.03;font-size:clamp(28px,6vw,44px)}
+    .sub{color:#3f4564}
 
-    /* Grid lists */
-    .grid{display:grid;grid-template-columns:1fr;gap:22px}
-    @media (min-width: 768px){.grid-2{grid-template-columns:1fr 1fr}.grid-3{grid-template-columns:repeat(3,1fr)}}
+    /* ===== Cards / groups ===== */
+    .surface{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 10px 32px rgba(16,18,37,.06);padding:24px}
+    .group-grid{display:grid;grid-template-columns:repeat(12,1fr);grid-gap:14px}
+    .group{grid-column:span 4}
+    @media (max-width:992px){.group{grid-column:span 6}}
+    @media (max-width:768px){.group{grid-column:span 12}}
+    .group h3{font-size:1.05rem;margin:0 0 8px;font-weight:800;color:var(--ink)}
+    .list-clean{list-style:none;margin:0;padding:0}
+    .list-clean li{display:flex;align-items:center;justify-content:space-between;padding:.45rem 0;border-bottom:1px dashed #edf1ff}
+    .list-clean li:last-child{border-bottom:0}
+    .list-clean a{display:flex;align-items:center;justify-content:space-between;width:100%}
+    .arrow{opacity:.6}
 
-    .card-lite{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);border-radius:16px;padding:18px;color:#fff}
-    .card-solid{background:#fff;border:1px solid #eee;border-radius:14px;padding:18px;color:#1e1a29}
-    .card-solid a{color:#1e1a29}
-    .list-clean{list-style:none;padding:0;margin:0}
-    .list-clean li{margin:.4rem 0}
-    .muted{opacity:.9}
+    /* Simple search */
+    .search-row{display:grid;grid-template-columns:1fr auto;gap:10px;margin-top:10px}
+    .search{border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+    .btn-ghost{display:inline-flex;align-items:center;justify-content:center;background:#fff;color:var(--ink);
+      border:1px solid var(--line);border-radius:12px;padding:.74rem 1.05rem;font-weight:700;line-height:1}
+    .muted{color:var(--ink-2)}
 
-    /* Footer */
-    footer{background:var(--brown);padding:26px 18px;text-align:center}
-    .small{font-size:.92rem;opacity:.92}
+    /* ===== Footer (same as homepage) ===== */
+    footer{font-size:.95rem;color:#fff;background:#7851a9}
   </style>
-
-  <!-- Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JQM6ZR4JCB"></script>
-  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-JQM6ZR4JCB');</script>
 </head>
 <body>
-  <!-- Nav -->
-  <nav class="navbar navbar-expand-lg navbar-dark" style="background:rgba(0,0,0,.12)">
-    <a class="navbar-brand" href="/">
-      <img src="/images/default-monochrome-white.svg" alt="WebEaze" />
-    </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav" aria-controls="nav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="nav">
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
-        <li class="nav-item"><a class="nav-link" href="/pricing">Pricing</a></li>
-        <li class="nav-item"><a class="nav-link" href="/portal">Client Portal</a></li>
-        <li class="nav-item"><a class="nav-link" href="/contact-us.html">Contact</a></li>
-      </ul>
-    </div>
-  </nav>
 
-  <!-- HERO -->
-  <header class="hero">
-    <div class="hero-inner container-narrow">
-      <span class="eyebrow">Navigation</span>
-      <h1>Site Map</h1>
-      <p class="lead">Everything on WebEaze. Grouped by purpose for quick access. For crawlers, see <a href="/sitemap.xml"><strong>sitemap.xml</strong></a>.</p>
+<!-- ===== NAV (identical to homepage) ===== -->
+<div class="nav-wrap">
+  <div class="promo-bar" id="promoBar" role="region" aria-label="Promotion">
+    <div class="container container-narrow promo-inner">
+      <span class="emoji" aria-hidden="true">🎉</span>
+      <span class="promo-text"><strong>Earn $200</strong> for every business you refer to WebEaze. <strong>Ends 10/31.</strong></span>
+      <a href="referral.html" class="btn-promo ml-2">Refer Now</a>
+      <button class="promo-close" aria-label="Dismiss promotion">&times;</button>
     </div>
-  </header>
+  </div>
 
-  <!-- MAIN GROUPS (dark) -->
-  <section class="section-dark">
-    <div class="container-narrow">
-      <div class="grid grid-3">
-        <div class="card-lite">
-          <h5 class="mb-2"><strong>Core Pages</strong></h5>
-          <ul class="list-clean">
-            <li><a href="/index.html">Home</a></li>
-            <li><a href="/about.html">About</a></li>
-            <li><a href="/pricing.html">Pricing</a></li>
-            <li><a href="/samples.html">Samples</a></li>
-            <li><a href="/maintenance.html">Unlimited Maintenance</a></li>
-            <li><a href="/referral.html">Referral Program</a></li>
-            <li><a href="/seo.html">SEO Services</a></li>
-            <li><a href="/consultation.html">Consultation</a></li>
-          </ul>
-        </div>
-        <div class="card-lite">
-          <h5 class="mb-2"><strong>Client & Support</strong></h5>
-          <ul class="list-clean">
-            <li><a href="/portal.html">Client Portal</a></li>
-            <li><a href="/domains.html">Domain Setup</a></li>
-            <li><a href="https://webeaze.io/website-request">Website Request</a></li>
-            <li><a href="/contact-us.html">Contact</a></li>
-            <li><a href="https://webeaze.tawk.help" target="_blank" rel="noopener">Help Center</a></li>
-            <li><a href="/faq.html">FAQ</a></li>
-            <li><a href="https://webeaze.statuspage.io/" target="_blank" rel="noopener">Service Status</a></li>
-          </ul>
-        </div>
-        <div class="card-lite">
-          <h5 class="mb-2"><strong>Legal & Policies</strong></h5>
-          <ul class="list-clean">
-            <li><a href="terms.html" target="_blank" rel="noopener">Terms & Privacy</a></li>
-            <li><a href="/refund-policy.html">Refund Policy</a></li>
-            <li><a href="/site-map.html" aria-current="page">Site Map</a></li>
-            <li><a href="/accessibility.html">Accessibility statement</a></li>
-            <!-- <li class="muted">Accessibility statement (coming soon)</li> -->
-          </ul>
-        </div>
+  <div class="container container-narrow">
+    <nav class="navbar navbar-expand-lg navbar-dark webeaze-nav" role="navigation" aria-label="Primary">
+      <a class="navbar-brand d-flex align-items-center" href="index.html">
+        <img class="logo" src="images/webeaze-transparent copy.png" alt="WebEaze" />
+        <strong class="ml-2 brand-word">WebEaze</strong>
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mobileNav"
+              aria-controls="mobileNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div id="mobileNav" class="collapse navbar-collapse">
+        <ul class="navbar-nav ml-auto main-nav">
+          <a class="nav-link mr-3" href="/anniversary.html">One Year Anniversary!</a>
+          <li class="nav-item"><a class="nav-link" href="maintenance.html">Maintenance</a></li>
+          <li class="nav-item"><a class="nav-link" href="pricing.html">Services</a></li>
+          <li class="nav-item"><a class="nav-link" href="faq.html">FAQ</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact-us.html">Contact</a></li>
+          <li class="nav-item ml-1"><a class="btn btn-sm btn-nav" href="consultation.html">Get Started</a></li>
+        </ul>
       </div>
-    </div>
-  </section>
+    </nav>
+  </div>
+</div>
 
-  <!-- PARTNERS / EXTERNAL (light) -->
-  <section class="section-light">
-    <div class="container-narrow">
-      <span class="eyebrow">External & Partners</span>
-      <h2>Related links</h2>
-      <div class="grid grid-2">
-        <div class="card-solid">
-          <h5 class="mb-2"><strong>WebEaze Network</strong></h5>
-          <ul class="list-clean">
-            <li><a href="https://billyjoinville.me/" target="_blank" rel="noopener">Billy Joinville — personal site</a></li>
-            <li><a href="https://webeaze.substack.com" target="_blank" rel="noopener">WebEaze Substack</a></li>
-            <li><a href="https://www.designrush.com/agency/profile/webeaze" target="_blank" rel="noopener">DesignRush profile</a></li>
-          </ul>
-        </div>
-        <div class="card-solid">
-          <h5 class="mb-2"><strong>Accounts & Payments</strong></h5>
-          <ul class="list-clean">
-            <li><a href="https://billing.stripe.com/p/login/7sI3gfaO14CEdlm144" target="_blank" rel="noopener">Stripe Billing Portal</a></li>
-            <li><a href="mailto:support@webeaze.io">Email support@webeaze.io</a></li>
-            <li><a href="https://www.linkedin.com/company/webeaze" target="_blank" rel="noopener">LinkedIn</a> · <a href="https://instagram.com/webeaze.io" target="_blank" rel="noopener">Instagram</a> · <a href="https://facebook.com/61568824951084" target="_blank" rel="noopener">Facebook</a></li>
-          </ul>
-        </div>
+<!-- ===== HERO ===== -->
+<header class="hero">
+  <div class="halo" aria-hidden="true"></div>
+  <div class="container container-narrow">
+    <h1 class="headline">Site Map</h1>
+    <p class="sub">Everything public on WebEaze—organized and grouped. For crawlers, see <a href="/sitemap.xml" style="text-decoration:underline"><strong>sitemap.xml</strong></a>.</p>
+
+    <div class="surface mt-3">
+      <div class="search-row">
+        <input id="siteSearch" class="search" type="search" placeholder="Search pages (pricing, samples, request, refund)..." aria-label="Search site links" />
+        <button id="clearBtn" class="btn-ghost" type="button">Clear</button>
       </div>
+      <div id="count" class="small text-muted mt-2">Showing all links</div>
     </div>
-  </section>
+  </div>
+</header>
 
-  <!-- CTA (brown) -->
-  <section class="section-brown text-center">
-    <div class="container-narrow">
-      <h2 class="mb-2">Found what you need?</h2>
-      <p class="small">Jump to pricing, contact us, or browse samples.</p>
-      <div class="d-flex justify-content-center flex-wrap" style="gap:14px">
-        <a class="btn btn-warning font-weight-bold" href="/pricing.html">See Plans</a>
-        <a class="btn btn-outline-light" href="/samples.html">View Samples</a>
-        <a class="btn btn-outline-light" href="/contact-us.html">Contact</a>
-      </div>
+<!-- ===== GROUPS ===== -->
+<main class="py-5">
+  <div class="container container-narrow">
+    <div class="group-grid">
+
+      <section class="surface group" data-cat="core">
+        <h3><i class="fas fa-compass mr-1"></i> Core Pages</h3>
+        <ul class="list-clean">
+          <li><a href="index.html"><span>Home</span><span class="arrow">↗</span></a></li>
+          <li><a href="about.html"><span>About</span><span class="arrow">↗</span></a></li>
+          <li><a href="pricing.html"><span>Services / Pricing</span><span class="arrow">↗</span></a></li>
+          <li><a href="samples.html"><span>Samples</span><span class="arrow">↗</span></a></li>
+          <li><a href="maintenance.html"><span>Unlimited Maintenance</span><span class="arrow">↗</span></a></li>
+          <li><a href="consultation.html"><span>Free Consultation</span><span class="arrow">↗</span></a></li>
+          <li><a href="seo.html"><span>SEO Services</span><span class="arrow">↗</span></a></li>
+          <li><a href="referral.html"><span>Referral Program</span><span class="arrow">↗</span></a></li>
+        </ul>
+      </section>
+
+      <section class="surface group" data-cat="client">
+        <h3><i class="fas fa-life-ring mr-1"></i> Client & Support</h3>
+        <ul class="list-clean">
+          <li><a href="portal.html"><span>Client Portal</span><span class="arrow">↗</span></a></li>
+          <li><a href="website-request.html"><span>Website Request</span><span class="arrow">↗</span></a></li>
+          <li><a href="domains.html"><span>Domain Setup</span><span class="arrow">↗</span></a></li>
+          <li><a href="faq.html"><span>FAQs</span><span class="arrow">↗</span></a></li>
+          <li><a href="contact-us.html"><span>Contact</span><span class="arrow">↗</span></a></li>
+          <li><a href="https://webeaze.tawk.help" target="_blank" rel="noopener"><span>Help Center</span><span class="arrow">↗</span></a></li>
+          <li><a href="https://webeaze.statuspage.io/" target="_blank" rel="noopener"><span>Service Status</span><span class="arrow">↗</span></a></li>
+        </ul>
+      </section>
+
+      <section class="surface group" data-cat="legal">
+        <h3><i class="fas fa-scale-balanced mr-1"></i> Legal & Policies</h3>
+        <ul class="list-clean">
+          <li><a href="terms.html" target="_blank" rel="noopener"><span>Terms & Privacy</span><span class="arrow">↗</span></a></li>
+          <li><a href="refund-policy.html"><span>Refund Policy</span><span class="arrow">↗</span></a></li>
+          <li><a href="accessibility.html"><span>Accessibility Statement</span><span class="arrow">↗</span></a></li>
+          <li><a href="site-map.html" aria-current="page"><span>Site Map</span><span class="arrow">↗</span></a></li>
+        </ul>
+      </section>
+
+      <section class="surface group" data-cat="company">
+        <h3><i class="fas fa-building mr-1"></i> Company</h3>
+        <ul class="list-clean">
+          <li><a href="https://billyjoinville.me/" target="_blank" rel="noopener"><span>Founder: Billy Joinville</span><span class="arrow">↗</span></a></li>
+          <li><a href="https://webeaze.substack.com" target="_blank" rel="noopener"><span>WebEaze Substack</span><span class="arrow">↗</span></a></li>
+          <li><a href="https://www.designrush.com/agency/profile/webeaze" target="_blank" rel="noopener"><span>DesignRush Profile</span><span class="arrow">↗</span></a></li>
+        </ul>
+      </section>
+
+      <section class="surface group" data-cat="billing">
+        <h3><i class="fas fa-credit-card mr-1"></i> Accounts & Payments</h3>
+        <ul class="list-clean">
+          <li><a href="https://billing.stripe.com/p/login/7sI3gfaO14CEdlm144" target="_blank" rel="noopener"><span>Stripe Billing Portal</span><span class="arrow">↗</span></a></li>
+          <li><a href="mailto:support@webeaze.io"><span>Email: support@webeaze.io</span><span class="arrow">✉</span></a></li>
+          <li><a href="https://www.linkedin.com/company/webeaze" target="_blank" rel="noopener"><span>LinkedIn</span><span class="arrow">↗</span></a></li>
+          <li><a href="https://instagram.com/webeaze.io" target="_blank" rel="noopener"><span>Instagram</span><span class="arrow">↗</span></a></li>
+          <li><a href="https://facebook.com/61568824951084" target="_blank" rel="noopener"><span>Facebook</span><span class="arrow">↗</span></a></li>
+        </ul>
+      </section>
+
+      <section class="surface group" data-cat="tech">
+        <h3><i class="fas fa-screwdriver-wrench mr-1"></i> Technical</h3>
+        <ul class="list-clean">
+          <li><a href="/sitemap.xml"><span>XML Sitemap</span><span class="arrow">↗</span></a></li>
+          <li><a href="/robots.txt"><span>robots.txt</span><span class="arrow">↗</span></a></li>
+          <li class="muted"><span>Last updated:</span> <span id="updatedAt">—</span></li>
+        </ul>
+      </section>
+
     </div>
-  </section>
+  </div>
+</main>
 
-  <footer>
-    <p class="small mb-1">© 2025 WebEaze. Created and designed by WebEaze. Published on <a href="https://pages.github.com/">GitHub</a>.</p>
-    <p class="small">Follow us: <a href="https://facebook.com/61568824951084" target="_blank" rel="noopener">Facebook</a> · <a href="https://www.linkedin.com/company/webeaze" target="_blank" rel="noopener">LinkedIn</a> · <a href="https://instagram.com/webeaze.io" target="_blank" rel="noopener">Instagram</a></p>
-  </footer>
+<!-- ===== FOOTER (identical style) ===== -->
+<footer class="py-4 text-center">
+  <div class="container container-narrow">
+    <div class="mb-1">&copy; <span id="yr"></span> WebEaze. All rights reserved.</div>
+    <div class="mb-2 small">
+      <a href="terms.html#privacy" style="color:#fff">Privacy Policy</a> ·
+      <a href="terms.html" style="color:#fff">Terms</a> ·
+      <a href="site-map.html" style="color:#fff">Site Map</a>
+    </div>
+    <div class="small">Made with ☕ in Delaware, USA</div>
+  </div>
+</footer>
 
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+<!-- JS -->
+<script>document.getElementById('yr').textContent=new Date().getFullYear();</script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+  // Shrink nav on scroll (same as homepage)
+  (function(){
+    var wrap=document.querySelector('.nav-wrap'); if(!wrap) return;
+    function onScr(){ (window.scrollY>8)?wrap.classList.add('scrolled'):wrap.classList.remove('scrolled'); }
+    window.addEventListener('scroll',onScr,{passive:true}); onScr();
+  })();
+
+  // Promo dismiss + remember
+  (function(){
+    var KEY='promo_v1', bar=document.getElementById('promoBar'); if(!bar) return;
+    try{ if(localStorage.getItem(KEY)==='hide'){ bar.remove(); return; } }catch(e){}
+    var btn=bar.querySelector('.promo-close');
+    btn&&btn.addEventListener('click',function(){ bar.remove(); try{localStorage.setItem(KEY,'hide')}catch(e){} });
+  })();
+
+  // Simple search filter
+  (function(){
+    var input=document.getElementById('siteSearch');
+    var clear=document.getElementById('clearBtn');
+    var groups=[].slice.call(document.querySelectorAll('.group'));
+    var count=document.getElementById('count');
+
+    function filter(){
+      var q=(input.value||'').toLowerCase().trim();
+      var shown=0;
+      groups.forEach(function(g){
+        var any=false;
+        g.querySelectorAll('li').forEach(function(li){
+          var t=li.textContent.toLowerCase();
+          var ok=!q || t.includes(q);
+          li.style.display=ok?'':'none';
+          if(ok) any=true, shown++;
+        });
+        g.style.display=any?'':'none';
+      });
+      count.textContent=q?('Showing '+shown+' result'+(shown===1?'':'s')):'Showing all links';
+    }
+    input.addEventListener('input',filter);
+    clear.addEventListener('click',function(){ input.value=''; input.focus(); filter(); });
+    filter();
+  })();
+
+  // Stamp "last updated"
+  document.getElementById('updatedAt').textContent=
+    new Date().toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'});
+</script>
+
+<!-- Icons (optional) -->
+<script src="https://kit.fontawesome.com/a2e0e6ad48.js" crossorigin="anonymous"></script>
 </body>
 </html>
