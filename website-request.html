@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Website Request | WebEaze</title>
-  <meta name="description" content="Need an update or fix? Submit a request, search instant answers, and get quick help from WebEaze." />
+  <meta name="description" content="Need an update or fix? Submit a request, see live availability, and get quick help." />
 
   <!-- Fonts & CSS -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,400 +16,222 @@
 
   <!-- Open Graph -->
   <meta property="og:title" content="Website Request | WebEaze" />
-  <meta property="og:description" content="Submit website changes, fixes, or add-ons. Search instant answers and get updates fast." />
+  <meta property="og:description" content="Submit website changes, fixes, or add ons. See status and get updates fast." />
   <meta property="og:url" content="https://www.webeaze.io/website-request" />
   <meta property="og:image" content="images/favicon.png" />
-  <!-- Twitter -->
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Website Request | WebEaze" />
-  <meta name="twitter:description" content="Submit requests and find answers fast with WebEaze." />
-  <meta name="twitter:image" content="images/favicon.png" />
-
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JQM6ZR4JCB"></script>
-  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-JQM6ZR4JCB');</script>
 
   <style>
     :root{
-      --bg:#0b0a10;
-      --brand:#7851a9;
-      --brand-2:#5D4037;
-      --ink:#eae6ff;
-      --muted:#cfcbd8;
-      --ring:rgba(255,255,255,.15);
-      --glass:rgba(255,255,255,.07);
-      --border:rgba(255,255,255,.18);
-      --accent:#ffd36b;
-      --green:#2ecc71;
-      --red:#ff6b6b;
-      --radius:16px;
-      --shadow:0 14px 40px rgba(0,0,0,.35);
+      --brand:#7851a9; --gold:#ffd700;
+      --ink:#0f1228; --ink-2:#3c4260; --muted:#6b7280;
+      --line:#e7eaf4; --bg:#f7f8fc; --white:#fff;
+      --glass:rgba(255,255,255,.08); --ring:rgba(255,255,255,.18);
+      --green:#2ecc71; --red:#ff6b6b;
     }
     *{box-sizing:border-box}
-    html,body{margin:0;background:var(--bg);color:#fff;font-family:Poppins,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
-    a{color:#fff;text-decoration:none} a:hover{opacity:.9}
-    .container-narrow{max-width:1080px;margin:0 auto;padding:0 18px}
+    html,body{height:100%}
+    body{margin:0;background:var(--bg);color:var(--ink);font-family:Poppins,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+    a{color:inherit;text-decoration:none}
+    .container-narrow{max-width:1100px;margin:0 auto}
 
-    /* Promo */
-    .promo-bar{position:sticky;top:0;z-index:1100;background:linear-gradient(90deg,var(--brand),var(--brand-2));padding:.6rem .75rem;text-align:center;border-bottom:1px solid var(--border)}
-    .promo-bar .btn{margin-left:.5rem;background:var(--accent);color:#2b1e12;border:none;padding:.35rem .7rem;border-radius:999px;font-weight:700}
+    /* ===== Top promo + nav (match homepage) ===== */
+    .nav-wrap{position:sticky;top:0;z-index:9999;background:#000;border-bottom:1px solid rgba(255,255,255,.14)}
+    .promo-bar{background:linear-gradient(180deg, rgba(255,255,255,.14), rgba(255,255,255,.08));border-bottom:1px solid rgba(255,255,255,.18);color:#fff}
+    .promo-inner{display:flex;align-items:center;justify-content:center;gap:10px;padding:.45rem 0;text-align:center}
+    .promo-text{font-weight:600}.promo-text strong{font-weight:800}
+    .btn-promo{display:inline-flex;align-items:center;justify-content:center;padding:.4rem .75rem;border-radius:999px;font-weight:800;background:var(--gold);color:#3b2a7a;border:none;box-shadow:0 8px 22px rgba(255,215,0,.22)}
+    .btn-promo:hover{background:#f2c600;color:#fff}
 
-    /* Nav */
-    nav.navbar{position:sticky;top:44px;z-index:1000;background:rgba(255,255,255,.06)!important;backdrop-filter:saturate(140%) blur(6px);border-bottom:1px solid var(--ring)}
-    .navbar-brand img{height:50px}
-    .nav-link{color:#fff !important;border-radius:12px;padding:.45rem .7rem}
-    .nav-link:hover{background:var(--glass)}
+    .webeaze-nav{background:transparent!important;box-shadow:none!important;padding:.6rem 0}
+    .brand-word{letter-spacing:-.3px;font-weight:700;background:linear-gradient(90deg,#e8e7ea,#66615f);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    .logo{height:36px}
+    .navbar-dark .nav-link{color:#fff!important;opacity:.92;border-radius:10px;padding:.45rem .7rem}
+    .navbar-dark .nav-link:hover{opacity:1;background:rgba(255,255,255,.08)}
+    .btn-nav{background:var(--gold);color:#2f1e66;border:none;border-radius:12px;padding:.6rem .9rem;font-weight:700;box-shadow:0 8px 22px rgba(255,215,0,.22)}
 
-    /* Hero */
-    header.hero{
-      position:relative;overflow:hidden;text-align:center;
-      background:
-      
-        radial-gradient(900px 400px at 10% -10%, rgba(255,255,255,.10), transparent 60%),
-        radial-gradient(900px 400px at 90% -10%, rgba(255,255,255,.10), transparent 60%),
-        linear-gradient(180deg, rgba(120,81,169,.92), rgba(93,64,55,.95));
-      padding:90px 18px 54px;
-      isolation:isolate;
-    }
-    .hero .orb{
-      position:absolute;inset:auto;width:520px;height:520px;border-radius:50%;
-      background:radial-gradient(closest-side, rgba(255,255,255,.22), rgba(255,255,255,0));
-      filter:blur(40px);z-index:0;opacity:.6;left:-180px;top:-120px;
-    }
-    .hero .orb2{left:auto;right:-220px;top:-160px;opacity:.45}
-    .hero h1{position:relative;z-index:1;font-size:clamp(32px,4.2vw,48px);font-weight:800;margin:0 0 8px}
-    .hero p.lead{position:relative;z-index:1;max-width:820px;margin:10px auto 0;opacity:.96;line-height:1.7}
-    .hero .chip{display:inline-flex;gap:8px;align-items:center;margin-top:14px;background:rgba(255,255,255,.12);border:1px solid var(--ring);border-radius:999px;padding:8px 12px;font-weight:600}
-    #hours{margin-top:14px}
+    /* ===== Hero ===== */
+    header.hero{position:relative;overflow:hidden;padding:72px 0;background:linear-gradient(180deg,#ffffff,#f7f8fc 70%)}
+    .halo{position:absolute;inset:-20% -10% auto -10%;height:420px;pointer-events:none;background:
+      radial-gradient(34% 46% at 15% 20%, rgba(120,81,169,.18), transparent 60%),
+      radial-gradient(28% 42% at 85% 18%, rgba(255,215,0,.14), transparent 60%)}
+    .headline{font-weight:800;letter-spacing:-.02em;line-height:1.06}
+    .eyebrow{font-size:.9rem;letter-spacing:.08em;text-transform:uppercase;color:#6b6f86}
 
-    /* Search panel */
-    .search-panel{
-      margin-top:24px;background:var(--glass);border:1px solid var(--border);border-radius:var(--radius);
-      box-shadow:var(--shadow);padding:14px
-    }
-    .search-row{display:grid;grid-template-columns:1fr auto;gap:10px}
-    .search-input{
-      width:100%;background:rgba(0,0,0,.25);border:1px solid var(--ring);border-radius:12px;color:#fff;padding:12px 14px;font-size:16px
-    }
-    .search-btn{
-      border:2px solid var(--accent);background:transparent;color:#fff;border-radius:999px;padding:.6rem 1.1rem;font-weight:700
-    }
-    .search-btn:hover{background:var(--accent);color:#2b1e12}
-    .suggest-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
-    .suggest{font-size:.9rem;background:rgba(255,255,255,.10);border:1px solid var(--ring);padding:6px 10px;border-radius:999px;cursor:pointer}
+    .status-chip{display:inline-flex;align-items:center;gap:10px;margin-top:10px;padding:8px 12px;border-radius:999px;border:1px solid var(--line);background:#fff;font-weight:700}
+    .status-dot{width:10px;height:10px;border-radius:50%}
+    .status-chip.open{border-color:rgba(46,204,113,.45)}
+    .status-chip.open .status-dot{background:var(--green)}
+    .status-chip.closed{border-color:rgba(255,107,107,.45)}
+    .status-chip.closed .status-dot{background:var(--red)}
 
-    /* Main sections */
+    /* ===== Cards / layout ===== */
     section{padding:40px 0}
-    .card-glass{
-      background:var(--glass);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow)
-    }
-
-    /* Split */
-    .split{display:grid;grid-template-columns:1.2fr .8fr;gap:20px}
+    .surface{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 10px 32px rgba(16,18,37,.06);padding:24px}
+    .split{display:grid;grid-template-columns:1.2fr .8fr;gap:16px}
     @media (max-width:992px){.split{grid-template-columns:1fr}}
+    .help{color:var(--ink-2)}
 
-    /* Request card */
-    .request-card{padding:22px}
-    .help{color:var(--muted);font-size:.95rem}
-
-    /* Right rail */
-    .rail{display:grid;gap:20px}
-    .rail .tile{padding:18px}
-    .eta{display:flex;gap:8px;align-items:center;background:rgba(255,255,255,.08);border:1px solid var(--ring);border-radius:12px;padding:10px;margin-top:10px}
+    .eta{display:flex;gap:8px;align-items:center;background:#fafbff;border:1px solid #e0e4f4;border-radius:12px;padding:10px;margin-top:10px}
     .dot{width:10px;height:10px;border-radius:50%}
-    .good{background:var(--green)} .warn{background:#d8b4ff} .rush{background:var(--accent)}
+    .good{background:var(--green)} .warn{background:#c8b6ff} .rush{background:var(--gold)}
 
-    .templates .template{background:rgba(0,0,0,.15);border:1px dashed var(--ring);border-radius:12px;padding:12px;margin-top:10px}
-    .templates pre{white-space:pre-wrap;color:#fff;margin:0;font-size:13px}
-    .copy-btn{margin-top:8px}
-
-    /* Instant answers */
-    .answers{padding:22px}
     .answers h3{font-size:1.1rem;margin-bottom:10px}
     .answer-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
-    .answer-item{border:1px solid var(--border);border-radius:12px;padding:12px;background:rgba(255,255,255,.06)}
-    .answer-item p{margin:6px 0 0;color:#eae6f7;opacity:.9;font-size:.95rem}
+    .answer-item{border:1px solid var(--line);border-radius:12px;padding:12px;background:#fff;box-shadow:0 6px 16px rgba(16,18,37,.05)}
+    .answer-item p{margin:6px 0 0;color:#3c4260;font-size:.95rem}
 
-    /* Footer */
-    footer{background:var(--brand);margin-top:48px;color:#fff}
-    .footer-grid{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:24px;padding:32px 16px}
-    @media (max-width:900px){.footer-grid{grid-template-columns:1fr 1fr}}
-    @media (max-width:600px){.footer-grid{grid-template-columns:1fr}}
-    .footer-bottom{border-top:1px solid rgba(255,255,255,.25);text-align:center;padding:14px 10px;color:#f7edff}
+    /* ===== Footer (match homepage) ===== */
+    footer{font-size:.95rem;color:#fff;background:#7851a9}
+    footer a{color:#fff;text-decoration:underline}
   </style>
 </head>
 <body>
-  <!-- Promo -->
-  <div class="promo-bar">
-    Earn $200 for every business you refer. Ends 10/31.
-    <a class="btn" href="https://webeaze.io/referral">Refer Now </a>
-  </div>
 
-
-  <nav class="navbar navbar-expand-lg navbar-dark site-nav">
-    <div class="container">
-      <a class="navbar-brand d-flex align-items-center" href="index.html">
-        <img src="images/default-monochrome-white.svg" alt="WebEaze" class="brand-logo">
-
-      </a>
-  
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainNav"
-              aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-  
-      <div class="collapse navbar-collapse justify-content-end" id="mainNav">
-        <ul class="navbar-nav align-items-lg-center">
-          <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
-          <li class="nav-item"><a class="nav-link" href="pricing.html">Pricing</a></li>
-          <li class="nav-item"><a class="nav-link" href="samples.html">Samples</a></li>
-          <li class="nav-item"><a class="nav-link" href="portal.html">Client Portal</a></li>
-          <li class="nav-item"><a class="nav-link" href="contact-us.html">Contact</a></li>
-        </ul>
+  <!-- NAV + PROMO (homepage style) -->
+  <div class="nav-wrap">
+    <div class="promo-bar" role="region" aria-label="Promotion">
+      <div class="container container-narrow promo-inner">
+        <span class="emoji" aria-hidden="true">🎉</span>
+        <span class="promo-text"><strong>Earn $200</strong> for every business you refer to WebEaze. <strong>Ends 10/31.</strong></span>
+        <a href="referral.html" class="btn-promo ml-2">Refer Now</a>
       </div>
     </div>
-  </nav>
-  <!-- Nav styles-->
-<style>
 
-.site-nav{
-  position: sticky; top: 0; z-index: 1000;
-  background: #14141a;           /* dark, even background */
-  border-bottom: 1px solid rgba(255,255,255,.06);
-}
-.site-nav .brand-logo{ height: 44px; display:block; }
-.site-nav .brand-text{
-  font-weight: 700; letter-spacing: .2px; color:#fff; font-size: 1.15rem;
-}
+    <div class="container container-narrow">
+      <nav class="navbar navbar-expand-lg navbar-dark webeaze-nav" role="navigation" aria-label="Primary">
+        <a class="navbar-brand d-flex align-items-center" href="index.html">
+          <img class="logo" src="images/webeaze-transparent copy.png" alt="WebEaze" />
+          <strong class="ml-2 brand-word">WebEaze</strong>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mobileNav" aria-controls="mobileNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div id="mobileNav" class="collapse navbar-collapse">
+          <ul class="navbar-nav ml-auto main-nav">
+            <li class="nav-item"><a class="nav-link" href="/anniversary.html">One Year Anniversary!</a></li>
+            <li class="nav-item"><a class="nav-link" href="maintenance.html">Maintenance</a></li>
+            <li class="nav-item"><a class="nav-link" href="pricing.html">Services</a></li>
+            <li class="nav-item"><a class="nav-link" href="faq.html">FAQ</a></li>
+            <li class="nav-item"><a class="nav-link" href="contact-us.html">Contact</a></li>
+            <li class="nav-item ml-1"><a class="btn btn-sm btn-nav" href="consultation.html">Get Started</a></li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+  </div>
 
-/* Link style */
-.site-nav .nav-link{
-  color:#fff !important;
-  font-weight: 600;
-  font-size: 1.05rem;
-  line-height: 1;                 /* prevents tall lines */
-  padding: .55rem .75rem;
-  border-radius: 12px;
-  transition: background .2s ease, transform .2s ease, color .2s ease;
-}
-.site-nav .nav-link:hover,
-.site-nav .nav-link:focus{
-  background: rgba(255,255,255,.10);
-  text-decoration: none;
-}
-.site-nav .navbar-nav .nav-item + .nav-item{
-  margin-left: 16px;              /* tidy, even gaps */
-}
-
-/* Toggler icon is light on dark */
-.navbar-dark .navbar-toggler{
-  border-color: rgba(255,255,255,.25);
-}
-.navbar-dark .navbar-toggler-icon{
-  background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3e%3cpath stroke='rgba(255,255,255,0.85)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
-}
-
-/* Keep the brand from crowding links on wide screens */
-@media (min-width: 992px){
-  .site-nav .navbar-brand{ margin-right: 24px; }
-}
-
-
-@media (max-width: 991.98px){
-  .site-nav .navbar-collapse{
-    padding-top: 8px; padding-bottom: 10px;
-  }
-  .site-nav .nav-link{
-    font-size: 1.05rem;
-    padding: .65rem .75rem;
-  }
-  .site-nav .navbar-nav .nav-item + .nav-item{
-    margin-left: 0;             
-    margin-top: 6px;
-  }
-}
-
-.site-nav{
-  transition: transform .28s ease;  
-  will-change: transform;
-}
-.site-nav.nav-hide{
-  transform: translateY(-110%);           
-}
-
-
-@media (max-width: 991.98px){
-  .site-nav.nav-locked{ transform: none; }
-}
-
-
-</style>
-  <!-- Hero -->
+  <!-- HERO -->
   <header class="hero">
-    <div class="orb"></div><div class="orb orb2"></div>
-    <div class="container-narrow">
-      <h1>Website Request</h1>
-      <p class="lead">Need a fix or a new feature? Submit a request below. We're here to help!</p>
-      <div class="chip"><i class="fas fa-user-check"></i>&nbsp;For active WebEaze clients</div>
-      <div id="hours" class="chip" aria-live="polite"><i class="far fa-clock"></i>&nbsp;<span id="hours-text">Checking availability…</span></div>
-
-
+    <div class="halo" aria-hidden="true"></div>
+    <div class="container container-narrow">
+      <div class="row align-items-center">
+        <div class="col-lg-8">
+          <div class="eyebrow">Active clients</div>
+          <h1 class="headline">Website Request</h1>
+          <p class="mt-2" style="color:#3f4564">Need a fix or a new feature? Submit your request and we will take it from there.</p>
+          <div id="hours" class="status-chip" aria-live="polite"><span class="status-dot" aria-hidden="true"></span><span id="hours-text">Checking availability…</span></div>
+        </div>
+      </div>
     </div>
   </header>
 
-  <main class="container-narrow">
+  <main class="container container-narrow">
     <section class="split">
       <!-- Left: Request form -->
-      <div class="card-glass request-card">
+      <div class="surface">
         <h2 class="h5 mb-2"><i class="fas fa-paper-plane"></i> Submit your request</h2>
-        <p class="help mb-3">You'll receive an email confirmation and a follow-up when it’s complete.</p>
-
-
-
-        <!-- HubSpot form (unchanged) -->
+        <div class="text-muted mb-3">You will receive email confirmation and a follow up when it is complete.</div>
+        <!-- HubSpot form -->
         <script src="https://js-na2.hsforms.net/forms/embed/242171361.js" defer></script>
         <div class="hs-form-frame" data-region="na2" data-form-id="1bd7643f-da22-4812-a77f-8fe06fb55990" data-portal-id="242171361"></div>
+        <div class="text-muted mt-3">Not an active client? <a href="contact-us.html"><u>Contact us here</u></a>.</div>
 
-        <p class="help mt-3">Not an active client? <a href="contact-us.html"><u>Contact us here</u></a>.</p>
-
-
-        <br>
-
-                <!-- Quick ETA assist -->
-                <div class="card-glass p-3 mb-3">
-                  <div class="form-row">
-                    <div class="form-group col-md-6">
-                      <h2 class="h5 mb-2"><i class="fas fa-clock"></i> Current Turnaround Times</h2>
-                      <label for="reqType">Request type</label>
-                      <select id="reqType" class="form-control">
-                        <option value="minor">Content update</option>
-                        <option value="bug">Bug fix / broken link</option>
-                        <option value="newpage">New page</option>
-                        <option value="feature">Feature / integration</option>
-                        <option value="seo">SEO or meta updates</option>
-                        <option value="style">Style / layout changes</option>
-                      </select>
-                    </div>
-                    <div class="form-group col-md-6">
-                      <label for="urgency">Urgency</label>
-                      <select id="urgency" class="form-control">
-                        <option value="normal">Not Urgent</option>
-                        <option value="soon">Time Sensitive</option>
-                        <option value="rush">ASAP</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="eta"><span id="etaDot" class="dot good"></span><strong>Estimated turnaround:&nbsp;</strong><span id="etaText">24-72 hours (business hours)</span></div>
-                  <p class="help mt-2 mb-0" style>Estimate for planning only.  Subject to change. Rush requests are subject to a $69 rush fee. </p>
-                </div>
+        <div class="surface mt-3" style="padding:16px">
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <h3 class="h6 mb-2"><i class="fas fa-clock"></i> Current turnaround times</h3>
+              <label for="reqType">Request type</label>
+              <select id="reqType" class="form-control">
+                <option value="minor">Content update</option>
+                <option value="bug">Bug fix or broken link</option>
+                <option value="newpage">New page</option>
+                <option value="feature">Feature or integration</option>
+                <option value="seo">SEO or meta updates</option>
+                <option value="style">Style or layout changes</option>
+              </select>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="urgency">Urgency</label>
+              <select id="urgency" class="form-control">
+                <option value="normal">Not urgent</option>
+                <option value="soon">Time sensitive</option>
+                <option value="rush">ASAP</option>
+              </select>
+            </div>
+          </div>
+          <div class="eta"><span id="etaDot" class="dot good"></span><strong>Estimated:</strong>&nbsp;<span id="etaText">24 to 72 hours in business hours</span></div>
+          <div class="small text-muted mt-2">This is for planning. It can change with workload. Rush requests may include a $69 rush fee.</div>
+        </div>
       </div>
-        
- 
-
-      
-
-      
 
       <!-- Right rail -->
-      <aside class="rail">
-        <!-- Instant answers -->
-        <div class="card-glass answers">
-          <h3 class="mb-1"><i class="fas fa-bolt"></i> Instant answers</h3>
-          <p class="help mb-3">Popular articles clients use before submitting a ticket.</p>
-          <div class="answer-list" id="answers">
+      <aside style="display:grid;gap:16px">
+        <div class="surface answers">
+          <h3 class="h6 mb-1"><i class="fas fa-bolt"></i> Instant answers</h3>
+          <div class="text-muted mb-2">Popular articles clients use before submitting a ticket.</div>
+          <div class="answer-list">
             <a class="answer-item" href="https://webeaze.tawk.help/article/website-completion" target="_blank" rel="noopener">
               <strong>Website launch timeline</strong>
-              <p>What to expect between kickoff and go-live.</p>
+              <p>What to expect between kickoff and go live.</p>
             </a>
-            <a class="answer-item" href="https://webeaze.tawk.help/category/domain-support" target="_blank" rel="noopener">
+            <a class="answer-item" href="domains.html" target="_blank" rel="noopener">
               <strong>Domain: connect or transfer</strong>
-              <p>Point your custom domain or move it to us.</p>
+              <p>Point your domain or move it to us.</p>
             </a>
             <a class="answer-item" href="https://webeaze.tawk.help/article/add-ons" target="_blank" rel="noopener">
-              <strong>Add-ons & fee schedule</strong>
+              <strong>Add ons and fee schedule</strong>
               <p>New pages, integrations, or advanced features.</p>
             </a>
             <a class="answer-item" href="https://webeaze.tawk.help/article/hosting" target="_blank" rel="noopener">
               <strong>Hosting platforms we support</strong>
-              <p>WordPress, GitHub, and more.</p>
+              <p>WordPress, GitHub Pages, and more.</p>
             </a>
           </div>
         </div>
 
-        <!-- Templates
-        <div class="card-glass tile templates">
-          <h3 class="mb-1"><i class="far fa-file-alt"></i> Request templates</h3>
-          <p class="help">Copy, fill in the blanks, and paste into your request for these frequent inquiries. </p>
+        <div class="surface">
+          <h3 class="h6 mb-1"><i class="far fa-question-circle"></i> Quick FAQ</h3>
+          <details class="mb-2"><summary><strong>What happens after I submit?</strong></summary><div class="text-muted mt-1">You get an email confirmation. We review during business hours and reply if we need details. You also get a completion email.</div></details>
+          <details class="mb-2"><summary><strong>How do I share files or images?</strong></summary><div class="text-muted mt-1">Attach them in the form or email them to support@webeaze.io with your domain in the subject.</div></details>
+          <details class="mb-2"><summary><strong>Can I request a Zoom call?</strong></summary><div class="text-muted mt-1">Yes. Use the portal to book. Live call hours are Monday to Friday, 9:00am to 1:00pm ET.</div></details>
+          <details class="mb-0"><summary><strong>Do you offer rush work?</strong></summary><div class="text-muted mt-1">For urgent issues select ASAP. We try to prioritize it. A rush fee may apply.</div></details>
+        </div>
 
-          <div class="template">
-            <pre id="tpl1">Please update the text and images on the About page to reflect the new team bio and headshots I'm attaching. </pre>
-            <button class="btn btn-sm btn-outline-light copy-btn" data-target="tpl1">Copy</button>
-          </div>
-
-          <div class="template">
-            <pre id="tpl2">Please add a new Summer Specials section to the homepage featuring three promo boxes with short descriptions and a button linking to the contact page.
-            </pre>
-            <button class="btn btn-sm btn-outline-light copy-btn" data-target="tpl2">Copy</button>
-          </div>
-
-          <div class="template">
-            <pre id="tpl3">My website is down and I am not sure why. I have attached a screenshot of what happens when I load my website. Please advise. </pre>
-            <button class="btn btn-sm btn-outline-light copy-btn" data-target="tpl3">Copy</button>
-          </div>
-        </div> -->
-
-        <!-- Expectations -->
-        <div class="card-glass tile">
-          <h3 class="mb-1" style="padding-bottom: 20px;"><i class="fas fa-stopwatch"></i> Service expectations</h3>
-          <ul class="pl-3 mb-2">
-            <li><span class="help">Business hours:</span> Mon–Fri, 9:00am–5:00pm ET</li>
-            <li><span class="help">Holidays:</span> closed major US holidays</li>
-            <li><span class="help">Typical turnaround:</span> minor updates 24–72 hrs</li>
-            <li><span class="help">Fair use:</span> reasonable monthly limits keep things speedy for everyone</li>
+        <div class="surface">
+          <h3 class="h6 mb-1"><i class="fas fa-stopwatch"></i> Service expectations</h3>
+          <ul class="pl-3 mb-2 text-muted">
+            <li>Business hours: Monday to Friday, 9:00am to 5:00pm ET</li>
+            <li>Holidays: closed on major US holidays</li>
+            <li>Typical turnaround: minor updates in 24 to 72 hours</li>
+            <li>Fair use: reasonable monthly limits keep things fast for everyone</li>
           </ul>
-          <p class="help mb-0" style="padding-top: 20px;">You’ll get email confirmation after you submit. We’ll reach out if we need anything else.</p>
+          <div class="text-muted">You will get confirmation after you submit. We will reach out if we need anything else.</div>
         </div>
       </aside>
     </section>
   </main>
 
-  <!-- Footer -->
-  <footer>
-    <div class="footer-grid">
-      <div class="footer-col">
-        <img src="images/default-monochrome-white.svg" style="max-width:40%" alt="WebEaze Logo" class="footer-logo" />
-        <br><br>
-        <p>Stunning websites with support that scales with your business. One plan. One price. One powerful online presence.</p>
+  <!-- FOOTER (homepage style) -->
+  <footer class="py-4 text-center">
+    <div class="container container-narrow">
+      <div class="mb-1">© <span id="yr"></span> WebEaze. All rights reserved.</div>
+      <div class="mb-2 small">
+        <a href="terms.html#privacy" style="color:#fff">Privacy Policy</a> ·
+        <a href="terms.html" style="color:#fff">Terms</a> ·
+        <a href="site-map.html" style="color:#fff">Site Map</a>
       </div>
-      <div class="footer-col">
-        <h4>Stay Connected</h4>
-        <p>We're on Facebook, LinkedIn, and Instagram. Follow us for updates, tips, and offers.</p>
-        <div class="social-icons" style="display:flex;gap:14px;font-size:18px">
-          <a href="https://facebook.com/61568824951084" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-          <a href="https://linkedin.com/company/webeaze" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-          <a href="https://instagram.com/webeaze.io" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-        </div>
-      </div>
-      <div class="footer-col">
-        <h4>Quick Links</h4>
-        <ul style="list-style:none;padding-left:0;margin:0">
-          <li><a href="about.html">About Us</a></li>
-          <li><a href="https://webeaze.tawk.help" target="_blank" rel="noopener">Help Center</a></li>
-          <li><a href="terms.html" target="_blank" rel="noopener">Terms & Privacy</a></li>
-          <li><a href="site-map.html">Site Map</a></li>
-          <li><a href="#top">Back to Top</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>Enjoying WebEaze? Let us know.</h4>
-        <br>
-        <script type="text/javascript" src="https://www.designrush.com/topbest/js/widgets/agency-reviews.js"></script>
-        <div data-designrush-widget data-agency-id="86840" data-style="dark" aria-label="DesignRush agency reviews section"></div>
-        <noscript><a href="https://www.designrush.com/agency/profile/webeaze#reviews" target="_blank" aria-label="Visit WebEaze reviews on DesignRush">REVIEW US ON DESIGNRUSH</a></noscript>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <p>© 2025 WebEaze. Created and designed by WebEaze. Published on <a href="https://pages.github.com/">GitHub</a>.</p>
+      <div class="small">Made with ☕ in Delaware, USA</div>
     </div>
   </footer>
 
@@ -417,116 +239,36 @@
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
   <script>
-    // Hero hours (ET) + holiday exceptions
-    const holidayClosures = {
-      "01-01":"New Year's Day","05-27":"Memorial Day","06-19":"Juneteenth",
-      "07-04":"Independence Day","09-01":"Labor Day","11-28":"Thanksgiving Day",
-      "11-29":"Day after Thanksgiving","12-24":"Christmas Eve","12-25":"Christmas Day","12-31":"New Year's Eve"
-    };
-    const enow = () => new Date(new Date().toLocaleString('en-US',{timeZone:'America/New_York'}));
-    function updateHours(){
-      const now=enow(), d=now.getDay(), h=now.getHours();
-      const key = `${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
-      const el=document.getElementById('hours-text');
-      let txt='';
-      if(holidayClosures[key]){ txt=`Closed today (${holidayClosures[key]}). Back next business day 9:00am ET.`; }
-      else if(d>=1 && d<=5 && h>=9 && h<17){ txt='We’re available now until 5:00pm ET.'; }
-      else if(d>=1 && d<=5 && h<9){ txt='We’re away. Back today at 9:00am ET.'; }
-      else if(d>=1 && d<=4 && h>=17){ txt='We’re closed for today. Back tomorrow 9:00am ET.'; }
-      else if(d===5 && h>=17){ txt='Closed for the weekend. Back Monday 9:00am ET.'; }
-      else { txt='We’re away. Back Monday 9:00am ET.'; }
-      el.textContent = txt;
-    }
-    document.addEventListener('DOMContentLoaded', ()=>{ updateHours(); setInterval(updateHours, 60000); });
+    document.getElementById('yr').textContent=new Date().getFullYear();
+    // Smooth internal links from collapsed mobile nav
+    (function(){
+      var menu=document.getElementById('mobileNav'); if(!menu) return;
+      menu.addEventListener('click',function(e){
+        var a=e.target.closest('a[href^="#"]'); if(!a) return;
+        var id=a.getAttribute('href').slice(1), target=document.getElementById(id); if(!target) return;
+        e.preventDefault(); $(menu).collapse('hide');
+        $(menu).one('hidden.bs.collapse',function(){ target.scrollIntoView({behavior:'smooth',block:'start'}); });
+      });
+    })();
 
+    // Hours chip with US holidays (observed)
+    function nthDowOfMonth(y,m,dow,n){const first=new Date(Date.UTC(y,m,1));const off=(7+dow-first.getUTCDay())%7;return new Date(Date.UTC(y,m,1+off+7*(n-1)));}
+    function lastDowOfMonth(y,m,dow){const last=new Date(Date.UTC(y,m+1,0));const off=(7+last.getUTCDay()-dow)%7;return new Date(Date.UTC(y,m+1,0-off));}
+    function observed(dt){const d=new Date(dt);const day=d.getUTCDay();if(day===6){d.setUTCDate(d.getUTCDate()-1);}else if(day===0){d.setUTCDate(d.getUTCDate()+1);}return d;}
+    function ymd(dt){return dt.toISOString().slice(0,10);}  
+    function getUSHolidays(year){const list=[];list.push({name:"New Year's Day",date:ymd(observed(new Date(Date.UTC(year,0,1))))});list.push({name:"Juneteenth",date:ymd(observed(new Date(Date.UTC(year,5,19))))});list.push({name:"Independence Day",date:ymd(observed(new Date(Date.UTC(year,6,4))))});list.push({name:"Veterans Day",date:ymd(observed(new Date(Date.UTC(year,10,11))))});list.push({name:"Christmas Day",date:ymd(observed(new Date(Date.UTC(year,11,25))))});list.push({name:"Martin Luther King Jr. Day",date:ymd(nthDowOfMonth(year,0,1,3))});list.push({name:"Presidents' Day",date:ymd(nthDowOfMonth(year,1,1,3))});list.push({name:"Memorial Day",date:ymd(lastDowOfMonth(year,4,1))});list.push({name:"Labor Day",date:ymd(nthDowOfMonth(year,8,1,1))});list.push({name:"Columbus Day / Indigenous Peoples' Day",date:ymd(nthDowOfMonth(year,9,1,2))});list.push({name:"Thanksgiving Day",date:ymd(nthDowOfMonth(year,10,4,4))});const tg=nthDowOfMonth(year,10,4,4);const dayAfter=new Date(Date.UTC(year,10,tg.getUTCDate()+1));list.push({name:"Day after Thanksgiving",date:ymd(dayAfter)});list.push({name:"Christmas Eve",date:ymd(new Date(Date.UTC(year,11,24)))});list.push({name:"New Year's Eve",date:ymd(new Date(Date.UTC(year,11,31)))});return list;}
+    const nowET=()=>new Date(new Date().toLocaleString('en-US',{timeZone:'America/New_York'}));
+    function isOpenET(d){const day=d.getDay();const h=d.getHours();return (day>=1&&day<=5)&&(h>=9&&h<17);}  
+    function todayHolidayNameET(){const d=nowET();const y=d.getFullYear();const key=`${y}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;const found=getUSHolidays(y).find(h=>h.date===key);return found?found.name:'';}
+    function updateHoursChip(){const chip=document.getElementById('hours');const text=document.getElementById('hours-text');const holiday=todayHolidayNameET();let open=false;let msg='';if(holiday){msg=`Closed today (${holiday}). Back next business day at 9:00am ET.`;}else if(isOpenET(nowET())){msg='We are available now until 5:00pm ET.';open=true;}else{const d=nowET();const day=d.getDay();const h=d.getHours();if(day>=1&&day<=5&&h<9) msg='We are away. Back today at 9:00am ET.';else if(day>=1&&day<=4&&h>=17) msg='We are closed for today. Back tomorrow at 9:00am ET.';else if(day===5&&h>=17) msg='Closed for the weekend. Back Monday at 9:00am ET.';else msg='We are away. Back Monday at 9:00am ET.';}
+      chip.classList.toggle('open',open); chip.classList.toggle('closed',!open); text.textContent=msg;}
+    document.addEventListener('DOMContentLoaded',()=>{updateHoursChip();setInterval(updateHoursChip,60000)});
 
     // ETA estimator
-    const etaMap = {
-      minor:{normal:"24–72 hours",soon:"24–48 hours",rush:"Same Day"},
-      bug:{normal:"24–48 hours",soon:"Next business day",rush:"6 hours"},
-      newpage:{normal:"3–5 days",soon:"2 business days",rush:"Next business day"},
-      feature:{normal:"3-5 days",soon:"2-3 days",rush:"2 business days"},
-      seo:{normal:"24-72 hours",soon:"12-24 hours",rush:"6 hours"},
-      style:{normal:"24–72 hours",soon:"6-12 hours",rush:"4 hours"}
-    };
-    function setETA(){
-      const t=document.getElementById('reqType').value;
-      const u=document.getElementById('urgency').value;
-      document.getElementById('etaText').textContent = `${etaMap[t][u]} (business hours)`;
-      const dot=document.getElementById('etaDot'); dot.className='dot '+(u==='rush'?'rush':u==='soon'?'warn':'good');
-    }
-    document.addEventListener('change',(e)=>{ if(e.target.id==='reqType'||e.target.id==='urgency') setETA(); });
+    const etaMap={minor:{normal:'24 to 72 hours',soon:'24 to 48 hours',rush:'Same day'},bug:{normal:'24 to 48 hours',soon:'Next business day',rush:'6 hours'},newpage:{normal:'3 to 5 days',soon:'2 business days',rush:'Next business day'},feature:{normal:'3 to 5 days',soon:'2 to 3 days',rush:'2 business days'},seo:{normal:'24 to 72 hours',soon:'12 to 24 hours',rush:'6 hours'},style:{normal:'24 to 72 hours',soon:'6 to 12 hours',rush:'4 hours'}};
+    function setETA(){const t=document.getElementById('reqType').value;const u=document.getElementById('urgency').value;document.getElementById('etaText').textContent=`${etaMap[t][u]} in business hours`;const dot=document.getElementById('etaDot');dot.className='dot '+(u==='rush'?'rush':u==='soon'?'warn':'good');}
+    document.addEventListener('change',(e)=>{if(e.target.id==='reqType'||e.target.id==='urgency') setETA();});
     document.addEventListener('DOMContentLoaded', setETA);
-
-    // Copy template buttons
-    document.querySelectorAll('.copy-btn').forEach(btn=>{
-      btn.addEventListener('click',()=>{
-        const id=btn.getAttribute('data-target');
-        const txt=document.getElementById(id).innerText;
-        navigator.clipboard.writeText(txt).then(()=>{
-          const old=btn.textContent; btn.textContent='Copied!'; setTimeout(()=>btn.textContent=old,1200);
-        });
-      });
-    });
   </script>
-
-<script>
-  (function(){
-    const nav = document.querySelector('.site-nav');
-    if(!nav) return;
-
-    // If you keep the sticky promo bar, we offset logic a bit so top-area feels natural
-    const PROMO_HEIGHT = (document.querySelector('.promo-bar')?.offsetHeight || 0);
-
-    let lastY = window.pageYOffset || document.documentElement.scrollTop || 0;
-    let ticking = false;
-    const DELTA = 6;                           // minimum px movement to react
-    const LOCK_CLASS = 'nav-locked';           // visible/locked (e.g., when menu open)
-    const HIDE_CLASS = 'nav-hide';             // hidden on scroll down
-
-    function onScroll(){
-      if (ticking) return;
-      window.requestAnimationFrame(() => {
-        const y = window.pageYOffset || document.documentElement.scrollTop || 0;
-        const diff = y - lastY;
-
-        // never hide when near very top (promo area)
-        const nearTop = y <= PROMO_HEIGHT + 4;
-
-        if (Math.abs(diff) > DELTA && !nav.classList.contains(LOCK_CLASS)) {
-          if (diff > 0 && !nearTop) {
-            // scrolling down
-            nav.classList.add(HIDE_CLASS);
-          } else {
-            // scrolling up
-            nav.classList.remove(HIDE_CLASS);
-          }
-        }
-
-        // always show if at the very top
-        if (nearTop) nav.classList.remove(HIDE_CLASS);
-
-        lastY = y <= 0 ? 0 : y;
-        ticking = false;
-      });
-      ticking = true;
-    }
-
-    // Keep nav visible while the collapse menu is open (Bootstrap)
-    const collapse = document.getElementById('mainNav');
-    if (collapse) {
-      collapse.addEventListener('show.bs.collapse', () => {
-        nav.classList.add(LOCK_CLASS);
-        nav.classList.remove(HIDE_CLASS);
-      });
-      collapse.addEventListener('hide.bs.collapse', () => {
-        nav.classList.remove(LOCK_CLASS);
-      });
-    }
-
-    window.addEventListener('scroll', onScroll, { passive: true });
-  })();
-</script>
-
 </body>
 </html>
