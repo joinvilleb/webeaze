@@ -418,6 +418,43 @@ html,body{ overflow-x:hidden; }
 @media (max-width: 768px){ .mock-browser .url{display:none;} }
 
 
+.band-area{
+  position:relative;
+  padding: clamp(48px, 7vw, 84px) 0;
+  color:#fff;
+  overflow:hidden;
+  border-top:1px solid rgba(255,255,255,.06);
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+.band-area::before{
+  content:"";
+  position:absolute; inset:0; z-index:0;
+  background:
+    radial-gradient(40% 60% at 12% -10%, rgba(120,81,169,.42), transparent 45%),
+    radial-gradient(36% 60% at 88% -12%, rgba(255,215,0,.32), transparent 45%),
+    linear-gradient(180deg, #2b2355 0%, #201a46 100%);
+}
+@media (min-width:768px){
+  .band-area::after{
+    content:"";
+    position:absolute; inset:0; z-index:0; pointer-events:none;
+    background:
+      repeating-linear-gradient(0deg, rgba(255,255,255,.06) 0 1px, transparent 1px 22px),
+      repeating-linear-gradient(90deg, rgba(255,255,255,.06) 0 1px, transparent 1px 22px);
+    mask-image: linear-gradient(180deg, transparent, #000 12%, #000 88%, transparent);
+  }
+}
+.band-area .area-content{ position:relative; z-index:1; text-align:center }
+.band-area .area-head{
+  margin:10px 0 6px;
+  font-weight:800;
+  letter-spacing:-.01em;
+  font-size: clamp(22px, 5.2vw, 44px);
+}
+.band-area .sub{ color: rgba(255,255,255,.86); margin:0 }
+
+
+
 </style>
 </head>
 <body>
@@ -615,6 +652,9 @@ html,body{ overflow-x:hidden; }
 
 
 
+
+
+
 <!-- OUTCOME DEMOS (visual, fast) -->
 <section class="py-4" id="outcomes">
   <div class="container container-narrow">
@@ -692,6 +732,8 @@ html,body{ overflow-x:hidden; }
     </div>
   </div>
 </section>
+
+
 
 
 <!-- WHAT YOU GET -->
@@ -780,6 +822,21 @@ html,body{ overflow-x:hidden; }
     
   </div>
 </section>
+
+<!-- SERVICE AREA -->
+<section id="service-area" class="band-area">
+  <div class="container container-narrow">
+    <div class="area-content reveal">
+      <span class="kicker">WHERE WE Work </span>
+      <h2 class="area-head" style="word-wrap: break-word">Maryland • Delaware • New Jersey • Pennsylvania</h2>
+      <p class="sub mb-3">Mid-Atlantic focus. Remote anywhere in the U.S.</p>
+      <!-- <div class="btn-row">
+        <a href="work-with.html" class="btn-brand">Who We Serve →</a>
+      </div> -->
+    </div>
+  </div>
+</section>
+
 
 <!-- PLANS -->
 <section id="plans" class="py-5">
