@@ -349,7 +349,7 @@ html,body{ overflow-x:hidden; }
   padding:6px 10px; border-radius:999px; font-weight:700; box-shadow:0 6px 16px rgba(16,18,37,.05)
 }
 
-/* Responsive */
+
 @media (max-width:992px){ .stand-card{ grid-column:span 6 } }
 @media (max-width:768px){
   .stand-card{ grid-column:span 12 }
@@ -454,6 +454,40 @@ html,body{ overflow-x:hidden; }
 .band-area .sub{ color: rgba(255,255,255,.86); margin:0 }
 
 
+#showcase{ padding:24px }                 
+.devices{ display:grid; grid-template-columns:repeat(12,1fr); gap:10px }
+
+.device{ grid-column:span 4; background:#fff; border:1px solid #eef1f7;
+  border-radius:12px; padding:10px; box-shadow:0 8px 20px rgba(16,18,37,.05) }
+@media (max-width:992px){ .device{ grid-column:span 6 } }
+@media (max-width:768px){ .device{ grid-column:span 12 } }
+
+
+.device .chip{ display:inline-block; font-size:.75rem; font-weight:800;
+  padding:.2rem .5rem; border-radius:999px; color:#3a2577;
+  background:#ede9fe; border:1px solid #d8cffb; margin-bottom:8px }
+
+
+.frame{ border-radius:10px; overflow:hidden; border:1px solid #e7eaf4; background:#fff }
+.frame img{
+  display:block; width:100%;
+  height: clamp(160px, 22vw, 220px);   
+  object-fit: contain;                
+  background:#fff;
+}
+
+
+.caption{ display:flex; align-items:center; justify-content:space-between;
+  margin-top:8px; border:1px solid #eef1f7; border-radius:10px; padding:.4rem .55rem }
+.caption .title{ margin:0; font-weight:800; font-size:.92rem; color:#0f1228 }
+.caption .note{ font-size:.8rem; color:#6b7280 }
+
+
+#showcase .section-head{ margin:20px 0 20px; font-weight:800; text-align:center }
+
+
+
+
 
 </style>
 </head>
@@ -556,6 +590,57 @@ html,body{ overflow-x:hidden; }
   
 </header>
 
+<!-- SHOWCASE: Desktop • Tablet • Mobile (compact) -->
+<section id="showcase" class="py-0" style="padding-bottom: 40px !important;">
+  <div class="container container-narrow">
+    <h2 class="section-head">See it on every device</h2>
+
+    <div class="devices">
+      <!-- Desktop -->
+      <article class="device reveal">
+        <span class="chip">Desktop</span>
+        <div class="frame">
+          <img src="images/showcase/desktop.png"
+               alt="Desktop view of Galaxy Gymnastics site"
+               loading="lazy" width="1600" height="900">
+        </div>
+        <div class="caption">
+          <p class="title">Big, clear hero + CTAs</p>
+          <span class="note">1440–1920px</span>
+        </div>
+      </article>
+
+      <!-- Tablet -->
+      <article class="device reveal">
+        <span class="chip">Tablet</span>
+        <div class="frame">
+          <img src="images/showcase/tablet.png"
+               alt="Tablet view of Ibis Prep site"
+               loading="lazy" width="900" height="1200">
+        </div>
+        <div class="caption">
+          <p class="title">Touch-friendly navigation</p>
+          <span class="note">768–1024px</span>
+        </div>
+      </article>
+
+      <!-- Mobile -->
+      <article class="device reveal">
+        <span class="chip">Mobile</span>
+        <div class="frame">
+          <img src="images/showcase/mobile.png"
+               alt="Mobile view of product/UGC layout"
+               loading="lazy" width="900" height="1950">
+        </div>
+        <div class="caption">
+          <p class="title">Thumb-first layout</p>
+          <span class="note">320–430px</span>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
 <!-- HOW WE STAND OUT -->
 <section id="standout" class="py-5">
   <div class="container container-narrow">
@@ -655,83 +740,8 @@ html,body{ overflow-x:hidden; }
 
 
 
-<!-- OUTCOME DEMOS (visual, fast) -->
-<section class="py-4" id="outcomes">
-  <div class="container container-narrow">
-    <h2 class="h5 mb-3 reveal" style="font-weight:800;color:#0f1228"></h2>
 
-    <h2 class="h4 mb-0" style="font-weight:800; text-align: center; padding: 20px;" >What this looks like </h2>
-    
 
-    <div class="outcomes">
-      <!-- A. Lead bar (tap-to-call + quote) -->
-      <article class="tile lead reveal">
-        <div class="lead-bar">
-          <div class="brand-dot"></div>
-          <div class="lead-lines">
-            <div class="line"></div>
-            <div class="line short"></div>
-          </div>
-          <button class="btn-mini call">Call now</button>
-        </div>
-        <form class="quote mini-form" data-simulate>
-          <input type="text" aria-label="Name" placeholder="Name" required>
-          <input type="tel" aria-label="Phone" placeholder="Phone" required>
-          <button class="btn-mini submit">Get quote</button>
-          <div class="ok" aria-hidden="true">✓ Sent — we'll reply shortly</div>
-        </form>
-      </article>
-
-      <!-- B. Booking micro (tutoring) -->
-      <article class="tile book reveal">
-        <div class="tile-head">
-          <div class="badge-mini">Tutoring</div>
-          <div class="slots-legend">Pick a time</div>
-        </div>
-        <div class="slots" role="listbox" aria-label="Available times">
-          <button class="slot" role="option">3:00</button>
-          <button class="slot" role="option">3:30</button>
-          <button class="slot" role="option">4:00</button>
-          <button class="slot" role="option">4:30</button>
-          <button class="slot" role="option">5:00</button>
-        </div>
-        <button class="btn-mini book-cta" disabled>Book</button>
-      </article>
-
-      <!-- C. Trust + reviews -->
-      <article class="tile trust reveal">
-        <div class="stars" aria-label="Rating 4.9 out of 5">
-          <i>★</i><i>★</i><i>★</i><i>★</i><i class="half">★</i>
-          <span class="score">4.9</span>
-        </div>
-        <div class="badges">
-          <span class="pill">Google ✓</span>
-          <span class="pill">Yelp ✓</span>
-          <span class="pill">Nextdoor ✓</span>
-        </div>
-        <div class="review-lines">
-          <div class="rline"></div>
-          <div class="rline short"></div>
-        </div>
-      </article>
-
-      <!-- D. Performance snapshot -->
-      <article class="tile perf reveal" data-gauge="0.92">
-        <div class="gauge">
-          <div class="ring"></div>
-          <div class="dot" aria-hidden="true"></div>
-          <div class="num" aria-label="Performance score">92</div>
-        </div>
-        <div class="bars">
-          <div class="bar"><span style="width:88%"></span></div>
-          <div class="bar"><span style="width:72%"></span></div>
-          <div class="bar"><span style="width:96%"></span></div>
-        </div>
-        <div class="labels small text-muted">Perf • Access • Best-practices</div>
-      </article>
-    </div>
-  </div>
-</section>
 
 
 
@@ -912,7 +922,7 @@ html,body{ overflow-x:hidden; }
       <div class="mb-2 mb-md-0">
         <div class="eyebrow" style="color:#6b6f86">Ready to move</div>
         <h3 class="h5 mb-1" style="font-weight:800">Tell us what you want your website to do.</h3>
-        <div class="text-muted">We’ll map the fastest path and ship a first draft quickly.</div>
+        <div class="text-muted">We'll map the fastest path and ship a first draft quickly.</div>
       </div>
       <div class="btn-row">
         <a href="consultation.html" class="btn-brand">Book consultation</a>
