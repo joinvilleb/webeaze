@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>WebEaze | Web Design & Ongoing Maintenance for Delaware Small Businesses</title>
+<meta name="description" content="Affordable web design and ongoing maintenance for Delaware small businesses. From Wilmington and Newark to Dover and the Beaches, WebEaze launches fast, SEO-ready sites with real human support." />
+<link rel="canonical" href="https://www.webeaze.io/web-design-delaware.html" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+<link rel="shortcut icon" href="images/webeaze-transparent copy.png" type="image/png" />
+
+<style>
+  :root{
+    --brand:#7851a9; --gold:#ffd700;
+    --ink:#0f1228; --ink-2:#3c4260; --muted:#6b7280;
+    --line:#e7eaf4; --bg:#f7f8fc; --white:#fff;
+  }
+  html,body{height:100%}
+  body{margin:0;font-family:'Poppins',sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  .container-narrow{max-width:1100px}
+  .logo{height:36px}
+
+  /* Nav */
+  .nav-wrap{position:sticky; top:0; z-index:9999; background:#000; backdrop-filter:saturate(130%) blur(8px); -webkit-backdrop-filter:saturate(130%) blur(8px); border-bottom:1px solid rgba(255,255,255,.14)}
+  .webeaze-nav{background:transparent!important;box-shadow:none!important;padding:.6rem 0;transition:padding .18s ease}
+  .scrolled .webeaze-nav{padding:.45rem 0}
+  .brand-word{letter-spacing:-.3px;font-weight:700;background:linear-gradient(90deg,#e8e7ea,#66615f);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  .navbar-dark .nav-link{color:#fff!important;opacity:.92;border-radius:10px;padding:.45rem .7rem}
+  .navbar-dark .nav-link:hover{opacity:1;background:rgba(255,255,255,.08)}
+  .btn-nav{background:var(--gold);color:#2f1e66;border:none;border-radius:12px;padding:.6rem .9rem;font-weight:700;box-shadow:0 8px 22px rgba(255,215,0,.22)}
+
+  /* Buttons */
+  .btn-brand{display:inline-flex;align-items:center;justify-content:center;background:var(--gold);color:#2f1e66;border:none;border-radius:12px;padding:.74rem 1.05rem;font-weight:700;line-height:1;box-shadow:0 10px 26px rgba(255,215,0,.22);transition:transform .15s ease, box-shadow .15s ease, background-color .15s ease}
+  .btn-brand:hover{background:#f2c600;color:#fff;transform:translateY(-1px);box-shadow:0 14px 34px rgba(255,215,0,.3)}
+  .btn-ghost{display:inline-flex;align-items:center;justify-content:center;background:#fff;color:var(--ink);border:1px solid var(--line);border-radius:12px;padding:.74rem 1.05rem;font-weight:700;line-height:1;transition:transform .15s ease, box-shadow .15s ease}
+  .btn-ghost:hover{transform:translateY(-1px);box-shadow:0 10px 24px rgba(16,18,37,.10)}
+  .btn-row{display:flex;flex-wrap:wrap;align-items:center}
+  .btn-row > a{margin-right:.5rem;margin-bottom:.5rem}
+  .btn-row > a:last-child{margin-right:0}
+
+  /* Reveal */
+  .reveal{opacity:0;transform:translateY(10px);transition:transform .45s ease,opacity .45s ease;will-change:transform,opacity}
+  .reveal.in-view{opacity:1;transform:translateY(0)}
+
+  /* Hero */
+  .hero{position:relative;padding:clamp(56px, 11vh, 86px) 0;background:linear-gradient(180deg,#ffffff,#f7f8fc 70%);overflow:hidden}
+  .halo{position:absolute; inset:-22% 0 auto 0; width:140%; left:50%; transform:translateX(-50%); height:420px; pointer-events:none; background:radial-gradient(34% 46% at 15% 20%, rgba(120,81,169,.18), transparent 60%), radial-gradient(28% 42% at 85% 18%, rgba(255,215,0,.14), transparent 60%)}
+  .eyebrow{font-size:.85rem;letter-spacing:.08em;text-transform:uppercase;color:#6b6f86}
+  .headline{font-weight:800;letter-spacing:-.02em;line-height:1.07}
+  .hl-underline{position:relative;display:inline-block}
+  .hl-underline:after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:8px;border-radius:6px;background:linear-gradient(90deg,rgba(255,215,0,.55),rgba(120,81,169,.45));filter:blur(2px);opacity:.9}
+  .swap{display:inline-grid;min-width:13ch;vertical-align:top}
+  .swap span{grid-area:1/1;opacity:0;transform:translateY(12px)}
+  .swap span.show{opacity:1;transform:translateY(0);transition:opacity .4s ease, transform .4s ease}
+
+  .stat-chips .chip{display:inline-block;margin-right:.5rem;margin-bottom:.5rem;padding:.45rem .75rem;border-radius:999px;border:1px solid var(--line);background:#fff;font-weight:600;color:#3c4260}
+
+  /* Surfaces and grids */
+  .surface{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 10px 32px rgba(16,18,37,.06);padding:24px}
+  .benefits{display:grid;grid-template-columns:repeat(12,1fr);grid-gap:12px}
+  .b{grid-column:span 6;background:#fafbff;border:1px solid #e8eaf5;border-radius:12px;padding:14px}
+  .b strong{color:var(--ink)}
+  @media (max-width:900px){.b{grid-column:span 12}}
+
+  /* Process */
+  .process{position:relative}
+  .rail{height:3px;background:linear-gradient(90deg,#e9ecfb,transparent);border-radius:6px;overflow:hidden;margin:6px 0 22px}
+  .rail .fill{height:100%;width:0;background:linear-gradient(90deg,#7e5fe0,#ffd700)}
+  .process.in-view .fill{width:100%;transition:width 1s ease}
+  .step{display:flex;align-items:flex-start;margin-bottom:12px}
+  .num{flex:0 0 32px;height:32px;border-radius:10px;background:#ede9fe;color:#3a2577;font-weight:800;display:flex;align-items:center;justify-content:center;margin-right:10px}
+  .step h3{margin:0 0 4px 0;font-size:1.05rem;font-weight:800}
+  .step p{margin:0;color:var(--ink-2)}
+
+  /* Band section */
+  .band-area{position:relative;padding:clamp(48px,7vw,84px) 0;color:#fff;overflow:hidden;border-top:1px solid rgba(255,255,255,.06);border-bottom:1px solid rgba(255,255,255,.06)}
+  .band-area::before{content:"";position:absolute;inset:0;z-index:0;background:radial-gradient(40% 60% at 12% -10%, rgba(120,81,169,.42), transparent 45%), radial-gradient(36% 60% at 88% -12%, rgba(255,215,0,.32), transparent 45%), linear-gradient(180deg, #2b2355 0%, #201a46 100%)}
+  .band-area .area-content{position:relative;z-index:1;text-align:center}
+  .band-area .area-head{margin:10px 0 6px;font-weight:800;letter-spacing:-.01em;font-size:clamp(22px,5.2vw,44px)}
+
+  /* Plans */
+  .plans{display:grid;grid-template-columns:repeat(12,1fr);grid-gap:14px}
+  .plan{grid-column:span 4;background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 8px 24px rgba(16,18,37,.06)}
+  .plan.hit{box-shadow:0 0 0 3px rgba(255,215,0,.26) inset}
+  .plan h3{font-size:1.05rem;margin:0 0 6px}
+  .check{display:inline-flex;width:22px;height:22px;border-radius:6px;align-items:center;justify-content:center;background:#f3f6ff;border:1px solid var(--line);font-size:.9rem;margin-right:.5rem}
+  .plan ul{list-style:none;padding-left:0;margin-bottom:0}
+  .plan li{display:flex;align-items:center;margin-bottom:6px;color:var(--ink-2)}
+  @media (max-width:992px){.plan{grid-column:span 6}}
+  @media (max-width:768px){.plan{grid-column:span 12}}
+
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chip-md{display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px dashed var(--gold);padding:6px 10px;border-radius:999px;font-weight:700;box-shadow:0 6px 16px rgba(16,18,37,.05)}
+
+  footer{font-size:.95rem;color:#fff}
+  section[id]{scroll-margin-top:76px}
+  html{scroll-behavior:smooth}
+
+  /* Promo bar */
+  .promo-bar{background:linear-gradient(180deg, rgba(255,255,255,.14), rgba(255,255,255,.08));border-bottom:1px solid rgba(255,255,255,.18);color:#fff}
+  .promo-inner{display:flex;align-items:center;justify-content:center;gap:10px;padding:.45rem 0;text-align:center}
+  .btn-promo{display:inline-flex;align-items:center;justify-content:center;padding:.4rem .75rem;border-radius:999px;font-weight:800;background:#ffd700;color:#3b2a7a;border:none;box-shadow:0 8px 22px rgba(255,215,0,.22);transition:transform .15s ease, box-shadow .15s ease, background-color .15s ease;white-space:nowrap}
+  .btn-promo:hover{background:#f2c600;color:#fff;transform:translateY(-1px);box-shadow:0 12px 28px rgba(255,215,0,.3)}
+  .promo-close{background:transparent;border:0;color:#fff;opacity:.85;line-height:1;font-size:18px;padding:2px 6px;border-radius:6px}
+  .promo-close:hover{opacity:1;background:rgba(255,255,255,.12)}
+
+  /* Mobile header sizing (your requested tweak) */
+  @media (max-width: 480px){
+    .hero{ padding: 40px 0; }
+    .hero .headline{ font-size: clamp(22px, 7.2vw, 30px); line-height: 1.1; letter-spacing: -.01em; }
+    .hero .eyebrow{ font-size: .78rem; }
+    .swap{ min-width: 0; }
+    .stat-chips .chip{ font-size: .82rem; }
+  }
+  @media (max-width: 360px){
+    .hero .headline{ font-size: clamp(20px, 7.6vw, 28px); }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<div class="nav-wrap">
+  <div class="promo-bar" id="promoBar" role="region" aria-label="Promotion">
+    <div class="container container-narrow promo-inner">
+      <span class="emoji" aria-hidden="true">🎉</span>
+      <span class="promo-text">
+        <strong>Earn $200</strong> for every business you refer to WebEaze. <strong>Ends 10/31.</strong>
+      </span>
+      <a href="referral.html" class="btn-promo ml-2">Refer Now</a>
+      <button class="promo-close" aria-label="Dismiss promotion">&times;</button>
+    </div>
+  </div>
+
+  <div class="container container-narrow">
+    <nav class="navbar navbar-expand-lg navbar-dark webeaze-nav" role="navigation" aria-label="Primary">
+      <a class="navbar-brand d-flex align-items-center" href="index.html">
+        <img class="logo" src="images/webeaze-transparent copy.png" alt="WebEaze" />
+        <strong class="ml-2 brand-word">WebEaze</strong>
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mobileNav"
+              aria-controls="mobileNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div id="mobileNav" class="collapse navbar-collapse">
+        <ul class="navbar-nav ml-auto main-nav">
+          <a class="nav-link mr-3" href="/anniversary.html">One Year Anniversary!</a>
+          <li class="nav-item"><a class="nav-link" href="maintenance.html">Maintenance</a></li>
+          <li class="nav-item"><a class="nav-link" href="pricing.html">Services</a></li>
+          <li class="nav-item"><a class="nav-link" href="faq.html">FAQ</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact-us.html">Contact</a></li>
+          <li class="nav-item ml-1"><a class="btn btn-sm btn-nav" href="consultation.html">Get Started</a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+</div>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="halo" aria-hidden="true"></div>
+  <div class="container container-narrow">
+    <div class="row align-items-center">
+      <div class="col-lg-8">
+        <div class="eyebrow">Delaware Focus • Fast Launches • Ongoing Care</div>
+        <h1 class="headline mt-2 display-4">
+          Web design for Delaware small businesses
+          <span class="swap" aria-live="polite">
+            <span class="show">that looks clean.</span>
+            <span>that loads fast.</span>
+            <span>that brings in leads.</span>
+            <span>that works on any device.</span>
+          </span>
+        </h1>
+        <p class="mt-3" style="color:#3f4564">
+          From Wilmington and Newark down to Dover, Milford, and the Beaches, we build simple, modern sites that help customers choose you. We stay on to maintain everything so you can keep working without website stress.
+        </p>
+        <div class="stat-chips mt-3">
+          <span class="chip">43+ active clients</span>
+          <span class="chip">Typical launch in 7 to 14 days</span>
+          <span class="chip">Unlimited maintenance</span>
+          <span class="chip">Built for phones first</span>
+        </div>
+        <div class="btn-row mt-3">
+          <a href="#de-why" class="btn-brand">Why Delaware chooses us</a>
+          <a href="samples.html" class="btn-ghost">See past work</a>
+        </div>
+      </div>
+
+      <div class="col-lg-4 mt-4 mt-lg-0">
+        <figure class="surface reveal">
+          <img src="images/showcase/desktop.png" alt="Clean Delaware business website example" style="width:100%;border-radius:10px">
+          <figcaption class="small text-muted mt-2">Clear calls to action. Calls, quotes, and booking in one place.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- LOCAL PROOF / WHO WE HELP -->
+<section id="de-why" class="py-5">
+  <div class="container container-narrow">
+    <div class="surface reveal">
+      <h2 class="h4 mb-2" style="font-weight:800">Built for how Delaware does business</h2>
+      <p class="mb-3" style="color:#3c4260">
+        Customers compare options quickly. Many are on I-95 or Route 1 heading to work or the shore. Your site should load fast, show real work, and make it easy to call or book.
+      </p>
+
+      <div class="benefits">
+        <div class="b"><strong>Home services and contractors.</strong> Roofing, HVAC, painting, landscaping, cleaning, remodeling. Services and proof of work front and center.</div>
+        <div class="b"><strong>Tutors and education providers.</strong> Newark and Wilmington families want clear pricing and simple scheduling. We make it easy to book.</div>
+        <div class="b"><strong>Retail and local studios.</strong> Tax-free shopping brings visitors. We highlight specials, gift cards, and appointments without clutter.</div>
+        <div class="b"><strong>Beach and seasonal businesses.</strong> Rehoboth, Lewes, Bethany, and Dewey need hours, menus, and seasonal offers updated fast.</div>
+      </div>
+
+      <div class="chips mt-3">
+        <span class="chip-md">Wilmington</span>
+        <span class="chip-md">Newark</span>
+        <span class="chip-md">Middletown</span>
+        <span class="chip-md">Dover</span>
+        <span class="chip-md">Smyrna</span>
+        <span class="chip-md">Milford</span>
+        <span class="chip-md">Seaford</span>
+        <span class="chip-md">Lewes</span>
+        <span class="chip-md">Rehoboth Beach</span>
+        <span class="chip-md">Bethany Beach</span>
+        <span class="chip-md">Dewey Beach</span>
+      </div>
+
+      <div class="btn-row mt-3">
+        <a href="consultation.html" class="btn-brand">Book a free consult</a>
+        <a href="pricing.html" class="btn-ghost">See plans</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT YOU GET -->
+<section id="what" class="py-5">
+  <div class="container container-narrow">
+    <div class="surface reveal">
+      <div class="d-flex justify-content-between align-items-center mb-2">
+        <h2 class="h4 mb-0" style="font-weight:800">What you get</h2>
+        <div class="d-none d-md-block text-muted">Everything to launch and keep it fresh</div>
+      </div>
+      <div class="benefits">
+        <div class="b"><strong>Pages that win customers.</strong> Services, About, Reviews, Contact. Clear buttons and click to call.</div>
+        <div class="b"><strong>Fast on phones and computers.</strong> People will not wait. Your site loads quick.</div>
+        <div class="b"><strong>We make changes for you.</strong> Send photos, hours, promos, or new services. We handle it.</div>
+        <div class="b"><strong>Search friendly.</strong> Basics set so Google understands your business and service area.</div>
+        <div class="b"><strong>Safe and secure.</strong> Locked connection and routine checks to keep things stable.</div>
+        <div class="b"><strong>Real human support.</strong> Email, chat, or Zoom with someone who already knows your site.</div>
+      </div>
+      <div class="btn-row mt-3">
+        <a href="samples.html" class="btn-ghost">See past work</a>
+        <a href="consultation.html" class="btn-brand">Start now</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SIMPLE PROCESS -->
+<section id="process" class="py-5">
+  <div class="container container-narrow">
+    <h2 class="h3 text-center mb-3 reveal" style="font-weight:800">How it works</h2>
+    <div class="process reveal">
+      <div class="rail"><div class="fill"></div></div>
+
+      <div class="step">
+        <div class="num">1</div>
+        <div>
+          <h3>Kickoff chat</h3>
+          <p>Tell us the pages you want, who you serve, and a few examples you like. We keep it simple.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="num">2</div>
+        <div>
+          <h3>Your first draft</h3>
+          <p>We send a clean version for review. You give feedback. We update fast.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="num">3</div>
+        <div>
+          <h3>Launch and ongoing care</h3>
+          <p>Go live. We keep it updated so you can focus on the work.</p>
+        </div>
+      </div>
+
+      <div class="text-center mt-2" style="padding:20px">
+        <a href="consultation.html" class="btn-brand">Start free consultation</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DELAWARE SERVICE AREA -->
+<section id="de-seo" class="band-area">
+  <div class="container container-narrow">
+    <div class="area-content reveal">
+      <span class="kicker">Delaware service area</span>
+      <h2 class="area-head">We serve businesses across all three counties</h2>
+      <p class="sub mb-3">New Castle. Kent. Sussex. From I-95 to Route 1 and the Coastal Highway.</p>
+      <div class="btn-row" style="justify-content:center">
+        <a href="pricing.html" class="btn-brand">See plans</a>
+        <a href="contact-us.html" class="btn-ghost">Ask a question</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PLANS -->
+<section id="plans" class="py-5">
+  <div class="container container-narrow">
+    <h2 class="h3 text-center mb-3 reveal" style="font-weight:800">Simple plans</h2>
+    <div class="plans">
+      <div class="plan reveal">
+        <h3>Essential</h3>
+        <div class="mb-2 text-muted">$169/mo or $999/yr</div>
+        <ul class="mb-2">
+          <li><span class="check">✓</span>Up to 3 pages</li>
+          <li><span class="check">✓</span>Email support</li>
+          <li><span class="check">✓</span>SEO basics</li>
+        </ul>
+        <a href="/pricing.html#essential" class="btn-ghost mt-1">Choose Essential</a>
+      </div>
+      <div class="plan hit reveal">
+        <h3>Growth <span class="badge badge-warning ml-1">Most popular</span></h3>
+        <div class="mb-2 text-muted">$249/mo or $1,799/yr</div>
+        <ul class="mb-2">
+          <li><span class="check">✓</span>Up to 6 pages</li>
+          <li><span class="check">✓</span>Email, Zoom, chat</li>
+          <li><span class="check">✓</span>Advanced SEO tools</li>
+        </ul>
+        <a href="/pricing.html#growth" class="btn-brand mt-1">Choose Growth</a>
+      </div>
+      <div class="plan reveal">
+        <h3>Elite (Yearly)</h3>
+        <div class="mb-2 text-muted">Starts at $1,799/yr</div>
+        <ul class="mb-2">
+          <li><span class="check">✓</span>Unlimited pages</li>
+          <li><span class="check">✓</span>Priority support</li>
+          <li><span class="check">✓</span>Monthly SEO report</li>
+        </ul>
+        <a href="/pricing.html#elite" class="btn-ghost mt-1">Choose Elite</a>
+      </div>
+    </div>
+    <div class="small text-center mt-3 text-muted">One-time setup $299 on monthly plans. Included in yearly plans.</div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" class="py-5">
+  <div class="container container-narrow">
+    <h2 class="h4 text-center mb-3 reveal" style="font-weight:800">Delaware FAQ</h2>
+    <div class="faq-grid">
+      <details class="reveal" style="background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px">
+        <summary><strong>Do you work with seasonal beach businesses?</strong></summary>
+        <div class="pt-2">Yes. We update hours, menus, and specials in season. We also prep off-season landing pages for early bookings.</div>
+      </details>
+      <details class="reveal" style="background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px">
+        <summary><strong>How fast can we launch?</strong></summary>
+        <div class="pt-2">Most builds take 1 to 2 weeks. Have photos and copy ready to move faster.</div>
+      </details>
+      <details class="reveal" style="background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px">
+        <summary><strong>What if I already have a website?</strong></summary>
+        <div class="pt-2">We refresh design, improve speed, and fix navigation. We can migrate hosting without drama.</div>
+      </details>
+      <details class="reveal" style="background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px">
+        <summary><strong>Can you highlight tax-free shopping?</strong></summary>
+        <div class="pt-2">Yes. We add clear promos and calls to action so visitors see the benefit and act.</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="py-5">
+  <div class="container container-narrow">
+    <div class="surface reveal d-flex flex-column flex-md-row align-items-md-center justify-content-between">
+      <div class="mb-2 mb-md-0">
+        <div class="eyebrow" style="color:#6b6f86">Ready to move</div>
+        <h3 class="h5 mb-1" style="font-weight:800">Tell us what you want your website to do.</h3>
+        <div class="text-muted">We map the fastest path and ship a first draft quickly.</div>
+      </div>
+      <div class="btn-row">
+        <a href="consultation.html" class="btn-brand">Book consultation</a>
+        <a href="pricing.html" class="btn-ghost">See plans</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="py-4 text-center" style="background:#7851a9;color:#fff">
+  <div class="container container-narrow">
+    <div class="mb-1">&copy; <span id="yr"></span> WebEaze. All rights reserved.</div>
+    <div class="mb-2 small">
+      <a href="terms.html#privacy" style="color:#fff">Privacy Policy</a> ·
+      <a href="terms.html" style="color:#fff">Terms</a> ·
+      <a href="site-map.html" style="color:#fff">Site Map</a>
+    </div>
+    <div class="small">Made with ☕ in Delaware, USA</div>
+  </div>
+</footer>
+
+<!-- JS -->
+<script>document.getElementById('yr').textContent=new Date().getFullYear();</script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+  // Word swap
+  (function(){
+    var el=document.querySelector('.swap'); if(!el) return;
+    var items=[].slice.call(el.children), i=0;
+    setInterval(function(){
+      items[i].classList.remove('show');
+      i=(i+1)%items.length;
+      items[i].classList.add('show');
+    }, 2200);
+  })();
+
+  // Reveal on scroll
+  (function(){
+    var els=[].slice.call(document.querySelectorAll('.reveal'));
+    if(!('IntersectionObserver'in window)){els.forEach(e=>e.classList.add('in-view'));document.querySelector('.process')?.classList.add('in-view');return;}
+    var io=new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          entry.target.classList.add('in-view');
+          if(entry.target.classList.contains('process')) entry.target.classList.add('in-view');
+          io.unobserve(entry.target);
+        }
+      });
+    },{threshold:.14});
+    els.forEach(e=>io.observe(e));
+  })();
+
+  // Sticky nav style
+  (function(){
+    var wrap=document.querySelector('.nav-wrap'); if(!wrap) return;
+    function onScr(){ (window.scrollY>8)?wrap.classList.add('scrolled'):wrap.classList.remove('scrolled'); }
+    window.addEventListener('scroll',onScr,{passive:true}); onScr();
+  })();
+
+  // Promo dismiss
+  (function(){
+    var KEY='promo_v1'; 
+    var bar=document.getElementById('promoBar');
+    if(!bar) return;
+    try { if(localStorage.getItem(KEY)==='hide'){ bar.remove(); return; } } catch(e){}
+    var btn=bar.querySelector('.promo-close');
+    if(btn) btn.addEventListener('click', function(){
+      bar.remove();
+      try { localStorage.setItem(KEY,'hide'); } catch(e){}
+    });
+  })();
+</script>
+
+</body>
+</html>
