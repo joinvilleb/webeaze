@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Which WebEaze Plan Fits You? | WebEaze</title>
+  <meta name="description" content="A simple, side‑by‑side tour of Essential, Growth, and Elite—what you get, what you don’t, and when to upgrade." />
+  <link rel="canonical" href="https://www.webeaze.io/plan-guide.html" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="WebEaze" />
+  <meta property="og:title" content="Which WebEaze Plan Fits You?" />
+  <meta property="og:description" content="Understand Essential vs Growth vs Elite—clear features, real differences, and upgrade cues." />
+  <meta property="og:url" content="https://www.webeaze.io/plan-guide" />
+  <meta property="og:image" content="https://webeaze.io/images/default-monochrome.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+  <link rel="shortcut icon" href="images/webeaze-transparent copy.png" type="image/png" />
+
+  <style>
+    :root{ --brand:#7851a9; --brand-ink:#3a2577; --gold:#ffd700; --ink:#0f1228; --ink-2:#3c4260; --muted:#6b7280; --line:#e7eaf4; --bg:#f7f8fc; --white:#fff }
+    html,body{height:100%; overflow-x:hidden}
+    body{margin:0;font-family:'Poppins',sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased}
+    a{color:inherit;text-decoration:none}
+    .container-narrow{max-width:1100px}
+    .logo{height:36px}
+
+    /* ===== Nav (match site) ===== */
+    .nav-wrap{position:sticky; top:0; z-index:9999; background:#000; backdrop-filter:saturate(130%) blur(8px); -webkit-backdrop-filter:saturate(130%) blur(8px); border-bottom:1px solid rgba(255,255,255,.14)}
+    .webeaze-nav{background:transparent!important;box-shadow:none!important;padding:.6rem 0;transition:padding .18s ease}
+    .scrolled .webeaze-nav{padding:.45rem 0}
+    .brand-word{letter-spacing:-.3px;font-weight:700;background:linear-gradient(90deg,#e8e7ea,#66615f);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    .navbar-dark .nav-link{color:#fff!important;opacity:.92;border-radius:10px;padding:.45rem .7rem}
+    .navbar-dark .nav-link:hover{opacity:1;background:rgba(255,255,255,.08)}
+    .btn-nav{background:var(--gold);color:#2f1e66;border:none;border-radius:12px;padding:.6rem .9rem;font-weight:700;box-shadow:0 8px 22px rgba(255,215,0,.22)}
+
+    /* ===== Buttons ===== */
+    .btn-brand{display:inline-flex;align-items:center;justify-content:center;background:var(--gold);color:#2f1e66;border:none;border-radius:12px;padding:.74rem 1.05rem;font-weight:700;line-height:1;box-shadow:0 10px 26px rgba(255,215,0,.22);transition:transform .15s ease, box-shadow .15s ease}
+    .btn-brand:hover{background:#f2c600;color:#fff;transform:translateY(-1px);box-shadow:0 14px 34px rgba(255,215,0,.3)}
+    .btn-ghost{display:inline-flex;align-items:center;justify-content:center;background:#fff;color:var(--ink);border:1px solid var(--line);border-radius:12px;padding:.74rem 1.05rem;font-weight:700;line-height:1;transition:transform .15s ease, box-shadow .15s ease}
+    .btn-ghost:hover{transform:translateY(-1px);box-shadow:0 10px 24px rgba(16,18,37,.10)}
+
+    .badge-pop{display:inline-block;padding:.25rem .55rem;border-radius:999px;background:#fff3c2;border:1px solid #ffe680;font-weight:800;color:#5b4700}
+
+    /* ===== Animations ===== */
+    .reveal{opacity:0;transform:translateY(12px) scale(.98);transition:opacity .5s ease, transform .6s cubic-bezier(.2,.65,.2,1)}
+    .reveal.in{opacity:1;transform:translateY(0) scale(1)}
+
+    /* ===== Hero ===== */
+    .hero{position:relative;padding:clamp(56px,11vh,86px) 0;background:linear-gradient(180deg,#ffffff,#f7f8fc 70%)}
+    .halo{position:absolute; inset:-20% -10% auto -10%; height:420px; pointer-events:none; background:radial-gradient(34% 46% at 15% 20%, rgba(120,81,169,.18), transparent 60%), radial-gradient(28% 42% at 85% 18%, rgba(255,215,0,.14), transparent 60%)}
+    .eyebrow{font-size:.85rem;letter-spacing:.08em;text-transform:uppercase;color:#6b6f86}
+    .headline{font-weight:800;letter-spacing:-.02em;line-height:1.06}
+    .sub{color:#3f4564;max-width:740px}
+
+    /* ===== Local subnav ===== */
+    .local-nav{position:sticky;top:62px;z-index:8;background:#fff;border:1px solid var(--line);border-radius:12px;padding:8px;box-shadow:0 10px 18px rgba(16,18,37,.06)}
+    .local-nav a{display:inline-block;padding:.5rem .75rem;border-radius:10px;color:#3c4260;font-weight:700}
+    .local-nav a.active, .local-nav a:hover{background:#f7f8fc}
+
+    /* ===== Sections ===== */
+    .surface{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 10px 28px rgba(16,18,37,.06)}
+    .plan-head{display:flex;align-items:center;justify-content:space-between}
+    .plan-pill{display:inline-flex;align-items:center;font-weight:800;border:1px solid var(--line);border-radius:999px;padding:.28rem .6rem}
+    .plan-grid{display:grid;grid-template-columns:2.2fr 1.1fr;grid-gap:16px}
+    .check{display:inline-flex;width:22px;height:22px;border-radius:6px;align-items:center;justify-content:center;background:#f3f6ff;border:1px solid var(--line);font-size:.9rem;margin-right:.5rem}
+    .list-clean{list-style:none;padding-left:0;margin-bottom:0}
+    .muted{color:var(--muted)}
+    .callout{background:#fafbff;border:1px solid #e8eaf5;border-radius:14px;padding:14px}
+    .minus{color:#c62828;font-weight:800}
+    .plus{color:#1b8a4a;font-weight:800}
+
+    @media (max-width:992px){.plan-grid{grid-template-columns:1fr}}
+
+    /* ===== CTA/Footer ===== */
+    footer{font-size:.95rem;color:#fff}
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<div class="nav-wrap">
+  <div class="container container-narrow">
+    <nav class="navbar navbar-expand-lg navbar-dark webeaze-nav" role="navigation" aria-label="Primary">
+      <a class="navbar-brand d-flex align-items-center" href="index.html">
+        <img class="logo" src="images/webeaze-transparent copy.png" alt="WebEaze" />
+        <strong class="ml-2 brand-word">WebEaze</strong>
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mobileNav" aria-controls="mobileNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div id="mobileNav" class="collapse navbar-collapse">
+        <ul class="navbar-nav ml-auto main-nav">
+          <li class="nav-item"><a class="nav-link" href="pricing.html">Pricing</a></li>
+          <li class="nav-item"><a class="nav-link" href="samples.html">Work</a></li>
+          <li class="nav-item"><a class="nav-link" href="faq.html">FAQ</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact-us.html">Contact</a></li>
+          <li class="nav-item ml-1"><a class="btn btn-sm btn-nav" href="consultation.html">Get Started</a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+</div>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="halo" aria-hidden="true"></div>
+  <div class="container container-narrow">
+    <div class="row align-items-center">
+      <div class="col-lg-8">
+        <div class="eyebrow">Plan Guide</div>
+        <h1 class="headline mt-2">Essential vs Growth vs Elite. Explained clearly.</h1>
+        <p class="sub mt-2">No tables here. Just what each plan actually includes, what it leaves out, who it's for, and when to upgrade — so you can choose with confidence.</p>
+      </div>
+      <div class="col-lg-4 mt-3 mt-lg-0 text-lg-right">
+        <div class="small text-muted">Still unsure?</div>
+        <a href="consultation.html" class="btn-brand mt-2">Book a free consult</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- LOCAL NAV -->
+<section class="py-3" aria-label="Plan sections">
+  <div class="container container-narrow">
+    <div class="local-nav d-flex flex-wrap justify-content-between">
+      <div>
+        <a href="#essential" class="mr-1">Essential</a>
+        <a href="#growth" class="mr-1">Growth</a>
+        <a href="#elite">Elite</a>
+      </div>
+      <div><a class="btn-ghost" href="pricing.html">View pricing</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- ESSENTIAL -->
+<section id="essential" class="py-4">
+  <div class="container container-narrow">
+    <article class="surface">
+      <div class="plan-head mb-2">
+        <h2 class="h4 mb-0" style="font-weight:800">Essential</h2>
+        <span class="plan-pill">Up to 3 pages</span>
+      </div>
+      <div class="plan-grid">
+        <div>
+          <p class="muted mb-2">Ideal for startups and solo founders who need a clean, professional site with dependable support. All without a big upfront spend.</p>
+          <h3 class="h6 mt-3" style="font-weight:800">What you get</h3>
+          <ul class="list-clean mt-2">
+            <li><span class="check">✓</span><strong>Custom Website Design &amp; Pages</strong>: up to 3 pages tailored to your audience.</li>
+            <li><span class="check">✓</span><strong>Domain &amp; Hosting Setup</strong>: we connect your domain and configure secure hosting.</li>
+            <li><span class="check">✓</span><strong>Mobile Optimization</strong>: fully responsive across devices.</li>
+            <li><span class="check">✓</span><strong>SEO Tools</strong>: foundational SEO for visibility.</li>
+            <li><span class="check">✓</span><strong>Unlimited Maintenance</strong>: submit updates via the Website Request form.</li>
+          </ul>
+
+          <h3 class="h6 mt-4" style="font-weight:800">What’s <span class="minus">not</span> included</h3>
+          <ul class="list-clean mt-2">
+            <li><span class="minus">—</span> Domain/hosting <strong>coverage</strong> (you pay vendor fees directly)</li>
+            <li><span class="minus">—</span> Live chat or Zoom support</li>
+            <li><span class="minus">—</span> Performance reports</li>
+            <li><span class="minus">—</span> Annual website tune‑up</li>
+            <li><span class="minus">—</span> Google Business Profile (GBP) management</li>
+          </ul>
+
+          <div class="callout mt-3">
+            <strong>Best for:</strong> New businesses with a focused 1–3 page presence that can grow later.
+          </div>
+        </div>
+        <aside>
+          <div class="callout">
+            <div class="small muted">Upgrade cues</div>
+            <ul class="list-clean mt-2">
+              <li>Need 4+ pages or landing pages for ads?</li>
+              <li>Prefer Zoom/Live Chat support over form‑only?</li>
+              <li>Want monthly performance insights?</li>
+              <li>Ready for GBP setup to improve local search?</li>
+            </ul>
+            <a href="#growth" class="btn-brand mt-2" style="width:100%">See Growth</a>
+          </div>
+        </aside>
+      </div>
+      <div class="d-flex flex-wrap mt-3">
+        <a href="consultation.html" class="btn-brand mr-2">Start Essential</a>
+        <a href="pricing.html" class="btn-ghost">See Pricing</a>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- GROWTH -->
+<section id="growth" class="py-4">
+  <div class="container container-narrow">
+    <article class="surface">
+      <div class="plan-head mb-2">
+        <h2 class="h4 mb-0" style="font-weight:600">Growth <span class="badge-pop ml-1"> Popular</span></h2>
+        <span class="plan-pill">Up to 6 pages (+ legacy sites okay)</span>
+      </div>
+      <div class="plan-grid">
+        <div>
+          <p class="muted mb-2">Great for scaling businesses that want more pages, more tools, and more responsive support.</p>
+          <h3 class="h6 mt-3" style="font-weight:800">What you get</h3>
+          <ul class="list-clean mt-2">
+            <li><span class="check">✓</span><strong>Custom Website Design &amp; Pages</strong>: up to 6 pages with flexible layouts and branding.</li>
+            <li><span class="check">✓</span><strong>Domain &amp; Hosting Setup</strong>: full setup including DNS and SSL guidance.</li>
+            <li><span class="check">✓</span><strong>Mobile Optimization</strong>: every page is responsive.</li>
+            <li><span class="check">✓</span><strong>Domain/Hosting Coverage</strong>: up to <strong>$50</strong> toward vendor fees.</li>
+            <li><span class="check">✓</span><strong>Unlimited Maintenance &amp; Support</strong>: via Email, Zoom, and Live Chat.</li>
+            <li><span class="check">✓</span><strong>Performance Reports</strong>: monthly reports when there’s room to improve.</li>
+            <li><span class="check">✓</span><strong>Works with Existing Sites</strong>: we’ll include all current pages even if you exceed six.</li>
+            <li><span class="check">✓</span><strong>GBP Setup &amp; Optimization</strong>: we’ll create or optimize your Google Business Profile (Maps/local SEO, info, keywords, photos).</li>
+          </ul>
+
+          <div class="callout mt-3">
+            <strong>Best for:</strong> Service providers, educators, and teams growing their presence with ongoing collaboration.
+          </div>
+        </div>
+        <aside>
+          <div class="callout">
+            <div class="small muted">When to consider Elite</div>
+            <ul class="list-clean mt-2">
+              <li>Need unlimited pages or frequent landing pages?</li>
+              <li>Want <strong>full</strong> domain/hosting coverage?</li>
+              <li>Need priority response and faster turnarounds?</li>
+              <li>Want advanced reports (analytics + keyword tracking)?</li>
+              <li>Prefer ongoing GBP <strong>management</strong> beyond setup?</li>
+            </ul>
+            <a href="#elite" class="btn-brand mt-2" style="width:100%">Explore Elite</a>
+          </div>
+        </aside>
+      </div>
+      <div class="d-flex flex-wrap mt-3">
+        <a href="consultation.html" class="btn-brand mr-2">Start Growth</a>
+        <a href="pricing.html" class="btn-ghost">See Pricing</a>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- ELITE -->
+<section id="elite" class="py-4">
+  <div class="container container-narrow">
+    <article class="surface">
+      <div class="plan-head mb-2">
+        <h2 class="h4 mb-0" style="font-weight:800">Elite</h2>
+        <span class="plan-pill">Unlimited pages • Priority</span>
+      </div>
+      <div class="plan-grid">
+        <div>
+          <p class="muted mb-2">For ambitious brands that want full‑scale support, unlimited pages, and done‑for‑you growth tools.</p>
+          <h3 class="h6 mt-3" style="font-weight:800">What you get</h3>
+          <ul class="list-clean mt-2">
+            <li><span class="check">✓</span><strong>Custom Website Design &amp; Pages</strong>: unlimited pages tailored to your growth.</li>
+            <li><span class="check">✓</span><strong>Domain &amp; Hosting Setup</strong>: hands‑on configuration from purchase to launch.</li>
+            <li><span class="check">✓</span><strong>Mobile Optimization</strong>: mobile‑first layouts throughout.</li>
+            <li><span class="check">✓</span><strong>SEO Tools (Enhanced)</strong>: visibility upgrades, structured data, and keyword focus.</li>
+            <li><span class="check">✓</span><strong>Domain/Hosting Coverage</strong>: we fully cover your vendor fees.</li>
+            <li><span class="check">✓</span><strong>Unlimited Maintenance &amp; Support</strong>: priority Email, Zoom, and Live Chat with expedited response.</li>
+            <li><span class="check">✓</span><strong>Advanced Performance Reports</strong>: monthly analytics, keyword tracking, and insights.</li>
+            <li><span class="check">✓</span><strong>GBP Management (ongoing)</strong>: we create and maintain your Google Business Profile—photos, posts, info, and local SEO improvements for higher ranking.</li>
+          </ul>
+
+          <div class="callout mt-3">
+            <strong>Best for:</strong> Businesses, coaches, and agencies that need advanced capabilities and fast turnarounds with built‑in growth support.
+          </div>
+        </div>
+        <aside>
+          <div class="callout">
+            <div class="small muted">If this sounds like overkill</div>
+            <p class="mb-2">You may be better served by Growth while you validate channels—Elite is perfect once you need speed, scale, and ongoing promotion.</p>
+            <a href="#growth" class="btn-ghost" style="width:100%">Growth may be enough</a>
+          </div>
+        </aside>
+      </div>
+      <div class="d-flex flex-wrap mt-3">
+        <a href="consultation.html" class="btn-brand mr-2">Discuss Elite</a>
+        <a href="pricing.html" class="btn-ghost">See Pricing</a>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="py-5">
+  <div class="container container-narrow">
+    <div class="surface d-flex flex-column flex-md-row align-items-md-center justify-content-between">
+      <div class="mb-2 mb-md-0">
+        <div class="eyebrow" style="color:#6b6f86">Next step</div>
+        <h3 class="h5 mb-1" style="font-weight:800">Book a quick consult and get your plan.</h3>
+        <div class="text-muted">We’ll map pages, timeline, and the fastest path to launch.</div>
+      </div>
+      <div class="btn-row"><a href="consultation.html" class="btn-brand">Book consultation</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER  -->
+<footer class="py-4 text-center" style="background:#7851a9;color:#fff">
+  <div class="mt-3 small" style="opacity:.9">
+    <strong>Serving small businesses across:</strong><br>
+    <a href="/web-design-maryland.html" style="color:#fff;text-decoration:underline;">Maryland</a> ·
+    <a href="/web-design-delaware.html" style="color:#fff;text-decoration:underline;">Delaware</a> ·
+    <a href="/web-design-pennsylvania.html" style="color:#fff;text-decoration:underline;">Pennsylvania</a> ·
+    <a href="/web-design-new-jersey.html" style="color:#fff;text-decoration:underline;">New Jersey</a>
+    <br><br>
+  </div>
+  <div class="container container-narrow">
+    <div class="mb-1">&copy; <span id="yr"></span> WebEaze. All rights reserved.</div>
+    <div class="mb-2 small">
+      <a href="terms.html#privacy" style="color:#fff">Privacy Policy</a> ·
+      <a href="terms.html" style="color:#fff">Terms</a> ·
+      <a href="site-map.html" style="color:#fff">Site Map</a>
+    </div>
+    <div class="small">Made with ☕ in Delaware, USA</div>
+  </div>
+</footer>
+
+<!-- JS -->
+<script>document.getElementById('yr').textContent=new Date().getFullYear();</script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+  // Nav padding on scroll
+  (function(){var wrap=document.querySelector('.nav-wrap'); if(!wrap) return; function onScr(){ (window.scrollY>8)?wrap.classList.add('scrolled'):wrap.classList.remove('scrolled'); } window.addEventListener('scroll',onScr,{passive:true}); onScr();})();
+
+  // Local nav active state
+  (function(){
+    var links=[].slice.call(document.querySelectorAll('.local-nav a[href^="#"]'));
+    var map=links.map(function(a){var t=document.querySelector(a.getAttribute('href'));return{a:a,t:t}});
+    function onScr(){
+      var y=window.scrollY+120; // offset for sticky
+      var cur=null; map.forEach(function(x){ if(x.t && x.t.offsetTop<=y) cur=x; });
+      links.forEach(function(a){a.classList.remove('active')}); if(cur) cur.a.classList.add('active');
+    }
+    window.addEventListener('scroll',onScr,{passive:true}); onScr();
+  })();
+</script>
+</body>
+</html>
