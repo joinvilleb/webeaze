@@ -50,9 +50,6 @@
     .eyebrow{font-size:.85rem;letter-spacing:.08em;text-transform:uppercase;color:#6b6f86}
 
     .surface{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 10px 28px rgba(16,18,37,.06)}
-    .sidebar{position:sticky;top:88px}
-    .side-link{display:block;padding:.5rem .75rem;border-radius:10px;color:#3c4260;font-weight:700}
-    .side-link.active,.side-link:hover{background:#f7f8fc}
 
     .search-wrap{position:relative}
     .search-wrap input{width:100%;border:1px solid var(--line);border-radius:12px;padding:.8rem 2.6rem .8rem 2.6rem}
@@ -64,30 +61,31 @@
 
     .meta{color:var(--muted);font-size:.92rem}
     .kbd{border:1px solid var(--line);border-radius:6px;padding:.12rem .4rem;background:#fafafa;font-weight:700}
-    .badge-pop{display:inline-block;padding:.25rem .55rem;border-radius:999px;background:#fff3c2;border:1px solid #ffe680;font-weight:800;color:#5b4700}
 
     .article h1{font-weight:800;font-size:1.6rem}
     .article h2{font-weight:800;font-size:1.15rem;margin-top:1.2rem}
     .article ul{padding-left:1.1rem}
     .article .cta-row{gap:.5rem; display:flex; flex-wrap:wrap}
 
-    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+    /* Browse spoiler */
+    .browse-toggle{width:100%; text-align:left}
+    .browse-body .group-title{font-weight:800; margin:.35rem 0}
+    .browse-body .side-link{display:block; padding:.45rem .6rem; border-radius:10px; color:#3c4260; font-weight:700}
+    .browse-body .side-link:hover,.browse-body .side-link.active{background:#f7f8fc}
 
-    footer{font-size:.95rem;color:#fff}
-
-    /* Quick Actions bar */
+    /* Quick Actions */
     .quick-actions{display:flex;flex-wrap:wrap;gap:.5rem}
     @media (max-width: 575px){ .quick-actions a{flex:1 1 100%} }
 
+    /* Flash cue */
+    .flash{animation:flashHighlight 900ms ease-out}
+    @keyframes flashHighlight{
+      0%{box-shadow:0 0 0 0 rgba(120,81,169,.28)}
+      40%{box-shadow:0 0 0 10px rgba(120,81,169,.18)}
+      100%{box-shadow:0 0 0 0 rgba(120,81,169,0)}
+    }
 
-    .flash { animation: flashHighlight 900ms ease-out; }
-@keyframes flashHighlight {
-  0% { box-shadow: 0 0 0 0 rgba(120,81,169,.28); }
-  40% { box-shadow: 0 0 0 10px rgba(120,81,169,.18); }
-  100% { box-shadow: 0 0 0 0 rgba(120,81,169,0); }
-}
-
-
+    footer{font-size:.95rem;color:#fff}
   </style>
 </head>
 <body>
@@ -123,34 +121,26 @@
         <div class="col-lg-8">
           <div class="eyebrow">Guide</div>
           <h1 class="headline mt-2" style="font-weight:800;letter-spacing:-.02em;line-height:1.06">Getting Started with WebEaze</h1>
-          <p class="sub mt-2" style="color:#3f4564;max-width:740px">Common questions—before, during, and after launch. Deep links, browser back/forward, and fast search.</p>
+          <p class="sub mt-2" style="color:#3f4564;max-width:740px">Common questions—before, during, and after launch. Easy browsing to understand the ins-and-outs of WebEaze.</p>
           <div class="quick-actions mt-3">
-            <a href="#articles" class="btn-brand">Browse Help Articles</a>
-
+            <a href="#browse-open" class="btn-brand">Browse the Getting Started Guide</a>
+            <a href="https://webeaze.tawk.help" class="btn-ghost">View Full Help Center</a>
+            
+           
           </div>
         </div>
-
       </div>
     </div>
   </header>
 
-  <!-- Live region for feedback -->
+  <!-- Live region -->
   <div id="live" class="sr-only" aria-live="polite" aria-atomic="true"></div>
 
   <main class="py-4">
     <div class="container container-narrow">
       <div class="row">
-        <!-- Sidebar -->
-        <aside class="col-lg-3 mb-3">
-          <div class="surface sidebar">
-            <div class="mb-2" style="font-weight:800">Browse</div>
-            <nav id="topicNav" aria-label="Topics"></nav>
-          </div>
-        </aside>
-
-        <!-- Content -->
-        <section class="col-lg-9">
-          <!-- Search -->
+        <section class="col-12">
+          <!-- Search + Browse spoiler -->
           <div class="surface mb-3">
             <div class="search-wrap">
               <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
@@ -159,7 +149,21 @@
             </div>
             <div class="mt-2 small text-muted">Tip: Use <span class="kbd">/</span> to jump to search. Press <span class="kbd">Esc</span> to clear.</div>
 
+            <br>
+      
+
+            <a id="browse-open" class="btn-ghost mt-3 browse-toggle" data-toggle="collapse" href="#browse" role="button" aria-expanded="false" aria-controls="browse">
+              Browse topics
+            </a>
+
+            <br>
+            <br>
+            <div id="browse" class="collapse mt-2" aria-labelledby="browse-open">
+              <div id="browseBody" class="browse-body"></div>
+            </div>
           </div>
+
+     
 
           <!-- Results List -->
           <div id="results" class="mb-3"></div>
@@ -190,7 +194,7 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
   <script>
-    // ---- Content Model for Getting Started ----
+    // ---- Content Model ----
     const TODAY = '2025-10-13';
     const HELP_DATA = {
       topics: [
@@ -218,7 +222,7 @@
             <p>Drop files directly in the <a href="website-request.html">Website Request</a> form or send a link to a Google Drive folder.</p>
             <div class="cta-row mt-2">
               <a class="btn-brand" href="website-request.html">Submit Website Request</a>
-              <a class="btn-ghost" href="contact-us.html">Get help gathering content</a>
+              <a class="btn-ghost" href="website-request.html">Get help gathering content</a>
             </div>
           ` },
           { slug: 'how-long-does-it-take', title: 'How long does it take to get a first draft?', updated: TODAY, meta: 'Typical timeline assuming content is ready.', body: `
@@ -259,9 +263,9 @@
                 </ul>
               </li>
             </ul>
-            <div class="alert alert-info mt-2"><strong>Tip:</strong> Tell us where your site/domain currently lives (Wix, Squarespace, WordPress, registrar). We’ll tailor instructions and confirm when we see access on our end.</div>
+            <div class="alert alert-info mt-2"><strong>Tip:</strong> Tell us where your site/domain currently lives (Wix, Squarespace, WordPress, registrar). We’ll tailor instructions and confirm when we see access.</div>
             <div class="cta-row mt-2">
-              <a class="btn-brand" href="contact-us.html">Request a secure upload link</a>
+              <a class="btn-brand" href="website-request.html">Request a secure upload link</a>
               <a class="btn-ghost" href="consultation.html">Book a screenshare</a>
             </div>
           ` }
@@ -277,7 +281,7 @@
           { slug: 'connect-your-domain', title: 'How do we connect your domain?', updated: TODAY, meta: 'DNS, SSL, and who does what.', body: `
             <p>We handle DNS/SSL guidance and configuration. You can grant temporary access to your registrar, or we can purchase/manage via WebEaze (see credit above). Expect DNS propagation to take 1–24 hours.</p>
             <div class="cta-row mt-2">
-              <a class="btn-brand" href="contact-us.html">Share registrar details</a>
+              <a class="btn-brand" href="website-request.html">Share registrar details</a>
               <a class="btn-ghost" href="consultation.html">DNS walkthrough</a>
             </div>
           ` }
@@ -293,7 +297,7 @@
             </ul>
             <div class="cta-row mt-2">
               <a class="btn-brand" href="website-request.html">Confirm final approval</a>
-              <a class="btn-ghost" href="contact-us.html">Send legal pages</a>
+              <a class="btn-ghost" href="website-request.html">Send legal pages</a>
             </div>
           ` },
           { slug: 'what-happens-on-launch-day', title: 'What happens on launch day?', updated: TODAY, meta: 'Propagation, quick QA, and announcing.', body: `
@@ -304,14 +308,15 @@
             <table class="table table-bordered">
               <thead><tr><th>Phase</th><th>Description</th><th>Typical Window</th></tr></thead>
               <tbody>
-                <tr><td>Onboarding</td><td>Welcome email, client portal, intake form</td><td>Same day</td></tr>
-                <tr><td>Content Collection</td><td>Logos, brand, copy, images, pages</td><td>1–7 days (you-dependent)</td></tr>
-                <tr><td>Initial Build</td><td>Homepage design + global styles</td><td>3–7 days</td></tr>
-                <tr><td>Revisions</td><td>Review + edit rounds</td><td>2–5 days (faster replies = faster launch)</td></tr>
-                <tr><td>Finalization & Launch</td><td>QA, SEO basics, domain connect</td><td>1–3 days</td></tr>
+                <tr><td>Onboarding</td><td>Welcome email, setup in our system, project briefing</td><td>Same day</td></tr>
+
+                <tr><td>Content Collection</td><td>You send your logo, text, and photos. We organize and plan page layouts.</td><td>1-3 days (you-dependent)</td></tr>
+                <tr><td>Website Build</td><td>We design and build your site. Homepage, intrnal pages, and mobile layout</td><td>2-3 days</td></tr>
+                <tr><td>Revisions</td><td>You review the draft and send any edits. We make updates accordingly. </td><td>2–3 days</td></tr>
+                <tr><td>Final Launch</td><td>Final QA, SEO basics, and domain connection. Your site goes live!</td><td>1–2 days</td></tr>
               </tbody>
             </table>
-            <p><strong>Most sites launch within 2–3 weeks</strong> if content is ready and feedback is prompt.</p>
+            <p><strong>Most sites launch within 7-14 days</strong> if content is ready and feedback is prompt. If there are delays, it may take up to 30 days. </p>
 
             <h2>What We Need From You</h2>
             <ul>
@@ -351,7 +356,7 @@
         ]},
         { id: 'billing', title: 'Billing & Policies', articles: [
           { slug: 'manage-your-subscription', title: 'Manage your subscription (Stripe Portal)', updated: TODAY, meta: 'Update payment method, receipts, and plan changes.', body: `
-            <p>Use your <strong>Stripe Customer Portal</strong> link from your welcome email to update cards, view invoices, and change plans. Need the link again? <a href="contact-us.html">Contact us</a> and we’ll resend it.</p>
+            <p>Use your <strong>Stripe Customer Portal</strong> link from your welcome email to update cards, view invoices, and change plans. Need the link again? <a href="website-request.html">Contact us</a> and we’ll resend it.</p>
           ` },
           { slug: 'cancel-your-plan', title: 'Cancel your plan', updated: '2025-08-01', meta: 'What happens and how content transfer works.', body: `
             <p>You can cancel anytime in your Stripe Portal. Cancellation is effective immediately. No refunds or credits for unused time (see Refund Policy).</p>
@@ -381,89 +386,73 @@
             </table>
             <p><em>*Urgent issues are prioritized and often resolved sooner.</em></p>
             <div class="cta-row mt-2">
-              <a class="btn-brand" href="website-request.html">Submit a fix</a>
-              <a class="btn-ghost" href="contact-us.html">Send screenshot</a>
+              <a class="btn-brand" href="website-request.html">Submit a request</a>
+      
             </div>
           ` },
           { slug: 'my-site-isnt-updating', title: 'My site isn’t updating after a change', updated: TODAY, meta: 'Caching and DNS propagation basics.', body: `
             <p>Hard-refresh your browser (Cmd/Ctrl+Shift+R) and try an incognito window. DNS or CDN cache can take up to 24 hours after a domain change. If it persists, send a screenshot + URL via the Request form.</p>
             <div class="cta-row mt-2">
               <a class="btn-brand" href="website-request.html">Report an issue</a>
-              <a class="btn-ghost" href="contact-us.html">Contact support</a>
+       
             </div>
           ` }
         ]}
       ]
     };
 
-    // ---- Simple client-side search ----
+    // ---- Search index ----
     function normalize(str){return (str||'').toLowerCase().replace(/\s+/g,' ').trim()}
     function tokenize(str){return normalize(str).split(/[^a-z0-9]+/).filter(Boolean)}
-
     function indexArticles(data){
       const idx=[];
-      data.topics.forEach(topic=>{
-        topic.articles.forEach(a=>{
-          const text = [a.title, a.meta, a.body.replace(/<[^>]+>/g,' ')].join(' ');
-          idx.push({slug:a.slug, title:a.title, topicId:topic.id, topicTitle:topic.title, updated:a.updated, meta:a.meta, text:normalize(text)});
+      data.topics.forEach(t=>{
+        t.articles.forEach(a=>{
+          const text=[a.title,a.meta,a.body.replace(/<[^>]+>/g,' ')].join(' ');
+          idx.push({slug:a.slug,title:a.title,topicId:t.id,topicTitle:t.title,updated:a.updated,meta:a.meta,text:normalize(text)});
         });
       });
       return idx;
     }
-    function scrollToMain(){
-  const main = document.querySelector('main');
-  if(!main) return;
-  const y = main.getBoundingClientRect().top + window.scrollY - 12; 
-  window.scrollTo({ top: y, behavior: 'smooth' });
-}
-
-
-    const INDEX = indexArticles(HELP_DATA);
+    const INDEX=indexArticles(HELP_DATA);
 
     function searchArticles(q){
-      const terms = tokenize(q);
+      const terms=tokenize(q);
       if(!terms.length) return INDEX.slice(0,12);
-      return INDEX
-        .map(doc=>{
-          const score = terms.reduce((s,t)=> s + (doc.text.includes(t) ? 1 : 0), 0);
-          return {doc, score};
-        })
-        .filter(x=>x.score>0)
-        .sort((a,b)=> b.score - a.score)
-        .map(x=>x.doc)
-        .slice(0,24);
+      return INDEX.map(doc=>{
+        const score=terms.reduce((s,t)=>s+(doc.text.includes(t)?1:0),0);
+        return {doc,score};
+      }).filter(x=>x.score>0).sort((a,b)=>b.score-a.score).map(x=>x.doc).slice(0,24);
     }
 
-    // ---- Router (hash-based) ----
-    function go(slug, replace){
-      const url = slug ? `#/${slug}` : '#/';
-      if(replace){ history.replaceState(null,'',url); } else { location.hash = url; }
-    }
-    function currentSlug(){ return location.hash.startsWith('#/') ? location.hash.slice(2) || '' : ''; }
+    // ---- Router ----
+    function go(slug,replace){ const url=slug?`#/${slug}`:'#/'; if(replace){history.replaceState(null,'',url)}else{location.hash=url} }
+    function currentSlug(){ return location.hash.startsWith('#/')?location.hash.slice(2)||'':'' }
 
-    // ---- Render helpers ----
-    const $topicNav = document.getElementById('topicNav');
-    const $results = document.getElementById('results');
-    const $article = document.getElementById('article');
-    const $search = document.getElementById('search');
-    const $clearBtn = document.getElementById('clearBtn');
-    const $live = document.getElementById('live');
+    // ---- Elements ----
+    const $browseBody=document.getElementById('browseBody');
+    const $results=document.getElementById('results');
+    const $article=document.getElementById('article');
+    const $search=document.getElementById('search');
+    const $clearBtn=document.getElementById('clearBtn');
+    const $live=document.getElementById('live');
 
+    // ---- Renderers ----
     function renderTopics(){
-      $topicNav.innerHTML = HELP_DATA.topics.map(t=>{
-        return `
-          <div class="mb-1" style="font-weight:800">${t.title}</div>
+      $browseBody.innerHTML = HELP_DATA.topics.map(t=>`
+        <div class="group">
+          <div class="group-title">${t.title}</div>
           <div class="mb-2">
             ${t.articles.map(a=>`<a class="side-link" href="#/${a.slug}">${a.title}</a>`).join('')}
           </div>
-        `;
-      }).join('');
+        </div>
+      `).join('');
     }
 
-    function renderList(docs, q){
-      $article.hidden = true; $article.innerHTML='';
-      const heading = q ? `Results for “${q.replace(/</g,'&lt;')}”` : 'Popular getting started articles';
-      $results.innerHTML = `
+    function renderList(docs,q){
+      $article.hidden=true; $article.innerHTML='';
+      const heading=q?`Results for “${q.replace(/</g,'&lt;')}”`:'Popular getting started articles';
+      $results.innerHTML=`
         <div class="surface" id="articles">
           <div class="d-flex align-items-center justify-content-between mb-2">
             <h2 class="h5 mb-0" style="font-weight:800">${heading}</h2>
@@ -485,26 +474,32 @@
           </div>
         </div>
       `;
-      $live.textContent = `${docs.length} result${docs.length===1?'':'s'} loaded`;
+      $live.textContent=`${docs.length} result${docs.length===1?'':'s'} loaded`;
     }
 
     function findArticleBySlug(slug){
       for(const t of HELP_DATA.topics){
-        const a = t.articles.find(x=>x.slug===slug);
-        if(a) return {topic:t, article:a};
+        const a=t.articles.find(x=>x.slug===slug);
+        if(a) return {topic:t,article:a};
       }
       return null;
     }
 
-    function renderArticle(slug){
-      const found = findArticleBySlug(slug);
-      if(!found){ renderList(searchArticles($search.value.trim()), $search.value.trim()); return; }
-      const {topic, article} = found;
+    function scrollToArticle(){
+      const navH=document.querySelector('.nav-wrap')?.offsetHeight||0;
+      const y=$article.getBoundingClientRect().top + window.scrollY - (navH + 12);
+      window.scrollTo({top:y,behavior:'smooth'});
+    }
 
-      $results.innerHTML = '';
-      $article.hidden = false;
+    function renderArticle(slug){
+      const found=findArticleBySlug(slug);
+      if(!found){ renderList(searchArticles($search.value.trim()), $search.value.trim()); return; }
+      const {topic,article}=found;
+
+      $results.innerHTML='';
+      $article.hidden=false;
       $article.setAttribute('tabindex','-1');
-      $article.innerHTML = `
+      $article.innerHTML=`
         <nav class="mb-2 small meta" aria-label="Breadcrumb">
           <a href="#/" aria-label="Back to Guide home">Guide</a> · <a href="#/" onclick="history.back();return false;">Back</a> · ${topic.title}
         </nav>
@@ -515,71 +510,66 @@
         <section class="article-body">${article.body}</section>
         <hr/>
         <div class="cta-row">
-          <a class="btn-brand" href="website-request.html">Need more help?</a>
+
+          <button class="btn-ghost" id="copyLinkBtn" type="button">Copy link</button>
         </div>
       `;
 
-      const $btn = document.getElementById('copyLinkBtn');
+      const $btn=document.getElementById('copyLinkBtn');
       if($btn){
         $btn.addEventListener('click',()=>{
           navigator.clipboard.writeText(location.href);
           $btn.textContent='Link copied!';
-          setTimeout(()=> $btn.textContent='Copy link', 1400);
+          setTimeout(()=>{$btn.textContent='Copy link'},1200);
         });
       }
 
+      // Feedback: focus, scroll, flash; close Browse if open
+      $article.focus({preventScroll:true});
+      requestAnimationFrame(()=>{
+        scrollToArticle();
+        $article.classList.add('flash');
+        setTimeout(()=> $article.classList.remove('flash'), 900);
+      });
+      const $b=$('#browse'); if($b.length){ $b.collapse('hide'); }
 
-// Focus + scroll feedback
-$article.focus({ preventScroll: true });
-requestAnimationFrame(() => {
-  scrollToArticle();
-  $article.classList.add('flash');
-  setTimeout(()=> $article.classList.remove('flash'), 900);
-});
+      // highlight active in Browse
+      Array.from(document.querySelectorAll('.side-link')).forEach(a=>{
+        a.classList.toggle('active', a.getAttribute('href')===`#/${slug}`);
+      });
+
+      $live.textContent=`Opened: ${article.title}`;
     }
 
-    function scrollToArticle(){
-  const navH = document.querySelector('.nav-wrap')?.offsetHeight || 0;
-  const y = document.getElementById('article').getBoundingClientRect().top + window.scrollY - (navH + 12);
-  window.scrollTo({ top: y, behavior: 'smooth' });
-}
-
-
-    // Intercept internal hash links so clicking the same item re-renders and scrolls to top
+    // ---- Events ----
     function bindInternalLinks(){
       document.addEventListener('click', function(e){
-        const a = e.target.closest('a[href^="#/"]');
+        const a=e.target.closest('a[href^="#/"]');
         if(!a) return;
         e.preventDefault();
-        const slug = a.getAttribute('href').slice(2);
-        const cur = currentSlug();
-        if(cur !== slug) { go(slug, false); }
-        renderArticle(slug); // render immediately even if same slug
-        // collapse mobile nav if open
-        const nav = document.getElementById('mobileNav');
-        if(nav && nav.classList.contains('show')){
-          $('.navbar-toggler').click();
-        }
+        const slug=a.getAttribute('href').slice(2);
+        const cur=currentSlug();
+        if(cur!==slug){ go(slug,false); }
+        renderArticle(slug);
       }, false);
     }
 
-    // ---- Wiring ----
     function onHash(){
-      const slug = currentSlug();
+      const slug=currentSlug();
       if(slug){ renderArticle(slug); }
       else { renderList(searchArticles($search.value.trim()), $search.value.trim()); }
     }
 
     function initSearch(){
       window.addEventListener('keydown', (e)=>{
-        if(e.key === '/' && document.activeElement !== $search){ e.preventDefault(); $search.focus(); }
-        if(e.key === 'Escape'){ $search.value=''; onSearch(); }
+        if(e.key==='/' && document.activeElement!==$search){ e.preventDefault(); $search.focus(); }
+        if(e.key==='Escape'){ $search.value=''; onSearch(); }
       });
       $search.addEventListener('input', onSearch);
       $clearBtn.addEventListener('click', ()=>{ $search.value=''; $search.focus(); onSearch(); });
 
       function onSearch(){
-        const q = $search.value.trim();
+        const q=$search.value.trim();
         if(currentSlug()){ go('', true); }
         renderList(searchArticles(q), q);
       }
@@ -591,10 +581,17 @@ requestAnimationFrame(() => {
       initSearch();
       window.addEventListener('hashchange', onHash);
       onHash();
+
+      // Open Browse if user clicked the hero button anchor
+      if(location.hash==='#browse-open'){ $('#browse').collapse('show'); }
     }
 
     // Nav padding on scroll
-    (function(){var wrap=document.querySelector('.nav-wrap'); if(!wrap) return; function onScr(){ (window.scrollY>8)?wrap.classList.add('scrolled'):wrap.classList.remove('scrolled'); } window.addEventListener('scroll',onScr,{passive:true}); onScr();})();
+    (function(){
+      var wrap=document.querySelector('.nav-wrap'); if(!wrap) return;
+      function onScr(){ (window.scrollY>8)?wrap.classList.add('scrolled'):wrap.classList.remove('scrolled'); }
+      window.addEventListener('scroll',onScr,{passive:true}); onScr();
+    })();
 
     document.addEventListener('DOMContentLoaded', boot);
   </script>
