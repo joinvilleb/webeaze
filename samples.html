@@ -12,7 +12,7 @@
   <meta property="og:site_name" content="WebEaze" />
   <meta property="og:title" content="Website Samples | WebEaze" />
   <meta property="og:description" content="A small, handpicked set of live sites we built." />
-  <meta property="og:url" content="https://www.webeaze.io/samples" />
+  <meta property="og:url" content="https://www.webeaze.io/samples.html" />
   <meta property="og:image" content="https://webeaze.io/images/default-monochrome.png" />
   <meta property="og:image:alt" content="WebEaze logo" />
 
@@ -48,6 +48,8 @@
     /* ===== Animations ===== */
     .reveal{opacity:0;transform:translateY(12px) scale(.98);transition:opacity .5s ease, transform .6s cubic-bezier(.2,.65,.2,1)}
     .reveal.in{opacity:1;transform:translateY(0) scale(1)}
+    .floaty{animation: floaty 6s ease-in-out infinite}
+    @keyframes floaty{ 0%,100%{ transform: translateY(0) } 50%{ transform: translateY(-6px) } }
 
     /* ===== Hero ===== */
     .hero{position:relative;padding:clamp(56px,11vh,86px) 0;background:linear-gradient(180deg,#ffffff,#f7f8fc 70%)}
@@ -58,11 +60,16 @@
 
     /* ===== Grid of samples ===== */
     .grid{display:grid;grid-template-columns:repeat(12,1fr);grid-gap:14px}
-    .sample{grid-column:span 6;background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:0 10px 28px rgba(16,18,37,.06);position:relative}
-    .thumb{position:relative;aspect-ratio:16/10;background:#eef1f7}
-    .thumb img{width:100%;height:100%;object-fit:cover;display:block}
+    .sample{grid-column:span 6;background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:0 10px 28px rgba(16,18,37,.06);position:relative;transition: transform .2s ease, box-shadow .2s ease}
+    .sample:hover{ transform: translateY(-4px) rotate(-.25deg); box-shadow:0 16px 40px rgba(16,18,37,.10) }
+
+    /* --- PERFECTLY FITTING THUMBNAILS (no crop) --- */
+    .thumb{position:relative;aspect-ratio:16/10;background:#fff;display:grid;place-items:center}
+    .thumb-inner{width:100%;height:100%;padding:8px}
+    .thumb img{width:100%;height:100%;object-fit:contain;object-position:center;display:block;border-radius:12px;background:linear-gradient(180deg,#fafbff,#f2f4fa);box-shadow:inset 0 0 0 1px #eef1f7}
+
     .badge{position:absolute;left:12px;top:12px;padding:.28rem .6rem;border-radius:999px;background:#ede9fe;color:#3a2577;font-weight:800;border:1px solid #d8cffb}
-    .body{padding:14px}
+    .body{padding:16px 16px 18px}
     .title{font-weight:800;margin:0 0 2px}
     .desc{margin:0;color:#3c4260}
     .meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
@@ -73,34 +80,42 @@
 
     /* ===== Footer ===== */
     footer{font-size:.95rem;color:#fff}
-    /* ——— Elegance polish ——— */
-  .hero.hero--center{ text-align:center }
-  .hero.hero--center .headline{ font-size: clamp(30px, 6vw, 52px) }
-  .hero.hero--center .sub{ margin: 10px auto 0; max-width: 760px }
-  .hero .stat-chips{ display:flex; gap:8px; justify-content:center; flex-wrap:wrap; margin-top:12px }
-  .hero .chip{ display:inline-block; padding:.4rem .75rem; border-radius:999px; background:#fff; border:1px solid var(--line); font-weight:700; color:#3c4260 }
 
-  /* Cards: calmer, more refined hover */
-  .sample{ border-radius:20px; border-color:#eef1f7; box-shadow:0 12px 32px rgba(16,18,37,.05) }
-  .sample .thumb{ overflow:hidden }
-  .sample .thumb img{ transition: transform .35s ease, filter .35s ease; filter: grayscale(.12) saturate(.9); }
-  .sample:hover .thumb img{ transform: scale(1.02); filter: none }
-  .sample .body{ padding:18px }
-  .sample .title{ letter-spacing:-.01em }
-  .sample .desc{ color:#3f4564 }
+    /* Hero extras */
+    .hero.hero--center{ text-align:center }
+    .hero.hero--center .headline{ font-size: clamp(30px, 6vw, 52px) }
+    .hero.hero--center .sub{ margin: 10px auto 0; max-width: 760px }
+    .hero .stat-chips{ display:flex; gap:8px; justify-content:center; flex-wrap:wrap; margin-top:12px }
+    .hero .chip{ display:inline-flex; align-items:center; gap:.45rem; padding:.45rem .8rem; border-radius:999px; background:#fff; border:1px solid var(--line); font-weight:800; color:#3f4564 }
+    .chip .dot{ width:8px; height:8px; border-radius:50%; background:var(--brand) }
 
-  /* Arrow link (textual CTA) */
-  .arrow-link{ display:inline-flex; align-items:center; font-weight:800; color:#3a2577; border:0; background:transparent; padding:0; }
-  .arrow-link::after{ content:"→"; margin-left:.45rem; transition: transform .18s ease }
-  .arrow-link:hover::after{ transform: translateX(2px) }
+    /* Arrow link (textual CTA) */
+    .arrow-link{ display:inline-flex; align-items:center; font-weight:800; color:#3a2577; border:0; background:transparent; padding:0; }
+    .arrow-link::after{ content:"→"; margin-left:.45rem; transition: transform .18s ease }
+    .arrow-link:hover::after{ transform: translateX(2px) }
 
-  /* Slightly softer hero grid overlay */
-  .hero::after{ content:""; position:absolute; inset:0; pointer-events:none; background:
-    repeating-linear-gradient(0deg, rgba(16,18,37,.016) 0 1px, transparent 1px 24px),
-    repeating-linear-gradient(90deg, rgba(16,18,37,.016) 0 1px, transparent 1px 24px);
-    mask-image: linear-gradient(180deg, transparent, #000 12%, #000 88%, transparent); }
-  @media (max-width: 576px){ .hero::after{ opacity:.7 } }
-</style>
+    /* Subtle hero grid overlay */
+    .hero::after{ content:""; position:absolute; inset:0; pointer-events:none; background:
+      repeating-linear-gradient(0deg, rgba(16,18,37,.016) 0 1px, transparent 1px 24px),
+      repeating-linear-gradient(90deg, rgba(16,18,37,.016) 0 1px, transparent 1px 24px);
+      mask-image: linear-gradient(180deg, transparent, #000 12%, #000 88%, transparent); }
+    @media (max-width: 576px){ .hero::after{ opacity:.7 } }
+
+    /* Fun confetti ping on hover */
+    .sparkle{ position:absolute; inset:0; pointer-events:none; opacity:0; transition:opacity .18s ease }
+    .sample:hover .sparkle{ opacity:1 }
+    .sparkle::before, .sparkle::after{
+      content:""; position:absolute; width:6px; height:6px; border-radius:50%; background:var(--gold); animation: pop 700ms ease forwards; transform: scale(0);
+    }
+    .sparkle::after{ background:var(--brand); }
+    @keyframes pop{ to{ transform: translate(14px,-10px) scale(1); opacity:.0 } }
+
+    /* Filter bar */
+    .filterbar{ display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin:.6rem 0 0 }
+    .filter-btn{ border:1px solid var(--line); background:#fff; border-radius:999px; padding:.45rem .85rem; font-weight:700; cursor:pointer }
+    .filter-btn.active{ border-color:#d8cffb; background:#f6f3ff; color:#3a2577 }
+
+  </style>
 </head>
 <body>
 
@@ -131,16 +146,22 @@
 
 <!-- HERO -->
 <header class="hero hero--center">
-  <div class="halo" aria-hidden="true"></div>
+  <div class="halo floaty" aria-hidden="true"></div>
   <div class="container container-narrow">
     <div class="hero-copy">
-      <div class="eyebrow">Handpicked from 43+ clients</div>
+      <div class="eyebrow">Handpicked from <span class="sr-only">over </span><span id="clientCount" aria-hidden="true">0</span>+ clients</div>
       <h1 class="headline mt-2">Website samples</h1>
-      <p class="sub">A small, curated selection of live sites across tutoring, fitness, and local trades. We keep it short so you can skim quickly.</p>
-      <div class="stat-chips mt-2">
-        <span class="chip">Fast 7–14 day launches</span>
-        <span class="chip">Mobile‑first layouts</span>
-        <span class="chip">Ongoing maintenance</span>
+      <p class="sub">A small, curated selection across tutoring, fitness, and local trades. Just a taste of what we’ve launched—ask for industry‑specific examples.</p>
+      <div class="stat-chips mt-2" role="list">
+        <span class="chip" role="listitem"><span class="dot"></span> Fast 7–14 day launches</span>
+        <span class="chip" role="listitem"><span class="dot"></span> Mobile‑first layouts</span>
+        <span class="chip" role="listitem"><span class="dot"></span> Ongoing maintenance</span>
+      </div>
+      <div class="filterbar mt-3" aria-label="Filter examples">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="Education">Education</button>
+        <button class="filter-btn" data-filter="Fitness">Fitness</button>
+        <button class="filter-btn" data-filter="Home Services">Home Services</button>
       </div>
       <div class="btn-row mt-3" style="justify-content:center">
         <a href="consultation.html" class="btn-brand">Book a consult</a>
@@ -153,13 +174,16 @@
 <!-- SAMPLES -->
 <section class="py-5">
   <div class="container container-narrow">
-    <div class="grid">
+    <div class="grid" id="samplesGrid">
 
       <!-- Ibis Prep -->
-      <article class="sample reveal" itemscope itemtype="https://schema.org/CreativeWork">
+      <article class="sample reveal" data-cat="Education" itemscope itemtype="https://schema.org/CreativeWork">
         <div class="thumb">
           <span class="badge">Education</span>
-          <img src="images/samples/ibis-prep.png" alt="Ibis Prep website screenshot" loading="lazy" itemprop="image" />
+          <div class="thumb-inner">
+            <img src="images/samples/ibis-prep.png" alt="Ibis Prep website screenshot" loading="lazy" decoding="async" itemprop="image" />
+          </div>
+          <span class="sparkle"></span>
         </div>
         <div class="body">
           <h3 class="title h5" itemprop="name">Ibis Prep</h3>
@@ -172,10 +196,13 @@
       </article>
 
       <!-- Galaxy Gymnastics -->
-      <article class="sample reveal" itemscope itemtype="https://schema.org/CreativeWork">
+      <article class="sample reveal" data-cat="Fitness" itemscope itemtype="https://schema.org/CreativeWork">
         <div class="thumb">
           <span class="badge">Fitness</span>
-          <img src="images/showcase/desktop.png" alt="Galaxy Gymnastics website screenshot" loading="lazy" />
+          <div class="thumb-inner">
+            <img src="images/showcase/desktop.png" alt="Galaxy Gymnastics website screenshot" loading="lazy" decoding="async" />
+          </div>
+          <span class="sparkle"></span>
         </div>
         <div class="body">
           <h3 class="title h5">Galaxy Gymnastics</h3>
@@ -188,10 +215,13 @@
       </article>
 
       <!-- Bear Carpet Care -->
-      <article class="sample reveal" itemscope itemtype="https://schema.org/CreativeWork">
+      <article class="sample reveal" data-cat="Home Services" itemscope itemtype="https://schema.org/CreativeWork">
         <div class="thumb">
           <span class="badge">Home Services</span>
-          <img src="images/samples/bear-carpet-care.png" alt="Bear Carpet Care website screenshot" loading="lazy" />
+          <div class="thumb-inner">
+            <img src="images/samples/bear-carpet-care.png" alt="Bear Carpet Care website screenshot" loading="lazy" decoding="async" />
+          </div>
+          <span class="sparkle"></span>
         </div>
         <div class="body">
           <h3 class="title h5">Bear Carpet Care</h3>
@@ -204,10 +234,13 @@
       </article>
 
       <!-- Run Delmarva -->
-      <article class="sample reveal" itemscope itemtype="https://schema.org/CreativeWork">
+      <article class="sample reveal" data-cat="Fitness" itemscope itemtype="https://schema.org/CreativeWork">
         <div class="thumb">
           <span class="badge">Fitness</span>
-          <img src="images/samples/run-delmarva.png" alt="Run Delmarva website screenshot" loading="lazy" />
+          <div class="thumb-inner">
+            <img src="images/samples/run-delmarva.png" alt="Run Delmarva website screenshot" loading="lazy" decoding="async" />
+          </div>
+          <span class="sparkle"></span>
         </div>
         <div class="body">
           <h3 class="title h5">Run Delmarva</h3>
@@ -220,15 +253,18 @@
       </article>
 
       <!-- More on request -->
-      <article class="sample reveal">
+      <article class="sample reveal" data-cat="All">
         <div class="thumb">
           <span class="badge">More on request</span>
-          <img src="images/website-request-header-img.jpeg" alt="Additional samples available on request" loading="lazy" />
+          <div class="thumb-inner">
+            <img src="images/website-request-header-img.jpeg" alt="Additional samples available on request" loading="lazy" decoding="async" />
+          </div>
+          <span class="sparkle"></span>
         </div>
         <div class="body">
           <h3 class="title h5">Want a similar site?</h3>
           <p class="desc">We can share more examples in your industry during the consult.</p>
-          <div class="meta"><span class="tag">43+ active clients</span><span class="tag">Curated list</span></div>
+          <div class="meta"><span class="tag"><span class="sr-only">Over </span>44+ active clients</span><span class="tag">Curated list</span></div>
           <div class="card-actions"><a class="btn-brand" href="consultation.html">Book a consult</a></div>
         </div>
       </article>
@@ -244,7 +280,7 @@
       <div class="mb-2 mb-md-0">
         <div class="eyebrow" style="color:#6b6f86">Next step</div>
         <h3 class="h5 mb-1" style="font-weight:800">Tell us what you want your website to do.</h3>
-        <div class="text-muted">We will map pages and timeline on a short call.</div>
+        <div class="text-muted">We’ll map pages and timeline on a short call.</div>
       </div>
       <div class="btn-row"><a href="consultation.html" class="btn-brand">Book consultation</a></div>
     </div>
@@ -259,8 +295,7 @@
     <a href="/web-design-delaware.html" style="color:#fff;text-decoration:underline;">Delaware</a> ·
     <a href="/web-design-pennsylvania.html" style="color:#fff;text-decoration:underline;">Pennsylvania</a> ·
     <a href="/web-design-new-jersey.html" style="color:#fff;text-decoration:underline;">New Jersey</a>
-    <br>
-    <br>
+    <br><br>
   </div>
   <div class="container container-narrow">
     <div class="mb-1">&copy; <span id="yr"></span> WebEaze. All rights reserved.</div>
@@ -281,6 +316,7 @@
 <script>
   // Nav padding on scroll
   (function(){var wrap=document.querySelector('.nav-wrap'); if(!wrap) return; function onScr(){ (window.scrollY>8)?wrap.classList.add('scrolled'):wrap.classList.remove('scrolled'); } window.addEventListener('scroll',onScr,{passive:true}); onScr();})();
+
   // Reveal on scroll
   (function(){
     var els=[].slice.call(document.querySelectorAll('.reveal'));
@@ -289,6 +325,33 @@
       entries.forEach(function(entry){ if(entry.isIntersecting){ entry.target.classList.add('in'); io.unobserve(entry.target);} });
     },{threshold:.14});
     els.forEach(e=>io.observe(e));
+  })();
+
+  // Count-up for client count (to 44+)
+  (function(){
+    var el = document.getElementById('clientCount'); if(!el) return;
+    var target = 44; var current = 0; var started=false;
+    function step(){ current += Math.max(1, Math.floor((target-current)/6)); if(current>=target){ current=target; } el.textContent = current; if(current<target) requestAnimationFrame(step); }
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(ent){ if(ent.isIntersecting && !started){ started=true; step(); obs.disconnect(); } })
+    },{threshold:.6});
+    obs.observe(el);
+  })();
+
+  // Simple category filter (no libs)
+  (function(){
+    var btns=[].slice.call(document.querySelectorAll('.filter-btn'));
+    var cards=[].slice.call(document.querySelectorAll('.sample'));
+    function setActive(btn){ btns.forEach(b=>b.classList.toggle('active',b===btn)); }
+    function filter(cat){
+      cards.forEach(function(c){
+        var match = cat==='all' || (c.dataset.cat && c.dataset.cat===cat);
+        c.style.display = match ? '' : 'none';
+      });
+    }
+    btns.forEach(function(btn){
+      btn.addEventListener('click',function(){ setActive(btn); filter(btn.dataset.filter||'all'); });
+    });
   })();
 </script>
 </body>
