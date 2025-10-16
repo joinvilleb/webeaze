@@ -4,14 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>About WebEaze | Mission, Story, and Team</title>
-  <meta name="description" content="WebEaze builds elegant, fast websites with ongoing support—no hourly rates. Learn our mission, story, values, and the team behind the pixels." />
+  <meta name="description" content="WebEaze builds elegant, fast websites with ongoing support. Learn our mission, story, values, and the team behind the pixels." />
   <link rel="canonical" href="https://www.webeaze.io/about.html" />
 
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="WebEaze" />
   <meta property="og:title" content="About WebEaze | Mission, Story, and Team" />
-  <meta property="og:description" content="WebEaze builds elegant, fast websites with ongoing support—no hourly rates." />
+  <meta property="og:description" content="WebEaze builds elegant and fast websites with ongoing support. No hourly billing." />
   <meta property="og:url" content="https://www.webeaze.io/about" />
   <meta property="og:image" content="https://webeaze.io/images/default-monochrome.png" />
   <meta property="og:image:alt" content="WebEaze logo" />
@@ -19,80 +19,120 @@
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="About WebEaze | Mission, Story, and Team" />
-  <meta name="twitter:description" content="Elegant sites. Real support. No hourly rates." />
+  <meta name="twitter:description" content="Elegant sites. Real support. No hourly billing." />
   <meta name="twitter:image" content="https://webeaze.io/images/default-monochrome.png" />
 
   <link rel="shortcut icon" href="images/webeaze-transparent copy.png" type="image/png" />
 
   <!-- Fonts & CSS -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
 
   <style>
     :root{
-      --purple:#7851a9; /* brand */
-      --brown:#5D4037;  /* footer/section */
-      --gold:#ffd700;   /* accent */
-      --ink:#0f0f14;    /* text */
-      --paper:#ffffff;  /* bg */
+      --brand:#7851a9; --gold:#ffd700;
+      --ink:#0f1228; --ink-2:#3c4260; --muted:#6b7280;
+      --line:#e7eaf4; --white:#fff; --dark:#0a0a12; --dark-2:#121225;
     }
-    *{box-sizing:border-box}
-    html,body{margin:0;padding:0}
-    body{font-family:Poppins,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:#fff;background:var(--purple)}
-    a{color:var(--gold)} a:hover{opacity:.9}
-    .container-narrow{max-width:980px;margin:0 auto}
+    html,body{height:100%}
+    body{margin:0;font-family:'Poppins',sans-serif;background:#fff;color:var(--ink);-webkit-font-smoothing:antialiased}
+    a{color:inherit;text-decoration:none}
+    .container-narrow{max-width:1100px}
+    .logo{height:36px}
+
+    /* Nav (match site) */
+    .nav-wrap{position:sticky; top:0; z-index:9999; background:#000; border-bottom:1px solid rgba(255,255,255,.12)}
+    .webeaze-nav{background:transparent!important;box-shadow:none!important;padding:.6rem 0;transition:padding .18s ease}
+    .scrolled .webeaze-nav{padding:.45rem 0}
+    .navbar-dark .nav-link{color:#fff!important;opacity:.92;border-radius:10px;padding:.45rem .7rem}
+    .navbar-dark .nav-link:hover{opacity:1;background:rgba(255,255,255,.08)}
+    .btn-nav{background:var(--gold);color:#2f1e66;border:none;border-radius:12px;padding:.6rem .9rem;font-weight:700;box-shadow:0 8px 22px rgba(255,215,0,.22)}
+
+    /* Sections */
+    .section{position:relative;padding: clamp(56px, 7.5vw, 96px) 0}
+    .light{background:#fff;color:var(--ink)}
+    .dark{background:#0a0a12;color:#f2f4ff}
+
+    /* Buttons */
+    .btn-brand{display:inline-flex;align-items:center;justify-content:center;background:var(--gold);color:#2f1e66;border:none;border-radius:12px;padding:.74rem 1.05rem;font-weight:700;line-height:1;box-shadow:0 10px 26px rgba(255,215,0,.22);transition:transform .15s ease, box-shadow .15s ease, background-color .15s ease}
+    .btn-brand:hover{background:#f2c600;color:#fff;transform:translateY(-1px);box-shadow:0 14px 34px rgba(255,215,0,.3)}
+    .btn-ghost{display:inline-flex;align-items:center;justify-content:center;background:transparent;color:inherit;border:1px solid currentColor;border-radius:12px;padding:.74rem 1.05rem;font-weight:700;line-height:1;transition:transform .15s ease, box-shadow .15s ease}
+    .btn-ghost:hover{transform:translateY(-1px);box-shadow:0 10px 24px rgba(16,18,37,.18)}
+    .btn-row{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center}
+
+    /* Reveal + motion */
+    .reveal{opacity:0;transform:translateY(12px);transition:transform .5s cubic-bezier(.2,.6,.2,1),opacity .5s ease;will-change:transform,opacity}
+    .reveal.in-view{opacity:1;transform:translateY(0)}
+    .tilt{transition:transform .25s ease, box-shadow .25s ease}
+    .tilt:hover{transform:perspective(800px) rotateX(2deg) rotateY(-3deg) translateY(-2px); box-shadow:0 18px 44px rgba(0,0,0,.35)}
 
     /* Hero */
-    .hero{position:relative;overflow:hidden;background:linear-gradient(180deg, rgba(120,81,169,.9), rgba(120,81,169,1)), url('images/ongoing-support-image.jpg') center/cover no-repeat;}
-    .hero-inner{padding:88px 18px 64px; text-align:center}
-    .hero h1{font-weight:700;letter-spacing:.2px;font-size:2.4rem}
-    .hero p.lead{max-width:800px;margin:14px auto 0;line-height:1.7;color:#f1f1f7}
-    .badges{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:22px}
-    .badge-chip{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.2);padding:8px 14px;border-radius:999px;font-size:.9rem}
+    .hero{position:relative;overflow:hidden;background:#000;color:#fff}
+    .hero .halo{position:absolute; inset:-30% -10% auto -10%; height:520px; pointer-events:none;
+      background:
+        radial-gradient(36% 60% at 18% 10%, rgba(120,81,169,.38), transparent 60%),
+        radial-gradient(28% 40% at 80% 12%, rgba(255,215,0,.24), transparent 60%),
+        radial-gradient(30% 50% at 50% 0%, rgba(120,81,169,.22), transparent 60%);
+      filter: blur(2px);
+    }
+    .hero .inner{position:relative;z-index:1;padding: clamp(72px, 13vh, 120px) 0}
+    .headline{font-weight:800;letter-spacing:-.02em;line-height:1.05;font-size: clamp(30px, 6vw, 58px)}
+    .subline{display:block;margin-top:6px;font-size:clamp(16px,3.6vw,22px);color:rgba(255,255,255,.9)}
 
-    /* Section base */
-    section{padding:64px 18px}
-    .section-light{background:#f9f7ff;color:#2a2140}
-    .section-light h2{color:#2a2140}
-    .section-dark{background:var(--purple);color:#fff}
-    .section-brown{background:var(--brown)}
-    h2{font-size:1.9rem;font-weight:700;margin-bottom:18px}
-    .eyebrow{display:inline-block;font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;color:#b499e9;margin-bottom:6px}
-    .gold{color:var(--gold)}
+    .chips .chip{display:inline-block;margin-right:.5rem;margin-bottom:.5rem;padding:.45rem .75rem;border-radius:999px;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.06);font-weight:600;color:#e9ebff}
 
-    /* Grid */
-    .grid{display:grid;grid-template-columns:1fr;gap:22px}
-    @media (min-width: 768px){.grid-2{grid-template-columns:1fr 1fr}.grid-3{grid-template-columns:repeat(3,1fr)}}
+    /* Cards and surfaces */
+    .surface{border:1px solid var(--line);border-radius:16px;background:#fff;box-shadow:0 10px 32px rgba(16,18,37,.06)}
+    .dark .surface{background:#0f1020;border-color:rgba(255,255,255,.12);box-shadow:0 14px 44px rgba(0,0,0,.5)}
 
-    /* Cards */
-    .card-lite{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:18px}
-    .card-solid{background:#fff;border:1px solid #eee;border-radius:14px;padding:18px;color:#1e1a29}
+    /* Section headings with sweep underline */
+    .head{font-weight:800;letter-spacing:-.01em;position:relative;display:inline-block}
+    .head:after{content:"";position:absolute;left:0;bottom:-6px;width:100%;height:6px;border-radius:6px;background:linear-gradient(90deg, rgba(120,81,169,.7), rgba(255,215,0,.7));filter:blur(1px);opacity:.9}
 
-    /* Timeline */
-    .timeline{position:relative;margin-top:8px}
-    .timeline:before{content:"";position:absolute;left:12px;top:0;bottom:0;width:2px;background:rgba(255,255,255,.2)}
-    .tl-item{position:relative;padding-left:36px;margin:16px 0}
-    .tl-item:before{content:"";position:absolute;left:6px;top:6px;width:14px;height:14px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 3px rgba(255,215,0,.25)}
+    /* What we do grid */
+    .grid{display:grid;grid-template-columns:repeat(12,1fr);grid-gap:14px}
+    .card{grid-column:span 4;padding:18px;border-radius:14px;border:1px solid var(--line);background:#fff}
+    .dark .card{background:#0f1020;border-color:rgba(255,255,255,.12)}
+    .card h5{font-weight:800;margin:0 0 6px}
+    .card p{margin:0;color:var(--ink-2)}
+    .dark .card p{color:#bfc4ff}
+    @media (max-width:992px){.card{grid-column:span 6}}
+    @media (max-width:768px){.card{grid-column:span 12}}
 
-    /* Team */
-    .team-card{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:22px;text-align:center}
+    /* Timeline vertical with animated line */
+    .timeline{position:relative;padding-left:38px}
+    .timeline svg{position:absolute;left:10px;top:0;height:100%;width:18px;overflow:visible}
+    .t-item{margin-bottom:18px}
+    .t-item h6{margin:0 0 4px;font-weight:800}
+    .t-item p{margin:0;color:#bfc4ff}
+    .t-dot{fill:#ffd700;stroke:rgba(255,255,255,.4);stroke-width:1.5}
+    .t-line{stroke:url(#tl-grad);stroke-width:3;stroke-linecap:round;stroke-dasharray:800;stroke-dashoffset:800;transition:stroke-dashoffset 1.2s ease}
+    .timeline.in-view .t-line{stroke-dashoffset:0}
+
+    /* Team cards */
+    .team{display:grid;grid-template-columns:repeat(12,1fr);gap:14px}
+    .team-card{grid-column:span 6;text-align:center;padding:22px;border-radius:20px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06)}
     .team-card img{width:140px;height:140px;object-fit:cover;border-radius:16px;border:1px solid rgba(255,255,255,.25)}
-    .role{opacity:.9}
+    .team-card h5{font-weight:800;margin:10px 0 4px}
+    .team-card .role{opacity:.9}
+    @media (max-width:768px){.team-card{grid-column:span 12}}
 
-    /* FAQ */
-    .faq dt{font-weight:600;margin:10px 0;cursor:pointer}
-    .faq dd{margin:0 0 14px 0;display:none}
+    /* Stats */
+    .stats{display:grid;grid-template-columns:repeat(12,1fr);gap:14px}
+    .stat{grid-column:span 4;text-align:center;padding:28px 14px;border-radius:14px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06)}
+    @media (max-width:992px){.stat{grid-column:span 6}}
+    @media (max-width:768px){.stat{grid-column:span 12}}
+    .num{font-size:2.6rem;font-weight:800;color:#ffd700;margin-bottom:8px;position:relative}
+    .num:after{content:"";position:absolute;left:50%;bottom:-6px;transform:translateX(-50%);width:40%;height:3px;border-radius:3px;background:linear-gradient(90deg,#7851a9,#ffd700)}
+    .label{color:#e6e8ff}
 
-    /* CTA */
-    .cta{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-top:22px}
-    .btn{display:inline-block;padding:12px 18px;border-radius:10px;text-decoration:none;font-weight:600;border:1px solid rgba(255,255,255,.3)}
-    .btn-gold{background:var(--gold);color:#2a2140;border-color:transparent}
-    .btn-ghost{background:transparent;color:#fff}
-
-    /* Footer */
-    footer{background:var(--brown);padding:26px 18px;text-align:center}
-    .small{font-size:.92rem;opacity:.92}
-  </style>
+    footer{font-size:.95rem;color:#fff;background:var(--brand)}
+    section[id]{scroll-margin-top:76px}
+    html{scroll-behavior:smooth}
+    html,body{overflow-x:hidden}
+  @media (max-width:768px){.team-card{padding:18px}.grid{grid-gap:12px}.stats{grid-gap:12px}}
+@media (max-width:480px){.hero .inner{padding-top:88px;padding-bottom:72px}.chips .chip{font-size:.9rem}}
+</style>
 
   <!-- JSON-LD Org -->
   <script type="application/ld+json">
@@ -112,7 +152,7 @@
   }
   </script>
 
-  <!-- Analytics (replace with your gtag if needed) -->
+  <!-- Analytics (keep your gtag) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-JQM6ZR4JCB"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -120,203 +160,249 @@
   </script>
 </head>
 <body>
-  <!-- Nav (kept minimal; hook to your existing nav styles if needed) -->
-  <nav class="navbar navbar-expand-lg navbar-dark" style="background:rgba(0,0,0,.12)">
-    <a class="navbar-brand" href="/">
-      <img src="/images/default-monochrome-white.svg" alt="WebEaze" style="height:52px" />
-    </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav" aria-controls="nav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="nav">
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item"><a class="nav-link" href="work-with.html">Who We Help</a></li>
-        <li class="nav-item"><a class="nav-link" href="pricing.html">Pricing</a></li>
-        <li class="nav-item"><a class="nav-link" href="faq.html">FAQs</a></li>
-        <li class="nav-item"><a class="nav-link" href="/contact-us.html">Contact Us</a></li>
-      </ul>
-    </div>
-  </nav>
 
-  <!-- HERO -->
-  <header class="hero">
-    <div class="hero-inner container-narrow">
-      <span class="eyebrow">About WebEaze</span>
-      <h1>Elegant websites. Ongoing support. <span class="gold">No hourly rates.</span></h1>
-      <p class="lead">Founded in October 2024 (as Billy Joinville Web Services) and rebranded in March 2025, WebEaze exists to make professional web design <em>simple, fast, and stress-free</em> for small businesses and creators.</p>
-      <div class="badges" aria-label="Key facts">
-        <span class="badge-chip">43+ clients served</span>
-        <span class="badge-chip">Subscriptions: monthly & yearly</span>
-        <span class="badge-chip">Help Center & Live Support</span>
+<!-- NAV -->
+<div class="nav-wrap">
+  <div class="container container-narrow">
+    <nav class="navbar navbar-expand-lg navbar-dark webeaze-nav" role="navigation" aria-label="Primary">
+      <a class="navbar-brand d-flex align-items-center" href="index.html">
+        <img class="logo" src="images/webeaze-transparent copy.png" alt="WebEaze" />
+        <strong class="ml-2" style="color:#fff;letter-spacing:-.3px;font-weight:800">WebEaze</strong>
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mobileNav"
+              aria-controls="mobileNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div id="mobileNav" class="collapse navbar-collapse">
+        <ul class="navbar-nav ml-auto main-nav">
+          <li class="nav-item"><a class="nav-link" href="maintenance.html">Maintenance</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About Us</a></li>
+          <li class="nav-item"><a class="nav-link" href="pricing.html">Pricing</a></li>
+          <li class="nav-item"><a class="nav-link" href="faq.html">FAQ</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact-us.html">Contact</a></li>
+          <li class="nav-item ml-1"><a class="btn btn-sm btn-nav" href="consultation.html">Get Started</a></li>
+        </ul>
       </div>
-      <div class="cta">
-        <a class="btn btn-gold" href="/pricing"><strong>See Plans</strong></a>
-        <a class="btn btn-ghost" href="/consultation.html">Talk to Us</a>
-      </div>
-    </div>
-  </header>
+    </nav>
+  </div>
+</div>
 
-  <!-- WHAT WE DO -->
-  <section class="section-dark">
-    <div class="container-narrow">
-      <span class="eyebrow">What We Do</span>
-      <h2>We build and run your website so you can run your business.</h2>
-      <div class="grid grid-3">
-        <div class="card-lite">
-          <h5><strong>Design & Build</strong></h5>
-          <p>Clean, fast, responsive websites tailored to your niche. Includes educators, trades, travel pros, and more.</p>
-        </div>
-        <div class="card-lite">
-          <h5><strong>Ongoing Care</strong></h5>
-          <p>Hosting guidance, updates, security, and content changes. All covered by your subscription.</p>
-        </div>
-        <div class="card-lite">
-          <h5><strong>Growth Tools</strong></h5>
-          <p>SEO basics, analytics, and optional ad management add-ons when you're ready to scale.</p>
-        </div>
-      </div>
+<!-- HERO -->
+<header class="hero">
+  <div class="halo" aria-hidden="true"></div>
+  <div class="container container-narrow inner text-center">
+    <h1 class="headline reveal">
+      About WebEaze
+      <span class="d-block type" class="d-block subline">Elegant websites with real support</span>
+    </h1>
+    <p class="mt-3" style="opacity:.9; margin:30px; text-wrap: balance; overflow-wrap: break-word;">
+      WebEaze exists to make professional web design simple and fast for small businesses and creators. No hourly billing and no surprises.
+    </p>
+    <div class="chips mt-3">
+      <span class="chip">Subscriptions monthly and yearly</span>
+      <span class="chip">Help Center and live support</span>
+      <span class="chip">Built for speed and clarity</span>
     </div>
-  </section>
-
-  <!-- WHY WE’RE DIFFERENT -->
-  <section class="section-light">
-    <div class="container-narrow">
-      <span class="eyebrow">Why We're Different</span>
-      <h2>Relationship over transactions.</h2>
-      <div class="grid grid-2">
-        <div class="card-solid">
-          <h5><strong>Subscriptions, not hours</strong></h5>
-          <p>Predictable pricing with monthly or yearly plans. No “surprise” invoices and no hourly meters.</p>
-        </div>
-        <div class="card-solid">
-          <h5><strong>Multiple support channels</strong></h5>
-          <p>Zoom, Live Chat, and Email. Talk to a real human when you need changes or advice.</p>
-        </div>
-        <div class="card-solid">
-          <h5><strong>Self-serve Help Center</strong></h5>
-          <p>Guides and resources built to empower you and your team, 24/7.</p>
-        </div>
-        <div class="card-solid">
-          <h5><strong>Community referrals</strong></h5>
-          <p>Get paid for helping us grow. Share WebEaze and earn cash for qualified sign-ups.</p>
-        </div>
-      </div>
+    <div class="btn-row mt-3 justify-content-center">
+      <a href="pricing.html" class="btn-brand">See plans</a>
+      <a href="consultation.html" class="btn-ghost">Talk to us</a>
     </div>
-  </section>
+  </div>
+</header>
 
-  <!-- STORY / TIMELINE -->
-  <section class="section-dark">
-    <div class="container-narrow">
-      <span class="eyebrow">Our Story</span>
-      <h2>From scrappy start to growing partner.</h2>
-      <div class="timeline">
-        <div class="tl-item">
-          <h6 class="mb-1"><strong>Oct 2024</strong> — Billy Joinville Web Services launches</h6>
-          <p class="mb-0">Helping small businesses get online fast. With care and clarity.</p>
-        </div>
-        <div class="tl-item">
-          <h6 class="mb-1"><strong>Mar 2025</strong> — Rebrand to WebEaze</h6>
-          <p class="mb-0">A name that reflects our mission: elegant sites, made easy.</p>
-        </div>
-        <div class="tl-item">
-          <h6 class="mb-1"><strong>Oct 2025</strong> — 43+ clients, Help Center, referral program</h6>
-          <p class="mb-0">Shift to subscription model, stronger support, and faster turnarounds.</p>
-        </div>
-      </div>
+<!-- WHAT WE DO  -->
+<section class="section light">
+  <div class="container container-narrow">
+    <h2 class="head reveal">What we do</h2>
+    <div class="grid mt-2">
+      <article class="card reveal tilt">
+        <h5>Design and build</h5>
+        <p>Clean and fast sites tailored to your niche. Trades, education, local services and more.</p>
+      </article>
+      <article class="card reveal tilt">
+        <h5>Ongoing care</h5>
+        <p>Updates, support, performance checks and content changes. All covered by your plan.</p>
+      </article>
+      <article class="card reveal tilt">
+        <h5>Growth tools</h5>
+        <p>SEO basics and analytics with simple options when you are ready to scale.</p>
+      </article>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- TEAM -->
-  <section class="section-light" id="team">
-    <div class="container-narrow">
-      <span class="eyebrow">Team</span>
-      <h2>Behind the pixels.</h2>
-      <div class="grid grid-2">
-        <article class="team-card">
-          <img src="images/billy-o-portrait.png" alt="Billy Joinville headshot" loading="lazy" />
-          <h5 class="mt-3"><strong>Billy Joinville</strong></h5>
-          <p class="role">Founder</p>
-          <p>Billy is a web designer and Computer Science student at the University of Miami. He started WebEaze to make quality websites accessible, and to stand by clients with real, ongoing support.</p>
-        </article>
-        <article class="team-card">
-          <img src="images/headshot-goerlitz.png" alt="Goerlitz Edmond headshot" loading="lazy" />
-          <h5 class="mt-3"><strong>Goerlitz Edmond</strong></h5>
-          <p class="role">Web Design & Acquisition Manager</p>
-          <p>Goerlitz is an IT specialist and CS student at SNHU, focused on cloud and scalable solutions that keep client sites fast, secure, and future-ready.</p>
-        </article>
-      </div>
+<!-- WHY DIFFERENT -->
+<section class="section dark">
+  <div class="container container-narrow">
+    <h2 class="head reveal">Why we are different</h2>
+    <div class="grid mt-2">
+      <article class="card reveal tilt">
+        <h5>Subscriptions not hours</h5>
+        <p>Predictable pricing with monthly or yearly plans. No surprise invoices.</p>
+      </article>
+      <article class="card reveal tilt">
+        <h5>Multiple support channels</h5>
+        <p>Zoom, chat and email. Speak to a person who already knows your site.</p>
+      </article>
+      <article class="card reveal tilt">
+        <h5>Self serve help</h5>
+        <p>Guides and resources to empower you and your team any time.</p>
+      </article>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- HOW WE WORK -->
-  <section class="section-dark">
-    <div class="container-narrow">
-      <span class="eyebrow">How We Work</span>
-      <h2>Simple process, real outcomes.</h2>
-      <div class="grid grid-3">
-        <div class="card-lite"><strong>1) Consult</strong><br/>We learn your goals and pick the right plan.</div>
-        <div class="card-lite"><strong>2) Build</strong><br/>We design, develop, and launch quickly.</div>
-        <div class="card-lite"><strong>3) Grow</strong><br/>We maintain, improve, and support as you scale.</div>
+<!-- STORY / TIMELINE  -->
+<section class="section dark">
+  <div class="container container-narrow">
+    <h2 class="head reveal">How we got here</h2>
+    <br>
+    <br>
+    <div class="timeline reveal" id="timeline" style="position:relative;padding-left:40px">
+      <svg viewBox="0 0 20 1000" preserveAspectRatio="none" 
+           style="position:absolute;left:10px;top:0;height:100%;width:20px;z-index:0;">
+        <defs>
+          <linearGradient id="tl-grad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#7851a9"/>
+            <stop offset="100%" stop-color="#ffd700"/>
+          </linearGradient>
+        </defs>
+        <path d="M10 0 L10 1000" stroke="url(#tl-grad)" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+    
+      <div class="t-item" style="position:relative;margin-bottom:40px;">
+        <div class="t-dot" style="width:14px;height:14px;border-radius:50%;background:#ffd700;position:absolute;left:-30px;top:4px;box-shadow:0 0 8px rgba(255,215,0,.4);"></div>
+        <h6>Oct 2024 — Billy Joinville Web Services launches</h6>
+        <p>Helping small businesses get online fast with care and clarity.</p>
       </div>
-      <div class="cta">
-        <a class="btn btn-gold" href="/pricing"><strong>Choose a Plan</strong></a>
-        <a class="btn btn-ghost" href="/portal">Visit Client Portal</a>
+    
+      <div class="t-item" style="position:relative;margin-bottom:40px;">
+        <div class="t-dot" style="width:14px;height:14px;border-radius:50%;background:#7851a9;position:absolute;left:-30px;top:4px;box-shadow:0 0 8px rgba(120,81,169,.4);"></div>
+        <h6>Mar 2025 — Rebrand to WebEaze</h6>
+        <p>A name that reflects our mission. Elegant sites made easy.</p>
+      </div>
+    
+      <div class="t-item" style="position:relative;margin-bottom:40px;">
+        <div class="t-dot" style="width:14px;height:14px;border-radius:50%;background:linear-gradient(90deg,#7851a9,#ffd700);position:absolute;left:-30px;top:4px;box-shadow:0 0 8px rgba(255,215,0,.5);"></div>
+        <h6>Oct 2025 — 43 clients, help center and referrals</h6>
+        <p>Shift to subscriptions with stronger support and faster turnarounds.</p>
       </div>
     </div>
-  </section>
+    
+  </div>
+</section>
 
-  <!-- FAQ (short) -->
-  <section class="section-light" id="faq">
-    <div class="container-narrow">
-      <span class="eyebrow">FAQ</span>
-      <h2>Quick answers.</h2>
-      <dl class="faq">
-        <dt>Do you charge hourly?</dt>
-        <dd>No. We offer monthly and yearly subscriptions for predictable costs.</dd>
-        <dt>How do I get support?</dt>
-        <dd>Zoom, Live Chat, or Email. Plus our Help Center, 24/7.</dd>
-        <dt>Do you do e-commerce?</dt>
-        <dd>Yes. We help you choose the right stack (Stripe/Square/Woo/Wix/etc.) and maintain it.</dd>
-      </dl>
+<!-- TEAM (light) -->
+<section class="section light" id="team">
+  <div class="container container-narrow">
+    <h2 class="head reveal">Our Team</h2>
+    <div class="team mt-2">
+      <article class="team-card reveal tilt">
+        <img src="images/billy-o-portrait.png" alt="Billy Joinville headshot" loading="lazy" />
+        <h5>Billy Joinville</h5>
+        <div class="role">Founder</div>
+        <p class="mt-2" style="color:var(--ink-2)">Billy is a web designer and Computer Science student at the University of Miami. He started WebEaze to make quality websites accessible and to stand by clients with ongoing support.</p>
+      </article>
+      <article class="team-card reveal tilt">
+        <img src="images/headshot-goerlitz.png" alt="Goerlitz Edmond headshot" loading="lazy" />
+        <h5>Goerlitz Edmond</h5>
+        <div class="role">Web Design and Acquisition Manager</div>
+        <p class="mt-2" style="color:var(--ink-2)">Goerlitz is an IT specialist and CS student at SNHU. He focuses on cloud and scalable solutions that keep client sites fast, secure and future ready.</p>
+      </article>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- CTA Banner -->
-  <section class="section-brown text-center">
-    <div class="container-narrow">
-      <h2 class="mb-2">Let's build something that works—beautifully.</h2>
-      <p class="small">Schedule a consult or pick a plan to get started.</p>
-      <div class="cta">
-        <a class="btn btn-gold" href="/pricing"><strong>Get Started</strong></a>
-        <a class="btn btn-ghost" href="https://webeaze.tawk.help">Help Center</a>
+<!-- STATS / SOCIAL PROOF (dark) -->
+<section class="section dark">
+  <div class="container container-narrow text-center">
+    <h2 class="head reveal">Proof in numbers</h2>
+    <div class="stats mt-3">
+      <div class="stat reveal"><div class="num" data-count="44">0</div><div class="label">Sites launched</div></div>
+      <div class="stat reveal"><div class="num" data-count="7">0</div><div class="label">Average pages per site</div></div>
+      <div class="stat reveal"><div class="num" data-count="14">0</div><div class="label">Days to launch</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section light">
+  <div class="container container-narrow">
+    <div class="surface p-3 p-md-4 reveal d-flex flex-column flex-md-row align-items-md-center justify-content-between">
+      <div class="mb-2 mb-md-0">
+        <div class="" style="color:#6b6f86">Ready to move</div>
+        <h3 class="h5 mb-1" style="font-weight:800">Tell us what you want your website to do</h3>
+        <div class="text-muted">We will map the fastest path and ship a first draft quickly</div>
+      </div>
+      <div class="btn-row">
+        <a href="consultation.html" class="btn-brand">Book consultation</a>
+        <a href="pricing.html" class="btn-ghost">See plans</a>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <footer>
-    <div class="mt-3 small" style="opacity:.9">
-      <strong>Serving small businesses across:</strong><br>
-      <a href="/web-design-maryland.html" style="color:#fff;text-decoration:underline;">Maryland</a> ·
-      <a href="/web-design-delaware.html" style="color:#fff;text-decoration:underline;">Delaware</a> ·
-      <a href="/web-design-pennsylvania.html" style="color:#fff;text-decoration:underline;">Pennsylvania</a> ·
-      <a href="/web-design-new-jersey.html" style="color:#fff;text-decoration:underline;">New Jersey</a>
-      <br>
-      <br>
+<!-- FOOTER -->
+<footer class="py-4 text-center">
+  <div class="mt-3 small" style="opacity:.9">
+    <strong>Serving small businesses across:</strong><br>
+    <a href="/web-design-maryland.html" style="color:#fff;text-decoration:underline;">Maryland</a> ·
+    <a href="/web-design-delaware.html" style="color:#fff;text-decoration:underline;">Delaware</a> ·
+    <a href="/web-design-pennsylvania.html" style="color:#fff;text-decoration:underline;">Pennsylvania</a> ·
+    <a href="/web-design-new-jersey.html" style="color:#fff;text-decoration:underline;">New Jersey</a>
+    <br><br>
+  </div>
+  <div class="container container-narrow">
+    <div class="mb-1">&copy; <span id="yr"></span> WebEaze. All rights reserved.</div>
+    <div class="mb-2 small">
+      <a href="terms.html#privacy" style="color:#fff">Privacy Policy</a> ·
+      <a href="terms.html" style="color:#fff">Terms</a> ·
+      <a href="site-map.html" style="color:#fff">Site Map</a>
     </div>
-    <p class="small mb-1">© 2025 WebEaze. Created and designed by WebEaze. Published on <a href="https://pages.github.com/">GitHub</a>.</p>
-    <p class="small">Follow us: <a href="https://facebook.com/61568824951084" target="_blank" rel="noopener">Facebook</a> · <a href="https://www.linkedin.com/company/webeaze" target="_blank" rel="noopener">LinkedIn</a> · <a href="https://instagram.com/webeaze.io" target="_blank" rel="noopener">Instagram</a></p>
-  </footer>
+    <div class="small">Made with ☕ in Delaware, USA</div>
+  </div>
+</footer>
 
-  <!-- Minimal JS for FAQ toggle -->
-  <script>
-    document.querySelectorAll('.faq dt').forEach(dt=>{
-      dt.addEventListener('click',()=>{
-        const dd = dt.nextElementSibling; dd.style.display = dd.style.display==='block'?'none':'block';
+<!-- JS -->
+<script>document.getElementById('yr').textContent=new Date().getFullYear();</script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+  // Nav shrink on scroll
+  (function(){
+    var wrap=document.querySelector('.nav-wrap'); if(!wrap) return;
+    function onScr(){ (window.scrollY>8)?wrap.classList.add('scrolled'):wrap.classList.remove('scrolled'); }
+    window.addEventListener('scroll',onScr,{passive:true}); onScr();
+  })();
+
+  // Reveal on scroll
+  (function(){
+    var els=[].slice.call(document.querySelectorAll('.reveal,.timeline'));
+    if(!('IntersectionObserver'in window)){els.forEach(e=>e.classList.add('in-view'));return;}
+    var io=new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){ entry.target.classList.add('in-view'); io.unobserve(entry.target); }
       });
-    });
-  </script>
+    },{threshold:.14});
+    els.forEach(e=>io.observe(e));
+  })();
 
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    // Count up stats
+  (function(){
+    var nums=document.querySelectorAll('.num[data-count]');
+    if(!nums.length) return;
+    var io=new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(!entry.isIntersecting) return;
+        var el=entry.target; var end=+el.getAttribute('data-count'); var cur=0; var step=Math.ceil(end/50);
+        var t=setInterval(function(){ cur+=step; if(cur>=end){cur=end; clearInterval(t);} el.textContent=cur; }, 28);
+        io.unobserve(el);
+      });
+    },{threshold:.6});
+    nums.forEach(n=>io.observe(n));
+  })();
+</script>
 </body>
 </html>
