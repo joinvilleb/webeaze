@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Getting Started Guide | WebEaze</title>
-  <meta name="description" content="A simple, searchable guide for everything before, during, and after launch—plans, content, domains, launch checklist, and post-launch care." />
+  <meta name="description" content="A simple, searchable guide for everything before, during, and after launch: plans, content, domains, launch checklist, and post‑launch care." />
   <link rel="canonical" href="https://www.webeaze.io/getting-started.html" />
 
   <!-- Open Graph -->
@@ -43,6 +43,7 @@
     .btn-brand:hover{opacity:.95}
     .btn-ghost{background:#fff;color:var(--ink);border:1px solid var(--line);border-radius:12px;padding:.55rem .9rem;font-weight:700}
     .btn-ghost:hover{background:#f7f8fc}
+    .chip{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:.35rem .7rem;font-weight:700;color:#3f4564;background:#fff}
 
     /* Layout */
     .hero{position:relative;padding:clamp(42px,9vh,72px) 0;background:linear-gradient(180deg,#ffffff,#f7f8fc 70%)}
@@ -79,13 +80,14 @@
 
     /* Flash cue */
     .flash{animation:flashHighlight 900ms ease-out}
-    @keyframes flashHighlight{
-      0%{box-shadow:0 0 0 0 rgba(120,81,169,.28)}
-      40%{box-shadow:0 0 0 10px rgba(120,81,169,.18)}
-      100%{box-shadow:0 0 0 0 rgba(120,81,169,0)}
-    }
+    @keyframes flashHighlight{ 0%{box-shadow:0 0 0 0 rgba(120,81,169,.28)} 40%{box-shadow:0 0 0 10px rgba(120,81,169,.18)} 100%{box-shadow:0 0 0 0 rgba(120,81,169,0)} }
 
     footer{font-size:.95rem;color:#fff}
+
+    /* Feedback */
+    .helpful{display:flex;gap:.5rem;align-items:center}
+    .helpful button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:.35rem .7rem;font-weight:700}
+    .helpful .count{color:#6b6f86}
   </style>
 </head>
 <body>
@@ -105,7 +107,6 @@
             <li class="nav-item"><a class="nav-link" href="pricing.html">Pricing</a></li>
             <li class="nav-item"><a class="nav-link" href="about.html">About Us</a></li>
             <li class="nav-item"><a class="nav-link" href="samples.html">Our Portfolio</a></li>
-
             <li class="nav-item"><a class="nav-link" href="faq.html">FAQ</a></li>
             <li class="nav-item"><a class="nav-link" href="contact-us.html">Contact</a></li>
             <li class="nav-item ml-1"><a class="btn btn-sm btn-nav" href="consultation.html">Get Started</a></li>
@@ -120,15 +121,15 @@
     <div class="halo" aria-hidden="true"></div>
     <div class="container container-narrow">
       <div class="row align-items-center">
-        <div class="col-lg-8">
+        <div class="col-lg-9">
           <div class="eyebrow">Guide</div>
           <h1 class="headline mt-2" style="font-weight:800;letter-spacing:-.02em;line-height:1.06">Getting Started with WebEaze</h1>
-          <p class="sub mt-2" style="color:#3f4564;max-width:740px">Common questions—before, during, and after launch. Easy browsing to understand the ins-and-outs of WebEaze.</p>
+          <p class="sub mt-2" style="color:#3f4564;max-width:740px">Find straight‑forward answers for before, during, and after launch. Browse by topic, search, or jump into popular actions below.</p>
           <div class="quick-actions mt-3">
-            <a href="#browse-open" class="btn-brand">Browse the Getting Started Guide</a>
-            <a href="https://webeaze.tawk.help" class="btn-ghost">View Full Help Center</a>
-            
-           
+            <a href="#browse-open" class="btn-brand">Browse the Guide</a>
+            <a href="https://webeaze.tawk.help" class="btn-ghost">Full Help Center</a>
+            <a href="website-request.html" class="chip">Submit Website Request</a>
+            <a href="contact-us.html" class="chip">Contact Support</a>
           </div>
         </div>
       </div>
@@ -146,13 +147,12 @@
           <div class="surface mb-3">
             <div class="search-wrap">
               <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-              <input id="search" type="search" placeholder="Search getting started (press / to focus)…" aria-label="Search getting started" />
+              <input id="search" type="search" placeholder="Search the guide (press / to focus)…" aria-label="Search getting started" />
               <button class="clear" id="clearBtn" aria-label="Clear search">×</button>
             </div>
             <div class="mt-2 small text-muted">Tip: Use <span class="kbd">/</span> to jump to search. Press <span class="kbd">Esc</span> to clear.</div>
 
             <br>
-      
 
             <a id="browse-open" class="btn-ghost mt-3 browse-toggle" data-toggle="collapse" href="#browse" role="button" aria-expanded="false" aria-controls="browse">
               Browse topics
@@ -164,8 +164,6 @@
               <div id="browseBody" class="browse-body"></div>
             </div>
           </div>
-
-     
 
           <!-- Results List -->
           <div id="results" class="mb-3"></div>
@@ -197,105 +195,105 @@
 
   <script>
     // ---- Content Model ----
-    const TODAY = '10-13-2025';
+    const TODAY = '10-20-2025';
     const HELP_DATA = {
       topics: [
         { id: 'before', title: 'Before You Start', articles: [
-          { slug: 'which-plan-should-i-choose', title: 'Which plan should I choose?', updated: TODAY, meta: 'Quick guidance on Essential vs Growth vs Elite and when to upgrade.', body: `
-            <p><strong>Essential</strong> is perfect for 1–3 page sites and solo operators. <strong>Growth</strong> fits 4–6+ pages, Zoom/Live Chat support, and monthly performance reports. <strong>Elite</strong> is for unlimited pages, priority help, and ongoing Google Business Profile (GBP) management.</p>
+          { slug: 'which-plan-should-i-choose', title: 'Which plan should I choose?', updated: TODAY, meta: 'Quick guidance for Essential, Growth, and Elite and when to upgrade.', body: `
+            <p><strong>Essential</strong> fits a simple site with 1 to 3 pages. Good for a solo owner who wants a clean web presence.</p>
+            <p><strong>Growth</strong> fits 4 to 6 or more pages. It includes Zoom or Live Chat support and a monthly performance report when we see room to improve.</p>
+            <p><strong>Elite</strong> fits larger sites or owners who want priority help. It also includes ongoing Google Business Profile management.</p>
             <ul>
-              <li>Need Zoom/Live Chat support and a GBP setup? Choose <strong>Growth</strong>.</li>
-              <li>Want full domain/hosting coverage and priority response? Choose <strong>Elite</strong>.</li>
-              <li>Just getting online with a tight scope? <strong>Essential</strong> is fine—you can upgrade later.</li>
+              <li>If you want Zoom or Live Chat and Google Business Profile setup, choose <strong>Growth</strong>.</li>
+              <li>If you want full domain and hosting coverage and faster responses, choose <strong>Elite</strong>.</li>
+              <li>If you are starting small, choose <strong>Essential</strong>. You can upgrade later without losing progress.</li>
             </ul>
             <div class="cta-row mt-2">
-              <a class="btn-ghost" href="plan-guide.html">See plan guide</a>
-              <a class="btn-brand" href="consultation.html">Ask us in a 15-min call</a>
+              <a class="btn-ghost" href="plan-guide.html">See the plan guide</a>
+              <a class="btn-brand" href="consultation.html">Ask in a 15 minute call</a>
             </div>
           ` },
           { slug: 'what-content-do-i-need', title: 'What content do I need to provide?', updated: TODAY, meta: 'A short checklist for faster first draft delivery.', body: `
             <ul>
-              <li>Your logo (SVG/PNG), brand colors, and any fonts.</li>
-              <li>Page outline (Home, Services, About, Contact, etc.).</li>
-              <li>Copy highlights (bullet points are fine) and any images.</li>
-              <li>Contact details (email, phone, address, social links).</li>
-              <li>For bookings/e-commerce: platform (Wix, Squarespace, WordPress) and payment provider.</li>
+              <li>Logo in SVG or PNG, brand colors, and any fonts.</li>
+              <li>Page outline such as Home, Services, About, and Contact.</li>
+              <li>Key points for each page. Bullet points are fine. Add any images you want us to use.</li>
+              <li>Contact details. Add your email, phone, address, and social links.</li>
+              <li>For bookings or e‑commerce, tell us your platform and payment provider.</li>
             </ul>
-            <p>Drop files directly in the <a href="website-request.html">Website Request</a> form or send a link to a Google Drive folder.</p>
+            <p>Upload files in the <a href="website-request.html">Website Request</a> form or send a link to your Google Drive folder.</p>
             <div class="cta-row mt-2">
               <a class="btn-brand" href="website-request.html">Submit Website Request</a>
               <a class="btn-ghost" href="website-request.html">Get help gathering content</a>
             </div>
           ` },
-          { slug: 'how-long-does-it-take', title: 'How long does it take to get a first draft?', updated: TODAY, meta: 'Typical timeline assuming content is ready.', body: `
-            <p>Most first drafts are delivered within <strong>7–14 days</strong>. Complex features or waiting on content can extend this. See <a href="#/turnarounds-and-common-requests">Turnarounds</a> for common task estimates.</p>
+          { slug: 'how-long-does-it-take', title: 'How long until the first draft?', updated: TODAY, meta: 'Typical timeline if content is ready.', body: `
+            <p>Most first drafts are ready within <strong>7 to 14 days</strong>. Complex features or missing content can extend the timeline. See <a href="#/turnarounds-and-common-requests">Turnarounds</a> for common task estimates.</p>
           ` }
         ]},
+
         { id: 'build', title: 'During Build', articles: [
           { slug: 'how-do-we-collaborate', title: 'How do we collaborate during the build?', updated: TODAY, meta: 'How to send edits and get quick replies.', body: `
-            <p>Use the <a href="website-request.html">Website Request</a> form for all changes—this keeps your queue organized and ensures nothing is missed. Growth/Elite clients can also use Zoom or Live Chat for faster back-and-forth.</p>
+            <p>Use the <a href="website-request.html">Website Request</a> form for all changes. This keeps your queue organized so nothing is missed. Growth and Elite clients can also use Zoom or Live Chat for faster back and forth.</p>
             <div class="cta-row mt-2">
-              <a class="btn-brand" href="website-request.html">Open Request Form</a>
-              <a class="btn-ghost" href="https://calendly.com/webeaze/session-full-setups">Schedule Zoom</a>
+              <a class="btn-brand" href="website-request.html">Open the request form</a>
+              <a class="btn-ghost" href="https://calendly.com/webeaze/session-full-setups">Schedule a Zoom call</a>
             </div>
           ` },
-          { slug: 'how-to-send-website-access', title: 'How to Send WebEaze Website Access', updated: TODAY, meta: 'Give us secure access on Wix, Squarespace, WordPress, or your domain registrar.', body: `
+          { slug: 'how-to-send-website-access', title: 'How to send website access', updated: TODAY, meta: 'Give secure access on Wix, Squarespace, WordPress, or your domain registrar.', body: `
             <h2>Wix</h2>
             <ol>
-              <li>Log in → <em>Settings ▸ Roles & Permissions</em> → <strong>Invite People</strong></li>
-              <li>Invite: <code>support@webeaze.io</code> as <strong>Admin</strong> or <strong>Website Manager</strong></li>
-              <li>Click <strong>Send Invite</strong>.</li>
+              <li>Settings → Roles and Permissions → Invite People.</li>
+              <li>Invite <code>support@webeaze.io</code> as Admin or Website Manager.</li>
+              <li>Send the invite.</li>
             </ol>
             <h2>Squarespace</h2>
             <ol>
-              <li>Log in → <em>Settings ▸ Permissions</em> → <strong>Invite Contributor</strong></li>
-              <li>Invite: <code>support@webeaze.io</code> as <strong>Administrator</strong> or <strong>Website Editor</strong></li>
+              <li>Settings → Permissions → Invite Contributor.</li>
+              <li>Invite <code>support@webeaze.io</code> as Administrator or Website Editor.</li>
             </ol>
-            <h2>WordPress (.org / Bluehost, etc.)</h2>
+            <h2>WordPress (.org, Bluehost, and others)</h2>
             <ol>
-              <li><em>Users ▸ Add New</em> → Email: <code>support@webeaze.io</code> → Role: <strong>Administrator</strong> → <strong>Add New User</strong></li>
+              <li>Users → Add New → Email <code>support@webeaze.io</code> → Role Administrator → Add New User.</li>
             </ol>
-            <h2>Domains (GoDaddy, Namecheap, etc.)</h2>
+            <h2>Domains (GoDaddy, Namecheap, and others)</h2>
             <ul>
-              <li>Look for <em>Add collaborator / delegate</em> or DNS user access. If available, invite <code>support@webeaze.io</code> with Editor/Manager access.</li>
-              <li>If your registrar doesn’t support user invites, either:
-                <ul>
-                  <li>Share DNS login <em>securely</em> (we’ll provide a one-time secure link), or</li>
-                  <li>Book a quick screenshare and we’ll guide you step-by-step.</li>
-                </ul>
-              </li>
+              <li>Look for Add collaborator or Delegate access. If available, invite <code>support@webeaze.io</code> with Editor or Manager access.</li>
+              <li>If invites are not supported, either share DNS login by secure one‑time link or book a quick screenshare and we will guide you.</li>
             </ul>
-            <div class="alert alert-info mt-2"><strong>Tip:</strong> Tell us where your site/domain currently lives (Wix, Squarespace, WordPress, registrar). We’ll tailor instructions and confirm when we see access.</div>
+            <div class="alert alert-info mt-2"><strong>Tip:</strong> Tell us where your site and domain currently live. We will tailor the exact steps and confirm once we see access.</div>
             <div class="cta-row mt-2">
               <a class="btn-brand" href="website-request.html">Request a secure upload link</a>
               <a class="btn-ghost" href="consultation.html">Book a screenshare</a>
             </div>
           ` }
         ]},
-        { id: 'domains-hosting', title: 'Domains & Hosting', articles: [
-          { slug: 'domain-and-hosting-credit', title: 'Domain & Hosting Credit', updated: '06-09-2025', meta: 'Credits by plan and how we apply them.', body: `
+
+        { id: 'domains-hosting', title: 'Domains and Hosting', articles: [
+          { slug: 'domain-and-hosting-credit', title: 'Domain and hosting credit', updated: '06-09-2025', meta: 'Credits by plan and how we apply them.', body: `
             <h2>Growth plan</h2>
-            <p>We cover up to <strong>$50 USD</strong> toward domain and/or hosting—either as a one-time discount or a direct purchase on your behalf. One credit per subscription; does not renew automatically.</p>
+            <p>We cover up to <strong>$50 USD</strong> toward domain or hosting. We can apply it as a discount or buy on your behalf. One credit per subscription. It does not renew automatically.</p>
             <h2>Elite plan</h2>
-            <p>Full coverage of domain and hosting for up to one year—credited to your payment or purchased/managed by WebEaze. One term per subscription.</p>
-            <div class="alert alert-warning mt-2"><strong>Note:</strong> Domains purchased through WebEaze are via Namecheap. If you already own a domain elsewhere, we’ll provide a refund or account credit to offset the cost. Essential is not eligible—upgrade to access this benefit.</div>
+            <p>We cover domain and hosting for up to one year. We can credit your payment or purchase and manage it for you. One term per subscription.</p>
+            <div class="alert alert-warning mt-2"><strong>Note:</strong> Domains we purchase are via Namecheap. If you already own a domain elsewhere, we can refund or credit you to offset the cost. Essential is not eligible. You can upgrade to access this benefit.</div>
           ` },
           { slug: 'connect-your-domain', title: 'How do we connect your domain?', updated: TODAY, meta: 'DNS, SSL, and who does what.', body: `
-            <p>We handle DNS/SSL guidance and configuration. You can grant temporary access to your registrar, or we can purchase/manage via WebEaze (see credit above). Expect DNS propagation to take 1–24 hours.</p>
+            <p>We set up DNS and SSL with you. You can grant temporary access to your registrar or we can purchase and manage the domain with your credit if your plan includes it. DNS changes usually finish within 1 to 24 hours.</p>
             <div class="cta-row mt-2">
               <a class="btn-brand" href="website-request.html">Share registrar details</a>
               <a class="btn-ghost" href="consultation.html">DNS walkthrough</a>
             </div>
           ` }
         ]},
+
         { id: 'launch', title: 'Launch Checklist', articles: [
-          { slug: 'pre-launch-checklist', title: 'Pre-launch checklist', updated: TODAY, meta: 'Final steps before you go live.', body: `
+          { slug: 'pre-launch-checklist', title: 'Pre‑launch checklist', updated: TODAY, meta: 'Final steps before you go live.', body: `
             <ul>
-              <li>Approve final draft and page list.</li>
-              <li>Confirm contact forms send to the right inboxes.</li>
-              <li>Provide/confirm domain access and go-live window.</li>
-              <li>Share any legal pages (Privacy/Terms) and required disclaimers.</li>
-              <li>(Optional) Add Google Analytics or Meta Pixel IDs.</li>
+              <li>Approve the final draft and page list.</li>
+              <li>Confirm that contact forms send to the right inboxes.</li>
+              <li>Provide or confirm domain access and your preferred go‑live window.</li>
+              <li>Share any legal pages such as Privacy and Terms and any required disclaimers.</li>
+              <li>Optional: send Google Analytics or Meta Pixel IDs.</li>
             </ul>
             <div class="cta-row mt-2">
               <a class="btn-brand" href="website-request.html">Confirm final approval</a>
@@ -303,36 +301,35 @@
             </div>
           ` },
           { slug: 'what-happens-on-launch-day', title: 'What happens on launch day?', updated: TODAY, meta: 'Propagation, quick QA, and announcing.', body: `
-            <p>We switch DNS, verify SSL, and run a post-launch QA pass (links, forms, responsiveness). You may see brief cache propagation (usually minutes; up to 24h). We’ll send you a “live” confirmation and suggestions for announcing.</p>
+            <p>We switch DNS, verify SSL, and run a post‑launch QA pass for links, forms, and responsiveness. You may see brief cache propagation. It is often minutes, but it can take up to 24 hours. We will send you a live confirmation and tips for announcing.</p>
           ` },
           { slug: 'when-will-my-website-launch', title: 'When will my website launch?', updated: TODAY, meta: 'Typical WebEaze timeline, what we need from you, and common blockers.', body: `
-            <h2>Standard Project Timeline</h2>
+            <h2>Standard project timeline</h2>
             <table class="table table-bordered">
-              <thead><tr><th>Phase</th><th>Description</th><th>Typical Window</th></tr></thead>
+              <thead><tr><th>Phase</th><th>Description</th><th>Typical window</th></tr></thead>
               <tbody>
-                <tr><td>Onboarding</td><td>Welcome email, setup in our system, project briefing</td><td>Same day</td></tr>
-
-                <tr><td>Content Collection</td><td>You send your logo, text, and photos. We organize and plan page layouts.</td><td>1-3 days (you-dependent)</td></tr>
-                <tr><td>Website Build</td><td>We design and build your site. Homepage, intrnal pages, and mobile layout</td><td>2-3 days</td></tr>
-                <tr><td>Revisions</td><td>You review the draft and send any edits. We make updates accordingly. </td><td>2–3 days</td></tr>
-                <tr><td>Final Launch</td><td>Final QA, SEO basics, and domain connection. Your site goes live!</td><td>1–2 days</td></tr>
+                <tr><td>Onboarding</td><td>Welcome email, setup in our system, project briefing.</td><td>Same day</td></tr>
+                <tr><td>Content collection</td><td>You send your logo, text, and photos. We organize and plan page layouts.</td><td>1 to 3 days (you dependent)</td></tr>
+                <tr><td>Website build</td><td>We design and build your site. Homepage, internal pages, and mobile layout.</td><td>2 to 3 days</td></tr>
+                <tr><td>Revisions</td><td>You review the draft and send edits. We update and confirm.</td><td>2 to 3 days</td></tr>
+                <tr><td>Final launch</td><td>Final QA, SEO basics, and domain connection. Your site goes live.</td><td>1 to 2 days</td></tr>
               </tbody>
             </table>
-            <p><strong>Most sites launch within 7-14 days</strong> if content is ready and feedback is prompt. If there are delays, it may take up to 30 days. </p>
+            <p><strong>Most sites launch within 7 to 14 days</strong> if content is ready and feedback is quick. If there are delays, it can take up to 30 days.</p>
 
-            <h2>What We Need From You</h2>
+            <h2>What we need from you</h2>
             <ul>
-              <li>Submit content via the <a href="website-request.html">Website Request</a> form.</li>
-              <li>Reply to revision notes within <strong>2–3 days</strong>.</li>
+              <li>Submit content using the <a href="website-request.html">Website Request</a> form.</li>
+              <li>Reply to revision notes within 2 to 3 days.</li>
               <li>Share domain access or book a DNS walkthrough.</li>
             </ul>
 
-            <h2>What Can Delay a Project?</h2>
+            <h2>What can delay a project?</h2>
             <ul>
-              <li>No/late content submission</li>
-              <li>Unclear or multi-channel feedback (keep it in one thread)</li>
-              <li>Missed approvals or long gaps between replies</li>
-              <li>Mid-project scope additions (we’ll schedule them—no problem)</li>
+              <li>No or late content submission.</li>
+              <li>Unclear or multi‑channel feedback. Keep it in one thread.</li>
+              <li>Missed approvals or long gaps between replies.</li>
+              <li>Mid‑project scope additions. We will schedule them without issue.</li>
             </ul>
 
             <div class="cta-row mt-2">
@@ -341,62 +338,93 @@
             </div>
           ` }
         ]},
-        { id: 'after', title: 'After Launch & Growth', articles: [
-          { slug: 'how-to-request-updates', title: 'How do I request updates after launch?', updated: TODAY, meta: 'Unlimited maintenance in practice.', body: `
-            <p>Use the <a href="website-request.html">Website Request</a> form for edits, new sections, and questions. Growth/Elite can also use Zoom/Live Chat. We respond in the same thread and track completion there.</p>
+
+        { id: 'after', title: 'After Launch and Growth', articles: [
+          { slug: 'how-to-request-updates', title: 'How do I request updates after launch?', updated: TODAY, meta: 'How unlimited maintenance works.', body: `
+            <p>Use the <a href="website-request.html">Website Request</a> form for edits, new sections, and questions. Growth and Elite can also use Zoom or Live Chat. We respond in the same thread and track completion there.</p>
             <div class="cta-row mt-2">
               <a class="btn-brand" href="website-request.html">Request an update</a>
               <a class="btn-ghost" href="contact-us.html">Ask a question</a>
             </div>
           ` },
-          { slug: 'performance-reports', title: 'About performance reports', updated: TODAY, meta: 'What’s in the report and who gets it.', body: `
-            <p>Growth: monthly reports when there’s room to improve (SEO, speed, engagement). Elite: advanced reports every month including analytics + keyword tracking + suggestions. We’ll email the PDF and a quick summary.</p>
+          { slug: 'performance-reports', title: 'About performance reports', updated: TODAY, meta: 'What is in the report and who gets it.', body: `
+            <p>Growth receives a monthly report when we see room to improve for SEO, speed, or engagement. Elite receives an advanced report every month with analytics, keyword tracking, and suggestions. We will email the PDF and a quick summary.</p>
           ` },
-          { slug: 'google-business-profile', title: 'Google Business Profile (GBP)', updated: TODAY, meta: 'Setup vs ongoing management by plan.', body: `
-            <p>Growth includes <strong>setup/optimization</strong> so you appear correctly on Google Maps and local search. Elite includes <strong>ongoing management</strong>—posts, photos, info updates, and local SEO improvements.</p>
+          { slug: 'google-business-profile', title: 'Google Business Profile (GBP)', updated: TODAY, meta: 'Setup and ongoing management by plan.', body: `
+            <p>Growth includes setup and optimization so you appear correctly on Google Maps and local search. Elite includes ongoing management for posts, photos, info updates, and local SEO improvements.</p>
           ` }
         ]},
-        { id: 'billing', title: 'Billing & Policies', articles: [
-          { slug: 'manage-your-subscription', title: 'Manage your subscription (Stripe Portal)', updated: TODAY, meta: 'Update payment method, receipts, and plan changes.', body: `
-            <p>Use your <strong>Stripe Customer Portal</strong> link from your welcome email to update cards, view invoices, and change plans. Need the link again? <a href="website-request.html">Contact us</a> and we’ll resend it.</p>
+
+        { id: 'billing', title: 'Billing and Policies', articles: [
+          { slug: 'manage-your-subscription', title: 'Manage your subscription (Stripe Portal)', updated: TODAY, meta: 'Update your payment method, receipts, and plan changes.', body: `
+            <p>Use your Stripe Customer Portal link from your welcome email to update cards, view invoices, and change plans. Need the link again? <a href="website-request.html">Contact us</a> and we will resend it.</p>
           ` },
           { slug: 'cancel-your-plan', title: 'Cancel your plan', updated: '08-01-2025', meta: 'What happens and how content transfer works.', body: `
-            <p>You can cancel anytime in your Stripe Portal. Cancellation is effective immediately. No refunds or credits for unused time (see Refund Policy).</p>
+            <p>You can cancel at any time in your Stripe Portal. Cancellation is effective immediately. There are no refunds or credits for unused time. See Refund Policy.</p>
             <h2>Site content</h2>
             <ul>
-              <li><strong>&lt;12 months monthly</strong>: we delete content within 2 days, or you can pay $99 to retrieve it.</li>
-              <li><strong>12+ months / annual</strong>: we’ll transfer site content upon request within 30 days of cancellation.</li>
+              <li><strong>Under 12 months on monthly</strong>: we delete site content within 2 days, or you can pay $99 to retrieve it.</li>
+              <li><strong>12 months or more or annual</strong>: we can transfer site content on request within 30 days of cancellation.</li>
             </ul>
-            <p><em>We’re not responsible for changes/loss once content is transferred.</em></p>
-            <h2>Domains/Hosting</h2>
-            <p>If we handled these, we’ll park the domain—or transfer ownership for $99. If you handled your own, you may transfer at your discretion. Remaining domain credits do not carry over after cancellation.</p>
+            <p><em>We are not responsible for changes or loss once content is transferred.</em></p>
+            <h2>Domains and hosting</h2>
+            <p>If we handled these, we will park the domain or transfer ownership for $99. If you handled your own, you may transfer at your discretion. Remaining domain credits do not carry over after cancellation.</p>
+          ` },
+          { slug: 'unfinished-work-policy', title: 'Unfinished Work policy', updated: TODAY, meta: 'What happens if we cannot fulfill a project.', body: `
+            <p>This situation is very rare. In some cases WebEaze may contact you after you join to explain that we cannot fulfill your project or website request. Common reasons include the following:</p>
+            <ul>
+              <li>New additions or custom features discussed after the project starts that change the scope in a major way.</li>
+              <li>Security issues that we cannot correct or implement safely.</li>
+              <li>High complexity that exceeds our build window. For example, a social network is more complex than a simple online shop.</li>
+            </ul>
+
+            <h2>How can I avoid this?</h2>
+            <p>Book a free 15 minute consultation before you buy. We will confirm your needs, timeline, and budget, and tell you if we are not a good fit so you can choose another provider at no cost. If you skip the consultation, we will still build and maintain your website. There is a small chance we may end the project if later custom requests are much more complex than expected.</p>
+            <div class="cta-row mt-2">
+              <a class="btn-brand" href="consultation.html">Schedule a consultation</a>
+              <a class="btn-ghost" href="website-request.html">Describe your project</a>
+            </div>
+
+            <h2>Do I get a refund?</h2>
+            <p>If WebEaze ends your project, we do not issue refunds. Payments cover services already provided such as research, planning, and the work done to deploy your website. Please review our Refund Policy for full details.</p>
+
+            <div class="helpful mt-3" role="group" aria-label="Article feedback">
+              <button type="button" data-vote="up">👍 Yes, this helped</button>
+              <button type="button" data-vote="down">👎 Not helpful</button>
+              <span class="count small ml-1" aria-live="polite">0 found this helpful</span>
+            </div>
+
+            <p class="small text-muted mt-2">Last updated {{TODAY}} by WebEaze Support</p>
+
+            <div class="alert alert-light border mt-3">
+              <strong>Add live chat to your site:</strong> ask us to install a free live chat widget during setup.
+            </div>
           ` }
         ]},
+
         { id: 'troubleshooting', title: 'Troubleshooting', articles: [
-          { slug: 'turnarounds-and-common-requests', title: 'Turnarounds & common requests', updated: '06-29-2025', meta: 'Typical completion windows for frequent tasks.', body: `
+          { slug: 'turnarounds-and-common-requests', title: 'Turnarounds and common requests', updated: '06-29-2025', meta: 'Typical completion windows for frequent tasks.', body: `
             <table class="table table-bordered">
-              <thead><tr><th>Request Type</th><th>Turnaround</th></tr></thead>
+              <thead><tr><th>Request type</th><th>Turnaround</th></tr></thead>
               <tbody>
-                <tr><td>Text or Image Edits</td><td>1–3 days</td></tr>
-                <tr><td>Additional Pages</td><td>3–5 days</td></tr>
-                <tr><td>Mobile Optimization Fixes</td><td>1–3 days</td></tr>
-                <tr><td>SEO Updates</td><td>1–3 days</td></tr>
-                <tr><td>Contact Form Edits</td><td>1–3 days</td></tr>
-                <tr><td>Full Website Audit/Revamp</td><td>5–10 business days</td></tr>
-                <tr><td>Bug Fixes / Site Issues</td><td>24–48 hours*</td></tr>
+                <tr><td>Text or image edits</td><td>1 to 3 days</td></tr>
+                <tr><td>Additional pages</td><td>3 to 5 days</td></tr>
+                <tr><td>Mobile optimization fixes</td><td>1 to 3 days</td></tr>
+                <tr><td>SEO updates</td><td>1 to 3 days</td></tr>
+                <tr><td>Contact form edits</td><td>1 to 3 days</td></tr>
+                <tr><td>Full website audit or revamp</td><td>5 to 10 business days</td></tr>
+                <tr><td>Bug fixes or site issues</td><td>24 to 48 hours*</td></tr>
               </tbody>
             </table>
-            <p><em>*Urgent issues are prioritized and often resolved sooner.</em></p>
+            <p><em>*Urgent issues are prioritized and are often resolved sooner.</em></p>
             <div class="cta-row mt-2">
               <a class="btn-brand" href="website-request.html">Submit a request</a>
-      
             </div>
           ` },
-          { slug: 'my-site-isnt-updating', title: 'My site isn’t updating after a change', updated: TODAY, meta: 'Caching and DNS propagation basics.', body: `
-            <p>Hard-refresh your browser (Cmd/Ctrl+Shift+R) and try an incognito window. DNS or CDN cache can take up to 24 hours after a domain change. If it persists, send a screenshot + URL via the Request form.</p>
+          { slug: 'my-site-isnt-updating', title: 'My site is not updating after a change', updated: TODAY, meta: 'Caching and DNS propagation basics.', body: `
+            <p>Hard refresh your browser with Command or Control Shift R and try an incognito window. DNS or CDN cache can take up to 24 hours after a domain change. If it continues, send a screenshot and your URL using the request form.</p>
             <div class="cta-row mt-2">
               <a class="btn-brand" href="website-request.html">Report an issue</a>
-       
             </div>
           ` }
         ]}
@@ -512,7 +540,6 @@
         <section class="article-body">${article.body}</section>
         <hr/>
         <div class="cta-row">
-
           <button class="btn-ghost" id="copyLinkBtn" type="button">Copy link</button>
         </div>
       `;
@@ -523,6 +550,19 @@
           navigator.clipboard.writeText(location.href);
           $btn.textContent='Link copied!';
           setTimeout(()=>{$btn.textContent='Copy link'},1200);
+        });
+      }
+
+      // Feedback counters (non persistent)
+      const helpful=$article.querySelector('.helpful');
+      if(helpful){
+        const count=helpful.querySelector('.count');
+        let n=0;
+        helpful.addEventListener('click',(e)=>{
+          const b=e.target.closest('button');
+          if(!b) return;
+          n=Math.max(0, n + (b.dataset.vote==='up'?1:0));
+          count.textContent = `${n} found this helpful`;
         });
       }
 
