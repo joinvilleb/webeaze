@@ -257,6 +257,62 @@
           font-weight:500;
           letter-spacing:.02em;
         }
+
+    
+      
+        .glow-wrap{position:relative}
+        .glow{position:absolute;inset:-20% -10% auto -10%;height:340px;filter:blur(40px);pointer-events:none;opacity:.6;background:
+        radial-gradient(28% 38% at 15% 30%, rgba(120,81,169,.45), transparent 60%),
+        radial-gradient(28% 38% at 85% 20%, rgba(255,215,0,.32), transparent 60%)}
+
+
+        .why-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
+        .why-card{grid-column:span 4;position:relative;border-radius:16px;background:linear-gradient(180deg,rgba(255,255,255,.72),#fff);
+        border:1px solid var(--line);box-shadow:0 14px 34px rgba(16,18,37,.08);padding:18px;overflow:hidden}
+        .dark .why-card{background:rgba(255,255,255,.06);border-color:var(--dark-line);box-shadow:0 18px 44px rgba(0,0,0,.35)}
+        .why-card:after{content:"";position:absolute;inset:-1px;z-index:0;border-radius:16px;padding:1px;background:linear-gradient(135deg, rgba(120,81,169,.5), rgba(255,215,0,.5));-webkit-mask:
+        linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);-webkit-mask-composite: xor;mask-composite: exclude}
+        .why-top{display:flex;align-items:center;gap:10px;position:relative;z-index:1}
+        .why-icon{width:46px;height:46px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(135deg,#ede9fe,#fff7cc);
+        box-shadow:inset 0 0 0 1px rgba(16,18,37,.06)}
+        .dark .why-icon{background:linear-gradient(135deg,rgba(120,81,169,.25),rgba(255,215,0,.18))}
+        .why-title{font-weight:800;margin:0}
+        .why-text{color:#3c4260;margin:.35rem 0 .6rem}
+        .dark .why-text{color:#d9dcff}
+        .why-tags{display:flex;flex-wrap:wrap;gap:6px}
+        .why-tag{font-size:.78rem;font-weight:700;padding:.28rem .55rem;border-radius:999px;border:1px solid var(--line);background:#f7f7fb}
+        .dark .why-tag{background:rgba(255,255,255,.08);border-color:var(--dark-line);color:#f1f3ff}
+        @media(max-width:992px){.why-card{grid-column:span 6}}
+        @media(max-width:768px){.why-card{grid-column:span 12}}
+
+
+        /* Process timeline */
+        .process-wrap{position:relative}
+        .process-line{position:absolute;left:50%;transform:translateX(-50%);top:0;bottom:0;width:4px;border-radius:4px;background:
+        linear-gradient(180deg, #7851a9 0%, #ffd700 100%);opacity:.7}
+        @media (max-width:768px){.process-line{left:26px;transform:none}}
+
+
+        .step{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:20px 0}
+        .step .card{border:1px solid var(--line);border-radius:16px;padding:18px;background:#fff;box-shadow:0 12px 28px rgba(16,18,37,.06)}
+        .dark .step .card{background:#0f1020;border-color:var(--dark-line);box-shadow:0 18px 44px rgba(0,0,0,.45)}
+        .badge-num{position:absolute;left:50%;transform:translate(-50%, -10px);top:0;z-index:2;width:44px;height:44px;border-radius:12px;
+        display:grid;place-items:center;font-weight:900;color:#2f1e66;background:var(--gold);box-shadow:0 10px 28px rgba(255,215,0,.35)}
+        @media (max-width:768px){
+        .step{grid-template-columns:1fr;padding-left:56px}
+        .badge-num{left:26px;transform:translate(-50%,-10px)}
+        }
+        .step-title{font-weight:800;margin:0 0 .25rem}
+        .step-sub{color:#6b7280;margin:0 0 .6rem}
+        .step-icon{width:40px;height:40px;border-radius:10px;display:grid;place-items:center;background:linear-gradient(135deg,#ede9fe,#fff7cc);margin-bottom:8px}
+        .dark .step-icon{background:linear-gradient(135deg,rgba(120,81,169,.25),rgba(255,215,0,.18))}
+
+
+        /* Floating decorative orbs */
+        .orb{position:absolute;width:120px;height:120px;border-radius:50%;filter:blur(18px);opacity:.35}
+        .orb.brand{background:radial-gradient(circle at 30% 30%, rgba(120,81,169,.55), transparent 60%)}
+        .orb.gold{background:radial-gradient(circle at 70% 70%, rgba(255,215,0,.5), transparent 60%)}
+
       </style>
 
       <div class="col-6 col-md-4 mb-3">
@@ -338,55 +394,154 @@
 <!-- WHY (light, condensed) -->
 <section id="standout" class="section light">
   <div class="container container-narrow">
-    <div class="surface p-3 p-md-4 reveal">
-      <h2 class="h4 mb-3" style="font-weight:700">Why WebEaze</h2>
-      <div class="row">
-        <div class="col-md-4 mb-2">
-          <div class="d-flex align-items-start">
-            <div class="mr-2" aria-hidden="true">
-              <svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="url(#g1)"/><defs><linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#7e5fe0"/><stop offset="1" stop-color="#ffd700"/></linearGradient></defs></svg>
-            </div>
-            <div><strong>No hourly billing</strong><div class="text-muted">Simple monthly or yearly pricing</div></div>
-          </div>
-        </div>
-        <div class="col-md-4 mb-2">
-          <div class="d-flex align-items-start">
-            <div class="mr-2" aria-hidden="true">
-              <svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="url(#g2)"/><defs><linearGradient id="g2" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#7e5fe0"/><stop offset="1" stop-color="#ffd700"/></linearGradient></defs></svg>
-            </div>
-            <div><strong>Fast launches</strong><div class="text-muted">First draft in days</div></div>
-          </div>
-        </div>
-        <div class="col-md-4 mb-2">
-          <div class="d-flex align-items-start">
-            <div class="mr-2" aria-hidden="true">
-              <svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="url(#g3)"/><defs><linearGradient id="g3" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#7e5fe0"/><stop offset="1" stop-color="#ffd700"/></linearGradient></defs></svg>
-            </div>
-            <div><strong>Human support</strong><div class="text-muted">Email, chat, or Zoom</div></div>
-          </div>
-        </div>
-      </div>
-      <div class="btn-row mt-3"><a href="work-with.html" class="btn-brand">Who we serve</a><a href="maintenance.html" class="btn-ghost">Our Maintenance Commitment
-      </a></div>
-    </div>
+  <div class="surface p-3 p-md-4 reveal glow-wrap" style="overflow:hidden;position:relative">
+  <div class="glow" aria-hidden="true"></div>
+  <h2 class="h4 mb-2" style="font-weight:800; padding-bottom: 10px;">Why WebEaze</h2>
+
+  
+  
+  <div class="why-grid">
+  <!-- Card 1 -->
+  <article class="why-card tilt">
+  <div class="why-top">
+  <div class="why-icon" aria-hidden="true">
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h10" stroke="#6b53b1" stroke-width="2" stroke-linecap="round"/></svg>
   </div>
-</section>
+  <h3 class="why-title">No Hourly Billing</h3>
+  </div>
+  <p class="why-text">Simple monthly or yearly pricing. Predictable costs and clear scope from day one.</p>
+  <div class="why-tags">
+  <span class="why-tag">Flat-rate care</span>
+  <span class="why-tag">Setup included in yearly plans</span>
+  <span class="why-tag">Cancel anytime</span>
+  </div>
+  </article>
+  
+  
+  <!-- Card 2 -->
+  <article class="why-card tilt">
+  <div class="why-top">
+  <div class="why-icon" aria-hidden="true">
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="#6b53b1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </div>
+  <h3 class="why-title">Fast Launches</h3>
+  </div>
+  <p class="why-text">First draft in days. We iterate with you and ship in 7-14 days on average.</p>
+  <div class="why-tags">
+  <span class="why-tag">Content guidance</span>
+  <span class="why-tag">Speed & SEO</span>
+  <span class="why-tag">Real timelines</span>
+  </div>
+  </article>
+  
+  
+  <!-- Card 3 -->
+  <article class="why-card tilt">
+  <div class="why-top">
+  <div class="why-icon" aria-hidden="true">
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 14a4 4 0 100-8 4 4 0 000 8zm0 2c-4 0-7 2-7 4v1h14v-1c0-2-3-4-7-4z" fill="#6b53b1"/></svg>
+  </div>
+  <h3 class="why-title">Human Support</h3>
+  </div>
+  <p class="why-text">Quick help via email, chat, or Zoom. Real people, real answers. And a team that knows your business</p>
+  <div class="why-tags">
+  <span class="why-tag">Unlimited updates</span>
+  <span class="why-tag">Performance checks</span>
+  <span class="why-tag">Friendly onboarding</span>
+  </div>
+  </article>
+  </div>
+  
+  
+  <div class="btn-row mt-3"><a href="work-with.html" class="btn-brand">Who we serve</a><a href="maintenance.html" class="btn-ghost">Our Maintenance Commitment</a></div>
+  </div>
+  </div>
+  </section>
 
 <!-- PROCESS -->
 <section id="process" class="section dark">
-  <div class="container container-narrow">
-    <h2 class="h4 text-center mb-3" style="font-weight:700">How it works</h2>
-    <p style="color:#f3f5ff; padding: 20px; line-height:1.5; text-align: center !important;">We keep it simple. After a quick kickoff chat, we build a first draft in days. Then you review and we polish until you're happy. After launch, we handle ongoing maintenance and updates.</p>
-    <div class="surface p-3 p-md-4 reveal">
-      <div class="row text-center">
-        <div class="col-md-4 mb-3"><div class="mb-1" style="display:inline-flex;width:32px;height:32px;border-radius:10px;background:#251e42;color:#e9e4ff;font-weight:800;align-items:center;justify-content:center">1</div><div>Kickoff chat. Just 15 minutes.</div></div>
-        <div class="col-md-4 mb-3"><div class="mb-1" style="display:inline-flex;width:32px;height:32px;border-radius:10px;background:#251e42;color:#e9e4ff;font-weight:800;align-items:center;justify-content:center">2</div><div>First draft. To ensure things are perfect.</div></div>
-        <div class="col-md-4 mb-3"><div class="mb-1" style="display:inline-flex;width:32px;height:32px;border-radius:10px;background:#251e42;color:#e9e4ff;font-weight:800;align-items:center;justify-content:center">3</div><div>Launch and care. We're here for you.  </div></div>
-      </div>
-      <div class="text-center mt-2"><a href="consultation.html" class="btn-brand">Free Consultation</a></div>
-    </div>
+  <div class="orb brand" style="top:-20px; left:-40px" aria-hidden="true"></div>
+  <div class="orb gold" style="bottom:-40px; right:-60px" aria-hidden="true"></div>
+  
+  
+  <h2 class="h4 text-center mb-2" style="font-weight:800">How it works</h2>
+  <p class="text-center" style="color:#f3f5ff; line-height:1.55; max-width:760px; margin:0 auto 10px">Kickoff, draft, launch. Simple, fast, and supported at every step.</p>
+  
+  
+  <div class="process-line" aria-hidden="true"></div>
+  
+  
+  <!-- Step 1 -->
+  <div class="step reveal">
+  <div class="badge-num">1</div>
+  <div class="card tilt">
+  <div class="step-icon" aria-hidden="true">
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 6h16v12H4z" stroke="#6b53b1" stroke-width="2"/><path d="M8 10h8M8 14h5" stroke="#6b53b1" stroke-width="2" stroke-linecap="round"/></svg>
   </div>
-</section>
+  <h3 class="step-title">Kickoff chat (15 min)</h3>
+  <p class="step-sub">We capture goals, pages, branding, and any examples you like.</p>
+  <div class="text-muted">Bring content if you have it. If not, we guide you.</div>
+  </div>
+  <div class="card tilt">
+  <div class="step-icon" aria-hidden="true">
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M6 7h12M6 12h10M6 17h8" stroke="#6b53b1" stroke-width="2" stroke-linecap="round"/></svg>
+  </div>
+  <h3 class="step-title">Setup & structure</h3>
+  <p class="step-sub">We set hosting/domain and build the site framework fast.</p>
+  <div class="text-muted">Clean, SEO-ready foundation from the start.</div>
+  </div>
+  </div>
+  
+  
+  <!-- Step 2 -->
+  <div class="step reveal">
+  <div class="badge-num">2</div>
+  <div class="card tilt">
+  <div class="step-icon" aria-hidden="true">
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 5l8 6 8-6v12H4z" stroke="#6b53b1" stroke-width="2" stroke-linejoin="round"/></svg>
+  </div>
+  <h3 class="step-title">First draft in days</h3>
+  <p class="step-sub">You review copy, layout, and visuals—then we refine.</p>
+  <div class="text-muted">We iterate quickly with clear, focused rounds.</div>
+  </div>
+  <div class="card tilt">
+  <div class="step-icon" aria-hidden="true">
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M6 15l4 4 8-10" stroke="#6b53b1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </div>
+  <h3 class="step-title">Polish & QA</h3>
+  <p class="step-sub">Speed, mobile, accessibility, and SEO checks.</p>
+  <div class="text-muted">We test forms, links, and performance.</div>
+  </div>
+  </div>
+  
+  
+  <!-- Step 3 -->
+  <div class="step reveal">
+  <div class="badge-num">3</div>
+  <div class="card tilt">
+  <div class="step-icon" aria-hidden="true">
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 12h18M12 3v18" stroke="#6b53b1" stroke-width="2"/></svg>
+  </div>
+  <h3 class="step-title">Launch</h3>
+  <p class="step-sub">Go live on your domain with analytics and basics dialed.</p>
+  <div class="text-muted">We handle DNS, SSL, and final checks.</div>
+  </div>
+  <div class="card tilt">
+  <div class="step-icon" aria-hidden="true">
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 6h16v12H4z" stroke="#6b53b1" stroke-width="2"/><path d="M8 10h5M8 14h8" stroke="#6b53b1" stroke-width="2" stroke-linecap="round"/></svg>
+  </div>
+  <h3 class="step-title">Care & updates</h3>
+  <p class="step-sub">Unlimited tweaks, content updates, and monthly checks.</p>
+  <div class="text-muted">Stay fresh without hourly invoices.</div>
+  </div>
+  </div>
+  
+  
+  </div>
+  </section>
+  
+  
+
 
 <!-- SERVICE AREA  -->
 <section id="service-area" class="section dark band-area" style="padding-top:64px;padding-bottom:64px;">
@@ -640,5 +795,14 @@
     nums.forEach(n=>io.observe(n));
   })();
 </script>
+
+<script>
+  (function(){
+  var orbs=[].slice.call(document.querySelectorAll('.orb'));
+  if(!orbs.length) return;
+  var t=0; function tick(){ t+=0.008; orbs.forEach(function(o,i){ var amp=6+(i*2); var x=Math.sin(t+i)*amp, y=Math.cos(t*1.2+i)*amp; o.style.transform='translate('+x+'px,'+y+'px)'; }); requestAnimationFrame(tick); }
+  tick();
+  })();
+  </script>
 </body>
 </html>
