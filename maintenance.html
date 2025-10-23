@@ -7,207 +7,96 @@
   <meta name="description" content="Unlimited site updates, fixes, and proactive care. Fast turnarounds, human support, and no hourly billing." />
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"/>
   <link rel="shortcut icon" href="images/webeaze-transparent copy.png" type="image/png"/>
   <link rel="canonical" href="https://www.webeaze.io/maintenance.html" />
 
-
   <style>
     :root{
-      --brand:#7851a9; --brand-ink:#3e257b; --gold:#ffd700; --ink:#101225;
-      --muted:#6b7280; --line:#e6e8ef; --white:#fff;
-      --glow: 0 12px 40px rgba(120,81,169,.35);
+      --brand:#7851a9; --gold:#ffd700; --ink:#0f1228; --muted:#6b7280;
+      --line:#e6e8ef; --bg:#f7f8fc; --card:#ffffff;
     }
     html,body{height:100%}
-    body{margin:0;font-family:'Poppins',sans-serif;-webkit-font-smoothing:antialiased}
+    body{margin:0;font-family:'Poppins',sans-serif;background:var(--bg);color:var(--ink)}
 
-
-    .nav-wrap{
-      position:sticky; top:0; z-index:9999;
-      background: #7e5fe0;
+    /* keep your existing nav visuals */
+    .nav-wrap{position:sticky; top:0; z-index:9999; background:#7e5fe0;
       backdrop-filter:saturate(130%) blur(8px); -webkit-backdrop-filter:saturate(130%) blur(8px);
-      border-bottom:1px solid rgba(255,255,255,.14)
-    }
+      border-bottom:1px solid rgba(255,255,255,.14)}
     .logo{height:36px}
-    .brand-word{letter-spacing:-.3px;font-weight:700;background:linear-gradient(90deg, #d5cfeb,#ffffff);
+    .brand-word{letter-spacing:-.3px;font-weight:700;background:linear-gradient(90deg,#d5cfeb,#fff);
       -webkit-background-clip:text;-webkit-text-fill-color:transparent}
     .navbar-dark .nav-link{color:#fff!important;opacity:.92;border-radius:10px;padding:.45rem .7rem}
     .navbar-dark .nav-link:hover{opacity:1;background:rgba(255,255,255,.1)}
 
-    /* Buttons: consistent sizing and alignment */
+    .container-narrow{max-width:1100px}
+    h1,h2{font-weight:900; letter-spacing:-.02em}
+    p.lead{font-size:1.1rem}
+
+    /* hero */
+    .hero{padding:72px 0 36px; background:#ffffff}
+    .hero .eyebrow{font-size:.85rem;letter-spacing:.12em;text-transform:uppercase;color:#5b5f75}
+    .hero .headline{font-size:clamp(32px,6vw,60px); line-height:1.06}
     .btn-brand{
       display:inline-flex; align-items:center; justify-content:center;
       background:var(--gold); color:#2f1e66; border:none; border-radius:12px;
-      padding:.7rem 1.05rem; font-weight:700; line-height:1;
-      box-shadow:0 8px 22px rgba(255,215,0,.22);
-      transition:transform .15s ease, box-shadow .15s ease, background-color .15s ease, color .15s ease;
+      padding:.9rem 1.2rem; font-weight:800; line-height:1;
+      box-shadow:0 12px 30px rgba(255,215,0,.28);
+      transition:transform .15s ease, box-shadow .15s ease, background-color .15s ease;
     }
-    .btn-brand:hover{background:#f2c600;color:#fff;transform:translateY(-1px);box-shadow:0 12px 28px rgba(255,215,0,.33)}
+    .btn-brand:hover{background:#f2c600;color:#fff;transform:translateY(-1px)}
     .btn-ghost{
       display:inline-flex; align-items:center; justify-content:center;
-      background:#fff; color:#0f1228; border:1px solid var(--line);
-      border-radius:12px; padding:.7rem 1.05rem; font-weight:700; line-height:1;
-      transition:transform .15s ease, box-shadow .15s ease, background-color .15s ease, color .15s ease;
+      background:#fff; color:#0f1228; border:1px solid var(--line); border-radius:12px;
+      padding:.9rem 1.2rem; font-weight:800; line-height:1;
     }
-    .btn-ghost:hover{transform:translateY(-1px); box-shadow:0 8px 28px rgba(16,18,37,.10)}
-    .btn-sm-fix{padding:.55rem .9rem; font-weight:700; line-height:1}
 
-    /* Reusable button row (Bootstrap 4 friendly spacing) */
-    .btn-row{display:flex; flex-wrap:wrap; align-items:center}
-    .btn-row > a{margin-right:.5rem; margin-bottom:.5rem}
-    .btn-row > a:last-child{margin-right:0}
+    /* simple cards */
+    .cardx{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px}
+    .grid-3{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
+    .grid-3 .cardx{grid-column:span 4}
+    @media (max-width:900px){.grid-3 .cardx{grid-column:span 12}}
 
-    /* Page look */
-    .maintenance-page main{background:linear-gradient(180deg,#f7f8fc,#f0f3ff 38%,#eef2ff); color:var(--ink)}
-    .container-narrow{max-width:1100px}
-
-    /* HERO */
-    .hero{position:relative; padding:72px 0 56px; overflow:hidden}
-    .hero .bg-burst{
-      position:absolute; inset:-40% -20% auto -20%; height:420px;
-      background:
-        radial-gradient(40% 60% at 15% 20%, rgba(120,81,169,.30), transparent 60%),
-        radial-gradient(30% 50% at 85% 20%, rgba(255,215,0,.25), transparent 60%);
-      filter:blur(30px);
-    }
-    .confetti{
-      position:absolute; inset:0; pointer-events:none; opacity:.18;
-      background-image:radial-gradient(rgba(16,18,37,.15) 1px, transparent 1px);
-      background-size:18px 18px; mask-image:linear-gradient(#000, transparent 75%);
-    }
-    .eyebrow{font-size:.85rem;letter-spacing:.08em;text-transform:uppercase;color:#5b5f75}
-    .headline{font-weight:800;letter-spacing:-.02em;line-height:1.05; font-size: 50px; color:#0f1228}
-    .rotate{display:inline-grid; position:relative; width:13ch; vertical-align:top}
-    .rotate span{
-      grid-area:1/1; animation:swap 8s ease-in-out infinite;
-      background:linear-gradient(90deg,var(--brand),#7e5fe0); -webkit-background-clip:text; -webkit-text-fill-color:transparent;
-      font-weight:800;
-    }
-    .rotate span:nth-child(2){animation-delay:2.66s}
-    .rotate span:nth-child(3){animation-delay:5.33s}
-    @keyframes swap{0%,10%{opacity:1;transform:translateY(0)} 20%,33%{opacity:0;transform:translateY(-10px)} 34%,100%{opacity:0}}
-
-    /* TRUST STRIP */
-    .strip{border-top:1px solid var(--line); border-bottom:1px solid var(--line); background:#fff}
-    .strip .inner{display:flex; gap:28px; white-space:nowrap; overflow:hidden}
-    .strip .inner span{opacity:.8}
-    .strip .inner .dot{opacity:.35}
-
-    /* QUICK ACTIONS */
-    .actions{display:grid; grid-template-columns:repeat(12,1fr); gap:16px}
-    .action{grid-column:span 4; background:#fff; border:1px solid var(--line); border-radius:14px; padding:18px; transition:transform .15s ease, box-shadow .15s ease}
-    .action:hover{transform:translateY(-3px); box-shadow:var(--glow)}
-    .action .icon{display:inline-flex; width:40px; height:40px; border-radius:10px; align-items:center; justify-content:center; background:linear-gradient(180deg,#ede9fe,#ffffff); border:1px solid var(--line); margin-right:.5rem}
-    @media (max-width:900px){.action{grid-column:span 12}}
-
-    /* COUNTERS */
-    .stats{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
-    .stat{grid-column:span 3;background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px;text-align:center}
-    .stat .num{font-weight:800;font-size:1.6rem; letter-spacing:-.5px; color:#0f1228}
-    .stat .lbl{color:var(--muted);font-size:.9rem}
-    @media (max-width:900px){.stat{grid-column:span 6}}
-    @media (max-width:600px){.stat{grid-column:span 12}}
-
-    /* SURFACE + INCLUDED */
-    .surface{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 12px 40px rgba(16,18,37,.06);padding:24px}
-    .chips{display:flex;flex-wrap:wrap}
-    .chip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:.45rem .75rem;font-weight:600; margin-right:.5rem; margin-bottom:.5rem}
-
+    /* included list */
     .inc-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:14px}
     .inc{grid-column:span 6;background:#fafbff;border:1px solid #e8eaf5;border-radius:12px;padding:14px}
     .inc strong{color:#0f1228}
     @media (max-width:900px){.inc{grid-column:span 12}}
 
-    /* PROCESS */
-    .process{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
-    .step{grid-column:span 4; background:#fff; border:1px solid var(--line); border-radius:14px; padding:18px}
-    .bubble{display:inline-flex; width:34px; height:34px; border-radius:10px; align-items:center; justify-content:center; background:#ede9fe; color:#3a2577; font-weight:800; margin-bottom:6px}
-    @media (max-width:900px){.step{grid-column:span 12}}
+    /* metrics */
+    .stats{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
+    .stat{grid-column:span 3;background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;text-align:center}
+    .stat .num{font-weight:900;font-size:2rem}
+    .stat .lbl{color:var(--muted);font-size:.9rem}
+    @media (max-width:900px){.stat{grid-column:span 6}}
+    @media (max-width:600px){.stat{grid-column:span 12}}
+
+    /* before-after */
+    .ba-wrap{position:relative;border-radius:18px;overflow:hidden;border:1px solid var(--line);background:#000}
+    .ba-img{display:block;width:100%;height:400px;object-fit:cover}
+    .ba-top{position:absolute;inset:0;overflow:hidden}
+    .ba-handle{position:absolute;inset:0 auto 0 50%;width:2px;background:#fff}
+    .ba-range{position:absolute;left:0;right:0;bottom:14px;width:60%;margin:0 auto;
+      -webkit-appearance:none;appearance:none;height:6px;background:rgba(255,255,255,.6);border-radius:999px}
+    .ba-range::-webkit-slider-thumb{
+      -webkit-appearance:none;appearance:none;width:22px;height:22px;border-radius:50%;
+      background:var(--gold);border:2px solid #fff
+    }
 
     /* FAQ */
-    .faq-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
     details.faq{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px}
-    details.faq summary{cursor:pointer;list-style:none}
+    details.faq summary{cursor:pointer;list-style:none;font-weight:700}
     details.faq summary::-webkit-details-marker{display:none}
-    @media (max-width:900px){.faq-grid{grid-template-columns:1fr}}
 
-    /* CTA */
-    .cta{background:linear-gradient(180deg,#ede9fe,#ffffff); border:1px solid var(--line); border-radius:16px; padding:24px}
-
-    /* Reveal */
-    .reveal{opacity:0;transform:translateY(14px);transition:transform .5s ease,opacity .5s ease;will-change:transform,opacity}
-    .reveal.in-view{opacity:1;transform:translateY(0)}
-    @media (prefers-reduced-motion:reduce){.reveal{opacity:1!important;transform:none!important;transition:none!important}}
-
-    section[id]{scroll-margin-top:76px}
-
-
-.headline .rotate{
-  display:inline-grid;        
-  position:relative;
-  width:13ch;                 
-  vertical-align:baseline;
-}
-.headline .rotate > span{
-  grid-area:1/1;              
-  opacity:0;                  
-  transform:translateY(.35em);  
-  transition:opacity .35s ease, transform .35s ease;
-}
-
-/* pure-CSS loop */
-.headline .rotate > span:nth-child(1){animation:swap 6.6s ease-in-out infinite 0s}
-.headline .rotate > span:nth-child(2){animation:swap 6.6s ease-in-out infinite 2.2s}
-.headline .rotate > span:nth-child(3){animation:swap 6.6s ease-in-out infinite 4.4s}
-
-@keyframes swap{
-  0%   {opacity:0; transform:translateY(.35em)}
-  8%   {opacity:1; transform:translateY(0)}
-  28%  {opacity:1; transform:translateY(0)}
-  38%  {opacity:0; transform:translateY(-.35em)}
-  100% {opacity:0; transform:translateY(-.35em)}
-}
-
-
-@media (prefers-reduced-motion:reduce){
-  .headline .rotate > span{animation:none!important; opacity:0; transform:none}
-  .headline .rotate > span:first-child{opacity:1}
-}
-
-
-.hero h1.headline {
-  font-size: clamp(28px, 6vw, 56px);  
-  line-height: 1.07;
-}
-
-
-@media (max-width: 480px){
-  .headline .rotate{ width: 10.5ch; }
-}
-
-
-.strip{overflow:hidden}
-.strip .ticker{display:flex; width:max-content; animation:strip-slide 28s linear infinite}
-.strip .ticker:hover{animation-play-state:paused}
-.strip .ticker > .inner{display:flex; gap:28px; white-space:nowrap}
-.strip .ticker .dot{opacity:.35}
-
-@keyframes strip-slide{
-  from{transform:translateX(0)}
-  to{transform:translateX(-50%)} 
-}
-
-@media (prefers-reduced-motion:reduce){
-  .strip .ticker{animation:none}
-}
-
-
+    /* section spacing */
+    section{padding:40px 0}
+    .section-title{margin-bottom:12px}
   </style>
 </head>
 <body class="maintenance-page">
 
-<!-- NAV -->
+<!-- NAV (unchanged) -->
 <div class="nav-wrap">
   <div class="container container-narrow">
     <nav class="navbar navbar-expand-lg navbar-dark webeaze-nav" role="navigation" aria-label="Primary">
@@ -219,7 +108,6 @@
               aria-controls="mobileNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-
       <div id="mobileNav" class="collapse navbar-collapse">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item"><a class="nav-link active" href="maintenance.html">Maintenance</a></li>
@@ -238,186 +126,177 @@
 
   <!-- HERO -->
   <section class="hero">
-    <div class="bg-burst"></div>
-    <div class="confetti"></div>
     <div class="container container-narrow">
       <div class="row align-items-center">
         <div class="col-lg-8">
-          <div class="eyebrow">Unlimited Care · Real Humans · Fast Turnarounds</div>
-          <h1 class="headline mt-2 display-4">
-            Ongoing help that<span class="rotate">
-              <span>boosts revenue.</span>
-              <span>keeps things modern.</span>
-              <span>you can count on.</span>
-            </span>
-          </h1>
-          <p class="mt-3" style="color:#3a3f56">
-            One simple plan. Send updates anytime: copy, images, pages, promos, speed fixes, SEO basics. No hourly billing. No drama.
-          </p>
-          <div class="btn-row mt-3">
+          <div class="eyebrow">Unlimited maintenance</div>
+          <h1 class="headline">Send updates any time. We get them done.</h1>
+          <p class="lead mt-2">Content changes. New sections. Speed fixes. SEO basics. No hourly billing.</p>
+          <div class="mt-3 d-flex flex-wrap" style="gap:10px">
             <a href="consultation.html" class="btn-brand">Start Free Consultation</a>
-            <a href="#included" class="btn-ghost">See what's included</a>
+            <a href="#included" class="btn-ghost">What’s included</a>
           </div>
           <div class="mt-3" style="color:#616782;font-size:.92rem">
-            Trusted by <strong>43+</strong> clients · Typical edits <strong>under 48 hours</strong>
+            Trusted by <strong>43+</strong> clients. Typical edits in <strong>24 to 48 hours</strong>.
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- TRUST STRIP -->
-  <section class="strip py-2">
+  <!-- WHAT WE DO (3 quick blocks) -->
+  <section>
     <div class="container container-narrow">
-      <div class="inner py-1">
-        <span>Email, Chat, Zoom  </span><span class="dot">•</span>
-        <span>Uptime and SSL checks</span><span class="dot">•</span>
-        <span>Mobile-first audits</span><span class="dot">•</span>
-        <span>Promo and seasonal updates</span><span class="dot">•</span>
-
-      </div>
-    </div>
-  </section>
-  
-
-  <!-- QUICK ACTIONS -->
-  <section class="py-5">
-    <div class="container container-narrow">
-      <h2 class="h3 mb-3 reveal" style="font-weight:800;color:#0f1228">What you can ask us any time</h2>
-      <div class="actions">
-        <div class="action reveal">
-          <div class="d-flex align-items-center mb-1">
-            <div class="icon">🖼️</div><strong>Add or replace content</strong>
-          </div>
-          <div class="text-muted">Swap images, add sections, update menus, run promos, add a new page.</div>
+      <h2 class="section-title h3">What we do</h2>
+      <div class="grid-3">
+        <div class="cardx">
+          <h3 class="h5 mb-1">Speed and stability</h3>
+          <p class="mb-2 text-muted">Image compression, lazy loading, lighter CSS and JS.</p>
+          <ul class="mb-0">
+            <li>Better Core Web Vitals</li>
+            <li>Fix 404s and redirects</li>
+            <li>Mobile checks</li>
+          </ul>
         </div>
-        <div class="action reveal">
-          <div class="d-flex align-items-center mb-1">
-            <div class="icon">⚡</div><strong>Fix bugs and improve speed</strong>
-          </div>
-          <div class="text-muted">Broken links, layout glitches, image compression, Lighthouse wins.</div>
+        <div class="cardx">
+          <h3 class="h5 mb-1">SEO essentials</h3>
+          <p class="mb-2 text-muted">Titles, descriptions, headings, alt text, indexing.</p>
+          <ul class="mb-0">
+            <li>Search Console review</li>
+            <li>Sitemaps and indexing</li>
+            <li>Local basics</li>
+          </ul>
         </div>
-        <div class="action reveal">
-          <div class="d-flex align-items-center mb-1">
-            <div class="icon">🔍</div><strong>SEO essentials</strong>
-          </div>
-          <div class="text-muted">Titles, meta descriptions, headings, alt text, indexing checks.</div>
+        <div class="cardx">
+          <h3 class="h5 mb-1">Design and content</h3>
+          <p class="mb-2 text-muted">New sections, promos, popups, and small UI fixes.</p>
+          <ul class="mb-0">
+            <li>New pages and banners</li>
+            <li>Menus and footers updated</li>
+            <li>Testimonials and badges</li>
+          </ul>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- COUNTERS -->
-  <section class="pb-2">
+  <!-- METRICS -->
+  <section>
     <div class="container container-narrow">
+      <h2 class="section-title h3">At a glance</h2>
       <div class="stats">
-        <div class="stat reveal"><div class="num" data-count="31">0</div><div class="lbl">Average hours per edit</div></div>
-        <div class="stat reveal"><div class="num" data-count="9">0</div><div class="lbl">Average days to launch</div></div>
-        <div class="stat reveal"><div class="num" data-count="44">0</div><div class="lbl">Active clients</div></div>
-        <div class="stat reveal"><div class="num" data-count="171">0</div><div class="lbl">Tasks shipped this month</div></div>
+        <div class="stat"><div class="num" data-count="43">0</div><div class="lbl">Active clients</div></div>
+        <div class="stat"><div class="num" data-count="171">0</div><div class="lbl">Tasks this month</div></div>
+        <div class="stat"><div class="num" data-count="31">0</div><div class="lbl">Avg hours per edit</div></div>
+        <div class="stat"><div class="num" data-count="9">0</div><div class="lbl">Days to launch</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BEFORE / AFTER -->
+  <section>
+    <div class="container container-narrow">
+      <div class="row align-items-center">
+        <div class="col-lg-6 mb-3 mb-lg-0">
+          <h2 class="section-title h3">Before and after</h2>
+          <p class="text-muted">Drag the slider. We replace heavy images, reduce layout shifts, and keep the design consistent.</p>
+          <ul>
+            <li>Typical performance gain: +18 to +30 points</li>
+            <li>Broken links and viewport fixes</li>
+            <li>Cleaner type and spacing</li>
+          </ul>
+          <a href="pricing.html" class="btn-brand mt-1">See plans</a>
+        </div>
+        <div class="col-lg-6">
+          <div class="ba-wrap">
+            <img class="ba-img" src="images/before-image.png" alt="Before" />
+            <div class="ba-top">
+              <img class="ba-img" src="images/after-image.png" alt="After" />
+            </div>
+            <div class="ba-handle"></div>
+            <input class="ba-range" type="range" min="0" max="100" value="50" aria-label="Drag to compare" />
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- INCLUDED -->
-  <section id="included" class="py-5">
+  <section id="included">
     <div class="container container-narrow">
-      <div class="surface reveal">
-        <div class="d-flex justify-content-between align-items-center mb-2">
-          <h2 class="h4 mb-0" style="font-weight:800;color:#0f1228">What’s included</h2>
-
-        </div>
-
-        <div class="inc-grid">
-          <div class="inc"><strong>Content and design:</strong> image swaps/additions, new sections, client testimonials, promotional banners.</div>
-          <div class="inc"><strong>Fixes and QA:</strong> broken links, layout glitches, browser and mobile performance checks.</div>
-          <div class="inc"><strong>Speed care:</strong> image compression, lazy loading, bloat reduction for smooth client browsing experience.</div>
-          <div class="inc"><strong>SEO basics:</strong> titles, descriptions, headings, alt text, indexing tailored to your business' target audience.</div>
-          <div class="inc"><strong>Security and SSL:</strong> certificate checks, content audits, and updates to keep your site safe and sound. </div>
-          <div class="inc"><strong>Support:</strong> reach out to us any time via Email, Zoom, or Live Chat.</div>
-        </div>
-
-        <div class="btn-row mt-3">
-          <a href="pricing.html" class="btn-brand">See Plans</a>
-          <a href="samples.html" class="btn-ghost">See Past Work</a>
-        </div>
+      <h2 class="section-title h3">What’s included</h2>
+      <div class="inc-grid">
+        <div class="inc"><strong>Content and design</strong><br/>Image swaps, new sections, testimonials, banners.</div>
+        <div class="inc"><strong>Fixes and QA</strong><br/>Broken links, layout issues, browser and mobile checks.</div>
+        <div class="inc"><strong>Speed care</strong><br/>Compression, lazy loading, lighter scripts.</div>
+        <div class="inc"><strong>SEO basics</strong><br/>Titles, descriptions, headings, alt text, indexing.</div>
+        <div class="inc"><strong>Security and SSL</strong><br/>Certificate checks and content audits.</div>
+        <div class="inc"><strong>Support</strong><br/>Email, Zoom, or live chat.</div>
+      </div>
+      <div class="mt-3">
+        <a href="consultation.html" class="btn-brand">Start now</a>
+        <a href="samples.html" class="btn-ghost">See past work</a>
       </div>
     </div>
   </section>
 
-  <!-- PROCESS -->
-  <section id="process" class="py-4">
+  <!-- HOW IT WORKS -->
+  <section>
     <div class="container container-narrow">
-      <h2 class="h4 mb-3 reveal" style="font-weight:800;color:#0f1228">How it works</h2>
-      <div class="process">
-        <div class="step reveal">
-          <div class="bubble">1</div>
-          <h3 class="h6 mb-1" style="font-weight:800;color:#0f1228">Kickoff and queue</h3>
-          <div class="text-muted">Share goals and priorities. We confirm scope and slot tasks in your queue.</div>
+      <h2 class="section-title h3">How requests work</h2>
+      <div class="grid-3">
+        <div class="cardx">
+          <h3 class="h6 mb-1">1. Send a request</h3>
+          <p class="mb-0 text-muted">Tell us what to change. We confirm scope and queue it.</p>
         </div>
-        <div class="step reveal">
-          <div class="bubble">2</div>
-          <h3 class="h6 mb-1" style="font-weight:800;color:#0f1228">Build and QA</h3>
-          <div class="text-muted">We implement, test on mobile and desktop, and send a quick summary.</div>
+        <div class="cardx">
+          <h3 class="h6 mb-1">2. Build and test</h3>
+          <p class="mb-0 text-muted">We make the change and test on mobile and desktop.</p>
         </div>
-        <div class="step reveal">
-          <div class="bubble">3</div>
-          <h3 class="h6 mb-1" style="font-weight:800;color:#0f1228">Ship and iterate</h3>
-          <div class="text-muted">You review, we refine. Send new requests any time. Repeat.</div>
+        <div class="cardx">
+          <h3 class="h6 mb-1">3. Ship and iterate</h3>
+          <p class="mb-0 text-muted">You review. We refine. Typical turnaround is 24 to 48 hours.</p>
         </div>
-      </div>
-      <div class="mt-3">
-        <a href="consultation.html" class="btn-brand">Start in 15 minutes</a>
       </div>
     </div>
   </section>
 
   <!-- FAQ -->
-  <section id="faq" class="py-5">
+  <section>
     <div class="container container-narrow">
-      <h2 class="h4 mb-3 reveal" style="font-weight:800;color:#0f1228">FAQs</h2>
-      <div class="faq-grid">
-        <details class="faq reveal">
-          <summary><strong>Which platforms do you support?</strong></summary>
-          <div class="pt-2">Clean HTML/CSS, WordPress, Squarespace, Wix, and more. We recommend the best fit during launch. We're platform-agnostic, so we're happy to work with you to find the best solution.</div>
-
-          </div>
-        </details>
-        <details class="faq reveal">
-          <summary><strong>How fast are updates?</strong></summary>
-          <div class="pt-2">Most edits ship in 24 to 48 hours. Larger items are scheduled with you. We communicate promptly through our Website Request Tracker. </div>
-        </details>
-        <details class="faq reveal">
-          <summary><strong>Is there a limit to requests?</strong></summary>
-          <div class="pt-2">No hard cap on volume. We work through your queue in priority order to keep quality high. We place fair-use limits to ensure everyone gets quality, speedy service. </div>
-        </details>
-        <details class="faq reveal">
-          <summary><strong>Can you maintain my current site?</strong></summary>
-          <div class="pt-2">Yes. We can refresh design, improve speed, or migrate hosting without breaking what works. Schedule a free consultation with us so we can understand your current site, and we'll go from there. </div>
-        </details>
+      <h2 class="section-title h3">FAQs</h2>
+      <div class="row">
+        <div class="col-md-6">
+          <details class="faq"><summary>Which platforms do you support?</summary>
+            <div class="pt-2 text-muted">HTML and CSS, WordPress, Squarespace, Wix, and others. We can recommend the best option at launch.</div>
+          </details>
+        </div>
+        <div class="col-md-6">
+          <details class="faq"><summary>How fast are updates?</summary>
+            <div class="pt-2 text-muted">Most edits ship in 24 to 48 hours. Larger items are scheduled with you.</div>
+          </details>
+        </div>
+        <div class="col-md-6 mt-2">
+          <details class="faq"><summary>Is there a limit to requests?</summary>
+            <div class="pt-2 text-muted">No hard cap. We work through your queue in priority order with fair use.</div>
+          </details>
+        </div>
+        <div class="col-md-6 mt-2">
+          <details class="faq"><summary>Can you maintain my current site?</summary>
+            <div class="pt-2 text-muted">Yes. We can refresh design, improve speed, and migrate hosting if needed.</div>
+          </details>
+        </div>
       </div>
-    </div>
-  </section>
-
-  <!-- CTA -->
-  <section class="py-5">
-    <div class="container container-narrow">
-      <div class="cta reveal d-flex flex-column flex-md-row align-items-md-center justify-content-between">
-        <div class="mb-2 mb-md-0">
-          <div class="eyebrow">Let’s keep it fresh</div>
-          <h3 class="h5 mb-1" style="font-weight:800;color:#0f1228">Tell us what you want updated this week.</h3>
-          <div class="text-muted">We’ll handle it and report back quickly.</div>
-        </div>
-        <div class="btn-row">
-          <a href="consultation.html" class="btn-brand btn-sm-fix">Book Consultation</a>
-          <a href="pricing.html" class="btn-ghost btn-sm-fix">See Plans</a>
-        </div>
+      <div class="mt-3">
+        <a href="consultation.html" class="btn-brand">Book consultation</a>
+        <a href="pricing.html" class="btn-ghost">See plans</a>
       </div>
     </div>
   </section>
 
 </main>
 
+<!-- FOOTER (unchanged) -->
 <footer class="py-4 text-center">
   <div class="mt-3 small" style="opacity:.9">
     <strong>Serving small businesses across:</strong><br>
@@ -425,8 +304,7 @@
     <a href="/web-design-delaware.html" style="color: black;text-decoration:underline;">Delaware</a> ·
     <a href="/web-design-pennsylvania.html" style="color:black;text-decoration:underline;">Pennsylvania</a> ·
     <a href="/web-design-new-jersey.html" style="color:black;text-decoration:underline;">New Jersey</a>
-    <br>
-    <br>
+    <br><br>
   </div>
   <div class="container container-narrow">
     <div class="mb-1">&copy; <span id="yr"></span> WebEaze. All rights reserved.</div>
@@ -445,32 +323,15 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <script>
-  // Reveal once on scroll
-  (function(){
-    var els=[].slice.call(document.querySelectorAll('.reveal'));
-    if(!('IntersectionObserver'in window)){els.forEach(function(e){e.classList.add('in-view')});return;}
-    var io=new IntersectionObserver(function(entries){
-      entries.forEach(function(entry){
-        if(entry.isIntersecting){entry.target.classList.add('in-view');io.unobserve(entry.target);}
-      });
-    },{threshold:.14});
-    els.forEach(function(e){io.observe(e)});
-  })();
-
-  // Animated counters
+  // simple counters (no animation libraries)
   (function(){
     var nums=[].slice.call(document.querySelectorAll('.stat .num'));
     if(!('IntersectionObserver'in window)){nums.forEach(function(n){n.textContent=n.dataset.count});return;}
-    var seen=new WeakSet();
     var io=new IntersectionObserver(function(entries){
       entries.forEach(function(entry){
-        if(entry.isIntersecting && !seen.has(entry.target)){
-          seen.add(entry.target);
+        if(entry.isIntersecting){
           var el=entry.target, end=+el.dataset.count, cur=0, step=Math.max(1,Math.round(end/48));
-          var t=setInterval(function(){
-            cur+=step; if(cur>=end){cur=end; clearInterval(t);}
-            el.textContent=cur;
-          }, 20);
+          var t=setInterval(function(){ cur+=step; if(cur>=end){cur=end; clearInterval(t);} el.textContent=cur; }, 20);
           io.unobserve(el);
         }
       });
@@ -478,43 +339,14 @@
     nums.forEach(function(n){io.observe(n)});
   })();
 
-  // Smooth internal links from collapsed mobile nav
+  // before/after slider
   (function(){
-    var menu=document.getElementById('mobileNav'); if(!menu) return;
-    menu.addEventListener('click',function(e){
-      var a=e.target.closest('a[href^="#"]'); if(!a) return;
-      var id=a.getAttribute('href').slice(1), target=document.getElementById(id); if(!target) return;
-      e.preventDefault(); $(menu).collapse('hide');
-      $(menu).one('hidden.bs.collapse',function(){ target.scrollIntoView({behavior:'smooth',block:'start'}); });
-    });
+    var wrap=document.querySelector('.ba-wrap'); if(!wrap) return;
+    var top=wrap.querySelector('.ba-top'), handle=wrap.querySelector('.ba-handle'), range=wrap.querySelector('.ba-range');
+    function set(v){ var pct=+v; top.style.clipPath='inset(0 '+(100-pct)+'% 0 0)'; handle.style.left=pct+'%'; }
+    set(range.value);
+    range.addEventListener('input',function(){ set(this.value); }, {passive:true});
   })();
-
-
-(function(){
-  var inner = document.querySelector('.strip .inner');
-  if(!inner) return;
-
-  // Respect reduced motion
-  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-
-  var wrapper = document.createElement('div');
-  wrapper.className = 'ticker';
-  var parent = inner.parentNode;
-  parent.replaceChild(wrapper, inner);
-  wrapper.appendChild(inner);
-
-
-  var dupe = inner.cloneNode(true);
-  dupe.setAttribute('aria-hidden','true'); // screen readers ignore duplicate
-  wrapper.appendChild(dupe);
-
-
-  if(reduce){ wrapper.style.animation = 'none'; }
-})();
-
-
-
 </script>
 </body>
 </html>
