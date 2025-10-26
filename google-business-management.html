@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Google Business Management | WebEaze</title>
   <meta name="description" content="Show up on Google Search & Maps. Setup, optimization, posts, photos, and reviews—managed for you. Included in Growth & Elite; add‑on for Essential." />
+
+  <!-- Fonts & CSS -->
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet"/>
@@ -15,99 +17,76 @@
   <style>
     :root{
       --brand:#7851a9; --brand-ink:#3e257b; --gold:#ffd700; --ink:#101225;
-      --muted:#6b7280; --line:#e6e8ef; --white:#fff;
-      --glow: 0 12px 40px rgba(120,81,169,.35);
+      --muted:#616782; --line:#e6e8ef; --white:#fff;
+      --bg:#f6f8ff; --card:#ffffff; --shadow:0 8px 28px rgba(16,18,37,.08);
     }
     html,body{height:100%}
-    body{margin:0;font-family:'Poppins',sans-serif;-webkit-font-smoothing:antialiased}
+    body{margin:0;font-family:'Poppins',sans-serif;-webkit-font-smoothing:antialiased;background:linear-gradient(180deg,#f7f8fc,#eef2ff)}
 
-    .nav-wrap{position:sticky; top:0; z-index:9999; background:#7e5fe0; backdrop-filter:saturate(130%) blur(8px); -webkit-backdrop-filter:saturate(130%) blur(8px); border-bottom:1px solid rgba(255,255,255,.14)}
+    /* --- Global UI --- */
+    .container-narrow{max-width:1100px}
+    .eyebrow{font-size:.82rem;letter-spacing:.08em;text-transform:uppercase;color:#6b6f86}
+    .headline{font-weight:800;letter-spacing:-.02em;line-height:1.07;font-size:clamp(28px,5vw,52px);color:#0f1228}
+    .sub{color:var(--muted);font-size:1.02rem}
+
+    .btn-brand{display:inline-flex;align-items:center;justify-content:center;background:var(--gold);color:#2f1e66;border:none;border-radius:12px;padding:.75rem 1.05rem;font-weight:800;line-height:1;box-shadow:0 8px 22px rgba(255,215,0,.22);transition:transform .15s ease, box-shadow .15s ease}
+    .btn-brand:hover{transform:translateY(-1px);box-shadow:0 12px 28px rgba(255,215,0,.33);color:#2f1e66}
+    .btn-ghost{display:inline-flex;align-items:center;justify-content:center;background:#fff;color:#0f1228;border:1px solid var(--line);border-radius:12px;padding:.75rem 1.05rem;font-weight:800;line-height:1;transition:transform .15s ease, box-shadow .15s ease}
+    .btn-ghost:hover{transform:translateY(-1px); box-shadow:0 8px 28px rgba(16,18,37,.10)}
+    .btn-sm-fix{padding:.55rem .9rem;font-weight:800}
+
+    .surface{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:22px}
+
+    section[id]{scroll-margin-top:76px}
+
+    /* --- Nav --- */
+    .nav-wrap{position:sticky; top:0; z-index:9999; background:#7e5fe0; border-bottom:1px solid rgba(255,255,255,.14);}
     .logo{height:36px}
-    .brand-word{letter-spacing:-.3px;font-weight:700;background:linear-gradient(90deg, #d5cfeb,#ffffff); -webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    .brand-word{letter-spacing:-.3px;font-weight:700;background:linear-gradient(90deg,#d5cfeb,#ffffff); -webkit-background-clip:text;-webkit-text-fill-color:transparent}
     .navbar-dark .nav-link{color:#fff!important;opacity:.92;border-radius:10px;padding:.45rem .7rem}
     .navbar-dark .nav-link:hover{opacity:1;background:rgba(255,255,255,.1)}
 
-    .btn-brand{display:inline-flex;align-items:center;justify-content:center;background:var(--gold);color:#2f1e66;border:none;border-radius:12px;padding:.7rem 1.05rem;font-weight:700;line-height:1;box-shadow:0 8px 22px rgba(255,215,0,.22);transition:transform .15s ease, box-shadow .15s ease, background-color .15s ease, color .15s ease}
-    .btn-brand:hover{background:#f2c600;color:#fff;transform:translateY(-1px);box-shadow:0 12px 28px rgba(255,215,0,.33)}
-    .btn-ghost{display:inline-flex;align-items:center;justify-content:center;background:#fff;color:#0f1228;border:1px solid var(--line);border-radius:12px;padding:.7rem 1.05rem;font-weight:700;line-height:1;transition:transform .15s ease, box-shadow .15s ease, background-color .15s ease, color .15s ease}
-    .btn-ghost:hover{transform:translateY(-1px); box-shadow:0 8px 28px rgba(16,18,37,.10)}
-    .btn-sm-fix{padding:.55rem .9rem; font-weight:700; line-height:1}
-    .btn-row{display:flex;flex-wrap:wrap;align-items:center}
-    .btn-row>a{margin-right:.5rem;margin-bottom:.5rem}
-    .btn-row>a:last-child{margin-right:0}
+    /* --- Hero --- */
+    .hero{padding:72px 0 48px}
+    .badge-line{display:inline-flex;gap:8px;flex-wrap:wrap}
+    .pill{display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--line);border-radius:999px;padding:.4rem .75rem;font-weight:700;font-size:.92rem}
+    .pill .dot{width:6px;height:6px;border-radius:99px;background:var(--brand)}
+    .pill.gold{background:#fff7c2;border-color:#ffe88a}
 
-    main{background:linear-gradient(180deg,#f7f8fc,#f0f3ff 38%,#eef2ff); color:var(--ink)}
-    .container-narrow{max-width:1100px}
+    /* --- Cards grid --- */
+    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
+    .card-min{grid-column:span 4;background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px}
+    .card-min:hover{box-shadow:var(--shadow)}
+    .card-min .icon{display:inline-flex;width:40px;height:40px;border-radius:10px;align-items:center;justify-content:center;background:linear-gradient(180deg,#ede9fe,#ffffff);border:1px solid var(--line);margin-right:.5rem}
+    @media (max-width:900px){.card-min{grid-column:span 12}}
 
-    /* HERO */
-    .hero{position:relative;padding:72px 0 56px;overflow:hidden}
-    .hero .bg-burst{position:absolute; inset:-40% -20% auto -20%; height:420px; background:
-        radial-gradient(40% 60% at 15% 20%, rgba(120,81,169,.30), transparent 60%),
-        radial-gradient(30% 50% at 85% 20%, rgba(255,215,0,.25), transparent 60%); filter:blur(30px)}
-    .confetti{position:absolute; inset:0; pointer-events:none; opacity:.18; background-image:radial-gradient(rgba(16,18,37,.15) 1px, transparent 1px); background-size:18px 18px; mask-image:linear-gradient(#000, transparent 75%)}
-    .eyebrow{font-size:.85rem;letter-spacing:.08em;text-transform:uppercase;color:#5b5f75}
-    .headline{font-weight:800;letter-spacing:-.02em;line-height:1.05;font-size:50px;color:#0f1228}
-
-    .headline .rotate{display:inline-grid;position:relative;width:15ch;vertical-align:baseline}
-    .headline .rotate>span{grid-area:1/1;opacity:0;transform:translateY(.35em);transition:opacity .35s ease, transform .35s ease}
-    .headline .rotate>span:nth-child(1){animation:swap 6.6s ease-in-out infinite 0s}
-    .headline .rotate>span:nth-child(2){animation:swap 6.6s ease-in-out infinite 2.2s}
-    .headline .rotate>span:nth-child(3){animation:swap 6.6s ease-in-out infinite 4.4s}
-    @keyframes swap{0%{opacity:0; transform:translateY(.35em)} 8%{opacity:1; transform:translateY(0)} 28%{opacity:1; transform:translateY(0)} 38%{opacity:0; transform:translateY(-.35em)} 100%{opacity:0; transform:translateY(-.35em)}}
-    @media (prefers-reduced-motion:reduce){.headline .rotate>span{animation:none!important;opacity:0;transform:none}.headline .rotate>span:first-child{opacity:1}}
-    .hero h1.headline{font-size:clamp(28px,6vw,56px);line-height:1.07}
-    @media(max-width:480px){.headline .rotate{width:12ch}}
-
-    /* STRIP */
-    .strip{border-top:1px solid var(--line); border-bottom:1px solid var(--line); background:#fff; overflow:hidden}
-    .strip .ticker{display:flex;width:max-content;animation:strip-slide 28s linear infinite}
-    .strip .ticker:hover{animation-play-state:paused}
-    .strip .ticker>.inner{display:flex;gap:28px;white-space:nowrap}
-    .strip .ticker .dot{opacity:.35}
-    @keyframes strip-slide{from{transform:translateX(0)} to{transform:translateX(-50%)}}
-    @media (prefers-reduced-motion:reduce){.strip .ticker{animation:none}}
-
-    /* ACTIONS */
-    .actions{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
-    .action{grid-column:span 4;background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px;transition:transform .15s ease, box-shadow .15s ease}
-    .action:hover{transform:translateY(-3px);box-shadow:var(--glow)}
-    .action .icon{display:inline-flex;width:40px;height:40px;border-radius:10px;align-items:center;justify-content:center;background:linear-gradient(180deg,#ede9fe,#ffffff);border:1px solid var(--line);margin-right:.5rem}
-    @media (max-width:900px){.action{grid-column:span 12}}
-
-    /* INCLUDED */
-    .surface{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 12px 40px rgba(16,18,37,.06);padding:24px}
-    .inc-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:14px}
-    .inc{grid-column:span 6;background:#fafbff;border:1px solid #e8eaf5;border-radius:12px;padding:14px}
+    /* --- Included list --- */
+    .inc-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:12px}
+    .inc{grid-column:span 6;background:#fafbff;border:1px solid #e8eaf5;border-radius:12px;padding:12px}
     .inc strong{color:#0f1228}
     @media (max-width:900px){.inc{grid-column:span 12}}
 
-    /* PROCESS */
-    .process{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
-    .step{grid-column:span 4;background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px}
+    /* --- Process --- */
+    .step{grid-column:span 3;background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px}
     .bubble{display:inline-flex;width:34px;height:34px;border-radius:10px;align-items:center;justify-content:center;background:#ede9fe;color:#3a2577;font-weight:800;margin-bottom:6px}
     @media (max-width:900px){.step{grid-column:span 12}}
 
-    /* FAQ */
+    /* --- FAQ --- */
     .faq-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
     details.faq{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px}
     details.faq summary{cursor:pointer;list-style:none}
     details.faq summary::-webkit-details-marker{display:none}
     @media (max-width:900px){.faq-grid{grid-template-columns:1fr}}
 
-    /* CTA */
-    .cta{background:linear-gradient(180deg,#ede9fe,#ffffff); border:1px solid var(--line); border-radius:16px; padding:24px}
+    /* --- Footer --- */
+    footer{background:#fff}
 
-    /* Reveal */
-    .reveal{opacity:0;transform:translateY(14px);transition:transform .5s ease,opacity .5s ease;will-change:transform,opacity}
-    .reveal.in-view{opacity:1;transform:translateY(0)}
-    @media (prefers-reduced-motion:reduce){.reveal{opacity:1!important;transform:none!important;transition:none!important}}
-
-    section[id]{scroll-margin-top:76px}
+    /* --- Reduced motion: reveal off by default for simplicity --- */
   </style>
 </head>
 <body class="gbp-page">
 
-<!-- NAV -->
+<!-- NAV (kept consistent) -->
 <div class="nav-wrap">
   <div class="container container-narrow">
     <nav class="navbar navbar-expand-lg navbar-dark webeaze-nav" role="navigation" aria-label="Primary">
@@ -121,10 +100,10 @@
 
       <div id="mobileNav" class="collapse navbar-collapse">
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item"><a class="nav-link" href="pricing.html">Pricing</a></li>
+          <li class="nav-item"><a class="nav-link" href="maintenance.html">Maintenance</a></li>
           <li class="nav-item"><a class="nav-link" href="about.html">About Us</a></li>
-          <li class="nav-item"><a class="nav-link" href="samples.html">Our Samples</a></li>
-          <li class="nav-item"><a class="nav-link" href="help.html">FAQs</a></li>
+          <li class="nav-item"><a class="nav-link" href="pricing.html">Pricing</a></li>
+          <li class="nav-item"><a class="nav-link" href="faq.html">FAQ</a></li>
           <li class="nav-item"><a class="nav-link" href="contact-us.html">Contact</a></li>
           <li class="nav-item ml-1"><a class="btn btn-sm btn-brand" href="consultation.html">Get Started</a></li>
         </ul>
@@ -136,123 +115,63 @@
 <main>
   <!-- HERO -->
   <section class="hero">
-    <div class="bg-burst"></div>
-    <div class="confetti"></div>
     <div class="container container-narrow">
       <div class="row align-items-center">
         <div class="col-lg-9">
-          <div class="eyebrow">Included in Growth & Elite · Optional add‑on for Essential</div>
-          <h1 class="headline mt-2 display-4">
-            Google Business Management that
-            <span class="rotate">
-              <span>shows up.</span>
-              <span>helps you grow.</span>
-              <span>adds trust.</span>
-            </span>
-          </h1>
-          <p class="mt-3" style="color:#3a3f56">
-            We set up, optimize, and maintain your Google Business Profile so you show up beautifully on Search & Maps. Info, posts, photos, and reviews handled for you.
-          </p>
-          <div class="btn-row mt-3">
-            <a href="website-request.html" class="btn-brand">Submit a Website Request </a>
-            <a href="#included" class="btn-ghost">See what we manage</a>
+          <div class="badge-line mb-2">
+            <span class="pill"><span class="dot"></span> Included in Growth & Elite</span>
+            <span class="pill gold">Limited‑time add‑on: <strong>$99 setup</strong> + <strong>$10/mo</strong> for Essential</span>
           </div>
-          <div class="mt-3" style="color:#616782;font-size:.92rem">
-            You keep ownership · We’re added as managers · Multi‑location friendly
+          <h1 class="headline mt-2">Google Business Management. 
+            <br>
+            Simple, done for you.</h1>
+          <p class="sub mt-2">We set up, optimize, and keep your Google Business Profile fresh so you show up on Search & Maps and turn views into calls.</p>
+          <div class="mt-3 d-flex flex-wrap align-items-center" style="gap:10px">
+            <a href="website-request.html" class="btn-brand">Activate Management</a>
+            <a href="#included" class="btn-ghost">What’s included</a>
           </div>
+          <div class="mt-3" style="color:#6b7280;font-size:.95rem">You keep ownership · We’re added as managers · Multi‑location friendly</div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- TRUST STRIP (ticker) -->
-  <section class="strip py-2" aria-label="Highlights">
+  <!-- WHAT WE HANDLE (short + scannable) -->
+  <section class="py-4">
     <div class="container container-narrow">
-      <div class="ticker">
-        <div class="inner py-1">
-          <span>Search & Maps visibility</span><span class="dot">•</span>
-          <span>Verified business info</span><span class="dot">•</span>
-          <span>Monthly posts & photos</span><span class="dot">•</span>
-          <span>Review monitoring</span><span class="dot">•</span>
-          <span>Performance insights</span><span class="dot">•</span>
-          <span>Included in Growth & Elite</span><span class="dot">•</span>
-          <span>Essential add‑on</span>
-        </div>
+      <h2 class="h3 mb-3" style="font-weight:800;color:#0f1228">What we handle</h2>
+      <div class="grid">
+        <div class="card-min"><div class="d-flex align-items-center mb-1"><div class="icon">📍</div><strong>Claim & verify</strong></div><div class="text-muted">Create/claim, postcard or video verification, NAP checks.</div></div>
+        <div class="card-min"><div class="d-flex align-items-center mb-1"><div class="icon">🧭</div><strong>Optimize details</strong></div><div class="text-muted">Categories, description, hours, services, links, booking.</div></div>
+        <div class="card-min"><div class="d-flex align-items-center mb-1"><div class="icon">🖼️</div><strong>Posts & photos</strong></div><div class="text-muted">Fresh updates and seasonal promos every month.</div></div>
+        <div class="card-min"><div class="d-flex align-items-center mb-1"><div class="icon">⭐</div><strong>Reviews</strong></div><div class="text-muted">Monitor new reviews with tone‑matched reply suggestions.</div></div>
+        <div class="card-min"><div class="d-flex align-items-center mb-1"><div class="icon">📊</div><strong>Insights</strong></div><div class="text-muted">Simple monthly summary of searches, views, calls, routes.</div></div>
+        <div class="card-min"><div class="d-flex align-items-center mb-1"><div class="icon">🏪</div><strong>Multi‑location</strong></div><div class="text-muted">Manage multiple locations under one brand. Clear pricing.</div></div>
       </div>
     </div>
   </section>
 
-  <!-- QUICK ACTIONS -->
-  <section class="py-5">
+  <!-- INCLUDED -->
+  <section id="included" class="py-4">
     <div class="container container-narrow">
-      <h2 class="h3 mb-3 reveal" style="font-weight:800;color:#0f1228">What we handle for you</h2>
-      <div class="actions">
-        <div class="action reveal">
-          <div class="d-flex align-items-center mb-1">
-            <div class="icon">📍</div><strong>Setup, Claim, Verify</strong>
-          </div>
-          <div class="text-muted">Create or claim your profile, request postcard/video verification, and ensure accuracy across Search & Maps.</div>
-        </div>
-        <div class="action reveal">
-          <div class="d-flex align-items-center mb-1">
-            <div class="icon">🖊️</div><strong>Optimize the details</strong>
-          </div>
-          <div class="text-muted">Categories, description, hours, services, links, and booking buttons—all aligned with your site.</div>
-        </div>
-        <div class="action reveal">
-          <div class="d-flex align-items-center mb-1">
-            <div class="icon">🖼️</div><strong>Posts & photos (monthly)</strong>
-          </div>
-          <div class="text-muted">Fresh updates, seasonal promos, and gallery photos that keep your profile active and trustworthy.</div>
-        </div>
-        <div class="action reveal">
-          <div class="d-flex align-items-center mb-1">
-            <div class="icon">⭐</div><strong>Reviews & reputation</strong>
-          </div>
-          <div class="text-muted">Monitor new reviews and provide suggested responses to keep your tone consistent and professional.</div>
-        </div>
-        <div class="action reveal">
-          <div class="d-flex align-items-center mb-1">
-            <div class="icon">📊</div><strong>Monthly insights</strong>
-          </div>
-          <div class="text-muted">See searches, views, calls, and direction requests. We highlight wins and next actions.</div>
-        </div>
-        <div class="action reveal">
-          <div class="d-flex align-items-center mb-1">
-            <div class="icon">🏪</div><strong>Multi‑location ready</strong>
-          </div>
-          <div class="text-muted">We can manage multiple locations under one brand. Pricing per location keeps it simple.</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- INCLUDED / PRICING BLURB -->
-  <section id="included" class="py-5">
-    <div class="container container-narrow">
-      <div class="surface reveal">
+      <div class="surface">
         <div class="d-flex justify-content-between align-items-center mb-2">
-          <h2 class="h4 mb-0" style="font-weight:800;color:#0f1228">What’s included</h2>
+          <h2 class="h4 mb-0" style="font-weight:800;color:#0f1228">What's in the vault</h2>
         </div>
         <div class="inc-grid">
-          <div class="inc"><strong>Profile foundation:</strong> Creation/claim, verification, NAP consistency, map pin accuracy.</div>
-          <div class="inc"><strong>Content polish:</strong> Categories, services, attributes, description, hours, links, menu/service lists.</div>
-          <div class="inc"><strong>Visual freshness:</strong> Monthly posts, photos, logo/cover updates, seasonal promos.</div>
-          <div class="inc"><strong>Reputation:</strong> Review monitoring + suggested replies; flag policy‑violating reviews.</div>
-          <div class="inc"><strong>Insights:</strong> Monthly visibility summary (search terms, calls, directions, website taps).</div>
-          <div class="inc"><strong>Ownership:</strong> You keep full ownership. We’re invited as managers for secure access.</div>
+          <div class="inc"><strong>Foundation:</strong> Creation/claim, verification, NAP consistency, accurate map pin.</div>
+          <div class="inc"><strong>Profile polish:</strong> Categories, services, attributes, description, hours, links.</div>
+          <div class="inc"><strong>Visuals:</strong> Monthly posts, photos, logo/cover refresh, promos.</div>
+          <div class="inc"><strong>Reputation:</strong> Review monitoring + suggested replies; flag policy issues.</div>
+          <div class="inc"><strong>Insights:</strong> Monthly visibility recap (search terms, calls, routes, site taps).</div>
+          <div class="inc"><strong>Ownership:</strong> You own it. We’re invited as managers for secure access.</div>
         </div>
-        <div class="btn-row mt-3">
-          <a href="pricing.html#plans" class="btn-brand">See Plans</a>
-          <a href="#faq" class="btn-ghost">Read FAQs</a>
-        </div>
-        <hr/>
-        <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between">
+        <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between mt-3">
           <div class="mb-2 mb-md-0" style="color:#3a3f56">
-            <strong>Included</strong> in <u>Growth</u> & <u>Elite</u> plans. <strong>Essential</strong>: $99 setup + $10/mo.
+            <strong>Included</strong> in Growth & Elite plans. <strong>Essential</strong> add-on: $99 setup fee + $10/month for a limited time.
           </div>
-          <div class="btn-row">
-            <a href="website-request.html" class="btn-brand btn-sm-fix">Activate Now</a>
+          <div>
+            <a href="pricing.html#plans" class="btn-brand btn-sm-fix">See Plans</a>
             <a href="consultation.html" class="btn-ghost btn-sm-fix">Talk to Us</a>
           </div>
         </div>
@@ -260,68 +179,31 @@
     </div>
   </section>
 
-  <!-- PROCESS -->
+  <!-- PROCESS (short) -->
   <section id="process" class="py-4">
     <div class="container container-narrow">
-      <h2 class="h4 mb-3 reveal" style="font-weight:800;color:#0f1228">How activation works</h2>
-      <div class="process">
-        <div class="step reveal">
-          <div class="bubble">1</div>
-          <h3 class="h6 mb-1" style="font-weight:800;color:#0f1228">Invite</h3>
-          <div class="text-muted">We send a manager invite to your Google account. You approve in one click.</div>
-        </div>
-        <div class="step reveal">
-          <div class="bubble">2</div>
-          <h3 class="h6 mb-1" style="font-weight:800;color:#0f1228">Verify</h3>
-          <div class="text-muted">We guide postcard/video verification (if needed) and confirm NAP consistency.</div>
-        </div>
-        <div class="step reveal">
-          <div class="bubble">3</div>
-          <h3 class="h6 mb-1" style="font-weight:800;color:#0f1228">Optimize</h3>
-          <div class="text-muted">We complete categories, description, services, and booking links aligned with your site.</div>
-        </div>
-        <div class="step reveal">
-          <div class="bubble">4</div>
-          <h3 class="h6 mb-1" style="font-weight:800;color:#0f1228">Publish Monthly</h3>
-          <div class="text-muted">We add posts & photos and monitor reviews to keep things active.</div>
-        </div>
-        <div class="step reveal">
-          <div class="bubble">5</div>
-          <h3 class="h6 mb-1" style="font-weight:800;color:#0f1228">Report</h3>
-          <div class="text-muted">You receive a simple insights summary—what’s trending and what’s next.</div>
-        </div>
+      <h2 class="h4 mb-3" style="font-weight:800;color:#0f1228">So like, it's very simple</h2>
+      <div class="grid">
+        <div class="step"><div class="bubble">1</div><h3 class="h6 mb-1" style="font-weight:800;color:#0f1228">Invite</h3><div class="text-muted">We send a manager invite. You approve.</div></div>
+        <div class="step"><div class="bubble">2</div><h3 class="h6 mb-1" style="font-weight:800;color:#0f1228">Verify</h3><div class="text-muted">Postcard or video verification if needed.</div></div>
+        <div class="step"><div class="bubble">3</div><h3 class="h6 mb-1" style="font-weight:800;color:#0f1228">Optimize</h3><div class="text-muted">We complete categories, services, links, hours.</div></div>
+        <div class="step"><div class="bubble">4</div><h3 class="h6 mb-1" style="font-weight:800;color:#0f1228">Publish</h3><div class="text-muted">Monthly posts/photos + review monitoring.</div></div>
       </div>
-      <div class="mt-3">
-        <a href="website-request.html" class="btn-brand">Submit a Website Request</a>
-      </div>
+      <div class="mt-3"><a href="website-request.html" class="btn-brand">Activate Management</a></div>
     </div>
   </section>
 
-  <!-- FAQ -->
+  <!-- FAQ (trimmed) -->
   <section id="faq" class="py-5">
     <div class="container container-narrow">
-      <h2 class="h4 mb-3 reveal" style="font-weight:800;color:#0f1228">FAQs</h2>
+      <h2 class="h4 mb-3" style="font-weight:800;color:#0f1228">FAQs</h2>
       <div class="faq-grid">
-        <details class="faq reveal">
-          <summary><strong>Do I keep ownership of my Google Business Profile?</strong></summary>
-          <div class="pt-2">Yes. You own the profile. We’re added as managers and can be removed anytime in your Google settings.</div>
-        </details>
-        <details class="faq reveal">
-          <summary><strong>How often do you update the profile?</strong></summary>
-          <div class="pt-2">We review and update monthly, and we’ll publish posts/photos tied to your promos. Urgent edits are done on request.</div>
-        </details>
-        <details class="faq reveal">
-          <summary><strong>What if I have multiple locations?</strong></summary>
-          <div class="pt-2">We support multi‑location management. Pricing is per location so you only pay for what you need.</div>
-        </details>
-        <details class="faq reveal">
-          <summary><strong>Can you respond to reviews for me?</strong></summary>
-          <div class="pt-2">We provide suggested replies (tone‑matched to your brand). Full reply management is available on request.</div>
-        </details>
-        <details class="faq reveal">
-          <summary><strong>Which plans include this?</strong></summary>
-          <div class="pt-2">Included in Growth & Elite. Essential clients can add it for $99 setup + $10/month.</div>
-        </details>
+        <details class="faq"><summary><strong>Do I keep ownership?</strong></summary><div class="pt-2">Yes. You own the profile. We’re added as managers and can be removed anytime.</div></details>
+        <details class="faq"><summary><strong>How often do you update it?</strong></summary><div class="pt-2">We review your business profile monthly and publish your post/photos tied to your promos. Urgent edits must be done on request and may include a $69 rush fee.</div></details>
+        <details class="faq"><summary><strong>Do you support multiple locations?</strong></summary><div class="pt-2">Yes. We manage each location under your brand. Our pricing is per location. For example, if you're on our Growth plan and you have two business locations, your first one is included and your second one is available as an add-on.</div></details>
+        <details class="faq"><summary><strong>Will you respond to reviews?</strong></summary><div class="pt-2">We provide suggested replies in your tone. 
+        Full reply management is available if needed, provided that you are on Growth and Elite plan. To request help with replying to reviews, submit a <a href="website-request.html">support ticket</a>.
+        </div></details>
       </div>
     </div>
   </section>
@@ -329,13 +211,13 @@
   <!-- CTA -->
   <section class="py-5">
     <div class="container container-narrow">
-      <div class="cta reveal d-flex flex-column flex-md-row align-items-md-center justify-content-between">
+      <div class="surface d-flex flex-column flex-md-row align-items-md-center justify-content-between">
         <div class="mb-2 mb-md-0">
           <div class="eyebrow">Be discoverable everywhere</div>
-          <h3 class="h5 mb-1" style="font-weight:800;color:#0f1228">Ready for Search & Maps to start pulling their weight?</h3>
-          <div class="text-muted">Activate management and we’ll take it from here.</div>
+          <h3 class="h5 mb-1" style="font-weight:800;color:#0f1228">Ready for Search & Maps to work harder?</h3>
+          <div class="text-muted">Turn profile views into calls and visits.</div>
         </div>
-        <div class="btn-row">
+        <div>
           <a href="website-request.html" class="btn-brand btn-sm-fix">Activate Now</a>
           <a href="consultation.html" class="btn-ghost btn-sm-fix">Talk to Us</a>
         </div>
@@ -346,8 +228,8 @@
 
 <footer class="py-4 text-center">
   <div class="mt-3 small" style="opacity:.9">
-    <p style="margin: 30px;">
-        Google Business Profile and Google My Business are trademarks of Google LLC. WebEaze is an independent web design service and is not affiliated with or endorsed by Google LLC. We are not responsible for any actions taken by Google, including but not limited to profile suspensions or removals.
+    <p style="margin:30px;">
+      Google Business Profile and Google My Business are trademarks of Google LLC. WebEaze is an independent web design service and is not affiliated with or endorsed by Google LLC. We are not responsible for actions taken by Google, including profile suspensions or removals.
     </p>
     <strong>Serving small businesses across:</strong><br>
     <a href="/web-design-maryland.html" style="color:#000000;text-decoration:underline;">Maryland</a> ·
@@ -371,19 +253,7 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
 <script>
-  // Reveal once on scroll
-  (function(){
-    var els=[].slice.call(document.querySelectorAll('.reveal'));
-    if(!('IntersectionObserver'in window)){els.forEach(function(e){e.classList.add('in-view')});return;}
-    var io=new IntersectionObserver(function(entries){
-      entries.forEach(function(entry){
-        if(entry.isIntersecting){entry.target.classList.add('in-view');io.unobserve(entry.target);} });
-    },{threshold:.14});
-    els.forEach(function(e){io.observe(e)});
-  })();
-
   // Smooth internal links from collapsed mobile nav
   (function(){
     var menu=document.getElementById('mobileNav'); if(!menu) return;
@@ -394,21 +264,9 @@
       $(menu).one('hidden.bs.collapse',function(){ target.scrollIntoView({behavior:'smooth',block:'start'}); });
     });
   })();
-
-  // Ticker duplicate for seamless loop
-  (function(){
-    var inner = document.querySelector('.strip .inner');
-    if(inner){
-      var wrapper = document.createElement('div');
-      wrapper.className = 'ticker';
-      var parent = inner.parentNode; parent.replaceChild(wrapper, inner); wrapper.appendChild(inner);
-      var dupe = inner.cloneNode(true); dupe.setAttribute('aria-hidden','true'); wrapper.appendChild(dupe);
-      if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){ wrapper.style.animation='none'; }
-    }
-  })();
 </script>
 
-<!-- Schema: Service + Offer + FAQPage -->
+<!-- Schema: Service + FAQPage -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -427,7 +285,7 @@
       "priceCurrency": "USD"
     },{
       "@type": "UnitPriceSpecification",
-      "name": "Essential Add‑On",
+      "name": "Essential Add‑On (limited‑time)",
       "price": "10",
       "priceCurrency": "USD"
     }],
@@ -440,11 +298,10 @@
   "@context":"https://schema.org",
   "@type":"FAQPage",
   "mainEntity":[
-    {"@type":"Question","name":"Do I keep ownership of my Google Business Profile?","acceptedAnswer":{"@type":"Answer","text":"Yes. You own the profile. We’re added as managers and can be removed anytime in your Google settings."}},
-    {"@type":"Question","name":"How often do you update the profile?","acceptedAnswer":{"@type":"Answer","text":"We review and update monthly and publish posts/photos tied to your promos. Urgent edits are done on request."}},
-    {"@type":"Question","name":"What if I have multiple locations?","acceptedAnswer":{"@type":"Answer","text":"We support multi‑location management. Pricing is per location."}},
-    {"@type":"Question","name":"Can you respond to reviews for me?","acceptedAnswer":{"@type":"Answer","text":"We provide suggested replies (tone‑matched). Full reply management available on request."}},
-    {"@type":"Question","name":"Which plans include this?","acceptedAnswer":{"@type":"Answer","text":"Included in Growth & Elite. Essential can add for $99 setup + $10/month."}}
+    {"@type":"Question","name":"Do I keep ownership?","acceptedAnswer":{"@type":"Answer","text":"Yes. You own the profile. We’re added as managers and can be removed anytime."}},
+    {"@type":"Question","name":"How often do you update it?","acceptedAnswer":{"@type":"Answer","text":"We review monthly and publish posts/photos tied to your promos. Urgent edits on request."}},
+    {"@type":"Question","name":"Do you support multiple locations?","acceptedAnswer":{"@type":"Answer","text":"Yes. We manage each location under your brand. Pricing is per location."}},
+    {"@type":"Question","name":"Will you respond to reviews?","acceptedAnswer":{"@type":"Answer","text":"We provide suggested replies in your tone. Full reply management is available if needed."}}
   ]
 }
 </script>
