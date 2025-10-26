@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="page-samples">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Website Samples | WebEaze</title>
-  <meta name="description" content="A small, handpicked set of live sites we built. Fast, clear, and designed to win new customers." />
+  <meta name="description" content="A curated set of WebEaze sites with short, human explanations of what we built and why it works." />
   <link rel="canonical" href="https://www.webeaze.io/samples.html" />
 
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="WebEaze" />
   <meta property="og:title" content="Website Samples | WebEaze" />
-  <meta property="og:description" content="A small, handpicked set of live sites we built." />
+  <meta property="og:description" content="A curated set of WebEaze sites and why they work." />
   <meta property="og:url" content="https://www.webeaze.io/samples.html" />
   <meta property="og:image" content="https://webeaze.io/images/default-monochrome.png" />
   <meta property="og:image:alt" content="WebEaze logo" />
@@ -23,118 +23,80 @@
   <link rel="shortcut icon" href="images/webeaze-transparent copy.png" type="image/png" />
 
   <style>
-    :root{ --brand:#7851a9; --brand-ink:#3a2577; --gold:#ffd700; --ink:#0f1228; --ink-2:#3c4260; --muted:#6b7280; --line:#e7eaf4; --bg:#f7f8fc; --white:#fff }
-    html,body{height:100%; overflow-x:hidden}
-    body{margin:0;font-family:'Poppins',sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased}
+    :root{
+      --brand:#7851a9; --gold:#ffd700; --ink:#0f1228;
+      --muted:#9aa1b5; --line:#2a2a3a; --white:#fff;
+      --dark:#0a0a0f; --dark-2:#0f1220; --glass:rgba(255,255,255,.06);
+    }
+    html,body{height:100%}
+    body{margin:0;font-family:'Poppins',sans-serif;background:var(--dark);color:#f3f5ff;-webkit-font-smoothing:antialiased}
     a{color:inherit;text-decoration:none}
     .container-narrow{max-width:1100px}
     .logo{height:36px}
 
-    /* ===== Nav (match homepage) ===== */
-    .nav-wrap{position:sticky; top:0; z-index:9999; background:#000; backdrop-filter:saturate(130%) blur(8px); -webkit-backdrop-filter:saturate(130%) blur(8px); border-bottom:1px solid rgba(255,255,255,.14)}
-    .webeaze-nav{background:transparent!important;box-shadow:none!important;padding:.6rem 0;transition:padding .18s ease}
+    /* Nav */
+    .nav-wrap{position:sticky; top:0; z-index:9999; background:#000; border-bottom:1px solid rgba(255,255,255,.12); transform:translateY(0); transition:transform .26s ease}
+    .nav-wrap.nav-hidden{transform:translateY(-100%)}
+    .webeaze-nav{background:transparent!important; box-shadow:none!important; padding:.6rem 0; transition:padding .18s ease}
     .scrolled .webeaze-nav{padding:.45rem 0}
-    .brand-word{letter-spacing:-.3px;font-weight:700;background:linear-gradient(90deg,#e8e7ea,#66615f);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    .brand-word{letter-spacing:-.3px;font-weight:700;color:#fff}
     .navbar-dark .nav-link{color:#fff!important;opacity:.92;border-radius:10px;padding:.45rem .7rem}
     .navbar-dark .nav-link:hover{opacity:1;background:rgba(255,255,255,.08)}
     .btn-nav{background:var(--gold);color:#2f1e66;border:none;border-radius:12px;padding:.6rem .9rem;font-weight:700;box-shadow:0 8px 22px rgba(255,215,0,.22)}
 
-    /* ===== Buttons ===== */
+    /* Buttons */
     .btn-brand{display:inline-flex;align-items:center;justify-content:center;background:var(--gold);color:#2f1e66;border:none;border-radius:12px;padding:.74rem 1.05rem;font-weight:700;line-height:1;box-shadow:0 10px 26px rgba(255,215,0,.22);transition:transform .15s ease, box-shadow .15s ease, background-color .15s ease}
     .btn-brand:hover{background:#f2c600;color:#fff;transform:translateY(-1px);box-shadow:0 14px 34px rgba(255,215,0,.3)}
-    .btn-ghost{display:inline-flex;align-items:center;justify-content:center;background:#fff;color:var(--ink);border:1px solid var(--line);border-radius:12px;padding:.74rem 1.05rem;font-weight:700;line-height:1;transition:transform .15s ease, box-shadow .15s ease}
-    .btn-ghost:hover{transform:translateY(-1px);box-shadow:0 10px 24px rgba(16,18,37,.10)}
-
-    /* ===== Animations ===== */
-    .reveal{opacity:0;transform:translateY(12px) scale(.98);transition:opacity .5s ease, transform .6s cubic-bezier(.2,.65,.2,1)}
-    .reveal.in{opacity:1;transform:translateY(0) scale(1)}
-    .floaty{animation: floaty 6s ease-in-out infinite}
-    @keyframes floaty{ 0%,100%{ transform: translateY(0) } 50%{ transform: translateY(-6px) } }
-
-    /* ===== Hero ===== */
-    .hero{position:relative;padding:clamp(56px,11vh,86px) 0;background:linear-gradient(180deg,#ffffff,#f7f8fc 70%)}
-    .halo{position:absolute; inset:-20% -10% auto -10%; height:420px; pointer-events:none; background:radial-gradient(34% 46% at 15% 20%, rgba(120,81,169,.18), transparent 60%), radial-gradient(28% 42% at 85% 18%, rgba(255,215,0,.14), transparent 60%)}
-    .eyebrow{font-size:.85rem;letter-spacing:.08em;text-transform:uppercase;color:#6b6f86}
-    .headline{font-weight:800;letter-spacing:-.02em;line-height:1.06}
-    .sub{color:#3f4564;max-width:780px}
-
-    /* ===== Grid of samples ===== */
-    .grid{display:grid;grid-template-columns:repeat(12,1fr);grid-gap:14px}
-    .sample{grid-column:span 6;background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:0 10px 28px rgba(16,18,37,.06);position:relative;transition: transform .2s ease, box-shadow .2s ease}
-    .sample:hover{ transform: translateY(-4px) rotate(-.25deg); box-shadow:0 16px 40px rgba(16,18,37,.10) }
-
-    /* --- PERFECTLY FITTING THUMBNAILS (no crop) --- */
-    .thumb{position:relative;aspect-ratio:16/10;background:#fff;display:grid;place-items:center}
-    .thumb-inner{width:100%;height:100%;padding:8px}
-    .thumb img{width:100%;height:100%;object-fit:contain;object-position:center;display:block;border-radius:12px;background:linear-gradient(180deg,#fafbff,#f2f4fa);box-shadow:inset 0 0 0 1px #eef1f7}
-
-    .badge{position:absolute;left:12px;top:12px;padding:.28rem .6rem;border-radius:999px;background:#ede9fe;color:#3a2577;font-weight:800;border:1px solid #d8cffb}
-    .body{padding:16px 16px 18px}
-    .title{font-weight:800;margin:0 0 2px}
-    .desc{margin:0;color:#3c4260}
-    .meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
-    .tag{font-size:.8rem;padding:.25rem .6rem;border-radius:999px;border:1px dashed var(--gold);background:#fff}
-    .card-actions{display:flex;align-items:center;justify-content:space-between;margin-top:10px}
-
-    @media (max-width:992px){.sample{grid-column:span 12}}
-
-    /* ===== Footer ===== */
-    footer{font-size:.95rem;color:#fff}
-
-    /* Hero extras */
-    .hero.hero--center{ text-align:center }
-    .hero.hero--center .headline{ font-size: clamp(30px, 6vw, 52px) }
-    .hero.hero--center .sub{ margin: 10px auto 0; max-width: 760px }
-    .hero .stat-chips{ display:flex; gap:8px; justify-content:center; flex-wrap:wrap; margin-top:12px }
-    .hero .chip{ display:inline-flex; align-items:center; gap:.45rem; padding:.45rem .8rem; border-radius:999px; background:#fff; border:1px solid var(--line); font-weight:800; color:#3f4564 }
-    .chip .dot{ width:8px; height:8px; border-radius:50%; background:var(--brand) }
-
-    /* Arrow link (textual CTA) */
-    .arrow-link{ display:inline-flex; align-items:center; font-weight:800; color:#3a2577; border:0; background:transparent; padding:0; }
-    .arrow-link::after{ content:"→"; margin-left:.45rem; transition: transform .18s ease }
-    .arrow-link:hover::after{ transform: translateX(2px) }
-
-    /* Subtle hero grid overlay */
-    .hero::after{ content:""; position:absolute; inset:0; pointer-events:none; background:
-      repeating-linear-gradient(0deg, rgba(16,18,37,.016) 0 1px, transparent 1px 24px),
-      repeating-linear-gradient(90deg, rgba(16,18,37,.016) 0 1px, transparent 1px 24px);
-      mask-image: linear-gradient(180deg, transparent, #000 12%, #000 88%, transparent); }
-    @media (max-width: 576px){ .hero::after{ opacity:.7 } }
-
-    /* Fun confetti ping on hover */
-    .sparkle{ position:absolute; inset:0; pointer-events:none; opacity:0; transition:opacity .18s ease }
-    .sample:hover .sparkle{ opacity:1 }
-    .sparkle::before, .sparkle::after{
-      content:""; position:absolute; width:6px; height:6px; border-radius:50%; background:var(--gold); animation: pop 700ms ease forwards; transform: scale(0);
-    }
-    .sparkle::after{ background:var(--brand); }
-    @keyframes pop{ to{ transform: translate(14px,-10px) scale(1); opacity:.0 } }
+    .btn-ghost{display:inline-flex;align-items:center;justify-content:center;background:transparent;color:inherit;border:1px solid currentColor;border-radius:12px;padding:.74rem 1.05rem;font-weight:700;line-height:1;transition:transform .15s ease, box-shadow .15s ease}
+    .btn-ghost:hover{transform:translateY(-1px);box-shadow:0 10px 24px rgba(16,18,37,.18)}
+    .btn-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px}
 
     /* Filter bar */
-    .filterbar{ display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin:.6rem 0 0 }
-    .filter-btn{ border:1px solid var(--line); background:#fff; border-radius:999px; padding:.45rem .85rem; font-weight:700; cursor:pointer }
-    .filter-btn.active{ border-color:#d8cffb; background:#f6f3ff; color:#3a2577 }
+    .filterbar{ display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin:20px 0 }
+    .filter-btn{ border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.05); border-radius:999px; padding:.55rem 1rem; font-weight:700; cursor:pointer; color:#fff; transition:background .2s ease,border-color .2s ease }
+    .filter-btn.active, .filter-btn:hover{ border-color:var(--gold); background:rgba(255,215,0,.1); color:#ffd700 }
+
+    /* Cards */
+    .grid{display:grid;grid-template-columns:repeat(12,1fr);grid-gap:18px}
+    .sample{grid-column:span 6;background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.12);border-radius:16px;overflow:hidden;box-shadow:0 10px 26px rgba(16,18,37,.22)}
+    @media(max-width:992px){.sample{grid-column:span 12}}
+    .frame{position:relative;overflow:hidden;background:#0b0b14;border-bottom:1px solid rgba(255,255,255,.12)}
+    .frame::before{content:"";display:block;aspect-ratio:16/10}
+    .frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#0b0b14}
+    .badge{position:absolute;left:14px;top:14px;font-weight:800;font-size:.78rem;padding:.26rem .6rem;border-radius:10px;background:#ede9fe;color:#3a2577;border:1px solid #d8cffb}
+    .body{padding:18px 20px 22px}
+    .title{font-weight:800;margin:0 0 6px}
+    .desc{margin:0 0 8px;opacity:.9}
+    .meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+    .tag{font-size:.8rem;font-weight:600;padding:.3rem .7rem;border-radius:999px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06)}
+    .arrow-link{display:inline-flex;align-items:center;font-weight:800;margin-top:10px}
+    .arrow-link::after{content:"→";margin-left:.45rem;transition:transform .18s ease}
+    .arrow-link:hover::after{transform:translateX(2px)}
+
+    /* Hero */
+    .hero{padding:clamp(60px,12vh,90px) 0;background:linear-gradient(180deg,#0b0b14,#141424);text-align:center}
+    .halo{position:absolute;inset:-20% 0 auto 0;width:140%;height:420px;left:50%;transform:translateX(-50%);pointer-events:none;background:radial-gradient(34% 46% at 15% 20%,rgba(120,81,169,.35),transparent 60%),radial-gradient(28% 42% at 85% 18%,rgba(255,215,0,.18),transparent 60%)}
+    .headline{font-weight:800;letter-spacing:-.02em;font-size:clamp(32px,6vw,54px)}
+    .sub{max-width:700px;margin:10px auto;color:#d7d9ec}
 
   </style>
 </head>
 <body>
 
-<!-- NAV (same as homepage) -->
 <div class="nav-wrap">
   <div class="container container-narrow">
-    <nav class="navbar navbar-expand-lg navbar-dark webeaze-nav" role="navigation" aria-label="Primary">
+    <nav class="navbar navbar-expand-lg navbar-dark webeaze-nav">
       <a class="navbar-brand d-flex align-items-center" href="index.html">
         <img class="logo" src="images/webeaze-transparent copy.png" alt="WebEaze" />
         <strong class="ml-2 brand-word">WebEaze</strong>
       </a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mobileNav" aria-controls="mobileNav" aria-expanded="false" aria-label="Toggle navigation">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mobileNav">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div id="mobileNav" class="collapse navbar-collapse">
         <ul class="navbar-nav ml-auto main-nav">
-      
           <li class="nav-item"><a class="nav-link" href="maintenance.html">Maintenance</a></li>
-          <li class="nav-item"><a class="nav-link" href="about.html">About Us</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
           <li class="nav-item"><a class="nav-link" href="pricing.html">Pricing</a></li>
           <li class="nav-item"><a class="nav-link" href="faq.html">FAQ</a></li>
           <li class="nav-item"><a class="nav-link" href="contact-us.html">Contact</a></li>
@@ -145,219 +107,81 @@
   </div>
 </div>
 
-<!-- HERO -->
-<header class="hero hero--center">
-  <div class="halo floaty" aria-hidden="true"></div>
+<header class="hero">
+  <div class="halo"></div>
   <div class="container container-narrow">
-    <div class="hero-copy">
-      <div class="eyebrow">Handpicked from <span class="sr-only">over </span><span id="clientCount" aria-hidden="true">0</span>+ clients</div>
-      <h1 class="headline mt-2">Website samples</h1>
-      <p class="sub">A small, curated selection across tutoring, fitness, and local trades. Just a taste of what we’ve launched.</p>
-      <!-- <div class="stat-chips mt-2" role="list">
-        <span class="chip" role="listitem"><span class="dot"></span> Fast 7–14 day launches</span>
-        <span class="chip" role="listitem"><span class="dot"></span> Mobile‑first layouts</span>
-        <span class="chip" role="listitem"><span class="dot"></span> Ongoing maintenance</span>
-      </div> -->
-      <div class="filterbar mt-3" aria-label="Filter examples">
-        <button class="filter-btn active" data-filter="all">All</button>
-        <button class="filter-btn" data-filter="Education">Education</button>
-        <button class="filter-btn" data-filter="Fitness">Fitness</button>
-        <button class="filter-btn" data-filter="Home Services">Home Services</button>
-      </div>
-
-      <br>
-      <div class="btn-row mt-3" style="justify-content:center">
-        <a href="consultation.html" class="btn-brand">Book a consult</a>
-        <br>
-    
-        <a href="pricing.html" class="btn-ghost">See plans</a>
-      </div>
+    <h1 class="headline">Website Samples</h1>
+    <p class="sub">Real small business sites we've built. With a short excerpt on what we did and why each one works.</p>
+    <div class="filterbar">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="Education">Education</button>
+      <button class="filter-btn" data-filter="Fitness">Fitness</button>
+      <button class="filter-btn" data-filter="Home Services">Home Services</button>
     </div>
   </div>
 </header>
 
-<!-- SAMPLES -->
-<section class="py-5">
+<section style="padding:60px 0">
   <div class="container container-narrow">
-    <div class="grid" id="samplesGrid">
-
+    <div class="grid">
       <!-- Ibis Prep -->
-      <article class="sample reveal" data-cat="Education" itemscope itemtype="https://schema.org/CreativeWork">
-        <div class="thumb">
-          <span class="badge">Education</span>
-          <div class="thumb-inner">
-            <img src="images/samples/ibis-prep.png" alt="Ibis Prep website screenshot" loading="lazy" decoding="async" itemprop="image" />
-          </div>
-          <span class="sparkle"></span>
-        </div>
+      <article class="sample" data-cat="Education">
+        <div class="frame"><img src="images/samples/ibis-prep.png" alt="Ibis Prep"/></div>
         <div class="body">
-          <h3 class="title h5" itemprop="name">Ibis Prep</h3>
-          <p class="desc" itemprop="about">Tutoring programs with quick ways to book a session.</p>
-          <div class="meta"><span class="tag">Bookings</span><span class="tag">Fast load</span><span class="tag">Mobile‑first</span></div>
-          <div class="card-actions">
-            <a class="arrow-link" href="https://ibisprep.com" target="_blank" rel="noopener" itemprop="url">View live</a>
-          </div>
+          <h3 class="title">Ibis Prep</h3>
+          <p class="desc">Tutoring website built for clarity. Parents, students, and educators can find programs and book instantly.</p>
+          <div class="meta"><span class="tag">Bookings</span><span class="tag">SEO</span></div>
+          <a class="arrow-link" href="https://ibisprep.com" target="_blank">View live</a>
         </div>
       </article>
-
       <!-- Galaxy Gymnastics -->
-      <article class="sample reveal" data-cat="Fitness" itemscope itemtype="https://schema.org/CreativeWork">
-        <div class="thumb">
-          <span class="badge">Fitness</span>
-          <div class="thumb-inner">
-            <img src="images/showcase/desktop.png" alt="Galaxy Gymnastics website screenshot" loading="lazy" decoding="async" />
-          </div>
-          <span class="sparkle"></span>
-        </div>
+      <article class="sample" data-cat="Fitness">
+        <div class="frame"><img src="images/showcase/desktop.png" alt="Galaxy Gymnastics"/></div>
         <div class="body">
-          <h3 class="title h5">Galaxy Gymnastics</h3>
-          <p class="desc">Schedules and events with clear membership prompts.</p>
-          <div class="meta"><span class="tag">Schedules</span><span class="tag">Events</span><span class="tag">Brand color</span></div>
-          <div class="card-actions">
-            <a class="arrow-link" href="https://galaxygymnast.com" target="_blank" rel="noopener">View live</a>
-          </div>
+          <h3 class="title">Galaxy Gymnastics</h3>
+          <p class="desc">Bright layout with visible schedules and a fast event sign-up process for parents.</p>
+          <div class="meta"><span class="tag">Events</span><span class="tag">Calendars</span></div>
+          <a class="arrow-link" href="https://galaxygymnast.com" target="_blank">View live</a>
         </div>
       </article>
-
       <!-- Bear Carpet Care -->
-      <article class="sample reveal" data-cat="Home Services" itemscope itemtype="https://schema.org/CreativeWork">
-        <div class="thumb">
-          <span class="badge">Home Services</span>
-          <div class="thumb-inner">
-            <img src="images/samples/bear-carpet-care.png" alt="Bear Carpet Care website screenshot" loading="lazy" decoding="async" />
-          </div>
-          <span class="sparkle"></span>
-        </div>
+      <article class="sample" data-cat="Home Services">
+        <div class="frame"><img src="images/samples/bear-carpet-care.png" alt="Bear Carpet Care"/></div>
         <div class="body">
-          <h3 class="title h5">Bear Carpet Care</h3>
-          <p class="desc">Local SEO pages, reviews for trust, and tap‑to‑call CTAs.</p>
-          <div class="meta"><span class="tag">Local SEO</span><span class="tag">Reviews</span><span class="tag">Clear CTAs</span></div>
-          <div class="card-actions">
-            <a class="arrow-link" href="https://bearcarpetcare.com" target="_blank" rel="noopener">View live</a>
-          </div>
+          <h3 class="title">Bear Carpet Care</h3>
+          <p class="desc">Built trust through strong visuals, reviews, and tap-to-call options for quick contact.</p>
+          <div class="meta"><span class="tag">Local SEO</span><span class="tag">Mobile optimized</span></div>
+          <a class="arrow-link" href="https://bearcarpetcare.com" target="_blank">View live</a>
         </div>
       </article>
-
       <!-- Run Delmarva -->
-      <article class="sample reveal" data-cat="Fitness" itemscope itemtype="https://schema.org/CreativeWork">
-        <div class="thumb">
-          <span class="badge">Fitness</span>
-          <div class="thumb-inner">
-            <img src="images/samples/run-delmarva.png" alt="Run Delmarva website screenshot" loading="lazy" decoding="async" />
-          </div>
-          <span class="sparkle"></span>
-        </div>
+      <article class="sample" data-cat="Fitness">
+        <div class="frame"><img src="images/samples/run-delmarva.png" alt="Run Delmarva"/></div>
         <div class="body">
-          <h3 class="title h5">Run Delmarva</h3>
-          <p class="desc">Race calendar and resources for a growing running community.</p>
-          <div class="meta"><span class="tag">Events</span><span class="tag">Resources</span><span class="tag">Shop page</span></div>
-          <div class="card-actions">
-            <a class="arrow-link" href="https://rundelmarva.org" target="_blank" rel="noopener">View live</a>
-          </div>
+          <h3 class="title">Run Delmarva</h3>
+          <p class="desc">Race listings and resources with a focus on speed and usability for mobile users.</p>
+          <div class="meta"><span class="tag">Community</span><span class="tag">Shop page</span></div>
+          <a class="arrow-link" href="https://rundelmarva.org" target="_blank">View live</a>
         </div>
       </article>
-
-      <!-- More on request -->
-      <article class="sample reveal" data-cat="All">
-        <div class="thumb">
-          <span class="badge">More on request</span>
-          <div class="thumb-inner">
-            <img src="images/website-request-header-img.jpeg" alt="Additional samples available on request" loading="lazy" decoding="async" />
-          </div>
-          <span class="sparkle"></span>
-        </div>
-        <div class="body">
-          <h3 class="title h5">Want a similar site?</h3>
-          <p class="desc">We can share more examples in your industry during the consult.</p>
-          <div class="meta"><span class="tag"><span class="sr-only">Over </span>44+ active clients</span><span class="tag">Curated list</span></div>
-          <div class="card-actions"><a class="btn-brand" href="consultation.html">Book a consult</a></div>
-        </div>
-      </article>
-
     </div>
   </div>
 </section>
 
-<!-- CTA -->
-<section class="py-5">
-  <div class="container container-narrow">
-    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between surface" style="background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px;box-shadow:0 10px 28px rgba(16,18,37,.05)">
-      <div class="mb-2 mb-md-0">
-        <div class="eyebrow" style="color:#6b6f86">Next step</div>
-        <h3 class="h5 mb-1" style="font-weight:800">Tell us what you want your website to do.</h3>
-        <div class="text-muted">We’ll map pages and timeline on a short call.</div>
-      </div>
-      <div class="btn-row"><a href="consultation.html" class="btn-brand">Book consultation</a></div>
-    </div>
-  </div>
-</section>
+<footer class="py-4 text-center">
 
-<!-- FOOTER (same as homepage) -->
-<footer class="py-4 text-center" style="background:#7851a9;color:#fff">
-  <div class="mt-3 small" style="opacity:.9">
-    <strong>Serving small businesses across:</strong><br>
-    <a href="/web-design-maryland.html" style="color:#fff;text-decoration:underline;">Maryland</a> ·
-    <a href="/web-design-delaware.html" style="color:#fff;text-decoration:underline;">Delaware</a> ·
-    <a href="/web-design-pennsylvania.html" style="color:#fff;text-decoration:underline;">Pennsylvania</a> ·
-    <a href="/web-design-new-jersey.html" style="color:#fff;text-decoration:underline;">New Jersey</a>
-    <br><br>
-  </div>
   <div class="container container-narrow">
     <div class="mb-1">&copy; <span id="yr"></span> WebEaze. All rights reserved.</div>
     <div class="mb-2 small">
-      <a href="terms.html#privacy" style="color:#fff">Privacy Policy</a> ·
-      <a href="terms.html" style="color:#fff">Terms</a> ·
-      <a href="site-map.html" style="color:#fff">Site Map</a>
+      <a href="terms.html#privacy">Privacy Policy</a> ·
+      <a href="terms.html">Terms</a> ·
+      <a href="site-map.html">Site Map</a>
     </div>
     <div class="small">Made with ☕ in Delaware, USA</div>
   </div>
 </footer>
 
-<!-- JS -->
+
 <script>document.getElementById('yr').textContent=new Date().getFullYear();</script>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script>
-  // Nav padding on scroll
-  (function(){var wrap=document.querySelector('.nav-wrap'); if(!wrap) return; function onScr(){ (window.scrollY>8)?wrap.classList.add('scrolled'):wrap.classList.remove('scrolled'); } window.addEventListener('scroll',onScr,{passive:true}); onScr();})();
-
-  // Reveal on scroll
-  (function(){
-    var els=[].slice.call(document.querySelectorAll('.reveal'));
-    if(!('IntersectionObserver' in window)){els.forEach(e=>e.classList.add('in'));return}
-    var io=new IntersectionObserver(function(entries){
-      entries.forEach(function(entry){ if(entry.isIntersecting){ entry.target.classList.add('in'); io.unobserve(entry.target);} });
-    },{threshold:.14});
-    els.forEach(e=>io.observe(e));
-  })();
-
-  // Count-up for client count (to 44+)
-  (function(){
-    var el = document.getElementById('clientCount'); if(!el) return;
-    var target = 44; var current = 0; var started=false;
-    function step(){ current += Math.max(1, Math.floor((target-current)/6)); if(current>=target){ current=target; } el.textContent = current; if(current<target) requestAnimationFrame(step); }
-    var obs = new IntersectionObserver(function(entries){
-      entries.forEach(function(ent){ if(ent.isIntersecting && !started){ started=true; step(); obs.disconnect(); } })
-    },{threshold:.6});
-    obs.observe(el);
-  })();
-
-  // Simple category filter (no libs)
-  (function(){
-    var btns=[].slice.call(document.querySelectorAll('.filter-btn'));
-    var cards=[].slice.call(document.querySelectorAll('.sample'));
-    function setActive(btn){ btns.forEach(b=>b.classList.toggle('active',b===btn)); }
-    function filter(cat){
-      cards.forEach(function(c){
-        var match = cat==='all' || (c.dataset.cat && c.dataset.cat===cat);
-        c.style.display = match ? '' : 'none';
-      });
-    }
-    btns.forEach(function(btn){
-      btn.addEventListener('click',function(){ setActive(btn); filter(btn.dataset.filter||'all'); });
-    });
-  })();
-</script>
 </body>
 </html>
