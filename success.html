@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>You're Booked! | WebEaze</title>
-  <meta name="description" content="Thanks for booking with WebEaze. Here are your next steps, prep tips, and helpful links before we meet." />
+  <meta name="description" content="Thanks for booking with WebEaze. Your consultation is confirmed — here’s what to expect and how to prepare." />
   <link rel="shortcut icon" href="images/webeaze-transparent copy.png" type="image/png" />
 
   <!-- Fonts & CSS -->
@@ -13,75 +13,75 @@
 
   <style>
     :root{
-      --purple:#7851a9;
-      --brown:#5D4037;
+      --black:#0f0f0f;
+      --charcoal:#1a1a1a;
       --gold:#ffd700;
-      --ring:rgba(255,255,255,.18);
-      --ink:#20152f;
+      --white:#ffffff;
+      --muted:#b8b8b8;
     }
     *{box-sizing:border-box}
     html,body{margin:0;padding:0}
-    body{font-family:Poppins,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:#fff;background:var(--purple)}
+    body{font-family:'Poppins',sans-serif;background:var(--black);color:var(--white);}
 
-    a{color:#fff;text-decoration:underline}
-    a:hover{opacity:.9}
+    a{color:var(--gold);text-decoration:none}
+    a:hover{opacity:.85}
 
     .container-narrow{max-width:980px;margin:0 auto}
 
     /* HERO */
     header.hero{
-      position:relative;
-      overflow:hidden;
       text-align:center;
-      padding:84px 18px 54px;
-      background:
-        radial-gradient(900px 600px at 15% -10%, rgba(255,255,255,.10), transparent 60%),
-        radial-gradient(700px 500px at 110% 40%, rgba(255,255,255,.08), transparent 60%),
-        var(--purple);
-      border-bottom:1px solid rgba(255,255,255,.15);
+      padding:90px 18px 64px;
+      background:linear-gradient(180deg,#0f0f0f,#151515 80%);
+      border-bottom:1px solid rgba(255,255,255,.1);
+      position:relative;
     }
     .hero .checkmark{
-      width:86px;height:86px;border-radius:50%;
-      margin:0 auto 14px;
-      background:rgba(255,255,255,.12);
-      border:1px solid var(--ring);
+      width:90px;height:90px;border-radius:50%;
+      margin:0 auto 18px;
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.18);
       display:flex;align-items:center;justify-content:center;
-      position:relative;
-      animation: pop .5s ease-out both;
+      animation:pop .5s ease-out both, pulse 2.5s ease-in-out infinite;
     }
-    .checkmark svg{width:42px;height:42px;stroke:#fff;stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:90;stroke-dashoffset:90;animation:draw .9s .35s ease forwards}
-    @keyframes draw {to{stroke-dashoffset:0}}
-    @keyframes pop {0%{transform:scale(.6);opacity:0}100%{transform:scale(1);opacity:1}}
+    .checkmark svg{
+      width:46px;height:46px;stroke:var(--gold);stroke-width:3;
+      fill:none;stroke-linecap:round;stroke-linejoin:round;
+      stroke-dasharray:90;stroke-dashoffset:90;
+      animation:draw .9s .35s ease forwards;
+    }
+    @keyframes draw{to{stroke-dashoffset:0}}
+    @keyframes pop{0%{transform:scale(.6);opacity:0}100%{transform:scale(1);opacity:1}}
+    @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(255,215,0,.2)}50%{box-shadow:0 0 20px 4px rgba(255,215,0,.12)}}
 
-    .hero h1{font-size:clamp(28px,4.2vw,44px);font-weight:700;margin:6px 0 8px}
-    .hero p.lead{max-width:820px;margin:8px auto 0;opacity:.96;line-height:1.75}
-    .pill{display:inline-block;margin-top:16px;padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.14);border:1px solid var(--ring);font-size:.9rem}
+    .hero h1{font-size:clamp(28px,4.2vw,46px);font-weight:700;margin:12px 0 8px}
+    .hero p.lead{max-width:800px;margin:0 auto;opacity:.95;line-height:1.7;font-weight:400;color:var(--muted)}
+    .pill{display:inline-block;margin-top:18px;padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);font-size:.9rem;color:var(--white)}
 
-    /* SECTION WRAPPERS */
-    section{padding:56px 18px}
-    .section-light{background:#f9f7ff;color:#2a2140}
-    .section-dark{background:var(--purple);color:#fff}
-    .section-brown{background:var(--brown);color:#fff}
+    /* SECTIONS */
+    section{padding:64px 18px}
+    .section-light{background:var(--white);color:var(--charcoal)}
+    .section-dark{background:var(--black);color:var(--white)}
+    h2{font-size:1.9rem;font-weight:700;margin-bottom:22px}
+    .eyebrow{font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;opacity:.8;margin-bottom:6px;display:inline-block}
 
-    h2{font-size:1.9rem;font-weight:700;margin-bottom:18px}
-    .eyebrow{display:inline-block;font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;opacity:.8;margin-bottom:6px}
-
-    /* CARDS / GRID */
-    .grid{display:grid;grid-template-columns:1fr;gap:18px}
+    /* GRID + CARDS */
+    .grid{display:grid;gap:20px}
     @media(min-width:768px){.grid-3{grid-template-columns:repeat(3,1fr)}.grid-2{grid-template-columns:1fr 1fr}}
-    .card-lite{background:rgba(255,255,255,.08);border:1px solid var(--ring);border-radius:16px;padding:18px;color:#fff}
-    .card-solid{background:#fff;border:1px solid #eee;border-radius:14px;padding:18px;color:#1e1a29}
-    .card-solid h5,.card-solid p{color:#1e1a29}
+    .card-dark{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:22px;color:var(--white)}
+    .card-light{background:#fff;border:1px solid #eee;border-radius:14px;padding:22px;color:#1a1a1a}
 
-    .list-check{padding-left:0;margin:0}
+    .list-check{padding:0;margin:0}
     .list-check li{list-style:none;display:flex;align-items:flex-start;gap:10px;margin:10px 0}
-    .list-check .dot{width:22px;height:22px;flex:0 0 22px;border-radius:50%;border:1px solid var(--ring);background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center}
-    .list-check svg{width:14px;height:14px;stroke:#000000;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+    .list-check .dot{width:22px;height:22px;flex:0 0 22px;border-radius:50%;border:1px solid var(--gold);display:flex;align-items:center;justify-content:center}
+    .list-check svg{width:14px;height:14px;stroke:var(--gold);stroke-width:2;fill:none}
 
-    /* CTA Buttons */
-    .cta{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:14px}
-    .btn-brand{background:var(--gold);color:#2a2140;border:none;border-radius:12px;padding:12px 16px;font-weight:700;text-decoration:none}
-    .btn-ghost{border:1px solid rgba(255,255,255,.3);border-radius:12px;padding:8px 16px;font-weight:600;text-decoration:none;color:#fff;background:transparent}
+    /* Buttons */
+    .cta{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:20px}
+    .btn-brand{background:var(--gold);color:#000;border:none;border-radius:12px;padding:12px 18px;font-weight:700;text-decoration:none;transition:.2s}
+    .btn-brand:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(255,215,0,.25)}
+    .btn-ghost{border:1px solid rgba(255,255,255,.3);border-radius:12px;padding:10px 18px;font-weight:600;color:#fff;background:transparent;text-decoration:none}
+    .btn-ghost:hover{background:rgba(255,255,255,.08)}
 
     /* FAQ */
     .faq dt{font-weight:600;margin:10px 0;cursor:pointer}
@@ -89,161 +89,141 @@
     .faq dt.open + dd{display:block}
 
     /* FOOTER */
-    footer{background:var(--brown);text-align:center;padding:28px 18px}
-    .small{font-size:.95rem;opacity:.95}
+    footer{background:#000;text-align:center;padding:32px 18px;color:var(--muted)}
+    footer a{color:var(--gold)}
   </style>
 </head>
 <body>
 
-  <!-- HERO -->
-  <header class="hero">
-    <div class="container-narrow">
-      <div class="checkmark" aria-hidden="true">
-        <svg viewBox="0 0 52 52"><path d="M14 27l8 8 16-18"/></svg>
-      </div>
-      <h1>You're booked! We'll talk soon.</h1>
-      <p class="lead">We’ve emailed your confirmation and calendar invite. Below are quick next steps and resources to make our time together super productive.</p>
-      <span class="pill">Booked via Calendly</span>
+<!-- HERO -->
+<header class="hero">
+  <div class="container-narrow">
+    <div class="checkmark" aria-hidden="true">
+      <svg viewBox="0 0 52 52"><path d="M14 27l8 8 16-18"/></svg>
     </div>
-  </header>
+    <h1>You're Booked! 🎉</h1>
+    <p class="lead">We’ve emailed your confirmation and calendar invite. Below are a few next steps to make our time together productive and stress-free.</p>
+    <span class="pill">Confirmed via Calendly</span>
+  </div>
+</header>
 
-  <!-- NEXT STEPS -->
-  <section class="section-dark">
-    <div class="container-narrow">
-      <span class="eyebrow">Next steps</span>
-      <h2>Before we meet</h2>
-      <div class="grid grid-3">
-        <div class="card-lite">
-          <h5><strong>1) Schedule time</strong></h5>
-          <p class="mb-2">
-            Ensure our meeting time is on your calendar. Need to reschedule? Use the link in your confirmation email.
-          </p>
-        
-        </div>
-        <div class="card-lite">
-          <h5><strong>2) Gather assets</strong></h5>
-          <p class="mb-2">Logos, brand colors, examples you like. Anything helps.</p>
-
-          <br>
-          <a class="btn-ghost" href="mailto:support@webeaze.io">Email files to us</a>
-          <br>
-          <br>
-        </div>
-        <div class="card-lite">
-          <h5><strong>3) Tech check</strong></h5>
-          <p class="mb-2">Try to join from a quiet place. Test your mic/camera if it's a Zoom.</p>
-        
-        </div>
+<!-- NEXT STEPS -->
+<section class="section-dark">
+  <div class="container-narrow">
+    <span class="eyebrow">Next steps</span>
+    <h2>Before we meet</h2>
+    <div class="grid grid-3">
+      <div class="card-dark">
+        <h5><strong>1. Confirm your appointment</strong></h5>
+        <p>Double-check your confirmation email or calendar invite. If something changes, reschedule anytime via the link provided.
+        </p>
+      </div>
+      <div class="card-dark">
+        <h5><strong>2. Gather any assets</strong></h5>
+        <p>Logos, colors, examples, or notes. Essentially, anything that helps us understand your vision effectively.</p>
+        <a class="btn-ghost mt-2" href="contact-us.html">Send Files and Assets</a>
+      </div>
+      <div class="card-dark">
+        <h5><strong>3. Quick tech check</strong></h5>
+        <p>Please join from a quiet space, and test your mic/camera if it's a Zoom call.</p>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- WHAT TO EXPECT / DETAILS -->
-  <section class="section-light">
-    <div class="container-narrow grid grid-2">
-      <div class="card-solid">
-        <h5><strong>What to expect</strong></h5>
-        <ul class="list-check">
-          <li><span class="dot"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span> A friendly, no-pressure chat about your goals and timeline.</li>
-          <li><span class="dot"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span> Clear next steps and a plan that fits your budget.</li>
-          <li><span class="dot"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span> Follow-up email with notes and relevant links.</li>
-        </ul>
- 
-      </div>
-      <div class="card-solid">
-        <h5><strong>Reschedule or cancel</strong></h5>
-        <p class="mb-2">You can reschedule or cancel from your Calendly confirmation email at any time.</p>
-        <p class="mb-0"><em>Booked a phone call?</em> We’ll call you from <strong>(347) 377-2408</strong> at your scheduled time. Missed our call? Use the email link to reschedule.</p>
-      </div>
+<!-- EXPECTATIONS -->
+<section class="section-light">
+  <div class="container-narrow grid grid-2">
+    <div class="card-light">
+      <h5><strong>What to Expect</strong></h5>
+      <ul class="list-check">
+        <li><span class="dot"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span> A relaxed, goal-focused chat. No  pressure, just clarity.</li>
+        <li><span class="dot"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span> We'll explore your ideas, budget, and timeline together.</li>
+        <li><span class="dot"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span> You'll leave with next steps and a clear plan.</li>
+      </ul>
     </div>
-  </section>
+    <div class="card-light">
+      <h5><strong>Reschedule or Cancel</strong></h5>
+      <p>You can adjust your booking anytime using the link in your Calendly confirmation email.</p>
+      <p class="mb-0"><em>Booked a phone call?</em> We'll call you from <strong>(347) 377-2408</strong> at your scheduled time.</p>
+    </div>
+  </div>
+</section>
 
-  <!-- RESOURCES -->
-  <section class="section-dark">
-    <div class="container-narrow">
-      <span class="eyebrow">Resources</span>
-      <h2>Helpful links while you wait</h2>
-      <div class="grid grid-3">
-        <div class="card-lite">
-          <h5><strong>Help Center</strong></h5>
-          <p>Short guides and quick answers.</p>
-          <a class="btn-ghost" href="https://webeaze.tawk.help" target="_blank" rel="noopener">Open Help Center</a>
-        </div>
-        <div class="card-lite">
-          <h5><strong>Client Portal</strong></h5>
-          <p>Manage assets and requests (for clients).</p>
-          <a class="btn-ghost" href="portal.html">Go to Portal</a>
-        </div>
-        <div class="card-lite">
-          <h5><strong>Policies</strong></h5>
-          <p>Refund policy, terms, and privacy.</p>
-          <a class="btn-ghost" href="refund-policy.html">View policies</a>
-        </div>
+<!-- RESOURCES -->
+<section class="section-dark">
+  <div class="container-narrow">
+    <span class="eyebrow">Resources</span>
+    <h2>Helpful Links</h2>
+    <div class="grid grid-3">
+      <div class="card-dark">
+        <h5><strong>Help Center</strong></h5>
+        <p>Quick guides and answers to common questions.</p>
+        <a class="btn-ghost" href="https://webeaze.tawk.help" target="_blank">Open Help Center</a>
       </div>
-    </div>
-  </section>
-
-  <!-- MINI FAQ -->
-  <section class="section-light">
-    <div class="container-narrow">
-      <span class="eyebrow">FAQ</span>
-      <h2>Quick answers</h2>
-      <dl class="faq">
-        <dt>Will I get a calendar invite?</dt>
-        <dd>Yes. Calendly emails you a confirmation with a calendar invite and the reschedule/cancel link.</dd>
-
-        <dt>Can I bring a teammate?</dt>
-        <dd>Absolutely. You'll have the option to enter additional emails. Didn't see it? Forward them the invite so they have the join details.</dd>
-
-        <dt>What if I'm not sure which plan I need?</dt>
-        <dd>That's what the call is for. We'll recommend a plan after we understand your goals.</dd>
-      </dl>
-    </div>
-  </section>
-
-  <!-- CTA -->
-  <section class="section-brown text-center">
-    <div class="container-narrow">
-      <h2 class="mb-2">Excited to meet you.</h2>
-      <p class="small">Until then, feel free to browse plans or get in touch if you have any questions.</p>
-      <div class="cta">
-        <a class="btn-brand" href="pricing.html">Explore Plans</a>
-        <a class="btn-ghost" href="mailto:support@webeaze.io">Email Us</a>
+      <div class="card-dark">
+        <h5><strong>Client Portal</strong></h5>
+        <p>Manage requests and access project resources.</p>
+        <a class="btn-ghost" href="portal.html">Go to Portal</a>
+      </div>
+      <div class="card-dark">
+        <h5><strong>Policies</strong></h5>
+        <p>View our refund policy, terms, and privacy details.</p>
+        <a class="btn-ghost" href="refund-policy.html">View Policies</a>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <footer>
-    <p class="small mb-1">© 2025 WebEaze. Created and designed by WebEaze. Published on <a href="https://pages.github.com/">GitHub</a>.</p>
-    <p class="small">Follow us: <a href="https://facebook.com/61568824951084" target="_blank" rel="noopener">Facebook</a> · <a href="https://www.linkedin.com/company/webeaze" target="_blank" rel="noopener">LinkedIn</a> · <a href="https://instagram.com/webeaze.io" target="_blank" rel="noopener">Instagram</a></p>
-  </footer>
+<!-- FAQ -->
+<section class="section-light">
+  <div class="container-narrow">
+    <span class="eyebrow">FAQ</span>
+    <h2>Quick Answers</h2>
+    <dl class="faq">
+      <dt>Will I get a calendar invite?</dt>
+      <dd>Yes. Calendly automatically sends a confirmation with the join link and reschedule option.</dd>
 
-  <!-- JS -->
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-  <script>
-    // Simple FAQ toggle
-    document.querySelectorAll('.faq dt').forEach(dt=>{
-      dt.addEventListener('click',()=>{
-        dt.classList.toggle('open');
-        const dd = dt.nextElementSibling;
-        dd.style.display = (dd.style.display==='block') ? 'none' : 'block';
-      });
+      <dt>Can I bring a teammate?</dt>
+      <dd>Absolutely. Just forward them the invite or share the meeting link so they can join too.</dd>
+
+      <dt>Not sure which plan to choose?</dt>
+      <dd>No problem. That’s exactly what we’ll help you figure out during the call.</dd>
+    </dl>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section-dark text-center" style="background:linear-gradient(180deg,#0f0f0f,#1a1a1a 85%)">
+  <div class="container-narrow">
+    <h2 class="mb-2" style="color:var(--gold)">We're excited to meet you.</h2>
+    <p class="small" style="color:var(--muted)">Until then, feel free to explore our plans or reach out with any questions.</p>
+    <div class="cta">
+      <a class="btn-brand" href="pricing.html">View Plans</a>
+      <a class="btn-ghost" href="mailto:support@webeaze.io">Email Us</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p class="small mb-1">© 2025 WebEaze. Designed by WebEaze. Published on <a href="https://pages.github.com/">GitHub</a>.</p>
+  <p class="small">Follow us:
+    <a href="https://facebook.com/61568824951084" target="_blank">Facebook</a> ·
+    <a href="https://www.linkedin.com/company/webeaze" target="_blank">LinkedIn</a> ·
+    <a href="https://instagram.com/webeaze.io" target="_blank">Instagram</a>
+  </p>
+</footer>
+
+<script>
+  // Simple FAQ toggle
+  document.querySelectorAll('.faq dt').forEach(dt=>{
+    dt.addEventListener('click',()=>{
+      dt.classList.toggle('open');
+      const dd=dt.nextElementSibling;
+      dd.style.display=(dd.style.display==='block')?'none':'block';
     });
-
-    // (Optional) If Calendly passes query params like ?name=&time=, show them.
-    (function(){
-      const params = new URLSearchParams(window.location.search);
-      const name = params.get('name');
-      const when = params.get('time');
-      if(name || when){
-        const hero = document.querySelector('.hero .container-narrow');
-        const p = document.createElement('p');
-        p.className = 'pill';
-        p.textContent = (name ? `For: ${name}` : '') + (name && when ? ' • ' : '') + (when ? `When: ${when}` : '');
-        hero.appendChild(p);
-      }
-    })();
-  </script>
+  });
+</script>
 </body>
 </html>

@@ -1,260 +1,196 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Welcome to WebEaze 🎉</title>
-  <meta name="description" content="You're in! Here's what happens next and how to get the most out of your new WebEaze subscription." />
-  <link rel="shortcut icon" href="images/webeaze-transparent copy.png" type="image/png" />
-  <!-- Fonts & CSS -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Welcome to WebEaze 🎉</title>
+<meta name="description" content="Welcome to the WebEaze family. Your subscription is confirmed and your website journey starts now." />
+<link rel="shortcut icon" href="images/webeaze-transparent copy.png" type="image/png" />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" />
+<style>
+:root{
+  --black:#0f0f0f;
+  --charcoal:#1a1a1a;
+  --gold:#ffd700;
+  --gold-light:#ffec8a;
+  --white:#ffffff;
+  --muted:#c8c8c8;
+}
+body{margin:0;font-family:'Poppins',sans-serif;background:var(--black);color:var(--white);overflow-x:hidden;}
+a{color:var(--gold);text-decoration:none;transition:.2s;}
+a:hover{color:var(--gold-light);}
 
-  <!-- Social -->
-  <meta property="og:type" content="website" />
-  <meta property="og:title" content="Welcome to WebEaze 🎉" />
-  <meta property="og:description" content="You're in! Here's what happens next and how to get the most out of your new WebEaze subscription." />
-  <meta property="og:image" content="images/default-monochrome.png" />
-  <meta property="og:url" content="https://www.webeaze.io/welcome" />
-  <meta name="twitter:card" content="summary_large_image" />
+.container-narrow{max-width:1040px;margin:0 auto;padding:0 18px;}
+.fade-up{opacity:0;transform:translateY(20px);transition:opacity .8s ease,transform .8s ease;}
+.fade-up.in{opacity:1;transform:translateY(0);}
 
-  <style>
-    :root{
-      --purple:#7851a9;
-      --brown:#5D4037;
-      --gold:#ffd700;
-      --ring:rgba(255,255,255,.18);
-      --ink:#1c1230;
-    }
-    *{box-sizing:border-box}
-    html,body{margin:0;padding:0}
-    body{
-      font-family:Poppins,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
-      color:#fff;
-      background:
-        radial-gradient(1200px 800px at 10% -10%, rgba(255,255,255,.10), transparent 60%),
-        radial-gradient(900px 600px at 110% 0%, rgba(255,255,255,.06), transparent 50%),
-        var(--purple);
-    }
+/* HERO */
+.hero{
+  background:linear-gradient(160deg,#0f0f0f 0%,#1a1a1a 70%,#2b2100 100%);
+  text-align:center;
+  padding:90px 18px 70px;
+  position:relative;
+  overflow:hidden;
+}
+.hero .logo{height:68px;margin-bottom:16px;filter:brightness(1.2);}
+.checkmark{width:90px;height:90px;border-radius:50%;margin:0 auto 18px;background:rgba(255,255,255,.08);
+  display:flex;align-items:center;justify-content:center;animation:pulse 2.4s ease-in-out infinite;}
+.checkmark svg{width:46px;height:46px;stroke:var(--gold);stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:90;stroke-dashoffset:90;animation:draw .9s .5s ease forwards;}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(255,215,0,.2);}50%{box-shadow:0 0 18px 6px rgba(255,215,0,.1);}}
 
-    /* Header / Hero */
-    .hero{
-      position:relative;overflow:hidden;text-align:center;padding:72px 18px 32px;
-      border-bottom:1px solid rgba(255,255,255,.12);
-    }
-    .logo{height:64px;margin-bottom:14px}
-    .badge{display:inline-block;padding:6px 12px;border-radius:999px;border:1px solid var(--ring);background:rgba(255,255,255,.12);font-weight:600}
-    h1{font-size:clamp(28px,4.5vw,44px);font-weight:700;margin:12px 0 8px}
-    .lead{max-width:840px;margin:0 auto;color:#efeaf9;opacity:.98}
+/* CARDS / SECTIONS */
+section{padding:64px 0;}
+.card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:24px;margin-bottom:22px;}
+.card h3{color:var(--gold);font-weight:700;margin-bottom:10px;}
+.card p{color:var(--muted);}
 
-    /* Celebration check */
-    .check-wrap{
-      display:flex;align-items:center;justify-content:center;margin:18px 0 8px;
-    }
-    .pulse{
-      width:68px;height:68px;border-radius:50%;
-      background:linear-gradient(135deg,#8c6cd1, #5b3e8d);
-      display:grid;place-items:center;
-      box-shadow:0 10px 25px rgba(0,0,0,.35), inset 0 0 0 2px rgba(255,255,255,.1);
-      animation:pulse 2.2s ease-in-out infinite;
-    }
-    .check{font-size:34px;line-height:1}
-    @keyframes pulse{
-      0%{transform:scale(1);box-shadow:0 10px 25px rgba(0,0,0,.35)}
-      50%{transform:scale(1.06);box-shadow:0 18px 36px rgba(0,0,0,.42)}
-      100%{transform:scale(1)}
-    }
+/* BUTTONS */
+.cta{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:22px;}
+.btn-brand{background:var(--gold);color:#000;font-weight:700;border:none;border-radius:12px;padding:12px 20px;box-shadow:0 8px 20px rgba(255,215,0,.3);transition:.2s;}
+.btn-brand:hover{background:var(--gold-light);transform:translateY(-2px);}
+.btn-ghost{border:1px solid rgba(255,255,255,.3);border-radius:12px;padding:12px 20px;font-weight:600;color:var(--white);background:transparent;transition:.2s;}
+.btn-ghost:hover{background:rgba(255,255,255,.1);transform:translateY(-2px);}
 
-    /* Content wrapper */
-    main{padding:30px 18px 80px}
-    .container-narrow{max-width:1040px;margin:0 auto}
+/* TILES */
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;}
+.tile{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:18px;transition:.25s;}
+.tile:hover{transform:translateY(-4px);box-shadow:0 10px 26px rgba(0,0,0,.3);}
+.tile h5{color:var(--gold);font-weight:700;}
+.tile p{color:var(--muted);}
 
-    /* Cards / sections */
-    .card-soft{
-      background:rgba(255,255,255,.08);
-      border:1px solid var(--ring);
-      border-radius:18px;
-      padding:22px;
-      box-shadow:0 14px 32px rgba(0,0,0,.28);
-    }
-    .card-soft h3{margin-bottom:8px;color:#fff;font-weight:700;font-size:1.2rem}
-    .muted{color:#e9e4f6;opacity:.9}
+/* TIPS */
+.tip{display:flex;align-items:flex-start;gap:10px;}
+.tip .dot{width:10px;height:10px;border-radius:50%;background:var(--gold);margin-top:8px;}
 
-    /* Progress steps */
-    .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-top:10px}
-    .step{
-      background:rgba(0,0,0,.12); border:1px solid var(--ring); border-radius:14px; padding:16px;
-    }
-    .step .num{
-      width:30px;height:30px;border-radius:50%;display:inline-grid;place-items:center;
-      background:#6b49a1; font-weight:700; margin-right:8px;
-    }
+/* FOOTER */
+footer{background:#000;text-align:center;padding:38px 18px;color:var(--muted);}
+footer a{color:var(--gold);}
+footer a:hover{color:var(--gold-light);}
 
-    /* Action buttons */
-    .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:14px}
-    .btn-brand{
-      background:var(--gold); color:#2a2140; border:none; border-radius:12px; padding:12px 18px; font-weight:700; text-decoration:none;
-      box-shadow:0 8px 18px rgba(0,0,0,.25); transition:transform .18s ease;
-    }
-    .btn-ghost{
-      border:1px solid rgba(255,255,255,.35); border-radius:12px; padding:12px 18px; font-weight:600; text-decoration:none; color:#fff;
-      background:transparent; transition:transform .18s ease;
-    }
-    .btn-brand:hover,.btn-ghost:hover{transform:translateY(-2px)}
+/* SCROLL TOP */
+.scroll-top{position:fixed;bottom:30px;right:26px;background:var(--gold);color:#000;font-weight:700;border:none;border-radius:30px;padding:10px 18px;font-size:.95rem;cursor:pointer;display:none;transition:all .3s ease;}
+.scroll-top:hover{background:linear-gradient(90deg,var(--gold),var(--gold-light));box-shadow:0 0 16px rgba(255,215,0,.3);}
 
-    /* Quick links tiles */
-    .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-top:14px}
-    .tile{
-      border:1px solid var(--ring); background:rgba(255,255,255,.06); border-radius:16px; padding:16px; height:100%;
-      transition:transform .2s ease, box-shadow .2s ease;
-    }
-    .tile:hover{transform:translateY(-3px); box-shadow:0 12px 26px rgba(0,0,0,.28)}
-    .tile .t-title{font-weight:700;margin-bottom:4px}
-    .tile p{margin:0;color:#f2eff7;opacity:.95}
-
-    /* Tips list */
-    .tips{display:grid;grid-template-columns:1fr;gap:10px}
-    .tip{display:flex;align-items:flex-start;gap:10px}
-    .tip .dot{width:10px;height:10px;border-radius:50%;background:#a88be1;margin-top:8px}
-
-    /* Footer */
-    footer{padding:32px 18px;text-align:center;color:#fff}
-    footer a{color:#fff;text-decoration:underline}
-
-    /* Mobile niceties */
-    @media (max-width: 560px){
-      .cta .btn-brand, .cta .btn-ghost{flex:1 1 100%; text-align:center}
-    }
-  </style>
+/* RESPONSIVE */
+@media(max-width:768px){
+  .cta{flex-direction:column;align-items:center;}
+}
+</style>
 </head>
 <body>
 
-  <!-- HERO -->
-  <header class="hero">
-    <a href="index.html" aria-label="WebEaze Home">
-      <img src="images/webeaze-transparent.png" alt="WebEaze" class="logo" />
-    </a>
+<!-- HERO -->
+<header class="hero fade-up">
+  <img src="images/webeaze-transparent copy.png" alt="WebEaze" class="logo" />
+  <div class="checkmark" aria-hidden="true">
+    <svg viewBox="0 0 52 52"><path d="M14 27l8 8 16-18"/></svg>
+  </div>
+  <h1 style="font-weight:800;">Welcome to WebEaze  🎉</h1>
+  <p style="max-width:720px;margin:0 auto;color:var(--muted);font-size:1.05rem;">Your subscription is confirmed. We're already preparing your build. Below are a few quick steps to get started and make launch smooth.</p>
+  <div class="cta">
+    <a href="portal.html" class="btn-brand">Open Client Portal</a>
+    <a href="https://webeaze.io/help#/when-will-my-website-launch" target="_blank" class="btn-ghost">View Timeline</a>
+    <a href="domains.html" target="_blank" class="btn-ghost">Domain Setup</a>
+  </div>
+</header>
 
-    <div class="check-wrap" aria-hidden="true">
-      <div class="pulse"><span class="check">✓</span></div>
+<!-- MAIN -->
+<main class="container-narrow">
+  <section class="fade-up">
+    <div class="card">
+      <h3>What Happens Next</h3>
+      <p>We move quickly but keep things simple and transparent.</p>
+      <div class="tiles">
+        <div class="tile"><h5>1. Onboarding</h5><p>We confirm your details and begin structuring your initial layout. From this point, communication is conducted via email.</p></div>
+        <div class="tile"><h5>2. Content & Access</h5><p>Submit a <a href="website-request.html">Website Request</a> with content and requested cridentials.</p></div>
+        <div class="tile"><h5>3. Review & Launch</h5><p>We'll send a live preview for feedback and revisions. Most launches go live within <strong>1-2 weeks</strong>.</p></div>
+      </div>
     </div>
+  </section>
 
-    <span class="badge">Subscription Confirmed</span>
-    <h1>Welcome aboard! You’re officially our newest client 🎉</h1>
-    <p class="lead">We’ve emailed your receipt and onboarding details. Below is exactly what happens next and how to get a head start while we prep your build.</p>
-
-    <div class="cta" style="justify-content:center;margin-top:18px">
-      <a class="btn-brand" href="portal.html">Open Your Client Portal</a>
-      <a class="btn-ghost" href="https://webeaze.io/help#/when-will-my-website-launch" target="_blank" rel="noopener">Launch Timeline</a>
-      <a class="btn-ghost" href="domains.html" target="_blank" rel="noopener">Connect or Transfer Domain</a>
+  <section class="fade-up">
+    <div class="card">
+      <h3>Quick To-Dos (Takes ~5 Minutes)</h3>
+      <div class="tiles">
+        <div class="tile"><h5>1. Check your email</h5><p>Open your Client Portal link to manage content and requests. Add our
+          email address: <strong>support@webeaze.io</strong> to your contacts to ensure smooth communication.
+        </p></div>
+        <div class="tile"><h5>2. Look over the timeline</h5><p>Review milestones and how we reach your launch date.</p></div>
+        <div class="tile"><h5>3. Sit tight</h5><p>We'll reach out if we need anything else. Most sites launch within days. We're excited to bring your vision to life.</p></div>
+      </div>
     </div>
-  </header>
+  </section>
 
-  <!-- MAIN -->
-  <main>
-    <div class="container-narrow">
-      <!-- What happens next -->
-      <section class="card-soft">
-        <h3>What happens next</h3>
-        <p class="muted">We move fast, but we’ll keep things simple and transparent.</p>
-        <div class="steps">
-          <div class="step">
-            <div><span class="num">1</span><strong>Onboarding and Begin</strong></div>
-            <p class="muted" style="margin:8px 0 0">We confirm details from your order and prep your initial structure + theme.</p>
-          </div>
-          <div class="step">
-            <div><span class="num">2</span><strong>Content & Access</strong></div>
-            <p class="muted" style="margin:8px 0 0; color: white !important;">Submit a <a href="website-request.html" style="color: white !important;"><u>Website Request</u></a> with any relevant information such as logins, content, and media.</p>
-          </div>
-          <div class="step">
-            <div><span class="num">3</span><strong>Review and Launch</strong></div>
-            <p class="muted" style="margin:8px 0 0">We share a live preview for feedback. Most launches go live within <strong>1–2 weeks</strong>.</p>
-          </div>
-        </div>
-      </section>
-
-      <!-- Do this now -->
-      <section class="card-soft" style="margin-top:16px">
-        <h3>Do this now (takes ~5 minutes)</h3>
-        <div class="tiles">
-          <div class="tile">
-            <div class="t-title">1) Check your email and view your Client Portal</div>
-            <p>Submit content, requests, and track progress in one place.</p>
-            <div class="cta" style="margin-top:10px">
-              <a class="btn-brand" href="portal.html">Go to Portal</a>
-            </div>
-          </div>
-          <div class="tile">
-            <div class="t-title">2) Skim the timeline</div>
-            <p>See milestones and how we hit your launch date.</p>
-            <div class="cta" style="margin-top:10px">
-              <a class="btn-ghost" href="https://webeaze.io/help#/when-will-my-website-launch" target="_blank" rel="noopener">View Timeline</a>
-            </div>
-          </div>
-          <div class="tile">
-            <div class="t-title">3) Sit tight, we're working!</div>
-            <p>
-              We'll reach out if we need anything else. Most launches go live within <strong>1–2 weeks</strong>.
-            </p>
-    
-          </div>
-        </div>
-      </section>
-
-      <!-- Tips -->
-      <section class="card-soft" style="margin-top:16px">
-        <h3>Pro tips for a smooth (and speedy) launch</h3>
-        <div class="tips">
-          <div class="tip"><span class="dot"></span><p class="muted" style="margin:0">Send original, high-res images where possible (logo as SVG/PNG).</p></div>
-          <div class="tip"><span class="dot"></span><p class="muted" style="margin:0">Bullet your services and the #1 action you want visitors to take.</p></div>
-          <div class="tip"><span class="dot"></span><p class="muted" style="margin:0">If you sell time (tutoring, trades, travel), share your typical availability window.</p></div>
-        </div>
-      </section>
-
-      <!-- Help / Support -->
-      <section class="card-soft" style="margin-top:16px">
-        <h3>Need help?</h3>
-        <p class="muted">Our team is friendly, fast, and human.</p>
-        <div class="cta">
-          <a class="btn-ghost" href="help.html" target="_blank" rel="noopener">Getting Started Guide</a>
-          <a class="btn-ghost" href="website-request.html">Contact Support</a>
-        </div>
-      </section>
-
-      
+  <section class="fade-up">
+    <div class="card">
+      <h3>Pro Tips for a Smooth Launch</h3>
+      <div class="tip"><span class="dot"></span><p>Send clear, high-quality images. Your logo in SVG or PNG format works best.</p></div>
+      <div class="tip"><span class="dot"></span><p>List your services in bullet form and define the key action you want visitors to take.</p></div>
+      <div class="tip"><span class="dot"></span><p>If your business runs on appointments or quotes, share your usual availability and policies.</p></div>
     </div>
+  </section>
 
+  <section class="fade-up">
+    <div class="card">
+      <h3>Need Help?</h3>
+      <p>We're quick, friendly, and here for you anytime.</p>
+      <div class="cta">
+        <a href="https://webeaze.tawk.help" class="btn-ghost" target="_blank">Visit the Help Center</a>
+        <a href="portal.html" class="btn-ghost">Access your Client Portal</a>
+        <a href="site-map.html#legal" class="btn-ghost">Review WebEaze Policies</a>
+      </div>
+    </div>
+  </section>
+</main>
 
-  </main>
+<!-- FOOTER -->
+<footer>
+  <p>&copy; <span id="yr"></span> WebEaze. All rights reserved.</p>
+  <p><a href="https://billyjoinville.me/terms#privacy-policy" target="_blank">Privacy</a> · 
+  <a href="https://billyjoinville.me/terms" target="_blank">Terms</a></p>
+</footer>
 
-  
+<button class="scroll-top">Top ↑</button>
 
-  <!-- FOOTER -->
-  <footer>
-    <p>&copy; 2025 WebEaze. All rights reserved. · <a href="https://billyjoinville.me/terms#privacy-policy" target="_blank" rel="noopener">Privacy Policy</a> · <a href="https://billyjoinville.me/terms" target="_blank" rel="noopener">Terms</a></p>
-  </footer>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+<script>
+document.getElementById("yr").textContent=new Date().getFullYear();
 
-  <!-- Scripts -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-  <!-- Confetti (lightweight) -->
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
-  <script>
-    // Fire a tasteful confetti burst on load
-    (function celebrate(){
-      const duration = 1600;
-      const end = Date.now() + duration;
-      (function frame(){
-        confetti({
-          particleCount: 4,
-          spread: 70,
-          startVelocity: 42,
-          gravity: 0.7,
-          ticks: 200,
-          origin: { x: Math.random() * .6 + .2, y: Math.random() * .2 + .05 }
-        });
-        if (Date.now() < end) requestAnimationFrame(frame);
-      })();
-    })();
-  </script>
+// Scroll animations
+const faders=document.querySelectorAll('.fade-up');
+const observer=new IntersectionObserver((entries)=>{
+ entries.forEach(e=>{
+   if(e.isIntersecting){e.target.classList.add('in');observer.unobserve(e.target);}
+ });
+},{threshold:.15});
+faders.forEach(el=>observer.observe(el));
+
+// Scroll to top
+const topBtn=document.querySelector('.scroll-top');
+window.addEventListener('scroll',()=>{
+  topBtn.style.display=window.scrollY>300?'block':'none';
+});
+topBtn.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+
+// Gold confetti burst
+(function goldConfetti(){
+  const duration=1800;
+  const end=Date.now()+duration;
+  (function frame(){
+    confetti({
+      particleCount:3,
+      spread:80,
+      startVelocity:40,
+      gravity:.6,
+      ticks:200,
+      colors:['#ffd700','#ffec8a'],
+      origin:{x:Math.random()*.6+.2,y:Math.random()*.2+.05}
+    });
+    if(Date.now()<end)requestAnimationFrame(frame);
+  })();
+})();
+</script>
 </body>
 </html>
