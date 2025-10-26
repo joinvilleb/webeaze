@@ -79,6 +79,20 @@
     .headline{font-weight:800;letter-spacing:-.02em;font-size:clamp(32px,6vw,54px)}
     .sub{max-width:700px;margin:10px auto;color:#d7d9ec}
 
+      /* Global overflow safety */
+    *,*::before,*::after{box-sizing:border-box}
+    html,body{overflow-x:hidden}
+    .page-samples{overflow-x:hidden}
+    /* Contain wide decorations */
+    .hero,.nav-wrap{overflow-x:clip}
+    /* Images never exceed the viewport */
+    img{max-width:100%;height:auto;display:block}
+    .frame,.frame img{max-width:100%}
+    /* Text never pushes layout horizontally */
+    .title,.desc,.tag,.filter-btn{overflow-wrap:anywhere;word-break:normal}
+    .filterbar{max-width:100%}
+      /* CTA card */
+    .cta-card{border-radius:16px;background:linear-gradient(180deg, rgba(255,215,0,.16), rgba(255,255,255,.06));border:1px solid rgba(255,255,255,.18)}
   </style>
 </head>
 <body>
@@ -110,16 +124,45 @@
 <header class="hero">
   <div class="halo"></div>
   <div class="container container-narrow">
-    <h1 class="headline">Website Samples</h1>
-    <p class="sub">Real small business sites we've built. With a short excerpt on what we did and why each one works.</p>
-    <div class="filterbar">
-      <button class="filter-btn active" data-filter="all">All</button>
-      <button class="filter-btn" data-filter="Education">Education</button>
-      <button class="filter-btn" data-filter="Fitness">Fitness</button>
-      <button class="filter-btn" data-filter="Home Services">Home Services</button>
+    <h1 class="headline">
+      Pixels. Proof. Samples.
+    </h1>
+    <p class="sub">Real small business sites we've built. Backed with some notes on what we did and why each one stands out to us and them.</p>
+    </div>
+</header>
+
+<!-- VALUE HIGHLIGHTS -->
+<section class="section" style="padding:50px 0;background:linear-gradient(180deg,#0b0b14,#0f1220);border-top:1px solid rgba(255,255,255,.08);border-bottom:1px solid rgba(255,255,255,.08)">
+  <div class="container container-narrow">
+    <div class="text-center mb-3">
+      <div class="eyebrow" style="opacity:.85">Why clients pick WebEaze</div>
+      <h2 class="h4" style="font-weight:800;margin:6px 0 0">Clear value without the hassle</h2>
+    </div>
+    <div class="value-slices">
+      <article class="slice">
+        <h3>One price. Unlimited updates.</h3>
+        <p>Most small businesses pay hourly for every change. With WebEaze, you get ongoing care included. Includes text edits, image swaps, new sections, and more.</p>
+        <div class="meta"><span class="tag">No hourly bills</span><span class="tag">Fast turnarounds</span><span class="tag">Email/Zoom/Chat support</span></div>
+        <div class="btn-row" style="justify-content:flex-start;margin-top:10px"><a href="index.html#value" class="btn-brand">See the savings</a></div>
+      </article>
+      <article class="slice">
+        <h3>Launch fast. Grow safely.</h3>
+        <p>We set up your hosting and domain, design your first draft in days, and keep your site fast and tidy. You focus on the business, not the tech.</p>
+        <div class="meta"><span class="tag">7–14 day drafts</span><span class="tag">Mobile‑ready</span><span class="tag">SEO basics</span></div>
+        <div class="btn-row" style="justify-content:flex-start;margin-top:10px"><a href="maintenance.html" class="btn-ghost">How we maintain</a></div>
+      </article>
     </div>
   </div>
-</header>
+</section>
+
+<style>
+  .value-slices{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
+  .slice{grid-column:span 6;background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.03));border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:18px 18px 20px}
+  .slice h3{font-weight:800;margin:0 0 6px}
+  .slice p{margin:0 0 8px;opacity:.92}
+  @media(max-width:992px){.slice{grid-column:span 12}}
+</style>
+
 
 <section style="padding:60px 0">
   <div class="container container-narrow">
@@ -129,7 +172,7 @@
         <div class="frame"><img src="images/samples/ibis-prep.png" alt="Ibis Prep"/></div>
         <div class="body">
           <h3 class="title">Ibis Prep</h3>
-          <p class="desc">Tutoring website built for clarity. Parents, students, and educators can find programs and book instantly.</p>
+          <p class="desc">Tutoring website built for clarity — parents can find programs and book instantly.</p>
           <div class="meta"><span class="tag">Bookings</span><span class="tag">SEO</span></div>
           <a class="arrow-link" href="https://ibisprep.com" target="_blank">View live</a>
         </div>
@@ -168,20 +211,28 @@
   </div>
 </section>
 
-<footer class="py-4 text-center">
+<!-- CTA -->
+<section class="section" style="padding:44px 0;background:linear-gradient(180deg,#0f1220,#141424)">
+  <div class="container container-narrow">
+    <div class="cta-card d-flex flex-column flex-md-row align-items-md-center justify-content-between p-3 p-md-4">
+      <div class="mb-2 mb-md-0">
+        <div class="eyebrow" style="color:#d9dbee">Next step</div>
+        <h3 class="h5 mb-1" style="font-weight:700;font-size:28px">Tell us what you want your website to do</h3>
+        <div style="opacity:.9">We'll map pages, timeline, and maintenance on a short call.</div>
+      </div>
+      <div class="btn-row"><a href="consultation.html" class="btn-brand">Book consultation</a><a href="index.html#value" class="btn-ghost">See the value</a></div>
+    </div>
+  </div>
+</section>
 
+<footer class="py-4 text-center" style="background:var(--dark);color:#fff">
   <div class="container container-narrow">
     <div class="mb-1">&copy; <span id="yr"></span> WebEaze. All rights reserved.</div>
     <div class="mb-2 small">
-      <a href="terms.html#privacy">Privacy Policy</a> ·
-      <a href="terms.html">Terms</a> ·
-      <a href="site-map.html">Site Map</a>
+      <a href="terms.html#privacy" style="color:#fff">Privacy Policy</a> · <a href="terms.html" style="color:#fff">Terms</a> · <a href="site-map.html" style="color:#fff">Site Map</a>
     </div>
-    <div class="small">Made with ☕ in Delaware, USA</div>
   </div>
 </footer>
-
-
 <script>document.getElementById('yr').textContent=new Date().getFullYear();</script>
 </body>
 </html>
