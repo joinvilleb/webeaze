@@ -183,7 +183,7 @@
     <div class="dash">
       <section class="surface reveal">
         <h3 class="h6" style="font-weight:800"><i class="fas fa-bolt mr-1"></i> Updates</h3>
-        <p class="muted"><i>Updated September 25, 2025</i></p>
+        <p class="muted"><i>Updated October 29, 2025</i></p>
         <ul class="mt-2">
           <li>New request templates to help you describe changes.</li>
           <li>Zoom support is limited until December 15, 2025. Live support runs 9:00am to 1:00pm ET.</li>
@@ -192,35 +192,156 @@
 
         <!-- Tabs -->
         <div class="tabs" role="tablist" aria-label="Portal sections">
-          <button class="tab-link" role="tab" aria-selected="true" aria-controls="tab-templates" id="tab-templates-btn">Request templates</button>
+          <button class="tab-link" role="tab" aria-selected="true" aria-controls="tab-templates" id="tab-templates-btn">Recommended for You</button>
           <button class="tab-link" role="tab" aria-selected="false" aria-controls="tab-faqs" id="tab-faqs-btn">FAQs</button>
         </div>
         
+<!-- PERSONALIZED ARTICLES -->
+<div id="tab-templates" class="tab-panel active" role="tabpanel" aria-labelledby="tab-templates-btn">
+  <p class="muted mb-3">
+    Articles, guides, and recommendations personalized for where you are in your website journey.
+    Content refreshes automatically depending on your recent requests or plan stage.
+  </p>
 
-        <!-- REQUEST TEMPLATES -->
-        <div id="tab-templates" class="tab-panel active" role="tabpanel" aria-labelledby="tab-templates-btn">
-          <p class="muted mb-2">Some templates in case you're stuck on how to ask for assistance. Tailored for you. </p>
+  <div id="articlesFeed" class="d-flex flex-column gap-3"></div>
+</div>
 
-          <div class="surface" style="padding:14px; border-style:dashed">
-            <pre id="tpl1" style="white-space:pre-wrap; margin:0">Add a new section on my homepage that highlights our fall promotion with a short headline, two bullet points, and a Book Now button that links to /contact.</pre>
-            <div class="text-right mt-2"><button class="btn-ghost btn-sm copy-btn" data-target="tpl1">Copy</button></div>
-          </div>
+<script>
+  // --- PERSONALIZED ARTICLE ENGINE ---
+  const webEazeArticles = [
+    // --- LAUNCH PHASE ---
+    {
+      id: "launch-checklist",
+      title: "🚀 Website Launch Checklist: Everything You Need Before Going Live",
+      desc: "Make sure your new site is set for launch — domain, DNS, SSL, and analytics included.",
+      link: "https://www.webeaze.io/website-launch-checklist.html",
+      tags: ["launch", "setup", "new"]
+    },
+    {
+      id: "branding",
+      title: "🎨 The Branding Basics That Make a Small Business Look Big",
+      desc: "Colors, fonts, and voice — how to make your site look polished and credible.",
+      link: "https://www.webeaze.io/value.html#branding",
+      tags: ["launch", "design", "growth"]
+    },
+    {
+      id: "prelaunch-content",
+      title: "📝 What Content to Finalize Before We Launch",
+      desc: "Avoid delays — here’s the short checklist we use to make launches smooth and fast.",
+      link: "https://webeaze.tawk.help/article/preparing-your-site-content",
+      tags: ["launch", "setup"]
+    },
 
-          <div class="surface" style="padding:14px; border-style:dashed">
-            <pre id="tpl2" style="white-space:pre-wrap; margin:0">Create a page called Summer Camps 2025 with a hero, a schedule table that I will provide, a short pricing blurb, and an FAQ accordion.</pre>
-            <div class="text-right mt-2"><button class="btn-ghost btn-sm copy-btn" data-target="tpl2">Copy</button></div>
-          </div>
+    // --- LIVE / MAINTENANCE PHASE ---
+    {
+      id: "updates",
+      title: "🔧 How to Request Website Updates Effectively",
+      desc: "Examples of clear, fast requests that help us deliver exactly what you want.",
+      link: "https://webeaze.tawk.help/article/website-request-examples",
+      tags: ["maintenance", "support", "live"]
+    },
+    {
+      id: "security",
+      title: "🛡️ Security & Backups: How We Keep Your Site Safe",
+      desc: "Our process for handling backups, SSL renewals, and performance updates — all included.",
+      link: "https://www.webeaze.io/maintenance.html#security",
+      tags: ["maintenance", "support"]
+    },
+    {
+      id: "portal-guide",
+      title: "📬 Using the Client Portal for Faster Turnaround",
+      desc: "Everything you can do from here: submit requests, track updates, and manage billing.",
+      link: "https://www.webeaze.io/portal.html",
+      tags: ["maintenance", "support"]
+    },
 
-          <div class="surface" style="padding:14px; border-style:dashed">
-            <pre id="tpl3" style="white-space:pre-wrap; margin:0">Swap the hero image on my homepage for the attached file and adjust the overlay so the headline stays readable on mobile.</pre>
-            <div class="text-right mt-2"><button class="btn-ghost btn-sm copy-btn" data-target="tpl3">Copy</button></div>
-          </div>
+    // --- GROWTH / SEO PHASE ---
+    {
+      id: "seo-basics",
+      title: "📈 5 Quick SEO Fixes That Make a Big Difference",
+      desc: "Simple, free SEO wins you can implement right now for better search visibility.",
+      link: "https://www.webeaze.io/seo-guide.html",
+      tags: ["growth", "seo"]
+    },
+    {
+      id: "conversion",
+      title: "💡 Improving Conversions: How to Turn Visitors into Leads",
+      desc: "Small layout and copy adjustments that increase trust and get more inquiries.",
+      link: "https://www.webeaze.io/value.html#conversion",
+      tags: ["growth", "seo", "optimization"]
+    },
+    {
+      id: "content-ideas",
+      title: "🧠 Fresh Content Ideas to Keep Your Website Active",
+      desc: "How to publish new pages or posts that boost SEO and keep your business relevant.",
+      link: "https://webeaze.tawk.help/article/ongoing-content-tips",
+      tags: ["growth", "seo"]
+    },
 
-          <div class="surface" style="padding:14px; border-style:dashed">
-            <pre id="tpl4" style="white-space:pre-wrap; margin:0">Add a testimonials carousel with three quotes that I will send. Include a name, role, and a small headshot for each.</pre>
-            <div class="text-right mt-2"><button class="btn-ghost btn-sm copy-btn" data-target="tpl4">Copy</button></div>
-          </div>
+    // --- GOOGLE BUSINESS / LOCAL SEO ---
+    {
+      id: "google-business",
+      title: "⭐ Google Business Management: How We Optimize Your Listing",
+      desc: "Show up on Search & Maps. Learn how we manage posts, reviews, and updates for you.",
+      link: "https://www.webeaze.io/google-business-management.html",
+      tags: ["growth", "local", "seo"]
+    },
+    {
+      id: "reviews",
+      title: "💬 How to Get More Google Reviews (and Keep Them Authentic)",
+      desc: "A practical system to increase reviews and build real trust locally.",
+      link: "https://webeaze.tawk.help/article/getting-more-reviews",
+      tags: ["local", "seo", "growth"]
+    }
+  ];
+
+  // Context detection logic (future-ready: could use CRM data or HubSpot API)
+  function detectClientStage() {
+    const email = localStorage.getItem('we_portal_user') || "";
+    const normalized = email.toLowerCase();
+    
+    // Example heuristic by domain / stage
+    if (normalized.includes("newsite") || normalized.includes("setup")) return "launch";
+    if (normalized.includes("growth") || normalized.includes("marketing")) return "growth";
+    if (normalized.includes("local") || normalized.includes("biz")) return "local";
+    if (normalized.includes("support") || normalized.includes("live")) return "maintenance";
+    
+    // Default: maintenance
+    return "maintenance";
+  }
+
+  function renderPersonalizedArticles() {
+    const feed = document.getElementById("articlesFeed");
+    if (!feed) return;
+
+    const stage = detectClientStage();
+    const name = localStorage.getItem('we_portal_user')?.split('@')[0] || "Client";
+
+    // Filter articles matching their phase
+    const relevant = webEazeArticles.filter(a => a.tags.includes(stage)).slice(0, 3);
+
+    // Fallback if not enough articles match
+    const list = relevant.length ? relevant : webEazeArticles.slice(0, 3);
+
+    // Render articles
+    feed.innerHTML = `
+      <div class="small mb-3" style="opacity:.8">
+        Hi ${name}, here are a few hand-picked reads that fit what you’re currently working on.
+      </div>
+      ${list.map(a => `
+        <div class="surface" style="padding:18px;border-style:solid;border-color:#f1effa">
+          <h4 style="font-weight:700;color:#2f1e66">${a.title}</h4>
+          <p class="muted mb-2">${a.desc}</p>
+          <a class="btn-ghost btn-sm" href="${a.link}" target="_blank" rel="noopener">Read Article</a>
         </div>
+      `).join("")}
+    `;
+  }
+
+  document.addEventListener("DOMContentLoaded", renderPersonalizedArticles);
+</script>
+
+
 
         <!-- FAQS -->
         <div id="tab-faqs" class="tab-panel" role="tabpanel" aria-labelledby="tab-faqs-btn">
