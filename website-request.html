@@ -1,297 +1,337 @@
 <!DOCTYPE html>
-<html lang="en" class="page-website-setup-main">
+<html lang="en" class="page-website-request">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Website Request | WebEaze</title>
-  <meta name="description" content="Need an update or fix? Submit a request, see live availability, and get quick help." />
+  <meta name="description" content="Submit updates, fixes, or new features for your WebEaze website. Get quick support and live availability updates." />
+  <link rel="canonical" href="https://www.webeaze.io/website-request.html" />
 
   <!-- Fonts & CSS -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet" />
   <link rel="shortcut icon" href="images/webeaze-transparent copy.png" type="image/png" />
-  <link rel="canonical" href="https://www.webeaze.io/website-request.html" />
-
 
   <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="WebEaze" />
   <meta property="og:title" content="Website Request | WebEaze" />
-  <meta property="og:description" content="Submit website changes, fixes, or add ons. See status and get updates fast." />
-  <meta property="og:url" content="https://www.webeaze.io/website-request" />
-  <meta property="og:image" content="images/favicon.png" />
-  <meta name="twitter:card" content="summary" />
+  <meta property="og:description" content="Submit changes or fixes, view live availability, and access client tools." />
+  <meta property="og:url" content="https://www.webeaze.io/website-request.html" />
+  <meta property="og:image" content="https://webeaze.io/images/default-monochrome.png" />
 
   <style>
-    :root{
-      --brand:#7851a9; --gold:#ffd700;
-      --ink:#0f1228; --ink-2:#3c4260; --muted:#6b7280;
-      --line:#e7eaf4; --bg:#f7f8fc; --white:#fff;
-      --glass:rgba(255,255,255,.08); --ring:rgba(255,255,255,.18);
-      --green:#2ecc71; --red:#ff6b6b;
+    :root {
+      --brand:#7851a9;
+      --gold:#ffd700;
+      --ink:#f5f6fa;
+      --muted:#b5b6ba;
+      --bg-dark:#0f0f17;
+      --bg-darker:#181b25;
+      --surface:#1f222d;
+      --line:#2b2e39;
+      --success:#28a745;
+      --danger:#dc3545;
+      --warning:#e0a800;
     }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{margin:0;background:var(--bg);color:var(--ink);font-family:Poppins,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
-    a{color:inherit;text-decoration:none}
-    .container-narrow{max-width:1100px;margin:0 auto}
+    body {
+      margin:0;
+      font-family:'Poppins',sans-serif;
+      background:linear-gradient(180deg,var(--bg-dark),var(--bg-darker));
+      color:var(--ink);
+    }
+    a{text-decoration:none;color:inherit;}
+    .container-narrow{max-width:1100px;margin:0 auto;}
+    .surface {
+      background:var(--surface);
+      border:1px solid var(--line);
+      border-radius:16px;
+      box-shadow:0 10px 28px rgba(0,0,0,.25);
+      padding:24px;
+    }
 
-    /* ===== Top promo + nav (match homepage) ===== */
-    .nav-wrap{position:sticky;top:0;z-index:9999;background:#000;border-bottom:1px solid rgba(255,255,255,.14)}
-    .promo-bar{background:linear-gradient(180deg, rgba(255,255,255,.14), rgba(255,255,255,.08));border-bottom:1px solid rgba(255,255,255,.18);color:#fff;padding-left: 30px; padding-right: 30px;}
-    .promo-inner{display:flex;align-items:center;justify-content:center;gap:10px;padding:.45rem 0;text-align:center}
-    .promo-text{font-weight:600}.promo-text strong{font-weight:800}
-    .btn-promo{display:inline-flex;align-items:center;justify-content:center;padding:.4rem .75rem;border-radius:999px;font-weight:800;background:var(--gold);color:#3b2a7a;border:none;box-shadow:0 8px 22px rgba(255,215,0,.22)}
-    .btn-promo:hover{background:#f2c600;color:#fff}
+    /* === NAVBAR === */
+    .nav-wrap{position:sticky;top:0;z-index:999;background:#000;}
+    .promo-bar{
+      background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.06));
+      color:#fff;padding:0 40px;border-bottom:1px solid rgba(255,255,255,.1);
+    }
+    .promo-inner{display:flex;align-items:center;justify-content:center;gap:10px;padding:.45rem 0;text-align:center;}
+    .btn-promo{display:inline-flex;align-items:center;justify-content:center;padding:.4rem .75rem;border-radius:999px;font-weight:800;background:var(--gold);color:#3b2a7a;border:none;}
+    .navbar-dark .nav-link{color:#fff!important;opacity:.9;border-radius:10px;padding:.45rem .7rem;}
+    .navbar-dark .nav-link:hover{opacity:1;background:rgba(255,255,255,.08);}
+    .btn-nav{background:var(--gold);color:#2f1e66;border:none;border-radius:12px;padding:.6rem .9rem;font-weight:700;}
 
-    .webeaze-nav{background:transparent!important;box-shadow:none!important;padding:.6rem 0}
-    .brand-word{letter-spacing:-.3px;font-weight:700;background:linear-gradient(90deg,#e8e7ea,#66615f);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-    .logo{height:36px}
-    .navbar-dark .nav-link{color:#fff!important;opacity:.92;border-radius:10px;padding:.45rem .7rem}
-    .navbar-dark .nav-link:hover{opacity:1;background:rgba(255,255,255,.08)}
-    .btn-nav{background:var(--gold);color:#2f1e66;border:none;border-radius:12px;padding:.6rem .9rem;font-weight:700;box-shadow:0 8px 22px rgba(255,215,0,.22)}
+    /* === AVAILABILITY BANNER === */
+    #availability-banner{
+      text-align:center;font-weight:600;padding:12px 10px;
+      color:#fff;transition:.3s;letter-spacing:.01em;
+    }
+    #availability-banner small{display:block;font-size:.85rem;color:rgba(255,255,255,.85);font-weight:400;}
 
-    /* ===== Hero ===== */
-    header.hero{position:relative;overflow:hidden;padding:72px 0;background:linear-gradient(180deg,#ffffff,#f7f8fc 70%)}
-    .halo{position:absolute;inset:-20% -10% auto -10%;height:420px;pointer-events:none;background:
-      radial-gradient(34% 46% at 15% 20%, rgba(120,81,169,.18), transparent 60%),
-      radial-gradient(28% 42% at 85% 18%, rgba(255,215,0,.14), transparent 60%)}
-    .headline{font-weight:800;letter-spacing:-.02em;line-height:1.06}
-    .eyebrow{font-size:.9rem;letter-spacing:.08em;text-transform:uppercase;color:#6b6f86}
+    /* === HERO === */
+    header.hero{position:relative;padding:72px 0 60px;background:radial-gradient(circle at top left,rgba(120,81,169,.25),transparent 60%),radial-gradient(circle at top right,rgba(255,215,0,.15),transparent 70%);}
+    .headline{font-weight:800;letter-spacing:-.02em;line-height:1.06;}
+    .sub{color:var(--muted);}
+    .status-chip{display:inline-flex;align-items:center;gap:10px;margin-top:14px;padding:8px 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);font-weight:700;}
+    .status-dot{width:10px;height:10px;border-radius:50%;}
+    .status-chip.open .status-dot{background:var(--success);}
+    .status-chip.closed .status-dot{background:var(--danger);}
+    .status-chip.holiday .status-dot{background:var(--warning);}
 
-    .status-chip{display:inline-flex;align-items:center;gap:10px;margin-top:10px;padding:8px 12px;border-radius:999px;border:1px solid var(--line);background:#fff;font-weight:700}
-    .status-dot{width:10px;height:10px;border-radius:50%}
-    .status-chip.open{border-color:rgba(46,204,113,.45)}
-    .status-chip.open .status-dot{background:var(--green)}
-    .status-chip.closed{border-color:rgba(255,107,107,.45)}
-    .status-chip.closed .status-dot{background:var(--red)}
+    /* === MAIN LAYOUT === */
+    .split{display:grid;grid-template-columns:1.2fr .8fr;gap:24px;}
+    @media(max-width:992px){.split{grid-template-columns:1fr;}}
 
-    /* ===== Cards / layout ===== */
-    section{padding:40px 0}
-    .surface{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 10px 32px rgba(16,18,37,.06);padding:24px}
-    .split{display:grid;grid-template-columns:1.2fr .8fr;gap:16px}
-    @media (max-width:992px){.split{grid-template-columns:1fr}}
-    .help{color:var(--ink-2)}
+    .answer-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;}
+    .answer-item{
+      background:var(--surface);border:1px solid var(--line);border-radius:12px;
+      padding:12px;box-shadow:0 4px 14px rgba(0,0,0,.25);transition:.2s;
+    }
+    .answer-item:hover{transform:translateY(-2px);}
+    .answer-item strong{color:var(--gold);}
+    .answer-item p{margin:6px 0 0;color:var(--muted);font-size:.95rem;}
 
-    .eta{display:flex;gap:8px;align-items:center;background:#fafbff;border:1px solid #e0e4f4;border-radius:12px;padding:10px;margin-top:10px}
-    .dot{width:10px;height:10px;border-radius:50%}
-    .good{background:var(--green)} .warn{background:#c8b6ff} .rush{background:var(--gold)}
+    .btn-brand{background:var(--bg-dark);color:#fff;border:none;border-radius:12px;padding:.6rem 1rem;font-weight:600;}
+    .btn-brand:hover{background:#6a46a0;}
+    .btn-outline-dark{border:1px solid var(--gold);color:var(--gold);background:transparent;border-radius:12px;padding:.6rem 1rem;}
+    .btn-outline-dark:hover{background:var(--gold);color:#000;}
 
-    .answers h3{font-size:1.1rem;margin-bottom:10px}
-    .answer-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
-    .answer-item{border:1px solid var(--line);border-radius:12px;padding:12px;background:#fff;box-shadow:0 6px 16px rgba(16,18,37,.05)}
-    .answer-item p{margin:6px 0 0;color:#3c4260;font-size:.95rem}
-
-    /* ===== Footer (match homepage) ===== */
-    footer{font-size:.95rem;color:#fff;background:#7851a9}
-    footer a{color:#fff;text-decoration:underline}
+    /* === FOOTER === */
+    footer{background:#000;color:#fff;text-align:center;padding:30px 0;font-size:.95rem;}
+    footer a{color:#fff;text-decoration:underline;}
   </style>
 </head>
 <body>
 
-  <!-- NAV + PROMO  -->
-  <div class="nav-wrap">
-    <div class="promo-bar" role="region" aria-label="Promotion">
-      <div class="container container-narrow promo-inner">
-        <span class="emoji" aria-hidden="true">🎉</span>
-        <span class="promo-text"><strong>Earn $200</strong> for every business you refer to WebEaze. Ends 10/31.</span>
-        <a href="referral.html" class="btn-promo ml-2">Refer</a>
-      </div>
-    </div>
-
-    <div class="container container-narrow">
-      <nav class="navbar navbar-expand-lg navbar-dark webeaze-nav" role="navigation" aria-label="Primary">
-        <a class="navbar-brand d-flex align-items-center" href="index.html">
-          <img class="logo" src="images/webeaze-transparent copy.png" alt="WebEaze" />
-          <strong class="ml-2 brand-word">WebEaze</strong>
-        </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mobileNav" aria-controls="mobileNav" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div id="mobileNav" class="collapse navbar-collapse">
-          <ul class="navbar-nav ml-auto main-nav">
-
-            <li class="nav-item"><a class="nav-link" href="maintenance.html">Maintenance</a></li>
-            <li class="nav-item"><a class="nav-link" href="about.html">About Us</a></li>
-            <li class="nav-item"><a class="nav-link" href="pricing.html">Pricing</a></li>
-            <li class="nav-item"><a class="nav-link" href="faq.html">FAQ</a></li>
-            <li class="nav-item"><a class="nav-link" href="contact-us.html">Contact</a></li>
-            <li class="nav-item ml-1"><a class="btn btn-sm btn-nav" href="consultation.html">Get Started</a></li>
-          </ul>
-        </div>
-      </nav>
+<!-- ===== NAVBAR ===== -->
+<div class="nav-wrap">
+  <div class="promo-bar">
+    <div class="container container-narrow promo-inner">
+      <span>Website Setup Package ending.</span>
+      <a href="website-setup-package.html" class="btn-promo ml-2">Learn More</a>
     </div>
   </div>
-
-  <!-- HERO -->
-  <header class="hero">
-    <div class="halo" aria-hidden="true"></div>
-    <div class="container container-narrow">
-      <div class="row align-items-center">
-        <div class="col-lg-8">
-          <div class="eyebrow">Website Request form</div>
-          <h1 class="headline">Need help with your website?</h1>
-          <p class="mt-2" style="color:#3f4564"> 
-            Whether it's a fix or a new feature, we're here to help. Submit your request below and we'll take it from there.
-            </p>
-          <div id="hours" class="status-chip" aria-live="polite"><span class="status-dot" aria-hidden="true"></span><span id="hours-text">Checking availability…</span></div>
-        </div>
+  <div class="container container-narrow">
+    <nav class="navbar navbar-expand-lg navbar-dark webeaze-nav">
+      <a class="navbar-brand d-flex align-items-center" href="index.html">
+        <img class="logo" src="images/webeaze-transparent copy.png" alt="WebEaze" style="height:36px;" />
+        <strong class="ml-2">WebEaze</strong>
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mobileNav"><span class="navbar-toggler-icon"></span></button>
+      <div id="mobileNav" class="collapse navbar-collapse">
+        <ul class="navbar-nav ml-auto main-nav">
+          <li class="nav-item"><a class="nav-link" href="maintenance.html">Maintenance</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="pricing.html">Pricing</a></li>
+          <li class="nav-item"><a class="nav-link" href="faq.html">FAQ</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact-us.html">Contact</a></li>
+          <li class="nav-item ml-1"><a class="btn btn-sm btn-nav" href="consultation.html">Get Started</a></li>
+        </ul>
       </div>
-    </div>
-  </header>
+    </nav>
+  </div>
+</div>
 
-  <main class="container container-narrow">
-    <section class="split" style="padding-top: 0;">
-      <!-- Left: Request form -->
+<!-- ===== AVAILABILITY BANNER ===== -->
+<section id="availability-banner">Checking availability...</section>
+
+<!-- ===== HERO ===== -->
+<header class="hero text-left">
+  <div class="container container-narrow">
+    <h1 class="headline">Website Request</h1>
+    <p class="sub">Need an update, fix, or new feature? Submit your request below. We'll handle the rest.</p>
+    <!-- <div id="hours" class="status-chip"><span class="status-dot"></span><span id="hours-text">Checking...</span></div> -->
+
+    <a href="https://billing.stripe.com/p/login/7sI3gfaO14CEdlm144" class="btn btn-brand mt-3"><i class="fas fa-credit-card mr-1"></i> Billing Portal</a>
+
+    <a href="#growth-elite-plan" class="btn btn-brand mt-3"><i class="fas fa-user-circle mr-1"></i> Growth or Elite plan?</a>
+  </div>
+</header>
+
+<!-- ===== MAIN CONTENT ===== -->
+<main class="container container-narrow py-5">
+  <section class="split">
+
+    <!-- ===== LEFT: HUBSPOT FORM ===== -->
+    <div class="surface">
+      <h3 class="h6" style="font-weight:600; font-size: 30px;"><i class="fas fa-paper-plane mr-1"></i> Submit Your Request</h3>
+      <p class="muted mb-3">You'll receive confirmation after submission. We review requests during business hours.</p>
+      <script src="https://js-na2.hsforms.net/forms/embed/242171361.js" defer></script>
+      <div class="hs-form-frame" data-region="na2" data-form-id="1bd7643f-da22-4812-a77f-8fe06fb55990" data-portal-id="242171361"></div>
+    </div>
+
+    <!-- ===== RIGHT: RESOURCES + TOOLS ===== -->
+    <aside style="display:grid;gap:16px">
       <div class="surface">
-        <h2 class="h5 mb-2"><i class="fas fa-paper-plane"></i> Submit your request</h2>
-        <div class="text-muted mb-3">You will receive email confirmation and a follow up when it is complete.</div>
-        <!-- HubSpot form -->
-        <script src="https://js-na2.hsforms.net/forms/embed/242171361.js" defer></script>
-        <div class="hs-form-frame" data-region="na2" data-form-id="1bd7643f-da22-4812-a77f-8fe06fb55990" data-portal-id="242171361"></div>
-        <div class="text-muted mt-3">Not an active client? <a href="contact-us.html"><u>Contact us here</u></a>.</div>
-
-        <div class="surface mt-3" style="padding:16px">
-          <div class="form-row">
-            <div class="form-group col-md-6">
-              <h3 class="h6 mb-2"><i class="fas fa-clock"></i> Current Turnaround Times</h3>
-              <p>If planning's crucial, view our current turnaround times for certain requests.</p>
-              <label for="reqType">Request type</label>
-              <select id="reqType" class="form-control">
-                <option value="minor">Content update</option>
-                <option value="bug">Bug fix or broken link</option>
-                <option value="newpage">New page</option>
-                <option value="feature">Feature or integration</option>
-                <option value="seo">SEO or meta updates</option>
-                <option value="style">Style or layout changes</option>
-              </select>
-            </div>
-            <div class="form-group col-md-6">
-              <label for="urgency">Urgency</label>
-              <select id="urgency" class="form-control">
-                <option value="normal">Not urgent</option>
-                <option value="soon">Time sensitive</option>
-                <option value="rush">ASAP</option>
-              </select>
-            </div>
-          </div>
-          <div class="eta"><span id="etaDot" class="dot good"></span><strong>Estimated:</strong>&nbsp;<span id="etaText">24 to 72 hours in business hours</span></div>
-          <div class="small text-muted mt-2">This is for planning. It can change with workload. Rush requests may include a $69 rush fee.</div>
+        <h3 class="h6 mb-1" style="font-size: 25px; font-weight: 700;"><i class="fas fa-bolt"></i> Quick Resources</h3>
+        <p class="muted mb-2">Helpful pages, at your disposal. </p>
+        <div class="answer-list">
+          <a class="answer-item" href="https://webeaze.io/help#/when-will-my-website-launch" target="_blank"><strong>Website launch timeline</strong><p>From kickoff to live launch.</p></a>
+          <a class="answer-item" href="domains.html" target="_blank"><strong>Connect or transfer domains</strong><p>Point your domain or move it to us.</p></a>
+          <a class="answer-item" href="https://webeaze.io/fee-schedule" target="_blank"><strong>Add-ons & fee schedule</strong><p>New pages, features, or integrations.</p></a>
+          <a class="answer-item" href="https://webeaze.tawk.help/article/hosting" target="_blank"><strong>Supported hosting platforms</strong><p>WordPress, GitHub Pages, and more.</p></a>
         </div>
       </div>
 
-      <!-- Right rail -->
-      <aside style="display:grid;gap:16px">
-        <div class="surface answers">
-          <h3 class="h6 mb-1"><i class="fas fa-bolt"></i> Instant answers</h3>
-          <div class="text-muted mb-2">Popular articles clients use before submitting a ticket.</div>
-          <div class="answer-list">
-            <a class="answer-item" href="https://webeaze.io/help#/when-will-my-website-launch" target="_blank" rel="noopener">
-              <strong>Website launch timeline</strong>
-              <p>What to expect between kickoff and go live.</p>
-            </a>
-            <a class="answer-item" href="domains.html" target="_blank" rel="noopener">
-              <strong>Domain: connect or transfer</strong>
-              <p>Point your domain or move it to us.</p>
-            </a>
-            <a class="answer-item" href="https://webeaze.io/fee-schedule" target="_blank" rel="noopener">
-              <strong>Add ons and fee schedule</strong>
-              <p>New pages, integrations, or advanced features.</p>
-            </a>
-            <a class="answer-item" href="https://webeaze.tawk.help/article/hosting" target="_blank" rel="noopener">
-              <strong>Hosting platforms we support</strong>
-              <p>WordPress, GitHub Pages, and more.</p>
-            </a>
-            <a class="answer-item" href="status.html" target="_blank" rel="noopener">
-              <strong>
-                Status and Client Updates
-              </strong>
-              <p>
-                Latest updates on our service status and client notifications.
-              </p>
-            </a>
-          </div>
+      <div class="surface" id="growth-elite-plan">
+        <h3 class="h6 mb-2" style="font-size: 25px; font-weight: 700;"><i class="fas fa-crown"></i> Growth & Elite Tools</h3>
+        <p class="muted mb-2">If you're on our Growth or Elite plan, enjoy these benefits, too. </p>
+        <div class="d-flex flex-wrap gap-2">
+          <a href="https://calendly.com/webeaze/session-full-setups" target="_blank" class="btn btn-brand mr-2 mb-2"><i class="fas fa-video"></i> Book a Zoom</a>
+          <a href="portal.html" id="live-chat-button" class="btn btn-outline-dark mb-2"><i class="fas fa-comments"></i> Start Live Chat</a>
+          <a href="google-business-management.html" target="_blank" class="btn btn-outline-dark mb-2"><i class="fab fa-google"></i> Google Business Profile</a>
         </div>
-
-        <div class="surface">
-          <h3 class="h6 mb-1"><i class="far fa-question-circle"></i> Quick FAQ</h3>
-          <details class="mb-2"><summary><strong>What happens after I submit?</strong></summary><div class="text-muted mt-1">You will receive an email confirmation. We review your request during business hours and reply if we need details. When we're finished, you will receive a email confirming completion.</div></details>
-          <details class="mb-2"><summary><strong>How do I share files or images?</strong></summary><div class="text-muted mt-1">Attach them in the form or email them to support@webeaze.io with your domain in the subject.</div></details>
-          <details class="mb-2"><summary><strong>Can I request a Zoom call?</strong></summary><div class="text-muted mt-1">Yes. Use the portal to book. Live call hours are Monday to Friday, 9:00am to 1:00pm ET.</div></details>
-          <details class="mb-0"><summary><strong>Do you offer rush work?</strong></summary><div class="text-muted mt-1">For urgent issues select ASAP. We try to prioritize it. A rush fee may apply.</div></details>
-        </div>
-
-        <div class="surface">
-          <h3 class="h6 mb-1"><i class="fas fa-stopwatch"></i> Service expectations</h3>
-          <ul class="pl-3 mb-2 text-muted">
-            <li>Business hours: Monday to Friday, 9:00am to 5:00pm ET</li>
-            <li>Holidays: closed on major US holidays</li>
-            <li>Typical turnaround: minor updates in 24 to 72 hours</li>
-            <li>Fair use: reasonable monthly limits keep things fast for everyone</li>
-          </ul>
-          <div class="text-muted">You will get confirmation after you submit. We will reach out if we need anything else.</div>
-        </div>
-      </aside>
-    </section>
-  </main>
-
-  <!-- FOOTER -->
-  <footer class="py-4 text-center" style="background-color: black;color:#fff">
-    <div class="mt-3 small" style="opacity:.9">
-      <strong>Serving small businesses across:</strong><br>
-      <a href="/web-design-maryland.html" style="color:#fff;text-decoration:underline;">Maryland</a> ·
-      <a href="/web-design-delaware.html" style="color:#fff;text-decoration:underline;">Delaware</a> ·
-      <a href="/web-design-pennsylvania.html" style="color:#fff;text-decoration:underline;">Pennsylvania</a> ·
-      <a href="/web-design-new-jersey.html" style="color:#fff;text-decoration:underline;">New Jersey</a>
-      <br>
-      <br>
-    </div>
-    <div class="container container-narrow">
-      <div class="mb-1">© <span id="yr"></span> WebEaze. All rights reserved.</div>
-      <div class="mb-2 small">
-        <a href="terms.html#privacy" style="color:#fff">Privacy Policy</a> ·
-        <a href="terms.html" style="color:#fff">Terms</a> ·
-        <a href="site-map.html" style="color:#fff">Site Map</a>
       </div>
-      <div class="small">Made with ☕ in Delaware, USA</div>
-    </div>
-  </footer>
+    </aside>
+  </section>
+</main>
 
-  <!-- JS -->
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-  <script>
-    document.getElementById('yr').textContent=new Date().getFullYear();
-    // Smooth internal links from collapsed mobile nav
-    (function(){
-      var menu=document.getElementById('mobileNav'); if(!menu) return;
-      menu.addEventListener('click',function(e){
-        var a=e.target.closest('a[href^="#"]'); if(!a) return;
-        var id=a.getAttribute('href').slice(1), target=document.getElementById(id); if(!target) return;
-        e.preventDefault(); $(menu).collapse('hide');
-        $(menu).one('hidden.bs.collapse',function(){ target.scrollIntoView({behavior:'smooth',block:'start'}); });
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="container container-narrow">
+    <div>&copy; <span id="yr"></span> WebEaze. All rights reserved.</div>
+    <div class="mb-2 small">
+      <a href="terms.html#privacy">Privacy Policy</a> ·
+      <a href="terms.html">Terms</a> ·
+      <a href="site-map.html">Site Map</a>
+    </div>
+    <div class="small">Made with ☕ in Delaware, USA</div>
+  </div>
+</footer>
+
+<!-- ===== SCRIPTS ===== -->
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript" id="hs-script-loader" async defer src="//js-na2.hs-scripts.com/242171361.js"></script>
+
+<script>
+  // ===== Year Auto-Update =====
+  document.getElementById('yr').textContent = new Date().getFullYear();
+  
+  // ===== HubSpot Chat Launcher =====
+  window.hsConversationsOnReady = function() {
+    const chatButton = document.getElementById('live-chat-button');
+    if (chatButton) {
+      chatButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        if (window.HubSpotConversations) window.HubSpotConversations.widget.open();
       });
-    })();
-
-    // Hours chip with US holidays (observed)
-    function nthDowOfMonth(y,m,dow,n){const first=new Date(Date.UTC(y,m,1));const off=(7+dow-first.getUTCDay())%7;return new Date(Date.UTC(y,m,1+off+7*(n-1)));}
-    function lastDowOfMonth(y,m,dow){const last=new Date(Date.UTC(y,m+1,0));const off=(7+last.getUTCDay()-dow)%7;return new Date(Date.UTC(y,m+1,0-off));}
-    function observed(dt){const d=new Date(dt);const day=d.getUTCDay();if(day===6){d.setUTCDate(d.getUTCDate()-1);}else if(day===0){d.setUTCDate(d.getUTCDate()+1);}return d;}
-    function ymd(dt){return dt.toISOString().slice(0,10);}  
-    function getUSHolidays(year){const list=[];list.push({name:"New Year's Day",date:ymd(observed(new Date(Date.UTC(year,0,1))))});list.push({name:"Juneteenth",date:ymd(observed(new Date(Date.UTC(year,5,19))))});list.push({name:"Independence Day",date:ymd(observed(new Date(Date.UTC(year,6,4))))});list.push({name:"Veterans Day",date:ymd(observed(new Date(Date.UTC(year,10,11))))});list.push({name:"Christmas Day",date:ymd(observed(new Date(Date.UTC(year,11,25))))});list.push({name:"Martin Luther King Jr. Day",date:ymd(nthDowOfMonth(year,0,1,3))});list.push({name:"Presidents' Day",date:ymd(nthDowOfMonth(year,1,1,3))});list.push({name:"Memorial Day",date:ymd(lastDowOfMonth(year,4,1))});list.push({name:"Labor Day",date:ymd(nthDowOfMonth(year,8,1,1))});list.push({name:"Columbus Day / Indigenous Peoples' Day",date:ymd(nthDowOfMonth(year,9,1,2))});list.push({name:"Thanksgiving Day",date:ymd(nthDowOfMonth(year,10,4,4))});const tg=nthDowOfMonth(year,10,4,4);const dayAfter=new Date(Date.UTC(year,10,tg.getUTCDate()+1));list.push({name:"Day after Thanksgiving",date:ymd(dayAfter)});list.push({name:"Christmas Eve",date:ymd(new Date(Date.UTC(year,11,24)))});list.push({name:"New Year's Eve",date:ymd(new Date(Date.UTC(year,11,31)))});return list;}
-    const nowET=()=>new Date(new Date().toLocaleString('en-US',{timeZone:'America/New_York'}));
-    function isOpenET(d){const day=d.getDay();const h=d.getHours();return (day>=1&&day<=5)&&(h>=9&&h<17);}  
-    function todayHolidayNameET(){const d=nowET();const y=d.getFullYear();const key=`${y}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;const found=getUSHolidays(y).find(h=>h.date===key);return found?found.name:'';}
-    function updateHoursChip(){const chip=document.getElementById('hours');const text=document.getElementById('hours-text');const holiday=todayHolidayNameET();let open=false;let msg='';if(holiday){msg=`Closed today (${holiday}). Back next business day at 9:00am ET.`;}else if(isOpenET(nowET())){msg='We are available now until 5:00pm ET.';open=true;}else{const d=nowET();const day=d.getDay();const h=d.getHours();if(day>=1&&day<=5&&h<9) msg='We are away. Back today at 9:00am ET.';else if(day>=1&&day<=4&&h>=17) msg='We are closed for today. Back tomorrow at 9:00am ET.';else if(day===5&&h>=17) msg='Closed for the weekend. Back Monday at 9:00am ET.';else msg='We are away. Back Monday at 9:00am ET.';}
-      chip.classList.toggle('open',open); chip.classList.toggle('closed',!open); text.textContent=msg;}
-    document.addEventListener('DOMContentLoaded',()=>{updateHoursChip();setInterval(updateHoursChip,60000)});
-
-    // ETA estimator
-    const etaMap={minor:{normal:'24 to 72 hours',soon:'24 to 48 hours',rush:'Same day'},bug:{normal:'24 to 48 hours',soon:'Next business day',rush:'6 hours'},newpage:{normal:'3 to 5 days',soon:'2 business days',rush:'Next business day'},feature:{normal:'3 to 5 days',soon:'2 to 3 days',rush:'2 business days'},seo:{normal:'24 to 72 hours',soon:'12 to 24 hours',rush:'6 hours'},style:{normal:'24 to 72 hours',soon:'6 to 12 hours',rush:'4 hours'}};
-    function setETA(){const t=document.getElementById('reqType').value;const u=document.getElementById('urgency').value;document.getElementById('etaText').textContent=`${etaMap[t][u]} in business hours`;const dot=document.getElementById('etaDot');dot.className='dot '+(u==='rush'?'rush':u==='soon'?'warn':'good');}
-    document.addEventListener('change',(e)=>{if(e.target.id==='reqType'||e.target.id==='urgency') setETA();});
-    document.addEventListener('DOMContentLoaded', setETA);
+    }
+  };
+  
+  // ===== Eastern Time + Holiday Logic =====
+  function getEasternTime() {
+    return new Date(new Date().toLocaleString('en-US', { timeZone: 'America/New_York' }));
+  }
+  
+  function nthDowOfMonth(y, m, dow, n) {
+    const first = new Date(Date.UTC(y, m, 1));
+    const offset = (7 + dow - first.getUTCDay()) % 7;
+    return new Date(Date.UTC(y, m, 1 + offset + 7 * (n - 1)));
+  }
+  
+  function lastDowOfMonth(y, m, dow) {
+    const last = new Date(Date.UTC(y, m + 1, 0));
+    const offset = (7 + last.getUTCDay() - dow) % 7;
+    return new Date(Date.UTC(y, m + 1, 0 - offset));
+  }
+  
+  function getUSHolidays(year) {
+    const holidays = [];
+    // Fixed
+    holidays.push(new Date(year, 0, 1));   // New Year’s Day
+    holidays.push(new Date(year, 5, 19));  // Juneteenth
+    holidays.push(new Date(year, 6, 4));   // Independence Day
+    holidays.push(new Date(year, 10, 11)); // Veterans Day
+    holidays.push(new Date(year, 11, 25)); // Christmas
+    // Dynamic
+    holidays.push(nthDowOfMonth(year, 0, 1, 3));  // MLK Day (3rd Mon Jan)
+    holidays.push(nthDowOfMonth(year, 1, 1, 3));  // Presidents Day (3rd Mon Feb)
+    holidays.push(lastDowOfMonth(year, 4, 1));    // Memorial Day (last Mon May)
+    holidays.push(nthDowOfMonth(year, 8, 1, 1));  // Labor Day (1st Mon Sept)
+    holidays.push(nthDowOfMonth(year, 10, 4, 4)); // Thanksgiving (4th Thurs Nov)
+    return holidays;
+  }
+  
+  function isHoliday(date) {
+    const year = date.getFullYear();
+    const holidays = getUSHolidays(year);
+    return holidays.some(
+      (h) => h.getUTCMonth() === date.getUTCMonth() && h.getUTCDate() === date.getUTCDate()
+    );
+  }
+  
+  // ===== Availability Banner + Status Chip =====
+  function updateStatus() {
+    const banner = document.getElementById('availability-banner');
+    const chip = document.getElementById('hours');
+    const text = document.getElementById('hours-text');
+    const now = getEasternTime();
+  
+    const day = now.getDay(); // 0=Sun
+    const hour = now.getHours();
+    const holiday = isHoliday(now);
+  
+    let msg = '', color = '', chipClass = 'closed';
+  
+    if (holiday) {
+      msg = "Closed for a holiday. Back next business day at 9:00am ET.";
+      color = '#e63946';
+      chipClass = 'holiday';
+    } else if (day === 0 || day === 6) {
+      msg = "Away for the weekend. Back Monday at 9:00am ET.";
+      color = '#e63946';
+      chipClass = 'closed';
+    } else if (hour >= 9 && hour < 17) {
+      msg = "We're available now until 5:00pm ET.";
+      color = '#27ae60';
+      chipClass = 'open';
+    } else {
+      msg = "We're away. Back at 9:00am ET.";
+      color = '#e63946';
+      chipClass = 'closed';
+    }
+  
+    // ===== Update Banner =====
+    if (banner) {
+      banner.style.background = color;
+      banner.textContent = msg;
+  
+      // Accurate Eastern Time for banner
+      const easternNow = new Date(new Date().toLocaleString('en-US', { timeZone: 'America/New_York' }));
+      const checkedTime = easternNow.toLocaleTimeString('en-US', {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true
+      });
+  
+      const small = document.createElement('small');
+      small.textContent = ` Status checked at ${checkedTime} ET`;
+      small.style.display = 'block';
+      small.style.fontSize = '0.8rem';
+      small.style.opacity = '0.85';
+      small.style.marginTop = '4px';
+      banner.appendChild(small);
+    }
+  
+    // ===== Update Status Chip =====
+    if (chip && text) {
+      chip.className = 'status-chip ' + chipClass;
+      text.textContent = msg;
+    }
+  }
+  
+  // ===== Initialize + Auto-Refresh =====
+  document.addEventListener('DOMContentLoaded', () => {
+    updateStatus();
+    setInterval(updateStatus, 60 * 1000); // refresh every minute
+  });
   </script>
+  
 </body>
 </html>
