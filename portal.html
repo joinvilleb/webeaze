@@ -3,89 +3,102 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Client Portal | WebEaze</title>
-  <meta name="description" content="Your all-in-one dashboard for WebEaze support, billing, and updates." />
+  <title>Live Chat | WebEaze</title>
+  <meta name="description" content="Access live chat support with WebEaze. Connect instantly with our team in the bottom-right corner of your screen." />
   <link rel="canonical" href="https://www.webeaze.io/portal" />
 
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="WebEaze" />
-  <meta property="og:title" content="Client Portal | WebEaze" />
-  <meta property="og:description" content="Your all-in-one dashboard for WebEaze support, billing, and updates." />
+  <meta property="og:title" content="Live Chat | WebEaze" />
+  <meta property="og:description" content="Access live chat support with WebEaze, available Mon-Fri, 9AM-1PM ET." />
   <meta property="og:url" content="https://www.webeaze.io/portal" />
   <meta property="og:image" content="https://webeaze.io/images/default-monochrome.png" />
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
   <link rel="shortcut icon" href="images/webeaze-transparent copy.png" type="image/png" />
 
   <style>
     :root {
-      --brand:#7851a9; --gold:#ffd700; --ink:#0f1228; --ink-2:#3c4260;
-      --muted:#6b7280; --line:#e7eaf4; --bg:#f7f8fc; --white:#fff;
+      --brand:#7851a9; --gold:#ffd700;
+      --ink:#f9fafc; --muted:#a8adc1;
+      --bg:#0f1220; --bg2:#181b2d;
+      --line:#24283f; --success:#2ecc71; --danger:#ff6b6b;
     }
-    html,body{height:100%;overflow-x:hidden}
-    body{margin:0;font-family:'Poppins',sans-serif;background:var(--bg);color:var(--ink);}
-    a{color:inherit;text-decoration:none}
-    .container-narrow{max-width:1100px}
-    .logo{height:36px}
-
-    /* Nav (kept) */
-    .nav-wrap{position:sticky;top:0;z-index:9999;background:#000;border-bottom:1px solid rgba(255,255,255,.14)}
-    .promo-bar{background:linear-gradient(180deg, rgba(255,255,255,.14), rgba(255,255,255,.08));border-bottom:1px solid rgba(255,255,255,.18);color:#fff;padding: 0 40px 0 40px}
-    .promo-inner{display:flex;align-items:center;justify-content:center;gap:10px;padding:.45rem 0;text-align:center}
-    .promo-text{font-weight:600}
-    .promo-text strong{font-weight:800}
-    .btn-promo{display:inline-flex;align-items:center;justify-content:center;padding:.4rem .75rem;border-radius:999px;font-weight:800;background:#ffd700;color:#3b2a7a;border:none;box-shadow:0 8px 22px rgba(255,215,0,.22)}
-    .btn-promo:hover{background:#f2c600;color:#fff}
-
+    body {
+      margin:0; font-family:'Poppins',sans-serif;
+      background:radial-gradient(circle at 30% 20%,#1b1f33 0%,#0f1220 100%);
+      color:var(--ink); text-align:center;
+      overflow-x:hidden;
+    }
+    a{color:var(--gold);text-decoration:none}
+    a:hover{text-decoration:underline}
+    .nav-wrap{background:#000;border-bottom:1px solid rgba(255,255,255,.14)}
     .navbar-dark .nav-link{color:#fff!important;opacity:.92;border-radius:10px;padding:.45rem .7rem}
     .navbar-dark .nav-link:hover{opacity:1;background:rgba(255,255,255,.08)}
     .btn-nav{background:var(--gold);color:#2f1e66;border:none;border-radius:12px;padding:.6rem .9rem;font-weight:700;box-shadow:0 8px 22px rgba(255,215,0,.22)}
-
-    /* Hero */
-    .hero{position:relative;padding:clamp(56px,11vh,86px) 0;background:linear-gradient(180deg,#ffffff,#f7f8fc 70%)}
-    .halo{position:absolute;inset:-20% -10% auto -10%;height:420px;pointer-events:none;background:radial-gradient(34% 46% at 15% 20%, rgba(120,81,169,.18), transparent 60%),radial-gradient(28% 42% at 85% 18%, rgba(255,215,0,.14), transparent 60%)}
-    .headline{font-weight:800;letter-spacing:-.02em;line-height:1.06}
-    .sub{color:#3f4564;max-width:760px;margin:0 auto}
-
-    /* Surfaces */
-    .surface{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 10px 28px rgba(16,18,37,.06);padding:24px}
-    .muted{color:#6b7280}
-    .quick-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:12px}
-    .quick-link{display:flex;align-items:center;justify-content:center;gap:8px;border:1px solid var(--line);border-radius:12px;padding:14px;background:#fff;font-weight:700;text-align:center;transition:.2s}
-    .quick-link:hover{background:#f9f9ff;transform:translateY(-2px)}
-    footer{font-size:.95rem;color:#fff}
+    .hero {
+      padding:100px 20px;
+      position:relative;
+      overflow:hidden;
+    }
+    .halo{
+      position:absolute;inset:-10% -10% auto -10%;
+      background:radial-gradient(40% 50% at 30% 20%, rgba(120,81,169,.25), transparent 70%),radial-gradient(30% 50% at 80% 20%, rgba(255,215,0,.1), transparent 60%);
+      height:420px;pointer-events:none;
+    }
+    h1{font-weight:800;letter-spacing:-.02em;margin-bottom:10px}
+    p.sub{color:var(--muted);font-size:1.1rem;max-width:640px;margin:0 auto 20px}
+    .cta-btn{
+      background:var(--gold);color:#2f1e66;border:none;
+      border-radius:999px;padding:.7rem 1.4rem;font-weight:700;
+      box-shadow:0 8px 22px rgba(255,215,0,.22);
+      transition:.25s;
+    }
+    .cta-btn:hover{transform:translateY(-2px);background:#f2c600;color:#fff}
+    #availability-banner{
+      margin:30px auto;max-width:600px;border-radius:12px;
+      font-weight:600;padding:14px;
+      transition:.3s;text-align:center;
+    }
+    .info-box{
+      background:var(--bg2);
+      border:1px solid var(--line);
+      border-radius:16px;
+      max-width:700px;
+      margin:40px auto;
+      padding:24px;
+      text-align:left;
+    }
+    .info-box h3{font-weight:700;font-size:1.1rem;margin-bottom:10px;color:var(--gold)}
+    .info-box ul{list-style:none;padding-left:0;margin-bottom:0;color:var(--muted);font-size:.95rem}
+    .info-box li::before{content:"✔";color:var(--success);margin-right:8px}
+    .info-box li.danger::before{content:"✖";color:var(--danger)}
+    footer{background:#000;color:#fff;font-size:.95rem;padding:30px 0;margin-top:60px}
+    footer a{color:#fff;text-decoration:underline}
   </style>
 </head>
 <body>
 
 <!-- NAV -->
 <div class="nav-wrap">
-  <div class="promo-bar" id="promoBar">
-    <div class="container container-narrow promo-inner">
-      <span class="promo-text"><strong>Earn $200</strong> for every business you refer to WebEaze. <strong>Ends 10/31.</strong></span>
-      <a href="referral.html" class="btn-promo ml-2">Refer</a>
-    </div>
-  </div>
-  <div class="container container-narrow">
+  <div class="container">
     <nav class="navbar navbar-expand-lg navbar-dark webeaze-nav">
       <a class="navbar-brand d-flex align-items-center" href="index.html">
-        <img class="logo" src="images/webeaze-transparent copy.png" alt="WebEaze" />
+        <img class="logo" src="images/webeaze-transparent copy.png" alt="WebEaze" style="height:36px" />
         <strong class="ml-2 brand-word">WebEaze</strong>
       </a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mobileNav">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mobileNav" aria-controls="mobileNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div id="mobileNav" class="collapse navbar-collapse">
         <ul class="navbar-nav ml-auto main-nav">
-          <li class="nav-item"><a class="nav-link" href="maintenance.html">Maintenance</a></li>
-          <li class="nav-item"><a class="nav-link" href="about.html">About Us</a></li>
-          <li class="nav-item"><a class="nav-link" href="pricing.html">Pricing</a></li>
+          <li class="nav-item"><a class="nav-link" href="website-request.html">Website Requests</a></li>
           <li class="nav-item"><a class="nav-link" href="faq.html">FAQ</a></li>
-          <li class="nav-item"><a class="nav-link" href="contact-us.html">Contact</a></li>
+          <li class="nav-item"><a class="nav-link" href="pricing.html">Plans & Pricing</a></li>
           <li class="nav-item ml-1"><a class="btn btn-sm btn-nav" href="consultation.html">Get Started</a></li>
         </ul>
       </div>
@@ -94,213 +107,89 @@
 </div>
 
 <!-- HERO -->
-<header class="hero text-center">
-  <div class="halo" aria-hidden="true"></div>
-  <div class="container container-narrow">
-    <h1 class="headline">Client Portal</h1>
-    <p class="sub">Get in touch, view resources, and updates.
-      <br>
-      All in one place. Have feedback? <a href="contact-us.html"><strong>Tell us.</strong></a>
-    </p>
+<section class="hero">
+  <div class="halo"></div>
+  <div class="container">
+    <h1>Live Chat Support</h1>
+    <p class="sub">Access our live chat in the bottom-right corner of your screen.<br>
+    Available <strong>Monday–Friday, 9:00 AM – 1:00 PM ET</strong>.</p>
+
+    <!-- Availability Banner -->
+    <div id="availability-banner">Checking live availability...</div>
+
+    <a href="website-request.html" class="cta-btn mt-2">Back to Website Requests</a>
   </div>
-</header>
-
-<!-- MAIN CONTENT -->
-<main class="container container-narrow py-5" style="padding-top: 0 !important">
-
-
-  <!-- Plans -->
-  <section class="surface mb-4">
-    <h3 class="h6" style="font-weight:800"><i class="fas fa-layer-group mr-1"></i> Plan Access</h3>
-
-    <h5 class="mt-3" style="font-weight:700;color:#2f1e66;">Essential Plan</h5>
-    <div class="quick-grid mb-3">
-      <a class="quick-link" href="website-request.html"><i class="fas fa-paper-plane"></i> Submit a Request</a>
-      <a class="quick-link" href="https://billing.stripe.com/p/login/7sI3gfaO14CEdlm144" target="_blank"><i class="fas fa-file-invoice-dollar"></i> Stripe Billing Portal</a>
-
- 
-   
-    </div>
-
-    <h5 class="mt-4" style="font-weight:700;color:#2f1e66;">Growth Plan</h5>
-    <div class="quick-grid">
-      <a class="quick-link" href="website-request.html"><i class="fas fa-paper-plane"></i> Submit a Request</a>
-      <a class="quick-link" href="https://calendly.com/webeaze/session-full-setups" target="_blank"><i class="fas fa-video"></i> Book Zoom session</a>
-
-  
-      <a class="quick-link" href="#" id="live-chat-button"><i class="fas fa-comments"></i> Start Live Chat</a>
-      <a class="quick-link" href="google-business-management.html" target="_blank"><i class="fas fa-life-ring"></i> Google Business Profile</a>
-      <a class="quick-link" href="https://billing.stripe.com/p/login/7sI3gfaO14CEdlm144" target="_blank"><i class="fas fa-file-invoice-dollar"></i> Stripe Billing Portal</a>
-
-   
-
-  
-
-    </div>
-  </section>
-
-  <!-- Getting Started -->
-  <section class="surface mb-4">
-    <h3 class="h6" style="font-weight:800"><i class="fas fa-rocket mr-1"></i> Getting Started</h3>
-    <p class="muted">If your website is still being set up, start here.</p>
-    <div class="quick-grid">
-      <a class="quick-link" href="help.html"><i class="fas fa-clock"></i> Getting Started Guide</a>
-
-      <a class="quick-link" href="domains.html"><i class="fas fa-file-alt"></i> Connect or Transfer Domains</a>
-      <a class="quick-link" href="providers.html"><i class="fas fa-palette"></i> Supported Hosting Providers </a>
-  
-    </div>
-  </section>
-
-  <!-- Status -->
-  <section class="surface mb-4">
-    <!-- STATUS BANNER -->
-<section id="availability-banner" class="text-center py-3" style="background:#fff3cd;border:1px solid #ffeeba;border-radius:12px;margin:20px auto;max-width:800px;font-weight:600;color:#856404">
-  Checking live availability...
 </section>
 
-    <h3 class="h6" style="font-weight:800"><i class="far fa-bell mr-1"></i> Status & Hours</h3>
-    <p class="muted">
-      <strong>Request review:</strong> Mon-Fri, 9am-5pm ET<br>
-      <strong>Live Zoom and Chat hours:</strong> Mon-Fri, 9am-1pm ET
-    </p>
-    <a class="quick-link" href="status.html" target="_blank"><i class="fas fa-signal"></i> Current Support Hours & Downtime</a>
-  </section>
+<!-- INFO BOX -->
+<div class="info-box">
+  <h3>What to use Live Chat for</h3>
+  <ul>
+    <li>Quick questions about your current website or requests</li>
+    <li>Clarifying timelines or billing details</li>
+    <li>Checking the status of a submitted update</li>
+  </ul>
+  <h3 style="margin-top:18px;">What not to use Live Chat for</h3>
+  <ul>
+    <li class="danger">Submitting new website requests (use the Request form)</li>
+    <li class="danger">Complex design or automation setup help</li>
+    <li class="danger">Rush work outside of normal support hours</li>
 
-  <!-- Helpful Articles -->
-  <section class="surface mb-4">
-    <h3 class="h6" style="font-weight:800"><i class="fas fa-book mr-1"></i> Helpful Articles</h3>
-    <div class="quick-grid">
-      
-      <a class="quick-link" href="https://webeaze.io/value.html#security"><i class="fas fa-shield-alt"></i> Security & Backups</a>
-      <a class="quick-link" href="https://webeaze.io/value"><i class="fas fa-chart-line"></i> WebEaze Features & Benefits </a>
-      <a class="quick-link" href="process.html"><i class="fas fa-search"></i> Our Web Design Process
-      </a>
-      <a class="quick-link" href="seo.html"><i class="fas fa-palette"></i> Search Engine Optimization </a>
-      <a class="quick-link" href="https://webeaze.tawk.help" target="_blank"><i class="fas fa-life-ring"></i>Full Help Center</a>
-    </div>
-  </section>
-
-  <div style="text-align:center;padding:0 60px 0 60px;">
-    
-  <p class="text-center muted small mb-5" style="padding: 40px 0px !important;"> Certain features may not be available for all plans. WebEaze verifies plan details before processing any request or change. If you have feedback or suggestions to improve the Client Portal, please <a href="contact-us.html"><strong>Let us know.</strong></a></p>
-
-  </div>
-</main>
+  </ul>
+</div>
 
 <!-- FOOTER -->
-<footer class="py-4 text-center" style="background:black;color:#fff">
-  <div class="container container-narrow">
-
+<footer>
+  <div class="container">
     <div class="mb-1">&copy; <span id="yr"></span> WebEaze. All rights reserved.</div>
     <div class="mb-2 small">
-      <a href="terms.html#privacy" style="color:#fff">Privacy Policy</a> ·
-      <a href="terms.html" style="color:#fff">Terms</a> ·
-      <a href="site-map.html" style="color:#fff">Site Map</a>
+      <a href="terms.html#privacy">Privacy Policy</a> ·
+      <a href="terms.html">Terms</a> ·
+      <a href="site-map.html">Site Map</a>
     </div>
     <div class="small">Made with ☕ in Delaware, USA</div>
   </div>
 </footer>
 
+<!-- SCRIPTS -->
 <script>
   document.getElementById('yr').textContent = new Date().getFullYear();
-</script>
-<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
+  function getEasternTime() {
+    return new Date(new Date().toLocaleString("en-US", { timeZone: "America/New_York" }));
+  }
+  function nthDowOfMonth(y,m,dow,n){const first=new Date(Date.UTC(y,m,1));const off=(7+dow-first.getUTCDay())%7;return new Date(Date.UTC(y,m,1+off+7*(n-1)));}
+  function lastDowOfMonth(y,m,dow){const last=new Date(Date.UTC(y,m+1,0));const off=(7+last.getUTCDay()-dow)%7;return new Date(Date.UTC(y,m+1,0-off));}
+  function getUSHolidays(year){const h=[];h.push(new Date(year,0,1));h.push(new Date(year,5,19));h.push(new Date(year,6,4));h.push(new Date(year,10,11));h.push(new Date(year,11,25));h.push(nthDowOfMonth(year,0,1,3));h.push(nthDowOfMonth(year,1,1,3));h.push(lastDowOfMonth(year,4,1));h.push(nthDowOfMonth(year,8,1,1));h.push(nthDowOfMonth(year,10,4,4));return h;}
+  function isHoliday(date){const y=date.getFullYear();const hs=getUSHolidays(y);return hs.some(h=>h.getUTCMonth()===date.getUTCMonth()&&h.getUTCDate()===date.getUTCDate());}
+
+  function updateAvailability(){
+    const banner=document.getElementById('availability-banner');
+    const now=getEasternTime();const d=now.getDay();const h=now.getHours();const holiday=isHoliday(now);
+    let msg='',color='';
+    if(holiday){msg="We're closed for a holiday. Back next business day at 9am ET.";color='var(--danger)';}
+    else if(d===0||d===6){msg="Closed for the weekend. Back Monday at 9am ET.";color='var(--danger)';}
+    else if(h>=9&&h<13){msg="Available now for Live Chat support.";color='var(--success)';}
+    else if(h>=13&&h<17){msg="Chat closed — available again tomorrow at 9am ET.";color='var(--danger)';}
+    else {msg="Currently offline. Live Chat returns at 9am ET.";color='var(--danger)';}
+    banner.style.background=color;banner.textContent=msg;
+    const small=document.createElement('small');
+    const easternNow=new Date(new Date().toLocaleString('en-US',{timeZone:'America/New_York'}));
+    const checkedTime=easternNow.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',hour12:true});
+    small.textContent=`Status checked at ${checkedTime} ET`;
+    small.style.display='block';small.style.fontSize='0.8rem';small.style.opacity='0.85';
+    banner.appendChild(small);
+  }
+  updateAvailability();setInterval(updateAvailability,60000);
+</script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 <script type="text/javascript" id="hs-script-loader" async defer src="//js-na2.hs-scripts.com/242171361.js"></script>
 
-<script>
-
-  window.hsConversationsOnReady = function() {
-
-    document.getElementById('live-chat-button').addEventListener('click', function(event) {
-      event.preventDefault(); 
-
-      window.HubSpotConversations.widget.open();
-    });
-  };
-</script>
-
-<script>
-  function getEasternTime() {
-    const now = new Date();
-    return new Date(now.toLocaleString("en-US", { timeZone: "America/New_York" }));
-  }
-
-  function isHoliday(date) {
-    const year = date.getFullYear();
-    const holidays = [];
-
-    // Static holidays
-    holidays.push(new Date(year, 0, 1));   // New Year's Day
-    holidays.push(new Date(year, 5, 19));  // Juneteenth
-    holidays.push(new Date(year, 6, 4));   // Independence Day
-    holidays.push(new Date(year, 8, 4));   // Labor Day
-    holidays.push(new Date(year, 10, 11)); // Veterans Day
-    holidays.push(new Date(year, 11, 26)); // Thanksgiving
-    holidays.push(new Date(year, 11, 27)); // Thanksgiving
-    holidays.push(new Date(year, 11, 28)); // Thanksgiving
-    holidays.push(new Date(year, 11, 29)); // Thanksgiving
-    holidays.push(new Date(year, 11, 30)); // Thanksgiving
-
-
-    holidays.push(new Date(year, 11, 25)); // Christmas
-
-    // Dynamic holidays
-    const memorial = new Date(year, 4, 31);
-    memorial.setDate(memorial.getDate() - ((memorial.getDay() + 6) % 7)); // last Monday of May
-    holidays.push(memorial);
-
-    const labor = new Date(year, 8, 1);
-    while (labor.getDay() !== 1) labor.setDate(labor.getDate() + 1); // first Monday in September
-    holidays.push(labor);
-
-    const thanksgiving = new Date(year, 10, 1);
-    let thursdays = 0;
-    while (thursdays < 4) {
-      if (thanksgiving.getDay() === 4) thursdays++;
-      if (thursdays < 4) thanksgiving.setDate(thanksgiving.getDate() + 1);
-    }
-    holidays.push(thanksgiving);
-
-    return holidays.some(
-      h => h.getMonth() === date.getMonth() && h.getDate() === date.getDate()
-    );
-  }
-
-  function updateAvailability() {
-    const banner = document.getElementById('availability-banner');
-    const nowET = getEasternTime();
-    const day = nowET.getDay(); // 0=Sun,6=Sat
-    const hour = nowET.getHours();
-    const holiday = isHoliday(nowET);
-
-    let statusText = '';
-    let bgColor = '';
-    let textColor = '#fff';
-
-    if (holiday || day === 0 || day === 6) {
-      statusText = "We're closed for the weekend or holiday. Support reopens Monday at 9am ET.";
-      bgColor = "#dc3545"; // red
-    } else if (hour >= 9 && hour < 17) {
-      statusText = "We're available now until 5pm ET.";
-      bgColor = "#28a745"; // green
-    } else {
-      statusText = "We're currently closed. We'll return at 9am ET.";
-      bgColor = "#dc3545"; // red
-    }
-
-    banner.textContent = statusText;
-    banner.style.background = bgColor;
-    banner.style.color = textColor;
-  }
-
-  updateAvailability();
-  setInterval(updateAvailability, 60 * 1000); // refresh every minute
-</script>
+<!-- Start of HubSpot Embed Code -->
+<script type="text/javascript" id="hs-script-loader" async defer src="//js-na2.hs-scripts.com/242171361.js"></script>
+<!-- End of HubSpot Embed Code -->
 
 </body>
 </html>
