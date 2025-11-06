@@ -179,6 +179,20 @@
   font-weight: 700;
 }
 
+.nav-wrap {
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+  background: #000;
+  border-bottom: 1px solid rgba(255,255,255,.12);
+  transform: translateY(0);
+  transition: transform .26s ease;
+}
+.nav-wrap.nav-hidden {
+  transform: translateY(-100%);
+}
+
+
 
 
 
@@ -633,18 +647,8 @@
     var io=new IntersectionObserver(function(entries){ entries.forEach(function(entry){ if(entry.isIntersecting){ entry.target.classList.add('in-view'); io.unobserve(entry.target); } }); },{threshold:.14});
     els.forEach(e=>io.observe(e));
   })();
-  // Sticky nav hide/show
-  (function(){
-    var wrap=document.querySelector('.nav-wrap'); if(!wrap) return;
-    var lastY=window.scrollY, ticking=false;
-    function onScroll(){
-      var y=window.scrollY;
-      if(y>8){wrap.classList.add('scrolled');} else {wrap.classList.remove('scrolled');}
-      if(y>lastY && y>80){wrap.classList.add('nav-hidden');} else {wrap.classList.remove('nav-hidden');}
-      lastY=y; ticking=false;
-    }
-    window.addEventListener('scroll', function(){ if(!ticking){ requestAnimationFrame(onScroll); ticking=true; } }, {passive:true});
-  })();
+
+
   // Count up stats
   (function(){
     var nums=document.querySelectorAll('.num[data-count]'); if(!nums.length) return;
@@ -697,8 +701,42 @@
   })();
 </script>
 
+<script>
+  (function() {
+    var nav = document.querySelector('.nav-wrap');
+    if (!nav) return;
+  
+    var lastScroll = 0;
+  
+    window.addEventListener('scroll', function() {
+      var currentScroll = window.pageYOffset;
+  
+      // Add padding shrink effect
+      if (currentScroll > 60) {
+        nav.classList.add('scrolled');
+      } else {
+        nav.classList.remove('scrolled');
+      }
+  
+      // Hide on scroll down
+      if (currentScroll > lastScroll && currentScroll > 120) {
+        nav.classList.add('nav-hidden');
+      } 
+      // Show on scroll up
+      else {
+        nav.classList.remove('nav-hidden');
+      }
+  
+      lastScroll = currentScroll <= 0 ? 0 : currentScroll; // avoid negative scroll
+    }, { passive: true });
+  })();
+  </script>
+  
+
 <!-- Start of HubSpot Embed Code -->
 <script type="text/javascript" id="hs-script-loader" async defer src="//js-na2.hs-scripts.com/242171361.js"></script>
 <!-- End of HubSpot Embed Code -->
+
+
 </body>
 </html>
