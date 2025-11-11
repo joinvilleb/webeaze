@@ -171,10 +171,10 @@
     const banner=document.getElementById('availability-banner');
     const now=getEasternTime();const d=now.getDay();const h=now.getHours();const holiday=isHoliday(now);
     let msg='',color='';
-    if(holiday){msg="We're closed for a holiday. Back next business day at 9am ET.";color='var(--danger)';}
-    else if(d===0||d===6){msg="Closed for the weekend. Back Monday at 9am ET.";color='var(--danger)';}
-    else if(h>=9&&h<13){msg="Available now for Live Chat support.";color='var(--success)';}
-    else if(h>=13&&h<17){msg="Chat closed — available again tomorrow at 9am ET.";color='var(--danger)';}
+    if(holiday){msg="Closed due to holiday. Back next business day at 9am ET.";color='var(--danger)';}
+    else if(d===0||d===6){msg="Offline until Monday at 9am ET.";color='var(--danger)';}
+    else if(h>=9&&h<13){msg="Live Chat available now.";color='var(--success)';}
+    else if(h>=13&&h<17){msg="Offline. Live Chat returns tomorrow at 9am ET.";color='var(--danger)';}
     else {msg="Offline. Live Chat returns at 9am ET.";color='var(--danger)';}
     banner.style.background=color;banner.textContent=msg;
     const small=document.createElement('small');
