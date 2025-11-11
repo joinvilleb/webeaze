@@ -118,6 +118,47 @@
     }
   }
 
+  .modal {
+      display: none; /* Hidden by default */
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background: black;
+      padding: 20px;
+      border-radius: 8px;
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal-content h4 {
+      margin-bottom: 10px;
+    }
+
+    .close-btn {
+      background: #e63946;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+
+    .close-btn:hover {
+      background: #d62839;
+    }
+  
   </style>
 </head>
 <body>
@@ -180,7 +221,9 @@
     <!-- ===== LEFT: HUBSPOT FORM ===== -->
     <div class="surface">
       <h3 class="h6" style="font-weight:600; font-size: 30px;"><i class="fas fa-paper-plane mr-1"></i> Submit Your Request</h3>
-      <p class="muted mb-3">You'll receive confirmation after submission. We review requests during business hours.</p>
+      <p class="muted mb-3">You'll receive confirmation after submission. <span id="business-hours-link" style="color: white; text-decoration: underline; cursor: pointer;">
+        We review requests during business hours.
+      </span></p>
       <script src="https://js-na2.hsforms.net/forms/embed/242171361.js" defer></script>
       <div class="hs-form-frame" data-region="na2" data-form-id="1bd7643f-da22-4812-a77f-8fe06fb55990" data-portal-id="242171361"></div>
     </div>
@@ -225,7 +268,10 @@
   <div id="business-hours-modal" class="modal">
     <div class="modal-content">
       <h4>Support Hours</h4>
-      <p>We're online Monday- Friday, 9:00a to 5:00p ET.</p>
+      <p>We're online Monday- Friday, 9:00a to 5:00p ET. Check our
+        <a href="status.html">
+          status page for any outages and office closures. </a>
+      </p>
       <button class="close-btn" id="close-modal">Close</button>
     </div>
   </div>
