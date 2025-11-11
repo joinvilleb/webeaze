@@ -103,6 +103,21 @@
     /* === FOOTER === */
     footer{background:#000;color:#fff;text-align:center;padding:30px 0;font-size:.95rem;}
     footer a{color:#fff;text-decoration:underline;}
+
+
+  .highlight {
+    animation: highlight-animation 2s ease-in-out;
+  }
+
+  @keyframes highlight-animation {
+    0% {
+      background-color: #ffeb3b; 
+    }
+    100% {
+      background-color: transparent;
+    }
+  }
+
   </style>
 </head>
 <body>
@@ -146,13 +161,15 @@
 <!-- ===== HERO ===== -->
 <header class="hero text-left">
   <div class="container container-narrow">
-    <h1 class="headline">Website Request</h1>
+    <h1 class="headline" style="font-weight: 600;">Website Request</h1>
     <p class="sub">Need an update, fix, or new feature? Submit your request below. We'll handle the rest.</p>
     <!-- <div id="hours" class="status-chip"><span class="status-dot"></span><span id="hours-text">Checking...</span></div> -->
 
     <a href="https://billing.stripe.com/p/login/7sI3gfaO14CEdlm144" class="btn btn-brand mt-3"><i class="fas fa-credit-card mr-1"></i> Billing Portal</a>
 
-    <a href="#growth-elite-plan" class="btn btn-brand mt-3"><i class="fas fa-user-circle mr-1"></i> Growth or Elite plan?</a>
+    <a href="#growth-elite-plan" class="btn btn-brand mt-3" id="growth-elite-link" style="font-size: 15px;">
+      <i class="fas fa-user-circle mr-1" ></i> On Growth or Elite plan?
+    </a>
   </div>
 </header>
 
@@ -182,16 +199,60 @@
       </div>
 
       <div class="surface" id="growth-elite-plan">
-        <h3 class="h6 mb-2" style="font-size: 25px; font-weight: 700;"><i class="fas fa-crown"></i> Growth & Elite Tools</h3>
+        <h3 class="h6 mb-2" style="font-size: 25px; font-weight: 700;">
+          <i class="fas fa-crown"></i> Growth & Elite Tools
+        </h3>
         <p class="muted mb-2">If you're on our Growth or Elite plan, enjoy these benefits, too. </p>
         <div class="d-flex flex-wrap gap-2">
-          <a href="https://calendly.com/webeaze/session-full-setups" target="_blank" class="btn btn-brand mr-2 mb-2"><i class="fas fa-video"></i> Book a Zoom</a>
-          <a href="portal.html" id="live-chat-button" class="btn btn-outline-dark mb-2"><i class="fas fa-comments"></i> Start Live Chat</a>
-          <a href="google-business-management.html" target="_blank" class="btn btn-outline-dark mb-2"><i class="fab fa-google"></i> Google Business Profile</a>
+          <a href="https://calendly.com/webeaze/session-full-setups" target="_blank" class="btn btn-brand mr-2 mb-2">
+            <i class="fas fa-video"></i> Book a Zoom
+          </a>
+          <a href="https://calendly.com/webeaze/phone-support" target="_blank" class="btn btn-brand mr-2 mb-2">
+            <i class="fas fa-mobile" style="padding-right: 2px;"></i> Live Phone Support
+          <a href="portal.html" id="live-chat-button" class="btn btn-outline-dark mb-2">
+            <i class="fas fa-comments"></i> Start Live Chat
+          </a>
+          <a href="google-business-management.html" target="_blank" class="btn btn-outline-dark mb-2">
+            <i class="fab fa-google"></i> Google Business Profile
+          </a>
         </div>
       </div>
     </aside>
   </section>
+
+
+  <!-- Modal business hours -->
+  <div id="business-hours-modal" class="modal">
+    <div class="modal-content">
+      <h4>Support Hours</h4>
+      <p>We're online Monday- Friday, 9:00a to 5:00p ET.</p>
+      <button class="close-btn" id="close-modal">Close</button>
+    </div>
+  </div>
+
+  <script>
+    // Get modal and trigger elements
+    const modal = document.getElementById('business-hours-modal');
+    const openModalLink = document.getElementById('business-hours-link');
+    const closeModalButton = document.getElementById('close-modal');
+
+
+    openModalLink.addEventListener('click', () => {
+      modal.style.display = 'flex';
+    });
+
+
+    closeModalButton.addEventListener('click', () => {
+      modal.style.display = 'none';
+    });
+
+
+    window.addEventListener('click', (event) => {
+      if (event.target === modal) {
+        modal.style.display = 'none';
+      }
+    });
+  </script>
 </main>
 
 <!-- ===== FOOTER ===== -->
@@ -335,6 +396,26 @@
     setInterval(updateStatus, 60 * 1000); // refresh every minute
   });
   </script>
+
+<script>
+
+  document.getElementById('growth-elite-link').addEventListener('click', function (event) {
+
+    event.preventDefault();
+
+
+    const section = document.getElementById('growth-elite-plan');
+    section.scrollIntoView({ behavior: 'smooth' });
+
+
+    section.classList.add('highlight');
+
+
+    setTimeout(() => {
+      section.classList.remove('highlight');
+    }, 2000);
+  });
+</script>
   
 </body>
 </html>
