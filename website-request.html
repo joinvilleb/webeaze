@@ -158,6 +158,140 @@
     .close-btn:hover {
       background: #d62839;
     }
+
+    .website-request-cta-top {
+     border: 1px solid rgba(255, 255, 255, 0.428) !important; 
+    }
+
+
+.premium-tools-section {
+  margin-top: 50px;
+  padding: 40px 0;
+  background: var(--surface);
+  border: 1px solid rgba(255, 215, 0, 0.18);
+  border-radius: 16px;
+  box-shadow: 0 10px 28px rgba(0,0,0,0.25);
+}
+
+/* Header */
+.premium-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.premium-icon {
+  background: rgba(255, 215, 0, 0.15);
+  border: 1px solid rgba(255,215,0,0.3);
+  color: var(--gold);
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+}
+
+.premium-title {
+  font-size: 26px;
+  margin: 0;
+  font-weight: 700;
+}
+
+.premium-sub {
+  margin: 4px 0 0;
+  opacity: 0.75;
+}
+
+
+.premium-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+
+@media(max-width:992px){
+  .premium-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media(max-width:576px){
+  .premium-grid { grid-template-columns: 1fr; }
+}
+
+
+.premium-card {
+  background: var(--bg-dark);
+  border: 1px solid var(--line);
+  padding: 18px;
+  border-radius: 14px;
+  text-align: left;
+  display: block;
+  transition: .25s;
+  color: #fff;
+}
+
+.premium-card i {
+  font-size: 24px;
+  color: var(--gold);
+  margin-bottom: 10px;
+}
+
+.premium-card h4 {
+  font-size: 18px;
+  margin: 0 0 6px;
+  font-weight: 600;
+}
+
+.premium-card p {
+  margin: 0;
+  font-size: 0.9rem;
+  opacity: .75;
+}
+
+.premium-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(255,215,0,0.3);
+  background: #1a1d25;
+}
+
+/* Upgrade CTA */
+.upgrade-cta {
+  text-align: right;
+  margin-top: 22px;
+}
+
+.upgrade-cta a {
+  font-size: .85rem;
+  color: var(--gold);
+  opacity: .6;
+  transition: .3s;
+}
+
+.upgrade-cta a:hover {
+  opacity: 1;
+  text-decoration: underline;
+}
+
+.bookmark-note {
+  margin-top: 12px;
+  padding: 8px 14px;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  font-size: 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  opacity: 0.9;
+}
+
+.bookmark-note i {
+  color: var(--gold);
+  font-size: 14px;
+}
+
+
   
   </style>
 </head>
@@ -203,12 +337,24 @@
 <header class="hero text-left">
   <div class="container container-narrow">
     <h1 class="headline" style="font-weight: 600;">Website Request</h1>
-    <p class="sub">Need an update, fix, or new feature? Submit your request below. We'll handle the rest.</p>
+
+    <div class="bookmark-note">
+      <i class="fas fa-bookmark"></i>
+      Bookmark this page for easy access.
+    </div> 
+    
+    <p class="sub" style="font-size: 13px; margin-top: 15px;"> 
+      Your hub for requesting updates, fixes, billing portal, and more. 
+    </p>
+
+ 
+
+    
     <!-- <div id="hours" class="status-chip"><span class="status-dot"></span><span id="hours-text">Checking...</span></div> -->
 
-    <a href="https://billing.stripe.com/p/login/7sI3gfaO14CEdlm144" class="btn btn-brand mt-3"><i class="fas fa-credit-card mr-1"></i> Billing Portal</a>
+    <a href="https://billing.stripe.com/p/login/7sI3gfaO14CEdlm144"  class="btn btn-brand mt-3 website-request-cta-top"><i class="fas fa-credit-card mr-1"></i> Manage Billing</a>
 
-    <a href="#growth-elite-plan" class="btn btn-brand mt-3" id="growth-elite-link" style="font-size: 15px;">
+    <a href="#growth-elite-plan" class="btn btn-brand mt-3 website-request-cta-top" id="growth-elite-link" style="font-size: 15px;">
       <i class="fas fa-user-circle mr-1" ></i> On Growth or Elite plan?
     </a>
   </div>
@@ -219,18 +365,20 @@
   <section class="split">
 
     <!-- ===== LEFT: HUBSPOT FORM ===== -->
-    <div class="surface">
-      <h3 class="h6" style="font-weight:600; font-size: 30px;"><i class="fas fa-paper-plane mr-1"></i> Email Request</h3>
-      <p class="muted mb-3"> We review requests <span id="business-hours-link" style="color: white; text-decoration: underline; cursor: pointer;">during business hours</span>.</p>
+    <div class="surface" id="website-request">
+      <h3 class="h6" style="font-weight:600; font-size: 25px;"><i class="fas fa-paper-plane mr-1"></i>
+        Submit a Website Request
+      </h3>
+      
       <script src="https://js-na2.hsforms.net/forms/embed/242171361.js" defer></script>
       <div class="hs-form-frame" data-region="na2" data-form-id="1bd7643f-da22-4812-a77f-8fe06fb55990" data-portal-id="242171361"></div>
-      You'll receive confirmation after submission.
+      <p class="muted mb-3"> We review requests <span id="business-hours-link" style="color: white; text-decoration: underline; cursor: pointer;">during business hours</span>. You'll receive confirmation after submission. </p>
     </div>
 
     <!-- ===== RIGHT: RESOURCES + TOOLS ===== -->
     <aside style="display:grid;gap:16px">
       <div class="surface">
-        <h3 class="h6 mb-1" style="font-size: 25px; font-weight: 700;"><i class="fas fa-bolt"></i> Quick Resources</h3>
+        <h3 class="h6 mb-1" style="font-size: 25px; font-weight: 700;"><i class="fas fa-bolt"></i> Frequently Asked Queries</h3> 
         <p class="muted mb-2">Helpful pages, at your disposal. </p>
         <div class="answer-list">
           <a class="answer-item" href="https://webeaze.io/help#/when-will-my-website-launch" target="_blank"><strong>Website launch timeline</strong><p>From kickoff to live launch.</p></a>
@@ -240,30 +388,59 @@
         </div>
       </div>
 
-      <div class="surface" id="growth-elite-plan">
-        <h3 class="h6 mb-2" style="font-size: 25px; font-weight: 700;">
-          <i class="fas fa-crown"></i> Growth, Elite Tools 
-        </h3>
-        <p class="muted mb-2">As a member of our Growth or Elite plan, enjoy these benefits, too. </p>
-        <div class="d-flex flex-wrap gap-2">
-          <a href="https://calendly.com/webeaze/session-full-setups" target="_blank" class="btn btn-brand mr-2 mb-2">
-            <i class="fas fa-video"></i> Schedule Zoom
-          </a>
-          <a href="https://calendly.com/webeaze/phone-support" target="_blank" class="btn btn-brand mr-2 mb-2">
-            <i class="fas fa-phone" style="padding-right: 2px;"></i> Live Phone Support
-          </a>
-          <a href="portal.html" class="btn btn-brand mr-2 mb-2">
-            <i class="fas fa-comments"></i> Start Live Chat
-          </a>
-          
-          <a href="google-business-management.html" target="_blank" class="btn btn-outline-dark mb-2">
-            <i class="fab fa-google"></i> Google Business Profile
-          </a>
-
-        </div>
-      </div>
+    
+      
     </aside>
   </section>
+
+  <section class="premium-tools-section" id="growth-elite-plan">
+    <div class="container container-narrow">
+      <div class="premium-header">
+        <div class="premium-icon"><i class="fas fa-crown" style="font-size: 15px;"></i></div>
+        <div>
+          <h3 class="premium-title">Growth, Elite Plan?</h3>
+          <p class="premium-sub">
+            As a member of our <strong>Growth</strong> or <strong>Elite</strong> plan, access these benefits.
+          </p>
+        </div>
+      </div>
+  
+      <div class="premium-grid">
+
+        <a href="#website-request" class="premium-card">
+          <i class="fas fa-envelope"></i>
+          <h4>Website Request</h4>
+          <p>
+            Submit updates, fixes via email. 
+          </p>
+        </a>
+        
+        <a href="https://calendly.com/webeaze/session-full-setups" target="_blank" class="premium-card">
+          <i class="fas fa-video"></i>
+          <h4>Schedule Zoom</h4>
+          <p>Book a full support session</p>
+        </a>
+  
+        <a href="https://calendly.com/webeaze/phone-support" target="_blank" class="premium-card">
+          <i class="fas fa-phone"></i>
+          <h4>Live Phone Support</h4>
+          <p>Direct help during business hours</p>
+        </a>
+  
+        <a href="portal.html" class="premium-card">
+          <i class="fas fa-comments"></i>
+          <h4>Start Live Chat</h4>
+          <p>Instant support in your portal</p>
+        </a>
+  
+      </div>
+  
+      <div class="upgrade-cta">
+        <a href="https://billing.stripe.com/p/login/7sI3gfaO14CEdlm144"><i class="fas fa-arrow-up"></i> Upgrade your plan</a>
+      </div>
+    </div>
+  </section>
+  
 
 
   <!--  business hours POPUP-->
