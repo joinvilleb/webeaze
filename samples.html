@@ -24,79 +24,441 @@
 
   <style>
     :root{
-      --brand:#7851a9; --gold:#ffd700; --ink:#0f1228;
-      --muted:#9aa1b5; --line:#2a2a3a; --white:#fff;
-      --dark:#0a0a0f; --dark-2:#0f1220; --glass:rgba(255,255,255,.06);
+      --brand:#7851a9;
+      --gold:#ffd700;
+      --ink:#0f1228;
+      --muted:#9aa1b5;
+      --line:#2a2a3a;
+      --white:#fff;
+      --dark:#0a0a0f;
+      --dark-2:#0f1220;
+      --glass:rgba(255,255,255,.06);
     }
-    html,body{height:100%}
-    body{margin:0;font-family:'Poppins',sans-serif;background:var(--dark);color:#f3f5ff;-webkit-font-smoothing:antialiased}
-    a{color:inherit;text-decoration:none}
-    .container-narrow{max-width:1100px}
-    .logo{height:36px}
+
+    /* Global reset / safety */
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--dark);
+      color: #f3f5ff;
+      -webkit-font-smoothing: antialiased;
+    }
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container-narrow {
+      max-width: 1100px;
+    }
+    .logo {
+      height: 36px;
+    }
 
     /* Nav */
-    .nav-wrap{position:sticky; top:0; z-index:9999; background:#000; border-bottom:1px solid rgba(255,255,255,.12); transform:translateY(0); transition:transform .26s ease}
-    .nav-wrap.nav-hidden{transform:translateY(-100%)}
-    .webeaze-nav{background:transparent!important; box-shadow:none!important; padding:.6rem 0; transition:padding .18s ease}
-    .scrolled .webeaze-nav{padding:.45rem 0}
-    .brand-word{letter-spacing:-.3px;font-weight:700;color:#fff}
-    .navbar-dark .nav-link{color:#fff!important;opacity:.92;border-radius:10px;padding:.45rem .7rem}
-    .navbar-dark .nav-link:hover{opacity:1;background:rgba(255,255,255,.08)}
-    .btn-nav{background:var(--gold);color:#2f1e66;border:none;border-radius:12px;padding:.6rem .9rem;font-weight:700;box-shadow:0 8px 22px rgba(255,215,0,.22)}
+    .nav-wrap {
+      position: sticky;
+      top: 0;
+      z-index: 9999;
+      background:#000;
+      border-bottom:1px solid rgba(255,255,255,.12);
+      transform:translateY(0);
+      transition:transform .26s ease;
+    }
+    .nav-wrap.nav-hidden {
+      transform:translateY(-100%);
+    }
+    .webeaze-nav {
+      background:transparent!important;
+      box-shadow:none!important;
+      padding:.6rem 0;
+      transition:padding .18s ease;
+    }
+    .scrolled .webeaze-nav {
+      padding:.45rem 0;
+    }
+    .brand-word {
+      letter-spacing:-.3px;
+      font-weight:700;
+      color:#fff;
+    }
+    .navbar-dark .nav-link {
+      color:#fff!important;
+      opacity:.92;
+      border-radius:10px;
+      padding:.45rem .7rem;
+    }
+    .navbar-dark .nav-link:hover {
+      opacity:1;
+      background:rgba(255,255,255,.08);
+    }
+    .btn-nav {
+      background:var(--gold);
+      color:#2f1e66;
+      border:none;
+      border-radius:12px;
+      padding:.6rem .9rem;
+      font-weight:700;
+      box-shadow:0 8px 22px rgba(255,215,0,.22);
+    }
 
     /* Buttons */
-    .btn-brand{display:inline-flex;align-items:center;justify-content:center;background:var(--gold);color:#2f1e66;border:none;border-radius:12px;padding:.74rem 1.05rem;font-weight:700;line-height:1;box-shadow:0 10px 26px rgba(255,215,0,.22);transition:transform .15s ease, box-shadow .15s ease, background-color .15s ease}
-    .btn-brand:hover{background:#f2c600;color:#fff;transform:translateY(-1px);box-shadow:0 14px 34px rgba(255,215,0,.3)}
-    .btn-ghost{display:inline-flex;align-items:center;justify-content:center;background:transparent;color:inherit;border:1px solid currentColor;border-radius:12px;padding:.74rem 1.05rem;font-weight:700;line-height:1;transition:transform .15s ease, box-shadow .15s ease}
-    .btn-ghost:hover{transform:translateY(-1px);box-shadow:0 10px 24px rgba(16,18,37,.18)}
-    .btn-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px}
-
-    /* Filter bar */
-    .filterbar{ display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin:20px 0 }
-    .filter-btn{ border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.05); border-radius:999px; padding:.55rem 1rem; font-weight:700; cursor:pointer; color:#fff; transition:background .2s ease,border-color .2s ease }
-    .filter-btn.active, .filter-btn:hover{ border-color:var(--gold); background:rgba(255,215,0,.1); color:#ffd700 }
-
-    /* Cards */
-    .grid{display:grid;grid-template-columns:repeat(12,1fr);grid-gap:18px}
-    .sample{grid-column:span 6;background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.12);border-radius:16px;overflow:hidden;box-shadow:0 10px 26px rgba(16,18,37,.22)}
-    @media(max-width:992px){.sample{grid-column:span 12}}
-    .frame{position:relative;overflow:hidden;background:#0b0b14;border-bottom:1px solid rgba(255,255,255,.12)}
-    .frame::before{content:"";display:block;aspect-ratio:16/10}
-    .frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#0b0b14}
-    .badge{position:absolute;left:14px;top:14px;font-weight:800;font-size:.78rem;padding:.26rem .6rem;border-radius:10px;background:#ede9fe;color:#3a2577;border:1px solid #d8cffb}
-    .body{padding:18px 20px 22px}
-    .title{font-weight:800;margin:0 0 6px}
-    .desc{margin:0 0 8px;opacity:.9}
-    .meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
-    .tag{font-size:.8rem;font-weight:600;padding:.3rem .7rem;border-radius:999px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06)}
-    .arrow-link{display:inline-flex;align-items:center;font-weight:800;margin-top:10px}
-    .arrow-link::after{content:"→";margin-left:.45rem;transition:transform .18s ease}
-    .arrow-link:hover::after{transform:translateX(2px)}
+    .btn-brand {
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      background:var(--gold);
+      color:#2f1e66;
+      border:none;
+      border-radius:12px;
+      padding:.74rem 1.05rem;
+      font-weight:700;
+      line-height:1;
+      box-shadow:0 10px 26px rgba(255,215,0,.22);
+      transition:transform .15s ease, box-shadow .15s ease, background-color .15s ease;
+      white-space:nowrap;
+    }
+    .btn-brand:hover {
+      background:#f2c600;
+      color:#fff;
+      transform:translateY(-1px);
+      box-shadow:0 14px 34px rgba(255,215,0,.3);
+    }
+    .btn-ghost {
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      background:transparent;
+      color:inherit;
+      border:1px solid currentColor;
+      border-radius:12px;
+      padding:.74rem 1.05rem;
+      font-weight:700;
+      line-height:1;
+      transition:transform .15s ease, box-shadow .15s ease, background-color .15s ease, border-color .15s ease;
+      white-space:nowrap;
+    }
+    .btn-ghost:hover {
+      transform:translateY(-1px);
+      box-shadow:0 10px 24px rgba(16,18,37,.18);
+      background:rgba(255,255,255,.04);
+      border-color:rgba(255,255,255,.4);
+    }
+    .btn-row {
+      display:flex;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+    }
 
     /* Hero */
-    .hero{padding:clamp(60px,12vh,90px) 0;background:linear-gradient(180deg,#0b0b14,#141424);text-align:center}
-    .halo{position:absolute;inset:-20% 0 auto 0;width:140%;height:420px;left:50%;transform:translateX(-50%);pointer-events:none;background:radial-gradient(34% 46% at 15% 20%,rgba(120,81,169,.35),transparent 60%),radial-gradient(28% 42% at 85% 18%,rgba(255,215,0,.18),transparent 60%)}
-    .headline{font-weight:800;letter-spacing:-.02em;font-size:clamp(32px,6vw,54px)}
-    .sub{max-width:700px;margin:10px auto;color:#d7d9ec}
+    .hero {
+      position:relative;
+      padding:clamp(60px,12vh,90px) 0 40px;
+      background:linear-gradient(180deg,#0b0b14,#141424);
+      text-align:center;
+      overflow-x:clip;
+    }
+    .halo {
+      position:absolute;
+      inset:-20% 0 auto 0;
+      width:140%;
+      height:420px;
+      left:50%;
+      transform:translateX(-50%);
+      pointer-events:none;
+      background:
+        radial-gradient(34% 46% at 15% 20%,rgba(120,81,169,.35),transparent 60%),
+        radial-gradient(28% 42% at 85% 18%,rgba(255,215,0,.18),transparent 60%);
+      opacity:.9;
+    }
+    .hero-inner {
+      position:relative;
+      z-index:1;
+    }
+    .eyebrow {
+      text-transform:uppercase;
+      font-size:.75rem;
+      letter-spacing:.18em;
+      color:#a5a9c7;
+    }
+    .headline {
+      font-weight:800;
+      letter-spacing:-.02em;
+      font-size:clamp(32px,6vw,50px);
+      margin:10px 0 6px;
+    }
+    .sub {
+      max-width:700px;
+      margin:0 auto 18px;
+      color:#d7d9ec;
+      font-size:0.98rem;
+    }
+    .hero-meta {
+      font-size:.85rem;
+      color:#aeb1d0;
+      opacity:.9;
+    }
 
-      /* Global overflow safety */
-    *,*::before,*::after{box-sizing:border-box}
-    html,body{overflow-x:hidden}
-    .page-samples{overflow-x:hidden}
-    /* Contain wide decorations */
-    .hero,.nav-wrap{overflow-x:clip}
-    /* Images never exceed the viewport */
-    img{max-width:100%;height:auto;display:block}
-    .frame,.frame img{max-width:100%}
-    /* Text never pushes layout horizontally */
-    .title,.desc,.tag,.filter-btn{overflow-wrap:anywhere;word-break:normal}
-    .filterbar{max-width:100%}
-      /* CTA card */
-    .cta-card{border-radius:16px;background:linear-gradient(180deg, rgba(255,215,0,.16), rgba(255,255,255,.06));border:1px solid rgba(255,255,255,.18)}
+    /* Filter bar */
+    .filterbar {
+      position:relative;
+      z-index:1;
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:center;
+      gap:10px;
+      margin-top:24px;
+    }
+    .filter-btn {
+      border:1px solid rgba(255,255,255,.16);
+      background:rgba(255,255,255,.04);
+      border-radius:999px;
+      padding:.42rem .95rem;
+      font-weight:600;
+      font-size:.82rem;
+      cursor:pointer;
+      color:#f5f5ff;
+      transition:
+        background .18s ease,
+        border-color .18s ease,
+        box-shadow .18s ease,
+        transform .12s ease;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      white-space:nowrap;
+    }
+    .filter-btn span.dot {
+      width:6px;
+      height:6px;
+      border-radius:50%;
+      background:rgba(255,255,255,.35);
+    }
+    .filter-btn.active {
+      border-color:var(--gold);
+      background:rgba(255,215,0,.16);
+      box-shadow:0 0 0 1px rgba(255,215,0,.2),0 10px 26px rgba(255,215,0,.25);
+      transform:translateY(-1px);
+    }
+    .filter-btn.active span.dot {
+      background:var(--gold);
+    }
+    .filter-btn:hover {
+      border-color:var(--gold);
+    }
+
+    /* Value Highlights */
+    .section {
+      position:relative;
+      z-index:1;
+    }
+    .value-section {
+      padding:40px 0 40px;
+      background:linear-gradient(180deg,#0b0b14,#0f1220);
+      border-top:1px solid rgba(255,255,255,.08);
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+    .value-slices {
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:16px;
+    }
+    .slice {
+      background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.03));
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:16px;
+      padding:18px 18px 20px;
+    }
+    .slice h3 {
+      font-weight:800;
+      margin:0 0 6px;
+      font-size:1.05rem;
+    }
+    .slice p {
+      margin:0 0 8px;
+      opacity:.92;
+      font-size:.9rem;
+    }
+
+    /* Common meta tag pill */
+    .meta {
+      display:flex;
+      flex-wrap:wrap;
+      gap:6px;
+      margin-top:6px;
+    }
+    .tag {
+      font-size:.76rem;
+      font-weight:600;
+      padding:.28rem .65rem;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(255,255,255,.06);
+      opacity:.95;
+    }
+
+    /* Grid / samples */
+    .samples-wrap {
+      padding:54px 0 50px;
+      background:linear-gradient(180deg,#0f1220,#0a0a10);
+    }
+    .grid {
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:18px;
+    }
+    .sample {
+      background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02));
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:16px;
+      overflow:hidden;
+      box-shadow:0 10px 26px rgba(16,18,37,.22);
+      display:flex;
+      flex-direction:column;
+    }
+    .sample[data-hidden="true"] {
+      display:none;
+    }
+    .frame {
+      position:relative;
+      overflow:hidden;
+      background:#0b0b14;
+      border-bottom:1px solid rgba(255,255,255,.12);
+    }
+    .frame::before {
+      content:"";
+      display:block;
+      aspect-ratio:16/10;
+    }
+    .frame img {
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      object-fit:contain;
+      background:#0b0b14;
+      transform:translateZ(0);
+    }
+    .badge {
+      position:absolute;
+      left:14px;
+      top:14px;
+      font-weight:800;
+      font-size:.74rem;
+      padding:.22rem .55rem;
+      border-radius:999px;
+      background:#ede9fe;
+      color:#3a2577;
+      border:1px solid #d8cffb;
+    }
+    .body {
+      padding:16px 18px 18px;
+      display:flex;
+      flex-direction:column;
+      flex:1;
+    }
+    .title {
+      font-weight:800;
+      margin:0 0 4px;
+      font-size:1.02rem;
+    }
+    .desc {
+      margin:0 0 8px;
+      opacity:.9;
+      font-size:.9rem;
+    }
+    .sample-footer {
+      margin-top:auto;
+      display:flex;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:space-between;
+      gap:8px;
+      margin-top:10px;
+      font-size:.8rem;
+      color:#aeb1d0;
+    }
+    .arrow-link {
+      display:inline-flex;
+      align-items:center;
+      font-weight:800;
+      margin-top:8px;
+      font-size:.86rem;
+    }
+    .arrow-link::after {
+      content:"→";
+      margin-left:.45rem;
+      transition:transform .18s ease;
+    }
+    .arrow-link:hover::after {
+      transform:translateX(2px);
+    }
+
+    /* CTA */
+    .cta-section {
+      padding:44px 0;
+      background:linear-gradient(180deg,#0f1220,#141424);
+    }
+    .cta-card {
+      border-radius:16px;
+      background:linear-gradient(180deg,rgba(255,215,0,.16),rgba(255,255,255,.06));
+      border:1px solid rgba(255,255,255,.18);
+    }
+
+    /* Footer (keep styles consistent with site) */
+    footer {
+      background:var(--dark);
+      color:#fff;
+    }
+
+    /* Responsive */
+    @media (max-width: 992px) {
+      .value-slices {
+        grid-template-columns:1fr;
+      }
+      .grid {
+        grid-template-columns:1fr;
+      }
+      .body {
+        padding:16px 16px 18px;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .headline {
+        font-size:30px;
+      }
+      .sub {
+        font-size:.9rem;
+      }
+      .filterbar {
+        justify-content:flex-start;
+        padding:0 4px;
+      }
+      .filter-btn {
+        font-size:.78rem;
+      }
+    }
   </style>
 </head>
 <body>
 
+<!-- NAV (kept same markup) -->
 <div class="nav-wrap">
   <div class="container container-narrow">
     <nav class="navbar navbar-expand-lg navbar-dark webeaze-nav">
@@ -121,18 +483,39 @@
   </div>
 </div>
 
+<!-- HERO + FILTERS -->
 <header class="hero">
   <div class="halo"></div>
-  <div class="container container-narrow">
-    <h1 class="headline">
-      Pixels. Proof. Samples.
-    </h1>
-    <p class="sub">Real small business sites we've built. Backed with some notes on what we did and why each one stands out to us and them.</p>
+  <div class="container container-narrow hero-inner">
+    <div class="eyebrow">Website samples</div>
+    <h1 class="headline">Pixels with a job to do.</h1>
+    <p class="sub">
+      A small set of real WebEaze sites. Every one is built to do something clear
+      for the owner: bring leads, book calls, or keep info tidy.
+    </p>
+    <div class="hero-meta">
+      Browse by type or explore everything. Most of these launched in under two weeks.
     </div>
+
+    <div class="filterbar" id="filterBar">
+      <button class="filter-btn active" data-filter="All">
+        <span class="dot"></span> All
+      </button>
+      <button class="filter-btn" data-filter="Education">
+        <span class="dot"></span> Education
+      </button>
+      <button class="filter-btn" data-filter="Fitness">
+        <span class="dot"></span> Fitness
+      </button>
+      <button class="filter-btn" data-filter="Home Services">
+        <span class="dot"></span> Home Services
+      </button>
+    </div>
+  </div>
 </header>
 
 <!-- VALUE HIGHLIGHTS -->
-<section class="section" style="padding:50px 0;background:linear-gradient(180deg,#0b0b14,#0f1220);border-top:1px solid rgba(255,255,255,.08);border-bottom:1px solid rgba(255,255,255,.08)">
+<section class="section value-section">
   <div class="container container-narrow">
     <div class="text-center mb-3">
       <div class="eyebrow" style="opacity:.85">Why clients pick WebEaze</div>
@@ -141,70 +524,140 @@
     <div class="value-slices">
       <article class="slice">
         <h3>One price. Unlimited updates.</h3>
-        <p>Most small businesses pay hourly for every change. With WebEaze, you get ongoing care included. Includes text edits, image swaps, new sections, and more.</p>
-        <div class="meta"><span class="tag">No hourly bills</span><span class="tag">Fast turnarounds</span><span class="tag">Email/Zoom/Chat support</span></div>
-        <div class="btn-row" style="justify-content:flex-start;margin-top:10px"><a href="index.html#value" class="btn-brand">See the savings</a></div>
+        <p>
+          Most small businesses pay hourly for every change. With WebEaze, you get ongoing care included:
+          text edits, image swaps, new sections, and more.
+        </p>
+        <div class="meta">
+          <span class="tag">No hourly bills</span>
+          <span class="tag">Fast turnarounds</span>
+          <span class="tag">Email / Zoom / Chat support</span>
+        </div>
+        <div class="btn-row" style="justify-content:flex-start;margin-top:10px">
+          <a href="index.html#value" class="btn-brand">See the savings</a>
+        </div>
       </article>
       <article class="slice">
         <h3>Launch fast. Grow safely.</h3>
-        <p>We set up your hosting and domain, design your first draft in days, and keep your site fast and tidy. You focus on the business, not the tech.</p>
-        <div class="meta"><span class="tag">7–14 day drafts</span><span class="tag">Mobile‑ready</span><span class="tag">SEO basics</span></div>
-        <div class="btn-row" style="justify-content:flex-start;margin-top:10px"><a href="maintenance.html" class="btn-ghost">How we maintain</a></div>
+        <p>
+          We set up hosting and domain, design your first draft in days, and keep your site fast and tidy.
+          You focus on the business, not the tech.
+        </p>
+        <div class="meta">
+          <span class="tag">7–14 day drafts</span>
+          <span class="tag">Mobile ready</span>
+          <span class="tag">SEO basics</span>
+        </div>
+        <div class="btn-row" style="justify-content:flex-start;margin-top:10px">
+          <a href="maintenance.html" class="btn-ghost">How we maintain</a>
+        </div>
       </article>
     </div>
   </div>
 </section>
 
-<style>
-  .value-slices{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
-  .slice{grid-column:span 6;background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.03));border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:18px 18px 20px}
-  .slice h3{font-weight:800;margin:0 0 6px}
-  .slice p{margin:0 0 8px;opacity:.92}
-  @media(max-width:992px){.slice{grid-column:span 12}}
-</style>
-
-
-<section style="padding:60px 0">
+<!-- SAMPLES GRID -->
+<section class="samples-wrap">
   <div class="container container-narrow">
-    <div class="grid">
+    <div class="mb-3 d-flex justify-content-between align-items-center flex-wrap" style="gap:6px;">
+      <h2 class="h5 mb-0" style="font-weight:800;">Some of our recent builds</h2>
+      <div style="font-size:.8rem;opacity:.8;">Click through to see sites live.</div>
+    </div>
+
+    <div class="grid" id="samplesGrid">
       <!-- Ibis Prep -->
       <article class="sample" data-cat="Education">
-        <div class="frame"><img src="images/samples/ibis-prep.png" alt="Ibis Prep"/></div>
+        <div class="frame">
+          <span class="badge">Education</span>
+          <img src="images/samples/ibis-prep.png" alt="Ibis Prep" />
+        </div>
         <div class="body">
           <h3 class="title">Ibis Prep</h3>
-          <p class="desc">Tutoring website built for clarity — parents can find programs and book instantly.</p>
-          <div class="meta"><span class="tag">Bookings</span><span class="tag">SEO</span></div>
-          <a class="arrow-link" href="https://ibisprep.com" target="_blank">View live</a>
+          <p class="desc">
+            Tutoring website built for clarity so parents can scan programs, compare options,
+            and book instantly without scrolling forever.
+          </p>
+          <div class="meta">
+            <span class="tag">Bookings</span>
+            <span class="tag">SEO</span>
+            <span class="tag">Program pages</span>
+          </div>
+          <div class="sample-footer">
+            <a class="arrow-link" href="https://ibisprep.com" target="_blank" rel="noopener">View live</a>
+            <span>Built to turn visitors into consults.</span>
+          </div>
         </div>
       </article>
+
       <!-- Galaxy Gymnastics -->
       <article class="sample" data-cat="Fitness">
-        <div class="frame"><img src="images/showcase/desktop.png" alt="Galaxy Gymnastics"/></div>
+        <div class="frame">
+          <span class="badge">Fitness</span>
+          <img src="images/showcase/desktop.png" alt="Galaxy Gymnastics" />
+        </div>
         <div class="body">
           <h3 class="title">Galaxy Gymnastics</h3>
-          <p class="desc">Bright layout with visible schedules and a fast event sign-up process for parents.</p>
-          <div class="meta"><span class="tag">Events</span><span class="tag">Calendars</span></div>
-          <a class="arrow-link" href="https://galaxygymnast.com" target="_blank">View live</a>
+          <p class="desc">
+            Bright layout with visible schedules and a fast event sign-up flow so busy parents
+            can get in and out in under a minute.
+          </p>
+          <div class="meta">
+            <span class="tag">Events</span>
+            <span class="tag">Calendars</span>
+            <span class="tag">Mobile focused</span>
+          </div>
+          <div class="sample-footer">
+            <a class="arrow-link" href="https://galaxygymnast.com" target="_blank" rel="noopener">View live</a>
+            <span>Designed for parents on phones.</span>
+          </div>
         </div>
       </article>
+
       <!-- Bear Carpet Care -->
       <article class="sample" data-cat="Home Services">
-        <div class="frame"><img src="images/samples/bear-carpet-care.png" alt="Bear Carpet Care"/></div>
+        <div class="frame">
+          <span class="badge">Home services</span>
+          <img src="images/samples/bear-carpet-care.png" alt="Bear Carpet Care" />
+        </div>
         <div class="body">
           <h3 class="title">Bear Carpet Care</h3>
-          <p class="desc">Built trust through strong visuals, reviews, and tap-to-call options for quick contact.</p>
-          <div class="meta"><span class="tag">Local SEO</span><span class="tag">Mobile optimized</span></div>
-          <a class="arrow-link" href="https://bearcarpetcare.com" target="_blank">View live</a>
+          <p class="desc">
+            Service site built around trust: before-and-after visuals, reviews, and tap-to-call buttons
+            that show up right where people need them.
+          </p>
+          <div class="meta">
+            <span class="tag">Local SEO</span>
+            <span class="tag">Tap to call</span>
+            <span class="tag">Service pages</span>
+          </div>
+          <div class="sample-footer">
+            <a class="arrow-link" href="https://bearcarpetcare.com" target="_blank" rel="noopener">View live</a>
+            <span>Optimized for local search.</span>
+          </div>
         </div>
       </article>
+
       <!-- Run Delmarva -->
       <article class="sample" data-cat="Fitness">
-        <div class="frame"><img src="images/samples/run-delmarva.png" alt="Run Delmarva"/></div>
+        <div class="frame">
+          <span class="badge">Community</span>
+          <img src="images/samples/run-delmarva.png" alt="Run Delmarva" />
+        </div>
         <div class="body">
           <h3 class="title">Run Delmarva</h3>
-          <p class="desc">Race listings and resources with a focus on speed and usability for mobile users.</p>
-          <div class="meta"><span class="tag">Community</span><span class="tag">Shop page</span></div>
-          <a class="arrow-link" href="https://rundelmarva.org" target="_blank">View live</a>
+          <p class="desc">
+            Race listings, resources, and a small shop, all tuned for runners checking dates and routes
+            from their phones at odd hours.
+          </p>
+          <div class="meta">
+            <span class="tag">Community</span>
+            <span class="tag">Shop page</span>
+            <span class="tag">Events</span>
+          </div>
+          <div class="sample-footer">
+            <a class="arrow-link" href="https://rundelmarva.org" target="_blank" rel="noopener">View live</a>
+            <span>Built for repeat visitors.</span>
+          </div>
         </div>
       </article>
     </div>
@@ -212,27 +665,91 @@
 </section>
 
 <!-- CTA -->
-<section class="section" style="padding:44px 0;background:linear-gradient(180deg,#0f1220,#141424)">
+<section class="section cta-section">
   <div class="container container-narrow">
     <div class="cta-card d-flex flex-column flex-md-row align-items-md-center justify-content-between p-3 p-md-4">
       <div class="mb-2 mb-md-0">
         <div class="eyebrow" style="color:#d9dbee">Next step</div>
         <h3 class="h5 mb-1" style="font-weight:700;font-size:28px">Tell us what you want your website to do</h3>
-        <div style="opacity:.9">We'll map pages, timeline, and maintenance on a short call.</div>
+        <div style="opacity:.9">We’ll map pages, timeline, and maintenance on a short call.</div>
       </div>
-      <div class="btn-row"><a href="consultation.html" class="btn-brand">Book consultation</a><a href="index.html#value" class="btn-ghost">See the value</a></div>
+      <div class="btn-row">
+        <a href="consultation.html" class="btn-brand">Book consultation</a>
+        <a href="index.html#value" class="btn-ghost">See the value</a>
+      </div>
     </div>
   </div>
 </section>
 
-<footer class="py-4 text-center" style="background:var(--dark);color:#fff">
+<!-- FOOTER (same) -->
+<footer class="py-4 text-center">
   <div class="container container-narrow">
     <div class="mb-1">&copy; <span id="yr"></span> WebEaze. All rights reserved.</div>
     <div class="mb-2 small">
-      <a href="terms.html#privacy" style="color:#fff">Privacy Policy</a> · <a href="terms.html" style="color:#fff">Terms</a> · <a href="site-map.html" style="color:#fff">Site Map</a>
+      <a href="terms.html#privacy" style="color:#fff">Privacy Policy</a> ·
+      <a href="terms.html" style="color:#fff">Terms</a> ·
+      <a href="site-map.html" style="color:#fff">Site Map</a>
     </div>
   </div>
 </footer>
-<script>document.getElementById('yr').textContent=new Date().getFullYear();</script>
+
+<!-- Year -->
+<script>
+  document.getElementById('yr').textContent = new Date().getFullYear();
+</script>
+
+<!-- Bootstrap JS so mobile menu works -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<!-- Simple scroll nav behavior (optional) + Filters -->
+<script>
+  // Hide nav on scroll down, show on scroll up (optional polish)
+  (function() {
+    var lastScrollTop = 0;
+    var navWrap = document.querySelector('.nav-wrap');
+    if (!navWrap) return;
+    window.addEventListener('scroll', function() {
+      var st = window.pageYOffset || document.documentElement.scrollTop;
+      if (st > lastScrollTop && st > 80) {
+        navWrap.classList.add('nav-hidden');
+      } else {
+        navWrap.classList.remove('nav-hidden');
+      }
+      lastScrollTop = st <= 0 ? 0 : st;
+    }, { passive: true });
+  })();
+
+  // Filter logic
+  (function() {
+    var buttons = document.querySelectorAll('.filter-btn');
+    var samples = document.querySelectorAll('.sample');
+
+    function applyFilter(filter) {
+      samples.forEach(function(sample) {
+        var cat = (sample.getAttribute('data-cat') || '').toLowerCase();
+        if (filter === 'all' || cat === filter) {
+          sample.removeAttribute('data-hidden');
+        } else {
+          sample.setAttribute('data-hidden','true');
+        }
+      });
+    }
+
+    buttons.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var filter = (btn.getAttribute('data-filter') || '').toLowerCase();
+        buttons.forEach(function(b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        applyFilter(filter);
+      });
+    });
+
+    // Default: All
+    applyFilter('all');
+  })();
+</script>
+
 </body>
 </html>
