@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Hamza Ijaz – Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
+
+<style>
+:root {
+  --bg: #f4f5f9;
+  --white: #ffffff;
+  --dark: #0e0e0f;
+  --muted: #6b6b6f;
+  --accent: #3b5bff;
+  --accent-soft: #dde3ff;
+  --radius: 18px;
+  --max: 1200px;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  font-family: "Inter", sans-serif;
+  color: var(--dark);
+  overflow-x: hidden;
+}
+
+/* Scroll Animations */
+.fade-up {
+  opacity: 0;
+  transform: translateY(35px);
+  transition: all .9s ease;
+}
+.fade-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.fade-delayed {
+  transition-delay: .2s;
+}
+.fade-more {
+  transition-delay: .4s;
+}
+
+/* NAV */
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(18px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 22px 34px;
+  box-shadow: 0 4px 25px rgba(0,0,0,0.06);
+}
+nav a {
+  color: var(--dark);
+  text-decoration: none;
+  font-weight: 600;
+  margin-left: 26px;
+  font-size: 15.5px;
+  transition: .25s;
+}
+nav a:hover {
+  color: var(--accent);
+}
+
+/* HERO */
+.hero {
+  padding: 140px 20px 120px;
+  text-align: center;
+  background: linear-gradient(135deg, #ecf0ff 0%, #ffffff 65%);
+}
+.hero img {
+  width: 175px;
+  height: 175px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.18);
+  margin-bottom: 30px;
+  animation: float 6s ease-in-out infinite;
+}
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0); }
+}
+.hero h1 {
+  font-size: 50px;
+  font-weight: 800;
+  margin: 0;
+  letter-spacing: -1px;
+}
+.hero p {
+  max-width: 750px;
+  margin: 18px auto 0;
+  font-size: 20px;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+/* SECTIONS */
+section {
+  max-width: var(--max);
+  padding: 90px 20px;
+  margin: auto;
+}
+section h2 {
+  text-align: center;
+  font-size: 36px;
+  font-weight: 750;
+  margin-bottom: 55px;
+}
+
+/* ABOUT */
+.about-box {
+  background: rgba(255,255,255,0.75);
+  backdrop-filter: blur(16px);
+  padding: 55px;
+  border-radius: var(--radius);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.08);
+  font-size: 19px;
+  line-height: 1.8;
+  max-width: 880px;
+  margin: auto;
+}
+
+/* EXPERIENCE */
+.exp-grid {
+  display: grid;
+  gap: 32px;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+}
+.exp-card {
+  background: rgba(255,255,255,0.8);
+  backdrop-filter: blur(14px);
+  padding: 40px;
+  border-radius: var(--radius);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.07);
+  transition: .3s;
+}
+.exp-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 22px 55px rgba(0,0,0,0.10);
+}
+.exp-card h3 {
+  font-size: 23px;
+  margin: 0 0 12px;
+  color: var(--accent);
+  font-weight: 700;
+}
+.exp-card p {
+  color: var(--muted);
+  font-size: 17px;
+  line-height: 1.7;
+}
+
+/* GALLERY */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 26px;
+}
+.gallery img {
+  width: 100%;
+  height: 230px;
+  object-fit: cover;
+  border-radius: var(--radius);
+  box-shadow: 0 18px 55px rgba(0,0,0,0.09);
+  transition: .35s;
+}
+.gallery img:hover {
+  transform: scale(1.05);
+  box-shadow: 0 25px 75px rgba(0,0,0,0.12);
+}
+
+/* FOOTER */
+footer {
+  background: var(--dark);
+  color: #ddd;
+  text-align: center;
+  padding: 50px 20px;
+  margin-top: 90px;
+}
+footer a {
+  color: #fff;
+  margin: 0 14px;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+/* Smooth Scroll */
+html {
+  scroll-behavior: smooth;
+}
+</style>
+
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="fade-up">
+  <div style="font-size:20px;font-weight:800;">Hamza Ijaz</div>
+  <div>
+    <a href="#about">About</a>
+    <a href="#experience">Experience</a>
+    <a href="#work">Work</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero fade-up fade-delayed">
+  <img src="https://images.unsplash.com/photo-1603415526960-f7e0328f2c02?q=80&w=800" alt="">
+  <h1 class="fade-up fade-delayed">Hamza Ijaz</h1>
+  <p class="fade-up fade-more">
+    Strategy-driven student with experience in startup growth, financial modeling,  
+    and analytical problem solving. Focused on building frameworks, interpreting data,  
+    and contributing to high-impact decisions in fast-moving environments.
+  </p>
+</header>
+
+<!-- ABOUT -->
+<section id="about">
+  <h2 class="fade-up">About Me</h2>
+  <div class="about-box fade-up fade-delayed">
+    I’m a student who enjoys understanding how businesses grow, how decisions are made,  
+    and how numbers shape strategy. This past summer, I worked at a startup where I helped analyze  
+    user behavior, build growth hypotheses, evaluate data patterns, and support discussions  
+    around product, expansion, and operations.
+
+    <br><br>
+    I enjoy clean thinking, structured problem solving, and translating analysis into  
+    simple insights teams can act on. I’m currently developing skills across finance,  
+    strategy, and research as I explore roles in consulting, product, and corporate strategy.
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <h2 class="fade-up">Experience</h2>
+
+  <div class="exp-grid">
+    <div class="exp-card fade-up fade-delayed">
+      <h3>Startup Growth & Strategy</h3>
+      <p>
+        Collaborated directly with founders to run user research, create lightweight dashboards,  
+        evaluate funnel data, and shape early strategic decisions. Worked on weekly growth tests  
+        and contributed insights that influenced product direction.
+      </p>
+    </div>
+
+    <div class="exp-card fade-up fade-more">
+      <h3>Financial Modeling & Analysis</h3>
+      <p>
+        Built forecasting spreadsheets, scenario models, breakeven analyses,  
+        and structured finance frameworks used in discussions around feasibility and prioritization.  
+      </p>
+    </div>
+
+    <div class="exp-card fade-up fade-more">
+      <h3>Research & Case Work</h3>
+      <p>
+        Developed research-backed recommendations across markets, competitors, and  
+        industry trends. Experienced in presenting analysis clearly and making  
+        complex topics digestible for teams.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- WORK -->
+<section id="work">
+  <h2 class="fade-up">Work & Highlights</h2>
+  <div class="gallery fade-up fade-delayed">
+
+    <img src="https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?q=80&w=800" alt="">
+    <img src="https://images.unsplash.com/photo-1553484771-898ed465e931?q=80&w=800" alt="">
+    <img src="https://images.unsplash.com/photo-1556767576-cfba3be5f59c?q=80&w=800" alt="">
+    <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?q=80&w=800" alt="">
+    <img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?q=80&w=800" alt="">
+    <img src="https://images.unsplash.com/photo-1542744094-24638eff58bb?q=80&w=800" alt="">
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div style="margin-bottom:12px;">
+    © 2025 Hamza Ijaz • Portfolio
+  </div>
+  <div>
+    <a href="#">LinkedIn</a> •
+    <a href="#">Resume</a> •
+    <a href="#">Email</a>
+  </div>
+</footer>
+
+<script>
+/* Intersection Observer for Scroll Animations */
+const faders = document.querySelectorAll('.fade-up');
+
+const options = {
+  threshold: 0.15
+};
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, options);
+
+faders.forEach(fader => observer.observe(fader));
+</script>
+
+</body>
+</html>
