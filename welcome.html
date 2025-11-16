@@ -2,145 +2,542 @@
 <html lang="en" class="page-welcome">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Welcome to WebEaze</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" />
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Welcome to WebEaze!</title>
+  <meta name="description" content="Welcome to WebEaze. Here's what happens next, how your plan works, and how to get the most from your website." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
   <style>
     :root {
-      --brand:#7851a9;
-      --gold:#ffd700;
-      --ink:#f5f6fa;
-      --muted:#b5b6ba;
-      --bg-dark:#0f0f17;
-      --bg-darker:#181b25;
-      --surface:#1f222d;
-      --line:#2b2e39;
+      --dark: #05040a;
+      --darker: #020108;
+      --card: #111019;
+      --card-soft: #171625;
+      --text: #f7f5ff;
+      --muted: #a9a4c9;
+      --border-soft: rgba(255, 255, 255, 0.06);
+      --purple: #7851a9;
+      --purple-soft: rgba(120, 81, 169, 0.3);
+      --gold: #ffd700;
+      --radius-lg: 18px;
+      --radius-pill: 999px;
+      --shadow-soft: 0 24px 60px rgba(0, 0, 0, 0.55);
+      --wrap: 1040px;
     }
+
+    * { box-sizing: border-box; }
+
     body {
-      margin:0;
-      font-family:'Poppins',sans-serif;
-      background:linear-gradient(180deg,var(--bg-dark),var(--bg-darker));
-      color:var(--ink);
+      margin: 0;
+      font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #181427, var(--darker) 55%);
+      color: var(--text);
     }
-    .container-narrow{max-width:1000px;margin:0 auto;}
-    .surface {
-      background:var(--surface);
-      border:1px solid var(--line);
-      border-radius:16px;
-      box-shadow:0 10px 28px rgba(0,0,0,.25);
-      padding:24px;
-      margin-bottom:32px;
+
+    a { color: var(--gold); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .page-wrap { min-height: 100vh; display: flex; flex-direction: column; }
+
+    main { flex: 1; padding: 32px 16px 64px; }
+    .container { max-width: var(--wrap); margin: 0 auto; }
+
+    section { margin-bottom: 24px; }
+    @media (min-width: 768px) {
+      main { padding: 56px 24px 80px; }
+      section { margin-bottom: 32px; }
     }
-    .section-title {
-      font-size:28px;
-      font-weight:700;
-      margin-bottom:10px;
+
+    /* HERO */
+    .hero {
+      position: relative;
+      padding: 32px 20px 32px;
+      border-radius: 26px;
+      background: radial-gradient(circle at top left, rgba(120,81,169,0.7), transparent 55%),
+                  radial-gradient(circle at bottom right, rgba(255,215,0,0.11), transparent 55%),
+                  linear-gradient(135deg, #050308, #0a0813);
+      box-shadow: var(--shadow-soft);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      overflow: hidden;
     }
-    .sub { color: var(--muted); }
-    .badge-plan {
-      background:rgba(255,215,0,0.18);
-      border:1px solid rgba(255,215,0,0.35);
-      padding:6px 14px;
+
+    .hero-inner { position: relative; z-index: 1; }
+
+    .hero-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+      background: rgba(0, 0, 0, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      font-size: 11px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 14px;
+      letter-spacing: 0.14em;
+    }
+
+    .hero-kicker span.dot {
+      width: 7px; height: 7px; border-radius: 50%; background: #22c55e;
+      box-shadow: 0 0 0 6px rgba(34,197,94,0.25);
+    }
+
+    .hero-main { display: grid; gap: 18px; }
+    @media (min-width: 768px) {
+      .hero-main {
+        grid-template-columns: minmax(0, 3fr) minmax(0, 2.4fr);
+        align-items: center;
+      }
+    }
+
+    .hero h1 { margin: 0 0 10px; font-size: clamp(26px,4vw,34px); }
+    .hero p.lead { margin: 0 0 14px; color: var(--muted); font-size: 14px; max-width: 520px; }
+
+    .plan-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      border-radius: var(--radius-pill);
+      background: rgba(0,0,0,0.6);
+      border: 1px solid rgba(255,255,255,0.14);
+      font-size: 12px;
+      margin-bottom: 6px;
+    }
+
+    .hero-panel {
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: #050208;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+    }
+
+    .hero-panel-title {
+      font-size: 12px; color: var(--muted);
+      text-transform: uppercase;
+      margin-bottom: 10px;
+      letter-spacing: 0.14em;
+    }
+
+    .hero-steps { display: grid; gap: 10px; font-size: 12px; }
+
+    .step { display: flex; gap: 10px; }
+    .step-icon {
+      width: 26px; height: 26px;
+      border-radius: 999px;
+      background: rgba(0,0,0,0.6);
+      border: 1px solid rgba(255,255,255,0.16);
+      display: flex; align-items:center; justify-content:center;
+    }
+
+    .step-body h3 { margin:0 0 2px; font-size:12px; font-weight:600; }
+    .step-body p { margin:0; color:var(--muted); font-size:12px; }
+
+    /* SECTION HEADERS (used inside cards) */
+    .section-kicker { font-size:11px; text-transform:uppercase; color:var(--muted); letter-spacing:0.14em; }
+    .section-title { margin:4px 0 2px; font-size:16px; font-weight:600; }
+    .section-sub { font-size:13px; color:var(--muted); max-width:620px; }
+
+    /* CARDS */
+    .card {
+      background: linear-gradient(145deg, var(--card), var(--card-soft));
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-soft);
+      padding: 14px 16px;
+      position: relative;
+      cursor: pointer;
+      transition: background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, transform 0.18s ease;
+    }
+
+    .card:hover {
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+      border-color: rgba(255, 255, 255, 0.14);
+      transform: translateY(-1px);
+    }
+
+    .card-label {
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+      background: rgba(0,0,0,0.55);
+      color: var(--muted);
+      text-transform: uppercase;
+      display:inline-block;
+      margin-bottom:6px;
+      letter-spacing: 0.14em;
+    }
+
+    .card-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .card-header-text {
+      flex: 1 1 auto;
+    }
+
+    .card h3 { margin:0 0 4px; font-size:15px; }
+    .card p { margin:0 0 6px; font-size:13px; color:var(--muted); }
+
+    .acc-chevron {
+      font-size: 16px;
+      transition: transform 0.25s ease, opacity 0.25s ease;
+      opacity: 0.9;
+    }
+
+    .acc-card .acc-body {
+      margin-top: 10px;
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transition: max-height 0.28s ease, opacity 0.25s ease;
+    }
+
+    .acc-card.acc-open {
+      cursor: pointer;
+    }
+
+    .acc-card.acc-open .acc-body {
+      max-height: 1000px; /* large enough for content */
+      opacity: 1;
+    }
+
+    .acc-card.acc-open .acc-chevron {
+      transform: rotate(180deg);
+    }
+
+    /* Inner content */
+    .bullet-list { padding-left:16px; color:var(--muted); font-size:13px; }
+    .bullet-list li { margin-bottom:4px; }
+
+    .link-list { display:grid; gap:10px; margin-top:6px; }
+    .link-item {
+      background: rgba(0,0,0,0.55);
+      border-radius: 14px;
+      padding: 10px 12px;
+      border: 1px solid rgba(255,255,255,0.08);
+      font-size: 13px;
+    }
+    .link-desc { color:var(--muted); font-size:12px; }
+
+    .card-grid-3 {
+      display:grid;
+      gap:10px;
+    }
+    @media (min-width:768px) {
+      .card-grid-3 {
+        grid-template-columns: repeat(3, minmax(0,1fr));
+      }
+    }
+
+    .contact-pills {
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top:6px;
+    }
+    .contact-item {
+      padding:6px 10px;
       border-radius:999px;
-      color:var(--gold);
-      font-weight:600;
-      display:inline-block;
-      margin-bottom:16px;
-    }
-    .grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
-    @media(max-width:768px){ .grid-2 { grid-template-columns:1fr; } }
-    a.button {
-      display:inline-block;
-      background:var(--brand);
-      color:#fff;
-      padding:10px 18px;
-      border-radius:10px;
-      font-weight:600;
-      margin-top:12px;
-    }
-    a.button:hover { opacity:.8; }
-    .small-link { color:var(--gold); text-decoration:underline; }
-    .note {
-      background:rgba(255,255,255,0.05);
+      background:rgba(0,0,0,0.6);
       border:1px solid rgba(255,255,255,0.1);
-      padding:12px 16px;
-      border-radius:10px;
-      margin-top:14px;
-      font-size:.9rem;
+      font-size:13px; color:var(--muted);
     }
+
+    /* Reveal animation */
+    .reveal { opacity:0; transform:translateY(16px); transition:0.55s; }
+    .reveal.show { opacity:1; transform:none; }
   </style>
 </head>
 <body>
 
-<header class="py-5 text-center">
-  <div class="container container-narrow">
-    <h1 class="section-title">Welcome to WebEaze</h1>
-    <p class="sub">Everything you need to get started — in one place.</p>
-  </div>
-</header>
+<div class="page-wrap">
 
-<main class="container container-narrow pb-5">
+  <main>
+    <div class="container">
 
-  <div class="surface text-center">
-    <span class="badge-plan">Your Plan: {{PLAN NAME}}</span>
-    <p>Your subscription started on <strong>{{START DATE}}</strong> and renews <strong>{{RENEWAL DATE}}</strong>.</p>
-    <div class="note"><i class="fas fa-bookmark"></i> Bookmark this page. This is your main hub for updates, support, and timelines.</div>
-  </div>
+      <!-- HERO -->
+      <section class="hero reveal">
+        <div class="hero-inner">
 
-  <div class="surface">
-    <h2 class="section-title">Your Next Steps</h2>
-    <ul>
-      <li>Review your Scope of Work and approve it.</li>
-      <li>Complete any onboarding forms we’ve sent.</li>
-      <li>Watch for milestone updates by email and your Client Portal.</li>
-    </ul>
-  </div>
+          <div class="hero-kicker">
+            <span class="dot"></span>
+            WebEaze Onboarding
+          </div>
 
-  <div class="surface">
-    <h2 class="section-title">Your Client Tools</h2>
-    <div class="grid-2">
-      <div>
-        <h5>Website Request Page</h5>
-        <p>Submit updates, fixes, and new features.</p>
-        <a href="website-request.html" class="button">Open Request Page</a>
-      </div>
-      <div>
-        <h5>Billing Portal</h5>
-        <p>View invoices, update payment methods, and manage billing.</p>
-        <a href="https://billing.stripe.com/p/login/" class="button">Open Billing Portal</a>
-      </div>
-      <div>
-        <h5>Live Chat</h5>
-        <p>Instant help during business hours.</p>
-        <a href="portal.html" class="button">Start Chat</a>
-      </div>
-      <div>
-        <h5>Support Hours</h5>
-        <p>Monday–Friday, 9am–5pm ET</p>
-        <a href="status.html" class="button">View Status</a>
-      </div>
+          <div class="hero-main">
+            <div>
+              <div class="plan-tag">
+                <div class="plan">Loading your plan…</div>
+              </div>
+
+              <h1>Welcome! You're in our system.</h1>
+              <p class="lead">This page outlines the next steps and where to submit updates or requests moving forward.</p>
+            </div>
+
+            <aside class="hero-panel">
+              <div class="hero-panel-title">Next Steps</div>
+
+              <div class="hero-steps">
+                <div class="step">
+                  <div class="step-icon">1</div>
+                  <div class="step-body">
+                    <h3>We review your details</h3>
+                    <p>We verify your plan and submitted information.</p>
+                  </div>
+                </div>
+
+                <div class="step">
+                  <div class="step-icon">2</div>
+                  <div class="step-body">
+                    <h3>We map your site</h3>
+                    <p>Your pages and setup needs are added to our project queue.</p>
+                  </div>
+                </div>
+
+                <div class="step">
+                  <div class="step-icon">3</div>
+                  <div class="step-body">
+                    <h3>You receive updates</h3>
+                    <p>We email you if we need content and send previews as work progresses.</p>
+                  </div>
+                </div>
+              </div>
+
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <!-- PRIMARY LINKS (CARD ACCORDION) -->
+      <section class="reveal">
+        <article class="card acc-card acc-open" data-acc>
+          <div class="card-label">Primary Links</div>
+          <div class="card-header-row">
+            <div class="card-header-text">
+              <h3>Your WebEaze Control Center</h3>
+              <p class="section-sub">Use these links for updates, support, and reference information.</p>
+            </div>
+            <div class="acc-chevron">▾</div>
+          </div>
+          <div class="acc-body">
+            <div class="link-list">
+              <div class="link-item">
+                <strong>Website Request Hub</strong><br>
+                <span class="link-desc">All website changes and support requests must be submitted here.</span><br>
+                <a href="https://webeaze.io/website-request" target="_blank">https://webeaze.io/website-request</a>
+              </div>
+
+              <div class="link-item">
+                <strong>Terms of Service</strong><br>
+                <span class="link-desc">Details on billing, renewals, cancellations, and service structure.</span><br>
+                <a href="terms.html">View Terms</a>
+              </div>
+
+              <div class="link-item">
+                <strong>Scope of Work (General)</strong><br>
+                <span class="link-desc">Standard overview of what a WebEaze subscription includes.</span><br>
+                <a href="scope-of-work.html">View Scope</a>
+              </div>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <!-- RESPONSIBILITIES (CARD ACCORDION) -->
+      <section class="reveal">
+        <article class="card acc-card" data-acc>
+          <div class="card-label">Working Together</div>
+          <div class="card-header-row">
+            <div class="card-header-text">
+              <h3>Responsibilities</h3>
+              <p class="section-sub">A quick overview of your role and what WebEaze handles.</p>
+            </div>
+            <div class="acc-chevron">▾</div>
+          </div>
+          <div class="acc-body">
+            <h4 style="font-size:13px;margin:8px 0 4px;">Client Responsibilities</h4>
+            <ul class="bullet-list">
+              <li>Check email for updates and questions.</li>
+              <li>Provide requested content as needed.</li>
+              <li>Submit all changes through the Website Request page.</li>
+            </ul>
+
+            <h4 style="font-size:13px;margin:14px 0 4px;">WebEaze Responsibilities</h4>
+            <p>We manage design, hosting, and updates according to your plan.</p>
+            <ul class="bullet-list">
+              <li>Website design and structure</li>
+              <li>Technical setup and hosting</li>
+              <li>Applying updates submitted through the request page</li>
+            </ul>
+          </div>
+        </article>
+      </section>
+
+      <!-- PLAN SNAPSHOT (CARD ACCORDION) -->
+      <section class="reveal">
+        <article class="card acc-card" data-acc>
+          <div class="card-label">Plan Overview</div>
+          <div class="card-header-row">
+            <div class="card-header-text">
+              <h3>Your Plan Snapshot</h3>
+              <p class="section-sub">Short descriptions of the Essential, Growth, and Elite plans.</p>
+            </div>
+            <div class="acc-chevron">▾</div>
+          </div>
+          <div class="acc-body">
+            <div class="card-grid-3">
+              <div>
+                <h4 style="font-size:13px;margin:4px 0;">Essential</h4>
+                <p>Simple, steady websites with standard turnaround and ongoing updates.</p>
+              </div>
+              <div>
+                <h4 style="font-size:13px;margin:4px 0;">Growth</h4>
+                <p>For growing businesses that need more pages, higher priority, and optional consults.</p>
+              </div>
+              <div>
+                <h4 style="font-size:13px;margin:4px 0;">Elite</h4>
+                <p>High-touch support, maximum flexibility, and the fastest handling of requests.</p>
+              </div>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <!-- SPECIAL ARRANGEMENTS (CARD ACCORDION) -->
+      <section class="reveal">
+        <article class="card acc-card" data-acc>
+          <div class="card-label">Special Arrangements</div>
+          <div class="card-header-row">
+            <div class="card-header-text">
+              <h3>Custom Plans & Exceptions</h3>
+              <p class="section-sub">How student pricing, hourly arrangements, or temporary setups work.</p>
+            </div>
+            <div class="acc-chevron">▾</div>
+          </div>
+          <div class="acc-body">
+            <p>Some clients use student pricing, hourly arrangements, or other custom setups. These follow the same process as standard plans but may have different billing terms.</p>
+            <p style="margin-top:8px;">
+              After around four website requests on a custom arrangement, we may recommend moving to a standard plan for consistency and cost efficiency. Any change is always discussed and confirmed in writing.
+            </p>
+          </div>
+        </article>
+      </section>
+
+      <!-- QUICK EXPECTATIONS (CARD ACCORDION) -->
+      <section class="reveal">
+        <article class="card acc-card" data-acc>
+          <div class="card-label">Guidelines</div>
+          <div class="card-header-row">
+            <div class="card-header-text">
+              <h3>Quick Expectations</h3>
+              <p class="section-sub">Practical guardrails so you know how we operate.</p>
+            </div>
+            <div class="acc-chevron">▾</div>
+          </div>
+          <div class="acc-body">
+            <ul class="bullet-list">
+              <li><strong>Turnaround:</strong> Requests are handled in queue based on complexity and plan level.</li>
+              <li><strong>Revisions:</strong> Please send one consolidated list per request for efficient handling.</li>
+              <li><strong>What’s included:</strong> Standard design and updates; advanced tools or custom systems may require separate scoping.</li>
+              <li><strong>Communication:</strong> Use the Website Request page for anything related to website updates.</li>
+              <li><strong>Billing:</strong> Subscriptions renew automatically unless cancelled under the Terms of Service.</li>
+              <li><strong>Accommodations:</strong> Any custom arrangement is always confirmed in writing.</li>
+            </ul>
+          </div>
+        </article>
+      </section>
+
+      <!-- CONTACT (CARD ACCORDION) -->
+      <section class="reveal">
+        <article class="card acc-card" data-acc>
+          <div class="card-label">Support</div>
+          <div class="card-header-row">
+            <div class="card-header-text">
+              <h3>Contact</h3>
+              <p class="section-sub">How to reach us when you need assistance.</p>
+            </div>
+            <div class="acc-chevron">▾</div>
+          </div>
+          <div class="acc-body">
+            <div class="contact-pills">
+              <div class="contact-item">💻 Website changes: use the Website Request page</div>
+              <div class="contact-item">📧 Email: support@webeaze.io</div>
+              <div class="contact-item">⏱ Typical response: 1–2 business days</div>
+            </div>
+          </div>
+        </article>
+      </section>
+
     </div>
-  </div>
+  </main>
 
-  <div class="surface">
-    <h2 class="section-title">What to Expect</h2>
-    <ul>
-      <li><strong>Kickoff:</strong> We begin collecting content and confirming details.</li>
-      <li><strong>Build Phase:</strong> We design your site based on your plan.</li>
-      <li><strong>Revisions:</strong> You can request edits at any time.</li>
-      <li><strong>Launch:</strong> Once approved, we connect domains and go live.</li>
-      <li><strong>Ongoing Support:</strong> Unlimited updates included.</li>
-    </ul>
-  </div>
+</div>
 
-  <div class="surface">
-    <h2 class="section-title">Need Help?</h2>
-    <p>Email us anytime: <a class="small-link" href="mailto:support@webeaze.io">support@webeaze.io</a></p>
-  </div>
+<script>
+  // Reveal-on-scroll
+  (function() {
+    const els = document.querySelectorAll('.reveal');
+    if (!('IntersectionObserver' in window)) {
+      els.forEach(el => el.classList.add('show'));
+      return;
+    }
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('show');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    els.forEach(el => observer.observe(el));
+  })();
+</script>
 
-</main>
+<script>
+  // Plan detection from URL (?plan=Essential)
+  (function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    let plan = urlParams.get('plan');
+
+    if (plan) {
+      plan = plan.replace(/\+/g, " ");
+    }
+
+    const planEl = document.querySelector(".plan");
+    if (plan && planEl) {
+      planEl.innerHTML = `You are on the <strong>${plan}</strong> Plan`;
+    }
+  })();
+</script>
+
+<script>
+  // Card-click accordion (accordion mode: one open at a time)
+  (function() {
+    const cards = document.querySelectorAll('.acc-card[data-acc]');
+
+    function openCard(card) {
+      cards.forEach(c => {
+        if (c !== card) c.classList.remove('acc-open');
+      });
+      card.classList.toggle('acc-open');
+    }
+
+    cards.forEach(card => {
+      card.addEventListener('click', function(e) {
+        // Don’t toggle when clicking links
+        if (e.target.closest('a')) return;
+        openCard(card);
+      });
+    });
+  })();
+</script>
 
 </body>
 </html>
