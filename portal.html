@@ -157,35 +157,187 @@
 
 <!-- SCRIPTS -->
 <script>
+  /* ============================
+     YEAR AUTO-UPDATE
+  ============================ */
   document.getElementById('yr').textContent = new Date().getFullYear();
 
-  function getEasternTime() {
-    return new Date(new Date().toLocaleString("en-US", { timeZone: "America/New_York" }));
-  }
-  function nthDowOfMonth(y,m,dow,n){const first=new Date(Date.UTC(y,m,1));const off=(7+dow-first.getUTCDay())%7;return new Date(Date.UTC(y,m,1+off+7*(n-1)));}
-  function lastDowOfMonth(y,m,dow){const last=new Date(Date.UTC(y,m+1,0));const off=(7+last.getUTCDay()-dow)%7;return new Date(Date.UTC(y,m+1,0-off));}
-  function getUSHolidays(year){const h=[];h.push(new Date(year,0,1));h.push(new Date(year,5,19));h.push(new Date(year,6,4));h.push(new Date(year,11,25));h.push(nthDowOfMonth(year,0,1,3));h.push(nthDowOfMonth(year,1,1,3));h.push(lastDowOfMonth(year,4,1));h.push(nthDowOfMonth(year,8,1,1));h.push(nthDowOfMonth(year,10,4,4));return h;}
-  function isHoliday(date){const y=date.getFullYear();const hs=getUSHolidays(y);return hs.some(h=>h.getUTCMonth()===date.getUTCMonth()&&h.getUTCDate()===date.getUTCDate());}
 
-  function updateAvailability(){
-    const banner=document.getElementById('availability-banner');
-    const now=getEasternTime();const d=now.getDay();const h=now.getHours();const holiday=isHoliday(now);
-    let msg='',color='';
-    if(holiday){msg="Closed due to holiday. Back next business day at 9am ET.";color='var(--danger)';}
-    else if(d===0||d===6){msg="Offline until Monday at 9am ET.";color='var(--danger)';}
-    else if(h>=9&&h<13){msg="Live Chat available now.";color='var(--success)';}
-    else if(h>=13&&h<17){msg="Offline. Live Chat returns tomorrow at 9am ET.";color='var(--danger)';}
-    else {msg="Offline. Live Chat returns at 9am ET.";color='var(--danger)';}
-    banner.style.background=color;banner.textContent=msg;
-    const small=document.createElement('small');
-    const easternNow=new Date(new Date().toLocaleString('en-US',{timeZone:'America/New_York'}));
-    const checkedTime=easternNow.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',hour12:true});
-    small.textContent=`Status checked at ${checkedTime} ET`;
-    small.style.display='block';small.style.fontSize='0.8rem';small.style.opacity='0.85';
-    banner.appendChild(small);
+  /* ============================
+     HUBSPOT CHAT LAUNCHER
+  ============================ */
+  window.hsConversationsOnReady = function() {
+    const chatButton = document.getElementById('live-chat-button');
+    if (chatButton) {
+      chatButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        if (window.HubSpotConversations)
+          window.HubSpotConversations.widget.open();
+      });
+    }
+  };
+
+
+  /* ============================
+     EASTERN TIME HELPERS
+  ============================ */
+  function getEasternTime() {
+    return new Date(
+      new Date().toLocaleString('en-US', { timeZone: 'America/New_York' })
+    );
   }
-  updateAvailability();setInterval(updateAvailability,60000);
+
+  function nthDowOfMonth(y, m, dow, n) {
+    const first = new Date(Date.UTC(y, m, 1));
+    const offset = (7 + dow - first.getUTCDay()) % 7;
+    return new Date(Date.UTC(y, m, 1 + offset + 7 * (n - 1)));
+  }
+
+  function lastDowOfMonth(y, m, dow) {
+    const last = new Date(Date.UTC(y, m + 1, 0));
+    const offset = (7 + last.getUTCDay() - dow) % 7;
+    return new Date(Date.UTC(y, m + 1, 0 - offset));
+  }
+
+
+  /* ============================
+     U.S. HOLIDAYS + CUSTOM WINDOWS
+  ============================ */
+  function getUSHolidays(year) {
+    const holidays = [];
+
+    // Fixed
+    holidays.push(new Date(year, 0, 1));    // New Year’s Day
+    holidays.push(new Date(year, 5, 19));   // Juneteenth
+    holidays.push(new Date(year, 6, 4));    // Independence Day
+    holidays.push(new Date(year, 11, 25));  // Christmas Day
+
+    // Dynamic
+    holidays.push(nthDowOfMonth(year, 0, 1, 3));  // MLK Day
+    holidays.push(nthDowOfMonth(year, 1, 1, 3));  // Presidents Day
+    holidays.push(lastDowOfMonth(year, 4, 1));    // Memorial Day
+    holidays.push(nthDowOfMonth(year, 8, 1, 1));  // Labor Day
+    holidays.push(nthDowOfMonth(year, 10, 4, 4)); // Thanksgiving
+
+    // Holiday Windows
+    for (let day = 26; day <= 30; day++) {
+      holidays.push(new Date(year, 10, day)); // Nov 26–30
+    }
+
+    for (let day = 23; day <= 26; day++) {
+      holidays.push(new Date(year, 11, day)); // Dec 23–26
+    }
+
+    // Cross-year: Dec 31 (previous year) & Jan 1 (this year)
+    holidays.push(new Date(year - 1, 11, 31));
+    holidays.push(new Date(year, 0, 1));
+
+    return holidays;
+  }
+
+  function isHoliday(date) {
+    const year = date.getFullYear();
+    const holidays = getUSHolidays(year);
+    return holidays.some(
+      (h) =>
+        h.getUTCMonth() === date.getUTCMonth() &&
+        h.getUTCDate() === date.getUTCDate()
+    );
+  }
+
+
+  /* ============================
+     AVAILABILITY BANNER + CHIP
+  ============================ */
+  function updateStatus() {
+    const banner = document.getElementById('availability-banner');
+    const chip = document.getElementById('hours');
+    const text = document.getElementById('hours-text');
+
+    const now = getEasternTime();
+    const day = now.getDay();  // 0=Sun
+    const hour = now.getHours();
+    const holiday = isHoliday(now);
+
+    let msg = "";
+    let color = "";
+    let chipClass = "closed";
+
+    if (holiday) {
+      msg = "Closed for a holiday. Live Chat returns next working day.";
+      color = "#e63946";
+      chipClass = "holiday";
+
+    } else if (day === 0 || day === 6) {
+      msg = "We're away. Live Chat returns Monday at 9:00am ET.";
+      color = "#e63946";
+      chipClass = "closed";
+
+    } else if (hour >= 9 && hour < 17) {
+      msg = "Live Chat available.";
+      color = "#27ae60";
+      chipClass = "open";
+
+    } else if (day === 5 && hour >= 17) {
+      msg = "Away for the weekend. Live Chat returns Monday at 9:00am ET.";
+      color = "#e63946";
+      chipClass = "closed";
+
+    } else {
+      msg = "We're away. Back at 9:00am ET.";
+      color = "#e63946";
+      chipClass = "closed";
+    }
+
+
+    /* ===== Update Banner ===== */
+    if (banner) {
+      banner.style.background = color;
+      banner.textContent = msg;
+
+      // Timestamp
+      const easternNow = new Date(
+        new Date().toLocaleString("en-US", {
+          timeZone: "America/New_York"
+        })
+      );
+
+      const checkedTime = easternNow.toLocaleTimeString("en-US", {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true
+      });
+
+      const small = document.createElement("small");
+      small.textContent = ` Status checked at ${checkedTime} ET`;
+      small.style.display = "block";
+      small.style.fontSize = "0.8rem";
+      small.style.opacity = "0.85";
+      small.style.marginTop = "4px";
+
+      banner.appendChild(small);
+    }
+
+
+    /* ===== Update Status Chip ===== */
+    if (chip && text) {
+      chip.className = "status-chip " + chipClass;
+      text.textContent = msg;
+    }
+  }
+
+
+  /* ============================
+     INIT + AUTO-UPDATE
+  ============================ */
+  document.addEventListener("DOMContentLoaded", () => {
+    updateStatus();
+    setInterval(updateStatus, 60 * 1000);
+  });
 </script>
+
+
+
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
