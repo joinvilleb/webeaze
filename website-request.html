@@ -532,20 +532,43 @@
   }
   
   function getUSHolidays(year) {
-    const holidays = [];
-    // Fixed
-    holidays.push(new Date(year, 0, 1));   // New Year’s Day
-    holidays.push(new Date(year, 5, 19));  // Juneteenth
-    holidays.push(new Date(year, 6, 4));   // Independence Day
-    holidays.push(new Date(year, 11, 25)); // Christmas
-    // Dynamic
-    holidays.push(nthDowOfMonth(year, 0, 1, 3));  // MLK Day (3rd Mon Jan)
-    holidays.push(nthDowOfMonth(year, 1, 1, 3));  // Presidents Day (3rd Mon Feb)
-    holidays.push(lastDowOfMonth(year, 4, 1));    // Memorial Day (last Mon May)
-    holidays.push(nthDowOfMonth(year, 8, 1, 1));  // Labor Day (1st Mon Sept)
-    holidays.push(nthDowOfMonth(year, 10, 4, 4)); // Thanksgiving (4th Thurs Nov)
-    return holidays;
+  const holidays = [];
+
+  // Fixed
+  holidays.push(new Date(year, 0, 1));   // New Year’s Day
+  holidays.push(new Date(year, 5, 19));  // Juneteenth
+  holidays.push(new Date(year, 6, 4));   // Independence Day
+  holidays.push(new Date(year, 11, 25)); // Christmas Day
+
+  // Dynamic
+  holidays.push(nthDowOfMonth(year, 0, 1, 3));  // MLK Day (3rd Mon Jan)
+  holidays.push(nthDowOfMonth(year, 1, 1, 3));  // Presidents Day (3rd Mon Feb)
+  holidays.push(lastDowOfMonth(year, 4, 1));    // Memorial Day (last Mon May)
+  holidays.push(nthDowOfMonth(year, 8, 1, 1));  // Labor Day (1st Mon Sept)
+  holidays.push(nthDowOfMonth(year, 10, 4, 4)); // Thanksgiving (4th Thurs Nov)
+
+  // Nov 26–30
+  for (let day = 26; day <= 30; day++) {
+    holidays.push(new Date(year, 10, day)); // November
   }
+
+  // Dec 23–26
+  for (let day = 23; day <= 26; day++) {
+    holidays.push(new Date(year, 11, day)); // December
+  }
+
+  // Dec 31-Jan 1
+  for (let day = 31; day <= 31; day++) {
+    holidays.push(new Date(year - 1, 11, day)); // December previous year
+  }
+
+  for (let day = 1; day <= 1; day++) {
+    holidays.push(new Date(year, 0, day)); // January current year
+  }
+
+  return holidays;
+}
+
   
   function isHoliday(date) {
     const year = date.getFullYear();
