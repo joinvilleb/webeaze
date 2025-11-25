@@ -219,20 +219,26 @@
     holidays.push(nthDowOfMonth(year, 8, 1, 1));  // Labor Day
     holidays.push(nthDowOfMonth(year, 10, 4, 4)); // Thanksgiving
 
-    // Holiday Windows
-    for (let day = 26; day <= 30; day++) {
-      holidays.push(new Date(year, 10, day)); // Nov 26–30
-    }
+ // Nov 26–30
+ for (let day = 27; day <= 1; day++) {
+    holidays.push(new Date(year, 10, day)); // November
+  }
 
-    for (let day = 23; day <= 26; day++) {
-      holidays.push(new Date(year, 11, day)); // Dec 23–26
-    }
+  // Dec 23–26
+  for (let day = 24; day <= 27; day++) {
+    holidays.push(new Date(year, 11, day)); // December
+  }
 
-    // Cross-year: Dec 31 (previous year) & Jan 1 (this year)
-    holidays.push(new Date(year - 1, 11, 31));
-    holidays.push(new Date(year, 0, 1));
+  // Dec 31-Jan 1
+  for (let day = 1; day <= 2; day++) {
+    holidays.push(new Date(year - 1, 11, day)); // December previous year
+  }
 
-    return holidays;
+  for (let day = 1; day <= 1; day++) {
+    holidays.push(new Date(year, 0, day)); // January current year
+  }
+
+  return holidays;
   }
 
   function isHoliday(date) {
