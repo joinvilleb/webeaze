@@ -135,10 +135,10 @@
   .faq-body{padding:0 16px 16px;color:#dfe2ff;line-height:1.6;border-top:1px solid var(--dark-line)}
   .faq-body a{color:#ffd700;text-decoration:underline}
 
-  /* CTA */
+
   .cta-card{border-radius:16px;background:linear-gradient(180deg, rgba(255,215,0,.16), rgba(255,255,255,.06));border:1px solid rgba(255,255,255,.18)}
 
-  /* Utilities */
+
   html{scroll-behavior:smooth}
   html,body{overflow-x:hidden}
 
@@ -147,7 +147,7 @@
     max-width:420px;
     margin-left:auto;
     border-radius:16px;
-    background:linear-gradient(180deg,rgba(28, 17, 32, 0.96),rgba(88, 44, 132, 0.482));
+    background:linear-gradient(180deg,rgba(28, 17, 32, 0.332),rgba(88, 44, 132, 0.303));
     color:#f3f5ff;
     padding:18px 18px 20px;
     border:2px solid rgba(252, 252, 252, 0.386);
@@ -293,24 +293,6 @@
     }
 
 
-    .fs-dots {
-      display: flex;
-      justify-content: center;
-      margin-top: 16px;
-      gap: 6px;
-    }
-
-    .fs-dots .dot {
-      width: 10px;
-      height: 10px;
-      background: #d9d5e9;
-      border-radius: 50%;
-      transition: background .3s ease;
-    }
-
-    .fs-dots .dot.active {
-      background: var(--brand);
-    }
     .pricing-preview-grid {
       display: grid;
       grid-template-columns: repeat(12, 1fr);
@@ -378,6 +360,35 @@
       .pp-card { grid-column: span 12; }
     }
 
+    .fs-nav {
+      margin-top: 10px;
+      margin-bottom: 6px;
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+    }
+
+    .fs-arrow {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(174, 153, 153, 0.2);
+      color: #191212;
+      padding: 8px 14px;
+      font-size: 22px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background .2s ease, transform .2s ease;
+    }
+
+    .fs-arrow:hover {
+      background: rgba(255,255,255,0.18);
+      transform: translateY(-2px);
+    }
+
+    .fs-arrow:active {
+      transform: scale(.95);
+    }
+
+
 
 
 
@@ -424,8 +435,9 @@
       <div class="col-lg-6">
         <div class="eyebrow">Launch, manage, and grow</div>
         <h1 class="headline mt-2">
-          Website design and management — 
-          <span class="gradient-text">all in one plan.</span>
+          Website design & management. 
+          <br>
+          <span class="gradient-text">All in one plan.</span>
         </h1>
         
         <!-- <div class="swap" aria-live="polite">
@@ -466,9 +478,12 @@
 <!-- WHY WEBEAZE -->
 <section id="why" class="section light why" style="padding-top:32px;padding-bottom:40px;">
   <div class="container container-narrow">
-    <h2 class="h4 mb-3" style="font-weight:700; font-size: 30px;">
+    <h2 class="h4 mb-3" style="font-weight:700; font-size: 30px; text-align:center !important;">
       Why small businesses trust <span class="gradient-text-1">WebEaze</span>
     </h2>
+
+    <p style="opacity:.85; text-align:center !important;">
+      We cater to your needs because it's your business. Growth starts with one website.  
   
     <div id="feature-slider" class="feature-slider">
       <div class="fs-item active">
@@ -495,13 +510,12 @@
         <p class="fs-desc">Analytics, reporting, and search-focused structure.</p>
       </div>
     </div>
-  
-    <div class="fs-dots">
-      <span class="dot active"></span>
-      <span class="dot"></span>
-      <span class="dot"></span>
-      <span class="dot"></span>
+
+    <div class="fs-nav">
+      <button class="fs-arrow fs-prev" aria-label="Previous slide">‹</button>
+      <button class="fs-arrow fs-next" aria-label="Next slide">›</button>
     </div>
+
   
 
   </div>
@@ -914,43 +928,47 @@
 </script>
 
 <script>
-(function(){
+  (function(){
   const items = document.querySelectorAll('.fs-item');
-  const dots  = document.querySelectorAll('.fs-dots .dot');
+  const prev  = document.querySelector('.fs-prev');
+  const next  = document.querySelector('.fs-next');
   let i = 0;
   let interval;
 
   function showSlide(index) {
     // remove old
     items[i].classList.remove('active');
-    dots[i].classList.remove('active');
 
     // update index
     i = index;
 
     // add new
     items[i].classList.add('active');
-    dots[i].classList.add('active');
   }
 
   function autoRotate() {
     interval = setInterval(() => {
-      let next = (i + 1) % items.length;
-      showSlide(next);
+      let nextIndex = (i + 1) % items.length;
+      showSlide(nextIndex);
     }, 4000);
   }
 
- 
   autoRotate();
 
-
-  dots.forEach((dot, index) => {
-    dot.addEventListener('click', () => {
-      clearInterval(interval);   
-      showSlide(index);          
-      autoRotate();              
-    });
+  prev.addEventListener('click', () => {
+    clearInterval(interval);
+    let newIndex = (i - 1 + items.length) % items.length;
+    showSlide(newIndex);
+    autoRotate();
   });
+
+  next.addEventListener('click', () => {
+    clearInterval(interval);
+    let newIndex = (i + 1) % items.length;
+    showSlide(newIndex);
+    autoRotate();
+  });
+
 })();
 
 </script>
