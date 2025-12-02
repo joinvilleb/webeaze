@@ -59,7 +59,7 @@
   .hero{overflow:hidden}
   .halo{position:absolute; inset:-22% 0 auto 0; width:140%; left:50%; transform:translateX(-50%); height:420px; pointer-events:none; background:radial-gradient(34% 46% at 15% 20%, rgba(120,81,169,.35), transparent 60%), radial-gradient(28% 42% at 85% 18%, rgba(255,215,0,.18), transparent 60%)}
   .eyebrow{font-size:.85rem;letter-spacing:.08em;text-transform:uppercase;opacity:.8}
-  .headline{font-weight:600;letter-spacing:-.02em;line-height:1.07;font-size: clamp(28px, 6vw, 40px)}
+  .headline{font-weight:600;letter-spacing:-.02em;line-height:1.07;font-size: clamp(28px, 6vw, 55px)}
   .hl-underline{position:relative;display:inline-block}
   .hl-underline:after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:8px;border-radius:6px;background:linear-gradient(90deg,rgba(255,215,0,.55),rgba(120,81,169,.45));filter:blur(2px);opacity:.9}
 
@@ -237,7 +237,149 @@
     180deg, hsl(50, 59%, 90%), rgb(131, 10, 179));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-}
+  }
+
+  .gradient-text-1 {
+  background: linear-gradient(
+    180deg, hsl(279, 84%, 42%), rgb(150, 47, 190));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  }
+
+    .feature-slider {
+      position: relative;
+      text-align: center;
+      margin-top: 20px;
+      padding: 40px 20px;
+      border-radius: 18px;
+      background: linear-gradient(180deg, #ffffff, #e8e3f6);
+      border: 2px solid var(--line);
+      overflow: hidden;
+    }
+
+    .fs-item {
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity .5s ease, transform .5s ease;
+      position: absolute;
+      inset: 0;
+      padding: 40px 20px;
+    }
+
+    .fs-item.active {
+      opacity: 1;
+      transform: translateY(0);
+      position: relative;
+    }
+
+    .fs-icon {
+      width: 68px;
+      height: 68px;
+      margin-bottom: 12px;
+      opacity: .95;
+    }
+
+    .fs-title {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: #2f1e66;
+    }
+
+    .fs-desc {
+      font-size: 15px;
+      opacity: .75;
+      margin: 0;
+    }
+
+
+    .fs-dots {
+      display: flex;
+      justify-content: center;
+      margin-top: 16px;
+      gap: 6px;
+    }
+
+    .fs-dots .dot {
+      width: 10px;
+      height: 10px;
+      background: #d9d5e9;
+      border-radius: 50%;
+      transition: background .3s ease;
+    }
+
+    .fs-dots .dot.active {
+      background: var(--brand);
+    }
+    .pricing-preview-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 18px;
+      margin-top: 20px;
+    }
+
+    .pp-card {
+      grid-column: span 4;
+      background: #111120;
+      border: 1px solid var(--dark-line);
+      border-radius: 18px;
+      padding: 26px 20px;
+      text-align: center;
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+
+    .pp-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 14px 34px rgba(120,81,169,.22);
+    }
+
+    .pp-featured {
+      border: 1.5px solid rgba(255,215,0,.4);
+      background: linear-gradient(180deg, rgba(255,215,0,.12), rgba(17,17,32,.95));
+    }
+
+    .pp-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+      color: #fff;
+    }
+
+    .pp-badge {
+      background: var(--gold);
+      color: #2f1e66;
+      font-size: .7rem;
+      font-weight: 800;
+      padding: .22rem .5rem;
+      border-radius: 8px;
+      margin-left: 6px;
+    }
+
+    .pp-price {
+      color: var(--gold);
+      font-weight: 700;
+      margin-bottom: 6px;
+      font-size: 1.1rem;
+    }
+
+    .pp-desc {
+      margin: 0;
+      opacity: .85;
+      color: #d6d8ff;
+      font-size: .94rem;
+      line-height: 1.45;
+    }
+
+    @media (max-width: 992px) {
+      .pp-card { grid-column: span 6; }
+    }
+
+    @media (max-width: 768px) {
+      .pp-card { grid-column: span 12; }
+    }
+
+
+
 
 </style>
 </head>
@@ -282,11 +424,11 @@
       <div class="col-lg-6">
         <div class="eyebrow">Launch, manage, and grow</div>
         <h1 class="headline mt-2">
-          Website management, simplified. SEO, domain & hosting.
-          <span class="gradient-text">Just one plan.</span>
+          Website design and management — 
+          <span class="gradient-text">all in one plan.</span>
         </h1>
         
-        <div class="swap" aria-live="polite">
+        <!-- <div class="swap" aria-live="polite">
           <span class="show">For landscapers looking for an easy way to handle online bookings and highlight their work. (1/4)
           </span>
           <span> For HVAC technicians looking to expand their service area through a reliable online gallery. (2/4) </span>
@@ -295,7 +437,7 @@
 
           <span> For student professionals looking toward post-grad and desires a clean portfolio for their applications. (4/4) </span>
           <span><i>We make it eazy for you. </i></span>
-        </div>
+        </div> -->
         <!-- <p class="mt-3" style="max-width:60ch">
           WebEaze designs new websites from scratch or takes over your current site.
         </p> -->
@@ -324,67 +466,46 @@
 <!-- WHY WEBEAZE -->
 <section id="why" class="section light why" style="padding-top:32px;padding-bottom:40px;">
   <div class="container container-narrow">
-    <h2 class="h4 mb-2" style="font-weight:700; font-size: 30px; ">Why small businesses choose <span class="gradient-text">WebEaze</span></h2>
-    <p style="padding-bottom: 10px !important;">Just four out of many reasons. We cater to your needs because it's your business. </p>
-    
-    <div class="features">
-      <div class="feature">
-        <div class="f-ico" aria-hidden="true">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h10" stroke="#6b53b1" stroke-width="2" stroke-linecap="round"/></svg>
-        </div>
-        <div>
-          <h3 class="f-title">Hourly rates? Not a thing here. </h3>
-          <p class="f-text">Predictable pricing under one monthly or yearly plan. </p>
-          <div class="f-tags"><span class="f-tag">Flat-rate care</span><span class="f-tag">Clear scope</span><span class="f-tag">Cancel anytime</span></div>
-        </div>
+    <h2 class="h4 mb-3" style="font-weight:700; font-size: 30px;">
+      Why small businesses trust <span class="gradient-text-1">WebEaze</span>
+    </h2>
+  
+    <div id="feature-slider" class="feature-slider">
+      <div class="fs-item active">
+        <img src="images/avatar/dollar.png" class="fs-icon" alt="">
+        <h3 class="fs-title">No hourly rates. Ever.</h3>
+        <p class="fs-desc">Predictable flat pricing. Monthly or yearly.</p>
       </div>
-      <div class="feature">
-        <div class="f-ico" aria-hidden="true">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="#6b53b1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </div>
-        <div>
-          <h3 class="f-title">We build from day one. </h3>
-          <p class="f-text">Your site is beautifully made within 1-2 weeks. </p>
-          <div class="f-tags"><span class="f-tag">Structured kickoff</span><span class="f-tag">Content guidance</span><span class="f-tag">Clear timelines</span></div>
-        </div>
+  
+      <div class="fs-item">
+        <img src="images/avatar/launch.png" class="fs-icon" alt="">
+        <h3 class="fs-title">Launch in 7-14 days.</h3>
+        <p class="fs-desc">Fast, guided builds for real businesses.</p>
       </div>
-      <div class="feature">
-        <div class="f-ico" aria-hidden="true">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 14a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm0 2c-4 0-7 2-7 4v1h14v-1c0-2-3-4-7-4Z" fill="#6b53b1"/></svg>
-        </div>
-        <div>
-          <h3 class="f-title">Need help? We're waiting for you. </h3>
-          <p class="f-text">Many ways to get help. Email, Google Meet, Phone, or Live Chat. </p>
-          <div class="f-tags"><span class="f-tag">Unlimited updates</span><span class="f-tag">Client-Partner relationship</span><span class="f-tag">Friendly onboarding</span></div>
-        </div>
-
+  
+      <div class="fs-item">
+        <img src="images/avatar/support.png" class="fs-icon" alt="">
+        <h3 class="fs-title">Support that actually responds.</h3>
+        <p class="fs-desc">Email, live chat, phone, or Google Meet.</p>
       </div>
-
-      <div class="feature">
-        <div class="f-ico" aria-hidden="true">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-            <path d="M3 12h4l3 8 4-16 3 8h4" stroke="#6b53b1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
-        <div>
-          <h3 class="f-title">
-            We'll handle the SEO. 
-          </h3>
-          <p class="f-text">
-            We'll tailor your site to grow with SEO, analytics, and more.
-          </p>
-          <div class="f-tags"><span class="f-tag">SEO tools</span><span class="f-tag">Monthly performance reports</span><span class="f-tag">Quarterly strategy calls</span></div>
-        </div>
+  
+      <div class="fs-item">
+        <img src="images/avatar/seo.png" class="fs-icon" alt="">
+        <h3 class="fs-title">SEO included, always.</h3>
+        <p class="fs-desc">Analytics, reporting, and search-focused structure.</p>
       </div>
-      
     </div>
-    <div class="btn-row mt-4">
-      <a href="benefits.html" class="btn-brand">
-        View All Benefits
-      </a>
-      <a href="/samples.html" class="btn-ghost">See Past Work</a>
+  
+    <div class="fs-dots">
+      <span class="dot active"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
     </div>
+  
+
   </div>
+  
 
   <br>
 
@@ -417,38 +538,63 @@
     <p class="mt-2" style="color:#d4d6ff;opacity:.85;font-size:10px;">
       * Based on the past 12 months of WebEaze projects. Results vary by scope and content readiness.
     </p>
+
+    <div class="mt-4" style="flex-wrap:wrap;align-items:center; ">
+      <a href="samples.html" class="btn-brand">See Our Portfolio</a>
+  
+      
+    </div>
   </div>
+
+
+
 </section>
 
 <!-- PLANS -->
-<section id="plans" class="section dark" style="padding-top:40px;padding-bottom:40px;">
-  <div class="container container-narrow">
-    <h2 class="h4 text-center mb-2" style="font-weight:650; font-size: 25px;">Simple, predictable plans</h2>
-    <p class="text-center" style="opacity:.9;max-width:60ch;margin:0 auto 18px">
-      Every plan includes: hosting, domain, SEO, support. 
-    </p>
-    <div class="plans">
-      <div class="plan reveal">
-        <h3>Essential Plan</h3>
-        <div class="mb-1" style="color:#d6d8ff;opacity:.9">$169/mo or $999/yr</div>
-        <div class="plan-desc">Great for simple sites that need a clean design and reliable updates.</div>
-      </div>
-      <div class="plan hit reveal">
-        <h3>Growth Plan<span class="badge-pop">Most popular</span></h3>
-        <div class="mb-1" style="color:#d6d8ff;opacity:.9">$249/mo or $1,799/yr</div>
-        <div class="plan-desc">More pages, support, and help with ongoing growth and SEO tools.</div>
-      </div>
-      <div class="plan reveal">
-        <h3>Elite Plan</h3>
-        <div class="mb-1" style="color:#d6d8ff;opacity:.9">Starts at $1,799/yr</div>
-        <div class="plan-desc">For larger or more complex sites that need priority help.</div>
-      </div>
-    </div>
-    <!-- <div class="text-center mt-3"><a href="/pricing.html" class="btn-brand">View plans and details</a></div> -->
-    <div class="small text-center mt-2" style="opacity:.75; font-size: 10px;">One time setup $299 on monthly plans. Included in yearly plans.</div>
-  </div>
+<section class="section dark" id="pricing-preview" style="padding-top:40px; padding-bottom:40px;">
+  <div class="container container-narrow text-center">
 
+    <h2 class="h4 mb-3" style="font-weight:650; font-size:28px;">
+      Simple, predictable plans. <span class="gradient-text">Made for small businesses.</span>
+    </h2>
+    <p style="opacity:.85; max-width:60ch; margin:0 auto 30px;">
+      Clear pricing that scales with your needs. No hidden fees. No surprises.
+    </p>
+
+    <div class="pricing-preview-grid">
+
+      <!-- Essential -->
+      <div class="pp-card">
+        <h3 class="pp-title">Essential</h3>
+        <div class="pp-price">From $169/mo</div>
+        <p class="pp-desc">A clean website with unlimited updates and hosting included.</p>
+      </div>
+
+      <!-- Growth -->
+      <div class="pp-card pp-featured">
+        <h3 class="pp-title">
+          Growth <span class="pp-badge">Most Popular</span>
+        </h3>
+        <div class="pp-price">From $249/mo</div>
+        <p class="pp-desc">More pages, SEO tools, and priority support for growing businesses.</p>
+      </div>
+
+      <!-- Elite -->
+      <div class="pp-card">
+        <h3 class="pp-title">Elite</h3>
+        <div class="pp-price">From $1,799/yr</div>
+        <p class="pp-desc">For larger or more complex websites with advanced requirements.</p>
+      </div>
+
+    </div>
+
+    <div class="mt-4">
+      <a href="pricing.html" class="btn-brand">View Full Pricing</a>
+    </div>
+  </div>
 </section>
+
+
 
 <!-- FAQ (SHORT) -->
 <section id="faq" class="section dark" style="padding-top:32px;padding-bottom:32px;">
@@ -606,13 +752,13 @@
     var tree = {
       start: {
         id: 'start',
-        question: 'Hello! How can we help you?',
+        question: 'How can we help you?',
         options: [
-          { label: 'Start a brand new website', next: 'newSite' },
-          { label: 'Improve or redesign my existing website', next: 'improveSite' },
-          { label: 'Ongoing updates and support for my current site', next: 'maintainSite' }
+          { label: "I'm starting a new business", next: 'newSite' },
+          { label: 'I want to redesign, change my existing website', next: 'improveSite' },
+          { label: 'I need my website to be actively managed', next: 'maintainSite' }
         ],
-        hint: "We'll help you toward the right path." 
+        hint: "" 
          },
       newSite: {
         id: 'newSite',
@@ -765,6 +911,48 @@
 
     renderNode('start');
   })();
+</script>
+
+<script>
+(function(){
+  const items = document.querySelectorAll('.fs-item');
+  const dots  = document.querySelectorAll('.fs-dots .dot');
+  let i = 0;
+  let interval;
+
+  function showSlide(index) {
+    // remove old
+    items[i].classList.remove('active');
+    dots[i].classList.remove('active');
+
+    // update index
+    i = index;
+
+    // add new
+    items[i].classList.add('active');
+    dots[i].classList.add('active');
+  }
+
+  function autoRotate() {
+    interval = setInterval(() => {
+      let next = (i + 1) % items.length;
+      showSlide(next);
+    }, 4000);
+  }
+
+ 
+  autoRotate();
+
+
+  dots.forEach((dot, index) => {
+    dot.addEventListener('click', () => {
+      clearInterval(interval);   
+      showSlide(index);          
+      autoRotate();              
+    });
+  });
+})();
+
 </script>
 
 <!-- HubSpot -->
