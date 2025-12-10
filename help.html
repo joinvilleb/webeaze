@@ -478,7 +478,7 @@
 
             <p id="footer-notes">While Live Chat does operate during normal working hours, an agent may still not be readily available. If that's the case, we'll follow up with you via email. </p>
 
-            <p id="footer-notes">Phone support is a new support option, so availability may not correlate with availability of other support methods. If a query cannot be completed while we're over the phone, we will follow up with you via email.</p>
+            <p>Phone support is a new support option, so availability may not correlate with availability of other support methods. If a query cannot be completed while we're over the phone, we will follow up with you via email.</p>
 
             <div class="cta-row mt-2">
               <a class="btn-brand" href="https://webeaze.io/website-request#growth-elite-plan">Schedule Session</a>
@@ -1047,33 +1047,65 @@
       `).join('');
     }
 
-    function renderList(docs,q){
-      $article.hidden=true; $article.innerHTML='';
-      const heading=q?`Results for “${q.replace(/</g,'&lt;')}”`:'Recommended For You';
-      $results.innerHTML=`
-        <div class="surface" id="articles">
-          <div class="d-flex align-items-center justify-content-between mb-2">
-            <h2 class="h5 mb-0" style="font-weight:800">${heading}</h2>
-            <div class="small meta">${docs.length} article${docs.length===1?'':'s'}</div>
-          </div>
-          <div class="list-group list-group-flush">
-            ${docs.map(d=>`
-              <a href="#/${d.slug}" class="list-group-item list-group-item-action result">
-                <div class="d-flex align-items-center justify-content-between">
-                  <div>
-                    <div style="font-weight:700">${d.title}</div>
-                    <div class="meta">${d.topicTitle} · Updated ${d.updated}</div>
-                    <div class="mt-1" style="color:#3f4564;font-size:.95rem">${d.meta}</div>
-                  </div>
-                  <span aria-hidden="true">→</span>
-                </div>
-              </a>
-            `).join('')}
-          </div>
-        </div>
-      `;
-      $live.textContent=`${docs.length} result${docs.length===1?'':'s'} loaded`;
-    }
+
+
+    const FEATURED = [
+  'which-plan-should-i-choose',
+  'what-content-do-i-need',
+  'how-long-does-it-take',
+  'existing-website',
+  'how-to-send-website-access',
+  'how-to-request-updates'
+    ];
+
+
+
+    function renderList(docs, q){
+  $article.hidden = true;
+  $article.innerHTML = '';
+
+  let heading;
+  let items;
+
+  // Homepage (no search)
+  if (!q.trim()) {
+    heading = "Recommended Articles";
+    items = FEATURED
+      .map(slug => INDEX.find(x => x.slug === slug))
+      .filter(Boolean);
+  } else {
+    // Search results
+    heading = `Results for “${q.replace(/</g,'&lt;')}”`;
+    items = docs;
+  }
+
+  $results.innerHTML = `
+    <div class="surface" id="articles">
+      <div class="d-flex align-items-center justify-content-between mb-2">
+        <h2 class="h5 mb-0" style="font-weight:800">${heading}</h2>
+        <div class="small meta">${items.length} article${items.length===1?'':'s'}</div>
+      </div>
+      <div class="list-group list-group-flush">
+        ${items.map(d=>`
+          <a href="#/${d.slug}" class="list-group-item list-group-item-action result">
+            <div class="d-flex align-items-center justify-content-between">
+              <div>
+                <div style="font-weight:700">${d.title}</div>
+                <div class="meta">${d.topicTitle} · Updated ${d.updated}</div>
+                <div class="mt-1" style="color:#3f4564;font-size:.95rem">${d.meta}</div>
+              </div>
+              <span aria-hidden="true">→</span>
+            </div>
+          </a>
+        `).join('')}
+      </div>
+    </div>
+  `;
+
+  $live.textContent = `${items.length} result${items.length===1?'':'s'} loaded`;
+}
+
+
 
     function findArticleBySlug(slug){
       for(const t of HELP_DATA.topics){
