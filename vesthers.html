@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>VestHers | Investing Education for Women</title>
+  <meta name="description" content="VestHers helps women invest with simple, long-term strategies. Led by Rachel Vega with over a decade in the market." />
+  <meta name="theme-color" content="#6B2B7B" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --ink:#1b1021;
+      --muted:#5f5067;
+      --brand:#6b2b7b;      /* deep purple */
+      --brand2:#a34ab8;     /* soft purple */
+      --bg:#fbf7ff;
+      --card:#ffffff;
+      --line:rgba(27,16,33,.10);
+      --shadow: 0 18px 50px rgba(27,16,33,.12);
+      --shadow2: 0 10px 30px rgba(27,16,33,.10);
+      --radius: 18px;
+      --radius2: 28px;
+      --max: 1120px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Poppins, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--ink);
+      background:
+        radial-gradient(1200px 600px at 15% -10%, rgba(163,74,184,.18), transparent 60%),
+        radial-gradient(900px 500px at 95% 10%, rgba(107,43,123,.14), transparent 60%),
+        linear-gradient(180deg, #ffffff, var(--bg));
+      overflow-x:hidden;
+    }
+
+    a{color:inherit; text-decoration:none}
+    img{max-width:100%; display:block}
+    .container{width:100%; max-width:var(--max); margin:0 auto; padding:0 20px}
+
+    /* Top announcement (optional) */
+    .topbar{
+      background: rgba(107,43,123,.08);
+      border-bottom:1px solid var(--line);
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .topbar .inner{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:12px; padding:10px 0;
+    }
+    .topbar strong{color:var(--ink); font-weight:600}
+
+    /* Header / Nav */
+    header{
+      position:sticky; top:0; z-index:50;
+      backdrop-filter: blur(10px);
+      background: rgba(255,255,255,.72);
+      border-bottom:1px solid rgba(27,16,33,.08);
+    }
+    .nav{
+      display:flex; align-items:center; justify-content:space-between;
+      padding:14px 0;
+      gap:16px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:12px;
+      min-width: 180px;
+    }
+    .brand .logo{
+   height:90px; border-radius:10px;
+      background: #fff;
+      border:1px solid rgba(27,16,33,.08);
+      box-shadow: 0 8px 22px rgba(27,16,33,.08);
+      overflow:hidden;
+    }
+    .brand .logo img{
+      width:100%; height:100%; object-fit:cover;
+    }
+    .brand .name{
+      line-height:1.05;
+    }
+    .brand .name .title{
+      font-family: "Playfair Display", serif;
+      font-weight: 700;
+      letter-spacing: .2px;
+      font-size: 18px;
+    }
+    .brand .name .tag{
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .links{
+      display:flex; align-items:center; gap:18px;
+      font-size:14px;
+      color: var(--muted);
+    }
+    .links a{padding:8px 10px; border-radius:10px}
+    .links a:hover{
+      color: var(--ink);
+      background: rgba(107,43,123,.08);
+    }
+
+    .ctaRow{display:flex; align-items:center; gap:10px}
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      gap:10px;
+      border-radius: 999px;
+      padding: 11px 16px;
+      font-weight:600;
+      border:1px solid rgba(27,16,33,.10);
+      background:#fff;
+      box-shadow: 0 10px 26px rgba(27,16,33,.08);
+      transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+      cursor:pointer;
+      white-space:nowrap;
+    }
+    .btn:hover{transform: translateY(-1px); box-shadow: 0 16px 34px rgba(27,16,33,.12)}
+    .btn.primary{
+      border: 1px solid rgba(107,43,123,.35);
+      background: linear-gradient(135deg, rgba(107,43,123,.95), rgba(163,74,184,.95));
+      color:#fff;
+      box-shadow: 0 16px 38px rgba(107,43,123,.24);
+    }
+    .btn.primary:hover{box-shadow: 0 22px 50px rgba(107,43,123,.28)}
+    .btn .dot{
+      width:9px; height:9px; border-radius:50%;
+      background: rgba(255,255,255,.9);
+      box-shadow: 0 0 0 6px rgba(255,255,255,.14);
+    }
+
+    .menuBtn{
+      display:none;
+      border:1px solid rgba(27,16,33,.10);
+      background:#fff;
+      border-radius: 12px;
+      padding:10px 12px;
+      box-shadow: 0 10px 24px rgba(27,16,33,.08);
+      cursor:pointer;
+    }
+    .menuBtn svg{display:block}
+
+    /* Mobile drawer */
+    .drawerOverlay{
+      position:fixed; inset:0; z-index:80;
+      background: rgba(27,16,33,.45);
+      opacity:0; pointer-events:none;
+      transition: opacity .2s ease;
+    }
+    .drawer{
+      position:fixed; top:0; right:0; height:100%; width:min(420px, 88vw);
+      background: rgba(255,255,255,.92);
+      backdrop-filter: blur(14px);
+      border-left: 1px solid rgba(27,16,33,.10);
+      box-shadow: -20px 0 60px rgba(27,16,33,.18);
+      transform: translateX(104%);
+      transition: transform .24s ease;
+      z-index:90;
+      padding:18px;
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+    }
+    .drawerHeader{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:12px;
+    }
+    .drawerClose{
+      border:1px solid rgba(27,16,33,.10);
+      background:#fff;
+      border-radius: 12px;
+      padding:10px 12px;
+      cursor:pointer;
+      box-shadow: 0 10px 24px rgba(27,16,33,.08);
+    }
+    .drawerNav{
+      display:flex; flex-direction:column; gap:8px;
+      margin-top:6px;
+    }
+    .drawerNav a{
+      padding:12px 12px;
+      border-radius: 14px;
+      border:1px solid rgba(27,16,33,.08);
+      background: rgba(255,255,255,.7);
+      color: var(--ink);
+      font-weight:600;
+    }
+    .drawerNav a span{display:block; font-size:12px; font-weight:500; color:var(--muted); margin-top:2px}
+    .drawerCtas{
+      display:flex; flex-direction:column; gap:10px;
+      margin-top:auto;
+      padding-top:10px;
+      border-top:1px solid rgba(27,16,33,.10);
+    }
+
+    .drawerOpen .drawerOverlay{opacity:1; pointer-events:auto}
+    .drawerOpen .drawer{transform: translateX(0)}
+
+    /* Hero */
+    .hero{
+      position:relative;
+      padding: 54px 0 34px;
+    }
+    .heroGrid{
+      display:grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 28px;
+      align-items: center;
+    }
+    .pill{
+      display:inline-flex; align-items:center; gap:10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border:1px solid rgba(107,43,123,.16);
+      background: rgba(255,255,255,.7);
+      color: var(--muted);
+      font-size: 13px;
+      box-shadow: 0 12px 30px rgba(27,16,33,.07);
+    }
+    .pill b{color: var(--ink); font-weight: 700}
+    .hero h1{
+      margin: 14px 0 10px;
+      font-family:"Playfair Display", serif;
+      font-weight: 700;
+      font-size: clamp(34px, 4.2vw, 56px);
+      line-height: 1.05;
+      letter-spacing: -.3px;
+    }
+    .grad{
+      background: linear-gradient(135deg, var(--brand), var(--brand2));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .hero p{
+      margin: 0 0 18px;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.7;
+      max-width: 56ch;
+    }
+    .heroActions{
+      display:flex; gap:12px; flex-wrap:wrap;
+      align-items:center;
+      margin-top: 12px;
+    }
+    .miniTrust{
+      margin-top: 18px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:14px;
+      color: var(--muted);
+      font-size: 13px;
+      align-items:center;
+    }
+    .check{
+      display:flex; align-items:center; gap:8px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border:1px solid rgba(27,16,33,.08);
+      background: rgba(255,255,255,.65);
+      box-shadow: 0 10px 26px rgba(27,16,33,.06);
+    }
+    .check i{
+      width:18px; height:18px; border-radius:6px;
+      background: rgba(107,43,123,.12);
+      display:inline-flex; align-items:center; justify-content:center;
+      color: var(--brand);
+      font-style: normal;
+      font-weight: 900;
+      font-size: 12px;
+    }
+
+    /* Hero card */
+    .heroCard{
+      position:relative;
+      border-radius: var(--radius2);
+      background: rgba(255,255,255,.72);
+      border:1px solid rgba(27,16,33,.10);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      padding: 18px;
+      transform: translateZ(0);
+    }
+    .heroCard::before{
+      content:"";
+      position:absolute; inset:-2px;
+      background:
+        radial-gradient(500px 260px at 15% 25%, rgba(163,74,184,.34), transparent 60%),
+        radial-gradient(420px 250px at 92% 18%, rgba(107,43,123,.25), transparent 60%),
+        linear-gradient(180deg, rgba(255,255,255,.35), rgba(255,255,255,.10));
+      filter: blur(0px);
+      pointer-events:none;
+    }
+    .heroCardInner{position:relative; z-index:1}
+    .cardTop{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:12px;
+      margin-bottom: 14px;
+    }
+    .profile{
+      display:flex; align-items:center; gap:12px;
+    }
+    .avatar{
+      width:42px; height:42px; border-radius: 14px;
+      background: linear-gradient(135deg, rgba(107,43,123,.92), rgba(163,74,184,.90));
+      display:grid; place-items:center;
+      color:#fff; font-weight:800;
+      box-shadow: 0 14px 30px rgba(107,43,123,.22);
+      letter-spacing:.2px;
+    }
+    .profile .who{
+      line-height:1.15;
+    }
+    .profile .who b{display:block; font-weight:700}
+    .profile .who span{display:block; font-size:12px; color: rgba(27,16,33,.70)}
+
+    .badge{
+      font-size: 12px;
+      font-weight: 700;
+      color: rgba(27,16,33,.78);
+      padding: 9px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.75);
+      border:1px solid rgba(27,16,33,.10);
+    }
+
+    .metricGrid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:12px;
+      margin-top: 10px;
+    }
+    .metric{
+      border-radius: 16px;
+      background: rgba(255,255,255,.75);
+      border: 1px solid rgba(27,16,33,.10);
+      box-shadow: 0 10px 26px rgba(27,16,33,.06);
+      padding: 14px 14px;
+    }
+    .metric .k{font-size:12px; color: var(--muted)}
+    .metric .v{
+      font-size: 20px; font-weight: 800; margin-top:6px;
+      letter-spacing: -.2px;
+    }
+    .spark{
+      height: 10px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, rgba(107,43,123,.28), rgba(163,74,184,.28));
+      margin-top: 10px;
+      position:relative;
+      overflow:hidden;
+    }
+    .spark::after{
+      content:"";
+      position:absolute; inset:0;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.65), transparent);
+      width: 45%;
+      transform: translateX(-120%);
+      animation: shimmer 2.4s ease-in-out infinite;
+    }
+    @keyframes shimmer{
+      0%{transform: translateX(-120%)}
+      60%{transform: translateX(180%)}
+      100%{transform: translateX(180%)}
+    }
+
+    .quickForm{
+      margin-top: 12px;
+      border-radius: 18px;
+      background: rgba(255,255,255,.75);
+      border: 1px solid rgba(27,16,33,.10);
+      box-shadow: 0 10px 26px rgba(27,16,33,.06);
+      padding: 14px;
+    }
+    .quickForm label{
+      font-size: 12px; color: var(--muted); display:block; margin-bottom: 6px;
+    }
+    .row{
+      display:flex; gap:10px; align-items:center;
+    }
+    .input{
+      flex:1;
+      border-radius: 14px;
+      padding: 12px 12px;
+      border: 1px solid rgba(27,16,33,.12);
+      background: rgba(255,255,255,.85);
+      outline:none;
+      font: inherit;
+    }
+    .input:focus{border-color: rgba(107,43,123,.45); box-shadow: 0 0 0 4px rgba(107,43,123,.12)}
+
+    /* Sections */
+    section{padding: 46px 0}
+    .sectionHead{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-end;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+    .sectionHead h2{
+      font-family: "Playfair Display", serif;
+      font-weight: 700;
+      font-size: clamp(24px, 2.6vw, 34px);
+      margin:0;
+      letter-spacing: -.2px;
+    }
+    .sectionHead p{
+      margin:0;
+      color: var(--muted);
+      max-width: 62ch;
+      line-height:1.7;
+      font-size: 15px;
+    }
+
+    .grid3{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    .card{
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.78);
+      border:1px solid rgba(27,16,33,.10);
+      box-shadow: var(--shadow2);
+      padding: 18px;
+      overflow:hidden;
+    }
+    .card .icon{
+      width: 44px; height:44px; border-radius: 16px;
+      background: rgba(107,43,123,.12);
+      display:grid; place-items:center;
+      margin-bottom: 12px;
+    }
+    .card h3{margin:0 0 6px; font-size: 16px; font-weight: 800}
+    .card p{margin:0; color: var(--muted); line-height:1.7; font-size: 14px}
+
+    /* Split section */
+    .split{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      align-items: stretch;
+    }
+    .panel{
+      border-radius: var(--radius2);
+      background: rgba(255,255,255,.78);
+      border:1px solid rgba(27,16,33,.10);
+      box-shadow: var(--shadow2);
+      padding: 22px;
+      position:relative;
+      overflow:hidden;
+    }
+    .panel::before{
+      content:"";
+      position:absolute; inset:-1px;
+      background:
+        radial-gradient(520px 260px at 12% 16%, rgba(163,74,184,.18), transparent 60%),
+        radial-gradient(420px 260px at 95% 10%, rgba(107,43,123,.14), transparent 60%);
+      pointer-events:none;
+    }
+    .panel > *{position:relative; z-index:1}
+    .panel h3{
+      font-family: "Playfair Display", serif;
+      font-size: 22px;
+      margin: 0 0 10px;
+    }
+    .panel ul{margin: 0; padding-left: 18px; color: var(--muted); line-height: 1.85}
+    .panel li{margin: 6px 0}
+    .quote{
+      display:flex; gap:14px; align-items:flex-start;
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(27,16,33,.10);
+    }
+    .quote .mark{
+      width: 40px; height:40px; border-radius: 16px;
+      background: linear-gradient(135deg, rgba(107,43,123,.92), rgba(163,74,184,.92));
+      display:grid; place-items:center; color:#fff;
+      box-shadow: 0 16px 34px rgba(107,43,123,.22);
+      font-weight: 900;
+    }
+    .quote p{margin:0; color: var(--muted); line-height:1.75}
+    .quote b{color: var(--ink)}
+
+    /* Testimonials */
+    .testGrid{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 14px;
+      align-items:start;
+    }
+    .bigTest{
+      border-radius: var(--radius2);
+      padding: 22px;
+      background: rgba(255,255,255,.80);
+      border:1px solid rgba(27,16,33,.10);
+      box-shadow: var(--shadow2);
+      overflow:hidden;
+      position:relative;
+    }
+    .bigTest::before{
+      content:"";
+      position:absolute; inset:-2px;
+      background: radial-gradient(680px 320px at 20% 20%, rgba(163,74,184,.16), transparent 60%);
+      pointer-events:none;
+    }
+    .bigTest > *{position:relative; z-index:1}
+    .bigTest .stars{color: rgba(107,43,123,.85); letter-spacing:1px}
+    .bigTest h3{margin: 10px 0 6px; font-size: 18px}
+    .bigTest p{margin:0; color: var(--muted); line-height:1.75}
+    .smallStack{display:flex; flex-direction:column; gap:14px}
+    .smallTest{
+      border-radius: var(--radius);
+      padding: 18px;
+      background: rgba(255,255,255,.78);
+      border:1px solid rgba(27,16,33,.10);
+      box-shadow: var(--shadow2);
+    }
+    .smallTest b{display:block; margin-bottom:6px}
+    .smallTest p{margin:0; color: var(--muted); line-height:1.7; font-size: 14px}
+
+    /* CTA */
+    .cta{
+      border-radius: 28px;
+      background: linear-gradient(135deg, rgba(107,43,123,.95), rgba(163,74,184,.92));
+      color:#fff;
+      padding: 26px;
+      box-shadow: 0 26px 70px rgba(107,43,123,.28);
+      position:relative;
+      overflow:hidden;
+    }
+    .cta::before{
+      content:"";
+      position:absolute; inset:-2px;
+      background:
+        radial-gradient(720px 360px at 15% 20%, rgba(255,255,255,.16), transparent 60%),
+        radial-gradient(520px 300px at 88% 10%, rgba(255,255,255,.12), transparent 60%);
+      pointer-events:none;
+    }
+    .ctaGrid{
+      position:relative; z-index:1;
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 16px;
+      align-items:center;
+    }
+    .cta h2{
+      margin:0 0 8px;
+      font-family:"Playfair Display", serif;
+      font-size: clamp(24px, 2.8vw, 34px);
+    }
+    .cta p{margin:0; opacity:.92; line-height:1.75}
+    .ctaBox{
+      background: rgba(255,255,255,.12);
+      border:1px solid rgba(255,255,255,.18);
+      border-radius: 22px;
+      padding: 14px;
+      display:flex; gap:10px;
+      align-items:center;
+    }
+    .ctaBox input{
+      flex:1;
+      border-radius: 16px;
+      padding: 12px 12px;
+      border: 1px solid rgba(255,255,255,.25);
+      background: rgba(255,255,255,.12);
+      color:#fff;
+      outline:none;
+      font: inherit;
+    }
+    .ctaBox input::placeholder{color: rgba(255,255,255,.75)}
+    .ctaBox input:focus{box-shadow: 0 0 0 4px rgba(255,255,255,.16)}
+    .ctaBox .btn{
+      border: 1px solid rgba(255,255,255,.25);
+      background: rgba(255,255,255,.92);
+      color: var(--brand);
+      box-shadow:none;
+    }
+    .ctaBox .btn:hover{transform: translateY(-1px)}
+
+    /* Footer */
+    footer{
+      padding: 26px 0 34px;
+      color: var(--muted);
+      border-top: 1px solid rgba(27,16,33,.10);
+      background: rgba(255,255,255,.55);
+    }
+    .footGrid{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 14px;
+      align-items:start;
+    }
+    .footLinks{
+      display:flex; flex-wrap:wrap; gap:10px; justify-content:flex-end;
+    }
+    .chip{
+      padding: 10px 12px;
+      border-radius: 999px;
+      border:1px solid rgba(27,16,33,.10);
+      background: rgba(255,255,255,.8);
+      font-weight:600;
+      font-size: 13px;
+    }
+
+    /* Reveal animations */
+    .reveal{
+      opacity:0;
+      transform: translateY(14px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+    .reveal.visible{
+      opacity:1;
+      transform: translateY(0);
+    }
+    .delay-1{transition-delay:.08s}
+    .delay-2{transition-delay:.14s}
+    .delay-3{transition-delay:.20s}
+    .delay-4{transition-delay:.26s}
+
+    /* Responsive */
+    @media (max-width: 980px){
+      .heroGrid{grid-template-columns: 1fr; gap: 16px}
+      .testGrid{grid-template-columns: 1fr}
+      .ctaGrid{grid-template-columns: 1fr}
+      .split{grid-template-columns: 1fr}
+      .links{display:none}
+      .menuBtn{display:inline-flex}
+      .ctaRow{gap:8px}
+    }
+    @media (max-width: 560px){
+      .metricGrid{grid-template-columns: 1fr}
+      .topbar .inner{flex-direction:column; align-items:flex-start}
+      .brand .name .title{font-size:16px}
+      .btn{width:auto}
+    }
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce){
+      *{scroll-behavior:auto !important}
+      .reveal{opacity:1 !important; transform:none !important; transition:none !important}
+      .spark::after{animation:none !important}
+      .btn{transition:none !important}
+    }
+  </style>
+</head>
+
+<body>
+
+
+
+  <header>
+    <div class="container">
+      <div class="nav">
+        <a class="brand" href="#top" aria-label="VestHers home">
+          <div class="logo" aria-hidden="true">
+            <img src="mockups/vesthersapp-logo.jpg" alt="VestHers logo" loading="eager" />
+          </div>
+          <div class="name">
+       
+
+          </div>
+        </a>
+
+        <nav class="links" aria-label="Primary">
+          <a href="#approach">Approach</a>
+          <a href="#about">About Rachel</a>
+          <a href="#resources">Resources</a>
+          <a href="#stories">Stories</a>
+          <a href="#contact">Contact</a>
+        </nav>
+
+        <div class="ctaRow">
+          <a class="btn" href="#resources" aria-label="View resources">
+            Free resources
+          </a>
+          
+
+          <button class="menuBtn" id="menuBtn" aria-label="Open menu" aria-expanded="false">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer -->
+  <div class="drawerOverlay" id="drawerOverlay" aria-hidden="true"></div>
+  <aside class="drawer" id="drawer" aria-label="Mobile navigation">
+    <div class="drawerHeader">
+      <div class="brand" style="min-width:auto;">
+        <div class="logo" aria-hidden="true" style="width:40px;height:40px;">
+          <img src="mockups/vesthersapp-logo.jpg" alt="VestHers logo" loading="lazy" />
+        </div>
+        <div class="name">
+          <div class="title" style="font-size:16px;">VestHers</div>
+          <div class="tag">Elegant. Simple. Long-term.</div>
+        </div>
+      </div>
+      <button class="drawerClose" id="drawerClose" aria-label="Close menu">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+
+    <nav class="drawerNav" aria-label="Mobile primary">
+      <a href="#approach" class="drawerLink">Approach <span>Simple frameworks that compound.</span></a>
+      <a href="#about" class="drawerLink">About Rachel <span>Meet the educator behind VestHers.</span></a>
+      <a href="#resources" class="drawerLink">Resources <span>Guides built for real life.</span></a>
+      <a href="#stories" class="drawerLink">Stories <span>Confidence you can relate to.</span></a>
+      <a href="#contact" class="drawerLink">Contact <span>Start with a calm first step.</span></a>
+    </nav>
+
+    <div class="drawerCtas">
+      <a class="btn" href="#resources">Free resources</a>
+      <a class="btn primary" href="#contact"><span class="dot" aria-hidden="true"></span>Book a call</a>
+    </div>
+  </aside>
+
+  <main id="top">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="container">
+        <div class="heroGrid">
+          <div>
+            <div class="pill reveal">
+              <span aria-hidden="true">✨</span>
+              Designed for women building wealth
+            </div>
+
+            <h1 class="reveal delay-1">
+              Investing education that's <span class="grad">simple</span>, steady, and built for the long term.
+            </h1>
+
+            <p class="reveal delay-2">
+              VestHers helps women learn how to invest with calm, practical guidance, focusing on
+              <strong>simple, long-term strategies</strong> designed to build real confidence over time.
+            </p>
+
+            <div class="heroActions reveal delay-3">
+              <a class="btn primary" href="#contact"><span class="dot" aria-hidden="true"></span>Start with a free intro</a>
+              <a class="btn" href="#approach">See the approach</a>
+            </div>
+
+            <div class="miniTrust reveal delay-4" role="list">
+              <div class="check" role="listitem"><i>✓</i> Over a decade in the market</div>
+              <div class="check" role="listitem"><i>✓</i> Beginner-friendly, jargon-light</div>
+              <div class="check" role="listitem"><i>✓</i> Strategy over hype</div>
+            </div>
+          </div>
+
+          <div class="heroCard reveal delay-2" aria-label="Quick snapshot card">
+            <div class="heroCardInner">
+              <div class="cardTop">
+                <div class="profile">
+                  <div class="avatar" aria-hidden="true">RV</div>
+                  <div class="who">
+                    <b>Rachel Vega</b>
+                    <span>Founder • Investing Educator</span>
+                  </div>
+                </div>
+                <div class="badge">Long-term first</div>
+              </div>
+
+              <div class="metricGrid">
+                <div class="metric">
+                  <div class="k">Market experience</div>
+                  <div class="v">10+ years</div>
+                  <div class="spark" aria-hidden="true"></div>
+                </div>
+                <div class="metric">
+                  <div class="k">Core focus</div>
+                  <div class="v">Simplicity</div>
+                  <div class="spark" aria-hidden="true"></div>
+                </div>
+              </div>
+
+              <div class="quickForm" id="contact">
+                <label for="email">Get the free “Start Simple” guide</label>
+                <div class="row">
+                  <input id="email" class="input" type="email" placeholder="you@email.com" autocomplete="email" />
+                  <button class="btn primary" type="button" onclick="toast('Sent! (mockup)')">
+                    <span class="dot" aria-hidden="true"></span>
+                    Send
+                  </button>
+                </div>
+                <div style="margin-top:10px; font-size:12px; color:var(--muted); line-height:1.6;">
+                  No spam. Unsubscribe anytime. Educational content only.
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- APPROACH -->
+    <section id="approach">
+      <div class="container">
+        <div class="sectionHead">
+          <div>
+            <h2 class="reveal">A calm, repeatable approach</h2>
+            <p class="reveal delay-1">
+              The goal isn't to “beat everyone.” The goal is to build a strategy you can stick with, and let time do the heavy lifting.
+            </p>
+          </div>
+        </div>
+
+        <div class="grid3">
+          <div class="card reveal">
+            <div class="icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                <path d="M12 2v6m0 14v-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path d="M4 12h6m10 0h-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path d="M7 7l4 4m6 6-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path d="M17 7l-4 4M7 17l4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <h3>Keep it simple</h3>
+            <p>Clear foundations, fewer moving parts, and a plan you can explain in one minute.</p>
+          </div>
+
+          <div class="card reveal delay-1">
+            <div class="icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                <path d="M4 19V5m0 14h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path d="M7 15l3-3 3 2 4-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <h3>Think long-term</h3>
+            <p>Compound growth favors patience. We prioritize consistency over constant “moves.”</p>
+          </div>
+
+          <div class="card reveal delay-2">
+            <div class="icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                <path d="M12 21s7-4.5 7-11a7 7 0 1 0-14 0c0 6.5 7 11 7 11Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M10.5 11.5 9 10l-2 2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M13.5 11.5 15 10l2 2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <h3>Build confidence</h3>
+            <p>Education first, so your investing decisions feel grounded, not stressful.</p>
+          </div>
+        </div>
+
+        <div class="split" style="margin-top:14px;">
+          <div class="panel reveal" id="resources">
+            <h3>What you’ll learn</h3>
+            <ul>
+              <li>How to build a portfolio around <strong>long-term goals</strong></li>
+              <li>Risk basics without fear-based language</li>
+              <li>How to stay consistent through market noise</li>
+              <li>Simple rebalancing and “set-it-and-check” habits</li>
+            </ul>
+            <div class="quote">
+              <div class="mark" aria-hidden="true">“</div>
+              <div>
+                <p><b>Elegant investing</b> is usually boring. And that's a compliment.</p>
+                <p style="margin-top:6px; font-size:13px;">— VestHers philosophy</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel reveal delay-1" id="about">
+            <h3>About Rachel Vega</h3>
+            <p style="margin:0; color:var(--muted); line-height:1.8;">
+              Rachel has been in the market for over a decade and built VestHers to make investing feel approachable,
+              clear, and sustainable, especially for women who want simple strategies they can actually maintain.
+            </p>
+            <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap;">
+              <span class="chip">10+ years investing</span>
+              <span class="chip">Education-first</span>
+              <span class="chip">Long-term strategies</span>
+            </div>
+            <div style="margin-top:14px;">
+              <a class="btn" href="#contact">Get the free guide</a>
+              <a class="btn primary" href="#contact" style="margin-left:8px;"><span class="dot" aria-hidden="true"></span>Book a call</a>
+            </div>
+            <p style="margin-top:12px; font-size:12px; color:var(--muted); line-height:1.6;">
+              *Educational content only. Not personalized financial advice (mockup copy).
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- STORIES / TESTIMONIALS -->
+    <section id="stories">
+      <div class="container">
+        <div class="sectionHead">
+          <div>
+            <h2 class="reveal">Real confidence, not market hype</h2>
+            <p class="reveal delay-1">A few example testimonials for the mockup. Swap these with real ones when ready.</p>
+          </div>
+        </div>
+
+        <div class="testGrid">
+          <div class="bigTest reveal">
+            <div class="stars" aria-hidden="true">★★★★★</div>
+            <h3>“I finally understand what I'm doing, and I'm not stressed.”</h3>
+            <p>
+              The way Rachel explains investing is calm and practical. I stopped chasing “what’s hot” and built a plan I can
+              stick with. It's simple, which makes it sustainable.
+            </p>
+            <div style="margin-top:12px; display:flex; gap:10px; align-items:center;">
+              <div class="avatar" aria-hidden="true" style="width:38px;height:38px;border-radius:14px;">A</div>
+              <div style="line-height:1.2;">
+                <b>Amelia</b>
+                <div style="font-size:12px; color:var(--muted);">Beginner investor</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="smallStack">
+            <div class="smallTest reveal delay-1">
+              <b>“Clear, no jargon.”</b>
+              <p>I didn’t feel talked down to. Everything felt actionable.</p>
+            </div>
+            <div class="smallTest reveal delay-2">
+              <b>“The long-term framework is gold.”</b>
+              <p>It helped me stop making emotional decisions.</p>
+            </div>
+            <div class="smallTest reveal delay-3">
+              <b>“Simple systems I actually use.”</b>
+              <p>Small habits that fit into real life.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section>
+      <div class="container">
+        <div class="cta reveal">
+          <div class="ctaGrid">
+            <div>
+              <h2>Start simple. Stay consistent. Let time work.</h2>
+              <p>
+                Get the free “Start Simple” guide and a calm intro to long-term investing habits designed for women.
+              </p>
+            </div>
+            <div class="ctaBox">
+              <input type="email" placeholder="Email address" aria-label="Email address" />
+              <button class="btn" type="button" onclick="toast('Subscribed! (mockup)')">Get it</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footGrid">
+        <div>
+          <div style="display:flex; align-items:center; gap:10px;">
+            <div class="logo" style="width:40px;height:40px;border-radius:14px;">
+              <img src="mockups/vesthersapp-logo.jpg" style="border-radius: 5px;"alt="VestHers logo" loading="lazy" />
+            </div>
+            <div>
+              <b style="color:var(--ink)">VestHers</b>
+              <div style="font-size:12px;">Investing education for women • Founded by Rachel Vega</div>
+            </div>
+          </div>
+          <div style="margin-top:10px; font-size:12px; line-height:1.7;">
+            Educational content only. This mockup includes placeholder copy and sample testimonials.
+          </div>
+          <div style="margin-top:10px; font-size:12px;">© <span id="year"></span> VestHers. All rights reserved.</div>
+        </div>
+
+        <div class="footLinks">
+          <a class="chip" href="#approach">Approach</a>
+          <a class="chip" href="#about">About Rachel</a>
+          <a class="chip" href="#resources">Resources</a>
+          <a class="chip" href="#stories">Stories</a>
+          <a class="chip" href="#contact">Contact</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Tiny toast (mockup feedback) -->
+  <div id="toast" style="
+      position: fixed; left: 50%; bottom: 18px; transform: translateX(-50%) translateY(20px);
+      background: rgba(255,255,255,.92); border:1px solid rgba(27,16,33,.12);
+      border-radius: 999px; padding: 12px 14px; box-shadow: 0 18px 45px rgba(27,16,33,.14);
+      opacity:0; pointer-events:none; transition: opacity .2s ease, transform .2s ease;
+      z-index: 200; color: var(--ink); font-weight:700; font-size: 13px;
+    "></div>
+
+  <script>
+    // Year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Scroll reveal
+    const els = document.querySelectorAll('.reveal');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) e.target.classList.add('visible');
+      });
+    }, { threshold: 0.12 });
+    els.forEach(el => io.observe(el));
+
+    // Drawer
+    const menuBtn = document.getElementById('menuBtn');
+    const drawer = document.getElementById('drawer');
+    const overlay = document.getElementById('drawerOverlay');
+    const closeBtn = document.getElementById('drawerClose');
+    const drawerLinks = document.querySelectorAll('.drawerLink');
+
+    function openDrawer(){
+      document.body.classList.add('drawerOpen');
+      menuBtn.setAttribute('aria-expanded', 'true');
+      overlay.setAttribute('aria-hidden', 'false');
+    }
+    function closeDrawer(){
+      document.body.classList.remove('drawerOpen');
+      menuBtn.setAttribute('aria-expanded', 'false');
+      overlay.setAttribute('aria-hidden', 'true');
+    }
+
+    menuBtn.addEventListener('click', openDrawer);
+    closeBtn.addEventListener('click', closeDrawer);
+    overlay.addEventListener('click', closeDrawer);
+    drawerLinks.forEach(a => a.addEventListener('click', closeDrawer));
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeDrawer(); });
+
+    // Toast
+    const toastEl = document.getElementById('toast');
+    let toastTimer;
+    window.toast = (msg) => {
+      toastEl.textContent = msg;
+      toastEl.style.opacity = '1';
+      toastEl.style.transform = 'translateX(-50%) translateY(0)';
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        toastEl.style.opacity = '0';
+        toastEl.style.transform = 'translateX(-50%) translateY(20px)';
+      }, 1800);
+    };
+  </script>
+</body>
+</html>
