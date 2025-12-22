@@ -294,6 +294,19 @@
   font-size: 14px;
 }
 
+.status-chip {
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:6px 12px;
+  border-radius:999px;
+  border:1px solid var(--line);
+  background:var(--surface);
+  font-size:.85rem;
+  font-weight:600;
+}
+
+
 
   
   </style>
@@ -335,13 +348,20 @@
 </div>
 
 <!-- ===== AVAILABILITY BANNER ===== -->
-<section id="availability-banner">Checking availability...</section>
+
+
+
 
 <!-- ===== HERO ===== -->
 <header class="hero text-left" style="text-align: center !important;">
   <div class="container container-narrow">
     <h1 class="headline" style="font-weight: 600; font-size: 40px;">Need something changed?</h1>
-
+    
+    <div class="status-chip open" id="availability-chip">
+      <span class="status-dot"></span>
+      <span id="availability-text">Checking availability…</span>
+    </div>
+    
    
     
     <p class="sub" style="font-size: 13px; margin-top: 15px;"> 
@@ -583,70 +603,108 @@
     }));
   }
 
-  // ===== Explicit WebEaze Closures =====
+  // ===== HOLIDAY SCHEDULE =====
   function getWebEazeClosures() {
-    return [
-      // ---- 2025 ----
-      { start: '2025-12-24', end: '2025-12-28' },
-      { start: '2025-12-31', end: '2026-01-01' },
+  return [
+    // ---- 2025 ----
+    {
+      name: "December Holidays",
+      start: '2025-12-24',
+      end: '2025-12-28'
+    },
+    {
+      name: "New Year's Eve",
+      start: '2025-12-31',
+      end: '2026-01-01'
+    },
 
-      // ---- 2026 ----
-      { start: '2026-01-01', end: '2026-01-01' },
-      { start: '2026-05-25', end: '2026-05-25' }, // Memorial Day
-      { start: '2026-07-03', end: '2026-07-03' }, // Independence Day (Observed)
-      { start: '2026-09-07', end: '2026-09-07' }, // Labor Day
-      { start: '2026-11-25', end: '2026-11-29' }, // Thanksgiving
-      { start: '2026-12-24', end: '2027-01-01' }  // December Holidays
-    ].map(r => ({
-      start: new Date(r.start + 'T00:00:00'),
-      end: new Date(r.end + 'T23:59:59')
-    }));
-  }
+    // ---- 2026 ----
+    {
+      name: "New Year's Day",
+      start: '2026-01-01',
+      end: '2026-01-01'
+    },
+    {
+      name: "Memorial Day",
+      start: '2026-05-25',
+      end: '2026-05-25'
+    },
+    {
+      name: "Independence Day",
+      start: '2026-07-03',
+      end: '2026-07-03'
+    },
+    {
+      name: "Labor Day",
+      start: '2026-09-07',
+      end: '2026-09-07'
+    },
+    {
+      name: "Thanksgiving",
+      start: '2026-11-25',
+      end: '2026-11-29'
+    },
+    {
+      name: "December Holidays",
+      start: '2026-12-24',
+      end: '2027-01-01'
+    }
+  ].map(r => ({
+    ...r,
+    start: new Date(r.start + 'T00:00:00'),
+    end: new Date(r.end + 'T23:59:59')
+  }));
+}
+
+function getActiveHoliday(date) {
+  return getWebEazeClosures().find(r => date >= r.start && date <= r.end);
+}
+
+
 
   function isWebEazeClosed(date) {
     return getWebEazeClosures().some(r => date >= r.start && date <= r.end);
   }
 
   // ===== Availability Banner =====
+
   function updateStatus() {
-    const banner = document.getElementById('availability-banner');
-    const now = getEasternTime();
-    const day = now.getDay();
-    const hour = now.getHours();
-    const closedForHoliday = isWebEazeClosed(now);
+  const chip = document.getElementById('availability-chip');
+  const text = document.getElementById('availability-text');
+  if (!chip || !text) return;
 
-    let msg = '';
-    let color = '';
+  const now = getEasternTime();
+  const day = now.getDay();
+  const hour = now.getHours();
+  const holiday = getActiveHoliday(now);
 
-    if (closedForHoliday) {
-      msg = "Closed for a scheduled holiday. We'll resume the next working day.";
-      color = '#e63946';
-    } else if (day === 0 || day === 6 ) {
-      msg = "We're away for the weekend. Back Monday at 9:00am ET.";
-      color = '#e63946';
-    } else if (hour >= 9 && hour < 17) {
-      msg = "We're available now until 5:00pm ET.";
-      color = '#27ae60';
-    } else {
-      msg = "We're away. Back at 9:00am ET.";
-      color = '#e63946';
-    }
+  chip.classList.remove('open', 'closed', 'holiday');
 
-    if (banner) {
-      banner.style.background = color;
-      banner.innerHTML = `
-        ${msg}
-        <small style="display:block;margin-top:4px;opacity:.85;font-size:.8rem">
-          Status checked at ${now.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'})} ET
-        </small>
-      `;
-    }
+  if (holiday) {
+    chip.classList.add('holiday');
+    text.textContent = `We're away. Closed for ${holiday.name}`;
   }
+  else if (day === 0 || day === 6) {
+    chip.classList.add('closed');
+    text.textContent = "Away for the weekend.";
+  }
+  else if (hour >= 9 && hour < 17) {
+    chip.classList.add('open');
+    text.textContent = "Available now until 5:00pm ET";
+  }
+  else {
+    chip.classList.add('closed');
+    text.textContent = "We're away. Back at 9:00am ET";
+  }
+}
+
 
   document.addEventListener('DOMContentLoaded', () => {
     updateStatus();
     setInterval(updateStatus, 60000);
   });
+
+
 </script>
 
 
