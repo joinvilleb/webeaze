@@ -617,8 +617,12 @@
 .setup-fee {
   margin-top:6px;
   font-size:12px;
-  opacity:.75;
+  opacity:.8;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
 }
+
 
 .setup-fee del {
   opacity:.7;
@@ -628,6 +632,59 @@
   color:#ffd700;
   font-weight:600;
   margin-left:6px;
+}
+
+fee-tooltip {
+  position:relative;
+  display:inline-flex;
+  align-items:center;
+  cursor:pointer;
+}
+
+.fee-tooltip i {
+  font-style:normal;
+  font-size:11px;
+  width:16px;
+  height:16px;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,.6);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  opacity:.8;
+  transition:.2s ease;
+}
+
+.fee-tooltip:hover i {
+  background:#ffd700;
+  color:#2f1e66;
+  border-color:#ffd700;
+}
+
+.fee-tooltip span {
+  position:absolute;
+  bottom:130%;
+  left:50%;
+  transform:translateX(-50%) translateY(6px);
+  background:#141424;
+  border:1px solid rgba(255,255,255,.15);
+  border-radius:10px;
+  padding:8px 10px;
+  font-size:11.5px;
+  line-height:1.4;
+  width:max-content;
+  max-width:220px;
+  text-align:center;
+  opacity:0;
+  pointer-events:none;
+  transition:.2s ease;
+  box-shadow:0 14px 30px rgba(0,0,0,.5);
+  z-index:20;
+}
+
+.fee-tooltip:hover span {
+  opacity:1;
+  transform:translateX(-50%) translateY(0);
 }
 
 
@@ -846,10 +903,20 @@
             <h3>Essential</h3>
             <div class="price">$169/month</div>
 
-            <div class="setup-fee">
-              <del>$299 setup fee</del>
-              <span class="free">$0 today</span>
-            </div>
+              <div class="setup-fee">
+                <del>$199 setup fee</del>
+                <span class="free">$0 today</span>
+
+                <div class="fee-tooltip">
+                  <i>i</i>
+                  <span>
+                    One-time setup covers initial build, launch, and configuration.
+                    Waived during this promotion.
+                  </span>
+                </div>
+              </div>
+
+
 
             <p>Hosting, updates, and support included.</p>
    
@@ -861,10 +928,18 @@
             <h3>Growth <span class="badge">Popular</span></h3>
             <div class="price">$249/month</div>
 
-          <div class="setup-fee">
-            <del>$299 setup fee</del>
+        <div class="setup-fee">
+            <del>$199 setup fee</del>
             <span class="free">$0 today</span>
-          </div>
+
+                <div class="fee-tooltip">
+                  <i>i</i>
+                <span>
+                  One-time setup covers initial build, launch, and configuration.
+                  Waived during this promotion.
+                </span>
+                </div>
+                </div>
 
             <p>
               SEO tools, monthly reports, and more. 
