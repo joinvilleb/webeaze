@@ -1,4 +1,4 @@
-# WebEaze 🚀
+# WebEaze Web Design (webeaze.io) (webeaze.github.io)
 
 **WebEaze** is a subscription-based website build and management service for small businesses.  
 We design, launch, and continuously maintain modern websites. This means business owners never have to worry about updates, fixes, or tech headaches.
