@@ -690,23 +690,31 @@ function getActiveHoliday(date) {
   const hour = now.getHours();
   const holiday = getActiveHoliday(now);
 
-  chip.classList.remove('open', 'closed', 'weekend', 'holiday');
+  chip.classList.remove('open', 'closed','holiday');
 
   if (holiday) {
     chip.classList.add('holiday');
     text.textContent = `We're away. Closed for ${holiday.name}`;
   }
-  else if (day === 5 || day === 6 || day === 0) {
-    chip.classList.add('closed', 'weekend');
+  else if (day === 6 || day === 0) {
+    chip.classList.add('closed');
     text.textContent = "Away for the weekend.";
   }
   else if (hour >= 9 && hour < 17) {
     chip.classList.add('open');
     text.textContent = "Available now until 5:00pm ET";
   }
+  else if (hour >= 17) {
+    chip.classList.add('closed');
+    text.textContent = "We're away. Back at 9:00am ET tomorrow";
+  }
+  else if (hour < 9) {
+    chip.classList.add('closed');
+    text.textContent = "We're away. Back at 9:00am ET today";
+  }
   else {
     chip.classList.add('closed');
-    text.textContent = "We're away. Back at 9:00am ET";
+    text.textContent = "We're away. Back Monday at 9:00am ET";
   }
 }
 

@@ -235,16 +235,23 @@
     let color = '';
 
     if (closedForHoliday) {
-      msg = "Closed for scheduled holidays. We'll resume the next working day.";
+      msg = "Closed for a holiday. We'll resume the next working day.";
       color = '#e63946';
-    } else if (day === 5 || day === 6 || day === 0) {
+    } else if ( day === 6 || day === 0) {
       msg = "We're away for the weekend. Back Monday at 9:00am ET.";
       color = '#e63946';
     } else if (hour >= 9 && hour < 17) {
       msg = "We're available now until 5:00pm ET.";
       color = '#27ae60';
+    } else if (hour >= 17) {
+      msg = "We're away. Back at 9:00am ET tomorrow.";
+      color = '#e63946';
+    } else if (hour < 9) {
+      msg = "We're away. Back at 9:00am ET today.";
+      color = '#e63946';
+
     } else {
-      msg = "We're away. Back at 9:00am ET.";
+      msg = "We're away. Back Monday at 9:00am ET.";
       color = '#e63946';
     }
 
