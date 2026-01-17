@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Landscaping Companies: Your Website for $169/Month | WebEaze</title>
+<meta name="description" content="Professional websites built for landscaping companies. No upfront costs. Setup fee waived for a limited time." />
+<link rel="shortcut icon" href="images/webeaze-transparent copy.png" type="image/png" />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+<style>
+  :root{
+    --black:#0f0f0f;
+    --charcoal:#1a1a1a;
+    --gold:#ffd700;
+    --brand:#7851a9;
+    --white:#ffffff;
+    --muted:#b8b8b8;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{font-family:'Poppins',sans-serif;background:var(--black);color:var(--white);}
+  
+  a{color:var(--gold);text-decoration:none}
+  a:hover{opacity:.85}
+  
+  .container-narrow{max-width:980px;margin:0 auto}
+
+  /* HERO */
+  header.hero{
+    text-align:center;
+    padding:80px 18px 64px;
+    background:linear-gradient(180deg,#0f0f0f,#151515 80%);
+    border-bottom:1px solid rgba(255,255,255,.1);
+    position:relative;
+  }
+  .hero .logo-circle{
+    width:110px;height:110px;border-radius:50%;
+    margin:0 auto 18px;
+    background:rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.18);
+    display:flex;align-items:center;justify-content:center;
+    animation:pop .5s ease-out both, pulse 2.5s ease-in-out infinite;
+    overflow:hidden;
+  }
+  .logo-circle img{
+    width:85%;
+    height:85%;
+    object-fit:contain;
+  }
+  @keyframes pop{0%{transform:scale(.6);opacity:0}100%{transform:scale(1);opacity:1}}
+  @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(74,222,128,.2)}50%{box-shadow:0 0 20px 4px rgba(74,222,128,.12)}}
+  
+  .hero h1{font-size:clamp(28px,4.2vw,46px);font-weight:700;margin:12px 0 8px}
+  .hero p.lead{max-width:650px;margin:0 auto;opacity:.95;line-height:1.7;font-weight:400;color:var(--muted)}
+  .pill{display:inline-block;margin-top:18px;padding:6px 14px;border-radius:999px;background:linear-gradient(135deg,#ffd700,#7851a9);border:1px solid rgba(74,222,128,.3);font-size:.9rem;color:#0f0f0f;font-weight:600}
+  
+  /* SECTIONS */
+  section{padding:64px 18px}
+  .section-light{background:var(--white);color:var(--charcoal)}
+  .section-dark{background:var(--black);color:var(--white)}
+  h2{font-size:1.9rem;font-weight:700;margin-bottom:22px}
+  .eyebrow{font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;opacity:.8;margin-bottom:6px;display:inline-block}
+  
+  /* GRID + CARDS */
+  .grid{display:grid;gap:20px}
+  @media(min-width:768px){.grid-3{grid-template-columns:repeat(3,1fr)}.grid-2{grid-template-columns:1fr 1fr}}
+  .card-dark{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:22px;color:var(--white);transition:.3s ease}
+  .card-dark:hover{background:rgba(255,255,255,.08);border-color:rgba(74,222,128,.3)}
+  .card-dark h5{margin-bottom:12px;font-size:1.1rem}
+  .card-dark p{margin:0;opacity:.85;line-height:1.6}
+  
+  .card-light{background:#fff;border:1px solid #eee;border-radius:14px;padding:22px;color:#1a1a1a;transition:.3s ease}
+  .card-light:hover{box-shadow:0 4px 12px rgba(0,0,0,.08)}
+  .card-light h5{margin-bottom:10px;color:#1a1a1a}
+  
+  /* Buttons */
+  .cta{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:20px}
+  .btn-brand{background:linear-gradient(135deg,#ffd700,#7851a9);color:#0f0f0f;border:none;border-radius:12px;padding:14px 32px;font-weight:700;text-decoration:none;transition:.2s;display:inline-block;font-size:1.05rem;box-shadow:0 8px 24px rgba(74,222,128,.25)}
+  .btn-brand:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(74,222,128,.35);color:#0f0f0f}
+  .btn-ghost{border:1px solid rgba(255,255,255,.3);border-radius:12px;padding:10px 18px;font-weight:600;color:#fff;background:transparent;text-decoration:none;display:inline-block}
+  .btn-ghost:hover{background:rgba(255,255,255,.08);color:#fff}
+  
+  /* Price Box */
+  .price-box{
+    background:rgba(255,255,255,.05);
+    border:2px solid var(--brand);
+    border-radius:18px;
+    padding:32px 28px;
+    max-width:500px;
+    margin:32px auto;
+    text-align:center;
+  }
+  .price-amount{
+    font-size:3rem;
+    font-weight:700;
+    color:var(--brand);
+    line-height:1;
+    margin:12px 0 8px;
+  }
+  .price-amount span{font-size:1.5rem;opacity:.8}
+  .setup-promo{
+    background:rgba(74,222,128,.1);
+    border:1px solid rgba(74,222,128,.3);
+    border-radius:10px;
+    padding:12px;
+    margin:16px 0 24px;
+  }
+  .setup-promo del{opacity:.6;margin-right:8px}
+  .setup-promo .free{color:var(--brand);font-weight:700;font-size:1.1rem}
+  
+  /* FOOTER */
+  footer{background:#000;text-align:center;padding:32px 18px;color:var(--muted);font-size:.9rem}
+  footer a{color:var(--gold)}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="container-narrow">
+    <div style="display:flex;align-items:center;justify-content:center;gap:14px;margin-bottom:18px;">
+      <div class="logo-circle" aria-label="WebEaze Logo" style="margin:0;">
+        <img src="images/webeaze-transparent copy.png" alt="WebEaze" />
+      </div>
+      <span style="font-size:2rem;font-weight:700;color:#fff;">WebEaze</span>
+    </div>
+    <h1>Landscaping Companies:<br>Your Website for $169/Month</h1>
+    <p class="lead">We build and manage professional websites that help you win more jobs. No huge upfront costs, no tech headaches. Just a website that works.</p>
+    <span class="pill">🎁 Limited Time: $0 Setup Fee</span>
+  </div>
+</header>
+
+<!-- WHY LANDSCAPERS CHOOSE US -->
+<section class="section-dark">
+  <div class="container-narrow">
+    <span class="eyebrow">Built for Your Business</span>
+    <h2>We Understand Landscaping Companies</h2>
+    <div class="grid grid-3">
+      
+      <div class="card-dark">
+        <h5><i class="fas fa-calendar-check" style="color:var(--brand);margin-right:8px"></i> <strong>Update Anytime</strong></h5>
+        <p>Spring mulching? Summer irrigation? Fall cleanup? Update your seasonal services instantly. No waiting on developers.</p>
+      </div>
+      
+      <div class="card-dark">
+        <h5><i class="fas fa-images" style="color:var(--brand);margin-right:8px"></i> <strong>Show Your Work</strong></h5>
+        <p>Before/after galleries of your hardscaping, lawn care, and landscape design. Add new project photos as you finish jobs.</p>
+      </div>
+      
+      <div class="card-dark">
+        <h5><i class="fas fa-map-marker-alt" style="color:var(--brand);margin-right:8px"></i> <strong>Get Found Locally</strong></h5>
+        <p>When homeowners search "landscaper near me," your website shows up. We handle the local SEO work.</p>
+      </div>
+      
+    </div>
+  </div>
+</section>
+
+<!-- WHAT'S INCLUDED -->
+<section class="section-light">
+  <div class="container-narrow" style="text-align:center">
+    <span class="eyebrow" style="color:#1a1a1a">Everything You Need</span>
+    <h2 style="color:#1a1a1a">What's Included</h2>
+    
+    <div class="grid grid-3" style="margin-top:32px">
+      <div class="card-light">
+        <h5><i class="fas fa-mobile-alt" style="color:var(--brand);margin-right:8px"></i> <strong>Mobile-First Design</strong></h5>
+        <p>Most customers browse on phones. Your site looks great on any device.</p>
+      </div>
+      
+      <div class="card-light">
+        <h5><i class="fas fa-phone" style="color:var(--brand);margin-right:8px"></i> <strong>Easy Contact</strong></h5>
+        <p>Click-to-call buttons and simple contact forms. Make it easy for customers to reach you.</p>
+      </div>
+      
+      <div class="card-light">
+        <h5><i class="fas fa-chart-line" style="color:var(--brand);margin-right:8px"></i> <strong>Performance Reports</strong></h5>
+        <p>Monthly reports show how your website is performing. See what's working.</p>
+      </div>
+      
+      <div class="card-light">
+        <h5><i class="fas fa-server" style="color:var(--brand);margin-right:8px"></i> <strong>Hosting Included</strong></h5>
+        <p>No separate hosting bills. We handle everything in one simple monthly price.</p>
+      </div>
+      
+      <div class="card-light">
+        <h5><i class="fas fa-shield-alt" style="color:var(--brand);margin-right:8px"></i> <strong>Emergency Support</strong></h5>
+        <p>If something breaks, we fix it fast. No hunting for tech support.</p>
+      </div>
+      
+      <div class="card-light">
+        <h5><i class="fas fa-infinity" style="color:var(--brand);margin-right:8px"></i> <strong>Unlimited Updates</strong></h5>
+        <p>Change prices, add services, update hours. Whenever you need it.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXAMPLE WORK -->
+<section class="section-dark">
+  <div class="container-narrow" style="text-align:center">
+    <span class="eyebrow">See Our Work</span>
+    <h2>Built for Service Businesses Like Yours</h2>
+    <p style="max-width:600px;margin:0 auto 32px;color:var(--muted)">Here's an example of a website we built for Bear Carpet Care, a local service company just like yours.</p>
+
+    <div style="max-width:700px;margin:0 auto;">
+      <img src="images/samples/bear-carpet-care.png" alt="Bear Carpet Care website by WebEaze" style="width:100%;border-radius:16px;box-shadow:0 16px 48px rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.1);">
+      <p style="margin-top:16px;opacity:.7;font-size:.9rem;">Bear Carpet Care - Central Pennsylvania</p>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="section-dark" style="background:#151515;">
+  <div class="container-narrow" style="text-align:center">
+    <span class="eyebrow">Simple Pricing</span>
+    <h2>One Price. That's All.</h2>
+    <p style="max-width:600px;margin:0 auto 20px;color:var(--muted)">Most agencies charge $3,000 to $5,000 upfront, then bill hourly for changes. At WebEaze, we do things differently.</p>
+    
+    <div class="price-box">
+      <div class="price-amount">$169<span>/month</span></div>
+      <p style="margin:8px 0 0;opacity:.8">Everything included. Cancel anytime.</p>
+      
+      <div class="setup-promo">
+        <del>$199 setup fee</del>
+        <span class="free">$0 Today</span>
+      </div>
+      
+      <a href="consultation.html" class="btn-brand" style="width:100%;justify-content:center;display:flex">
+        Get Your Free Mockup →
+      </a>
+      
+      <p style="opacity:.6;font-size:.85rem;margin-top:14px">Most mockups delivered within 48 hours</p>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="section-light" style="padding:70px 18px">
+  <div class="container-narrow" style="text-align:center">
+    <h2 style="color:#1a1a1a;margin-bottom:16px">Ready to Get Started?</h2>
+    <p style="max-width:550px;margin:0 auto 32px;color:#666">See exactly what your new website will look like before you commit to anything.</p>
+    
+    <div class="cta">
+      <a href="consultation.html" class="btn-brand">
+        Request Free Mockup →
+      </a>
+      <a href="contact-us.html" class="btn-ghost">
+        <i class="fas fa-envelope"></i> Contact Us
+      </a>
+    </div>
+    
+    <p style="margin-top:24px;color:#999;font-size:.9rem">
+      Questions? Email us at <a href="mailto:hello@webeaze.io" style="color:var(--gold);font-weight:600">hello@webeaze.io</a>
+    </p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>&copy; <span id="yr"></span> WebEaze. All rights reserved.</p>
+  <p>
+    <a href="terms.html#privacy">Privacy Policy</a> · 
+    <a href="terms.html">Terms</a> · 
+    <a href="site-map.html">Site Map</a>
+  </p>
+  <div style="margin-top:8px">Made with ☕ in Delaware, USA</div>
+</footer>
+
+<script>
+  document.getElementById('yr').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
