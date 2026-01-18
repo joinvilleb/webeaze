@@ -5,1530 +5,2234 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Help Center | WebEaze</title>
   <meta name="description" content="A simple, searchable guide for everything before, during, and after launch: plans, content, domains, launch checklist, and post‑launch care." />
-  <link rel="canonical" href="https://www.webeaze.io/getting-started.html" />
+  <link rel="canonical" href="https://www.webeaze.io/help.html" />
 
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="WebEaze" />
   <meta property="og:title" content="WebEaze Help Center" />
   <meta property="og:description" content="Common questions answered: before, during, and after launch." />
-  <meta property="og:url" content="https://www.webeaze.io/getting-started" />
+  <meta property="og:url" content="https://www.webeaze.io/help" />
   <meta property="og:image" content="https://webeaze.io/images/default-monochrome.png" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <link rel="shortcut icon" href="images/webeaze-transparent copy.png" type="image/png" />
 
   <style>
-    :root{ --brand:#7851a9; --brand-ink:#3a2577; --gold:#ffd700; --ink:#0f1228; --ink-2:#3c4260; --muted:#6b7280; --line:#e7eaf4; --bg:#f7f8fc; --white:#fff }
-    html,body{height:100%; overflow-x:hidden}
-    body{margin:0;font-family:'Poppins',sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased}
-    a{color:inherit;text-decoration:none}
-    .container-narrow{max-width:1100px}
-    .logo{height:36px}
-
-    /* Nav */
-    .nav-wrap{position:sticky; top:0; z-index:9999; background:#000; backdrop-filter:saturate(130%) blur(8px); -webkit-backdrop-filter:saturate(130%) blur(8px); border-bottom:1px solid rgba(255,255,255,.14)}
-    .webeaze-nav{background:transparent!important;box-shadow:none!important;padding:.6rem 0;transition:padding .18s ease}
-    .scrolled .webeaze-nav{padding:.45rem 0}
-    .brand-word{letter-spacing:-.3px;font-weight:700;background:linear-gradient(90deg,#e8e7ea,#66615f);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-    .navbar-dark .nav-link{color:#fff!important;opacity:.92;border-radius:10px;padding:.45rem .7rem}
-    .navbar-dark .nav-link:hover{opacity:1;background:rgba(255,255,255,.08)}
-    .btn-nav{background:var(--gold);color:#2f1e66;border:none;border-radius:12px;padding:.6rem .9rem;font-weight:700;box-shadow:0 8px 22px rgba(255,215,0,.22)}
-
-    /* Buttons */
-    .btn-brand{background:var(--brand);color:#fff;border:none;border-radius:12px;padding:.6rem .9rem;font-weight:800}
-    .btn-brand:hover{opacity:.95}
-    .btn-ghost{background:#fff;color:var(--ink);border:1px solid var(--line);border-radius:12px;padding:.55rem .9rem;font-weight:700}
-    .btn-ghost:hover{background:#f7f8fc}
-    .chip{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:.35rem .7rem;font-weight:700;color:#3f4564;background:#fff}
-
-    /* Layout */
-    .hero{position:relative;padding:clamp(40px,1vh,72px) 0;background:linear-gradient(180deg,#ffffff,#f7f8fc 70%)}
-    .halo{position:absolute; inset:-20% -10% auto -10%; height:360px; pointer-events:none; background:radial-gradient(34% 46% at 15% 20%, rgba(120,81,169,.18), transparent 60%), radial-gradient(28% 42% at 85% 18%, rgba(255,215,0,.14), transparent 60%)}
-    .eyebrow{font-size:.85rem;letter-spacing:.08em;text-transform:uppercase;color:#6b6f86}
-
-    .surface{background:#fcfcfc;border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 10px 28px rgba(16,18,37,.06)}
-
-    .search-wrap{position:relative}
-    .search-wrap input{width:100%;border:1px solid var(--line);border-radius:12px;padding:.8rem 2.6rem .8rem 2.6rem}
-    .search-wrap .icon{position:absolute;left:.85rem;top:50%;transform:translateY(-50%);opacity:.6}
-    .search-wrap .clear{position:absolute;right:.45rem;top:50%;transform:translateY(-50%);border:0;background:transparent;font-weight:800;opacity:.6}
-
-    .result{border:1px solid var(--line);border-radius:12px;padding:12px;transition:box-shadow .15s ease;background:#fff}
-    .result:hover{box-shadow:0 10px 24px rgba(16,18,37,.08)}
-
-    .meta{color:var(--bg);font-size:.92rem}
-    .kbd{border:1px solid var(--line);border-radius:6px;padding:.12rem .4rem;background:#fafafa;font-weight:700}
-
-    .article h1{font-weight:800;font-size:1.6rem}
-    .article h2{font-weight:800;font-size:1.15rem;margin-top:1.2rem}
-    .article ul{padding-left:1.1rem}
-    .article .cta-row{gap:.5rem; display:flex; flex-wrap:wrap}
-
-    /* Browse spoiler */
-    .browse-toggle{width:100%; text-align:left}
-    .browse-body .group-title{font-weight:800; margin:.35rem 0}
-    .browse-body .side-link{display:block; padding:.45rem .6rem; border-radius:10px; color:#3c4260; font-weight:700}
-    .browse-body .side-link:hover,.browse-body .side-link.active{background:#f7f8fc}
-
-    /* Quick Actions */
-    .quick-actions{display:flex;flex-wrap:wrap;gap:.5rem}
-    @media (max-width: 575px){ .quick-actions a{flex:1 1 100%} }
-
-    /* Flash cue */
-    .flash{animation:flashHighlight 900ms ease-out}
-    @keyframes flashHighlight{ 0%{box-shadow:0 0 0 0 rgba(120,81,169,.28)} 40%{box-shadow:0 0 0 10px rgba(120,81,169,.18)} 100%{box-shadow:0 0 0 0 rgba(120,81,169,0)} }
-
-    footer{font-size:.95rem;color:#fff}
-
-    /* Feedback */
-    .helpful{display:flex;gap:.5rem;align-items:center}
-    .helpful button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:.35rem .7rem;font-weight:700}
-    .helpful .count{color:#6b6f86}
-
-    #search-section {
-      background-color: rgb(255, 255, 255) !important;
+    :root {
+      --brand: #7851a9;
+      --brand-light: #9b7bc7;
+      --gold: #ffd700;
+      --gold-dim: rgba(255, 215, 0, 0.15);
+      --dark: #0a0a0f;
+      --dark-2: #121218;
+      --dark-3: #1a1a22;
+      --dark-4: #222230;
+      --line: rgba(255,255,255,.08);
+      --muted: rgba(255,255,255,.55);
+      --success: #22c55e;
     }
 
-    #footer-notes {
-      font-size: 10px;
-      color: gray;
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: var(--dark);
+      color: #fff;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      min-height: 100vh;
     }
+    a { color: inherit; text-decoration: none; }
 
-    /* =====================================================
-   GLOBAL DARK MODE OVERRIDE 
-   ===================================================== */
+    .container-narrow { max-width: 1100px; }
 
-    :root{
-      --ink:#eaeaf0 !important;
-      --ink-2:#b7b9c8 !important;
-      --muted:#9aa0b4 !important;
-      --line:#2a2a35 !important;
-      --bg:#000000 !important;
-      --panel:#111118 !important;
-      --panel-2:#161625 !important;
-      --white:#ffffff !important;
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 9999;
+      background: rgba(0,0,0,.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
+      padding: 12px 0;
+      transition: padding .2s ease;
     }
-
-    /* Page background + base text */
-    html,body{
-      background:#000 !important;
-      color:#fff !important;
+    nav.scrolled { padding: 8px 0; }
+    nav .inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
-
-    /* Hero */
-    .hero{
-      background:#000 !important;
+    .logo-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
-    .eyebrow{color:#b7b9c8 !important}
-    .sub{color:#cfd2ff !important}
-
-    /* Panels / cards */
-    .surface,
-    .result,
-    .article{
-      background:var(--panel) !important;
-      color:#fff !important;
-      border-color:var(--line) !important;
-      box-shadow:0 12px 30px rgba(0,0,0,.7) !important;
+    .logo-group img { height: 36px; }
+    .logo-group span { font-weight: 800; font-size: 18px; letter-spacing: -.3px; }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
-
-    /* Search */
-    .search-wrap input{
-      background:var(--panel-2) !important;
-      color:#fff !important;
-      border-color:var(--line) !important;
+    .nav-links a {
+      padding: 8px 14px;
+      border-radius: 10px;
+      font-weight: 500;
+      font-size: 14px;
+      color: rgba(255,255,255,.85);
+      transition: background .2s, color .2s;
     }
-    .search-wrap input::placeholder{color:#ffffff !important}
-
-    /* Buttons */
-    .btn-ghost{
-      background:var(--panel-2) !important;
-      color:#fff !important;
-      border-color:var(--line) !important;
+    .nav-links a:hover {
+      background: rgba(255,255,255,.08);
+      color: #fff;
     }
-    .btn-ghost:hover{background:#1d1d2f !important}
-
-
-    .browse-body .side-link{
-      color:#e6e8ff !important;
+    .nav-cta {
+      background: var(--gold) !important;
+      color: #1a1a22 !important;
+      font-weight: 700 !important;
+      box-shadow: 0 4px 20px rgba(255, 215, 0, .25);
     }
-    .browse-body .side-link:hover,
-    .browse-body .side-link.active{
-      background:#1a1a28 !important;
+    .nav-cta:hover {
+      background: #f5cc00 !important;
+      transform: translateY(-1px);
     }
-
-
-    .table{color:#fff !important}
-    .table th,.table td{border-color:var(--line) !important}
-
-
-    .alert-info{
-      background:#101827 !important;
-      color:#d6ddff !important;
-      border-color:#2c3c6a !important;
+    .mobile-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 24px;
+      cursor: pointer;
     }
-    .alert-warning{
-      background:#2a2105 !important;
-      color:#ffe8a3 !important;
-      border-color:#6b5200 !important;
-}
-
-  .meta,
-  .text-muted,
-  .small,
-  .kbd{
-    color:#8a8a8e !important;
-    background:#0e0e15 transparent; 
-    border-color:var(--line) !important;
-  }
-
-
-
-    .result div[style*="font-size"],
-    .article .meta{
-      color:#ffffff !important;
-    }
-
-    #search-section{
-      background:transparent !important;
-    }
-
-  
-
-    .article-body {
-      max-width: 720px;
-   
-      text-align: left !important;
-
-    }
-
-    @media (min-width: 992px) {
-      .article-body {
-        padding: 0 ;
+    @media (max-width: 991px) {
+      .nav-links { display: none; }
+      .mobile-toggle { display: block; }
+      .nav-links.open {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: rgba(10,10,15,.98);
+        padding: 20px;
+        gap: 8px;
+        border-bottom: 1px solid var(--line);
       }
     }
 
+    /* HERO */
+    .hero {
+      position: relative;
+      padding: 140px 0 80px;
+      background: var(--dark);
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 50% 0%, rgba(120,81,169,.2), transparent 60%),
+        radial-gradient(ellipse 40% 30% at 80% 20%, rgba(255,215,0,.08), transparent 50%);
+      pointer-events: none;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 700px;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: rgba(255,255,255,.05);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--gold);
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-size: clamp(36px, 6vw, 56px);
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: -.02em;
+      margin: 0 0 16px;
+    }
+    .hero p {
+      font-size: 18px;
+      color: var(--muted);
+      line-height: 1.7;
+      margin: 0;
+    }
+
+    /* SEARCH */
+    .search-section {
+      position: relative;
+      z-index: 10;
+      margin-top: -40px;
+      padding: 0 20px;
+    }
+    .search-card {
+      background: var(--dark-2);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 32px;
+      max-width: 800px;
+      margin: 0 auto;
+      box-shadow: 0 20px 60px rgba(0,0,0,.4);
+    }
+    .search-wrap {
+      position: relative;
+    }
+    .search-wrap input {
+      width: 100%;
+      background: var(--dark-3);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 18px 20px 18px 56px;
+      font-size: 16px;
+      color: #fff;
+      font-family: inherit;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .search-wrap input::placeholder { color: var(--muted); }
+    .search-wrap input:focus {
+      outline: none;
+      border-color: var(--brand);
+      box-shadow: 0 0 0 4px rgba(120,81,169,.15);
+    }
+    .search-wrap .icon {
+      position: absolute;
+      left: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted);
+      font-size: 18px;
+    }
+    .search-wrap .clear {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: var(--dark-4);
+      border: none;
+      color: var(--muted);
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity .2s;
+    }
+    .search-wrap input:not(:placeholder-shown) + .icon + .clear { opacity: 1; }
+    .search-shortcut {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 12px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .kbd {
+      background: var(--dark-3);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 4px 8px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    /* QUICK LINKS */
+    .quick-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    .quick-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      background: var(--dark-3);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #fff;
+      transition: background .2s, border-color .2s, transform .2s;
+    }
+    .quick-link:hover {
+      background: var(--dark-4);
+      border-color: rgba(255,255,255,.15);
+      transform: translateY(-2px);
+      color: #fff;
+    }
+    .quick-link i { color: var(--gold); font-size: 14px; }
+
+    /* MAIN CONTENT */
+    main {
+      padding: 60px 0 80px;
+    }
+    .main-grid {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 40px;
+      align-items: start;
+    }
+    @media (max-width: 992px) {
+      .main-grid { grid-template-columns: 1fr; }
+    }
+
+    /* SIDEBAR */
+    .sidebar {
+      position: sticky;
+      top: 100px;
+    }
+    @media (max-width: 992px) {
+      .sidebar { position: static; }
+    }
+    .sidebar-card {
+      background: var(--dark-2);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 20px;
+    }
+    .sidebar-title {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+    .topic-group {
+      margin-bottom: 20px;
+    }
+    .topic-group:last-child { margin-bottom: 0; }
+    .topic-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 8px;
+      cursor: pointer;
+      padding: 8px 12px;
+      border-radius: 10px;
+      transition: background .2s;
+    }
+    .topic-header:hover { background: var(--dark-3); }
+    .topic-header i { color: var(--gold); font-size: 14px; width: 18px; text-align: center; }
+    .topic-header .chevron {
+      margin-left: auto;
+      font-size: 12px;
+      color: var(--muted);
+      transition: transform .2s;
+    }
+    .topic-group.open .topic-header .chevron { transform: rotate(180deg); }
+    .topic-links {
+      display: none;
+      padding-left: 38px;
+    }
+    .topic-group.open .topic-links { display: block; }
+    .topic-link {
+      display: block;
+      padding: 8px 12px;
+      font-size: 13px;
+      color: var(--muted);
+      border-radius: 8px;
+      transition: background .2s, color .2s;
+    }
+    .topic-link:hover, .topic-link.active {
+      background: var(--dark-3);
+      color: #fff;
+    }
+    .topic-link.active {
+      color: var(--gold);
+      font-weight: 600;
+    }
+
+    /* CONTENT AREA */
+    .content-area {
+      min-height: 400px;
+    }
+
+    /* RESULTS */
+    .results-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .results-header h2 {
+      font-size: 20px;
+      font-weight: 700;
+      margin: 0;
+    }
+    .results-count {
+      font-size: 14px;
+      color: var(--muted);
+    }
+    .results-grid {
+      display: grid;
+      gap: 16px;
+    }
+    .result-card {
+      background: var(--dark-2);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 24px;
+      transition: transform .2s, box-shadow .2s, border-color .2s;
+      cursor: pointer;
+    }
+    .result-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0,0,0,.3);
+      border-color: rgba(120,81,169,.3);
+    }
+    .result-card .title {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .result-card .title i {
+      color: var(--muted);
+      font-size: 14px;
+      opacity: 0;
+      transition: opacity .2s, transform .2s;
+    }
+    .result-card:hover .title i {
+      opacity: 1;
+      transform: translateX(4px);
+    }
+    .result-card .meta {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+    .result-card .meta .topic {
+      color: var(--brand-light);
+      font-weight: 600;
+    }
+    .result-card .excerpt {
+      font-size: 14px;
+      color: rgba(255,255,255,.7);
+      line-height: 1.6;
+    }
+
+    /* ARTICLE */
+    .article-view {
+      background: var(--dark-2);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 40px;
+    }
+    @media (max-width: 768px) {
+      .article-view { padding: 24px; }
+    }
+    .article-breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 24px;
+    }
+    .article-breadcrumb a {
+      color: var(--muted);
+      transition: color .2s;
+    }
+    .article-breadcrumb a:hover { color: var(--gold); }
+    .article-header {
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--line);
+    }
+    .article-header h1 {
+      font-size: clamp(24px, 4vw, 32px);
+      font-weight: 800;
+      line-height: 1.2;
+      margin: 0 0 12px;
+    }
+    .article-header .meta {
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .article-body {
+      font-size: 15px;
+      line-height: 1.8;
+      color: rgba(255,255,255,.85);
+    }
+    .article-body h2 {
+      font-size: 18px;
+      font-weight: 700;
+      margin: 32px 0 12px;
+      color: #fff;
+    }
+    .article-body p { margin-bottom: 16px; }
+    .article-body ul, .article-body ol {
+      margin-bottom: 16px;
+      padding-left: 24px;
+    }
+    .article-body li { margin-bottom: 8px; }
+    .article-body a {
+      color: var(--gold);
+      text-decoration: underline;
+    }
+    .article-body a:hover { color: #fff; }
+    .article-body code {
+      background: var(--dark-3);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 13px;
+    }
+    .article-body .alert {
+      padding: 16px 20px;
+      border-radius: 12px;
+      margin: 20px 0;
+      font-size: 14px;
+    }
+    .article-body .alert-info {
+      background: rgba(120,81,169,.15);
+      border: 1px solid rgba(120,81,169,.3);
+      color: #d6ddff;
+    }
+    .article-body .alert-warning {
+      background: rgba(255,215,0,.1);
+      border: 1px solid rgba(255,215,0,.2);
+      color: #ffe8a3;
+    }
+    .article-body .table {
+      width: 100%;
+      margin: 20px 0;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    .article-body .table th,
+    .article-body .table td {
+      padding: 12px 16px;
+      border: 1px solid var(--line);
+      text-align: left;
+    }
+    .article-body .table th {
+      background: var(--dark-3);
+      font-weight: 700;
+    }
+    .article-body .table td { background: var(--dark-2); }
+    .article-body .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 24px;
+    }
+    .article-footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid var(--line);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    /* BUTTONS */
+    .btn-brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 20px;
+      background: var(--gold);
+      color: var(--dark);
+      font-weight: 700;
+      font-size: 14px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      transition: transform .2s, box-shadow .2s;
+
+    }
+    .btn-brand:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(255,215,0,.25);
+      color: var(--dark);
+    }
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 20px;
+      background: var(--dark-3);
+      color: #fff;
+      font-weight: 600;
+      font-size: 14px;
+      border-radius: 10px;
+      border: 1px solid var(--line);
+      cursor: pointer;
+      transition: transform .2s, background .2s;
+    }
+    .btn-ghost:hover {
+      transform: translateY(-2px);
+      background: var(--dark-4);
+      color: #fff;
+    }
+
+    /* CATEGORIES SECTION */
+    .categories-section {
+      padding: 60px 0;
+      background: var(--dark-2);
+    }
+    .section-header {
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto 48px;
+    }
+    .section-header h2 {
+      font-size: clamp(24px, 4vw, 32px);
+      font-weight: 800;
+      margin: 0 0 12px;
+    }
+    .section-header p {
+      color: var(--muted);
+      font-size: 16px;
+    }
+    .categories-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    .category-card {
+      background: var(--dark-3);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 28px;
+      transition: transform .2s, box-shadow .2s, border-color .2s;
+      cursor: pointer;
+    }
+    .category-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0,0,0,.3);
+      border-color: rgba(255,215,0,.2);
+    }
+    .category-card .icon {
+      width: 48px;
+      height: 48px;
+      background: var(--gold-dim);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      color: var(--gold);
+      margin-bottom: 16px;
+    }
+    .category-card h3 {
+      font-size: 16px;
+      font-weight: 700;
+      margin: 0 0 8px;
+    }
+    .category-card p {
+      font-size: 13px;
+      color: var(--muted);
+      margin: 0 0 12px;
+      line-height: 1.6;
+    }
+    .category-card .count {
+      font-size: 12px;
+      color: var(--brand-light);
+      font-weight: 600;
+    }
 
 
+    .contact-cta {
+      padding: 80px 0;
+      background: linear-gradient(135deg, var(--dark) 0%, var(--dark-3) 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    .contact-cta::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(120,81,169,.12), transparent 60%);
+      pointer-events: none;
+    }
+    .contact-cta .content {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .contact-cta h2 {
+      font-size: clamp(24px, 4vw, 36px);
+      font-weight: 800;
+      margin: 0 0 16px;
+    }
+    .contact-cta p {
+      color: var(--muted);
+      font-size: 16px;
+      margin-bottom: 28px;
+    }
+    .contact-cta .btns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+    }
+
+
+    footer {
+      background: #000;
+      padding: 40px 0;
+      border-top: 1px solid var(--line);
+      text-align: center;
+    }
+    footer .copyright {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+    footer .links {
+      font-size: 13px;
+      margin-bottom: 12px;
+    }
+    footer .links a {
+      color: var(--muted);
+      margin: 0 8px;
+      transition: color .2s;
+    }
+    footer .links a:hover { color: #fff; }
+    footer .made-with {
+      font-size: 12px;
+      color: rgba(255,255,255,.3);
+    }
+    footer .made-with span { color: var(--gold); }
+
+
+    .flash {
+      animation: flashHighlight 800ms ease-out;
+    }
+    @keyframes flashHighlight {
+      0% { box-shadow: 0 0 0 0 rgba(120,81,169,.4); }
+      50% { box-shadow: 0 0 0 8px rgba(120,81,169,.2); }
+      100% { box-shadow: 0 0 0 0 rgba(120,81,169,0); }
+    }
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity .5s ease, transform .5s ease;
+    }
+    .reveal.in-view {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+    }
+
+
+    .mobile-topics-toggle {
+      display: none;
+      width: 100%;
+      padding: 14px 20px;
+      background: var(--dark-2);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      color: #fff;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      margin-bottom: 20px;
+      justify-content: space-between;
+      align-items: center;
+    }
+    @media (max-width: 992px) {
+      .mobile-topics-toggle { display: flex; }
+      .sidebar { display: none; }
+      .sidebar.open { display: block; }
+    }
+
+  
+.article-body .table {
+  border-collapse: separate;
+  border-spacing: 0;
+  overflow: hidden;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,.12);
+  background: rgba(255,255,255,.02);
+}
+
+.article-body .table th,
+.article-body .table td {
+  border-color: rgba(255,255,255,.10) !important;
+}
+
+.article-body .table th {
+  background: rgba(255,255,255,.06);
+  color: rgba(255,255,255,.92);
+}
+
+.article-body .table td {
+  background: rgba(255,255,255,.03);
+  color: rgba(255,255,255,.82);
+}
+
+
+.article-body .table tbody tr:nth-child(even) td {
+  background: rgba(255,255,255,.05);
+}
+
+
+.article-body .table tbody tr:hover td {
+  background: rgba(120,81,169,.14);
+}
+
+
+.btn-brand {
+  color: #14141a !important;            
+  text-shadow: 0 1px 0 rgba(255,255,255,.25);
+}
+
+.btn-brand i {
+  color: #14141a !important;
+  opacity: .9;
+}
+
+.btn-brand,
+.btn-brand:hover,
+.btn-brand:focus,
+.btn-brand:active {
+  text-decoration: none !important;
+}
+
+
+.btn-brand {
+  background: #ffdb1a; 
+}
+
+.article-breadcrumb {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(255,255,255,.03);
+  border: 1px solid rgba(255,255,255,.08);
+}
+
+.article-breadcrumb a,
+.article-breadcrumb span {
+  line-height: 1.2;
+}
+
+.article-breadcrumb i {
+  width: 18px;
+  text-align: center;
+}
+
+
+.article-breadcrumb > span:nth-child(2),
+.article-breadcrumb > span:nth-child(4) {
+  opacity: .45;
+}
+
+
+.article-breadcrumb > span:last-child {
+  max-width: 520px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+@media (max-width: 768px) {
+  .article-breadcrumb > span:last-child {
+    max-width: 240px;
+  }
+}
+
+.article-breadcrumb { display: none !important; }
 
   </style>
 </head>
 <body>
-  <!-- NAV -->
-  <div class="nav-wrap">
-    <div class="container container-narrow">
-      <nav class="navbar navbar-expand-lg navbar-dark webeaze-nav" role="navigation" aria-label="Primary">
-        <a class="navbar-brand d-flex align-items-center" href="index.html">
-          <img class="logo" src="images/webeaze-transparent copy.png" alt="WebEaze" />
-          <strong class="ml-2 brand-word">WebEaze</strong>
-        </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mobileNav" aria-controls="mobileNav" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div id="mobileNav" class="collapse navbar-collapse">
-          <ul class="navbar-nav ml-auto main-nav">
-            <li class="nav-item"><a class="nav-link" href="build.html">New Website</a></li>
-            <li class="nav-item"><a class="nav-link" href="manage.html">Existing Site</a></li>
-            <li class="nav-item"><a class="nav-link" href="pricing.html">Pricing</a></li>
-            <li class="nav-item"><a class="nav-link" href="faq.html">FAQ</a></li>
-            <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
-            <li class="nav-item"><a class="nav-link" href="contact-us.html">Contact</a></li>
-            <li class="nav-item ml-1"><a class="btn btn-sm btn-nav" href="consultation.html">Request Free Mockup</a></li>
-          </ul>
-        </div>
-      </nav>
+
+<!-- NAV -->
+<nav id="mainNav">
+  <div class="container container-narrow">
+    <div class="inner">
+      <a href="index.html" class="logo-group">
+        <img src="images/webeaze-transparent copy.png" alt="WebEaze" />
+        <span>WebEaze</span>
+      </a>
+      <div class="nav-links" id="navLinks">
+        <a href="build.html">New Website</a>
+        <a href="manage.html">Existing Site</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="faq.html">FAQ</a>
+        <a href="about.html">About</a>
+        <a href="contact-us.html">Contact</a>
+        <a href="consultation.html" class="nav-cta">Request Free Mockup</a>
+      </div>
+      <button class="mobile-toggle" onclick="document.getElementById('navLinks').classList.toggle('open')">
+        <i class="fas fa-bars"></i>
+      </button>
     </div>
   </div>
+</nav>
 
-  <!-- HERO -->
-  <header class="hero">
-    <div class="halo" aria-hidden="true"></div>
-    <div class="container container-narrow">
-      <div class="row align-items-center">
-        <div class="col-lg-9">
-          <div class="eyebrow">WebEaze Help Center</div>
-          <h1 class="headline mt-2" style="font-weight:700;letter-spacing:-.02em;line-height:1.06">Need some help?
-          </h1>
-          <p class="sub mt-2" style="color:#3f4564;max-width:650px;"> Find answers before, during, and after launch: plans, content, domains, launch checklist, and post-launch care.
-          </p>
-          
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-bg"></div>
+  <div class="container container-narrow">
+    <div class="hero-content">
+      <div class="hero-badge">
+        <i class="fas fa-book-open"></i>
+        Help Center
+      </div>
+      <h1 style="font-weight: 600;">How can we help you today?</h1>
+      <p>Find answers to your questions about plans, content, domains, launch process, and ongoing support.</p>
+    </div>
+  </div>
+</header>
+
+<!-- SEARCH SECTION -->
+<div class="search-section">
+  <div class="search-card">
+    <div class="search-wrap">
+      <i class="fas fa-search icon"></i>
+      <input id="search" type="search" placeholder="Search for answers..." aria-label="Search Help Center" />
+      <button class="clear" id="clearBtn" aria-label="Clear search">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+
+    <div class="quick-links">
+      <a href="#/getting-started" class="quick-link"><i class="fas fa-rocket"></i> Getting Started</a>
+      <a href="#/which-plan-should-i-choose" class="quick-link"><i class="fas fa-tag"></i> Choosing a Plan</a>
+      <a href="#/how-to-request-updates" class="quick-link"><i class="fas fa-edit"></i> Request Changes</a>
+      <a href="#/manage-your-plan" class="quick-link"><i class="fas fa-credit-card"></i> Billing</a>
+    </div>
+  </div>
+</div>
+
+<!-- LIVE REGION -->
+<div id="live" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+
+<!-- MAIN CONTENT -->
+<main>
+  <div class="container container-narrow">
+    <button class="mobile-topics-toggle" id="mobileTopicsToggle">
+      <span><i class="fas fa-list"></i> Browse Topics</span>
+      <i class="fas fa-chevron-down"></i>
+    </button>
+
+    <div class="main-grid">
+      <!-- SIDEBAR -->
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-card">
+          <div class="sidebar-title">Browse by Topic</div>
+          <div id="browseBody"></div>
         </div>
+      </aside>
+
+      <!-- CONTENT AREA -->
+      <div class="content-area">
+        <div id="results"></div>
+        <article id="article" hidden></article>
       </div>
     </div>
-  </header>
+  </div>
+</main>
 
-  <!-- Live region -->
-  <div id="live" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+<!-- CATEGORIES SECTION -->
+<section class="categories-section" id="categoriesSection">
+  <div class="container container-narrow">
+    <div class="section-header">
+      <h2>Browse by Category</h2>
+      <p>Explore our help articles organized by topic to find exactly what you need.</p>
+    </div>
+    <div class="categories-grid" id="categoriesGrid"></div>
+  </div>
+</section>
 
-  <main class="py-4" style="padding-top: 0 !important;">
-    <div class="container container-narrow">
-      <div class="row">
-        <section class="col-12" style="padding-top: 0 !important;">
-          <!-- Search + Browse spoiler -->
-          <div class="surface mb-3" id="search-section">
-            <div class="search-wrap">
-              <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-              <input id="search" type="search" placeholder="Search the Help Center..." aria-label="Search Help Center" />
-              <button  class="clear" id="clearBtn" style="color: white !important;" aria-label="Clear search"></button>
-            </div>
-       
+<!-- CONTACT CTA -->
+<section class="contact-cta">
+  <div class="container container-narrow">
+    <div class="content">
+      <h2>Still Need Help?</h2>
+      <p>Can't find what you're looking for? Our team is here to help you with any questions.</p>
+      <div class="btns">
+        <a href="website-request.html" class="btn-brand">
+          <i class="fas fa-paper-plane"></i>
+          Submit a Request
+        </a>
+        <a href="contact-us.html" class="btn-ghost">
+          <i class="fas fa-envelope"></i>
+          Contact Us
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
 
-            <br>
+<!-- FOOTER -->
+<footer>
+  <div class="container container-narrow">
+    <div class="copyright">&copy; <span id="yr"></span> WebEaze. All rights reserved.</div>
+    <div class="links">
+      <a href="terms.html#privacy">Privacy Policy</a>
+      <a href="terms.html">Terms</a>
+      <a href="site-map.html">Site Map</a>
+    </div>
+    <div class="made-with">Made with <span>&#9749;</span> in Delaware, USA</div>
+  </div>
+</footer>
 
-            <a id="browse-open" class="btn-ghost mt-3 browse-toggle" data-toggle="collapse" href="#browse" role="button" aria-expanded="false" aria-controls="browse">
-              Browse topics &#x25BE;
-            </a>
+<script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-            <br>
-            <br>
-            <div id="browse" class="collapse mt-2" aria-labelledby="browse-open">
-              <div id="browseBody" class="browse-body"></div>
-            </div>
+<script>
+  // ---- Content Model ----
+  const TODAY = '01-18-2026';
+  const HELP_DATA = {
+    topics: [
+      { id: 'before', title: 'Before You Start', icon: 'fa-flag-checkered', articles: [
+        { slug: 'getting-started', title: 'Getting Started with WebEaze', updated: '12-23-2025', meta: 'A full overview of how WebEaze works from start to finish.' , body: `
+        <p>Welcome to WebEaze! Here's a full overview of how our process works from start to finish. This guide explains what happens from the moment you reach out to us until your website is live and beyond.
+          </p>
+
+        <h2>1. Initial Mockup Call (Free)</h2>
+
+        <p>We start with a free 15-minute website mockup call where we show you examples of our work and a mockup of your future site. This helps you visualize the design and layout before committing.</p>
+
+        <h2>2. Choose Your Plan</h2>
+        <p>After the mockup call, you can choose a plan that fits your needs: Essential, Growth, or Elite. Each plan offers different features and levels of support. All plans include ongoing support with domain and hosting coverage included. </p>
+
+        <h2>3. Content Submission</h2>
+        <p>Once you've selected a plan, you'll receive a confirmation and redirected to a Welcome page that describes the next steps. This will typically be Content Submission, which includes text, images, logos, and any other relevant information. We provide guidance on what content is needed to ensure a smooth process.</p>
+
+        <h2>4. Website Development</h2>
+        <p>With your content in hand, our team begins building your website. We focus on creating a professional, responsive design that aligns with your brand and meets your business goals.  </p>
+
+        <h2>5. Review and Revisions</h2>
+        <p>You'll be notified when we finish your first draft for review and your website is fully launched. This process typically takes 1-2 working weeks. Once the first draft is ready, you'll have the opportunity to review the site and provide feedback. We offer a set number of revisions based on your chosen plan to ensure the final product meets your expectations.</p>
+
+        <h2>6. Launch</h2>
+        <p>After finalizing the design and content, we prepare your website for launch. This includes setting up your domain, ensuring everything is functioning correctly, and optimizing for performance. Once everything is set, we make your website live for the world to see!</p>
+
+        <h2>7. Ongoing Support</h2>
+        <p>Post-launch, we provide ongoing support to help you maintain and update your website as needed. Depending on your plan, this may include regular updates, performance monitoring, and assistance with any issues that arise.</p>
+
+        <div class="cta-row mt-2">
+          <a class="btn-brand" href="consultation.html">Schedule a Free Mockup Call</a>
+          <a class="btn-ghost" href="plan-guide.html">See the Plan Guide</a>
+          <a class="btn-ghost" href="website-request.html">Submit Website Request</a>
+        </div>
+
+
+        `
+     },
+        { slug: 'which-plan-should-i-choose', title: 'Which plan should I choose?', updated: TODAY, meta: 'Quick guidance for Essential, Growth, and Elite plans based on your business needs.', body: `
+
+        <p>Choose the plan that matches your current needs. You can always upgrade as your business grows.</p>
+
+        <h2>Essential Plan</h2>
+        <p>Perfect for solopreneurs and small businesses that need a simple web presence with 1-3 pages. Includes unlimited updates and basic support.</p>
+
+        <h2>Growth Plan</h2>
+        <p>Ideal for growing businesses that need 4-6 pages plus priority support. Includes Google Meet sessions, Live Chat, monthly performance reports, and Google Business Profile management.</p>
+
+        <h2>Elite Plan</h2>
+        <p>Best for established businesses that want unlimited pages, priority support, full domain and hosting coverage, and faster response times.</p>
+
+        <h2>Still unsure?</h2>
+        <p>Book a free 15-minute mockup call where we'll review your needs and recommend the best plan for you. There's no obligation, and you'll see examples of what your site could look like.</p>
+
+        <p><strong>Good to know:</strong> Upgrades are easy and seamless. Downgrades take effect at the end of your billing cycle.</p>
+
+        <div class="cta-row mt-2">
+          <a class="btn-brand" href="consultation.html">Schedule Free Mockup Call</a>
+          <a class="btn-ghost" href="plan-guide.html">Compare All Plans</a>
+        </div>
+        ` },
+
+        { slug: 'existing-website', title: 'Can you work with my existing website?', updated: TODAY, meta: 'We offer support for sites already built, not just the ones we build from scratch.', body: `
+
+        <p>We've worked on websites that are hosted on platforms such as WordPress, Wix, Squarespace, and Webflow. We're able to help you with:
+          <ul>
+            <li> Text or image changes, fixing layout issues
+              </li>
+              <li> Design cleanup and improving responsiveness for mobile/tablet devices
+                </li>
+                <li> SEO & Performance Tweaks such as adding title tags, meta descriptions, alt text, and page speed improvements
+                  </li>
+                  <li> Plugin or App Support for WordPress, Wix, Squarespace, Shopify, and more
+                    </li>
+                    </ul></p>
+
+                    <p>
+                      The bottom line is: your website doesn't have to be built by us to be cared for by us.
+                      </p>
+
+                      <div class="cta-row mt-2">
+            <a class="btn-brand" href="providers.html">Supported Providers</a>
           </div>
 
-          <!-- Results List -->
-          <div id="results" class="mb-3"></div>
+        `
 
-          <!-- Article View -->
-          <article id="article" class="surface article" hidden></article>
-        </section>
-      </div>
-      
-      <div id="footer-notes" class="text-center mt-4 mb-2">
-        <div>WebEaze Help Center</div>
-        <div>Published: March 30, 2025</div>
-      </div>
-    </div>
+        },
 
-    
-  </main>
+        { slug: 'one-time-setup-fee', title: 'What does the one-time setup fee include?', updated: '12-30-2025', meta: 'A one-time $199 fee covers professional design, setup, and launch of your website.', body: `
 
-  <!-- FOOTER  -->
-  <footer class="py-4 text-center" style="background:#000000;color:#fff">
-    <div class="container container-narrow">
-      <div class="mb-1">&copy; <span id="yr"></span> WebEaze. All rights reserved.</div>
-      <div class="mb-2 small">
-        <a href="terms.html#privacy" style="color:#fff">Privacy Policy</a> ·
-        <a href="terms.html" style="color:#fff">Terms</a> ·
-        <a href="site-map.html" style="color:#fff">Site Map</a>
-      </div>
-      <div class="small">Made with ☕ in Delaware, USA</div>
-    </div>
-  </footer>
+        <p>When you subscribe to a monthly plan, there's a one-time Website Setup & Onboarding Fee of <strong>$199</strong> at checkout. This is charged only once—your monthly payments afterward won't include this fee.</p>
 
-  <script>document.getElementById('yr').textContent=new Date().getFullYear();</script>
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <h2>What you get for $199</h2>
+        <ul>
+          <li><strong>Custom website design:</strong> Professional layout tailored to your brand</li>
+          <li><strong>Mobile optimization:</strong> Responsive design that works on all devices</li>
+          <li><strong>Domain & hosting setup:</strong> We handle all technical configuration</li>
+          <li><strong>SEO fundamentals:</strong> Title tags, meta descriptions, and site structure</li>
+          <li><strong>Quality assurance:</strong> Thorough testing before launch</li>
+          <li><strong>Launch support:</strong> We make sure everything works perfectly</li>
+        </ul>
 
-  <script>
-    // ---- Content Model ----
-    const TODAY = '11-23-2025';
-    const HELP_DATA = {
-      topics: [
-        { id: 'before', title: 'Before You Start', articles: [
+        <p>This one-time investment gets your website professionally built and launched—no hourly rates, no surprise charges.</p>
 
-          { slug: 'getting-started', title: 'Getting Started with WebEaze', updated: '12-23-2025', meta: 'A full overview of how WebEaze works from start to finish.' , body: `
-          <p>Welcome to WebEaze! Here's a full overview of how our process works from start to finish. This guide explains what happens from the moment you reach out to us until your website is live and beyond. 
+        <p><strong>Choosing yearly?</strong> The setup fee is already included in your annual price. It's one of the benefits of paying yearly.</p>
+        `
+
+        },
+        { slug: 'what-content-do-i-need', title: 'What content do I need to provide?', updated: TODAY, meta: 'A short checklist for faster first draft delivery.', body: `
+
+        <p>Our free mockup call is designed to collect information about your business. We may need more information after the call and when you subscribe as a client. We'll send you an email with a list of questions or content we may need. Here's a list of what we may request: </p>
+          <ul>
+            <li>Logo in SVG or PNG, brand colors, and any fonts.</li>
+            <li>Page outline such as Home, Services, About, and Contact.</li>
+            <li>Key points for each page. Bullet points are fine. Add any images you want us to use.</li>
+            <li>Contact details. Add your email, phone, address, and social links.</li>
+            <li>For bookings or e-commerce, tell us your platform and payment provider.</li>
+          </ul>
+          <p>Upload files in the <a href="website-request.html">Website Request</a> form or send a link to your Google Drive folder.</p>
+          <div class="cta-row mt-2">
+            <a class="btn-brand" href="website-request.html">Submit Website Request</a>
+            <a class="btn-ghost" href="website-request.html">Get help gathering content</a>
+          </div>
+        ` },
+        { slug: 'how-long-does-it-take', title: 'How long until I see a draft of my website?', updated: TODAY, meta: 'Typical timeline if content is ready.', body: `
+
+        <p>
+          We follow a sequence consisting of:
+
+          <ul>
+            <li><strong>First Draft</strong> </li>
+            <li><strong>Final Launch</strong> </li>
+            </ul>
+          </p>
+
+          <p>Most first drafts are ready within <strong>7 to 14 days</strong>. You'll be notified via email when the first draft is ready for review. </p>
+
+          <p>Allow another <strong>3 to 5 working days</strong>  for your website to be fully launched. </p>
+
+          <div class="alert alert-info mt-2"><strong>Note:</strong> Complex website features and delays in content submission on your end may delay the timeline. Submitting what we request on your end ensures a quick and seamless launch. In rare circumstances, allow up to 45 working days for your website to be fully launched from the date we hold our initial call (point of contact).
+            </div>
+
+        ` }
+      ]},
+
+      { id: 'build', title: 'During Website Build', icon: 'fa-hammer', articles: [
+        { slug: 'how-do-we-collaborate', title: 'Who do I contact while my website is being built?', updated: TODAY, meta: 'How to send edits and get quick replies while we are building your site.', body: `
+
+        <p>Communication is key to a smooth website build. All communication is primarily done via email. You'll receive updates during the build process, including when the first draft is ready for your review. </p>
+
+        <p>For any questions, edits, or additional content, please use our <a href="website-request.html"><u>Website Request</u></a> page. This helps us keep track of your requests and ensures nothing gets missed. </p>
+
+
+
+            <p>When your website is launched, the Website Request page will be your best friend. Please bookmark it and send us any edits or requests you'd like for us to complete at any time. </p>
+
+            <div class="alert alert-info mt-2" style="color:"><strong>Tip:</strong> We strongly recommend that you add us to your contacts list: <strong>support@webeaze.io</strong> to ensure you receive all email updates. </div>
+
+
+          <div class="cta-row mt-2">
+            <a class="btn-brand" href="website-request.html">Website Request form</a>
+            <a class="btn-ghost" href="https://meetings-na2.hubspot.com/webeaze/live-zoom-support">Schedule Google Meet*</a>
+
+            <p class="mt-2 small text-muted">*Available for Growth and Elite plan clients only.</p>
+
+          </div>
+        ` },
+
+
+        { slug: 'how-to-send-website-access', title: 'How to send us website access', updated: TODAY, meta: 'Give us secure access on Wix, Squarespace, WordPress, or your domain registrar following these steps. ', body: `
+
+          <h2>Wix</h2>
+          <ol>
+            <li>Settings → Roles and Permissions → Invite People.</li>
+            <li>Invite <code>support@webeaze.io</code> as Admin or Website Manager.</li>
+            <li>Send the invite.</li>
+          </ol>
+          <h2>Squarespace</h2>
+          <ol>
+            <li>Settings → Permissions → Invite Contributor.</li>
+            <li>Invite <code>support@webeaze.io</code> as Administrator or Website Editor.</li>
+          </ol>
+          <h2>WordPress (.org, Bluehost, and others)</h2>
+          <ol>
+            <li>Users → Add New → Email <code>support@webeaze.io</code> → Role Administrator → Add New User.</li>
+          </ol>
+          <h2>Domains (GoDaddy, Namecheap, and others)</h2>
+          <ul>
+            <li>Look for Add collaborator or Delegate access. If available, invite <code>support@webeaze.io</code> with Editor or Manager access.</li>
+            <li>If invites are not supported, either share DNS login by secure one-time link or book a quick screen-share and we'll guide you.</li>
+          </ul>
+          <div class="alert alert-info mt-2"><strong>Tip:</strong> Tell us where your site and domain currently live. We'll tailor the exact steps and confirm once we see access.</div>
+          <div class="cta-row mt-2">
+            <a class="btn-brand" href="website-request.html">Submit Website Request</a>
+          </div>
+        ` }
+      ]},
+
+      { id: 'domains-hosting', title: 'Domains & Hosting', icon: 'fa-globe', articles: [
+        { slug: 'domain-and-hosting-credit', title: 'How is domain and hosting covered?', updated: '01-03-2026', meta: 'Domain and hosting coverage and credits, explained.', body: `
+
+        <p>
+        There are several moving parts when it comes to domains and hosting. Here's how we handle it for you:
+
+        </p>
+
+        <p>If you're on our <strong>Essential plan</strong>, we'll cover your domain and hosting when built and published via GitHub Pages. For other hosting providers, you will need to manage hosting on your own. You can learn more about our supported providers below. </p>
+
+        <p>If you're on our <strong>Growth or Elite plans</strong>, we provide a domain and hosting credit of <strong>$50 USD</strong> or full coverage for one year, respectively. This credit can be applied as a discount or we can purchase and manage it for you. If you already own a domain or hosting elsewhere, we can credit your payment to offset the cost.</p>
+
+        <div class="alert alert-info mt-2"><strong>Tip:</strong> Domains typically cost $10-$20/year and hosting ranges from $5-$30/month depending on the provider and plan. Our credits help offset these costs. We cover domain and hosting for up to one year. We credit your payment or purchase and manage it for you. One term per subscription. </div>
+
+        <div class="cta-row mt-2">
+          <a class="btn-brand" href="plan-features.html">See plan details</a>
+          <a class="btn-ghost" href="providers.html">Supported Providers</a>
+
+          </div>
+
+
+        ` },
+        { slug: 'connect-your-domain', title: 'How do we connect your domain?', updated: TODAY, meta: 'Connecting, transferring, or purchasing your domain.', body: `
+          <p>We handle the entire domain setup process with you, whether you already own a domain, need to transfer one, or want us to purchase a new one on your behalf.</p>
+          <p><strong>Connecting an Existing Domain</strong>: If you already own a domain, we'll update its DNS records to point to your new website. You can either:
+
+            <ul>
+              <li>Grant us temporary access to your registrar (GoDaddy, Namecheap, etc.), or</li>
+            <li>Send us the DNS settings and we'll guide you step-by-step.</li>
+            </ul>
+    DNS propagation typically completes within 1-24 hours.
             </p>
 
-          <h2>1. Initial Mockup Call (Free)</h2>
-   
-          <p>We start with a free 15-minute website mockup call where we show you examples of our work and a mockup of your future site. This helps you visualize the design and layout before committing.</p>
+  <p><strong>Transferring a Domain</strong>: If you want full, centralized management through us, we can transfer your domain into your WebEaze hosting environment. You'll provide the transfer code (EPP/Auth code), unlock the domain, and approve the transfer via your registrar email.
+    Transfers generally take 5-7 days depending on the provider.
+  </p>
 
-          <h2>2. Choose Your Plan</h2>
-          <p>After the mockup call, you can choose a plan that fits your needs: Essential, Growth, or Elite. Each plan offers different features and levels of support. All plans include ongoing support with domain and hosting coverage included. </p>
+  <p><strong>Purchasing a New Domain</strong>: If your plan includes a domain credit, we can purchase and register the domain for you using your confirmation and preferred name.
+    We handle renewal and DNS management unless you request otherwise.
+  </p>
 
-          <h2>3. Content Submission</h2>
-          <p>Once you've selected a plan, you'll receive a confirmation and redirected to a Welcome page that describes the next steps. This will typically be Content Submission, which includes text, images, logos, and any other relevant information. We provide guidance on what content is needed to ensure a smooth process.</p>
+  <p><strong>SSL & Security</strong>: Once connected, we automatically set up SSL certificates and ensure your site loads securely over HTTPS.
+  </p>
 
-          <h2>4. Website Development</h2>
-          <p>With your content in hand, our team begins building your website. We focus on creating a professional, responsive design that aligns with your brand and meets your business goals.  </p>
+  <div class="cta-row mt-2">
+    <a class="btn-brand" href="website-request.html">Share registrar details</a>
+  </div>
 
-          <h2>5. Review and Revisions</h2>
-          <p>You'll be notified when we finish your first draft for review and your website is fully launched. This process typically takes 1-2 working weeks. Once the first draft is ready, you'll have the opportunity to review the site and provide feedback. We offer a set number of revisions based on your chosen plan to ensure the final product meets your expectations.</p>
+        ` }
+      ]},
 
-          <h2>6. Launch</h2>
-          <p>After finalizing the design and content, we prepare your website for launch. This includes setting up your domain, ensuring everything is functioning correctly, and optimizing for performance. Once everything is set, we make your website live for the world to see!</p>
+      { id: 'launch', title: 'Launch Checklist', icon: 'fa-rocket', articles: [
+        { slug: 'pre-launch-checklist', title: 'Pre-launch checklist', updated: TODAY, meta: 'Final steps before you go live.', body: `
 
-          <h2>7. Ongoing Support</h2>
-          <p>Post-launch, we provide ongoing support to help you maintain and update your website as needed. Depending on your plan, this may include regular updates, performance monitoring, and assistance with any issues that arise.</p>
+        <p>As web designers, we have a Quality Assurance (QA) check before any website goes live. This includes testing all links on the website, ensuring the website works on multiple device platforms (Desktop, Tablet, Mobile), ensuring there are no typos/errors/inconsistencies, and more. </p>
 
-          <div class="cta-row mt-2">
-            <a class="btn-brand" href="consultation.html">Schedule a Free Mockup Call</a>
-            <a class="btn-ghost" href="plan-guide.html">See the Plan Guide</a>
-            <a class="btn-ghost" href="website-request.html">Submit Website Request</a>
-          </div>
-
-          
-          ` 
-       },
-          { slug: 'which-plan-should-i-choose', title: 'Which plan should I choose?', updated: TODAY, meta: 'Quick guidance for Essential, Growth, and Elite plans based on your business needs.', body: `
-
-          <p>Choose the plan that matches your current needs. You can always upgrade as your business grows.</p>
-
-          <h2>Essential Plan</h2>
-          <p>Perfect for solopreneurs and small businesses that need a simple web presence with 1-3 pages. Includes unlimited updates and basic support.</p>
-
-          <h2>Growth Plan</h2>
-          <p>Ideal for growing businesses that need 4-6 pages plus priority support. Includes Google Meet sessions, Live Chat, monthly performance reports, and Google Business Profile management.</p>
-
-          <h2>Elite Plan</h2>
-          <p>Best for established businesses that want unlimited pages, priority support, full domain and hosting coverage, and faster response times.</p>
-
-          <h2>Still unsure?</h2>
-          <p>Book a free 15-minute mockup call where we'll review your needs and recommend the best plan for you. There's no obligation, and you'll see examples of what your site could look like.</p>
-
-          <p><strong>Good to know:</strong> Upgrades are easy and seamless. Downgrades take effect at the end of your billing cycle.</p>
-
-          <div class="cta-row mt-2">
-            <a class="btn-brand" href="consultation.html">Schedule Free Mockup Call</a>
-            <a class="btn-ghost" href="plan-guide.html">Compare All Plans</a>
-          </div>
-          ` },
-
-          { slug: 'existing-website', title: 'Can you work with my existing website?', updated: TODAY, meta: 'We offer support for sites already built, not just the ones we build from scratch.', body: `
-
-          <p>We've worked on websites that are hosted on platforms such as WordPress, Wix, Squarespace, and Webflow. We're able to help you with:
-            <ul> 
-              <li> Text or image changes, fixing layout issues 
-                </li>
-                <li> Design cleanup and improving responsiveness for mobile/tablet devices
-                  </li> 
-                  <li> SEO & Performance Tweaks such as adding title tags, meta descriptions, alt text, and page speed improvements 
-                    </li>
-                    <li> Plugin or App Support for WordPress, Wix, Squarespace, Shopify, and more
-                      </li>
-                      </ul></p>
-
-                      <p>
-                        The bottom line is: your website doesn't have to be built by us to be cared for by us. 
-                        </p>
-
-                        <div class="cta-row mt-2">
-              <a class="btn-brand" href="providers.html">Supported Providers</a>
-            </div> 
-
-          `
-
-          },
-
-          { slug: 'one-time-setup-fee', title: 'What does the one-time setup fee include?', updated: '12-30-2025', meta: 'A one-time $199 fee covers professional design, setup, and launch of your website.', body: `
-
-          <p>When you subscribe to a monthly plan, there's a one-time Website Setup & Onboarding Fee of <strong>$199</strong> at checkout. This is charged only once—your monthly payments afterward won't include this fee.</p>
-
-          <h2>What you get for $199</h2>
+        <p>While we do our part with QA, please ensure these steps are completed to the best of your ability for a smooth, seamless launch: </p>
           <ul>
-            <li><strong>Custom website design:</strong> Professional layout tailored to your brand</li>
-            <li><strong>Mobile optimization:</strong> Responsive design that works on all devices</li>
-            <li><strong>Domain & hosting setup:</strong> We handle all technical configuration</li>
-            <li><strong>SEO fundamentals:</strong> Title tags, meta descriptions, and site structure</li>
-            <li><strong>Quality assurance:</strong> Thorough testing before launch</li>
-            <li><strong>Launch support:</strong> We make sure everything works perfectly</li>
+            <li>Approve the final draft and page list.</li>
+            <li>Confirm that contact forms send to the right inboxes.</li>
+            <li>Provide or confirm domain access and your preferred launch period.</li>
+            <li>Share any legal pages such as Privacy and Terms and any required disclaimers.</li>
+            <li>Optional: send Google Analytics or Meta Pixel IDs.</li>
+          </ul>
+          <div class="cta-row mt-2">
+            <a class="btn-brand" href="website-request.html">Confirm final approval</a>
+            <a class="btn-ghost" href="website-request.html">Send legal pages</a>
+          </div>
+        ` },
+        { slug: 'what-happens-on-launch-day', title: 'What happens on launch day?', updated: TODAY, meta: 'Propagation, quick QA, and announcing.', body: `
+          <p>We confirm that your website URL works. Then, we conduct a QA check where we test your website on a mobile, tablet, and desktop device. Links and related content are checked to ensure responsiveness and consistency.
+            </p>
+            <p>You may see a brief cache propagation, meaning you may need to clear your browser cache shortly after launch for a full refresh. It is often minutes, but it can take up to 24 hours. We'll send you a confirmation and some tips on where to announce your brand new website.</p>
+        ` },
+        { slug: 'when-will-my-website-launch', title: 'When will my website launch?', updated: TODAY, meta: 'Typical WebEaze timeline, what we need from you, and common blockers.', body: `
+          <h2>Standard project timeline</h2>
+          <table class="table table-bordered">
+            <thead><tr><th>Phase</th><th>Description</th><th>Days</th></tr></thead>
+            <tbody>
+              <tr><td>Onboarding</td><td>Welcome email, setup in our system, project briefing.</td><td>Same day</td></tr>
+              <tr><td>Content collection</td><td>You send your logo, text, and photos. We organize and plan page layouts.</td><td>1-3</td></tr>
+              <tr><td>Website build</td><td>We design and build your site. Homepage, internal pages, and mobile layout.</td><td>2-3</td></tr>
+              <tr><td>Revisions</td><td>You review the draft and send edits. We update and confirm.</td><td>2-3</td></tr>
+              <tr><td>Final launch</td><td>Final QA, SEO basics, and domain connection. Your site goes live.</td><td>1-2</td></tr>
+            </tbody>
+          </table>
+          <p><strong>Most sites launch within 7 to 14 days</strong> if content submission and feedback happens in a timely manner. If there are delays on your end or ours, it can take up to 45 days for your website to launch. Such delays will be communicated to you via email.</p>
+
+          <h2>What we need from you</h2>
+          <ul>
+            <li>
+              Content related to your business and website goals. Use our <a href="website-request.html">Website Request</a> form to send files and/or links.</li>
+            <li>Reply to revision notes within 2 to 3 days.</li>
+            <li>Share domain access or book a DNS walkthrough.</li>
           </ul>
 
-          <p>This one-time investment gets your website professionally built and launched—no hourly rates, no surprise charges.</p>
-
-          <p><strong>Choosing yearly?</strong> The setup fee is already included in your annual price. It's one of the benefits of paying yearly.</p>
-          `
-
-          },
-          { slug: 'what-content-do-i-need', title: 'What content do I need to provide?', updated: TODAY, meta: 'A short checklist for faster first draft delivery.', body: `
-
-          <p>Our free mockup call is designed to collect information about your business. We may need more information after the call and when you subscribe as a client. We'll send you an email with a list of questions or content we may need. Here's a list of what we may request: </p>
-            <ul>
-              <li>Logo in SVG or PNG, brand colors, and any fonts.</li>
-              <li>Page outline such as Home, Services, About, and Contact.</li>
-              <li>Key points for each page. Bullet points are fine. Add any images you want us to use.</li>
-              <li>Contact details. Add your email, phone, address, and social links.</li>
-              <li>For bookings or e-commerce, tell us your platform and payment provider.</li>
-            </ul>
-            <p>Upload files in the <a href="website-request.html">Website Request</a> form or send a link to your Google Drive folder.</p>
-            <div class="cta-row mt-2">
-              <a class="btn-brand" href="website-request.html">Submit Website Request</a>
-              <a class="btn-ghost" href="website-request.html">Get help gathering content</a>
-            </div>
-          ` },
-          { slug: 'how-long-does-it-take', title: 'How long until I see a draft of my website?', updated: TODAY, meta: 'Typical timeline if content is ready.', body: `
-
-          <p>
-            We follow a sequence consisting of: 
-            
-            <ul>
-              <li><strong>First Draft</strong> </li>
-              <li><strong>Final Launch</strong> </li> 
-              </ul> 
-            </p>
-
-            <p>Most first drafts are ready within <strong>7 to 14 days</strong>. You'll be notified via email when the first draft is ready for review. </p>
-
-            <p>Allow another <strong>3 to 5 working days</strong>  for your website to be fully launched. </p>
-
-            <div class="alert alert-info mt-2"><strong>Note:</strong> Complex website features and delays in content submission on your end may delay the timeline. Submitting what we request on your end ensures a quick and seamless launch. In rare circumstances, allow up to 45 working days for your website to be fully launched from the date we hold our initial call (point of contact).
-              </div>
-            
-          ` }
-        ]},
-
-        { id: 'build', title: 'During Website Build', articles: [
-          { slug: 'how-do-we-collaborate', title: 'Who do I contact while my website is being built?', updated: TODAY, meta: 'How to send edits and get quick replies while we are building your site.', body: `
-
-          <p>Communication is key to a smooth website build. All communication is primarily done via email. You'll receive updates during the build process, including when the first draft is ready for your review. </p>
-
-          <p>For any questions, edits, or additional content, please use our <a href="website-request.html"><u>Website Request</u></a> page. This helps us keep track of your requests and ensures nothing gets missed. </p>
-
-         
-
-              <p>When your website is launched, the Website Request page will be your best friend. Please bookmark it and send us any edits or requests you'd like for us to complete at any time. </p>
-
-              <div class="alert alert-info mt-2" style="color:"><strong>Tip:</strong> We strongly recommend that you add us to your contacts list: <strong>support@webeaze.io</strong> to ensure you receive all email updates. </div>
-
-
-            <div class="cta-row mt-2">
-              <a class="btn-brand" href="website-request.html">Website Request form</a>
-              <a class="btn-ghost" href="https://meetings-na2.hubspot.com/webeaze/live-zoom-support">Schedule Google Meet*</a>
-
-              <p class="mt-2 small text-muted">*Available for Growth and Elite plan clients only.</p>
-
-            </div>
-          ` },
-
-
-          { slug: 'how-to-send-website-access', title: 'How to send us website access', updated: TODAY, meta: 'Give us secure access on Wix, Squarespace, WordPress, or your domain registrar following these steps. ', body: `
-
-            <h2>Wix</h2>
-            <ol>
-              <li>Settings → Roles and Permissions → Invite People.</li>
-              <li>Invite <code>support@webeaze.io</code> as Admin or Website Manager.</li>
-              <li>Send the invite.</li>
-            </ol>
-            <h2>Squarespace</h2>
-            <ol>
-              <li>Settings → Permissions → Invite Contributor.</li>
-              <li>Invite <code>support@webeaze.io</code> as Administrator or Website Editor.</li>
-            </ol>
-            <h2>WordPress (.org, Bluehost, and others)</h2>
-            <ol>
-              <li>Users → Add New → Email <code>support@webeaze.io</code> → Role Administrator → Add New User.</li>
-            </ol>
-            <h2>Domains (GoDaddy, Namecheap, and others)</h2>
-            <ul>
-              <li>Look for Add collaborator or Delegate access. If available, invite <code>support@webeaze.io</code> with Editor or Manager access.</li>
-              <li>If invites are not supported, either share DNS login by secure one-time link or book a quick screen-share and we'll guide you.</li>
-            </ul>
-            <div class="alert alert-info mt-2"><strong>Tip:</strong> Tell us where your site and domain currently live. We'll tailor the exact steps and confirm once we see access.</div>
-            <div class="cta-row mt-2">
-              <a class="btn-brand" href="website-request.html">Submit Website Request</a>
-            </div>
-          ` }
-        ]},
-
-        { id: 'domains-hosting', title: 'Domains and Hosting', articles: [
-          { slug: 'domain-and-hosting-credit', title: 'How is domain and hosting covered?', updated: '01-03-2026', meta: 'Domain and hosting coverage and credits, explained.', body: `
-          
-          <p>
-          There are several moving parts when it comes to domains and hosting. Here's how we handle it for you:
-
-          </p>
-
-          <p>If you're on our <strong>Essential plan</strong>, we'll cover your domain and hosting when built and published via GitHub Pages. For other hosting providers, you will need to manage hosting on your own. You can learn more about our supported providers below. </p>
-
-          <p>If you're on our <strong>Growth or Elite plans</strong>, we provide a domain and hosting credit of <strong>$50 USD</strong> or full coverage for one year, respectively. This credit can be applied as a discount or we can purchase and manage it for you. If you already own a domain or hosting elsewhere, we can credit your payment to offset the cost.</p>
-
-          <div class="alert alert-info mt-2"><strong>Tip:</strong> Domains typically cost $10-$20/year and hosting ranges from $5-$30/month depending on the provider and plan. Our credits help offset these costs. We cover domain and hosting for up to one year. We credit your payment or purchase and manage it for you. One term per subscription. </div>
+          <h2>What can delay a project?</h2>
+          <ul>
+            <li>No or late content submission.</li>
+            <li>Unclear or multi-channel feedback. Keep it in one thread.</li>
+            <li>Missed approvals or long gaps between replies.</li>
+            <li>Mid-project scope additions. We'll schedule them without issue.</li>
+          </ul>
 
           <div class="cta-row mt-2">
-            <a class="btn-brand" href="plan-features.html">See plan details</a>
-            <a class="btn-ghost" href="providers.html">Supported Providers</a>
+            <a class="btn-brand" href="website-request.html">Send remaining content</a>
 
-            </div>
+          </div>
+        ` }
+      ]},
 
-        
-          ` },
-          { slug: 'connect-your-domain', title: 'How do we connect your domain?', updated: TODAY, meta: 'Connecting, transferring, or purchasing your domain.', body: `
-            <p>We handle the entire domain setup process with you, whether you already own a domain, need to transfer one, or want us to purchase a new one on your behalf.</p>
-            <p><strong>Connecting an Existing Domain</strong>: If you already own a domain, we'll update its DNS records to point to your new website. You can either:
-              
-              <ul>
-                <li>Grant us temporary access to your registrar (GoDaddy, Namecheap, etc.), or</li>
-              <li>Send us the DNS settings and we'll guide you step-by-step.</li>
-              </ul>
-      DNS propagation typically completes within 1-24 hours.
-              </p>
+      { id: 'after', title: 'After Launch', icon: 'fa-chart-line', articles: [
+        { slug: 'how-to-request-updates', title: 'How can I request website changes?', updated: '01-03-2026', meta: 'How unlimited maintenance works and how to get help.', body: `
 
-    <p><strong>Transferring a Domain</strong>: If you want full, centralized management through us, we can transfer your domain into your WebEaze hosting environment. You'll provide the transfer code (EPP/Auth code), unlock the domain, and approve the transfer via your registrar email. 
-      Transfers generally take 5-7 days depending on the provider.
-    </p>
+          <p>To request updates to your website, please use our Website Request form, available for all plans. This form is for edits, new sections, and inquiries.</p>
+          <p>Clients on Growth and Elite plans can also use Google Meet or Live Chat for quicker communication.</p>
 
-    <p><strong>Purchasing a New Domain</strong>: If your plan includes a domain credit, we can purchase and register the domain for you using your confirmation and preferred name. 
-      We handle renewal and DNS management unless you request otherwise.
-    </p>
+          <h2>Urgent Issues</h2>
+          <p>If your website is down or experiencing a major issue, select <strong>"URGENT, site down"</strong> on the request form and provide details. We'll prioritize your request to resolve it as quickly as possible.</p>
 
-    <p><strong>SSL & Security</strong>: Once connected, we automatically set up SSL certificates and ensure your site loads securely over HTTPS.
-    </p>
+          <p style="color: #ff6b6b;"><strong>Important:</strong> Please do not email support for website changes or requests. Use the Website Request form to ensure your request is tracked and processed.</p>
 
-    <div class="cta-row mt-2">
-      <a class="btn-brand" href="website-request.html">Share registrar details</a>
-    </div>
+          <div class="cta-row mt-2">
+            <a class="btn-brand" href="website-request.html">Website Request form</a>
+            <a class="btn-ghost" href="https://meetings-na2.hubspot.com/webeaze/live-zoom-support">Schedule Google Meet*</a>
+            <a href="https://webeaze.io/portal" class="btn-ghost">Start Live Chat*</a>
+            <p class="mt-2 small text-muted">*Available for Growth and Elite plan clients only.</p>
 
-          ` }
-        ]},
+        ` },
 
-        { id: 'launch', title: 'Launch Checklist', articles: [
-          { slug: 'pre-launch-checklist', title: 'Pre-launch checklist', updated: TODAY, meta: 'Final steps before you go live.', body: `
+        { slug: 'total-access-support', title: 'Total Access Support', updated: '01-03-2026', meta: 'What Total Access Support includes.', body: `
 
-          <p>As web designers, we have a Quality Assurance (QA) check before any website goes live. This includes testing all links on the website, ensuring the website works on multiple device platforms (Desktop, Tablet, Mobile), ensuring there are no typos/errors/inconsistencies, and more. </p>
-          
-          <p>While we do our part with QA, please ensure these steps are completed to the best of your ability for a smooth, seamless launch: </p>
-            <ul>
-              <li>Approve the final draft and page list.</li>
-              <li>Confirm that contact forms send to the right inboxes.</li>
-              <li>Provide or confirm domain access and your preferred launch period.</li>
-              <li>Share any legal pages such as Privacy and Terms and any required disclaimers.</li>
-              <li>Optional: send Google Analytics or Meta Pixel IDs.</li>
-            </ul>
-            <div class="cta-row mt-2">
-              <a class="btn-brand" href="website-request.html">Confirm final approval</a>
-              <a class="btn-ghost" href="website-request.html">Send legal pages</a>
-            </div>
-          ` },
-          { slug: 'what-happens-on-launch-day', title: 'What happens on launch day?', updated: TODAY, meta: 'Propagation, quick QA, and announcing.', body: `
-            <p>We confirm that your website URL works. Then, we conduct a QA check where we test your website on a mobile, tablet, and desktop device. Links and related content are checked to ensure responsiveness and consistency. 
-              </p>
-              <p>You may see a brief cache propagation, meaning you may need to clear your browser cache shortly after launch for a full refresh. It is often minutes, but it can take up to 24 hours. We'll send you a confirmation and some tips on where to announce your brand new website.</p>
-          ` },
-          { slug: 'when-will-my-website-launch', title: 'When will my website launch?', updated: TODAY, meta: 'Typical WebEaze timeline, what we need from you, and common blockers.', body: `
-            <h2>Standard project timeline</h2>
-            <table class="table table-bordered">
-              <thead><tr><th>Phase</th><th>Description</th><th>Days</th></tr></thead>
-              <tbody>
-                <tr><td>Onboarding</td><td>Welcome email, setup in our system, project briefing.</td><td>Same day</td></tr>
-                <tr><td>Content collection</td><td>You send your logo, text, and photos. We organize and plan page layouts.</td><td>1-3</td></tr>
-                <tr><td>Website build</td><td>We design and build your site. Homepage, internal pages, and mobile layout.</td><td>2-3</td></tr>
-                <tr><td>Revisions</td><td>You review the draft and send edits. We update and confirm.</td><td>2-3</td></tr>
-                <tr><td>Final launch</td><td>Final QA, SEO basics, and domain connection. Your site goes live.</td><td>1-2</td></tr>
-              </tbody>
-            </table>
-            <p><strong>Most sites launch within 7 to 14 days</strong> if content submission and feedback happens in a timely manner. If there are delays on your end or ours, it can take up to 45 days for your website to launch. Such delays will be communicated to you via email.</p>
+          <p>With our Total Access Support, you gain comprehensive assistance as your business grows. This bundled feature includes options for Google Meet sessions, Live Chat, and Phone support, ensuring you can reach us in the way that suits you best.</p>
 
-            <h2>What we need from you</h2>
-            <ul>
-              <li>
-                Content related to your business and website goals. Use our <a href="website-request.html">Website Request</a> form to send files and/or links.</li>
-              <li>Reply to revision notes within 2 to 3 days.</li>
-              <li>Share domain access or book a DNS walkthrough.</li>
-            </ul>
+          <p><strong>Google Meet Sessions:</strong> Schedule a convenient time through our Website Request page. You'll receive an email confirmation after booking.</p>
 
-            <h2>What can delay a project?</h2>
-            <ul>
-              <li>No or late content submission.</li>
-              <li>Unclear or multi-channel feedback. Keep it in one thread.</li>
-              <li>Missed approvals or long gaps between replies.</li>
-              <li>Mid-project scope additions. We'll schedule them without issue.</li>
-            </ul>
+          <p><strong>Live Chat:</strong> Enjoy real-time text support during our working hours for quick queries and updates.</p>
 
-            <div class="cta-row mt-2">
-              <a class="btn-brand" href="website-request.html">Send remaining content</a>
-   
-            </div>
-          ` }
-        ]},
+          <p><strong>Phone Support:</strong> For those who prefer voice communication, our new Phone support option is available to assist you.</p>
 
-        { id: 'after', title: 'After Launch and Growth', articles: [
-          { slug: 'how-to-request-updates', title: 'How can I request website changes?', updated: '01-03-2026', meta: 'How unlimited maintenance works and how to get help.', body: `
+          <h2>Some things to keep in mind...</h2>
+          <p>All support methods are exclusive to Growth and Elite plan clients. Your plan will be verified when accessing these services.</p>
 
-            <p>To request updates to your website, please use our Website Request form, available for all plans. This form is for edits, new sections, and inquiries.</p>
-            <p>Clients on Growth and Elite plans can also use Google Meet or Live Chat for quicker communication.</p>
+          <p>Please cancel or reschedule any Google Meet or Phone sessions at least 12 hours in advance to avoid losing access to these features.</p>
 
-            <h2>Urgent Issues</h2>
-            <p>If your website is down or experiencing a major issue, select <strong>"URGENT, site down"</strong> on the request form and provide details. We'll prioritize your request to resolve it as quickly as possible.</p>
+          <p>While Live Chat is available during working hours, response times may vary. If an agent is unavailable, we will follow up via email.</p>
 
-            <p style="color: red !important;"><strong>Important:</strong> Please do not email support for website changes or requests. Use the Website Request form to ensure your request is tracked and processed.</p>
+          <p>For Phone support, if your query cannot be resolved during the call, we will continue the conversation via email.</p>
 
-            <div class="cta-row mt-2">
-              <a class="btn-brand" href="website-request.html">Website Request form</a>
-              <a class="btn-ghost" href="https://meetings-na2.hubspot.com/webeaze/live-zoom-support">Schedule Google Meet*</a>
-              <a href="https://webeaze.io/portal" class="btn-ghost">Start Live Chat*</a>
-              <p class="mt-2 small text-muted">*Available for Growth and Elite plan clients only.</p>
-          
-          ` },
+          <div class="cta-row mt-2">
+            <a class="btn-brand" href="https://webeaze.io/website-request#growth-elite-plan">Schedule Session</a>
+            <a class="btn-ghost" href="https://webeaze.io/portal">Start Live Chat</a>
+          </div>
 
-          { slug: 'total-access-support', title: 'Total Access Support', updated: '01-03-2026', meta: 'What Total Access Support includes.', body: `
+        `
 
-            <p>With our Total Access Support, you gain comprehensive assistance as your business grows. This bundled feature includes options for Google Meet sessions, Live Chat, and Phone support, ensuring you can reach us in the way that suits you best.</p>
+        },
 
-            <p><strong>Google Meet Sessions:</strong> Schedule a convenient time through our Website Request page. You'll receive an email confirmation after booking.</p>
+        { slug: 'legal-pages', title: 'Legal Pages: Privacy Policy, Terms of Service, ADA Compliance', updated: TODAY, meta: 'Learn why legal pages matter for your website and how we can help. ', body: `
+          <p>When launching a website, protecting your business and visitors is essential. Privacy Policy, Terms of Service, and ADA Compliance are important considerations. Though not required by us, some services you use may require them.</p>
 
-            <p><strong>Live Chat:</strong> Enjoy real-time text support during our working hours for quick queries and updates.</p>
+          <p style="color: #ff6b6b;"><strong>Important:</strong> We're not legal professionals. Consult a licensed attorney for advice specific to your business.</p>
 
-            <p><strong>Phone Support:</strong> For those who prefer voice communication, our new Phone support option is available to assist you.</p>
+          <p><strong>Privacy Policy</strong>: Outlines how your site collects and protects visitor data. Required by laws like GDPR and CCPA, and by services like Google Analytics and Meta Ads. Get one from an attorney or online generator.</p>
 
-            <h2>Some things to keep in mind...</h2>
-            <p>All support methods are exclusive to Growth and Elite plan clients. Your plan will be verified when accessing these services.</p>
+          <p><strong>Terms of Service</strong>: Sets rules for using your website and protects your business. Covers payments, intellectual property, and liability. Get one from an attorney or trusted legal platforms.</p>
 
-            <p>Please cancel or reschedule any Google Meet or Phone sessions at least 12 hours in advance to avoid losing access to these features.</p>
+          <p><strong>ADA Compliance</strong>: The Americans with Disabilities Act requires websites to be accessible to people with disabilities. This includes alt text for images, keyboard navigation, and readable fonts. We follow basic accessibility practices, but full compliance requires specialized audits beyond our standard services.</p>
 
-            <p>While Live Chat is available during working hours, response times may vary. If an agent is unavailable, we will follow up via email.</p>
+          <p><strong>Our policy:</strong> We don't provide legal pages or guarantee ADA compliance. We can add any legal content you provide to your site. Consult a legal professional to ensure your website meets all requirements.</p>
 
-            <p>For Phone support, if your query cannot be resolved during the call, we will continue the conversation via email.</p>
+                <div class="alert alert-info mt-2"><strong>Tip:</strong> If you need help with adding legal pages, we can add these pages for you at no extra charge.</div>
 
-            <div class="cta-row mt-2">
-              <a class="btn-brand" href="https://webeaze.io/website-request#growth-elite-plan">Schedule Session</a>
-              <a class="btn-ghost" href="https://webeaze.io/portal">Start Live Chat</a>
-            </div>
 
-          `
+          <div class="cta-row mt-2">
+            <a class="btn-brand" href="https://webeaze.io/website-request">Submit a request</a>
+          </div>
+        `
 
-          },
-
-          { slug: 'legal-pages', title: 'Legal Pages: Privacy Policy, Terms of Service, ADA Compliance', updated: TODAY, meta: 'Learn why legal pages matter for your website and how we can help. ', body: `
-            <p>When launching a website, protecting your business and visitors is essential. Privacy Policy, Terms of Service, and ADA Compliance are important considerations. Though not required by us, some services you use may require them.</p>
-
-            <p style="color: red;"><strong>Important:</strong> We're not legal professionals. Consult a licensed attorney for advice specific to your business.</p>
-
-            <p><strong>Privacy Policy</strong>: Outlines how your site collects and protects visitor data. Required by laws like GDPR and CCPA, and by services like Google Analytics and Meta Ads. Get one from an attorney or online generator.</p>
-
-            <p><strong>Terms of Service</strong>: Sets rules for using your website and protects your business. Covers payments, intellectual property, and liability. Get one from an attorney or trusted legal platforms.</p>
-
-            <p><strong>ADA Compliance</strong>: The Americans with Disabilities Act requires websites to be accessible to people with disabilities. This includes alt text for images, keyboard navigation, and readable fonts. We follow basic accessibility practices, but full compliance requires specialized audits beyond our standard services.</p>
-
-            <p><strong>Our policy:</strong> We don't provide legal pages or guarantee ADA compliance. We can add any legal content you provide to your site. Consult a legal professional to ensure your website meets all requirements.</p>
-
-                  <div class="alert alert-info mt-2"><strong>Tip:</strong> If you need help with adding legal pages, we can add these pages for you at no extra charge.</div>
-                  
-                  
-            <div class="cta-row mt-2">
-              <a class="btn-brand" href="https://webeaze.io/website-request">Submit a request</a>
-            </div>
-          `
-        
-          },
+        },
 
 
 
-          { slug: 'performance-reports', title: 'About performance reports', updated: TODAY, meta: 'What is in the report and who gets it.', body: `
-            <p>If you're on our Growth plan, expect a monthly report when we see room to improve for SEO, speed, or engagement. Elite plan clients receive an advanced report every month with analytics, keyword tracking, and suggestions. We'll email the PDF and a quick summary.</p>
-          ` },
-          { slug: 'google-business-profile', title: 'Google Business Profile Management', updated: TODAY, meta: 'Ongoing Google Business Profile management included with Growth/Elite, or available as a $79/month add-on.', body: `
-            <p>A well-managed Google Business Profile helps your business appear in local search results and Google Maps, making it easier for customers to find you.</p>
+        { slug: 'performance-reports', title: 'About performance reports', updated: TODAY, meta: 'What is in the report and who gets it.', body: `
+          <p>If you're on our Growth plan, expect a monthly report when we see room to improve for SEO, speed, or engagement. Elite plan clients receive an advanced report every month with analytics, keyword tracking, and suggestions. We'll email the PDF and a quick summary.</p>
+        ` },
+        { slug: 'google-business-profile', title: 'Google Business Profile Management', updated: TODAY, meta: 'Ongoing Google Business Profile management included with Growth/Elite, or available as a $79/month add-on.', body: `
+          <p>A well-managed Google Business Profile helps your business appear in local search results and Google Maps, making it easier for customers to find you.</p>
 
-            <h2>What's included?</h2>
-            <p>Our Google Business Profile management service includes:</p>
-            <ul>
-              <li>Creating or claiming your Google Business Profile</li>
-              <li>Profile optimization with business info, photos, and services</li>
-              <li>Regular posts and updates to keep your profile active</li>
-              <li>Review monitoring and response management</li>
-              <li>Monthly insights and performance reporting</li>
-            </ul>
-
-            <h2>Pricing & plans</h2>
-            <p><strong>Included with Growth & Elite plans:</strong> If you're on our Growth or Elite plan, basic Google Business Profile setup and management is already included at no extra cost.</p>
-
-            <p><strong>Essential plan or standalone service:</strong> Google Business Profile management is available as an add-on for <strong>$79/month</strong>, added to your existing subscription price.</p>
-
-            <div class="cta-row mt-2">
-              <a class="btn-brand" href="website-request.html">Request GBP Setup</a>
-              <a class="btn-ghost" href="google-business-management.html">Learn More</a>
-            </div>
-
-          ` },
-
-          { slug: 'geo-pages', title: 'What Are Geo Pages?', updated: TODAY, meta: 'Learn how geo pages help your business get found in local searches across multiple locations.', body: `
-
-          <p>If you offer services in multiple cities or regions, geo pages can help your business appear in local search results for each area. These location-specific pages are optimized to target keywords relevant to the services you provide in those locations, even if you don't have a physical office there.</p>
-
-          <p><strong>Examples of Geo Pages:</strong>
-
+          <h2>What's included?</h2>
+          <p>Our Google Business Profile management service includes:</p>
           <ul>
-            <li>"Plumbing services in Salisbury, MD"</li>
-            <li>"Landscaping in Trenton, NJ"</li>
-            <li>"HVAC repair in Philadelphia, PA"</li>
-            <li>"Personal training in Wilmington, DE"</li>
+            <li>Creating or claiming your Google Business Profile</li>
+            <li>Profile optimization with business info, photos, and services</li>
+            <li>Regular posts and updates to keep your profile active</li>
+            <li>Review monitoring and response management</li>
+            <li>Monthly insights and performance reporting</li>
+          </ul>
+
+          <h2>Pricing & plans</h2>
+          <p><strong>Included with Growth & Elite plans:</strong> If you're on our Growth or Elite plan, basic Google Business Profile setup and management is already included at no extra cost.</p>
+
+          <p><strong>Essential plan or standalone service:</strong> Google Business Profile management is available as an add-on for <strong>$79/month</strong>, added to your existing subscription price.</p>
+
+          <div class="cta-row mt-2">
+            <a class="btn-brand" href="website-request.html">Request GBP Setup</a>
+            <a class="btn-ghost" href="google-business-management.html">Learn More</a>
+          </div>
+
+        ` },
+
+        { slug: 'geo-pages', title: 'What Are Geo Pages?', updated: TODAY, meta: 'Learn how geo pages help your business get found in local searches across multiple locations.', body: `
+
+        <p>If you offer services in multiple cities or regions, geo pages can help your business appear in local search results for each area. These location-specific pages are optimized to target keywords relevant to the services you provide in those locations, even if you don't have a physical office there.</p>
+
+        <p><strong>Examples of Geo Pages:</strong>
+
+        <ul>
+          <li>"Plumbing services in Salisbury, MD"</li>
+          <li>"Landscaping in Trenton, NJ"</li>
+          <li>"HVAC repair in Philadelphia, PA"</li>
+          <li>"Personal training in Wilmington, DE"</li>
 
 
-          </ul> 
+        </ul>
 
-            Each geo page is custom-written to highlight your services in that specific city, helping local customers find you online. </p>
+          Each geo page is custom-written to highlight your services in that specific city, helping local customers find you online. </p>
 
-            <p><strong>Are Geo Pages included in my plan?</strong>
-              Your plan includes a set number of pages that you can use for either main pages or geo pages. If you need more pages beyond your plan's limit, we can add them for a one-time fee.</p>
+          <p><strong>Are Geo Pages included in my plan?</strong>
+            Your plan includes a set number of pages that you can use for either main pages or geo pages. If you need more pages beyond your plan's limit, we can add them for a one-time fee.</p>
 
-            <p><strong>Why geo pages matter?</strong> They're good for SEO, local visibility, and attracting customers in areas where you want to grow your business. </p>
+          <p><strong>Why geo pages matter?</strong> They're good for SEO, local visibility, and attracting customers in areas where you want to grow your business. </p>
 
-              <div class="cta-row mt-2">
-              <a class="btn-brand" href="website-request.html">Request geo pages</a>
-              <a class="btn-ghost" href="https://webeaze.io/fee-schedule">See fee schedule</a>
-            </div>
+            <div class="cta-row mt-2">
+            <a class="btn-brand" href="website-request.html">Request geo pages</a>
+            <a class="btn-ghost" href="https://webeaze.io/fee-schedule">See fee schedule</a>
+          </div>
 
 `
-          }, 
+        },
 
+      ]},
 
+      { id: 'billing', title: 'Plans & Billing', icon: 'fa-credit-card', articles: [
+        { slug: 'manage-your-plan', title: 'How can I manage my plan?', updated: TODAY, meta: 'Update your payment method, receipts, and plan changes.', body: `
+          <p>You can manage your WebEaze plan by visiting the Stripe payment portal. From there, you can manage your payment methods, view invoices, make plan changes. </p>
 
-
-
-
-
-
- 
-
-
-          
-        ]},
-
-        { id: 'billing', title: 'Plans and Billing', articles: [
-          { slug: 'manage-your-plan', title: 'How can I manage my plan?', updated: TODAY, meta: 'Update your payment method, receipts, and plan changes.', body: `
-            <p>You can manage your WebEaze plan by visiting the Stripe payment portal. From there, you can manage your payment methods, view invoices, make plan changes. </p>
-
-            <p>When you arrive at the Stripe Portal, enter the email you used for your mockup call with us or when you became a client. You will receive a secure login link via email to access your billing portal. It avoids you having to remember another password.</p>
-
-            <div class="cta-row mt-2">
-              <a class="btn-brand" href="https://billing.stripe.com/p/login/7sI3gfaO14CEdlm144">Go to Stripe Portal</a>
-              <a class="btn-ghost" href="https://webeaze.tawk.help/article/manage-subscription">Step-by-step guide</a>
-            </div>
-            
-          ` },
-
-          { slug: 'view-invoices', title: 'How can I view my invoices?', updated: '12-20-25', meta: 'View past and current invoices for your records or accounting needs'
-          , body: `
-            <p>You can view and download your invoices by logging into the Stripe payment portal. Once logged in, navigate to the "Invoice History" section to see a list of all your past and current invoices. </p>
-
-            <img src="images/assets/past-invoices.png" alt="Stripe Invoices Screenshot" class="img-fluid my-3"/>
-              
-            You can download them as PDFs for your records or accounting needs.</p>
-
-            <div class="cta-row mt-2">
-              <a class="btn-brand" href="https://billing.stripe.com/p/login/7sI3gfaO14CEdlm144">Go to Stripe Portal</a>
-            
-            </div>
-          `
-
-          },
-
-          { slug: 'change-subscription', title: 'Can I change my plan?', updated: '01-03-2026', meta: 'Plan changes can be made by contacting us directly.', body: `
-
-          <p>We understand that your business needs may evolve over time, and we're here to help you adjust your plan accordingly. To change your subscription plan, please submit a Website Request so we can process the change.</p>
-
-          <p>Plan downgrades will take effect at the end of your current billing cycle. Upgrades will be applied immediately, with a prorated charge for the remainder of the billing period. </p>
+          <p>When you arrive at the Stripe Portal, enter the email you used for your mockup call with us or when you became a client. You will receive a secure login link via email to access your billing portal. It avoids you having to remember another password.</p>
 
           <div class="cta-row mt-2">
-              <a class="btn-brand" href="website-request.html">Submit a Website Request</a>
+            <a class="btn-brand" href="https://billing.stripe.com/p/login/7sI3gfaO14CEdlm144">Go to Stripe Portal</a>
+            <a class="btn-ghost" href="https://webeaze.tawk.help/article/manage-subscription">Step-by-step guide</a>
+          </div>
+
+        ` },
+
+        { slug: 'view-invoices', title: 'How can I view my invoices?', updated: '12-20-25', meta: 'View past and current invoices for your records or accounting needs'
+        , body: `
+          <p>You can view and download your invoices by logging into the Stripe payment portal. Once logged in, navigate to the "Invoice History" section to see a list of all your past and current invoices. </p>
+
+          <img src="images/assets/past-invoices.png" alt="Stripe Invoices Screenshot" class="img-fluid my-3"/>
+
+          You can download them as PDFs for your records or accounting needs.</p>
+
+          <div class="cta-row mt-2">
+            <a class="btn-brand" href="https://billing.stripe.com/p/login/7sI3gfaO14CEdlm144">Go to Stripe Portal</a>
+
+          </div>
+        `
+
+        },
+
+        { slug: 'change-subscription', title: 'Can I change my plan?', updated: '01-03-2026', meta: 'Plan changes can be made by contacting us directly.', body: `
+
+        <p>We understand that your business needs may evolve over time, and we're here to help you adjust your plan accordingly. To change your subscription plan, please submit a Website Request so we can process the change.</p>
+
+        <p>Plan downgrades will take effect at the end of your current billing cycle. Upgrades will be applied immediately, with a prorated charge for the remainder of the billing period. </p>
+
+        <div class="cta-row mt-2">
+            <a class="btn-brand" href="website-request.html">Submit a Website Request</a>
+          </div>
+        `
+
+        },
+
+        { slug: 'pause-plans', title: 'Can I temporarily pause my plan?', updated: TODAY, meta: "While we don't have a built-in pause option, we do have options if you need a little break.", body: `
+          <p>We don't offer plan pauses. This is because website security, hosting, backups, and maintenance continue even when you're not actively requesting updates. If you no longer wish to continue service, the option is to cancel your plan and reactivate when you're ready. </p>
+
+          <p><strong>Important:</strong> Hosting and domain services managed by us will be discontinued upon cancellation. Your website files and design will be stored for 30 days after cancellation. Reactivation may require a one-time site reactivation fee. </p>
+
+          <p>If you're having issues making a payment, please contact us so we can review continuation options. </p>
+
+          <div class="cta-row mt-2">
+            <a class="btn-brand" href="contact-us.html">Contact Us</a>
+          </div>
+        `
+        },
+
+        { slug: 'failed-payment', title: 'My payment has failed. What can I do?', updated: TODAY, meta: "We understand that sometimes payments fail. Cards expire, banks flag charges, or you may need a day or two. Here's what happens if your payment doesn't go through.", body:  `
+
+        <p> We understand that sometimes payments fail. Cards expire, banks flag charges, or you may need a day or two. Here's what happens if your payment doesn't go through. </p>
+
+        <ol>
+          <li>
+            You'll receive a notification from our payment provider, Stripe, letting you know of a failed payment.
+            </li>
+            <li>
+              We'll retry payment a few times over the next several days.
+              </li>
+              <li>If it remains unpaid, your Client Account will be marked as unpaid and your plan will be canceled. At that point, your relationship with us will be terminated.
+                </li>
+
+                </ol>
+                <p><strong>Grace Period</strong>: You will receive a 7-day grace period from the first failed payment payment. If you're having issues making a payment, please reach out to us to review continuation options. </p>
+
+                <div class="cta-row mt-2">
+            <a class="btn-brand" href="contact-us.html">Contact Us</a>
             </div>
-          `
 
-          },
+        `
 
-          { slug: 'pause-plans', title: 'Can I temporarily pause my plan?', updated: TODAY, meta: "While we don't have a built-in pause option, we do have options if you need a little break.", body: `
-            <p>We don't offer plan pauses. This is because website security, hosting, backups, and maintenance continue even when you're not actively requesting updates. If you no longer wish to continue service, the option is to cancel your plan and reactivate when you're ready. </p>
+        },
 
-            <p><strong>Important:</strong> Hosting and domain services managed by us will be discontinued upon cancellation. Your website files and design will be stored for 30 days after cancellation. Reactivation may require a one-time site reactivation fee. </p>
 
-            <p>If you're having issues making a payment, please contact us so we can review continuation options. </p>
+        { slug: 'refund-policy', title: 'Do you offer refunds?', updated: TODAY, meta: 'Understand our refund policy for services rendered.', body: `
+          <p>At WebEaze, we strive to provide high-quality web design and maintenance services. Due to the nature of our services, we have a strict no-refund policy for completed work. Once a service has been rendered, including website builds, updates, or maintenance tasks, we don't offer refunds.</p>
+
+
+          <p><strong>Cancellation:</strong> If you choose to cancel your plan, please refer to our cancellation policy for details on how to proceed and any potential fees involved.</p>
+
+          <p>We encourage open communication throughout our engagement to ensure satisfaction with our services. If you have concerns about the work being performed, please contact us promptly so we can address them.</p>
+
+          <div class="cta-row mt-2">
+            <a class="btn-brand" href="contact-us.html">Contact Us</a>
+        `
+
+        },
+
+        { slug: 'price-updates', title: 'Will my plan price ever change?', updated: '01-03-2026', meta: 'WebEaze is committed to being one of the most affordable web design agencies available. ', body: `
+
+
+          <p>We keep our prices affordable and fair. As our costs for tools, hosting, and support resources change, we may adjust pricing periodically.</p>
+
+          <p><strong>If prices change, here's what happens:</strong></p>
+          <ul>
+            <li>You'll get 30 days' notice via email before any change takes effect.</li>
+            <li>Existing clients receive special consideration. Think loyalty discounts or grace periods.</li>
+            <li>Your current plan price won't change midway through your plan cycle.</li>
+          </ul>
+
+          <p>We work hard to keep costs stable because we value our partnership with you, and is why we exist.</p>
+
+        `
+
+        },
+
+        { slug: 'cancel-your-plan', title: 'Cancel your plan', updated: '08-01-2025', meta: "We hope the thought of cancelling doesn't cross your mind, however, we understand plans change. Here's how and what happens when you cancel.", body: `
+          <p>You can cancel at any time in your Stripe Portal. Cancellation is effective immediately. There are no refunds or credits for unused time. Check the Refund Policy page for more information.</p>
+          <h2>Site content</h2>
+          <ul>
+            <li><strong>Under 12 months on a monthly plan</strong>: we delete site content within 2 business days from cancellation, or you can pay $99 to retrieve them.</li>
+            <li><strong>12 months or more or annual plan</strong>: we can transfer site content on request within 30 days of cancellation.</li>
+          </ul>
+          <p><em>Important: we're not responsible for changes or loss once content is transferred.</em></p>
+          <h2>Domains and hosting</h2>
+          <p>If we handled your domain and hosting, we'll park the domain. Or ownership may be transferred to you for a fee of $99. If you handled your domain before subscribing to WebEaze, you won't have to pay this fee. Remaining domain credits don't carry over and won't be credited to you after cancellation.</p>
+
+
+
+          <div class="cta-row mt-2">
+            <a class="btn-brand" href="https://billing.stripe.com/p/login/7sI3gfaO14CEdlm144">Stripe Portal</a>
+            <a class="btn-ghost" href="https://webeaze.tawk.help/article/cancel">How to cancel</a>
+          </div>
+
+
+        ` },
+
+        ]},
+
+        { id: 'policies', title: 'Policies', icon: 'fa-file-contract', articles: [
+
+        { slug: 'fair-use', title: 'Fair Usage policy', updated: TODAY, meta: 'To keep service efficient for all clients and to prevent abuse of support benefits, we enforce fair usage limits on support requests and troubleshooting hours.', body: `
+          <p><strong>What "per month" means</strong>: every thirty (30) days from the start of the service period. </p>
+
+
+
+          <p><strong>Support Limits</strong>:
+            <ul>
+              <li>
+                Up to 10 support requests per month for minor updates
+                </li>
+                <li>
+                  Up to 10 hours per month for troubleshooting and routine maintenance
+                  </li>
+            </ul>
+
+                  These limits help us prioritize quality service and ensure every client gets the attention they deserve. </p>
+
+                  <p><strong>Important</strong>: We enforce these limits when we notice consistent overages that impact our ability to serve other clients. If you exceed these limits regularly, we may reach out to discuss your needs and recommend a plan upgrade or custom solution. </p>
+
+                  <h2>For larger projects </h2>
+          <p>
+            Ongoing support includes maintenance and essential updates. Any future major redesign, structural changes, or custom functionality will be your responsibility or billed separately at a custom rate. </p>
+        `
+
+        },
+
+        { slug: 'footer-credit' , title: "'Maintained by WebEaze' footer credit", updated: TODAY, meta: 'How to remove the WebEaze footer credit from your website.', body: `
+
+        <p>As part of our website design and support services, we include a small credit line at the bottom of the websites we build or manage. This typically reads something along these lines:
+        <ul>
+          <li>"Website designed & Maintained by WebEaze."</li>
+          <li>"Designed by HTML Codex. Edited and Maintained by WebEaze."</li>
+          <li>"Website Maintained by WebEaze."</li>
+          </ul>
+          This footer credit is common in the web design industry and serves several purposes:
+          <ul>
+            <li><strong>Recognizing Our Work:</strong> the team behind the website's creation, helping others discover a trusted provider for their own projects.</li>
+            <li><strong>Support Reference:</strong> signaling visitors and your team who to contact for future support, changes, or improvements. </li>
+            <li><strong>Business Growth:</strong> helps us continue to grow through referrals and word-of-mouth, allowing us to keep offering affordable, high quality services to small businesses.</li>
+            </ul>
+            </p>
+
+          <p><strong>Can the credit be removed? </strong>
+            Yes, we offer the option to remove or customize this credit upon request. There's a $149 fee to remove it as this credit helps offset our marketing costs. </p>
+
+            <p>If you'd like the wording of our footer credit to be changed to better fit your brand or preferences, let us know - we'll change it at no extra cost. </p>
+
 
             <div class="cta-row mt-2">
-              <a class="btn-brand" href="contact-us.html">Contact Us</a>
-            </div>
-          `
-          },
+            <a class="btn-brand" href="website-request.html">Request removal</a>
+            <a class="btn-ghost" href="fee-schedule.html">Fee Schedule</a>
+          </div>
+        `
 
-          { slug: 'failed-payment', title: 'My payment has failed. What can I do?', updated: TODAY, meta: "We understand that sometimes payments fail. Cards expire, banks flag charges, or you may need a day or two. Here's what happens if your payment doesn't go through.", body:  `
+        },
 
-          <p> We understand that sometimes payments fail. Cards expire, banks flag charges, or you may need a day or two. Here's what happens if your payment doesn't go through. </p>
+
+
+        { slug: 'self-management', title: 'Can I manage my own website?', updated: TODAY, meta: 'Details on what you can and should not manage on your website while under support with WebEaze.', body: `
+          <p>At WebEaze, we provide ongoing maintenance and support to keep your website professional, secure, and high performing. While light and minor changes are welcome, most updates should go through our team to avoid performance or design issues.
+            </p>
+
+            <p><strong>What you can manage:</strong> You can make minor text changes, add/remove products, add blog posts, and links to your website and associated service pages. </p>
+
+            <p><strong>What you should not manage:</strong> For your website's safety and consistency, please avoid editing or adding products to your store (if an eCommerce site), installing plugins, integrations, or apps, editing the website's code (HTML, CSS, JavaScript), changing any settings related to hosting, domains, or DNS, and adjusting layouts or mobile design elements. </p>
+
+            <p><strong>We ensure every change is optimized for desktop and mobile, maintains security, preserves SEO rankings, and keeps integrations (like payments or bookings) running smoothly. </strong></p>
+
+            <p style ="color: #ff6b6b;">
+              <strong>Important:</strong> Unauthorized changes may lead to design inconsistencies, security vulnerabilities, or functionality issues. If you make changes outside of our support, it may be rejected by us or charged a fee to resolve it. We're not responsible for changes not completed by us. </p>
+
+          <div class="cta-row mt-2">
+            <a class="btn-brand" href="website-request.html">Submit Request</a>
+          </div>
+        `
+        },
+
+
+        { slug: 'client-policy', title: "Websites we don't build or support", updated: TODAY, meta: "We're committed to building ethical and trustworthy websites that provide value to both you and your customers. ", body: `
+
+          <p>We're committed to building ethical and trustworthy websites that provide value to both you and your customers. To protect our team, clients, and brand reputation, there are certain types of websites we don't build or support under these sectors. </p>
+
+          <p><strong>We DO NOT build or support website that </strong>
+            <ul>
+              <li>Contain Adult or Explicit Content: Any content or service that endorses or involves nudity, pornography, adult entertainment, or sexually suggestive services.
+                </li>
+                <li>
+                  Promote Violence or Hate: Any content that promotes harm, hate speech, or discrimination based on race, gender, sexual orientation, religion, or other protected status.
+                  </li>
+                  <li>
+                    Sell Weapons or Harmful Products: Firearms, explosives, illegal substances, or unsafe products not compliant with local laws.
+                    </li>
+                    <li>
+                      Spread Misinformation or Fraud. We don't build sites that promote or otherwise endorse conspiracy theories, misleading health claims, scams, or fraudulent activities.
+                      </li>
+                      <li>
+                        Violate copyright or trademark laws. This includes the use of unlicensed, stolen, or copyrighted material use without permission.
+                        </li>
+                        <li>
+                          Engage in High-Risk or Unethical Business Practices, such as gambling, pyramid schemes, or payday lending services.
+                          </li>
+            </ul>
+            </p>
+
+            <p><strong><em>Note:</em></strong> This list is not exhaustive. WebEaze reserves the right to decline or terminate any project if it violates the policies listed above, becomes harmful to our clients, team, or public reputation, and no longer aligns with our mission or values. </p>
+        `
+
+        },
+
+
+
+
+
+
+        { slug: 'unfinished-work-policy', title: 'Unfinished Work policy', updated: TODAY, meta: 'What happens if we cannot fulfill a project.', body: `
+          <p>This situation is very rare. In such cases, WebEaze may contact you after you join to explain that we cannot fulfill your project or website request. Common reasons include the following:</p>
+          <ul>
+            <li>New additions or custom features discussed after the project starts that change the scope in a major way.</li>
+            <li>Security issues that we cannot correct or implement safely.</li>
+            <li>High complexity that exceeds our build window. For example, a social network is more complex than a simple online shop.</li>
+          </ul>
+
+          <h2>How can I avoid this?</h2>
+          <p>We recommend you book a free 15 minute mockup call before you buy. We'll confirm your needs, timeline, and budget, and tell you if we are not a good fit so you can choose another provider at no cost. If you skip the mockup call, we'll still build and manage your website, however, there's a small chance we may end the project if later custom requests are much more complex than expected.</p>
+          <div class="cta-row mt-2">
+            <a class="btn-brand" href="consultation.html">Schedule a mockup call</a>
+
+          </div>
+
+          <h2>Do I get a refund?</h2>
+          <p>If WebEaze ends your project, we don't issue refunds. Payments cover services already provided such as research, planning, and the work done to deploy your website. Please review our Refund Policy for full details.</p>
+
+
+        ` },
+
+        { slug: 'referral-program', title: 'Referral Program Terms', updated: TODAY, meta: "Whether you're an existing client or simply love what we do, you can earn $100 cash for every business you refer that signs up for a paid service with WebEaze.", body: `
+
+        <p>Our referral program is a way to say thank you for spreading the word about WebEaze. When you refer a business owner, friend, or colleague who signs up for one of our paid plans, you'll earn $100 cash as a token of our appreciation. </p>
+
+        <p><strong>Who can refer?</strong> Anyone. Whether you're a WebEaze client or not, you may join our referral program. </p>
+
+        <p><strong>What counts as a paid service?</strong> You'll earn $100 for each referral that signs up for one of our <a href="pricing.html">paid plans</a>. </p>
+
+        <p><strong>How does it work?</strong>
 
           <ol>
             <li>
-              You'll receive a notification from our payment provider, Stripe, letting you know of a failed payment. 
+              Spread the word; tell a business owner, friend, or colleague about WebEaze. Then, you can tell us who you're referring using <a href="https://406km9.share-na2.hsforms.com/2dzuAwKMYSnOES4ubap3SiQ">this form</a>.
               </li>
-              <li> 
-                We'll retry payment a few times over the next several days.
-                </li>
-                <li>If it remains unpaid, your Client Account will be marked as unpaid and your plan will be canceled. At that point, your relationship with us will be terminated. 
-                  </li>
-                  
-                  </ol>
-                  <p><strong>Grace Period</strong>: You will receive a 7-day grace period from the first failed payment payment. If you're having issues making a payment, please reach out to us to review continuation options. </p> 
-                  
-                  <div class="cta-row mt-2">
-              <a class="btn-brand" href="contact-us.html">Contact Us</a>
-              </div>
-
-          `
-
-          },
-
-
-          { slug: 'refund-policy', title: 'Do you offer refunds?', updated: TODAY, meta: 'Understand our refund policy for services rendered.', body: `
-            <p>At WebEaze, we strive to provide high-quality web design and maintenance services. Due to the nature of our services, we have a strict no-refund policy for completed work. Once a service has been rendered, including website builds, updates, or maintenance tasks, we don't offer refunds.</p>
-
-
-            <p><strong>Cancellation:</strong> If you choose to cancel your plan, please refer to our cancellation policy for details on how to proceed and any potential fees involved.</p>
-
-            <p>We encourage open communication throughout our engagement to ensure satisfaction with our services. If you have concerns about the work being performed, please contact us promptly so we can address them.</p>
-
-            <div class="cta-row mt-2">
-              <a class="btn-brand" href="contact-us.html">Contact Us</a>
-          `
-
-          },
-
-          { slug: 'price-updates', title: 'Will my plan price ever change?', updated: '01-03-2026', meta: 'WebEaze is committed to being one of the most affordable web design agencies available. ', body: `
-
-
-            <p>We keep our prices affordable and fair. As our costs for tools, hosting, and support resources change, we may adjust pricing periodically.</p>
-
-            <p><strong>If prices change, here's what happens:</strong></p>
-            <ul>
-              <li>You'll get 30 days' notice via email before any change takes effect.</li>
-              <li>Existing clients receive special consideration. Think loyalty discounts or grace periods.</li>
-              <li>Your current plan price won't change midway through your plan cycle.</li>
-            </ul>
-
-            <p>We work hard to keep costs stable because we value our partnership with you, and is why we exist.</p>
-
-          `
-
-          },
-
-          { slug: 'cancel-your-plan', title: 'Cancel your plan', updated: '08-01-2025', meta: "We hope the thought of cancelling doesn't cross your mind, however, we understand plans change. Here's how and what happens when you cancel.", body: `
-            <p>You can cancel at any time in your Stripe Portal. Cancellation is effective immediately. There are no refunds or credits for unused time. Check the Refund Policy page for more information.</p>
-            <h2>Site content</h2>
-            <ul>
-              <li><strong>Under 12 months on a monthly plan</strong>: we delete site content within 2 business days from cancellation, or you can pay $99 to retrieve them.</li>
-              <li><strong>12 months or more or annual plan</strong>: we can transfer site content on request within 30 days of cancellation.</li>
-            </ul>
-            <p><em>Important: we're not responsible for changes or loss once content is transferred.</em></p>
-            <h2>Domains and hosting</h2>
-            <p>If we handled your domain and hosting, we'll park the domain. Or ownership may be transferred to you for a fee of $99. If you handled your domain before subscribing to WebEaze, you won't have to pay this fee. Remaining domain credits don't carry over and won't be credited to you after cancellation.</p>
-
-            
-
-            <div class="cta-row mt-2">
-              <a class="btn-brand" href="https://billing.stripe.com/p/login/7sI3gfaO14CEdlm144">Stripe Portal</a>
-              <a class="btn-ghost" href="https://webeaze.tawk.help/article/cancel">How to cancel</a>
-            </div>
-
- 
-          ` },
-
-          ]},
-
-          { id: 'policies', title: 'Policies', articles: [
-
-          { slug: 'fair-use', title: 'Fair Usage policy', updated: TODAY, meta: 'To keep service efficient for all clients and to prevent abuse of support benefits, we enforce fair usage limits on support requests and troubleshooting hours.', body: `
-            <p><strong>What "per month" means</strong>: every thirty (30) days from the start of the service period. </p>
-
-         
-
-            <p><strong>Support Limits</strong>: 
-              <ul>
-                <li>
-                  Up to 10 support requests per month for minor updates 
-                  </li>
-                  <li>
-                    Up to 10 hours per month for troubleshooting and routine maintenance
-                    </li>
-              </ul>
-                    
-                    These limits help us prioritize quality service and ensure every client gets the attention they deserve. </p>
-
-                    <p><strong>Important</strong>: We enforce these limits when we notice consistent overages that impact our ability to serve other clients. If you exceed these limits regularly, we may reach out to discuss your needs and recommend a plan upgrade or custom solution. </p>
-
-                    <h2>For larger projects </h2>
-            <p>
-              Ongoing support includes maintenance and essential updates. Any future major redesign, structural changes, or custom functionality will be your responsibility or billed separately at a custom rate. </p>
-          `
-
-          },
-
-          { slug: 'footer-credit' , title: "'Maintained by WebEaze' footer credit", updated: TODAY, meta: 'How to remove the WebEaze footer credit from your website.', body: `
-
-          <p>As part of our website design and support services, we include a small credit line at the bottom of the websites we build or manage. This typically reads something along these lines:
-          <ul>
-            <li>"Website designed & Maintained by WebEaze."</li>
-            <li>"Designed by HTML Codex. Edited and Maintained by WebEaze."</li>
-            <li>"Website Maintained by WebEaze."</li>
-            </ul>
-            This footer credit is common in the web design industry and serves several purposes:
-            <ul>
-              <li><strong>Recognizing Our Work:</strong> the team behind the website's creation, helping others discover a trusted provider for their own projects.</li>
-              <li><strong>Support Reference:</strong> signaling visitors and your team who to contact for future support, changes, or improvements. </li>
-              <li><strong>Business Growth:</strong> helps us continue to grow through referrals and word-of-mouth, allowing us to keep offering affordable, high quality services to small businesses.</li>
-              </ul>
-              </p>
-
-            <p><strong>Can the credit be removed? </strong>
-              Yes, we offer the option to remove or customize this credit upon request. There's a $149 fee to remove it as this credit helps offset our marketing costs. </p>
-
-              <p>If you'd like the wording of our footer credit to be changed to better fit your brand or preferences, let us know - we'll change it at no extra cost. </p>
-
-
-              <div class="cta-row mt-2">
-              <a class="btn-brand" href="website-request.html">Request removal</a>
-              <a class="btn-ghost" href="fee-schedule.html">Fee Schedule</a>
-            </div>
-          `
-
-          },
-
-
-
-          { slug: 'self-management', title: 'Can I manage my own website?', updated: TODAY, meta: 'Details on what you can and should not manage on your website while under support with WebEaze.', body: `
-            <p>At WebEaze, we provide ongoing maintenance and support to keep your website professional, secure, and high performing. While light and minor changes are welcome, most updates should go through our team to avoid performance or design issues. 
-              </p>
-
-              <p><strong>What you can manage:</strong> You can make minor text changes, add/remove products, add blog posts, and links to your website and associated service pages. </p>
-
-              <p><strong>What you should not manage:</strong> For your website's safety and consistency, please avoid editing or adding products to your store (if an eCommerce site), installing plugins, integrations, or apps, editing the website's code (HTML, CSS, JavaScript), changing any settings related to hosting, domains, or DNS, and adjusting layouts or mobile design elements. </p>
-              
-              <p><strong>We ensure every change is optimized for desktop and mobile, maintains security, preserves SEO rankings, and keeps integrations (like payments or bookings) running smoothly. </strong></p>
-
-              <p style ="color: red;">
-                <strong>Important:</strong> Unauthorized changes may lead to design inconsistencies, security vulnerabilities, or functionality issues. If you make changes outside of our support, it may be rejected by us or charged a fee to resolve it. We're not responsible for changes not completed by us. </p>
-
-            <div class="cta-row mt-2">
-              <a class="btn-brand" href="website-request.html">Submit Request</a>
-            </div>
-          `
-          },
-
-
-          { slug: 'client-policy', title: "Websites we don't build or support", updated: TODAY, meta: "We're committed to building ethical and trustworthy websites that provide value to both you and your customers. ", body: `
-
-            <p>We're committed to building ethical and trustworthy websites that provide value to both you and your customers. To protect our team, clients, and brand reputation, there are certain types of websites we don't build or support under these sectors. </p>
-
-            <p><strong>We DO NOT build or support website that </strong>
-              <ul>
-                <li>Contain Adult or Explicit Content: Any content or service that endorses or involves nudity, pornography, adult entertainment, or sexually suggestive services.
-                  </li>
-                  <li>
-                    Promote Violence or Hate: Any content that promotes harm, hate speech, or discrimination based on race, gender, sexual orientation, religion, or other protected status.
-                    </li>
-                    <li>
-                      Sell Weapons or Harmful Products: Firearms, explosives, illegal substances, or unsafe products not compliant with local laws. 
-                      </li>
-                      <li>
-                        Spread Misinformation or Fraud. We don't build sites that promote or otherwise endorse conspiracy theories, misleading health claims, scams, or fraudulent activities. 
-                        </li>
-                        <li>
-                          Violate copyright or trademark laws. This includes the use of unlicensed, stolen, or copyrighted material use without permission. 
-                          </li>
-                          <li>
-                            Engage in High-Risk or Unethical Business Practices, such as gambling, pyramid schemes, or payday lending services.
-                            </li>
-              </ul>
-              </p>
-
-              <p><strong><em>Note:</em></strong> This list is not exhaustive. WebEaze reserves the right to decline or terminate any project if it violates the policies listed above, becomes harmful to our clients, team, or public reputation, and no longer aligns with our mission or values. </p>
-          `
-
-          },
-
-          
-
-        
-
-  
-          { slug: 'unfinished-work-policy', title: 'Unfinished Work policy', updated: TODAY, meta: 'What happens if we cannot fulfill a project.', body: `
-            <p>This situation is very rare. In such cases, WebEaze may contact you after you join to explain that we cannot fulfill your project or website request. Common reasons include the following:</p>
-            <ul>
-              <li>New additions or custom features discussed after the project starts that change the scope in a major way.</li>
-              <li>Security issues that we cannot correct or implement safely.</li>
-              <li>High complexity that exceeds our build window. For example, a social network is more complex than a simple online shop.</li>
-            </ul>
-
-            <h2>How can I avoid this?</h2>
-            <p>We recommend you book a free 15 minute mockup call before you buy. We'll confirm your needs, timeline, and budget, and tell you if we are not a good fit so you can choose another provider at no cost. If you skip the mockup call, we'll still build and manage your website, however, there's a small chance we may end the project if later custom requests are much more complex than expected.</p>
-            <div class="cta-row mt-2">
-              <a class="btn-brand" href="consultation.html">Schedule a mockup call</a>
-           
-            </div>
-
-            <h2>Do I get a refund?</h2>
-            <p>If WebEaze ends your project, we don't issue refunds. Payments cover services already provided such as research, planning, and the work done to deploy your website. Please review our Refund Policy for full details.</p>
-
-           
-          ` },
-
-          { slug: 'referral-program', title: 'Referral Program Terms', updated: TODAY, meta: "Whether you're an existing client or simply love what we do, you can earn $100 cash for every business you refer that signs up for a paid service with WebEaze.", body: `
-
-          <p>Our referral program is a way to say thank you for spreading the word about WebEaze. When you refer a business owner, friend, or colleague who signs up for one of our paid plans, you'll earn $100 cash as a token of our appreciation. </p>
-
-          <p><strong>Who can refer?</strong> Anyone. Whether you're a WebEaze client or not, you may join our referral program. </p>
-
-          <p><strong>What counts as a paid service?</strong> You'll earn $100 for each referral that signs up for one of our <a href="pricing.html">paid plans</a>. </p>
-
-          <p><strong>How does it work?</strong>
-            
-            <ol>
               <li>
-                Spread the word; tell a business owner, friend, or colleague about WebEaze. Then, you can tell us who you're referring using <a href="https://406km9.share-na2.hsforms.com/2dzuAwKMYSnOES4ubap3SiQ">this form</a>. 
+                They sign up for a paid plan and we'll be tracking the referral.
                 </li>
-                <li> 
-                  They sign up for a paid plan and we'll be tracking the referral. 
-                  </li>
-                <li> 
-                  You get paid. After their payment clears, you'll receive $100 cash within 7 business days via: Zelle, PayPal, or Venmo. There is no limit! Refer as many people as you'd like and earn for each.
-                  </li>
-                  </ol>
-                  </p>
+              <li>
+                You get paid. After their payment clears, you'll receive $100 cash within 7 business days via: Zelle, PayPal, or Venmo. There is no limit! Refer as many people as you'd like and earn for each.
+                </li>
+                </ol>
+                </p>
 
-        <p><strong>What's the cash payout?</strong> We send real money, not credit or gift cards. You can save it, spend it, invest it — totally up to you. Payments are sent through a secure third-party processor of your choice. </p>
+      <p><strong>What's the cash payout?</strong> We send real money, not credit or gift cards. You can save it, spend it, invest it — totally up to you. Payments are sent through a secure third-party processor of your choice. </p>
 
-        <p><strong>Why Refer?</strong> 
-          <ul>
+      <p><strong>Why Refer?</strong>
+        <ul>
+          <li>
+            Help fellow business owners build a better online presence
+            </li>
             <li>
-              Help fellow business owners build a better online presence
-              </li> 
+              Earn extra income, especially by referring multiple clients and building a recurring stream of income
+              </li>
               <li>
-                Earn extra income, especially by referring multiple clients and building a recurring stream of income
+                Support WebEaze's mission to make professional web design accessible and stress-free
                 </li>
-                <li>
-                  Support WebEaze's mission to make professional web design accessible and stress-free
-                  </li>
-                  </ul>
-                  </p>
+                </ul>
+                </p>
 
-            <h4>The legal stuff </h4>
+          <h4>The legal stuff </h4>
 
-            <ol style="font-size: 10px;">
-              <li>
-            Tax Responsibility: All referral earnings are considered taxable income. You're solely responsible for reporting any earnings to your tax authority. WebEaze does not withhold taxes or provide tax documents unless legally required. </li>
-            <li>Payout Eligibility: Payouts are issued only after the referred client successfully completes payment and remains an active client for at least 7 days from the start of the subscription. We reserve the right to cancel payouts for refunded or disputed transactions. </li>
-            <li>No Referral Limits: There is no limit to how many qualified referrals you can make or how many payouts you can earn. However, WebEaze reserves the right to review and deny payouts if referrals appear to be fraudulent, self-referred, or violate the intent of the program.</li>
-            <li>Verification: You must utilize the contact form to inform WebEaze of a referral. Referrals from both parties must mention the name or business at the time of signup to qualify. We're not responsible for untracked or unverifiable referrals.</li>
-            <li>Payment Methods: Payouts are issued via Venmo, PayPal, or Zelle only. You must provide accurate payment details to receive your payout, and all communication regarding payment will be done via secure email communication. We won't ask for information beyond your account username or your phone number.</li>
-            <li>Program Changes: WebEaze reserves the right to modify, pause, or cancel this program at any time without prior notice.</li>
-            <li>No Employment Relationship: Participating in this referral program does not establish an employee, contractor, or partnership relationship with WebEaze.</li>
-            <li>Subject to Terms and Privacy: Participating in this referral program means that you have read and agree to our full Terms and Privacy Policy that you are bound to with any engagement with WebEaze or its affiliates. </li>
-            </ol>
+          <ol style="font-size: 10px;">
+            <li>
+          Tax Responsibility: All referral earnings are considered taxable income. You're solely responsible for reporting any earnings to your tax authority. WebEaze does not withhold taxes or provide tax documents unless legally required. </li>
+          <li>Payout Eligibility: Payouts are issued only after the referred client successfully completes payment and remains an active client for at least 7 days from the start of the subscription. We reserve the right to cancel payouts for refunded or disputed transactions. </li>
+          <li>No Referral Limits: There is no limit to how many qualified referrals you can make or how many payouts you can earn. However, WebEaze reserves the right to review and deny payouts if referrals appear to be fraudulent, self-referred, or violate the intent of the program.</li>
+          <li>Verification: You must utilize the contact form to inform WebEaze of a referral. Referrals from both parties must mention the name or business at the time of signup to qualify. We're not responsible for untracked or unverifiable referrals.</li>
+          <li>Payment Methods: Payouts are issued via Venmo, PayPal, or Zelle only. You must provide accurate payment details to receive your payout, and all communication regarding payment will be done via secure email communication. We won't ask for information beyond your account username or your phone number.</li>
+          <li>Program Changes: WebEaze reserves the right to modify, pause, or cancel this program at any time without prior notice.</li>
+          <li>No Employment Relationship: Participating in this referral program does not establish an employee, contractor, or partnership relationship with WebEaze.</li>
+          <li>Subject to Terms and Privacy: Participating in this referral program means that you have read and agree to our full Terms and Privacy Policy that you are bound to with any engagement with WebEaze or its affiliates. </li>
+          </ol>
 
-          ` },
+        ` },
 
-          { slug: 'website-ownership-access', title: 'Your website ownership and access' , updated: TODAY, meta: 'Understanding your rights and access to your website content.', body: `
-            <p>We believe in full transparency. Whether you're just launching your site or thinking about long-term control, it's important to know what parts of the website you fully own and which areas we manage on your behalf.</p>
+        { slug: 'website-ownership-access', title: 'Your website ownership and access' , updated: TODAY, meta: 'Understanding your rights and access to your website content.', body: `
+          <p>We believe in full transparency. Whether you're just launching your site or thinking about long-term control, it's important to know what parts of the website you fully own and which areas we manage on your behalf.</p>
 
-            <p><strong>Your rights as the site owner</strong>:  
+          <p><strong>Your rights as the site owner</strong>:
+          <ul>
+            <li><strong>Content:</strong> all text, images, videos, and branding that you provided or approved for use belong to you.</li>
+            <li><strong>Content design files (by request):</strong> if you request a full export of your site's HTML, CSS, or other assets, we can provide those as part of your plan (as long as your plan has elapsed 12 months or you paid for a one-time plan). Some limitations may apply based on the platform used. </li>
+            <li><strong>Cancel and move anytime:</strong> you can transfer your website to another hosting provider or developer at any time without restrictions.</li>
+          </ul>
+          </p>
+
+          <p><strong>What WebEaze manages</strong>:
             <ul>
-              <li><strong>Content:</strong> all text, images, videos, and branding that you provided or approved for use belong to you.</li>
-              <li><strong>Content design files (by request):</strong> if you request a full export of your site's HTML, CSS, or other assets, we can provide those as part of your plan (as long as your plan has elapsed 12 months or you paid for a one-time plan). Some limitations may apply based on the platform used. </li>
-              <li><strong>Cancel and move anytime:</strong> you can transfer your website to another hosting provider or developer at any time without restrictions.</li>
+              <li><strong>Hosting and maintenance:</strong> we take care of the server setup, updates, and backend performance.</li>
+              <li><strong>Platform licenses:</strong> we cover any necessary licenses (like page builders, security tools, etc.) that power your site.</li>
+              <li><strong>Ongoing maintenance:</strong> as long as you're subscribed, we handle all technical maintenance for you.</li>
+
+
             </ul>
             </p>
 
-            <p><strong>What WebEaze manages</strong>: 
-              <ul>
-                <li><strong>Hosting and maintenance:</strong> we take care of the server setup, updates, and backend performance.</li>
-                <li><strong>Platform licenses:</strong> we cover any necessary licenses (like page builders, security tools, etc.) that power your site.</li>
-                <li><strong>Ongoing maintenance:</strong> as long as you're subscribed, we handle all technical maintenance for you.</li>
+            <p><i>Important:</i> Domain transfers and full export requests are available upon request and may be subject to a transfer or export fee, depending on your plan. </p>
+
+        `
+        },
 
 
-              </ul>
-              </p>
+      ]},
 
-              <p><i>Important:</i> Domain transfers and full export requests are available upon request and may be subject to a transfer or export fee, depending on your plan. </p>
+      { id: 'troubleshooting', title: 'Support', icon: 'fa-life-ring', articles: [
+        { slug: 'turnarounds-and-common-requests', title: 'When will my website request be completed?', updated: '01-13-2026', meta: 'Typical completion windows for several types of website requests. This article is frequently updated.', body: `
+          <table class="table table-bordered">
+            <thead><tr><th>Request type</th><th>Turnaround</th></tr></thead>
+            <tbody>
+              <tr><td>Text or image edits</td><td>1 to 3 days</td></tr>
+              <tr><td>Additional pages</td><td>5 to 7 days</td></tr>
+              <tr><td>Mobile optimization fixes</td><td>1 to 3 days</td></tr>
+              <tr><td>SEO updates</td><td>1 to 3 days</td></tr>
+              <tr><td>Contact form edits</td><td>1 to 3 days</td></tr>
+              <tr><td>Full website audit or revamp</td><td>7 to 14 business days</td></tr>
+              <tr><td>Bug fixes or site issues</td><td>24 to 48 hours*</td></tr>
+            </tbody>
+          </table>
+          <p><em>*Urgent issues are prioritized and are often resolved sooner.</em></p>
+          <div class="cta-row mt-2">
+            <a class="btn-brand" href="website-request.html">Submit a request</a>
+          </div>
+        ` },
 
-          `
-          },
+        { slug: 'my-site-isnt-updating', title: 'My site is not updating after a change', updated: TODAY, meta: 'Website and site delays and what to do next.', body: `
+          <p>Please perform a hard refresh your browser with Command or Control Shift R and try an incognito window. It may be best to also clear any browser cookies/cache as that it may not keep up with recent website changes. WebEaze conducts QA checks on every update we complete. </p>
 
+            <p>
+              DNS and other website URL updates can take up to 24 hours after a domain change. If you are still experiencing issues, we'll take a look. Send us a screenshot and your URL using the request form and we'll take a look into it.</p>
+          <div class="cta-row mt-2">
+            <a class="btn-brand" href="website-request.html">Report an issue</a>
+          </div>
+        ` }
+      ]},
 
-        ]},
+      { id: 'add-ons', title: 'Add-ons', icon: 'fa-puzzle-piece', articles: [
 
-        { id: 'troubleshooting', title: 'Support', articles: [
-          { slug: 'turnarounds-and-common-requests', title: 'When will my website request be completed?', updated: '01-13-2026', meta: 'Typical completion windows for several types of website requests. This article is frequently updated.', body: `
-            <table class="table table-bordered">
-              <thead><tr><th>Request type</th><th>Turnaround</th></tr></thead>
-              <tbody>
-                <tr><td>Text or image edits</td><td>1 to 3 days</td></tr>
-                <tr><td>Additional pages</td><td>5 to 7 days</td></tr>
-                <tr><td>Mobile optimization fixes</td><td>1 to 3 days</td></tr>
-                <tr><td>SEO updates</td><td>1 to 3 days</td></tr>
-                <tr><td>Contact form edits</td><td>1 to 3 days</td></tr>
-                <tr><td>Full website audit or revamp</td><td>7 to 14 business days</td></tr>
-                <tr><td>Bug fixes or site issues</td><td>24 to 48 hours*</td></tr>
-              </tbody>
-            </table>
-            <p><em>*Urgent issues are prioritized and are often resolved sooner.</em></p>
-            <div class="cta-row mt-2">
-              <a class="btn-brand" href="website-request.html">Submit a request</a>
-            </div>
-          ` },
+        { slug: 'ecommerce-upgrades', title: 'Can you add ecommerce to my website?', updated: TODAY, meta: 'Yes! Add online store functionality with product pages, shopping cart, and payment processing.', body: `
 
-          { slug: 'my-site-isnt-updating', title: 'My site is not updating after a change', updated: TODAY, meta: 'Website and site delays and what to do next.', body: `
-            <p>Please perform a hard refresh your browser with Command or Control Shift R and try an incognito window. It may be best to also clear any browser cookies/cache as that it may not keep up with recent website changes. WebEaze conducts QA checks on every update we complete. </p>
-              
-              <p>
-                DNS and other website URL updates can take up to 24 hours after a domain change. If you are still experiencing issues, we'll take a look. Send us a screenshot and your URL using the request form and we'll take a look into it.</p>
-            <div class="cta-row mt-2">
-              <a class="btn-brand" href="website-request.html">Report an issue</a>
-            </div>
-          ` }
-        ]},
+        <p>Yes! We can add ecommerce functionality to your website so you can sell products or services online. Whether you need a simple product catalog or a full online store, we can help.</p>
 
-        { id: 'add-ons', title: 'Add-ons', articles: [
+        <h2>Popular ecommerce features</h2>
+        <ul>
+          <li><strong>Product catalog setup:</strong> Display your products with images, descriptions, and pricing</li>
+          <li><strong>Shopping cart integration:</strong> Allow customers to add items and checkout securely</li>
+          <li><strong>Payment processing:</strong> Accept credit cards, PayPal, and other payment methods</li>
+          <li><strong>Inventory management:</strong> Track stock levels and manage product availability</li>
+          <li><strong>Order tracking:</strong> Automated emails and order status updates for customers</li>
+        </ul>
 
-          { slug: 'ecommerce-upgrades', title: 'Can you add ecommerce to my website?', updated: TODAY, meta: 'Yes! Add online store functionality with product pages, shopping cart, and payment processing.', body: `
+        <h2>Pricing</h2>
+        <p>Ecommerce setup typically starts at <strong>$659 one-time fee</strong> for basic store functionality. Additional features like advanced inventory management, product reviews, or subscription billing are available at additional cost.</p>
 
-          <p>Yes! We can add ecommerce functionality to your website so you can sell products or services online. Whether you need a simple product catalog or a full online store, we can help.</p>
+        <p>Monthly platform fees may apply depending on your chosen ecommerce solution (Shopify, WooCommerce, etc.).</p>
 
-          <h2>Popular ecommerce features</h2>
+        <div class="cta-row mt-2">
+          <a class="btn-brand" href="website-request.html">Request Ecommerce Setup</a>
+          <a class="btn-ghost" href="https://webeaze.io/fee-schedule">Full Pricing</a>
+        </div>
+        `
+        },
+
+        { slug: 'additional-pages', title: 'Can you add more pages to my website?', updated: TODAY, meta: 'Page limits by plan and how to request additional pages beyond your plan.', body: `
+          <p>Yes! We can add new pages to your website at any time. Each plan includes a set number of pages, and you can add more as your business grows.</p>
+
+          <h2>What's included in your plan</h2>
           <ul>
-            <li><strong>Product catalog setup:</strong> Display your products with images, descriptions, and pricing</li>
-            <li><strong>Shopping cart integration:</strong> Allow customers to add items and checkout securely</li>
-            <li><strong>Payment processing:</strong> Accept credit cards, PayPal, and other payment methods</li>
-            <li><strong>Inventory management:</strong> Track stock levels and manage product availability</li>
-            <li><strong>Order tracking:</strong> Automated emails and order status updates for customers</li>
+            <li><strong>Essential:</strong> Up to 3 pages + contact page</li>
+            <li><strong>Growth:</strong> Up to 6 pages + contact page</li>
+            <li><strong>Elite:</strong> Unlimited standard pages</li>
+          </ul>
+
+          <h2>How to request additional pages</h2>
+          <p>If you need pages beyond your plan's limit, submit a Website Request with:</p>
+          <ol>
+            <li>The type of page you need (e.g., About, Services, Blog)</li>
+            <li>Content for the page (text, images, or media)</li>
+            <li>Any specific layout or design preferences</li>
+          </ol>
+
+          <p>We'll review your request, send you an invoice for the additional page fee, and complete it within 3-5 business days after approval.</p>
+
+          <p><strong>Note:</strong> Contact pages are included in all plans and don't count toward your page limit.</p>
+
+          <div class="cta-row mt-2">
+            <a class="btn-brand" href="website-request.html">Request Additional Page</a>
+            <a class="btn-ghost" href="https://webeaze.io/fee-schedule">See Pricing</a>
+          </div>
+        `
+
+        },
+
+        { slug: 'newsletter-management', title: 'Can you send out newsletters for me?', updated: TODAY, meta: 'Yes, we offer newsletter management services for an additional monthly fee.', body: `
+          <p>Yes, we can send out newsletters on your behalf! Newsletter management is available as an add-on service to help you stay connected with your customers and keep them informed about your business.</p>
+
+          <h2>What's included?</h2>
+          <p>Our newsletter management service includes:</p>
+          <ul>
+            <li>Newsletter design and layout consistent with your brand</li>
+            <li>Content formatting and optimization</li>
+            <li>Email list management</li>
+            <li>Scheduling and sending newsletters</li>
+            <li>Basic performance tracking and reporting</li>
           </ul>
 
           <h2>Pricing</h2>
-          <p>Ecommerce setup typically starts at <strong>$659 one-time fee</strong> for basic store functionality. Additional features like advanced inventory management, product reviews, or subscription billing are available at additional cost.</p>
+          <p>Newsletter management is available for <strong>$99/month</strong>, added to your existing subscription price. This amount covers regular newsletter creation and distribution to help you maintain consistent communication with your audience.</p>
 
-          <p>Monthly platform fees may apply depending on your chosen ecommerce solution (Shopify, WooCommerce, etc.).</p>
+          <p><strong>Note:</strong> Email platform costs (like Mailchimp or Constant Contact) are not included and may be billed separately depending on your list size.</p>
 
           <div class="cta-row mt-2">
-            <a class="btn-brand" href="website-request.html">Request Ecommerce Setup</a>
-            <a class="btn-ghost" href="https://webeaze.io/fee-schedule">Full Pricing</a>
+            <a class="btn-brand" href="website-request.html">Request Newsletter Service</a>
+            <a class="btn-ghost" href="https://webeaze.io/fee-schedule">Fee Schedule</a>
           </div>
-          `
-          },
+        `
 
-          { slug: 'additional-pages', title: 'Can you add more pages to my website?', updated: TODAY, meta: 'Page limits by plan and how to request additional pages beyond your plan.', body: `
-            <p>Yes! We can add new pages to your website at any time. Each plan includes a set number of pages, and you can add more as your business grows.</p>
+        },
 
-            <h2>What's included in your plan</h2>
-            <ul>
-              <li><strong>Essential:</strong> Up to 3 pages + contact page</li>
-              <li><strong>Growth:</strong> Up to 6 pages + contact page</li>
-              <li><strong>Elite:</strong> Unlimited standard pages</li>
-            </ul>
+        { slug: 'google-business-add', title: 'Can you add my business to Google?', updated: TODAY, meta: 'Yes, we offer Google Business Profile setup and management for an additional monthly fee.', body: `
+          <p>Yes, we can add your business to Google.  We offer Google Business Profile setup and ongoing management as an add-on service to help your business appear in local search results and Google Maps.</p>
 
-            <h2>How to request additional pages</h2>
-            <p>If you need pages beyond your plan's limit, submit a Website Request with:</p>
-            <ol>
-              <li>The type of page you need (e.g., About, Services, Blog)</li>
-              <li>Content for the page (text, images, or media)</li>
-              <li>Any specific layout or design preferences</li>
-            </ol>
+          <h2>What's included?</h2>
+          <p>Our Google Business Profile management service includes:</p>
+          <ul>
+            <li>Creating or claiming your Google Business Profile</li>
+            <li>Complete profile optimization with business information, photos, and services</li>
+            <li>Regular posts and updates to keep your profile active</li>
+            <li>Review monitoring and response management</li>
+            <li>Monthly insights and performance reporting</li>
+          </ul>
 
-            <p>We'll review your request, send you an invoice for the additional page fee, and complete it within 3-5 business days after approval.</p>
+          <h2>Pricing</h2>
+          <p>Google Business Profile management is available for <strong>$79/month</strong>, added to your existing subscription price. This ongoing service ensures your business maintains a strong local presence on Google.</p>
 
-            <p><strong>Note:</strong> Contact pages are included in all plans and don't count toward your page limit.</p>
+          <p><strong>Note:</strong> If you're already on a Growth or Elite plan, Google Business Profile management is included in your plan at no extra cost. Please check your current plan features or contact us to verify.</p>
 
-            <div class="cta-row mt-2">
-              <a class="btn-brand" href="website-request.html">Request Additional Page</a>
-              <a class="btn-ghost" href="https://webeaze.io/fee-schedule">See Pricing</a>
-            </div>
-          `
+          <div class="cta-row mt-2">
+            <a class="btn-brand" href="website-request.html">Request Google Business Setup</a>
+            <a class="btn-ghost" href="google-business-management.html">Learn More</a>
+            <a class="btn-ghost" href="https://webeaze.io/fee-schedule">Fee Schedule</a>
+          </div>
+        `
 
-          },
-
-          { slug: 'newsletter-management', title: 'Can you send out newsletters for me?', updated: TODAY, meta: 'Yes, we offer newsletter management services for an additional monthly fee.', body: `
-            <p>Yes, we can send out newsletters on your behalf! Newsletter management is available as an add-on service to help you stay connected with your customers and keep them informed about your business.</p>
-
-            <h2>What's included?</h2>
-            <p>Our newsletter management service includes:</p>
-            <ul>
-              <li>Newsletter design and layout consistent with your brand</li>
-              <li>Content formatting and optimization</li>
-              <li>Email list management</li>
-              <li>Scheduling and sending newsletters</li>
-              <li>Basic performance tracking and reporting</li>
-            </ul>
-
-            <h2>Pricing</h2>
-            <p>Newsletter management is available for <strong>$99/month</strong>, added to your existing subscription price. This amount covers regular newsletter creation and distribution to help you maintain consistent communication with your audience.</p>
-
-            <p><strong>Note:</strong> Email platform costs (like Mailchimp or Constant Contact) are not included and may be billed separately depending on your list size.</p>
-
-            <div class="cta-row mt-2">
-              <a class="btn-brand" href="website-request.html">Request Newsletter Service</a>
-              <a class="btn-ghost" href="https://webeaze.io/fee-schedule">Fee Schedule</a>
-            </div>
-          `
-
-          },
-
-          { slug: 'google-business-add', title: 'Can you add my business to Google?', updated: TODAY, meta: 'Yes, we offer Google Business Profile setup and management for an additional monthly fee.', body: `
-            <p>Yes, we can add your business to Google.  We offer Google Business Profile setup and ongoing management as an add-on service to help your business appear in local search results and Google Maps.</p>
-
-            <h2>What's included?</h2>
-            <p>Our Google Business Profile management service includes:</p>
-            <ul>
-              <li>Creating or claiming your Google Business Profile</li>
-              <li>Complete profile optimization with business information, photos, and services</li>
-              <li>Regular posts and updates to keep your profile active</li>
-              <li>Review monitoring and response management</li>
-              <li>Monthly insights and performance reporting</li>
-            </ul>
-
-            <h2>Pricing</h2>
-            <p>Google Business Profile management is available for <strong>$79/month</strong>, added to your existing subscription price. This ongoing service ensures your business maintains a strong local presence on Google.</p>
-
-            <p><strong>Note:</strong> If you're already on a Growth or Elite plan, Google Business Profile management is included in your plan at no extra cost. Please check your current plan features or contact us to verify.</p>
-
-            <div class="cta-row mt-2">
-              <a class="btn-brand" href="website-request.html">Request Google Business Setup</a>
-              <a class="btn-ghost" href="google-business-management.html">Learn More</a>
-              <a class="btn-ghost" href="https://webeaze.io/fee-schedule">Fee Schedule</a>
-            </div>
-          `
-
-          },
+        },
 
 ]},
 
 
 
-       
-   
 
-  
-      ]
 
-    };
 
-    // ---- Search index ----
-    function normalize(str){return (str||'').toLowerCase().replace(/\s+/g,' ').trim()}
-    function tokenize(str){return normalize(str).split(/[^a-z0-9]+/).filter(Boolean)}
-    function indexArticles(data){
-      const idx=[];
-      data.topics.forEach(t=>{
-        t.articles.forEach(a=>{
-          const text=[a.title,a.meta,a.body.replace(/<[^>]+>/g,' ')].join(' ');
-          idx.push({slug:a.slug,title:a.title,topicId:t.id,topicTitle:t.title,updated:a.updated,meta:a.meta,text:normalize(text)});
-        });
+
+    ]
+
+  };
+
+  // ---- Search index ----
+  function normalize(str) { return (str || '').toLowerCase().replace(/\s+/g, ' ').trim(); }
+  function tokenize(str) { return normalize(str).split(/[^a-z0-9]+/).filter(Boolean); }
+  function indexArticles(data) {
+    const idx = [];
+    data.topics.forEach(t => {
+      t.articles.forEach(a => {
+        const text = [a.title, a.meta, a.body.replace(/<[^>]+>/g, ' ')].join(' ');
+        idx.push({ slug: a.slug, title: a.title, topicId: t.id, topicTitle: t.title, topicIcon: t.icon, updated: a.updated, meta: a.meta, text: normalize(text) });
       });
-      return idx;
-    }
-    const INDEX=indexArticles(HELP_DATA);
+    });
+    return idx;
+  }
+  const INDEX = indexArticles(HELP_DATA);
 
-    function searchArticles(q){
-      const terms=tokenize(q);
-      if(!terms.length) return INDEX.slice(0,12);
-      return INDEX.map(doc=>{
-        const score=terms.reduce((s,t)=>s+(doc.text.includes(t)?1:0),0);
-        return {doc,score};
-      }).filter(x=>x.score>0).sort((a,b)=>b.score-a.score).map(x=>x.doc).slice(0,24);
-    }
-
-    // ---- Router ----
-    function go(slug,replace){ const url=slug?`#/${slug}`:'#/'; if(replace){history.replaceState(null,'',url)}else{location.hash=url} }
-    function currentSlug(){ return location.hash.startsWith('#/')?location.hash.slice(2)||'':'' }
-
-    // ---- Elements ----
-    const $browseBody=document.getElementById('browseBody');
-    const $results=document.getElementById('results');
-    const $article=document.getElementById('article');
-    const $search=document.getElementById('search');
-    const $clearBtn=document.getElementById('clearBtn');
-    const $live=document.getElementById('live');
-
-    // ---- Renderers ----
-    function renderTopics(){
-      $browseBody.innerHTML = HELP_DATA.topics.map(t=>`
-        <div class="group">
-          <div class="group-title">${t.title}</div>
-          <div class="mb-2">
-            ${t.articles.map(a=>`<a class="side-link" href="#/${a.slug}">${a.title}</a>`).join('')}
-          </div>
-        </div>
-      `).join('');
-    }
-
-
-
-    const FEATURED = [
-  'getting-started',
-  'which-plan-should-i-choose',
-  'what-content-do-i-need',
-  'how-long-does-it-take',
-  'existing-website',
-  'how-to-send-website-access',
-  'how-to-request-updates'
-    ];
-
-
-
-    function renderList(docs, q){
-  $article.hidden = true;
-  $article.innerHTML = '';
-
-  let heading;
-  let items;
-
-  // Homepage (no search)
-  if (!q.trim()) {
-    heading = "Recommended Articles";
-    items = FEATURED
-      .map(slug => INDEX.find(x => x.slug === slug))
-      .filter(Boolean);
-  } else {
-    // Search results
-    heading = `Results for “${q.replace(/</g,'&lt;')}”`;
-    items = docs;
+  function searchArticles(q) {
+    const terms = tokenize(q);
+    if (!terms.length) return INDEX.slice(0, 12);
+    return INDEX.map(doc => {
+      const score = terms.reduce((s, t) => s + (doc.text.includes(t) ? 1 : 0), 0);
+      return { doc, score };
+    }).filter(x => x.score > 0).sort((a, b) => b.score - a.score).map(x => x.doc).slice(0, 24);
   }
 
-  $results.innerHTML = `
-    <div class="surface" id="articles">
-      <div class="d-flex align-items-center justify-content-between mb-2">
-        <h2 class="h5 mb-0" style="font-weight:800">${heading}</h2>
-        <div class="small meta">${items.length} article${items.length===1?'':'s'}</div>
+  // ---- Router ----
+  function go(slug, replace) { const url = slug ? `#/${slug}` : '#/'; if (replace) { history.replaceState(null, '', url) } else { location.hash = url } }
+  function currentSlug() { return location.hash.startsWith('#/') ? location.hash.slice(2) || '' : '' }
+
+  // ---- Elements ----
+  const $browseBody = document.getElementById('browseBody');
+  const $results = document.getElementById('results');
+  const $article = document.getElementById('article');
+  const $search = document.getElementById('search');
+  const $clearBtn = document.getElementById('clearBtn');
+  const $live = document.getElementById('live');
+  const $categoriesSection = document.getElementById('categoriesSection');
+  const $categoriesGrid = document.getElementById('categoriesGrid');
+
+  // ---- Renderers ----
+  function renderTopics() {
+    $browseBody.innerHTML = HELP_DATA.topics.map((t, i) => `
+      <div class="topic-group ${i === 0 ? 'open' : ''}" data-topic="${t.id}">
+        <div class="topic-header" onclick="this.parentElement.classList.toggle('open')">
+          <i class="fas ${t.icon}"></i>
+          <span>${t.title}</span>
+          <i class="fas fa-chevron-down chevron"></i>
+        </div>
+        <div class="topic-links">
+          ${t.articles.map(a => `<a class="topic-link" href="#/${a.slug}">${a.title}</a>`).join('')}
+        </div>
       </div>
-      <div class="list-group list-group-flush">
-        ${items.map(d=>`
-          <a href="#/${d.slug}" class="list-group-item list-group-item-action result">
-            <div class="d-flex align-items-center justify-content-between">
-              <div>
-                <div style="font-weight:700">${d.title}</div>
-                <div class="meta">${d.topicTitle} · Updated ${d.updated}</div>
-                <div class="mt-1" style="color:#3f4564;font-size:.95rem">${d.meta}</div>
-              </div>
-              <span aria-hidden="true">→</span>
+    `).join('');
+  }
+
+  function renderCategories() {
+    $categoriesGrid.innerHTML = HELP_DATA.topics.map(t => `
+      <div class="category-card" onclick="document.querySelector('[data-topic=\\'${t.id}\\']').classList.add('open'); document.getElementById('results').scrollIntoView({behavior:'smooth'});">
+        <div class="icon"><i class="fas ${t.icon}"></i></div>
+        <h3>${t.title}</h3>
+        <p>${t.articles.length > 3 ? t.articles.slice(0, 3).map(a => a.title).join(', ') + '...' : t.articles.map(a => a.title).join(', ')}</p>
+        <div class="count">${t.articles.length} article${t.articles.length === 1 ? '' : 's'}</div>
+      </div>
+    `).join('');
+  }
+
+  const FEATURED = [
+    'getting-started',
+    'which-plan-should-i-choose',
+    'what-content-do-i-need',
+    'how-long-does-it-take',
+    'existing-website',
+    'how-to-send-website-access',
+    'how-to-request-updates'
+  ];
+
+  function renderList(docs, q) {
+    $article.hidden = true;
+    $article.innerHTML = '';
+    $categoriesSection.style.display = q.trim() ? 'none' : 'block';
+
+    let heading;
+    let items;
+
+    if (!q.trim()) {
+      heading = "Recommended Articles";
+      items = FEATURED.map(slug => INDEX.find(x => x.slug === slug)).filter(Boolean);
+    } else {
+      heading = `Results for "${q.replace(/</g, '&lt;')}"`;
+      items = docs;
+    }
+
+    $results.innerHTML = `
+      <div class="results-header">
+        <h2>${heading}</h2>
+        <div class="results-count">${items.length} article${items.length === 1 ? '' : 's'}</div>
+      </div>
+      <div class="results-grid">
+        ${items.map(d => `
+          <a href="#/${d.slug}" class="result-card">
+            <div class="title">
+              <span>${d.title}</span>
+              <i class="fas fa-arrow-right"></i>
             </div>
+            <div class="meta">
+              <span class="topic">${d.topicTitle}</span> · Updated ${d.updated}
+            </div>
+            <div class="excerpt">${d.meta}</div>
           </a>
         `).join('')}
       </div>
-    </div>
-  `;
+    `;
 
-  $live.textContent = `${items.length} result${items.length===1?'':'s'} loaded`;
-}
+    $live.textContent = `${items.length} result${items.length === 1 ? '' : 's'} loaded`;
+  }
 
-
-
-    function findArticleBySlug(slug){
-      for(const t of HELP_DATA.topics){
-        const a=t.articles.find(x=>x.slug===slug);
-        if(a) return {topic:t,article:a};
-      }
-      return null;
+  function findArticleBySlug(slug) {
+    for (const t of HELP_DATA.topics) {
+      const a = t.articles.find(x => x.slug === slug);
+      if (a) return { topic: t, article: a };
     }
+    return null;
+  }
 
-    function scrollToArticle(){
-      const navH=document.querySelector('.nav-wrap')?.offsetHeight||0;
-      const y=$article.getBoundingClientRect().top + window.scrollY - (navH + 12);
-      window.scrollTo({top:y,behavior:'smooth'});
-    }
+  function scrollToArticle() {
+    const navH = document.querySelector('nav')?.offsetHeight || 0;
+    const y = $article.getBoundingClientRect().top + window.scrollY - (navH + 20);
+    window.scrollTo({ top: y, behavior: 'smooth' });
+  }
 
-    function renderArticle(slug){
-      const found=findArticleBySlug(slug);
-      if(!found){ renderList(searchArticles($search.value.trim()), $search.value.trim()); return; }
-      const {topic,article}=found;
+  function renderArticle(slug) {
+    const found = findArticleBySlug(slug);
+    if (!found) { renderList(searchArticles($search.value.trim()), $search.value.trim()); return; }
+    const { topic, article } = found;
 
-      $results.innerHTML='';
-      $article.hidden=false;
-      $article.setAttribute('tabindex','-1');
-      $article.innerHTML=`
-        <nav class="mb-2 small meta" aria-label="Breadcrumb">
-          <a href="#/" aria-label="Back to Guide home">Help Center</a> · <a href="#/" onclick="history.back();return false;"><strong><u>Go Back</u></strong></a> · ${topic.title}
+    $results.innerHTML = '';
+    $categoriesSection.style.display = 'none';
+    $article.hidden = false;
+    $article.setAttribute('tabindex', '-1');
+    $article.innerHTML = `
+      <div class="article-view">
+        <nav class="article-breadcrumb">
+          <a href="#/"><i class="fas fa-home"></i></a>
+          <span>/</span>
+          <a href="#/" onclick="event.preventDefault(); history.back();">${topic.title}</a>
+          <span>/</span>
+          <span>${article.title.length > 30 ? article.title.slice(0, 30) + '...' : article.title}</span>
         </nav>
-        <header class="mb-2">
-          <h1 class="mb-1">${article.title}</h1>
-          <div class="meta">Last update: ${article.updated}</div>
+        <header class="article-header">
+          <h1>${article.title}</h1>
+          <div class="meta"><i class="fas fa-clock"></i> Last updated: ${article.updated}</div>
         </header>
         <section class="article-body">${article.body}</section>
-        <hr/>
-        <div class="cta-row">
-          <button class="btn-ghost" id="copyLinkBtn" type="button">Copy link</button>
+        <div class="article-footer">
+          <button class="btn-ghost" id="copyLinkBtn" type="button">
+            <i class="fas fa-link"></i> Copy Link
+          </button>
+          <a href="#/" class="btn-ghost" onclick="event.preventDefault(); history.back();">
+            <i class="fas fa-arrow-left"></i> Back
+          </a>
         </div>
-      `;
+      </div>
+    `;
 
-      const $btn=document.getElementById('copyLinkBtn');
-      if($btn){
-        $btn.addEventListener('click',()=>{
-          navigator.clipboard.writeText(location.href);
-          $btn.textContent='Link copied!';
-          setTimeout(()=>{$btn.textContent='Copy link'},1200);
-        });
-      }
-
-      // Feedback counters
-      const helpful=$article.querySelector('.helpful');
-      if(helpful){
-        const count=helpful.querySelector('.count');
-        let n=0;
-        helpful.addEventListener('click',(e)=>{
-          const b=e.target.closest('button');
-          if(!b) return;
-          n=Math.max(0, n + (b.dataset.vote==='up'?1:0));
-          count.textContent = `${n} found this helpful`;
-        });
-      }
-
-      // Feedback: focus, scroll, flash; close Browse if open
-      $article.focus({preventScroll:true});
-      requestAnimationFrame(()=>{
-        scrollToArticle();
-        $article.classList.add('flash');
-        setTimeout(()=> $article.classList.remove('flash'), 900);
+    const $btn = document.getElementById('copyLinkBtn');
+    if ($btn) {
+      $btn.addEventListener('click', () => {
+        navigator.clipboard.writeText(location.href);
+        $btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        setTimeout(() => { $btn.innerHTML = '<i class="fas fa-link"></i> Copy Link'; }, 1500);
       });
-      const $b=$('#browse'); if($b.length){ $b.collapse('hide'); }
-
-      // highlight active in Browse
-      Array.from(document.querySelectorAll('.side-link')).forEach(a=>{
-        a.classList.toggle('active', a.getAttribute('href')===`#/${slug}`);
-      });
-
-      $live.textContent=`Opened: ${article.title}`;
     }
 
-    // ---- Events ----
-    function bindInternalLinks(){
-      document.addEventListener('click', function(e){
-        const a=e.target.closest('a[href^="#/"]');
-        if(!a) return;
-        e.preventDefault();
-        const slug=a.getAttribute('href').slice(2);
-        const cur=currentSlug();
-        if(cur!==slug){ go(slug,false); }
-        renderArticle(slug);
-      }, false);
+    $article.focus({ preventScroll: true });
+    requestAnimationFrame(() => {
+      scrollToArticle();
+      $article.querySelector('.article-view').classList.add('flash');
+      setTimeout(() => $article.querySelector('.article-view')?.classList.remove('flash'), 800);
+    });
+
+    // Highlight active in sidebar
+    Array.from(document.querySelectorAll('.topic-link')).forEach(a => {
+      a.classList.toggle('active', a.getAttribute('href') === `#/${slug}`);
+    });
+
+    // Open parent topic group
+    const parentGroup = document.querySelector(`[data-topic="${topic.id}"]`);
+    if (parentGroup) parentGroup.classList.add('open');
+
+    $live.textContent = `Opened: ${article.title}`;
+  }
+
+  // ---- Events ----
+  function bindInternalLinks() {
+    document.addEventListener('click', function (e) {
+      const a = e.target.closest('a[href^="#/"]');
+      if (!a) return;
+      e.preventDefault();
+      const slug = a.getAttribute('href').slice(2);
+      const cur = currentSlug();
+      if (cur !== slug) { go(slug, false); }
+      renderArticle(slug);
+    }, false);
+  }
+
+  function onHash() {
+    const slug = currentSlug();
+    if (slug) { renderArticle(slug); }
+    else { renderList(searchArticles($search.value.trim()), $search.value.trim()); }
+  }
+
+  function initSearch() {
+    window.addEventListener('keydown', (e) => {
+      if (e.key === '/' && document.activeElement !== $search) { e.preventDefault(); $search.focus(); }
+      if (e.key === 'Escape') { $search.value = ''; onSearch(); }
+    });
+    $search.addEventListener('input', onSearch);
+    $clearBtn.addEventListener('click', () => { $search.value = ''; $search.focus(); onSearch(); });
+
+    function onSearch() {
+      const q = $search.value.trim();
+      if (currentSlug()) { go('', true); }
+      renderList(searchArticles(q), q);
     }
+  }
 
-    function onHash(){
-      const slug=currentSlug();
-      if(slug){ renderArticle(slug); }
-      else { renderList(searchArticles($search.value.trim()), $search.value.trim()); }
+  // Mobile sidebar toggle
+  document.getElementById('mobileTopicsToggle').addEventListener('click', () => {
+    document.getElementById('sidebar').classList.toggle('open');
+  });
+
+  function boot() {
+    renderTopics();
+    renderCategories();
+    bindInternalLinks();
+    initSearch();
+    window.addEventListener('hashchange', onHash);
+    onHash();
+  }
+
+  // Nav scroll effect
+  (function () {
+    const nav = document.getElementById('mainNav');
+    function onScroll() {
+      nav.classList.toggle('scrolled', window.scrollY > 20);
     }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  })();
 
-    function initSearch(){
-      window.addEventListener('keydown', (e)=>{
-        if(e.key==='/' && document.activeElement!==$search){ e.preventDefault(); $search.focus(); }
-        if(e.key==='Escape'){ $search.value=''; onSearch(); }
-      });
-      $search.addEventListener('input', onSearch);
-      $clearBtn.addEventListener('click', ()=>{ $search.value=''; $search.focus(); onSearch(); });
-
-      function onSearch(){
-        const q=$search.value.trim();
-        if(currentSlug()){ go('', true); }
-        renderList(searchArticles(q), q);
-      }
-    }
-
-    function boot(){
-      renderTopics();
-      bindInternalLinks();
-      initSearch();
-      window.addEventListener('hashchange', onHash);
-      onHash();
-
-      // Open Browse if user clicked the hero button anchor
-      if(location.hash==='#browse-open'){ $('#browse').collapse('show'); }
-    }
-
-    // Nav padding on scroll
-    (function(){
-      var wrap=document.querySelector('.nav-wrap'); if(!wrap) return;
-      function onScr(){ (window.scrollY>8)?wrap.classList.add('scrolled'):wrap.classList.remove('scrolled'); }
-      window.addEventListener('scroll',onScr,{passive:true}); onScr();
-    })();
-
-    document.addEventListener('DOMContentLoaded', boot);
-  </script>
+  document.addEventListener('DOMContentLoaded', boot);
+</script>
 </body>
 </html>
