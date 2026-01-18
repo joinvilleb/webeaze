@@ -5,107 +5,318 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Status & Updates | WebEaze</title>
   <meta name="description" content="Check WebEaze service status, support hours, and seasonal updates." />
-  <link rel="canonical" href="https://www.webeaze.io/status.html" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+  <link rel="canonical" href="https://www.webeaze.io/status" />
   <link rel="shortcut icon" href="images/webeaze-transparent copy.png" type="image/png" />
 
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
   <style>
-    :root{
-      --brand:#7851a9; --brand-ink:#3a2577; --gold:#ffd700;
-      --ink:#0f1228; --ink-2:#3c4260; --muted:#6b7280;
-      --line:#e7eaf4; --bg:#f7f8fc; --white:#fff;
+    :root {
+      --brand: #7851a9;
+      --gold: #ffd700;
+      --dark: #0a0a0f;
+      --dark-2: #121218;
+      --dark-3: #1a1a22;
+      --line: rgba(255,255,255,.1);
+      --muted: rgba(255,255,255,.5);
+      --success: #22c55e;
+      --warning: #f59e0b;
+      --danger: #ef4444;
     }
-    body{margin:0;font-family:'Poppins',sans-serif;background:var(--bg);color:var(--ink);}
-    a{text-decoration:none;color:inherit;transition:.2s}
-    .container-narrow{max-width:1050px}
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: var(--dark);
+      color: #fff;
+      line-height: 1.6;
+    }
+    a { text-decoration: none; color: inherit; transition: .2s; }
+
+    .container-narrow { max-width: 900px; margin: 0 auto; padding: 0 20px; }
 
     /* NAV */
-    .nav-wrap{position:sticky;top:0;z-index:9999;background:#000;backdrop-filter:saturate(130%) blur(8px);border-bottom:1px solid rgba(255,255,255,.14)}
-    .webeaze-nav{padding:.6rem 0;transition:padding .18s ease}
-    .scrolled .webeaze-nav{padding:.45rem 0}
-    .navbar-dark .nav-link{color:#fff!important;opacity:.9;padding:.45rem .7rem;border-radius:10px}
-    .navbar-dark .nav-link:hover{opacity:1;background:rgba(255,255,255,.1)}
-    .btn-nav{background:var(--gold);color:#2f1e66;border:none;border-radius:10px;padding:.55rem .9rem;font-weight:700;box-shadow:0 8px 22px rgba(255,215,0,.25)}
+    .nav-wrap {
+      position: sticky;
+      top: 0;
+      z-index: 9999;
+      background: rgba(0,0,0,.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
+    }
+    .navbar { padding: .6rem 0; }
+    .navbar-dark .nav-link { color: #fff !important; opacity: .85; padding: .45rem .7rem; border-radius: 10px; }
+    .navbar-dark .nav-link:hover { opacity: 1; background: rgba(255,255,255,.08); }
+    .logo { height: 36px; }
+    .brand-word {
+      background: linear-gradient(90deg, #e8e7ea, #a8a5a0);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-size: 1.1rem;
+    }
+    .btn-nav {
+      background: var(--gold);
+      color: #2f1e66;
+      border: none;
+      border-radius: 10px;
+      padding: .55rem .9rem;
+      font-weight: 700;
+      font-size: 14px;
+    }
 
     /* HERO */
-    header.hero{padding:70px 0 40px;background:linear-gradient(180deg,#fff,#f8f8fc 80%);text-align:center}
-    header.hero h1{font-weight:800;letter-spacing:-.02em;margin-bottom:.5rem}
-    header.hero p{max-width:700px;margin:0 auto;color:var(--ink-2);font-size:1.05rem}
+    .hero {
+      padding: 60px 0 50px;
+      text-align: center;
+      background: linear-gradient(180deg, var(--dark-2), var(--dark));
+      border-bottom: 1px solid var(--line);
+    }
+    .hero h1 {
+      font-size: clamp(28px, 5vw, 36px);
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .hero .subtitle {
+      color: var(--muted);
+      font-size: 17px;
+      max-width: 550px;
+      margin: 0 auto;
+    }
 
-    /* HOURS BOX */
-    .hours-box{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px;margin:32px auto 0;max-width:400px;box-shadow:0 6px 22px rgba(0,0,0,.05)}
-    .hours-box h3{font-size:1.1rem;font-weight:700;margin-bottom:8px}
-    .hours-box p{margin:0;color:var(--ink-2);font-size:.95rem;line-height:1.5}
+    /* STATUS INDICATOR */
+    .status-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(34, 197, 94, .1);
+      border: 1px solid rgba(34, 197, 94, .3);
+      padding: 10px 20px;
+      border-radius: 999px;
+      margin-top: 24px;
+    }
+    .status-indicator.online { background: rgba(34, 197, 94, .1); border-color: rgba(34, 197, 94, .3); }
+    .status-indicator.offline { background: rgba(239, 68, 68, .1); border-color: rgba(239, 68, 68, .3); }
+    .status-indicator.away { background: rgba(245, 158, 11, .1); border-color: rgba(245, 158, 11, .3); }
 
-    /* STATUS CARDS */
-    .status-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;margin-top:36px}
-    .card-status{background:#fff;border:1px solid var(--line);border-radius:18px;padding:28px;box-shadow:0 6px 20px rgba(16,18,37,.05)}
-    .card-status h3{font-weight:700;margin-bottom:10px}
-    .tag{display:inline-block;font-size:.8rem;font-weight:700;border-radius:999px;padding:4px 10px;margin-bottom:10px}
-    .tag.green{background:#e5f9ec;color:#1b8a4a;border:1px solid #b6e7c3}
-    .tag.orange{background:#fff3cd;color:#856404;border:1px solid #ffeeba}
-    .tag.red{background:#fdecea;color:#a94442;border:1px solid #f5c6cb}
-    .card-status p{color:var(--ink-2);font-size:.95rem;line-height:1.6}
+    .status-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--success);
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+    .status-indicator.offline .status-dot { background: var(--danger); animation: none; }
+    .status-indicator.away .status-dot { background: var(--warning); animation: none; }
 
-    /* UPDATES */
-    .updates{margin-top:70px}
-    .update{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px;margin-bottom:16px;box-shadow:0 4px 14px rgba(0,0,0,.04)}
-    .update h4{font-weight:700;margin-bottom:8px}
-    .update small{color:var(--muted)}
-    .update p{margin:0;color:var(--ink-2)}
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: .6; transform: scale(1.1); }
+    }
 
-    /* OFFERS */
-    .offers{margin-top:70px;background:linear-gradient(140deg,#000,#7851a9);color:#fff;border-radius:18px;padding:40px 28px;text-align:center;box-shadow:0 8px 30px rgba(0,0,0,.2)}
-    .offers h2{font-weight:700;margin-bottom:16px}
-    .offers p{font-size:1.05rem;margin-bottom:18px}
-    .offers a{display:inline-block;background:var(--gold);color:#2f1e66;font-weight:700;border-radius:12px;padding:.75rem 1.2rem;box-shadow:0 8px 24px rgba(255,215,0,.3)}
+    .status-text {
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .status-indicator.online .status-text { color: var(--success); }
+    .status-indicator.offline .status-text { color: var(--danger); }
+    .status-indicator.away .status-text { color: var(--warning); }
 
-    footer{background:#000;color:#fff;text-align:center;padding:40px 0;font-size:.95rem;margin-top:70px}
+    /* SECTION HEADERS */
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .section-header i {
+      color: var(--brand);
+      font-size: 22px;
+    }
+    .section-header h2 {
+      font-size: 22px;
+      font-weight: 700;
+      margin: 0;
+    }
 
-    /* SPOILER */
-      .spoiler-wrap{max-width:600px;margin:0 auto}
-      .spoiler{
-        background:#fff;
-        border:1px solid var(--line);
-        border-radius:14px;
-        box-shadow:0 4px 14px rgba(0,0,0,.04);
-        overflow:hidden;
-        margin: 30px;
-      }
-      .spoiler summary{
-        list-style:none;
-        cursor:pointer;
-        padding:16px 20px;
-        font-weight:700;
-        display:flex;
-        justify-content:space-between;
-        align-items:left; 
-      }
-      .spoiler summary::-webkit-details-marker{display:none}
-      .spoiler .chev{
-        font-size:1.2rem;
-        transition:transform .2s ease;
-      }
-      .spoiler[open] .chev{
-        transform:rotate(45deg);
-      }
-      .spoiler-body{
-        padding:0 20px 20px;
-        color:var(--ink-2);
-        font-size:.95rem;
-      }
-      .spoiler-body ul{
-        align-items: left;
-        margin-bottom:12px;
-      }
+    /* HOURS SECTION */
+    .hours-section {
+      padding: 50px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .hours-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+    }
+    .hours-card {
+      background: var(--dark-2);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 24px;
+    }
+    .hours-card h3 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .hours-card h3 i {
+      color: var(--gold);
+      font-size: 18px;
+    }
+    .hours-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--line);
+      font-size: 14px;
+    }
+    .hours-row:last-child { border-bottom: none; }
+    .hours-day { color: var(--muted); }
+    .hours-time { font-weight: 500; }
 
-      .spoiler-body li {
-        text-align: left !important;
-      }
+    /* UPCOMING CLOSURE BANNER */
+    .closure-banner {
+      background: linear-gradient(135deg, rgba(245, 158, 11, .15), rgba(239, 68, 68, .1));
+      border: 1px solid rgba(245, 158, 11, .3);
+      border-radius: 16px;
+      padding: 24px;
+      margin-top: 30px;
+      display: none;
+    }
+    .closure-banner.visible { display: block; }
+    .closure-banner h3 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--warning);
+    }
+    .closure-banner p {
+      margin: 0;
+      color: rgba(255,255,255,.8);
+      font-size: 14px;
+      line-height: 1.6;
+    }
 
+    /* HOLIDAY SCHEDULES */
+    .holidays-section {
+      padding: 50px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .holiday-accordion {
+      background: var(--dark-2);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      margin-bottom: 12px;
+      overflow: hidden;
+    }
+    .holiday-accordion summary {
+      list-style: none;
+      cursor: pointer;
+      padding: 18px 20px;
+      font-weight: 600;
+      font-size: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background .2s;
+    }
+    .holiday-accordion summary:hover { background: var(--dark-3); }
+    .holiday-accordion summary::-webkit-details-marker { display: none; }
+    .holiday-accordion .chev {
+      font-size: 14px;
+      color: var(--muted);
+      transition: transform .2s;
+    }
+    .holiday-accordion[open] .chev { transform: rotate(180deg); }
+    .holiday-body {
+      padding: 0 20px 20px;
+      border-top: 1px solid var(--line);
+    }
+    .holiday-body ul {
+      margin: 16px 0 0;
+      padding-left: 0;
+      list-style: none;
+    }
+    .holiday-body li {
+      padding: 10px 0;
+      border-bottom: 1px solid var(--line);
+      font-size: 14px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .holiday-body li:last-child { border-bottom: none; }
+    .holiday-name { color: rgba(255,255,255,.7); }
+    .holiday-date { font-weight: 500; }
+
+    /* UPDATES SECTION */
+    .updates-section {
+      padding: 50px 0;
+    }
+    .update-card {
+      background: var(--dark-2);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 16px;
+      transition: border-color .2s;
+    }
+    .update-card:hover { border-color: rgba(255,255,255,.2); }
+    .update-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .update-card h3 {
+      font-size: 17px;
+      font-weight: 600;
+      margin: 0;
+    }
+    .update-date {
+      font-size: 13px;
+      color: var(--muted);
+      background: var(--dark-3);
+      padding: 4px 12px;
+      border-radius: 20px;
+    }
+    .update-card p {
+      margin: 0;
+      color: rgba(255,255,255,.7);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+    .update-card a {
+      color: var(--gold);
+      text-decoration: underline;
+    }
+
+    /* FOOTER */
+    footer {
+      background: var(--dark-2);
+      border-top: 1px solid var(--line);
+      padding: 40px 0;
+      text-align: center;
+    }
+    footer a { color: rgba(255,255,255,.7); }
+    footer a:hover { color: #fff; }
+
+    @media (max-width: 600px) {
+      .hours-grid { grid-template-columns: 1fr; }
+      .update-header { flex-direction: column; }
+    }
   </style>
 </head>
 <body>
@@ -113,23 +324,23 @@
 <!-- NAV -->
 <div class="nav-wrap">
   <div class="container container-narrow">
-    <nav class="navbar navbar-expand-lg navbar-dark webeaze-nav">
+    <nav class="navbar navbar-expand-lg navbar-dark">
       <a class="navbar-brand d-flex align-items-center" href="index.html">
-        <img src="images/webeaze-transparent copy.png" class="logo" height="36" alt="WebEaze">
-        <strong class="ml-2" style="background:linear-gradient(90deg,#e8e7ea,#66615f);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">WebEaze</strong>
+        <img src="images/webeaze-transparent copy.png" class="logo" alt="WebEaze">
+        <strong class="ml-2 brand-word">WebEaze</strong>
       </a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav"><span class="navbar-toggler-icon"></span></button>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
       <div id="nav" class="collapse navbar-collapse">
         <ul class="navbar-nav ml-auto main-nav">
- 
           <li class="nav-item"><a class="nav-link" href="build.html">New Website</a></li>
           <li class="nav-item"><a class="nav-link" href="manage.html">Existing Site</a></li>
           <li class="nav-item"><a class="nav-link" href="pricing.html">Pricing</a></li>
+          <li class="nav-item"><a class="nav-link" href="faq.html">FAQ</a></li>
           <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
           <li class="nav-item"><a class="nav-link" href="contact-us.html">Contact</a></li>
-          <li class="nav-item ml-1"><a class="btn btn-sm btn-nav" href="website-request.html">
-            Submit Website Request
-          </a></li>
+          <li class="nav-item ml-1"><a class="btn btn-sm btn-nav" href="consultation.html">Request Free Mockup</a></li>
         </ul>
       </div>
     </nav>
@@ -139,271 +350,320 @@
 <!-- HERO -->
 <header class="hero">
   <div class="container container-narrow">
-    <h1 style="font-size: 30px; font-weight: 600;">
+    <h1><i class="fas fa-signal" style="margin-right:12px;color:var(--brand);"></i> Status & Updates</h1>
+    <p class="subtitle">Service status, support hours, and announcements from WebEaze.</p>
 
-        Current Support Hours
-
-    </h1>
-    <p>Stay informed about our hours, maintenance schedules, and service updates. 
-        This page is regularly updated. 
-    </p>
-
-    
-
-    <div class="hours-box">
-      <h3 style="text-align: left; "> Our Working Hours
-      </h3>
-      <p style="font-size: 13px; text-align: left;"><strong>Email, Chat:</strong>
-        Mon-Fri 9:00a - 5:00p ET<br>
-         <strong>Meet:</strong> Mon-Fri 9:00a - 5:00p ET<br>
-         <strong>Weekends, major US holidays:</strong> Closed</p>
+    <div class="status-indicator" id="status-indicator">
+      <span class="status-dot"></span>
+      <span class="status-text">Checking status...</span>
     </div>
-
-   
-
   </div>
 </header>
 
-<!-- STATUS CARDS -->
-<section class="py-5" style="padding-top: 0 !important;">
-  <div class="container container-narrow" >
-    <div class="status-cards">
+<!-- HOURS SECTION -->
+<section class="hours-section">
+  <div class="container container-narrow">
 
-      <!-- <div class="card-status">
-        <span class="tag green">All Systems Operational</span>
-        <h3>Hosting & Maintenance</h3>
-        <p>All WebEaze websites and hosting platforms we support are running normally. Routine maintenance and backups continue as scheduled. Our next planned maintenance window is <strong id="maintenance-date"></strong>.</p>
-        <script>
+    <div class="section-header">
+      <i class="fas fa-clock"></i>
+      <h2>Support Hours</h2>
+    </div>
 
-    
-        const currentDate = new Date();
-        const nextMaintenanceDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 10); // Set to the 10th of the next month
-        const options = { month: 'long', day: 'numeric', year: 'numeric' };
-        document.getElementById('maintenance-date').textContent = nextMaintenanceDate.toLocaleDateString('en-US', options);
+    <div class="hours-grid">
 
-        </script>
+      <div class="hours-card">
+        <h3><i class="fas fa-envelope"></i> Email & Chat</h3>
+        <div class="hours-row">
+          <span class="hours-day">Monday - Friday</span>
+          <span class="hours-time">9:00 AM - 5:00 PM ET</span>
+        </div>
+        <div class="hours-row">
+          <span class="hours-day">Saturday - Sunday</span>
+          <span class="hours-time">Closed</span>
+        </div>
+      </div>
 
-        </p>
-      </div> -->
+      <div class="hours-card">
+        <h3><i class="fas fa-video"></i> Google Meet</h3>
+        <div class="hours-row">
+          <span class="hours-day">Monday - Friday</span>
+          <span class="hours-time">9:00 AM - 5:00 PM ET</span>
+        </div>
+        <div class="hours-row">
+          <span class="hours-day">Saturday - Sunday</span>
+          <span class="hours-time">Closed</span>
+        </div>
+      </div>
 
+      <div class="hours-card">
+        <h3><i class="fas fa-wrench"></i> Website Updates</h3>
+        <div class="hours-row">
+          <span class="hours-day">Turnaround</span>
+          <span class="hours-time">24-48 hours</span>
+        </div>
+        <div class="hours-row">
+          <span class="hours-day">Rush requests</span>
+          <span class="hours-time">Same day*</span>
+        </div>
+        <p style="font-size:12px;color:var(--muted);margin:12px 0 0;">*Growth & Elite plans only</p>
+      </div>
 
+    </div>
 
-    
+    <!-- UPCOMING CLOSURE BANNER -->
+    <div class="closure-banner" id="closure-banner">
+      <h3><i class="fas fa-calendar-xmark"></i> <span id="closure-title">Upcoming Closure</span></h3>
+      <p id="closure-message">Details will appear here when a closure is approaching.</p>
+    </div>
 
-    
-<!-- 
-      <div class="card-status">
-        <span class="tag orange">Adjusted Hours</span>
-        <h3>Limited Google Meet Support</h3>
-        <p>Google Meet is available <strong>Mon-Fri, 9:00a-1:00p ET</strong> until December 15. </p>
-        </div> -->
-
-        <!-- <div class="card-status">
-          <span class="tag red">Office Closure</span>
-          <h3>December Holidays</h3>
-          <p>
-            Closed <strong>Dec 24-28</strong> for December Holidays and <strong>Dec 31-Jan 1</strong> for New Year's. Scheduled support requests will be completed before Dec 23. We return on <strong>Dec 29</strong> and <strong>Jan 2</strong>.
-          </p>
-          </div> -->
-
-          
   </div>
 </section>
 
- <!-- HOLIDAY SCHEDULE 2026 -->
-<section>
- <div class="spoiler-wrap mt-4">
-  <details class="spoiler">
-    <summary>
-      📅 View 2026 Holiday Schedule
-      <span class="chev">+</span>
-    </summary>
+<!-- HOLIDAY SCHEDULES -->
+<section class="holidays-section">
+  <div class="container container-narrow">
 
-    <div class="spoiler-body">
-      <p><strong>We're closed on the following dates in 2026:</strong></p>
-
-      <ul>
-        <li><strong>New Year's Day</strong>: Jan 1</li>
-        <li><strong>Memorial Day</strong>: May 25</li>
-        <li><strong>Independence Day (Observed)</strong>: July 3</li>
-        <li><strong>Labor Day</strong>: Sept 7</li>
-        <li><strong>Thanksgiving</strong>: Nov 25-29</li>
-        <li><strong>December Holidays</strong>: Dec 24-Jan 3, 2027</li>
-      </ul>
-
-      <p class="small text-muted mb-0">
-        Requests can still be submitted during closures and will be handled when we reopen.
-      </p>
+    <div class="section-header">
+      <i class="fas fa-calendar-alt"></i>
+      <h2>Holiday Schedules</h2>
     </div>
-  </details>
-</div>
-</section>
 
- <!-- HOLIDAY SCHEDULE 2027 -->
- <section>
-  <div class="spoiler-wrap mt-4">
-   <details class="spoiler">
-     <summary>
-       📅 View 2027 Holiday Schedule
-       <span class="chev">+</span>
-     </summary>
- 
-     <div class="spoiler-body">
-      <p><strong>We're closed on the following dates in 2027:</strong></p>
-
-      <ul>
-        <li><strong>New Year's Day</strong>: Jan 1-3</li>
-        <li><strong>Memorial Day</strong>: May 31</li>
-        <li><strong>Independence Day (Observed)</strong>: July 5</li>
-        <li><strong>Labor Day</strong>: Sept 6</li>
-        <li><strong>Thanksgiving</strong>: Nov 25-29</li>
-        <li><strong>December Holidays</strong>: Dec 24-Jan 2, 2028</li>
-      </ul>
-       
-       <p class="small text-muted mb-0">
-         Requests can still be submitted during closures and will be handled when we reopen.
-       </p>
-     </div>
-   </details>
- </div>
- </section>
-
-  <!-- HOLIDAY SCHEDULE 2028 -->
- <section>
-  <div class="spoiler-wrap mt-4">
-    <details class="spoiler">
+    <details class="holiday-accordion" open>
       <summary>
-        📅 View 2028 Holiday Schedule
-        <span class="chev">+</span>
+        2026 Holiday Schedule
+        <i class="fas fa-chevron-down chev"></i>
       </summary>
+      <div class="holiday-body">
+        <ul>
+          <li><span class="holiday-name">New Year's Day</span><span class="holiday-date">Jan 1</span></li>
+          <li><span class="holiday-name">Memorial Day</span><span class="holiday-date">May 25</span></li>
+          <li><span class="holiday-name">Independence Day (Observed)</span><span class="holiday-date">July 3</span></li>
+          <li><span class="holiday-name">Labor Day</span><span class="holiday-date">Sept 7</span></li>
+          <li><span class="holiday-name">Thanksgiving</span><span class="holiday-date">Nov 25-29</span></li>
+          <li><span class="holiday-name">December Holidays</span><span class="holiday-date">Dec 24 - Jan 3, 2027</span></li>
+        </ul>
+      </div>
+    </details>
 
-      <div class="spoiler-body">
+    <details class="holiday-accordion">
+      <summary>
+        2027 Holiday Schedule
+        <i class="fas fa-chevron-down chev"></i>
+      </summary>
+      <div class="holiday-body">
+        <ul>
+          <li><span class="holiday-name">New Year's Day</span><span class="holiday-date">Jan 1-3</span></li>
+          <li><span class="holiday-name">Memorial Day</span><span class="holiday-date">May 31</span></li>
+          <li><span class="holiday-name">Independence Day (Observed)</span><span class="holiday-date">July 5</span></li>
+          <li><span class="holiday-name">Labor Day</span><span class="holiday-date">Sept 6</span></li>
+          <li><span class="holiday-name">Thanksgiving</span><span class="holiday-date">Nov 25-29</span></li>
+          <li><span class="holiday-name">December Holidays</span><span class="holiday-date">Dec 24 - Jan 2, 2028</span></li>
+        </ul>
+      </div>
+    </details>
 
-        <p>
-          We're finalizing our 2028 holiday schedule and will update this section soon. 
-        </p>
-        <!-- <p><strong>We're closed on the following dates in 2028:</strong></p> -->
-
-        <!-- <ul>
-          <li><strong>New Year's Day</strong>: Jan 1</li>
-          <li><strong>Memorial Day</strong>: May 29</li>
-          <li><strong>Independence Day</strong>: July 4</li>
-          <li><strong>Labor Day</strong>: Sept 4</li>
-          <li><strong>Thanksgiving</strong>: Nov 23-27</li>
-          <li><strong>December Holidays</strong>: Dec 24-Jan 1, 2029</li>
-        </ul> -->
-        
-        <p class="small text-muted mb-0">
-          Requests can still be submitted during closures and will be handled when we reopen.
+    <details class="holiday-accordion">
+      <summary>
+        2028 Holiday Schedule
+        <i class="fas fa-chevron-down chev"></i>
+      </summary>
+      <div class="holiday-body">
+        <p style="color:var(--muted);font-size:14px;margin-top:16px;">
+          We're finalizing our 2028 holiday schedule and will update this section soon.
         </p>
       </div>
     </details>
-  </div>
- </section>
 
-<!-- RECENT UPDATES -->
-<section class="updates">
-  <div class="container container-narrow">
-    <h2 class="h4 mb-4" style="font-weight:600;text-align:center;"> Recent WebEaze Updates
-    </h2>
+    <p style="font-size:13px;color:var(--muted);margin-top:20px;text-align:center;">
+      <i class="fas fa-info-circle" style="margin-right:6px;"></i>
+      Requests can still be submitted during closures and will be handled when we reopen.
+    </p>
 
-    <div class="update">
-      <h4>
-        Changes to Domain and Hosting Coverage
-      </h4>
-      <small>Posted Jan 3 2026</small>
-      <p>
-        To ensure we provide an all-in-one service, we've updated our domain and hosting coverage policy. Effective January 3, 2026, all new and renewing clients will have their domain costs covered directly through WebEaze as part of their plan. Hosting coverage will also be included if we're building and hosting the website via GitHub Pages. This change doesn't impact existing clients with active domain or hosting credits. Read full details in our <strong><a href="help.html#/domain-and-hosting-credit">Help Center</a></strong>.
-
-      </p>
-
-    </div>
-
-
-    <div class="update">
-      <h4>
-        Total Access Support
-      </h4>
-      <small>Posted Jan 3 2026</small>
-      <p>
-        To enhance your support experience, we've introduced <strong>Total Access Support</strong> for Growth and Elite plan clients. This bundled feature includes options for Google Meet sessions, Live Chat, and Phone support, ensuring you can reach us in the way that suits you best.
-      </p>
-
-    </div>
-
-
-    <div class="update">
-      <h4>
-          Switch to Google Meet for Live Support
-      </h4>
-      <small>Posted Nov 25 2025</small>
-      <p>
-          To make your client experience even easier and more reliable, we're transitioning from Zoom to Google Meet for all live support sessions beginning <u>December 1, 2025</u>. Moving forward, our Zoom Live Support benefit will be renamed <strong>Google Meet</strong>
-          for naming consistency.  
-      </p>
-    </div>
-
-    <div class="update">
-      <h4>
-          Current Events and Service Impacts
-      </h4>
-      <small>Posted Nov 7 2025</small>
-      <p>
-          We're aware of ongoing events occurring in the United States and their impact on small businesses. If you're at risk of missing a payment or need to pause your service, please contact us as soon as possible to discuss options. We are here to help. 
-      </p>
-    </div>
-
-    <div class="update">
-      <h4>Plan Upgrade Savings for WSP clients</h4>
-      <small>Posted Oct 27 2025</small>
-      <p>Legacy clients can upgrade to our Essential or Growth plans before November 30 to secure reduced pricing. You will receive an email if you're eligible for this special offer.</p>
-    </div>
-
-    <div class="update">
-      <h4>
-        Google Business Profile Integration Launched
-      </h4>
-      <small>Posted Oct 15 2025</small>
-      <p>
-        We've added Google Business Profile integration to our Growth and Elite plans.  
-        Now we can help manage your business listing on Google through a simple website request.
-      </p>
-    </div>
-
-   
-
-    
   </div>
 </section>
 
-<!-- OFFER -->
-<!-- <section class="offers" style="border-radius: 0;">
+<!-- UPDATES SECTION -->
+<section class="updates-section">
   <div class="container container-narrow">
-    <h2>Refer & Earn</h2>
-    <p style="padding: 0 30px 0 30px;"> Refer another business to WebEaze and you'll receive <strong>$100</strong> cash.  
-        <br>
-      Just have them mention your business name when signing up.</p>
-    <a href="referral.html">Learn More & Refer</a>
+
+    <div class="section-header">
+      <i class="fas fa-bullhorn"></i>
+      <h2>Recent Updates</h2>
+    </div>
+
+    <div class="update-card">
+      <div class="update-header">
+        <h3>Changes to Domain and Hosting Coverage</h3>
+        <span class="update-date">Jan 3, 2026</span>
+      </div>
+      <p>
+        To ensure we provide an all-in-one service, we've updated our domain and hosting coverage policy. Effective January 3, 2026, all new and renewing clients will have their domain costs covered directly through WebEaze as part of their plan. Hosting coverage will also be included if we're building and hosting the website via GitHub Pages. This change doesn't impact existing clients with active domain or hosting credits. Read full details in our <a href="help.html#/domain-and-hosting-credit">Help Center</a>.
+      </p>
+    </div>
+
+    <div class="update-card">
+      <div class="update-header">
+        <h3>Total Access Support</h3>
+        <span class="update-date">Jan 3, 2026</span>
+      </div>
+      <p>
+        To enhance your support experience, we've introduced <strong>Total Access Support</strong> for Growth and Elite plan clients. This bundled feature includes options for Google Meet sessions, Live Chat, and Phone support, ensuring you can reach us in the way that suits you best.
+      </p>
+    </div>
+
+    <div class="update-card">
+      <div class="update-header">
+        <h3>Switch to Google Meet for Live Support</h3>
+        <span class="update-date">Nov 25, 2025</span>
+      </div>
+      <p>
+        To make your client experience even easier and more reliable, we're transitioning from Zoom to Google Meet for all live support sessions beginning December 1, 2025. Moving forward, our Zoom Live Support benefit will be renamed <strong>Google Meet</strong> for naming consistency.
+      </p>
+    </div>
+
+    <div class="update-card">
+      <div class="update-header">
+        <h3>Current Events and Service Impacts</h3>
+        <span class="update-date">Nov 7, 2025</span>
+      </div>
+      <p>
+        We're aware of ongoing events occurring in the United States and their impact on small businesses. If you're at risk of missing a payment or need to pause your service, please contact us as soon as possible to discuss options. We are here to help.
+      </p>
+    </div>
+
+    <div class="update-card">
+      <div class="update-header">
+        <h3>Plan Upgrade Savings for WSP clients</h3>
+        <span class="update-date">Oct 27, 2025</span>
+      </div>
+      <p>
+        Legacy clients can upgrade to our Essential or Growth plans before November 30 to secure reduced pricing. You will receive an email if you're eligible for this special offer.
+      </p>
+    </div>
+
+    <div class="update-card">
+      <div class="update-header">
+        <h3>Google Business Profile Integration Launched</h3>
+        <span class="update-date">Oct 15, 2025</span>
+      </div>
+      <p>
+        We've added Google Business Profile integration to our Growth and Elite plans. Now we can help manage your business listing on Google through a simple website request.
+      </p>
+    </div>
+
   </div>
-</section> -->
+</section>
 
 <!-- FOOTER -->
-<footer style="font-size: 16px;">
-  
-  <div class="mt-3">&copy; <span id="yr"></span> WebEaze. All rights reserved.</div>
-  <div class="small mt-2">
-    <a href="terms.html#privacy" style="color:#fff">Privacy Policy</a> ·
-    <a href="terms.html" style="color:#fff">Terms</a> ·
-    <a href="site-map.html" style="color:#fff">Site Map</a>
+<footer>
+  <div class="container container-narrow">
+    <div class="mb-1">&copy; <span id="yr"></span> WebEaze. All rights reserved.</div>
+    <div class="small mb-2">
+      <a href="terms.html#privacy">Privacy Policy</a> &middot;
+      <a href="terms.html">Terms</a> &middot;
+      <a href="site-map.html">Site Map</a>
+    </div>
+    <div class="small" style="opacity:.5;">Made with <span style="color:var(--gold);">&#9749;</span> in Delaware, USA</div>
   </div>
-  <div class="small mt-2">Made with ☕ in Delaware, USA</div>
 </footer>
 
-<script>document.getElementById('yr').textContent=new Date().getFullYear();</script>
+<!-- JS -->
+<script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 <script>
-  window.addEventListener("scroll",()=>document.querySelector(".nav-wrap").classList.toggle("scrolled",window.scrollY>8));
+  // Eastern Time conversion
+  function getEasternTime() {
+    return new Date(new Date().toLocaleString('en-US', { timeZone: 'America/New_York' }));
+  }
+
+  // Holiday closures for checking upcoming closures
+  function getClosures() {
+    return [
+      { name: 'Memorial Day', start: '2026-05-25', end: '2026-05-25' },
+      { name: 'Independence Day', start: '2026-07-03', end: '2026-07-03' },
+      { name: 'Labor Day', start: '2026-09-07', end: '2026-09-07' },
+      { name: 'Thanksgiving', start: '2026-11-25', end: '2026-11-29' },
+      { name: 'December Holidays', start: '2026-12-24', end: '2027-01-03' }
+    ].map(c => ({
+      name: c.name,
+      start: new Date(c.start + 'T00:00:00'),
+      end: new Date(c.end + 'T23:59:59')
+    }));
+  }
+
+  function isCurrentlyClosed(date) {
+    return getClosures().some(c => date >= c.start && date <= c.end);
+  }
+
+  function getUpcomingClosure(date) {
+    const sevenDaysFromNow = new Date(date);
+    sevenDaysFromNow.setDate(sevenDaysFromNow.getDate() + 7);
+
+    return getClosures().find(c => c.start > date && c.start <= sevenDaysFromNow);
+  }
+
+  function updateStatus() {
+    const indicator = document.getElementById('status-indicator');
+    const now = getEasternTime();
+    const day = now.getDay();
+    const hour = now.getHours();
+    const closedForHoliday = isCurrentlyClosed(now);
+
+    let statusClass = 'online';
+    let statusText = '';
+
+    if (closedForHoliday) {
+      statusClass = 'offline';
+      statusText = 'Closed for holiday';
+    } else if (day === 0 || day === 6) {
+      statusClass = 'away';
+      statusText = 'Away for weekend';
+    } else if (hour >= 9 && hour < 17) {
+      statusClass = 'online';
+      statusText = 'Online now';
+    } else {
+      statusClass = 'away';
+      statusText = 'Outside business hours';
+    }
+
+    indicator.className = 'status-indicator ' + statusClass;
+    indicator.querySelector('.status-text').textContent = statusText;
+  }
+
+  function updateClosureBanner() {
+    const banner = document.getElementById('closure-banner');
+    const title = document.getElementById('closure-title');
+    const message = document.getElementById('closure-message');
+    const now = getEasternTime();
+
+    const upcoming = getUpcomingClosure(now);
+    const currentClosure = getClosures().find(c => now >= c.start && now <= c.end);
+
+    if (currentClosure) {
+      banner.classList.add('visible');
+      title.textContent = 'Currently Closed: ' + currentClosure.name;
+      const returnDate = new Date(currentClosure.end);
+      returnDate.setDate(returnDate.getDate() + 1);
+      message.textContent = 'We are currently closed for ' + currentClosure.name + '. We will return on ' + returnDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' }) + '. Requests submitted during this time will be handled when we reopen.';
+    } else if (upcoming) {
+      banner.classList.add('visible');
+      title.textContent = 'Upcoming Closure: ' + upcoming.name;
+      const startDate = upcoming.start.toLocaleDateString('en-US', { month: 'long', day: 'numeric' });
+      const endDate = upcoming.end.toLocaleDateString('en-US', { month: 'long', day: 'numeric' });
+      message.textContent = 'We will be closed ' + startDate + ' through ' + endDate + ' for ' + upcoming.name + '. Please plan accordingly and submit any urgent requests before the closure.';
+    } else {
+      banner.classList.remove('visible');
+    }
+  }
+
+  // Initialize
+  updateStatus();
+  updateClosureBanner();
+  setInterval(updateStatus, 60000);
 </script>
+
 </body>
 </html>
