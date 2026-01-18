@@ -6,91 +6,323 @@
 <title>Benefits | Why WebEaze</title>
 <meta name="description" content="See the key benefits of WebEaze — unlimited updates, fast support, hosting included, and everything managed for you." />
 
-<!-- FONTS + BOOTSTRAP -->
+<!-- FONTS + BOOTSTRAP + ICONS -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 <link rel="shortcut icon" href="images/webeaze-transparent copy.png" type="image/png" />
 
 <style>
-  :root{
-    --brand:#7851a9;
-    --gold:#ffd700;
-    --ink:#0f1228;
-    --muted:#6b7280;
-    --line:#e7eaf4;
-    --white:#fff;
-    --dark:#0a0a0f;
-    --dark-2:#141424;
-    --dark-line:rgba(255,255,255,.12);
-  }
-  html,body{margin:0;font-family:'Poppins',sans-serif;background:var(--dark);color:#fff;overflow-x:hidden}
+:root {
+  --brand: #7851a9;
+  --gold: #ffd700;
+  --dark: #0a0a0f;
+  --dark-2: #121218;
+  --dark-3: #1a1a22;
+  --line: rgba(255,255,255,.1);
+  --muted: rgba(255,255,255,.55);
+  --success: #22c55e;
+}
 
-  a{text-decoration:none;color:inherit}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: var(--dark);
+  color: #fff;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+a { text-decoration: none; color: inherit; transition: .2s; }
 
-  .container-narrow{max-width:1100px}
+.container-narrow { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
 
-  /* NAV */
-  .nav-wrap{position:sticky;top:0;z-index:9999;background:#000;border-bottom:1px solid rgba(255,255,255,.12);transition:transform .25s ease}
-  .nav-wrap.nav-hidden{transform:translateY(-100%)}
-  .webeaze-nav{padding:.6rem 0;transition:padding .18s ease}
-  .scrolled .webeaze-nav{padding:.45rem 0}
-  .navbar-dark .nav-link{color:#fff!important;opacity:.9;border-radius:10px;padding:.45rem .7rem;}
-  .navbar-dark .nav-link:hover{background:rgba(255,255,255,.08)}
-  .btn-nav{background:var(--gold);color:#2f1e66;font-weight:700;border-radius:12px;padding:.6rem .9rem}
+/* NAV */
+.nav-wrap {
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+  background: rgba(0,0,0,.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line);
+}
+.navbar { padding: .6rem 0; }
+.navbar-dark .nav-link { color: #fff !important; opacity: .85; padding: .45rem .7rem; border-radius: 10px; }
+.navbar-dark .nav-link:hover { opacity: 1; background: rgba(255,255,255,.08); }
+.logo { height: 36px; }
+.brand-word {
+  background: linear-gradient(90deg, #e8e7ea, #a8a5a0);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 1.1rem;
+}
+.btn-nav {
+  background: var(--gold);
+  color: #2f1e66;
+  border: none;
+  border-radius: 10px;
+  padding: .55rem .9rem;
+  font-weight: 700;
+  font-size: 14px;
+}
 
-  /* HERO */
-  .hero{
-    padding:120px 0 80px;
-    background:
-      linear-gradient(180deg,rgba(10,10,15,0.75),rgba(255, 255, 255, 0.96)),
-      url('images/website-request-header.jpg') center/cover no-repeat;
-    position:relative;
-  }
-  .halo{position:absolute;inset:-22% 0 auto 0;width:140%;left:50%;transform:translateX(-50%);height:420px;pointer-events:none;
-    background:
-      radial-gradient(34% 46% at 15% 20%,rgba(120,81,169,.4),transparent 60%),
-      radial-gradient(28% 42% at 85% 18%,rgba(255,215,0,.22),transparent 60%);
-  }
-  .headline{font-weight:600;font-size:clamp(32px,6vw,52px);max-width:18ch; color: black;}
-  .sub{opacity:.9;max-width:55ch;margin-top:10px;font-size:1.05rem; color: black}
+/* HERO */
+.hero {
+  padding: 80px 0 60px;
+  text-align: center;
+  background:
+    radial-gradient(ellipse 60% 50% at 50% 0%, rgba(120,81,169,.25), transparent),
+    linear-gradient(180deg, var(--dark-2), var(--dark));
+  position: relative;
+}
+.hero h1 {
+  font-size: clamp(32px, 6vw, 48px);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin-bottom: 16px;
+}
+.hero .subtitle {
+  font-size: 18px;
+  color: var(--muted);
+  max-width: 580px;
+  margin: 0 auto;
+}
 
-  /* REVEAL */
-  .reveal{opacity:0;transform:translateY(16px);transition:.55s ease}
-  .reveal.in-view{opacity:1;transform:translateY(0)}
+/* SECTIONS */
+.section {
+  padding: 70px 0;
+}
+.section-alt {
+  background: var(--dark-2);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.section-header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+.section-header h2 {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+.section-header p {
+  color: var(--muted);
+  font-size: 16px;
+  max-width: 520px;
+  margin: 0 auto;
+}
 
-  /* BENEFIT GRID */
-  .section-light{background:#fff;color:var(--ink);padding:80px 0}
-  .card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:28px}
-  .benefit-card{
-    padding:26px;border-radius:16px;border:1px solid #eee;background:#fff;
-    box-shadow:0 12px 30px rgba(0,0,0,.08);
-    transition:.25s ease;
-  }
-  .benefit-card:hover{transform:translateY(-4px);box-shadow:0 18px 34px rgba(0,0,0,.14);}
-  .icon{width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#ede9fe,#fff7cc);display:flex;align-items:center;justify-content:center;margin-bottom:12px;font-size:20px;}
-  .b-title{font-weight:700;font-size:1.2rem;margin-bottom:6px}
+/* BENEFIT CARDS */
+.benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+}
+.benefit-card {
+  background: var(--dark-2);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 28px;
+  transition: .3s ease;
+  position: relative;
+}
+.benefit-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255,255,255,.2);
+  box-shadow: 0 16px 40px rgba(0,0,0,.3);
+}
+.benefit-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(120,81,169,.2), rgba(255,215,0,.15));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 18px;
+  font-size: 22px;
+}
+.benefit-icon i {
+  color: var(--gold);
+}
+.benefit-card h3 {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.benefit-card p {
+  color: var(--muted);
+  font-size: 14px;
+  margin-bottom: 14px;
+  line-height: 1.6;
+}
+.benefit-link {
+  color: var(--gold);
+  font-weight: 600;
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.benefit-link:hover {
+  color: #fff;
+}
+.benefit-link i {
+  font-size: 12px;
+  transition: .2s;
+}
+.benefit-link:hover i {
+  transform: translateX(4px);
+}
 
-  /* CTA BLOCK */
-  .cta-block{
-    background:linear-gradient(180deg,rgba(255,215,0,.16),rgba(255,255,255,.06));
-    border:1px solid rgba(255,255,255,.18);
-    border-radius:16px;
-    padding:40px;
-    text-align:center;
-    margin-top:50px;
-  }
-  .btn-brand{
-    background:var(--gold);
-    color:#2f1e66;
-    padding:14px 22px;
-    border-radius:12px;
-    font-weight:700;
-    transition:.2s ease;
-    display:inline-block;
-  }
-  .btn-brand:hover{background:#f2c600;color:#fff}
+/* VALUE PROPS */
+.value-strip {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 32px;
+  padding: 28px 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  margin-top: 60px;
+}
+.value-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: rgba(255,255,255,.8);
+}
+.value-item i {
+  color: var(--gold);
+  font-size: 16px;
+}
+
+/* CTA SECTION */
+.cta-section {
+  padding: 80px 0;
+  text-align: center;
+  background:
+    radial-gradient(ellipse 60% 50% at 50% 100%, rgba(120,81,169,.15), transparent),
+    var(--dark);
+}
+.cta-card {
+  background: linear-gradient(135deg, rgba(120,81,169,.15), rgba(255,215,0,.08));
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 24px;
+  padding: 48px 32px;
+  max-width: 700px;
+  margin: 0 auto;
+}
+.cta-card h2 {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+.cta-card p {
+  color: var(--muted);
+  font-size: 16px;
+  max-width: 480px;
+  margin: 0 auto 28px;
+}
+.btn-primary {
+  display: inline-block;
+  background: var(--gold);
+  color: #1a1a22;
+  border: none;
+  border-radius: 12px;
+  padding: 16px 32px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: .2s;
+}
+.btn-primary:hover {
+  background: #e6c200;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(255, 215, 0, .25);
+}
+
+/* COMPARISON SECTION */
+.comparison-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-top: 40px;
+}
+@media (max-width: 768px) {
+  .comparison-grid { grid-template-columns: 1fr; }
+}
+.comparison-card {
+  background: var(--dark-3);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 32px;
+}
+.comparison-card.highlight {
+  border-color: var(--gold);
+  box-shadow: 0 0 40px rgba(255, 215, 0, .1);
+}
+.comparison-card h4 {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.comparison-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.comparison-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 10px 0;
+  font-size: 14px;
+  color: rgba(255,255,255,.8);
+  border-bottom: 1px solid var(--line);
+}
+.comparison-list li:last-child {
+  border-bottom: none;
+}
+.comparison-list li i {
+  margin-top: 3px;
+  flex-shrink: 0;
+}
+.comparison-list li i.fa-check {
+  color: var(--success);
+}
+.comparison-list li i.fa-xmark {
+  color: #ef4444;
+}
+
+/* FOOTER */
+footer {
+  background: var(--dark-2);
+  border-top: 1px solid var(--line);
+  padding: 40px 0;
+  text-align: center;
+}
+footer a { color: rgba(255,255,255,.7); }
+footer a:hover { color: #fff; }
+
+/* ANIMATIONS */
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: .55s ease;
+}
+.reveal.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
 </style>
 </head>
 
@@ -99,15 +331,15 @@
 <!-- NAV -->
 <div class="nav-wrap">
   <div class="container container-narrow">
-    <nav class="navbar navbar-expand-lg navbar-dark webeaze-nav">
+    <nav class="navbar navbar-expand-lg navbar-dark">
       <a class="navbar-brand d-flex align-items-center" href="index.html">
-        <img class="logo" src="images/webeaze-transparent copy.png" style="height:36px;" alt="WebEaze"/>
-        <strong class="ml-2">WebEaze</strong>
+        <img src="images/webeaze-transparent copy.png" class="logo" alt="WebEaze">
+        <strong class="ml-2 brand-word">WebEaze</strong>
       </a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mobileNav">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div id="mobileNav" class="collapse navbar-collapse">
+      <div id="nav" class="collapse navbar-collapse">
         <ul class="navbar-nav ml-auto main-nav">
           <li class="nav-item"><a class="nav-link" href="build.html">New Website</a></li>
           <li class="nav-item"><a class="nav-link" href="manage.html">Existing Site</a></li>
@@ -124,134 +356,174 @@
 
 <!-- HERO -->
 <header class="hero">
-  <div class="halo"></div>
   <div class="container container-narrow">
-    <h1 class="headline reveal">Why businesses choose WebEaze</h1>
-    <p class="sub reveal" style="transition-delay:.1s;">
-      The easiest way to keep your website healthy, up-to-date, fast, and supported. All under one predictable plan.
+    <h1 class="reveal">Why Businesses Choose WebEaze</h1>
+    <p class="subtitle reveal" style="transition-delay:.1s;">
+      The easiest way to keep your website healthy, up-to-date, fast, and fully supported — all under one predictable plan.
     </p>
   </div>
 </header>
 
-<!-- BENEFITS SECTION -->
-<section class="section-light">
+<!-- MAIN BENEFITS -->
+<section class="section">
   <div class="container container-narrow">
+    <div class="section-header reveal">
+      <h2>Everything Included. No Surprises.</h2>
+      <p>One monthly plan covers it all — design, hosting, updates, security, and support.</p>
+    </div>
 
-    <h2 class="text-center mb-5 reveal" style="font-weight:600;font-size:29px;">Everything included. Jam packed. </h2>
-
-    <div class="card-grid">
+    <div class="benefits-grid">
 
       <div class="benefit-card reveal">
-        <div class="icon">✔</div>
-        <div class="b-title">Unlimited updates</div>
-        <p>Text edits, new photos, layout tweaks. Send it, we handle it.</p>
-        <a href="maintenance.html" style="font-weight:600;color:var(--brand);">Learn more →</a>
+        <div class="benefit-icon"><i class="fas fa-sync-alt"></i></div>
+        <h3>Unlimited Updates</h3>
+        <p>Text changes, new photos, layout tweaks — send it over and we'll handle it. No extra charges, ever.</p>
+        <a href="maintenance.html" class="benefit-link">Learn more <i class="fas fa-arrow-right"></i></a>
       </div>
 
       <div class="benefit-card reveal" style="transition-delay:.05s;">
-        <div class="icon">⚡</div>
-        <div class="b-title">Fast support</div>
-        <p>Email, Google Meet, Chat, Phone. Many ways to reach out. We'll take care of it. </p>
-        <a href="maintenance.html#support" style="font-weight:600;color:var(--brand);">Support details →</a>
+        <div class="benefit-icon"><i class="fas fa-headset"></i></div>
+        <h3>Fast, Human Support</h3>
+        <p>Reach us via email, Google Meet, chat, or phone. Real people who know your site — not bots or tickets.</p>
+        <a href="maintenance.html#support" class="benefit-link">Support details <i class="fas fa-arrow-right"></i></a>
       </div>
 
       <div class="benefit-card reveal" style="transition-delay:.1s;">
-        <div class="icon">🔒</div>
-        <div class="b-title">Hosting & security</div>
-        <p>Your hosting, domain setup, SSL, and backups — all handled.</p>
-        <a href="domains.html" style="font-weight:600;color:var(--brand);">Hosting info →</a>
+        <div class="benefit-icon"><i class="fas fa-shield-halved"></i></div>
+        <h3>Hosting & Security</h3>
+        <p>Hosting, domain setup, SSL certificates, and automatic backups — all handled and included.</p>
+        <a href="domains.html" class="benefit-link">Hosting info <i class="fas fa-arrow-right"></i></a>
       </div>
 
       <div class="benefit-card reveal">
-        <div class="icon">📱</div>
-        <div class="b-title">Mobile optimized</div>
-        <p>Your site stays clean, fast, and readable on any device.</p>
+        <div class="benefit-icon"><i class="fas fa-mobile-screen"></i></div>
+        <h3>Mobile Optimized</h3>
+        <p>Your site looks clean, loads fast, and works perfectly on phones, tablets, and desktops.</p>
+      </div>
+
+      <div class="benefit-card reveal" style="transition-delay:.05s;">
+        <div class="benefit-icon"><i class="fas fa-magnifying-glass"></i></div>
+        <h3>Google-Friendly SEO</h3>
+        <p>Proper titles, meta descriptions, alt text, and speed optimization — the fundamentals done right.</p>
+        <a href="seo.html" class="benefit-link">SEO basics <i class="fas fa-arrow-right"></i></a>
+      </div>
+
+      <div class="benefit-card reveal" style="transition-delay:.1s;">
+        <div class="benefit-icon"><i class="fas fa-palette"></i></div>
+        <h3>Ongoing Design Help</h3>
+        <p>We refine spacing, polish layouts, and improve clarity as your business evolves.</p>
       </div>
 
       <div class="benefit-card reveal">
-        <div class="icon">🔍</div>
-        <div class="b-title">Google-friendly setup</div>
-        <p>Titles, descriptions, alt text, speed — the fundamentals done right.</p>
-        <a href="seo.html" style="font-weight:600;color:var(--brand);">SEO basics →</a>
+        <div class="benefit-icon"><i class="fas fa-plus"></i></div>
+        <h3>Small Additions</h3>
+        <p>Need a new section or page tweak? Included within your plan scope — just ask.</p>
       </div>
 
-      <div class="benefit-card reveal">
-        <div class="icon">🛠</div>
-        <div class="b-title">Design help</div>
-        <p>We clean up spacing, polish layout, and improve clarity as you grow.</p>
-      </div>
-
-      <div class="benefit-card reveal">
-        <div class="icon">📝</div>
-        <div class="b-title">Small additions</div>
-        <p>Need a new section or page tweak? Included (within plan scope).</p>
-      </div>
-
-      <div class="benefit-card reveal">
-        <div class="icon">📈</div>
-        <div class="b-title">Performance checks</div>
-        <p>We monitor slowdowns, heavy images, broken links, and more.</p>
+      <div class="benefit-card reveal" style="transition-delay:.05s;">
+        <div class="benefit-icon"><i class="fas fa-chart-line"></i></div>
+        <h3>Performance Monitoring</h3>
+        <p>We watch for slowdowns, heavy images, broken links, and other issues that hurt your site.</p>
       </div>
 
     </div>
 
-    <div class="cta-block reveal" style="transition-delay:.2s;">
-      <h3 style="font-weight:700;font-size:28px;">Everything above is included in one plan.</h3>
-      <p style="opacity:.85;max-width:50ch;margin:0 auto 18px;">No hourly billing. No hidden fees. Just help when you need it.</p>
-      <a href="consultation.html" class="btn-brand">Let's Talk Today</a>
+    <div class="value-strip reveal">
+      <div class="value-item"><i class="fas fa-check-circle"></i> No contracts</div>
+      <div class="value-item"><i class="fas fa-check-circle"></i> Cancel anytime</div>
+      <div class="value-item"><i class="fas fa-check-circle"></i> No hourly billing</div>
+      <div class="value-item"><i class="fas fa-check-circle"></i> Your content stays yours</div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPARISON -->
+<section class="section section-alt">
+  <div class="container container-narrow">
+    <div class="section-header reveal">
+      <h2>WebEaze vs. The Old Way</h2>
+      <p>See why small businesses are switching to a simpler approach.</p>
     </div>
 
+    <div class="comparison-grid">
+      <div class="comparison-card reveal">
+        <h4><i class="fas fa-building" style="color: var(--muted);"></i> Traditional Agencies</h4>
+        <ul class="comparison-list">
+          <li><i class="fas fa-xmark"></i> Hourly billing adds up fast</li>
+          <li><i class="fas fa-xmark"></i> Weeks of back-and-forth</li>
+          <li><i class="fas fa-xmark"></i> Extra fees for every small change</li>
+          <li><i class="fas fa-xmark"></i> Hosting billed separately</li>
+          <li><i class="fas fa-xmark"></i> Long contracts lock you in</li>
+          <li><i class="fas fa-xmark"></i> Support tickets, not conversations</li>
+        </ul>
+      </div>
+
+      <div class="comparison-card highlight reveal" style="transition-delay:.1s;">
+        <h4><i class="fas fa-bolt" style="color: var(--gold);"></i> WebEaze</h4>
+        <ul class="comparison-list">
+          <li><i class="fas fa-check"></i> One predictable monthly price</li>
+          <li><i class="fas fa-check"></i> Fast turnaround on everything</li>
+          <li><i class="fas fa-check"></i> Unlimited updates included</li>
+          <li><i class="fas fa-check"></i> Hosting & domain included</li>
+          <li><i class="fas fa-check"></i> No contracts — cancel anytime</li>
+          <li><i class="fas fa-check"></i> Real humans who know your site</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="container container-narrow">
+    <div class="cta-card reveal">
+      <h2>Ready to Simplify Your Website?</h2>
+      <p>Get a free custom mockup. No commitment required. If you love it, we build it.</p>
+      <a href="consultation.html" class="btn-primary">
+        <i class="fas fa-calendar-check" style="margin-right: 8px;"></i> Request Free Mockup
+      </a>
+    </div>
   </div>
 </section>
 
 <!-- FOOTER -->
-<footer class="py-4 text-center" style="background:var(--dark); color:#fff;">
- 
+<footer>
   <div class="container container-narrow">
     <div class="mb-1">&copy; <span id="yr"></span> WebEaze. All rights reserved.</div>
     <div class="small mb-2">
-      <a href="terms.html#privacy" style="color:#fff;">Privacy</a> ·
-      <a href="terms.html" style="color:#fff;">Terms</a> ·
-      <a href="site-map.html" style="color:#fff;">Site Map</a>
+      <a href="terms.html#privacy">Privacy Policy</a> &middot;
+      <a href="terms.html">Terms</a> &middot;
+      <a href="site-map.html">Site Map</a>
     </div>
-    <div class="small" style="opacity:.8;">Made with ☕ in Delaware, USA</div>
+    <div class="small" style="opacity:.5;">Made with <span style="color:var(--gold);">&#9749;</span> in Delaware, USA</div>
   </div>
 </footer>
 
-<!-- JS: YEAR, REVEAL, NAV -->
+<!-- JS -->
 <script>
-  document.getElementById("yr").textContent = new Date().getFullYear();
+document.getElementById('yr').textContent = new Date().getFullYear();
 
-  // Reveal
-  (function(){
-    var els = document.querySelectorAll('.reveal');
-    var io = new IntersectionObserver((entries)=>{
-      entries.forEach(e=>{
-        if(e.isIntersecting){
-          e.target.classList.add('in-view');
-          io.unobserve(e.target);
-        }
-      })
-    }, {threshold:.14});
-    els.forEach(el=>io.observe(el));
-  })();
-
-  // Nav hide/show
-  (function(){
-    var nav = document.querySelector('.nav-wrap');
-    var last = window.scrollY;
-    window.addEventListener('scroll', ()=>{
-      var y = window.scrollY;
-      if(y > 60){nav.classList.add('scrolled');}
-      else{nav.classList.remove('scrolled');}
-      if(y > last && y > 120){nav.classList.add('nav-hidden');}
-      else{nav.classList.remove('nav-hidden');}
-      last = y;
-    }, {passive:true});
-  })();
+// Reveal on scroll
+(function(){
+  var els = document.querySelectorAll('.reveal');
+  if (!('IntersectionObserver' in window)) {
+    els.forEach(e => e.classList.add('in-view'));
+    return;
+  }
+  var io = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in-view');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: .14 });
+  els.forEach(el => io.observe(el));
+})();
 </script>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 </body>
