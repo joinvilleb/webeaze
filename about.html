@@ -25,124 +25,1033 @@
   <link rel="shortcut icon" href="images/webeaze-transparent copy.png" type="image/png" />
 
   <!-- Fonts & CSS -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
   <style>
-    :root{
-      --brand:#7851a9; --gold:#ffd700;
-      --ink:#0f1228; --ink-2:#3c4260; --muted:#6b7280;
-      --line:#e7eaf4; --white:#fff; --dark:#0a0a12; --dark-2:#121225;
+    :root {
+      --brand: #7851a9;
+      --brand-light: #9b7bc7;
+      --gold: #ffd700;
+      --gold-dim: rgba(255, 215, 0, 0.15);
+      --dark: #0a0a0f;
+      --dark-2: #121218;
+      --dark-3: #1a1a22;
+      --dark-4: #222230;
+      --line: rgba(255,255,255,.08);
+      --muted: rgba(255,255,255,.55);
+      --success: #22c55e;
     }
-    html,body{height:100%}
-    body{margin:0;font-family:'Poppins',sans-serif;background:#fff;color:var(--ink);-webkit-font-smoothing:antialiased}
-    a{color:inherit;text-decoration:none}
-    .container-narrow{max-width:1100px}
-    .logo{height:36px}
 
-    /* Nav (match site) */
-    .nav-wrap{position:sticky; top:0; z-index:9999; background:#000; border-bottom:1px solid rgba(255,255,255,.12)}
-    .webeaze-nav{background:transparent!important;box-shadow:none!important;padding:.6rem 0;transition:padding .18s ease}
-    .scrolled .webeaze-nav{padding:.45rem 0}
-    .navbar-dark .nav-link{color:#fff!important;opacity:.92;border-radius:10px;padding:.45rem .7rem}
-    .navbar-dark .nav-link:hover{opacity:1;background:rgba(255,255,255,.08)}
-    .btn-nav{background:var(--gold);color:#2f1e66;border:none;border-radius:12px;padding:.6rem .9rem;font-weight:700;box-shadow:0 8px 22px rgba(255,215,0,.22)}
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: var(--dark);
+      color: #fff;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
 
-    /* Sections */
-    .section{position:relative;padding: clamp(56px, 7.5vw, 96px) 0}
-    .light{background:#fff;color:var(--ink)}
-    .dark{background:#0a0a12;color:#f2f4ff}
+    .container-narrow { max-width: 1100px; }
 
-    /* Buttons */
-    .btn-brand{display:inline-flex;align-items:center;justify-content:center;background:var(--gold);color:#2f1e66;border:none;border-radius:12px;padding:.74rem 1.05rem;font-weight:700;line-height:1;box-shadow:0 10px 26px rgba(255,215,0,.22);transition:transform .15s ease, box-shadow .15s ease, background-color .15s ease}
-    .btn-brand:hover{background:#f2c600;color:#fff;transform:translateY(-1px);box-shadow:0 14px 34px rgba(255,215,0,.3)}
-    .btn-ghost{display:inline-flex;align-items:center;justify-content:center;background:transparent;color:inherit;border:1px solid currentColor;border-radius:12px;padding:.74rem 1.05rem;font-weight:700;line-height:1;transition:transform .15s ease, box-shadow .15s ease}
-    .btn-ghost:hover{transform:translateY(-1px);box-shadow:0 10px 24px rgba(16,18,37,.18)}
-    .btn-row{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center}
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 9999;
+      background: rgba(0,0,0,.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
+      padding: 12px 0;
+      transition: padding .2s ease;
+    }
+    nav.scrolled { padding: 8px 0; }
+    nav .inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .logo-group img { height: 36px; }
+    .logo-group span { font-weight: 800; font-size: 18px; letter-spacing: -.3px; }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .nav-links a {
+      padding: 8px 14px;
+      border-radius: 10px;
+      font-weight: 500;
+      font-size: 14px;
+      color: rgba(255,255,255,.85);
+      transition: background .2s, color .2s;
+    }
+    .nav-links a:hover {
+      background: rgba(255,255,255,.08);
+      color: #fff;
+    }
+    .nav-cta {
+      background: var(--gold) !important;
+      color: #1a1a22 !important;
+      font-weight: 700 !important;
+      box-shadow: 0 4px 20px rgba(255, 215, 0, .25);
+    }
+    .nav-cta:hover {
+      background: #f5cc00 !important;
+      transform: translateY(-1px);
+    }
+    .mobile-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 24px;
+      cursor: pointer;
+    }
+    @media (max-width: 991px) {
+      .nav-links { display: none; }
+      .mobile-toggle { display: block; }
+      .nav-links.open {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: rgba(10,10,15,.98);
+        padding: 20px;
+        gap: 8px;
+        border-bottom: 1px solid var(--line);
+      }
+    }
 
-    /* Reveal + motion */
-    .reveal{opacity:0;transform:translateY(12px);transition:transform .5s cubic-bezier(.2,.6,.2,1),opacity .5s ease;will-change:transform,opacity}
-    .reveal.in-view{opacity:1;transform:translateY(0)}
-    .tilt{transition:transform .25s ease, box-shadow .25s ease}
-    .tilt:hover{transform:perspective(800px) rotateX(2deg) rotateY(-3deg) translateY(-2px); box-shadow:0 18px 44px rgba(0,0,0,.35)}
-
-    /* Hero */
-    .hero{
-  position:relative;
-  overflow:hidden;
-  color:#fff;
-  background-color:#000;
-  background-image:url('images/about-us-small-business-md.png');
-  background-position:center;
-  background-size:cover;
-  background-repeat:no-repeat;
-}
-
-    .hero .halo{position:absolute; inset:-30% -10% auto -10%; height:520px; pointer-events:none;
+    /* HERO */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: var(--dark);
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
       background:
-        radial-gradient(36% 60% at 18% 10%, rgba(120,81,169,.38), transparent 60%),
-        radial-gradient(28% 40% at 80% 12%, rgba(255,215,0,.24), transparent 60%),
-        radial-gradient(30% 50% at 50% 0%, rgba(120,81,169,.22), transparent 60%);
-      filter: blur(2px);
+        radial-gradient(ellipse 80% 60% at 50% 20%, rgba(120,81,169,.2), transparent 60%),
+        radial-gradient(ellipse 60% 40% at 80% 80%, rgba(255,215,0,.08), transparent 50%),
+        radial-gradient(ellipse 50% 50% at 20% 70%, rgba(120,81,169,.12), transparent 50%);
+      pointer-events: none;
     }
-    .hero .inner{position:relative;z-index:1;padding: clamp(72px, 13vh, 120px) 0}
-    .headline{font-weight:800;letter-spacing:-.02em;line-height:1.05;font-size: clamp(30px, 6vw, 58px)}
-    .subline{display:block;margin-top:6px;font-size:clamp(16px,3.6vw,22px);color:rgba(255,255,255,.9)}
+    .hero-particles {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+    .particle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: var(--gold);
+      border-radius: 50%;
+      opacity: 0;
+      animation: float-particle 8s infinite ease-in-out;
+    }
+    @keyframes float-particle {
+      0%, 100% { opacity: 0; transform: translateY(100vh) scale(0); }
+      10% { opacity: .6; }
+      90% { opacity: .6; }
+      100% { opacity: 0; transform: translateY(-100vh) scale(1); }
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 120px 20px 80px;
+      max-width: 900px;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: rgba(255,255,255,.05);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--gold);
+      margin-bottom: 24px;
+      animation: fade-in-up .8s ease forwards;
+      opacity: 0;
+    }
+    .hero-badge i { font-size: 12px; }
+    .hero h1 {
+      font-size: clamp(42px, 8vw, 72px);
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: -.03em;
+      margin: 0 0 24px;
+      animation: fade-in-up .8s ease .1s forwards;
+      opacity: 0;
+    }
+    .hero h1 .highlight {
+      background: linear-gradient(135deg, var(--gold), #ffaa00);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero p {
+      font-size: clamp(16px, 2.5vw, 20px);
+      color: var(--muted);
+      max-width: 600px;
+      margin: 0 auto 32px;
+      line-height: 1.7;
+      animation: fade-in-up .8s ease .2s forwards;
+      opacity: 0;
+    }
+    .hero-btns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+      animation: fade-in-up .8s ease .3s forwards;
+      opacity: 0;
+    }
+    @keyframes fade-in-up {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
-    .chips .chip{display:inline-block;margin-right:.5rem;margin-bottom:.5rem;padding:.45rem .75rem;border-radius:999px;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.06);font-weight:600;color:#e9ebff}
+    /* BUTTONS */
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      background: var(--gold);
+      color: var(--dark);
+      font-weight: 700;
+      font-size: 15px;
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+      transition: transform .2s, box-shadow .2s, background .2s;
+      box-shadow: 0 8px 30px rgba(255,215,0,.25);
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(255,215,0,.35);
+      background: #f5cc00;
+      color: var(--dark);
+    }
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      background: transparent;
+      color: #fff;
+      font-weight: 600;
+      font-size: 15px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,.2);
+      cursor: pointer;
+      transition: transform .2s, background .2s, border-color .2s;
+    }
+    .btn-secondary:hover {
+      transform: translateY(-2px);
+      background: rgba(255,255,255,.05);
+      border-color: rgba(255,255,255,.3);
+      color: #fff;
+    }
 
-    /* Cards and surfaces */
-    .surface{border:1px solid var(--line);border-radius:16px;background:#fff;box-shadow:0 10px 32px rgba(16,18,37,.06)}
-    .dark .surface{background:#0f1020;border-color:rgba(255,255,255,.12);box-shadow:0 14px 44px rgba(0,0,0,.5)}
+    /* SCROLL INDICATOR */
+    .scroll-indicator {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 500;
+      animation: bounce 2s infinite;
+    }
+    .scroll-indicator .mouse {
+      width: 24px;
+      height: 38px;
+      border: 2px solid rgba(255,255,255,.3);
+      border-radius: 12px;
+      position: relative;
+    }
+    .scroll-indicator .mouse::after {
+      content: '';
+      position: absolute;
+      top: 6px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 4px;
+      height: 8px;
+      background: var(--gold);
+      border-radius: 2px;
+      animation: scroll-wheel 2s infinite;
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(8px); }
+    }
+    @keyframes scroll-wheel {
+      0%, 100% { opacity: 1; transform: translateX(-50%) translateY(0); }
+      50% { opacity: .3; transform: translateX(-50%) translateY(6px); }
+    }
 
-    /* Section headings with sweep underline */
-    .head{font-weight:800;letter-spacing:-.01em;position:relative;display:inline-block}
-    .head:after{content:"";position:absolute;left:0;bottom:-6px;width:100%;height:6px;border-radius:6px;background:linear-gradient(90deg, rgba(120,81,169,.7), rgba(255,215,0,.7));filter:blur(1px);opacity:.9}
+    /* SECTIONS */
+    section {
+      position: relative;
+      padding: 100px 0;
+    }
 
-    /* What we do grid */
-    .grid{display:grid;grid-template-columns:repeat(12,1fr);grid-gap:14px}
-    .card{grid-column:span 4;padding:18px;border-radius:14px;border:1px solid var(--line);background:#fff}
-    .dark .card{background:#0f1020;border-color:rgba(255,255,255,.12)}
-    .card h5{font-weight:800;margin:0 0 6px}
-    .card p{margin:0;color:var(--ink-2)}
-    .dark .card p{color:#bfc4ff}
-    @media (max-width:992px){.card{grid-column:span 6}}
-    @media (max-width:768px){.card{grid-column:span 12}}
+    /* TRUST STRIP */
+    .trust-strip {
+      background: var(--dark-2);
+      padding: 40px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .trust-items {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 60px;
+      flex-wrap: wrap;
+    }
+    .trust-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 500;
+    }
+    .trust-item i {
+      font-size: 20px;
+      color: var(--gold);
+    }
+    @media (max-width: 768px) {
+      .trust-items { gap: 30px; }
+    }
 
-    /* Timeline vertical with animated line */
-    .timeline{position:relative;padding-left:38px}
-    .timeline svg{position:absolute;left:10px;top:0;height:100%;width:18px;overflow:visible}
-    .t-item{margin-bottom:18px}
-    .t-item h6{margin:0 0 4px;font-weight:800}
-    .t-item p{margin:0;color:#bfc4ff}
-    .t-dot{fill:#ffd700;stroke:rgba(255,255,255,.4);stroke-width:1.5}
-    .t-line{stroke:url(#tl-grad);stroke-width:3;stroke-linecap:round;stroke-dasharray:800;stroke-dashoffset:800;transition:stroke-dashoffset 1.2s ease}
-    .timeline.in-view .t-line{stroke-dashoffset:0}
+    /* STATS BAR */
+    .stats-bar {
+      background: linear-gradient(135deg, var(--brand) 0%, #5a3d7a 100%);
+      padding: 60px 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .stats-bar::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      opacity: .5;
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 40px;
+      position: relative;
+      z-index: 1;
+    }
+    @media (max-width: 992px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 480px) { .stats-grid { grid-template-columns: 1fr; } }
+    .stat-item {
+      text-align: center;
+    }
+    .stat-item .number {
+      font-size: 48px;
+      font-weight: 900;
+      color: #fff;
+      line-height: 1;
+      margin-bottom: 8px;
+      text-shadow: 0 4px 20px rgba(0,0,0,.2);
+    }
+    .stat-item .label {
+      font-size: 14px;
+      color: rgba(255,255,255,.8);
+      font-weight: 500;
+    }
 
-    /* Team cards */
-    .team{display:grid;grid-template-columns:repeat(12,1fr);gap:14px}
-    .team-card{grid-column:span 6;text-align:center;padding:22px;border-radius:20px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06)}
-    .team-card img{width:140px;height:140px;object-fit:cover;border-radius:16px;border:1px solid rgba(255,255,255,.25)}
-    .team-card h5{font-weight:800;margin:10px 0 4px}
-    .team-card .role{opacity:.9}
-    @media (max-width:768px){.team-card{grid-column:span 12}}
+    /* MISSION SECTION */
+    .mission {
+      background: var(--dark);
+      overflow: hidden;
+    }
+    .mission-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+    @media (max-width: 768px) {
+      .mission-grid { grid-template-columns: 1fr; gap: 40px; }
+    }
+    .mission-text .kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--gold);
+      margin-bottom: 16px;
+    }
+    .mission-text h2 {
+      font-size: clamp(28px, 5vw, 42px);
+      font-weight: 800;
+      line-height: 1.15;
+      margin: 0 0 20px;
+    }
+    .mission-text p {
+      color: var(--muted);
+      line-height: 1.75;
+      margin-bottom: 16px;
+    }
+    .mission-features {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 32px;
+    }
+    .mission-feature {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px;
+      background: var(--dark-2);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      transition: border-color .2s;
+    }
+    .mission-feature:hover {
+      border-color: rgba(255,215,0,.2);
+    }
+    .mission-feature i {
+      font-size: 20px;
+      color: var(--gold);
+    }
+    .mission-feature span {
+      font-size: 14px;
+      font-weight: 600;
+    }
+    @media (max-width: 480px) {
+      .mission-features { grid-template-columns: 1fr; }
+    }
+    .mission-visual {
+      position: relative;
+    }
+    .mission-card {
+      background: var(--dark-2);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 40px;
+      position: relative;
+      overflow: hidden;
+    }
+    .mission-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--brand), var(--gold));
+    }
+    .mission-card .icon {
+      width: 64px;
+      height: 64px;
+      background: var(--gold-dim);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      color: var(--gold);
+      margin-bottom: 24px;
+    }
+    .mission-card h4 {
+      font-size: 22px;
+      font-weight: 700;
+      margin: 0 0 12px;
+    }
+    .mission-card p {
+      color: var(--muted);
+      margin: 0;
+      line-height: 1.7;
+    }
 
-    /* Stats */
-    .stats{display:grid;grid-template-columns:repeat(12,1fr);gap:14px}
-    .stat{grid-column:span 4;text-align:center;padding:28px 14px;border-radius:14px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06)}
-    @media (max-width:992px){.stat{grid-column:span 6}}
-    @media (max-width:768px){.stat{grid-column:span 12}}
-    .num{font-size:2.6rem;font-weight:800;color:#ffd700;margin-bottom:8px;position:relative}
-    .num:after{content:"";position:absolute;left:50%;bottom:-6px;transform:translateX(-50%);width:40%;height:3px;border-radius:3px;background:linear-gradient(90deg,#7851a9,#ffd700)}
-    .label{color:#e6e8ff}
+    /* VALUES */
+    .values {
+      background: var(--dark-2);
+    }
+    .section-header {
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto 60px;
+    }
+    .section-header .kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--gold);
+      margin-bottom: 16px;
+    }
+    .section-header h2 {
+      font-size: clamp(28px, 5vw, 42px);
+      font-weight: 800;
+      line-height: 1.15;
+      margin: 0 0 16px;
+    }
+    .section-header p {
+      color: var(--muted);
+      line-height: 1.7;
+    }
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    @media (max-width: 992px) { .values-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 600px) { .values-grid { grid-template-columns: 1fr; } }
+    .value-card {
+      background: var(--dark-3);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 32px;
+      transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .value-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(120,81,169,.05), transparent);
+      opacity: 0;
+      transition: opacity .3s ease;
+    }
+    .value-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 50px rgba(0,0,0,.3);
+      border-color: rgba(120,81,169,.3);
+    }
+    .value-card:hover::before { opacity: 1; }
+    .value-card .icon {
+      width: 60px;
+      height: 60px;
+      background: var(--gold-dim);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      color: var(--gold);
+      margin-bottom: 20px;
+      position: relative;
+      z-index: 1;
+    }
+    .value-card h4 {
+      font-size: 20px;
+      font-weight: 700;
+      margin: 0 0 12px;
+      position: relative;
+      z-index: 1;
+    }
+    .value-card p {
+      color: var(--muted);
+      margin: 0;
+      line-height: 1.7;
+      position: relative;
+      z-index: 1;
+    }
 
-    footer{font-size:.95rem;color:#fff;background:var(--brand)}
-    section[id]{scroll-margin-top:76px}
-    html{scroll-behavior:smooth}
-    html,body{overflow-x:hidden}
-  @media (max-width:768px){.team-card{padding:18px}.grid{grid-gap:12px}.stats{grid-gap:12px}}
-@media (max-width:480px){.hero .inner{padding-top:88px;padding-bottom:72px}.chips .chip{font-size:.9rem}}
-</style>
+    /* PROCESS TIMELINE */
+    .process {
+      background: var(--dark);
+    }
+    .process-timeline {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      position: relative;
+    }
+    .process-timeline::before {
+      content: '';
+      position: absolute;
+      top: 40px;
+      left: 12.5%;
+      right: 12.5%;
+      height: 2px;
+      background: linear-gradient(90deg, var(--brand), var(--gold), var(--brand));
+      opacity: .3;
+    }
+    @media (max-width: 992px) {
+      .process-timeline { grid-template-columns: repeat(2, 1fr); }
+      .process-timeline::before { display: none; }
+    }
+    @media (max-width: 600px) {
+      .process-timeline { grid-template-columns: 1fr; }
+    }
+    .process-step {
+      text-align: center;
+      position: relative;
+    }
+    .process-step .step-number {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, var(--brand), var(--gold));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      font-weight: 900;
+      color: #fff;
+      margin: 0 auto 24px;
+      position: relative;
+      z-index: 1;
+      box-shadow: 0 10px 30px rgba(120,81,169,.3);
+    }
+    .process-step h4 {
+      font-size: 18px;
+      font-weight: 700;
+      margin: 0 0 8px;
+    }
+    .process-step p {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    /* STORY / TIMELINE */
+    .story {
+      background: var(--dark-2);
+      overflow: hidden;
+    }
+    .story-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+    @media (max-width: 992px) {
+      .story-content { grid-template-columns: 1fr; gap: 50px; }
+    }
+    .story-image {
+      position: relative;
+    }
+    .story-image img {
+      width: 100%;
+      border-radius: 24px;
+      box-shadow: 0 30px 80px rgba(0,0,0,.4);
+    }
+    .story-text .kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--gold);
+      margin-bottom: 16px;
+    }
+    .story-text h2 {
+      font-size: clamp(28px, 5vw, 42px);
+      font-weight: 800;
+      line-height: 1.15;
+      margin: 0 0 24px;
+    }
+    .story-text p {
+      color: var(--muted);
+      line-height: 1.75;
+      margin-bottom: 16px;
+    }
+    .story-text .highlight-box {
+      background: var(--dark-3);
+      border-left: 4px solid var(--gold);
+      border-radius: 0 12px 12px 0;
+      padding: 20px 24px;
+      margin-top: 24px;
+    }
+    .story-text .highlight-box p {
+      margin: 0;
+      font-style: italic;
+      color: rgba(255,255,255,.8);
+    }
+
+    /* TEAM */
+    .team {
+      background: var(--dark);
+    }
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 32px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    @media (max-width: 600px) { .team-grid { grid-template-columns: 1fr; } }
+    .team-card {
+      background: var(--dark-2);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 40px 32px;
+      text-align: center;
+      transition: transform .3s ease, box-shadow .3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .team-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 4px;
+      background: linear-gradient(90deg, var(--brand), var(--gold));
+      border-radius: 0 0 4px 4px;
+    }
+    .team-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 25px 60px rgba(0,0,0,.35);
+    }
+    .team-card img {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid var(--dark-3);
+      margin-bottom: 20px;
+      transition: transform .3s ease, border-color .3s ease;
+    }
+    .team-card:hover img {
+      transform: scale(1.05);
+      border-color: var(--brand);
+    }
+    .team-card h4 {
+      font-size: 20px;
+      font-weight: 700;
+      margin: 0 0 4px;
+    }
+    .team-card .role {
+      font-size: 14px;
+      color: var(--gold);
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+    .team-card p {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.7;
+      margin: 0;
+    }
+
+    /* WHO WE SERVE */
+    .serve {
+      background: var(--dark-2);
+    }
+    .serve-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    @media (max-width: 768px) { .serve-grid { grid-template-columns: 1fr; } }
+    .serve-card {
+      background: var(--dark-3);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 40px 28px;
+      text-align: center;
+      transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease;
+    }
+    .serve-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 50px rgba(0,0,0,.3);
+      border-color: rgba(255,215,0,.2);
+    }
+    .serve-card .icon {
+      width: 72px;
+      height: 72px;
+      background: linear-gradient(135deg, rgba(120,81,169,.15), rgba(255,215,0,.1));
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      color: var(--gold);
+      margin: 0 auto 20px;
+    }
+    .serve-card h4 {
+      font-size: 18px;
+      font-weight: 700;
+      margin: 0 0 10px;
+    }
+    .serve-card p {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.7;
+      margin: 0;
+    }
+
+    /* TESTIMONIAL */
+    .testimonial {
+      background: var(--dark);
+      position: relative;
+      overflow: hidden;
+    }
+    .testimonial::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(120,81,169,.1), transparent);
+      pointer-events: none;
+    }
+    .testimonial-content {
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .testimonial-quote {
+      font-size: clamp(20px, 3vw, 28px);
+      font-weight: 500;
+      line-height: 1.6;
+      margin-bottom: 32px;
+      position: relative;
+    }
+    .testimonial-quote::before {
+      content: '\201C';
+      position: absolute;
+      top: -40px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 120px;
+      color: var(--gold);
+      opacity: .2;
+      font-family: Georgia, serif;
+      line-height: 1;
+    }
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+    }
+    .testimonial-author img {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--gold);
+    }
+    .testimonial-author-info {
+      text-align: left;
+    }
+    .testimonial-author-info strong {
+      display: block;
+      font-weight: 700;
+    }
+    .testimonial-author-info span {
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    /* DIFFERENTIATORS */
+    .differentiators {
+      background: var(--dark-2);
+    }
+    .diff-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+    @media (max-width: 768px) { .diff-grid { grid-template-columns: 1fr; } }
+    .diff-card {
+      background: var(--dark-3);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 32px;
+      display: flex;
+      gap: 20px;
+      transition: transform .3s ease, box-shadow .3s ease;
+    }
+    .diff-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 15px 40px rgba(0,0,0,.25);
+    }
+    .diff-card .icon {
+      width: 56px;
+      height: 56px;
+      min-width: 56px;
+      background: var(--gold-dim);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      color: var(--gold);
+    }
+    .diff-card h4 {
+      font-size: 18px;
+      font-weight: 700;
+      margin: 0 0 8px;
+    }
+    .diff-card p {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.7;
+      margin: 0;
+    }
+
+    /* CTA */
+    .cta {
+      background: linear-gradient(135deg, var(--dark) 0%, var(--dark-3) 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    .cta::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 800px;
+      height: 800px;
+      background: radial-gradient(circle, rgba(120,81,169,.15), transparent 60%);
+      pointer-events: none;
+    }
+    .cta-content {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    .cta h2 {
+      font-size: clamp(32px, 6vw, 48px);
+      font-weight: 800;
+      line-height: 1.15;
+      margin: 0 0 20px;
+    }
+    .cta p {
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.7;
+      margin-bottom: 32px;
+    }
+    .cta-btns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+    }
+
+    /* FOOTER */
+    footer {
+      background: #000;
+      padding: 40px 0;
+      border-top: 1px solid var(--line);
+    }
+    footer .container-narrow {
+      text-align: center;
+    }
+    footer .locations {
+      margin-bottom: 20px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+    footer .locations strong {
+      color: #fff;
+      display: block;
+      margin-bottom: 8px;
+    }
+    footer .locations a {
+      color: var(--muted);
+      text-decoration: underline;
+      transition: color .2s;
+    }
+    footer .locations a:hover { color: var(--gold); }
+    footer .copyright {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+    footer .links {
+      font-size: 13px;
+      margin-bottom: 12px;
+    }
+    footer .links a {
+      color: var(--muted);
+      margin: 0 8px;
+      transition: color .2s;
+    }
+    footer .links a:hover { color: #fff; }
+    footer .made-with {
+      font-size: 12px;
+      color: rgba(255,255,255,.3);
+    }
+    footer .made-with span { color: var(--gold); }
+
+    /* REVEAL ANIMATIONS */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+    .reveal.in-view {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-delay-1 { transition-delay: .1s; }
+    .reveal-delay-2 { transition-delay: .2s; }
+    .reveal-delay-3 { transition-delay: .3s; }
+    .reveal-delay-4 { transition-delay: .4s; }
+    .reveal-delay-5 { transition-delay: .5s; }
+  </style>
 
   <!-- JSON-LD Org -->
   <script type="application/ld+json">
@@ -162,7 +1071,7 @@
   }
   </script>
 
-  <!-- Analytics (keep your gtag) -->
+  <!-- Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-JQM6ZR4JCB"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -172,146 +1081,344 @@
 <body>
 
 <!-- NAV -->
-<div class="nav-wrap">
+<nav id="mainNav">
   <div class="container container-narrow">
-    <nav class="navbar navbar-expand-lg navbar-dark webeaze-nav" role="navigation" aria-label="Primary">
-      <a class="navbar-brand d-flex align-items-center" href="index.html">
-        <img class="logo" src="images/webeaze-transparent copy.png" alt="WebEaze" />
-        <strong class="ml-2" style="color:#fff;letter-spacing:-.3px;font-weight:800">WebEaze</strong>
+    <div class="inner">
+      <a href="index.html" class="logo-group">
+        <img src="images/webeaze-transparent copy.png" alt="WebEaze" />
+        <span>WebEaze</span>
       </a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mobileNav"
-              aria-controls="mobileNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
-      <div id="mobileNav" class="collapse navbar-collapse">
-        <ul class="navbar-nav ml-auto main-nav">
-          <li class="nav-item"><a class="nav-link" href="build.html">New Website</a></li>
-          <li class="nav-item"><a class="nav-link" href="manage.html">Existing Site</a></li>
-          <li class="nav-item"><a class="nav-link" href="pricing.html">Pricing</a></li>
-          <li class="nav-item"><a class="nav-link" href="faq.html">FAQ</a></li>
-          <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
-          <li class="nav-item"><a class="nav-link" href="contact-us.html">Contact</a></li>
-          <li class="nav-item ml-1"><a class="btn btn-sm btn-nav" href="consultation.html">Request Free Mockup</a></li>
-        </ul>
+      <div class="nav-links" id="navLinks">
+        <a href="build.html">New Website</a>
+        <a href="manage.html">Existing Site</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="faq.html">FAQ</a>
+        <a href="about.html">About</a>
+        <a href="contact-us.html">Contact</a>
+        <a href="consultation.html" class="nav-cta">Request Free Mockup</a>
       </div>
-    </nav>
+      <button class="mobile-toggle" onclick="document.getElementById('navLinks').classList.toggle('open')">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-particles" id="particles"></div>
+
+  <div class="hero-content">
+    <div class="hero-badge">
+      <i class="fas fa-sparkles"></i>
+      Built for Small Businesses
+    </div>
+    <h1>We Build Websites<br>That Feel Like <span class="highlight">Home</span></h1>
+    <p>
+      WebEaze was started with a simple belief: small businesses deserve websites that look great, load fast, and don't require tech headaches or unexpected invoices.
+    </p>
+    <div class="hero-btns">
+      <a href="consultation.html" class="btn-primary">
+        <i class="fas fa-rocket"></i>
+        Request Free Mockup
+      </a>
+      <a href="pricing.html" class="btn-secondary">
+        <i class="fas fa-tag"></i>
+        Explore Plans
+      </a>
+    </div>
+  </div>
+
+  <div class="scroll-indicator">
+    <div class="mouse"></div>
+    <span>Scroll to explore</span>
+  </div>
+</section>
+
+<!-- TRUST STRIP -->
+<div class="trust-strip">
+  <div class="container container-narrow">
+    <div class="trust-items">
+      <div class="trust-item">
+        <i class="fas fa-book-open"></i>
+        <span>SEO Optimized</span>
+      </div>
+      <div class="trust-item">
+        <i class="fas fa-clock"></i>
+        <span>Fast Turnaround</span>
+      </div>
+      <div class="trust-item">
+        <i class="fas fa-headset"></i>
+        <span>Real Human Support</span>
+      </div>
+      <div class="trust-item">
+        <i class="fas fa-dollar-sign"></i>
+        <span>Transparent Pricing</span>
+      </div>
+    </div>
   </div>
 </div>
 
-<!-- HERO -->
-<header class="hero">
-  <div class="halo" aria-hidden="true"></div>
-  <div class="container container-narrow inner text-center">
-    <h1 class="headline reveal">
-      We build websites that feel like home.
-    </h1>
-    <p class="mt-3" style="opacity:.9; margin:30px; text-wrap:balance;">
-      WebEaze was started with a simple belief: small businesses deserve websites that look great, load fast, and don't require tech headaches or unexpected invoices.
-    </p>
-    <div class="btn-row mt-3 justify-content-center">
-      <a href="consultation.html" class="btn-brand">Request Free Mockup</a>
-      <a href="pricing.html" class="btn-ghost">Explore plans</a>
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="container container-narrow">
+    <div class="stats-grid">
+      <div class="stat-item reveal">
+        <div class="number" data-count="47">0</div>
+        <div class="label">Happy Clients</div>
+      </div>
+      <div class="stat-item reveal reveal-delay-1">
+        <div class="number" data-count="67">0</div>
+        <div class="label">Websites Launched</div>
+      </div>
+      <div class="stat-item reveal reveal-delay-2">
+        <div class="number" data-count="9">0</div>
+        <div class="label">States Served</div>
+      </div>
+      <div class="stat-item reveal reveal-delay-3">
+        <div class="number" data-count="98">0</div>
+        <div class="label">% Client Satisfaction</div>
+      </div>
     </div>
   </div>
-</header>
+</div>
 
-<!-- OUR PURPOSE -->
-<section class="section light">
+<!-- MISSION -->
+<section class="mission">
   <div class="container container-narrow">
-    <h2 class="head reveal">Our Existence.</h2>
+    <div class="mission-grid">
+      <div class="mission-text reveal">
+        <div class="kicker">
+          <i class="fas fa-bullseye"></i>
+          Our Purpose
+        </div>
+        <h2>The simpler, faster, clearer way to launch your online presence.</h2>
+        <p>
+          The website world can feel slow, confusing, and expensive. We built WebEaze to change that.
+        </p>
+        <p>
+          We design your site. We take care of it. You get to stay focused on running your business. No tech jargon. No surprise bills. Just a beautiful website that works.
+        </p>
 
-    <p class="mt-3 reveal" style="max-width:720px;opacity:.85;">
-      The website world can feel slow, confusing, and expensive.
-    </p>
-
-    <h3 class="mt-3 reveal" style="font-weight:800; letter-spacing:-.01em; font-size:clamp(20px,3vw,28px); max-width:740px;">
-      WebEaze is the simpler, faster, clearer way to launch and maintain your online presence.
-    </h3>
-
-    <p class="mt-3 reveal" style="max-width:720px;opacity:.8;">
-      We design your site. We take care of it. You get to stay focused on running your business.
-    </p>
-
-    <div class="mt-5 row justify-content-start" style="max-width:900px;">
-
-      <div class="col-md-4 mb-4 reveal">
-        <div style="display:flex;align-items:flex-start;gap:14px;">
-          <div style="font-size:28px;line-height:1;">⚡</div>
-          <div>
-            <h5 style="font-weight:700;margin-bottom:4px;">Fast Launches</h5>
-            <p style="opacity:.8;margin:0;">Weeks, not months. Your first draft isn't a waiting game.</p>
+        <div class="mission-features">
+          <div class="mission-feature">
+            <i class="fas fa-bolt"></i>
+            <span>Fast Launches</span>
+          </div>
+          <div class="mission-feature">
+            <i class="fas fa-shield-halved"></i>
+            <span>Always Supported</span>
+          </div>
+          <div class="mission-feature">
+            <i class="fas fa-wand-magic-sparkles"></i>
+            <span>Custom Designs</span>
+          </div>
+          <div class="mission-feature">
+            <i class="fas fa-infinity"></i>
+            <span>Unlimited Edits</span>
           </div>
         </div>
       </div>
 
-      <div class="col-md-4 mb-4 reveal">
-        <div style="display:flex;align-items:flex-start;gap:14px;">
-          <div style="font-size:28px;line-height:1;">💳</div>
-          <div>
-            <h5 style="font-weight:700;margin-bottom:4px;">Clear Pricing</h5>
-            <p style="opacity:.8;margin:0;">Plans you can understand. No surprise invoices. Ever.</p>
+      <div class="mission-visual reveal reveal-delay-2">
+        <div class="mission-card">
+          <div class="icon">
+            <i class="fas fa-lightbulb"></i>
           </div>
+          <h4>Simple by Design</h4>
+          <p>
+            Everything we do is built around clarity. From our pricing to our process, we make it easy for you to understand exactly what you're getting. No fine print, no hidden fees, no surprises.
+          </p>
         </div>
       </div>
-
-      <div class="col-md-4 mb-4 reveal">
-        <div style="display:flex;align-items:flex-start;gap:14px;">
-          <div style="font-size:28px;line-height:1;">🤝</div>
-          <div>
-            <h5 style="font-weight:700;margin-bottom:4px;">Real Support</h5>
-            <p style="opacity:.8;margin:0;">Chat, Google Meet, Phone, Email support. Talk to someone who knows your site.</p>
-          </div>
-        </div>
-      </div>
-
     </div>
   </div>
 </section>
 
+<!-- PROCESS -->
+<section class="process">
+  <div class="container container-narrow">
+    <div class="section-header reveal">
+      <div class="kicker">
+        <i class="fas fa-route"></i>
+        Our Process
+      </div>
+      <h2>From Idea to Launch in 4 Simple Steps</h2>
+      <p>We've streamlined our process to get your site live quickly without sacrificing quality.</p>
+    </div>
 
+    <div class="process-timeline">
+      <div class="process-step reveal">
+        <div class="step-number">1</div>
+        <h4>Discovery Call</h4>
+        <p>We learn about your business, goals, and vision in a quick 15-minute call.</p>
+      </div>
+      <div class="process-step reveal reveal-delay-1">
+        <div class="step-number">2</div>
+        <h4>Free Mockup</h4>
+        <p>We design a custom homepage mockup so you can see your vision come to life.</p>
+      </div>
+      <div class="process-step reveal reveal-delay-2">
+        <div class="step-number">3</div>
+        <h4>Build & Refine</h4>
+        <p>Once approved, we build your full site with unlimited revisions until you love it.</p>
+      </div>
+      <div class="process-step reveal reveal-delay-3">
+        <div class="step-number">4</div>
+        <h4>Launch & Support</h4>
+        <p>Your site goes live and we provide ongoing support to keep it running perfectly.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- VALUES -->
-<section class="section dark">
+<section class="values">
   <div class="container container-narrow">
-    <h2 class="head reveal" style="font-size: 25px !important;">Our Values. To The Core. </h2>
-    <div class="grid mt-3">
-      <div class="card reveal tilt">
-        <h5>Clarity</h5>
-        <p>Everything should feel understandable. This is incorporated through our pricing, timelines, decisions, all of it.</p>
+    <div class="section-header reveal">
+      <div class="kicker">
+        <i class="fas fa-heart"></i>
+        Our Core Values
       </div>
-      <div class="card reveal tilt">
-        <h5>Care</h5>
-        <p>We treat every site like something we'd be proud to put our own name on. To us, detailed changes = big impact.
-        </p>
+      <h2>Principles That Guide Everything We Do</h2>
+      <p>These aren't just words on a wall. They're the foundation of every decision we make, every site we build, and every client we serve.</p>
+    </div>
+
+    <div class="values-grid">
+      <div class="value-card reveal reveal-delay-1">
+        <div class="icon">
+          <i class="fas fa-eye"></i>
+        </div>
+        <h4>Clarity</h4>
+        <p>Everything should feel understandable. Our pricing, timelines, and decisions are always transparent and easy to follow.</p>
       </div>
-      <div class="card reveal tilt">
-        <h5>Long-Term Partnership</h5>
-        <p>Your website isn't a one-time project. We stay with you for the long run. You reach out to us and we know your site without us needing a refresher.
-        </p>
+
+      <div class="value-card reveal reveal-delay-2">
+        <div class="icon">
+          <i class="fas fa-gem"></i>
+        </div>
+        <h4>Care</h4>
+        <p>We treat every site like something we'd proudly put our own name on. Small details make big impacts.</p>
+      </div>
+
+      <div class="value-card reveal reveal-delay-3">
+        <div class="icon">
+          <i class="fas fa-handshake"></i>
+        </div>
+        <h4>Long-Term Partnership</h4>
+        <p>Your website isn't a one-time project. We stay with you for the long run, knowing your site inside and out.</p>
+      </div>
+
+      <div class="value-card reveal reveal-delay-1">
+        <div class="icon">
+          <i class="fas fa-rocket"></i>
+        </div>
+        <h4>Speed</h4>
+        <p>Weeks, not months. We move fast without cutting corners, getting your site live while you can still feel the excitement.</p>
+      </div>
+
+      <div class="value-card reveal reveal-delay-2">
+        <div class="icon">
+          <i class="fas fa-comments"></i>
+        </div>
+        <h4>Real Support</h4>
+        <p>Chat, video call, phone, or email. You'll always talk to someone who actually knows your site and your business.</p>
+      </div>
+
+      <div class="value-card reveal reveal-delay-3">
+        <div class="icon">
+          <i class="fas fa-dollar-sign"></i>
+        </div>
+        <h4>Fair Pricing</h4>
+        <p>No hidden fees. No surprise invoices. Just clear, predictable pricing that respects your budget.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- STORY WITH IMAGE SLOT -->
-<section class="section light">
+<!-- STORY -->
+<section class="story">
   <div class="container container-narrow">
-    <div class="row align-items-center">
-      <div class="col-md-6 reveal">
-        <h2 class="head">Our Origins.</h2>
-        <p class="mt-3" style="opacity:.85">
-          WebEaze began as a way to help small businesses and local creators get online quickly without sacrificing quality. The mission was simple:
-          make beautiful websites accessible, and back them with real support — from real people — every month.
-        </p>
-        <p style="opacity:.85">
-          Today, WebEaze supports small businesses such as service providers, tutoring agencies, and students, primarily in Delaware, Maryland, Pennsylvania, New Jersey and the entire U.S. All from one clear, ongoing partnership model.
-        </p>
+    <div class="story-content">
+      <div class="story-image reveal">
+        <img src="images/billy-usertesting.jpg" alt="Billy working on client projects" />
       </div>
-      <div class="col-md-6 reveal">
-        <!-- Replace with your photo or collage -->
-        <div style="border-radius:18px;overflow:hidden;box-shadow:0 18px 50px rgba(0,0,0,.16)">
-          <img src="images/billy-usertesting.jpg" alt="Our workspace" class="img-fluid">
+
+      <div class="story-text reveal reveal-delay-2">
+        <div class="kicker">
+          <i class="fas fa-book-open"></i>
+          Our Story
+        </div>
+        <h2>From a Simple Idea to Your Trusted Partner</h2>
+        <p>
+          WebEaze began as a way to help small businesses and local creators get online quickly without sacrificing quality.
+        </p>
+        <p>
+          The mission was simple: make beautiful websites accessible, and back them with real support from real people every month.
+        </p>
+        <p>
+          Today, we support small businesses including service providers, tutoring agencies, and students primarily across Delaware, Maryland, Pennsylvania, New Jersey, and the entire U.S.
+        </p>
+
+        <div class="highlight-box">
+          <p>"We believe every small business deserves a website that makes them proud, backed by a team that actually cares."</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DIFFERENTIATORS -->
+<section class="differentiators">
+  <div class="container container-narrow">
+    <div class="section-header reveal">
+      <div class="kicker">
+        <i class="fas fa-star"></i>
+        Why WebEaze
+      </div>
+      <h2>What Makes Us Different</h2>
+      <p>We're not just another web design agency. Here's why businesses choose us.</p>
+    </div>
+
+    <div class="diff-grid">
+      <div class="diff-card reveal">
+        <div class="icon">
+          <i class="fas fa-file-contract"></i>
+        </div>
+        <div>
+          <h4>No Long-Term Contracts</h4>
+          <p>Month-to-month flexibility. Stay because you want to, not because you have to. Cancel anytime.</p>
+        </div>
+      </div>
+
+      <div class="diff-card reveal reveal-delay-1">
+        <div class="icon">
+          <i class="fas fa-pencil"></i>
+        </div>
+        <div>
+          <h4>Unlimited Content Updates</h4>
+          <p>Need to change text, images, or add new sections? Just ask. We handle all updates for you.</p>
+        </div>
+      </div>
+
+      <div class="diff-card reveal reveal-delay-2">
+        <div class="icon">
+          <i class="fas fa-palette"></i>
+        </div>
+        <div>
+          <h4>100% Custom Designs</h4>
+          <p>No templates. Every site is designed from scratch to match your brand and stand out from competitors.</p>
+        </div>
+      </div>
+
+      <div class="diff-card reveal reveal-delay-3">
+        <div class="icon">
+          <i class="fas fa-user-tie"></i>
+        </div>
+        <div>
+          <h4>Dedicated Point of Contact</h4>
+          <p>You'll work with the same person throughout. No call centers, no ticket numbers, just real relationships.</p>
         </div>
       </div>
     </div>
@@ -319,122 +1426,225 @@
 </section>
 
 <!-- WHO WE SERVE -->
-<section class="section dark">
-  <div class="container container-narrow text-center">
-    <h2 class="head reveal">Built for you. 
-      
-    </h2>
-    <p class="mt-3" style="max-width:700px;margin:0 auto;opacity:.82">
-      From neighborhood service providers to education centers to students building something of their own, our clients care about craft and community.
-    </p>
+<section class="serve">
+  <div class="container container-narrow">
+    <div class="section-header reveal">
+      <div class="kicker">
+        <i class="fas fa-users"></i>
+        Who We Serve
+      </div>
+      <h2>Built for Businesses Like Yours</h2>
+      <p>From neighborhood service providers to education centers to students building something of their own, our clients care about craft and community.</p>
+    </div>
 
-    <div class="grid mt-4">
-      <div class="card reveal tilt"><h5>Local Businesses</h5></div>
-      <div class="card reveal tilt"><h5>Tutoring Agencies</h5></div>
-      <div class="card reveal tilt"><h5>Student Professionals</h5></div>
+    <div class="serve-grid">
+      <div class="serve-card reveal reveal-delay-1">
+        <div class="icon">
+          <i class="fas fa-store"></i>
+        </div>
+        <h4>Local Businesses</h4>
+        <p>Service providers, contractors, retailers, and neighborhood shops looking to establish a professional online presence.</p>
+      </div>
+
+      <div class="serve-card reveal reveal-delay-2">
+        <div class="icon">
+          <i class="fas fa-graduation-cap"></i>
+        </div>
+        <h4>Tutoring Agencies</h4>
+        <p>Education centers and tutors who need a clean, trustworthy website to attract students and parents.</p>
+      </div>
+
+      <div class="serve-card reveal reveal-delay-3">
+        <div class="icon">
+          <i class="fas fa-user-graduate"></i>
+        </div>
+        <h4>Student Professionals</h4>
+        <p>Ambitious students building portfolios, side projects, or launching their first ventures into the world.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIAL -->
+<section class="testimonial">
+  <div class="container container-narrow">
+    <div class="testimonial-content reveal">
+      <div class="testimonial-quote">
+        Working with WebEaze was the best decision for my business. They understood my vision immediately and delivered a website that truly represents my brand. The ongoing support has been incredible.
+      </div>
+      <div class="testimonial-author">
+        <div class="testimonial-author-info">
+          <strong>Happy Client</strong>
+          <span>Small Business Owner</span>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- TEAM -->
-<section class="section light" id="team">
+<section class="team">
   <div class="container container-narrow">
-    <h2 class="head reveal">Behind the Pixels.</h2>
-    <div class="team mt-3">
-      <article class="team-card reveal tilt">
+    <div class="section-header reveal">
+      <div class="kicker">
+        <i class="fas fa-people-group"></i>
+        Our Team
+      </div>
+      <h2>The People Behind the Pixels</h2>
+      <p>A small, dedicated team that treats your project like our own. When you work with us, you're not just another ticket in a queue.</p>
+    </div>
+
+    <div class="team-grid">
+      <article class="team-card reveal reveal-delay-1">
         <img src="images/billy-o-portrait.png" alt="Billy Joinville headshot" loading="lazy" />
-        <h5>Billy Joinville</h5>
+        <h4>Billy Joinville</h4>
         <div class="role">Founder</div>
-        <p class="mt-2" style="color:var(--ink-2)">Billy started WebEaze to make quality web design accessible and supported. He focuses on client experience and growth strategy.</p>
+        <p>Billy started WebEaze to make quality web design accessible and supported. He focuses on client experience and growth strategy.</p>
       </article>
-      <article class="team-card reveal tilt">
+
+      <article class="team-card reveal reveal-delay-2">
         <img src="images/headshot-goerlitz.png" alt="Goerlitz Edmond headshot" loading="lazy" />
-        <h5>Goerlitz Edmond</h5>
+        <h4>Goerlitz Edmond</h4>
         <div class="role">Web Design & Acquisition Manager</div>
-        <p class="mt-2" style="color:var(--ink-2)">Goerlitz ensures client builds are fast, secure, and future-ready. He specializes in cloud workflows and deployment optimization.</p>
+        <p>Goerlitz ensures client builds are fast, secure, and future-ready. He specializes in cloud workflows and deployment optimization.</p>
       </article>
     </div>
   </div>
 </section>
 
 <!-- CTA -->
-<section class="section dark text-center">
+<section class="cta">
   <div class="container container-narrow">
-    <h2 class="head reveal">Let's
-      Partner Up. 
-    </h2>
-    <p class="mt-2" style="max-width:680px;margin:0 auto;opacity:.85">
-      Whether you're launching something new or improving what already exists, we'll map the quickest route to a site that makes you go "Wow."
-    </p>
-    <div class="btn-row mt-4 justify-content-center">
-      <a href="consultation.html" class="btn-brand">Request Free Mockup</a>
-      <a href="pricing.html" class="btn-ghost">View Plans</a>
+    <div class="cta-content reveal">
+      <h2>Ready to Build Something Great?</h2>
+      <p>
+        Whether you're launching something new or improving what already exists, we'll map the quickest route to a site that makes you proud.
+      </p>
+      <div class="cta-btns">
+        <a href="consultation.html" class="btn-primary">
+          <i class="fas fa-rocket"></i>
+          Request Free Mockup
+        </a>
+        <a href="pricing.html" class="btn-secondary">
+          <i class="fas fa-tag"></i>
+          View Plans
+        </a>
+      </div>
     </div>
   </div>
 </section>
 
-
 <!-- FOOTER -->
-<footer class="py-4 text-center" style="background:black;color:#fff">
-  <div class="mt-3 small" style="opacity:.9">
-    <strong>Serving small businesses across:</strong><br>
-    <a href="/web-design-maryland.html" style="color:#fff;text-decoration:underline;">Maryland</a> ·
-    <a href="/web-design-delaware.html" style="color:#fff;text-decoration:underline;">Delaware</a> ·
-    <a href="/web-design-pennsylvania.html" style="color:#fff;text-decoration:underline;">Pennsylvania</a> ·
-    <a href="/web-design-new-jersey.html" style="color:#fff;text-decoration:underline;">New Jersey</a>
-    <br><br>
-  </div>
+<footer>
   <div class="container container-narrow">
-    <div class="mb-1">&copy; <span id="yr"></span> WebEaze. All rights reserved.</div>
-    <div class="mb-2 small">
-      <a href="terms.html#privacy" style="color:#fff">Privacy Policy</a> ·
-      <a href="terms.html" style="color:#fff">Terms</a> ·
-      <a href="site-map.html" style="color:#fff">Site Map</a>
+    <div class="locations">
+      <strong>Serving small businesses across:</strong>
+      <a href="/web-design-maryland.html">Maryland</a> &middot;
+      <a href="/web-design-delaware.html">Delaware</a> &middot;
+      <a href="/web-design-pennsylvania.html">Pennsylvania</a> &middot;
+      <a href="/web-design-new-jersey.html">New Jersey</a>
     </div>
-    <div class="small">Made with ☕ in Delaware, USA</div>
+    <div class="copyright">&copy; <span id="yr"></span> WebEaze. All rights reserved.</div>
+    <div class="links">
+      <a href="terms.html#privacy">Privacy Policy</a>
+      <a href="terms.html">Terms</a>
+      <a href="site-map.html">Site Map</a>
+    </div>
+    <div class="made-with">Made with <span>&#9749;</span> in Delaware, USA</div>
   </div>
 </footer>
 
 <!-- JS -->
-<script>document.getElementById('yr').textContent=new Date().getFullYear();</script>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
 <script>
-  // Nav shrink on scroll
-  (function(){
-    var wrap=document.querySelector('.nav-wrap'); if(!wrap) return;
-    function onScr(){ (window.scrollY>8)?wrap.classList.add('scrolled'):wrap.classList.remove('scrolled'); }
-    window.addEventListener('scroll',onScr,{passive:true}); onScr();
-  })();
+document.getElementById('yr').textContent = new Date().getFullYear();
 
-  // Reveal on scroll
-  (function(){
-    var els=[].slice.call(document.querySelectorAll('.reveal,.timeline'));
-    if(!('IntersectionObserver'in window)){els.forEach(e=>e.classList.add('in-view'));return;}
-    var io=new IntersectionObserver(function(entries){
-      entries.forEach(function(entry){
-        if(entry.isIntersecting){ entry.target.classList.add('in-view'); io.unobserve(entry.target); }
-      });
-    },{threshold:.14});
-    els.forEach(e=>io.observe(e));
-  })();
+// Nav scroll effect
+(function() {
+  const nav = document.getElementById('mainNav');
+  function onScroll() {
+    nav.classList.toggle('scrolled', window.scrollY > 20);
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+})();
 
-    // Count up stats
-  (function(){
-    var nums=document.querySelectorAll('.num[data-count]');
-    if(!nums.length) return;
-    var io=new IntersectionObserver(function(entries){
-      entries.forEach(function(entry){
-        if(!entry.isIntersecting) return;
-        var el=entry.target; var end=+el.getAttribute('data-count'); var cur=0; var step=Math.ceil(end/50);
-        var t=setInterval(function(){ cur+=step; if(cur>=end){cur=end; clearInterval(t);} el.textContent=cur; }, 28);
-        io.unobserve(el);
-      });
-    },{threshold:.6});
-    nums.forEach(n=>io.observe(n));
-  })();
+// Particles
+(function() {
+  const container = document.getElementById('particles');
+  if (!container) return;
+
+  for (let i = 0; i < 30; i++) {
+    const particle = document.createElement('div');
+    particle.className = 'particle';
+    particle.style.left = Math.random() * 100 + '%';
+    particle.style.animationDelay = Math.random() * 8 + 's';
+    particle.style.animationDuration = (6 + Math.random() * 4) + 's';
+    container.appendChild(particle);
+  }
+})();
+
+// Reveal on scroll
+(function() {
+  const reveals = document.querySelectorAll('.reveal');
+  if (!('IntersectionObserver' in window)) {
+    reveals.forEach(el => el.classList.add('in-view'));
+    return;
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in-view');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+  reveals.forEach(el => observer.observe(el));
+})();
+
+// Count up animation
+(function() {
+  const numbers = document.querySelectorAll('[data-count]');
+  if (!numbers.length) return;
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+
+      const el = entry.target;
+      const end = parseInt(el.getAttribute('data-count'), 10);
+      let current = 0;
+      const duration = 2000;
+      const step = end / (duration / 16);
+
+      const counter = setInterval(() => {
+        current += step;
+        if (current >= end) {
+          current = end;
+          clearInterval(counter);
+        }
+        el.textContent = Math.floor(current) + '';
+      }, 16);
+
+      observer.unobserve(el);
+    });
+  }, { threshold: 0.5 });
+
+  numbers.forEach(n => observer.observe(n));
+})();
+
+// Smooth scroll for anchor links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function(e) {
+    e.preventDefault();
+    const target = document.querySelector(this.getAttribute('href'));
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
 </script>
+
 </body>
 </html>
