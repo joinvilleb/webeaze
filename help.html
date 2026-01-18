@@ -2037,16 +2037,22 @@
     `).join('');
   }
 
-  function renderCategories() {
-    $categoriesGrid.innerHTML = HELP_DATA.topics.map(t => `
-      <div class="category-card" onclick="document.querySelector('[data-topic=\\'${t.id}\\']').classList.add('open'); document.getElementById('results').scrollIntoView({behavior:'smooth'});">
-        <div class="icon"><i class="fas ${t.icon}"></i></div>
-        <h3>${t.title}</h3>
-        <p>${t.articles.length > 3 ? t.articles.slice(0, 3).map(a => a.title).join(', ') + '...' : t.articles.map(a => a.title).join(', ')}</p>
-        <div class="count">${t.articles.length} article${t.articles.length === 1 ? '' : 's'}</div>
+function renderCategories() {
+  $categoriesGrid.innerHTML = HELP_DATA.topics.map(t => `
+    <div class="category-card" role="button" tabindex="0"
+      onclick="renderTopicResults('${t.id}')"
+      onkeydown="if(event.key==='Enter' || event.key===' ') { event.preventDefault(); renderTopicResults('${t.id}'); }"
+    >
+      <div class="icon"><i class="fas ${t.icon}"></i></div>
+      <h3>${t.title}</h3>
+      <p>${t.articles.length > 3 ? t.articles.slice(0, 3).map(a => a.title).join(', ') + '...' : t.articles.map(a => a.title).join(', ')}</p>
+      <div class="count">
+        ${t.articles.length} article${t.articles.length === 1 ? '' : 's'}
+        <span style="margin-left:10px; color: rgba(255,255,255,.55); font-weight:500;">• View</span>
       </div>
-    `).join('');
-  }
+    </div>
+  `).join('');
+}
 
   const FEATURED = [
     'getting-started',
@@ -2233,6 +2239,55 @@
   })();
 
   document.addEventListener('DOMContentLoaded', boot);
+</script>
+
+<script>
+
+function renderTopicResults(topicId) {
+  const topic = HELP_DATA.topics.find(t => t.id === topicId);
+  if (!topic) return;
+
+  // Clear search so it doesn't feel confusing
+  $search.value = '';
+
+  // Show results list
+  $article.hidden = true;
+  $article.innerHTML = '';
+  $categoriesSection.style.display = 'none';
+
+  const items = topic.articles.map(a => INDEX.find(x => x.slug === a.slug)).filter(Boolean);
+
+  $results.innerHTML = `
+    <div class="results-header">
+      <h2>${topic.title}</h2>
+      <div class="results-count">${items.length} article${items.length === 1 ? '' : 's'}</div>
+    </div>
+    <div class="results-grid">
+      ${items.map(d => `
+        <a href="#/${d.slug}" class="result-card">
+          <div class="title">
+            <span>${d.title}</span>
+            <i class="fas fa-arrow-right"></i>
+          </div>
+          <div class="meta">
+            <span class="topic">${d.topicTitle}</span> · Updated ${d.updated}
+          </div>
+          <div class="excerpt">${d.meta}</div>
+        </a>
+      `).join('')}
+    </div>
+  `;
+
+  // Open & highlight the topic in the sidebar (nice feedback)
+  document.querySelectorAll('.topic-group').forEach(g => g.classList.remove('open'));
+  const group = document.querySelector(`[data-topic="${topicId}"]`);
+  if (group) group.classList.add('open');
+
+  $live.textContent = `Browsing: ${topic.title}`;
+
+  // Scroll to results so users see where they went
+  $results.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
 </script>
 </body>
 </html>
