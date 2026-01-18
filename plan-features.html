@@ -4,29 +4,37 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Plans, Features & Policies | WebEaze</title>
-  <meta name="description" content="See what’s included in each WebEaze plan, how support works, and the policies that keep everything clear and predictable." />
-  <link rel="canonical" href="https://www.webeaze.io/plans-features.html" />
+  <meta name="description" content="Complete guide to WebEaze plans, features, and policies. Everything you need to know about Essential, Growth, and Elite plans." />
+  <link rel="canonical" href="https://www.webeaze.io/plan-features.html" />
   <link rel="shortcut icon" href="images/webeaze-transparent copy.png" type="image/png" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="WebEaze" />
   <meta property="og:title" content="Plans, Features & Policies | WebEaze" />
-  <meta property="og:description" content="Compare Essential, Growth, and Elite — what's included, how support works, and the policies behind your plan." />
-  <meta property="og:url" content="https://www.webeaze.io/plans-features.html" />
+  <meta property="og:description" content="Complete guide to WebEaze plans. Compare Essential, Growth, and Elite. Understand pricing, features, support, and policies." />
+  <meta property="og:url" content="https://www.webeaze.io/plan-features.html" />
   <meta property="og:image" content="https://webeaze.io/images/default-monochrome.png" />
-  <meta property="og:image:alt" content="WebEaze logo" />
 
   <style>
     :root{
-      --brand:#7851a9; --gold:#ffd700;
-      --ink:#0f1228; --ink-2:#3c4260;
-      --line:#e7eaf4; --bg:#f7f8fc; --white:#fff;
+      --brand:#7851a9;
+      --gold:#ffd700;
+      --ink:#0f1228;
+      --ink-2:#4a4f6a;
+      --ink-3:#6b7094;
+      --line:#e4e7f1;
+      --bg:#f8f9fc;
+      --white:#fff;
+      --success:#22c55e;
+      --surface:#fff;
     }
+    html{scroll-behavior:smooth}
     html,body{height:100%}
     body{
       margin:0;
@@ -34,17 +42,20 @@
       background:var(--bg);
       color:var(--ink);
       -webkit-font-smoothing:antialiased;
+      line-height:1.6;
     }
-    a{color:#7851a9;text-decoration:underline}
+    a{color:var(--brand);text-decoration:none}
+    a:hover{text-decoration:underline}
     .container-narrow{max-width:1100px}
-    section[id]{scroll-margin-top:76px}
-    html{scroll-behavior:smooth}
+    section[id]{scroll-margin-top:90px}
 
-    /* ===== Sticky Nav===== */
+    /* ===== Sticky Nav ===== */
     .nav-wrap{
-      position:sticky; top:0; z-index:9999;
+      position:sticky;
+      top:0;
+      z-index:9999;
       background:#000;
-      border-bottom:1px solid rgba(255,255,255,.14);
+      border-bottom:1px solid rgba(255,255,255,.12);
     }
     .webeaze-nav{
       background:transparent!important;
@@ -80,119 +91,583 @@
       box-shadow:0 8px 22px rgba(255,215,0,.22);
       text-decoration:none
     }
-
     .navbar-brand,
     .navbar-brand:hover,
     .navbar-brand:focus,
-    .navbar-brand .brand-word {
-      text-decoration: none !important;
+    .navbar-brand .brand-word{
+      text-decoration:none!important;
     }
 
-    /* ===== Hero ==== */
+    /* ===== Hero ===== */
     header.hero{
-      padding: clamp(44px, 9vh, 72px) 0 22px;
-      background:linear-gradient(180deg,#ffffff, #f7f8fc 70%);
+      padding:60px 0 40px;
+      background:linear-gradient(180deg,#ffffff 0%, #f8f9fc 100%);
       border-bottom:1px solid var(--line);
     }
+    .hero-content{
+      max-width:720px;
+    }
     .eyebrow{
-      font-size:.85rem;
-      letter-spacing:.08em;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      font-size:.8rem;
+      font-weight:600;
+      letter-spacing:.06em;
       text-transform:uppercase;
-      color:#6b6f86
+      color:var(--brand);
+      margin-bottom:12px;
+    }
+    .eyebrow i{
+      font-size:14px;
     }
     .headline{
       font-weight:800;
       letter-spacing:-.02em;
-      line-height:1.08;
-      font-size:clamp(28px,5.2vw,44px);
-      margin:6px 0 6px
+      line-height:1.1;
+      font-size:clamp(32px,5vw,48px);
+      margin:0 0 16px;
+      color:var(--ink);
     }
-    .lead{color:#3f4564;max-width:860px}
+    .lead{
+      color:var(--ink-2);
+      font-size:18px;
+      max-width:640px;
+      margin:0;
+    }
 
-    /* ===== Paper ===== */
-    .paper{
+    /* ===== Quick Nav ===== */
+    .quick-nav{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:28px;
+    }
+    .quick-nav a{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:10px 16px;
+      background:var(--white);
+      border:1px solid var(--line);
+      border-radius:10px;
+      font-size:14px;
+      font-weight:500;
+      color:var(--ink);
+      text-decoration:none;
+      transition:.2s ease;
+    }
+    .quick-nav a:hover{
+      border-color:var(--brand);
+      background:rgba(120,81,169,.04);
+      text-decoration:none;
+    }
+    .quick-nav a i{
+      color:var(--brand);
+      font-size:14px;
+    }
+
+    /* ===== Section Styles ===== */
+    .section{
+      padding:48px 0;
+    }
+    .section-alt{
+      background:var(--white);
+      border-top:1px solid var(--line);
+      border-bottom:1px solid var(--line);
+    }
+    .section-title{
+      font-size:clamp(24px,4vw,32px);
+      font-weight:700;
+      margin:0 0 8px;
+      color:var(--ink);
+    }
+    .section-subtitle{
+      color:var(--ink-3);
+      font-size:16px;
+      margin:0 0 32px;
+      max-width:600px;
+    }
+
+    /* ===== At a Glance Cards ===== */
+    .glance-grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:20px;
+    }
+    @media(max-width:768px){
+      .glance-grid{grid-template-columns:1fr}
+    }
+    .glance-card{
       background:var(--white);
       border:1px solid var(--line);
       border-radius:16px;
-      box-shadow:0 10px 28px rgba(16,18,37,.05);
-      padding: clamp(18px, 3vw, 28px);
+      padding:24px;
+      transition:.2s ease;
     }
-
-    /* ===== Summary cards ===== */
-    .sum-grid{
-      display:grid;
-      grid-template-columns:repeat(12,1fr);
-      grid-gap:14px
+    .glance-card:hover{
+      border-color:rgba(120,81,169,.3);
+      box-shadow:0 8px 24px rgba(0,0,0,.06);
     }
-    .sum{
-      grid-column:span 4;
-      background:#fff;
-      border:1px solid var(--line);
-      border-radius:14px;
-      padding:14px;
-      box-shadow:0 8px 24px rgba(16,18,37,.04)
+    .glance-icon{
+      width:44px;
+      height:44px;
+      border-radius:12px;
+      background:linear-gradient(135deg, rgba(120,81,169,.1), rgba(255,215,0,.1));
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      margin-bottom:16px;
     }
-    .sum h3{font-size:1rem;margin:0 0 6px}
-    .sum p{margin:0;color:var(--ink-2)}
-    @media (max-width:992px){.sum{grid-column:span 6}}
-    @media (max-width:768px){.sum{grid-column:span 12}}
-
-    /* ===== Body copy ===== */
-    .policy h2{font-size:1.35rem;font-weight:800;margin:18px 0 8px}
-    .policy h3{font-size:1.05rem;font-weight:800;margin:14px 0 6px}
-    .policy p{margin:0 0 10px;color:var(--ink-2)}
-    .policy ul{margin:0 0 12px 0;padding-left:18px}
-    .policy li{margin:6px 0;color:var(--ink-2)}
-
-    /* Table styling */
-    .policy table{
-      width:100%;
-      border-collapse:collapse;
-      margin:10px 0 18px;
-      font-size:.95rem;
+    .glance-icon i{
+      font-size:20px;
+      color:var(--brand);
     }
-    .policy th,
-    .policy td{
-      border:1px solid var(--line);
-      padding:8px 10px;
-      vertical-align:top;
-    }
-    .policy th{
-      background:#f3f4fb;
+    .glance-card h3{
+      font-size:17px;
       font-weight:700;
-      text-align:left;
+      margin:0 0 8px;
+      color:var(--ink);
+    }
+    .glance-card p{
+      font-size:14px;
+      color:var(--ink-2);
+      margin:0;
+      line-height:1.55;
     }
 
-    /* ===== Inline notice ===== */
-    .notice{
+    /* ===== Plan Comparison Table ===== */
+    .table-wrap{
+      width:100%;
+      overflow-x:auto;
+      -webkit-overflow-scrolling:touch;
+      border-radius:16px;
+      border:1px solid var(--line);
+      background:var(--white);
+    }
+    .plan-table{
+      width:100%;
+      min-width:700px;
+      border-collapse:collapse;
+      font-size:15px;
+    }
+    .plan-table thead{
+      background:linear-gradient(180deg, #f8f9fc, #f3f4f8);
+    }
+    .plan-table th{
+      padding:18px 16px;
+      text-align:left;
+      font-weight:700;
+      color:var(--ink);
+      border-bottom:2px solid var(--line);
+    }
+    .plan-table th:not(:first-child){
+      text-align:center;
+    }
+    .plan-table th.plan-header{
+      font-size:16px;
+    }
+    .plan-table th .plan-price{
+      display:block;
+      font-size:13px;
+      font-weight:500;
+      color:var(--ink-3);
+      margin-top:4px;
+    }
+    .plan-table tbody tr{
+      border-bottom:1px solid var(--line);
+      transition:.15s ease;
+    }
+    .plan-table tbody tr:last-child{
+      border-bottom:none;
+    }
+    .plan-table tbody tr:hover{
+      background:rgba(120,81,169,.02);
+    }
+    .plan-table td{
+      padding:14px 16px;
+      vertical-align:middle;
+    }
+    .plan-table td:not(:first-child){
+      text-align:center;
+    }
+    .plan-table td:first-child{
+      font-weight:500;
+      color:var(--ink);
+    }
+    .plan-table .check{
+      color:var(--success);
+      font-size:18px;
+    }
+    .plan-table .dash{
+      color:#ccc;
+    }
+    .plan-table .feature-note{
+      display:block;
+      font-size:12px;
+      color:var(--ink-3);
+      margin-top:2px;
+    }
+
+    /* ===== Plan Detail Cards ===== */
+    .plan-cards{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:24px;
+    }
+    @media(max-width:992px){
+      .plan-cards{grid-template-columns:1fr}
+    }
+    .plan-card{
+      background:var(--white);
+      border:1px solid var(--line);
+      border-radius:20px;
+      padding:28px;
+      position:relative;
+      transition:.2s ease;
+    }
+    .plan-card:hover{
+      box-shadow:0 12px 32px rgba(0,0,0,.08);
+    }
+    .plan-card.featured{
+      border-color:var(--brand);
+      box-shadow:0 8px 24px rgba(120,81,169,.15);
+    }
+    .plan-card.featured::before{
+      content:'Most Popular';
+      position:absolute;
+      top:-12px;
+      left:50%;
+      transform:translateX(-50%);
+      background:var(--brand);
+      color:#fff;
+      padding:4px 14px;
+      border-radius:20px;
+      font-size:12px;
+      font-weight:600;
+    }
+    .plan-card-header{
+      text-align:center;
+      padding-bottom:20px;
+      border-bottom:1px solid var(--line);
+      margin-bottom:20px;
+    }
+    .plan-card-name{
+      font-size:22px;
+      font-weight:700;
+      margin:0 0 6px;
+      color:var(--ink);
+    }
+    .plan-card-price{
+      font-size:36px;
+      font-weight:800;
+      color:var(--brand);
+      line-height:1;
+    }
+    .plan-card-price span{
+      font-size:16px;
+      font-weight:500;
+      color:var(--ink-3);
+    }
+    .plan-card-desc{
+      font-size:14px;
+      color:var(--ink-3);
+      margin-top:8px;
+    }
+    .plan-card h4{
+      font-size:13px;
+      font-weight:700;
+      text-transform:uppercase;
+      letter-spacing:.04em;
+      color:var(--ink-3);
+      margin:20px 0 12px;
+    }
+    .plan-card ul{
+      list-style:none;
+      padding:0;
+      margin:0;
+    }
+    .plan-card li{
       display:flex;
       align-items:flex-start;
       gap:10px;
-      background:#fff8d9;
-      border:1px solid #ffe79a;
-      color:#4a3a00;
-      border-radius:12px;
-      padding:10px 12px;
-      margin:10px 0 0
+      font-size:14px;
+      color:var(--ink-2);
+      padding:8px 0;
+      border-bottom:1px solid rgba(0,0,0,.04);
     }
-    .notice strong{color:#2a2300}
+    .plan-card li:last-child{
+      border-bottom:none;
+    }
+    .plan-card li i{
+      color:var(--success);
+      font-size:14px;
+      margin-top:3px;
+      flex-shrink:0;
+    }
+    .plan-card li.not-included i{
+      color:#ccc;
+    }
+    .plan-card li.not-included{
+      color:var(--ink-3);
+    }
+
+    /* ===== Policy Section ===== */
+    .policy-grid{
+      display:grid;
+      grid-template-columns:280px 1fr;
+      gap:40px;
+    }
+    @media(max-width:992px){
+      .policy-grid{
+        grid-template-columns:1fr;
+        gap:24px;
+      }
+    }
+    .policy-nav{
+      position:sticky;
+      top:100px;
+      align-self:start;
+    }
+    @media(max-width:992px){
+      .policy-nav{
+        position:relative;
+        top:0;
+      }
+    }
+    .policy-nav-title{
+      font-size:13px;
+      font-weight:700;
+      text-transform:uppercase;
+      letter-spacing:.06em;
+      color:var(--ink-3);
+      margin:0 0 16px;
+    }
+    .policy-nav ul{
+      list-style:none;
+      padding:0;
+      margin:0;
+    }
+    .policy-nav li{
+      margin:0;
+    }
+    .policy-nav a{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:10px 14px;
+      border-radius:10px;
+      font-size:14px;
+      font-weight:500;
+      color:var(--ink-2);
+      text-decoration:none;
+      transition:.15s ease;
+    }
+    .policy-nav a:hover{
+      background:rgba(120,81,169,.06);
+      color:var(--brand);
+      text-decoration:none;
+    }
+    .policy-nav a i{
+      width:18px;
+      text-align:center;
+      color:var(--ink-3);
+    }
+    .policy-nav a:hover i{
+      color:var(--brand);
+    }
+
+    .policy-content{
+      background:var(--white);
+      border:1px solid var(--line);
+      border-radius:20px;
+      padding:36px;
+    }
+    .policy-section{
+      padding-bottom:32px;
+      margin-bottom:32px;
+      border-bottom:1px solid var(--line);
+    }
+    .policy-section:last-child{
+      padding-bottom:0;
+      margin-bottom:0;
+      border-bottom:none;
+    }
+    .policy-section h3{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      font-size:20px;
+      font-weight:700;
+      margin:0 0 16px;
+      color:var(--ink);
+    }
+    .policy-section h3 i{
+      width:36px;
+      height:36px;
+      border-radius:10px;
+      background:linear-gradient(135deg, rgba(120,81,169,.1), rgba(255,215,0,.08));
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:16px;
+      color:var(--brand);
+    }
+    .policy-section p{
+      font-size:15px;
+      color:var(--ink-2);
+      margin:0 0 12px;
+      line-height:1.65;
+    }
+    .policy-section ul{
+      margin:12px 0;
+      padding-left:20px;
+    }
+    .policy-section li{
+      font-size:15px;
+      color:var(--ink-2);
+      margin:8px 0;
+      line-height:1.55;
+    }
+    .policy-section .policy-link{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      margin-top:8px;
+      font-size:14px;
+      font-weight:600;
+      color:var(--brand);
+    }
+    .policy-section .policy-link i{
+      font-size:12px;
+    }
+
+    /* ===== Support Tiers ===== */
+    .support-tiers{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:16px;
+      margin:16px 0;
+    }
+    @media(max-width:768px){
+      .support-tiers{grid-template-columns:1fr}
+    }
+    .support-tier{
+      background:var(--bg);
+      border-radius:12px;
+      padding:16px;
+    }
+    .support-tier strong{
+      display:block;
+      font-size:14px;
+      color:var(--ink);
+      margin-bottom:6px;
+    }
+    .support-tier span{
+      font-size:13px;
+      color:var(--ink-3);
+    }
+
+    /* ===== Quick Links ===== */
+    .quick-links{
+      background:var(--white);
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:28px;
+      margin-top:32px;
+    }
+    .quick-links h3{
+      font-size:18px;
+      font-weight:700;
+      margin:0 0 16px;
+      color:var(--ink);
+    }
+    .quick-links-grid{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:12px;
+    }
+    @media(max-width:768px){
+      .quick-links-grid{grid-template-columns:1fr}
+    }
+    .quick-link{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      padding:14px 16px;
+      background:var(--bg);
+      border-radius:12px;
+      text-decoration:none;
+      transition:.15s ease;
+    }
+    .quick-link:hover{
+      background:rgba(120,81,169,.06);
+      text-decoration:none;
+    }
+    .quick-link i{
+      width:32px;
+      height:32px;
+      border-radius:8px;
+      background:var(--white);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:var(--brand);
+      font-size:14px;
+    }
+    .quick-link span{
+      font-size:14px;
+      font-weight:500;
+      color:var(--ink);
+    }
+    .quick-link small{
+      display:block;
+      font-size:12px;
+      color:var(--ink-3);
+      font-weight:400;
+    }
+
+    /* ===== Notice Box ===== */
+    .notice{
+      display:flex;
+      align-items:flex-start;
+      gap:14px;
+      background:linear-gradient(135deg, rgba(255,215,0,.08), rgba(255,215,0,.04));
+      border:1px solid rgba(255,215,0,.3);
+      border-radius:14px;
+      padding:18px 20px;
+      margin:20px 0;
+    }
+    .notice i{
+      color:#b8860b;
+      font-size:18px;
+      margin-top:2px;
+    }
+    .notice p{
+      margin:0;
+      font-size:14px;
+      color:var(--ink-2);
+    }
+    .notice strong{
+      color:var(--ink);
+    }
 
     /* ===== Footer ===== */
-    footer{font-size:.95rem;color:#fff;background:#000}
+    footer{
+      font-size:.95rem;
+      color:#fff;
+      background:#000;
+      padding:32px 0;
+    }
     footer a{color:#fff;text-decoration:underline}
 
-
-    .table-wrap {
-    width: 100%;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
+    /* ===== Last Updated ===== */
+    .last-updated{
+      text-align:center;
+      padding:20px;
+      font-size:13px;
+      color:var(--ink-3);
     }
-
-    .table-wrap table {
-    min-width: 700px; 
-    border-collapse: collapse;
-    }
-
   </style>
 </head>
 <body>
@@ -227,428 +702,527 @@
 <!-- HERO -->
 <header class="hero">
   <div class="container container-narrow">
-    <div class="paper">
-      <div class="eyebrow">Plans, Features & Policies</div>
-      <h1 class="headline">What each WebEaze plan includes</h1>
-      <p class="lead mb-0">
-        Essential, Growth, and Elite all share the same promise: a maintained, modern website that doesn't sit still. 
-        This page explains what's included in each plan, how support works, and the key policies that keep things predictable.
+    <div class="hero-content">
+      <div class="eyebrow">
+        <i class="fas fa-book-open"></i>
+        Complete Reference Guide
+      </div>
+      <h1 class="headline">Plans, Features & Policies</h1>
+      <p class="lead">
+        Everything you need to know about WebEaze plans in one place. Compare features, understand pricing, and review the policies that keep everything clear and predictable.
       </p>
+
+      <div class="quick-nav">
+        <a href="#plans"><i class="fas fa-layer-group"></i> Compare Plans</a>
+        <a href="#plan-details"><i class="fas fa-list-check"></i> Plan Details</a>
+        <a href="#policies"><i class="fas fa-file-contract"></i> Policies</a>
+        <a href="#quick-refs"><i class="fas fa-link"></i> Quick Links</a>
+      </div>
     </div>
   </div>
 </header>
 
-<!-- SUMMARY -->
-<section class="py-4">
+<!-- AT A GLANCE -->
+<section class="section">
   <div class="container container-narrow">
-    <div class="paper">
-      <h2 class="h5 mb-2" style="font-weight:800">At a glance</h2>
-      <div class="sum-grid">
-        <div class="sum">
-          <h3>Three plans, one workflow</h3>
-          <p>Every plan uses the same Website Request hub so updates, bugs, and changes are always tracked and handled.</p>
-        </div>
-        <div class="sum">
-          <h3>Built for long-term care</h3>
-          <p>All plans include ongoing maintenance, SEO fundamentals, hosting coordination, and DNS setup.</p>
-        </div>
-        <div class="sum">
-          <h3>Clear rules & policies</h3>
-          <p>Refunds, cancellations, file access, and fees follow written policies so there are no surprises later.</p>
-        </div>
+    <h2 class="section-title">At a Glance</h2>
+    <p class="section-subtitle">Three plans designed for different stages of business growth, all built on the same reliable foundation.</p>
+
+    <div class="glance-grid">
+      <div class="glance-card">
+        <div class="glance-icon"><i class="fas fa-arrows-rotate"></i></div>
+        <h3>Same Workflow, Every Plan</h3>
+        <p>All plans use the same Website Request system. Updates, fixes, and changes are tracked and handled consistently regardless of your plan level.</p>
+      </div>
+      <div class="glance-card">
+        <div class="glance-icon"><i class="fas fa-shield-halved"></i></div>
+        <h3>Built for Long-Term Care</h3>
+        <p>Every plan includes ongoing maintenance, SEO fundamentals, mobile optimization, hosting coordination, and DNS setup. Your site stays current.</p>
+      </div>
+      <div class="glance-card">
+        <div class="glance-icon"><i class="fas fa-file-lines"></i></div>
+        <h3>Clear, Written Policies</h3>
+        <p>Refunds, cancellations, file access, and fees all follow documented policies. No surprises, no guessing, no hidden terms.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- BODY -->
-<section class="py-4">
+<!-- PLAN COMPARISON -->
+<section class="section section-alt" id="plans">
   <div class="container container-narrow">
-    <article class="paper policy">
-      <h2 id="overview">Overview</h2>
-      <p>
-        WebEaze provides subscription-based website design and ongoing maintenance plans focused on reliability, growth,
-        and long-term support for small businesses. All plans include ongoing website maintenance, SEO improvements,
-        mobile responsiveness, hosting coordination, and DNS setup. Clients also gain access to the WebEaze 
-        <a href="https://webeaze.io/website-request" target="_blank" rel="noopener">Website Request page</a> 
-        for support, billing, and requests.
-      </p>
+    <h2 class="section-title">Plan Comparison</h2>
+    <p class="section-subtitle">See exactly what's included at each level. All plans are month-to-month with no long-term contracts.</p>
 
-      <p>
-        These plans and policies are updated periodically to reflect changes in service offerings, pricing, and industry standards. Clients will be notified of significant changes via email at least 30 days before they take effect. It is always the client's responsibility to review the most current version of these plans and policies outlined on this page and under our <a href="#quick-refs">Quick Reference Links</a>.
-      </p>
-
-      <h2 id="plans">Plan comparison</h2>
-      <p>The table below compares the three main plans at a glance.</p>
-
-      <div class="table-wrap">
-        
- 
-      <table aria-label="WebEaze plan comparison">
+    <div class="table-wrap">
+      <table class="plan-table" aria-label="WebEaze plan comparison">
         <thead>
           <tr>
-            <th>Feature</th>
-            <th>Essential</th>
-            <th>Growth</th>
-            <th>Elite</th>
+            <th style="width:30%">Feature</th>
+            <th class="plan-header">
+              Essential
+              <span class="plan-price">$169/month</span>
+            </th>
+            <th class="plan-header">
+              Growth
+              <span class="plan-price">$249/month</span>
+            </th>
+            <th class="plan-header">
+              Elite
+              <span class="plan-price">Custom</span>
+            </th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <th>Monthly Price</th>
-            <td>$169/month</td>
-            <td>$249/month</td>
-            <td>Custom pricing</td>
+            <td>Included Pages</td>
+            <td>Up to 3 pages</td>
+            <td>Up to 6 pages</td>
+            <td>Unlimited (within scope)</td>
           </tr>
           <tr>
-            <th>Support Channels</th>
-            <td>Email</td>
-            <td>Email, Google Meet, Live Chat, Phone</td>
-            <td>Priority: Email, Google Meet, Live Chat, Phone</td>
-          </tr>
-          <tr>
-            <th>Included Pages</th>
-            <td>Up to 3</td>
-            <td>Up to 6</td>
-            <td>Unlimited under scope</td>
-          </tr>
-          <tr>
-            <th>Existing Website Support</th>
-            <td>Included</td>
-            <td>Included</td>
-            <td>Included</td>
-          </tr>
-          <tr>
-            <th>Domain &amp; Hosting</th>
-            <td>Setup</td>
-            <td>Setup and $50 covered</td>
-            <td>Fully covered under scope</td>
-          </tr>
-          <tr>
-            <th>SEO</th>
-            <td>Standard optimization</td>
-            <td>Advanced tools and tracking</td>
-            <td>Advanced plus monthly strategy calls</td>
-          </tr>
-          <tr>
-            <th>Google Business Profile</th>
-            <td>–</td>
-            <td>Included</td>
-            <td>Included</td>
-          </tr>
-          <tr>
-            <th>Reports</th>
-            <td>–</td>
-            <td>Bi-monthly</td>
-            <td>Monthly plus strategy review</td>
-          </tr>
-          <tr>
-            <th>Maintenance &amp; Updates</th>
-            <td>Unlimited via Website Request form</td>
-            <td>Unlimited via any support channel</td>
+            <td>Website Updates</td>
+            <td>Unlimited via form</td>
+            <td>Unlimited (any channel)</td>
             <td>Priority handling</td>
           </tr>
           <tr>
-            <th>Phone Support</th>
-            <td>–</td>
-            <td>Included</td>
-            <td>Included</td>
+            <td>Support Channels</td>
+            <td>Email only</td>
+            <td>Email, Chat, Phone, Video</td>
+            <td>Priority on all channels</td>
           </tr>
           <tr>
-            <th>Best For</th>
-            <td>Small businesses</td>
-            <td>Growing brands and businesses</td>
-            <td>Established brands and companies</td>
+            <td>Phone Support</td>
+            <td><span class="dash">-</span></td>
+            <td><i class="fas fa-check check"></i></td>
+            <td><i class="fas fa-check check"></i></td>
+          </tr>
+          <tr>
+            <td>Video Calls (Google Meet)</td>
+            <td><span class="dash">-</span></td>
+            <td><i class="fas fa-check check"></i></td>
+            <td><i class="fas fa-check check"></i></td>
+          </tr>
+          <tr>
+            <td>SEO Optimization</td>
+            <td>Standard setup</td>
+            <td>Advanced tools + tracking</td>
+            <td>Advanced + strategy calls</td>
+          </tr>
+          <tr>
+            <td>Google Business Profile</td>
+            <td><span class="dash">-</span></td>
+            <td><i class="fas fa-check check"></i></td>
+            <td><i class="fas fa-check check"></i></td>
+          </tr>
+          <tr>
+            <td>Performance Reports</td>
+            <td><span class="dash">-</span></td>
+            <td>Bi-monthly</td>
+            <td>Monthly + strategy review</td>
+          </tr>
+          <tr>
+            <td>Domain & Hosting</td>
+            <td>
+              Setup included
+              <span class="feature-note">Client pays hosting</span>
+            </td>
+            <td>
+              Setup + $50 credit
+              <span class="feature-note">Toward hosting costs</span>
+            </td>
+            <td>
+              Fully covered
+              <span class="feature-note">Within scope</span>
+            </td>
+          </tr>
+          <tr>
+            <td>Existing Site Support</td>
+            <td><i class="fas fa-check check"></i></td>
+            <td><i class="fas fa-check check"></i></td>
+            <td><i class="fas fa-check check"></i></td>
+          </tr>
+          <tr>
+            <td>Monthly Strategy Calls</td>
+            <td><span class="dash">-</span></td>
+            <td><span class="dash">-</span></td>
+            <td><i class="fas fa-check check"></i></td>
+          </tr>
+          <tr>
+            <td>Best For</td>
+            <td>Small businesses<br>getting started</td>
+            <td>Growing businesses<br>adding services</td>
+            <td>Established brands<br>with active campaigns</td>
           </tr>
         </tbody>
-    </table>
-
-      </div>
-
-    <!-- PLAN DETAILS (COLLAPSIBLE) -->
-<h2 class="mt-4" id="plan-details">Plan details</h2>
-<p>Tap or click a plan below to view everything included, what's not included, and who it's best for.</p>
-
-<div id="planAccordion">
-
-  <!-- Essential -->
-  <div class="paper mb-2">
-    <a class="d-flex justify-content-between align-items-center" 
-       data-toggle="collapse" href="#essentialCollapse" 
-       aria-expanded="false" aria-controls="essentialCollapse"
-       style="text-decoration:none;color:var(--ink);">
-      <h3 class="m-0">Essential Plan</h3>
-      <span style="font-size:1.3rem;">+</span>
-    </a>
-
-    <div id="essentialCollapse" class="collapse mt-3" data-parent="#planAccordion">
-      <p><strong>Best for:</strong> Small businesses needing a simple, steady website.</p>
-      <h4>What's included</h4>
-      <ul>
-        <li>Up to 3 total pages</li>
-        <li>Email support only</li>
-        <li>Unlimited maintenance via Website Request form</li>
-        <li>Standard SEO optimization</li>
-        <li>Hosting & DNS setup</li>
-        <li>Existing website support if migrating</li>
-      </ul>
-      <h4>What's not included</h4>
-      <ul>
-
-        <li>Google Meet, Live Chat, or Phone support</li>
-        <li>Advanced automations or large rebuilds</li>
-        <li>Monthly strategy calls</li>
-        <li>Hosting costs beyond setup</li>
-        <li>Google Business Profile setup</li>
-
-
-      </ul>
-      
+      </table>
     </div>
-  </div>
-
-  <!-- Growth -->
-  <div class="paper mb-2">
-    <a class="d-flex justify-content-between align-items-center"
-       data-toggle="collapse" href="#growthCollapse"
-       aria-expanded="false" aria-controls="growthCollapse"
-       style="text-decoration:none;color:var(--ink);">
-      <h3 class="m-0">Growth Plan</h3>
-      <span style="font-size:1.3rem;">+</span>
-    </a>
-
-    <div id="growthCollapse" class="collapse mt-3" data-parent="#planAccordion">
-      <p><strong>Best for:</strong> Growing brands adding services or pages.</p>
-      <h4>What's included</h4>
-      <ul>
-        <li>Up to 6 total pages</li>
-        <li>Email, Google Meet, Live Chat, Phone support</li>
-        <li>Unlimited updates through any channel</li>
-        <li>Advanced SEO tools & tracking</li>
-        <li>Google Business Profile setup</li>
-        <li>Hosting setup + $50 hosting credit</li>
-        <li>Bi-monthly reports</li>
-        <li>Higher priority in the queue</li>
-      </ul>
-      <h4>What's not included</h4>
-      <ul>
-        <li>Unlimited pages or constant rebuilds</li>
-        <li>Enterprise-level automation unless quoted</li>
-        <li>Monthly strategy calls</li>
-        <li>Hosting fully covered</li>
-      </ul>
-    </div>
-  </div>
-
-  <!-- Elite -->
-  <div class="paper mb-2">
-    <a class="d-flex justify-content-between align-items-center"
-       data-toggle="collapse" href="#eliteCollapse"
-       aria-expanded="false" aria-controls="eliteCollapse"
-       style="text-decoration:none;color:var(--ink);">
-      <h3 class="m-0">Elite Plan</h3>
-      <span style="font-size:1.3rem;">+</span>
-    </a>
-
-    <div id="eliteCollapse" class="collapse mt-3" data-parent="#planAccordion">
-      <p><strong>Best for:</strong> Established brands with active campaigns & strategy needs.</p>
-      <h4>What's included</h4>
-      <ul>
-        <li>Unlimited pages within scope</li>
-        <li>Priority for all requests</li>
-        <li>Email, Google Meet, Live Chat, Phone support</li>
-        <li>Advanced SEO + monthly strategy calls</li>
-        <li>Hosting fully covered</li>
-        <li>Monthly reporting & strategy sessions</li>
-      </ul>
-
-    </div>
-  </div>
-
-</div>
-
-
-      
-
-      
-
-      <!-- POLICIES (COLLAPSIBLE) -->
-<h2 class="mt-5">Policies summary</h2>
-<p>Tap or click to view the policies that apply across all plans.</p>
-
-<div id="policyAccordion">
-
-  <div class="paper mb-2">
-    <a class="d-flex justify-content-between align-items-center"
-       data-toggle="collapse" href="#policiesCollapse"
-       aria-expanded="false" aria-controls="policiesCollapse"
-       style="text-decoration:none;color:var(--ink);">
-      <h3 class="m-0">View all policies</h3>
-      <span style="font-size:1.3rem;">+</span>
-    </a>
-
-
-    <div id="policiesCollapse" class="collapse mt-3" data-parent="#policyAccordion">
-
-      
-    <p>Select a policy you'd like to view: </p>
-
-    <ul>
-      <li><a href="#refund-policy">Refund Policy</a></li>
-      <li><a href="#cancellation-policy">Cancellation Policy</a></li>
-      <li><a href="#support-policy">Support Policy</a></li>
-      <li><a href="#billing-fees">Billing & Fees</a></li>
-      <li><a href="#domain-hosting">Domain & Hosting Policy</a></li>
-      <li><a href="#addons-automation">Add-On & Automation Policy</a></li>
-      <li><a href="#credits-transfers">Credits & Transfers</a></li>
-    </ul>
-
-   
-
-      <!-- Refund Policy -->
-      <h4 id="refund-policy">Refund Policy</h4>
-      <p>
-        Payments are non-refundable once project setup begins. Refunds are not issued for
-        partial months, canceled subscriptions, or completed work. Refunds are not issued
-        if a request exceeds the original scope.
-      </p>
-      <p>Full details: 
-        <a href="https://webeaze.io/refund-policy.html" target="_blank" rel="noopener">
-          Refund Policy
-        </a>
-      </p>
-
-      <!-- Cancellation -->
-      <h4 id="cancellation-policy">Cancellation Policy</h4>
-      <p>
-        You may cancel your plan at any time. Hosting and maintenance stop immediately upon cancellation, and no refunds are provided for early cancellations. By canceling, you're also terminating our relationship.
-        
-        <p>Immediately after you cancel, you'll receive an email confirming the cancellation.</p>Files may be requested within 30 days of cancellation, and if the account is in good standing. 
-      </p>
-  
-      <p>
-        <strong>Good standing:</strong> an account active for at least 12 consecutive months.
-        Accounts active for less than 12 months may incur a fee (see the
-        <a href="https://webeaze.io/fee-schedule" target="_blank" rel="noopener">
-          Fee Schedule
-        </a>).
-      </p>
-
-      <!-- Support -->
-      <h4 id="support-policy">Support Policy</h4>
-
-      <p>
-        All plans include ongoing support for website maintenance, updates, and minor changes.
-        Support requests are handled through the 
-        <a href="https://webeaze.io/website-request" target="_blank" rel="noopener">
-          Website Request page
-        </a>.
-
-      </p>
-
-      <p>
-        Major redesigns, large automation projects, or complex projects may require a separate Scope of Work.  Out of scope requests will be quoted separately. This includes, but is not limited to: 
-        
-        <ul>
-          <li>Redesigning more than 30% of the website</li>
-          <li>Building complex automations or integrations</li>
-          <li>Custom development beyond standard CMS capabilities</li>
-          <li>Significant changes to website structure or functionality</li>
-          <li>Content creation or copywriting services (unless paid for with an add-on)</li>
-        </ul>
-
-
-      </p>
-      <p>Support varies by plan:</p>
-      <ul>
-        <li><strong>Essential:</strong> email support only.</li>
-        <li><strong>Growth:</strong> email, Google Meet, Live Chat, dedicated phone line.</li>
-        <li><strong>Elite:</strong> priority email, Google Meet, Live Chat, and dedicated phone line.</li>
-      </ul>
-      <p>Higher-tier plans receive faster priority when possible.</p>
-
-      <!-- Billing & Fees -->
-      <h4 id="billing-fees">Billing & Fees</h4>
-      <p>
-        Subscriptions are billed monthly through Stripe. Failed payments may result in suspension
-        after ~7 days unless otherwise arranged.
-      </p>
-      <p>
-        Fees follow the 
-        <a href="https://webeaze.io/fee-schedule" target="_blank" rel="noopener">
-          Fee Schedule
-        </a> 
-        and 
-        <a href="https://webeaze.io/refund-policy.html" target="_blank" rel="noopener">
-          Refund Policy
-        </a>.
-      </p>
-
-      <!-- Domain & Hosting -->
-      <h4 id="domain-hosting">Domain & Hosting Policy</h4>
-
-      <p>
-        WebEaze covers hosting and domain costs under the following conditions:
-        <ul>
-          <li>WebEaze will host the website via GitHub Pages only. </li>
-          <li>Domains must be registered through WebEaze's preferred registrar (Namecheap).</li>
-          <li>Domains are a standard domain ( .com, .net, .org). Other domain types may not be covered. </li>
-          <li>Domains must be renewed through WebEaze to remain covered.</li>
-        </ul>
-      </p>
-      <p>WebEaze handles DNS and hosting setup for all plans:</p>
-      <ul>
-        <li><strong>Essential:</strong> hosting/domain covered by WebEaze if client opts in for <a href="providers.html">standard setup</a>. Otherwise, it is paid by client; configuration done by WebEaze.</li>
-        <li><strong>Growth:</strong> hosting setup + $50 hosting credit.</li>
-        <li><strong>Elite:</strong> hosting fully covered under scope.</li>
-      </ul>
-
-      <!-- Add-Ons -->
-      <h4 id="addons-automation">Add-On & Automation Policy</h4>
-      <p>
-        Add-ons are billed separately unless included in your plan’s scope. Automation projects
-        are non-refundable once started. Large or custom automation requires a separate Scope of Work.
-      </p>
-
-      <!-- Credits & Transfers -->
-      <h4 id="credits-transfers">Credits & Transfers</h4>
-      <p>
-        Platform credits may be issued to clients who recently paid for hosting (within 2 months)
-        and can provide receipts.
-      </p>
-      <p>
-        Transfer fees are the client's responsibility unless otherwise stated in writing.
-      </p>
-
-    </div>
-  </div>
-
-</div>
-
-      <h3 id="quick-refs">Quick references</h3>
-      <ul>
-        <li>Terms of Service &amp; Privacy Policy: <a href="https://webeaze.io/terms" target="_blank" rel="noopener">https://webeaze.io/terms</a></li>
-        <li>Refund Policy: <a href="https://webeaze.io/refund-policy" target="_blank" rel="noopener">https://webeaze.io/refund-policy</a></li>
-        <li>Fee Schedule: <a href="https://webeaze.io/fee-schedule" target="_blank" rel="noopener">https://webeaze.io/fee-schedule</a></li>
-        <li>Website Request page: <a href="https://webeaze.io/website-request" target="_blank" rel="noopener">https://webeaze.io/website-request</a></li>
-        <li>Supported Providers: <a href="https://webeaze.io/providers" target="_blank" rel="noopener">https://webeaze.io/providers</a></li>
-      </ul>
-      <p class="small text-muted mb-0">Last Updated: January 13, 2026</p>
-    </article>
   </div>
 </section>
 
+<!-- PLAN DETAILS -->
+<section class="section" id="plan-details">
+  <div class="container container-narrow">
+    <h2 class="section-title">Plan Details</h2>
+    <p class="section-subtitle">A closer look at what's included in each plan and who it's designed for.</p>
+
+    <div class="plan-cards">
+
+      <!-- Essential -->
+      <div class="plan-card">
+        <div class="plan-card-header">
+          <h3 class="plan-card-name">Essential</h3>
+          <div class="plan-card-price">$169<span>/month</span></div>
+          <p class="plan-card-desc">Perfect for small businesses that need a simple, reliable website without the extras.</p>
+        </div>
+
+        <h4>What's Included</h4>
+        <ul>
+          <li><i class="fas fa-check"></i> Up to 3 website pages</li>
+          <li><i class="fas fa-check"></i> Unlimited updates via request form</li>
+          <li><i class="fas fa-check"></i> Email support</li>
+          <li><i class="fas fa-check"></i> Standard SEO optimization</li>
+          <li><i class="fas fa-check"></i> Mobile-responsive design</li>
+          <li><i class="fas fa-check"></i> Hosting and DNS setup</li>
+          <li><i class="fas fa-check"></i> Existing website migration</li>
+        </ul>
+
+        <h4>Not Included</h4>
+        <ul>
+          <li class="not-included"><i class="fas fa-minus"></i> Phone or video support</li>
+          <li class="not-included"><i class="fas fa-minus"></i> Google Business Profile setup</li>
+          <li class="not-included"><i class="fas fa-minus"></i> Performance reports</li>
+          <li class="not-included"><i class="fas fa-minus"></i> Strategy calls</li>
+          <li class="not-included"><i class="fas fa-minus"></i> Hosting costs (setup only)</li>
+        </ul>
+      </div>
+
+      <!-- Growth -->
+      <div class="plan-card featured">
+        <div class="plan-card-header">
+          <h3 class="plan-card-name">Growth</h3>
+          <div class="plan-card-price">$249<span>/month</span></div>
+          <p class="plan-card-desc">For businesses ready to expand their online presence with more pages and better support.</p>
+        </div>
+
+        <h4>What's Included</h4>
+        <ul>
+          <li><i class="fas fa-check"></i> Up to 6 website pages</li>
+          <li><i class="fas fa-check"></i> Unlimited updates (any channel)</li>
+          <li><i class="fas fa-check"></i> Email, chat, phone, and video support</li>
+          <li><i class="fas fa-check"></i> Advanced SEO with tracking</li>
+          <li><i class="fas fa-check"></i> Google Business Profile setup</li>
+          <li><i class="fas fa-check"></i> Bi-monthly performance reports</li>
+          <li><i class="fas fa-check"></i> $50 hosting credit</li>
+          <li><i class="fas fa-check"></i> Higher priority in queue</li>
+        </ul>
+
+        <h4>Not Included</h4>
+        <ul>
+          <li class="not-included"><i class="fas fa-minus"></i> Unlimited pages</li>
+          <li class="not-included"><i class="fas fa-minus"></i> Monthly strategy calls</li>
+          <li class="not-included"><i class="fas fa-minus"></i> Hosting fully covered</li>
+        </ul>
+      </div>
+
+      <!-- Elite -->
+      <div class="plan-card">
+        <div class="plan-card-header">
+          <h3 class="plan-card-name">Elite</h3>
+          <div class="plan-card-price">Custom</div>
+          <p class="plan-card-desc">White-glove service for established brands with complex needs and active marketing campaigns.</p>
+        </div>
+
+        <h4>What's Included</h4>
+        <ul>
+          <li><i class="fas fa-check"></i> Unlimited pages (within scope)</li>
+          <li><i class="fas fa-check"></i> Priority handling on all requests</li>
+          <li><i class="fas fa-check"></i> Priority support on all channels</li>
+          <li><i class="fas fa-check"></i> Advanced SEO with strategy</li>
+          <li><i class="fas fa-check"></i> Google Business Profile management</li>
+          <li><i class="fas fa-check"></i> Monthly reports + strategy review</li>
+          <li><i class="fas fa-check"></i> Monthly strategy calls</li>
+          <li><i class="fas fa-check"></i> Hosting fully covered</li>
+        </ul>
+
+        <h4>Custom Scope</h4>
+        <ul>
+          <li><i class="fas fa-info-circle" style="color:var(--brand)"></i> Pricing based on project scope</li>
+          <li><i class="fas fa-info-circle" style="color:var(--brand)"></i> <a href="contact-us.html">Contact us</a> for a custom quote</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- POLICIES -->
+<section class="section section-alt" id="policies">
+  <div class="container container-narrow">
+    <h2 class="section-title">Policies</h2>
+    <p class="section-subtitle">Clear rules that apply across all plans. No fine print, no surprises.</p>
+
+    <div class="policy-grid">
+
+      <!-- Policy Navigation -->
+      <nav class="policy-nav">
+        <p class="policy-nav-title">Jump to Policy</p>
+        <ul>
+          <li><a href="#refund-policy"><i class="fas fa-rotate-left"></i> Refund Policy</a></li>
+          <li><a href="#cancellation-policy"><i class="fas fa-circle-xmark"></i> Cancellation</a></li>
+          <li><a href="#support-policy"><i class="fas fa-headset"></i> Support Policy</a></li>
+          <li><a href="#billing-fees"><i class="fas fa-credit-card"></i> Billing & Fees</a></li>
+          <li><a href="#domain-hosting"><i class="fas fa-server"></i> Domain & Hosting</a></li>
+          <li><a href="#addons-automation"><i class="fas fa-puzzle-piece"></i> Add-Ons</a></li>
+          <li><a href="#credits-transfers"><i class="fas fa-right-left"></i> Credits & Transfers</a></li>
+        </ul>
+      </nav>
+
+      <!-- Policy Content -->
+      <div class="policy-content">
+
+        <!-- Refund Policy -->
+        <div class="policy-section" id="refund-policy">
+          <h3><i class="fas fa-rotate-left"></i> Refund Policy</h3>
+          <p>
+            Payments are non-refundable once project setup begins. This includes the initial design work,
+            configuration, and any time invested in understanding your business.
+          </p>
+          <p>Refunds are not issued for:</p>
+          <ul>
+            <li>Partial months of service</li>
+            <li>Canceled subscriptions (no prorated refunds)</li>
+            <li>Completed work, even if you change your mind</li>
+            <li>Requests that exceed the original agreed scope</li>
+          </ul>
+          <p>
+            Before you commit, we provide a free mockup so you can see exactly what you're getting.
+            If the mockup doesn't work for you, there's no obligation to proceed.
+          </p>
+          <a href="refund-policy.html" class="policy-link">
+            Read full Refund Policy <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+
+        <!-- Cancellation -->
+        <div class="policy-section" id="cancellation-policy">
+          <h3><i class="fas fa-circle-xmark"></i> Cancellation Policy</h3>
+          <p>
+            You can cancel your plan at any time. There are no cancellation fees or penalties.
+            It's month-to-month, and we believe in earning your business every month.
+          </p>
+          <p>When you cancel:</p>
+          <ul>
+            <li>Hosting and maintenance stop immediately</li>
+            <li>No refunds for the current billing period</li>
+            <li>You'll receive a confirmation email right away</li>
+            <li>Your files can be requested within 30 days (if account is in good standing)</li>
+          </ul>
+
+          <div class="notice">
+            <i class="fas fa-info-circle"></i>
+            <p>
+              <strong>Good standing</strong> means your account has been active for at least 12 consecutive months
+              with no outstanding balance. Accounts active for less than 12 months may incur a file export fee.
+              See the <a href="fee-schedule.html">Fee Schedule</a> for details.
+            </p>
+          </div>
+        </div>
+
+        <!-- Support Policy -->
+        <div class="policy-section" id="support-policy">
+          <h3><i class="fas fa-headset"></i> Support Policy</h3>
+          <p>
+            All plans include ongoing support for website maintenance, updates, and minor changes.
+            Requests are submitted through the <a href="website-request.html">Website Request page</a>
+            and handled in order of priority.
+          </p>
+
+          <div class="support-tiers">
+            <div class="support-tier">
+              <strong>Essential</strong>
+              <span>Email support only</span>
+            </div>
+            <div class="support-tier">
+              <strong>Growth</strong>
+              <span>Email, Chat, Phone, Video</span>
+            </div>
+            <div class="support-tier">
+              <strong>Elite</strong>
+              <span>Priority on all channels</span>
+            </div>
+          </div>
+
+          <p>Higher-tier plans receive faster response times when possible.</p>
+
+          <p><strong>What's considered "out of scope":</strong></p>
+          <ul>
+            <li>Redesigning more than 30% of your website</li>
+            <li>Building complex automations or integrations</li>
+            <li>Custom development beyond standard CMS capabilities</li>
+            <li>Major structural changes to site architecture</li>
+            <li>Content creation or copywriting (unless added as paid service)</li>
+          </ul>
+          <p>Out-of-scope requests are quoted separately before work begins.</p>
+        </div>
+
+        <!-- Billing & Fees -->
+        <div class="policy-section" id="billing-fees">
+          <h3><i class="fas fa-credit-card"></i> Billing & Fees</h3>
+          <p>
+            Subscriptions are billed monthly through Stripe. Your card is charged on the same date each month,
+            and you can manage your billing details through the <a href="https://billing.stripe.com/p/login/7sI3gfaO14CEdlm144">Client Portal</a>.
+          </p>
+          <p>
+            If a payment fails, we'll retry automatically. After approximately 7 days of failed payments,
+            your account may be suspended until the balance is resolved. We'll always try to contact you first.
+          </p>
+          <p>
+            Additional fees such as file export fees or late payment fees, are outlined in the
+            <a href="fee-schedule.html">Fee Schedule</a>.
+          </p>
+          <a href="fee-schedule.html" class="policy-link">
+            View Fee Schedule <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+
+        <!-- Domain & Hosting -->
+        <div class="policy-section" id="domain-hosting">
+          <h3><i class="fas fa-server"></i> Domain & Hosting Policy</h3>
+          <p>WebEaze handles DNS and hosting setup for all plans. Coverage varies by plan:</p>
+          <ul>
+            <li><strong>Essential:</strong> Setup included. Hosting costs paid by client; free if using our standard GitHub Pages setup.</li>
+            <li><strong>Growth:</strong> Setup included plus a $50 credit toward hosting costs.</li>
+            <li><strong>Elite:</strong> Hosting fully covered within the agreed scope.</li>
+          </ul>
+
+          <p>For hosting and domain costs to be covered by WebEaze:</p>
+          <ul>
+            <li>Website must be hosted via GitHub Pages (our standard setup)</li>
+            <li>Domain must be registered through Namecheap (our preferred registrar)</li>
+            <li>Domain must be a standard extension (.com, .net, .org). Premium or specialty domains may not be covered.</li>
+          </ul>
+
+          <p>
+            If you already have a domain elsewhere, we'll connect it to your new site at no extra charge.
+            You remain responsible for renewing that domain with your existing registrar.
+          </p>
+          <a href="providers.html" class="policy-link">
+            View Supported Providers <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+
+        <!-- Add-Ons -->
+        <div class="policy-section" id="addons-automation">
+          <h3><i class="fas fa-puzzle-piece"></i> Add-On & Automation Policy</h3>
+          <p>
+            Add-ons (like extra pages, booking integrations, or custom features) are billed separately
+            unless they're already included in your plan's scope.
+          </p>
+          <p>
+            Automation projects (email sequences, CRM integrations, custom workflows) require a separate
+            Scope of Work document. Once automation work begins, it is non-refundable.
+          </p>
+          <p>
+            We'll always discuss pricing and scope before starting any add-on or automation work.
+            No surprise charges.
+          </p>
+        </div>
+
+        <!-- Credits & Transfers -->
+        <div class="policy-section" id="credits-transfers">
+          <h3><i class="fas fa-right-left"></i> Credits & Transfers</h3>
+          <p>
+            <strong>Platform Credits:</strong> If you recently paid for hosting elsewhere (within the past 2 months)
+            and can provide receipts, we may issue a credit toward your WebEaze subscription.
+          </p>
+          <p>
+            <strong>Site Transfers:</strong> If you're transferring a site from another provider,
+            any transfer fees charged by that provider are your responsibility unless we specifically agree
+            to cover them in writing.
+          </p>
+          <p>
+            <strong>File Exports:</strong> When you cancel, you can request your website files within 30 days.
+            If your account is in good standing (12+ months active), there's no fee. Otherwise,
+            see the <a href="fee-schedule.html">Fee Schedule</a>.
+          </p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Quick Links -->
+    <div class="quick-links" id="quick-refs">
+      <h3><i class="fas fa-link" style="margin-right:10px; color:var(--brand);"></i> Quick Reference Links</h3>
+      <div class="quick-links-grid">
+        <a href="terms.html" class="quick-link">
+          <i class="fas fa-file-contract"></i>
+          <div>
+            <span>Terms of Service & Privacy</span>
+            <small>Legal terms and data handling</small>
+          </div>
+        </a>
+        <a href="refund-policy.html" class="quick-link">
+          <i class="fas fa-rotate-left"></i>
+          <div>
+            <span>Refund Policy</span>
+            <small>Full refund policy details</small>
+          </div>
+        </a>
+        <a href="fee-schedule.html" class="quick-link">
+          <i class="fas fa-receipt"></i>
+          <div>
+            <span>Fee Schedule</span>
+            <small>All possible fees explained</small>
+          </div>
+        </a>
+        <a href="website-request.html" class="quick-link">
+          <i class="fas fa-paper-plane"></i>
+          <div>
+            <span>Website Request Page</span>
+            <small>Submit updates and requests</small>
+          </div>
+        </a>
+        <a href="providers.html" class="quick-link">
+          <i class="fas fa-plug"></i>
+          <div>
+            <span>Supported Providers</span>
+            <small>Platforms we work with</small>
+          </div>
+        </a>
+        <a href="contact-us.html" class="quick-link">
+          <i class="fas fa-envelope"></i>
+          <div>
+            <span>Contact Us</span>
+            <small>Questions? Get in touch</small>
+          </div>
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- LAST UPDATED -->
+<div class="last-updated">
+  <p>
+    <i class="fas fa-clock" style="margin-right:6px;"></i>
+    Last updated: January 13, 2026. Policies may be updated periodically.
+    Clients are notified of significant changes at least 30 days in advance.
+  </p>
+</div>
+
 <!-- FOOTER -->
-<footer class="py-4 text-center">
-  
+<footer class="text-center">
   <div class="container container-narrow">
     <div class="mb-1">&copy; <span id="yr"></span> WebEaze. All rights reserved.</div>
     <div class="mb-2 small">
-      <a href="terms.html#privacy" style="color:#fff">Privacy Policy</a> ·
-      <a href="terms.html" style="color:#fff">Terms</a> ·
-      <a href="site-map.html" style="color:#fff">Site Map</a>
+      <a href="terms.html#privacy">Privacy Policy</a> &middot;
+      <a href="terms.html">Terms</a> &middot;
+      <a href="site-map.html">Site Map</a>
     </div>
-    <div class="small">Made with ☕ in Delaware, USA</div>
+    <div class="small" style="opacity:.7;">Made with ❤️ in Delaware, USA</div>
   </div>
 </footer>
 
@@ -657,5 +1231,28 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<!-- Smooth scroll highlight -->
+<script>
+(function(){
+  // Highlight policy section when navigating from anchor
+  const hash = window.location.hash;
+  if(hash && hash.startsWith('#')){
+    const target = document.querySelector(hash);
+    if(target && target.closest('.policy-section')){
+      target.closest('.policy-section').style.background = 'rgba(120,81,169,.04)';
+      target.closest('.policy-section').style.borderRadius = '12px';
+      target.closest('.policy-section').style.padding = '20px';
+      target.closest('.policy-section').style.margin = '-20px';
+      target.closest('.policy-section').style.marginBottom = '32px';
+      setTimeout(()=>{
+        target.closest('.policy-section').style.transition = 'background .5s ease';
+        target.closest('.policy-section').style.background = 'transparent';
+      }, 2000);
+    }
+  }
+})();
+</script>
+
 </body>
 </html>
