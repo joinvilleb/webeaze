@@ -3,21 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Contact WebEaze | Get Your Website Started</title>
-  <meta name="description" content="Ready for a website that works as hard as you do? Let's talk. Free mockups, no commitments." />
+  <title>Contact WebEaze</title>
+  <meta name="description" content="Talk to a real person. Use the form, email, or our Help Center. We reply fast." />
   <link rel="canonical" href="https://www.webeaze.io/contact-us.html" />
 
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="WebEaze" />
-  <meta property="og:title" content="Contact WebEaze | Get Your Website Started" />
-  <meta property="og:description" content="Ready for a website that works as hard as you do? Let's talk." />
+  <meta property="og:title" content="Contact WebEaze" />
+  <meta property="og:description" content="Talk to a real person. We reply fast." />
   <meta property="og:url" content="https://www.webeaze.io/contact-us" />
   <meta property="og:image" content="https://webeaze.io/images/default-monochrome.png" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
   <link rel="shortcut icon" href="images/webeaze-transparent copy.png" type="image/png" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
@@ -25,13 +25,15 @@
   <style>
     :root {
       --gold: #ffd700;
-      --gold-dim: rgba(255, 215, 0, 0.12);
+      --gold-dim: rgba(255, 215, 0, 0.15);
       --ink: #ffffff;
       --ink-2: #a0a6c0;
       --muted: #6b7280;
-      --bg: #050509;
-      --bg-card: #0c0c14;
+      --bg: #0a0b14;
+      --bg-card: #12141f;
+      --bg-card-hover: #1a1d2e;
       --line: rgba(255, 255, 255, 0.08);
+      --line-gold: rgba(255, 215, 0, 0.25);
     }
 
     html, body { height: 100%; overflow-x: hidden }
@@ -48,87 +50,358 @@
 
     /* Nav */
     .nav-wrap {
-      position: fixed;
+      position: sticky;
+      top: 0;
+      z-index: 9999;
+      background: rgba(10, 11, 20, 0.92);
+      backdrop-filter: saturate(130%) blur(12px);
+      -webkit-backdrop-filter: saturate(130%) blur(12px);
+      border-bottom: 1px solid var(--line);
+    }
+    .webeaze-nav { background: transparent !important; box-shadow: none !important; padding: .6rem 0; transition: padding .18s ease }
+    .scrolled .webeaze-nav { padding: .45rem 0 }
+    .brand-word { letter-spacing: -.3px; font-weight: 700; background: linear-gradient(90deg, #e8e7ea, #66615f); -webkit-background-clip: text; -webkit-text-fill-color: transparent }
+    .navbar-dark .nav-link { color: #fff !important; opacity: .85; border-radius: 10px; padding: .45rem .7rem }
+    .navbar-dark .nav-link:hover { opacity: 1; background: rgba(255, 255, 255, .08) }
+    .btn-nav { background: var(--gold); color: #2f1e66; border: none; border-radius: 12px; padding: .6rem .9rem; font-weight: 700; box-shadow: 0 8px 22px rgba(255, 215, 0, .22) }
+
+    /* Hero */
+    .hero {
+      position: relative;
+      padding: clamp(80px, 14vh, 120px) 0 clamp(60px, 10vh, 80px);
+      background: linear-gradient(180deg, #0a0b14 0%, #0f1019 100%);
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -200px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 800px;
+      background: radial-gradient(circle, rgba(255, 215, 0, 0.08) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: -100px;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(120, 81, 169, 0.12) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 16px;
+    }
+    .kicker i { font-size: 0.75rem }
+
+    .headline {
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+      margin-bottom: 20px;
+    }
+    .headline span {
+      background: linear-gradient(135deg, var(--gold) 0%, #ffea80 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .sub {
+      font-size: 1.15rem;
+      color: var(--ink-2);
+      max-width: 520px;
+      line-height: 1.6;
+    }
+
+    /* Contact Cards */
+    .contact-options {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin-top: 40px;
+    }
+    @media (max-width: 768px) {
+      .contact-options { grid-template-columns: 1fr }
+    }
+
+    .contact-card {
+      background: var(--bg-card);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 28px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .contact-card::before {
+      content: '';
+      position: absolute;
       top: 0;
       left: 0;
       right: 0;
-      z-index: 9999;
-      background: rgba(5, 5, 9, 0.85);
-      backdrop-filter: saturate(130%) blur(14px);
-      -webkit-backdrop-filter: saturate(130%) blur(14px);
-      border-bottom: 1px solid var(--line);
-      transition: background 0.3s ease;
+      height: 3px;
+      background: linear-gradient(90deg, var(--gold), transparent);
+      opacity: 0;
+      transition: opacity 0.3s ease;
     }
-    .webeaze-nav { background: transparent !important; box-shadow: none !important; padding: .6rem 0 }
-    .brand-word { letter-spacing: -.3px; font-weight: 700; color: #fff }
-    .navbar-dark .nav-link { color: #fff !important; opacity: .85; border-radius: 10px; padding: .45rem .7rem }
-    .navbar-dark .nav-link:hover { opacity: 1; background: rgba(255, 255, 255, .08) }
-    .btn-nav { background: var(--gold); color: #2f1e66; border: none; border-radius: 12px; padding: .55rem .85rem; font-weight: 700; font-size: 0.9rem }
+    .contact-card:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--line-gold);
+      transform: translateY(-4px);
+    }
+    .contact-card:hover::before { opacity: 1 }
 
-    /* Hero with Image */
-    .hero {
-      position: relative;
-      min-height: 70vh;
+    .contact-card .icon-wrap {
+      width: 56px;
+      height: 56px;
+      background: var(--gold-dim);
+      border-radius: 14px;
       display: flex;
       align-items: center;
       justify-content: center;
-      text-align: center;
-      padding: 140px 20px 80px;
-      background:
-        linear-gradient(180deg, rgba(5,5,9,0.4) 0%, rgba(5,5,9,0.75) 50%, rgba(5,5,9,1) 100%),
-        url('images/women-small-business.png') center/cover no-repeat;
-    }
-
-    .hero-content {
-      position: relative;
-      z-index: 2;
-      max-width: 700px;
-    }
-
-    .hero h1 {
-      font-size: clamp(2.5rem, 7vw, 4rem);
-      font-weight: 800;
-      letter-spacing: -0.03em;
-      line-height: 1.1;
       margin-bottom: 20px;
     }
-    .hero h1 .gold {
-      background: linear-gradient(135deg, var(--gold), #ffea80);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+    .contact-card .icon-wrap i {
+      font-size: 1.4rem;
+      color: var(--gold);
+    }
+    .contact-card h3 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin: 0 0 8px;
+    }
+    .contact-card p {
+      color: var(--ink-2);
+      margin: 0 0 16px;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+    .contact-card .link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--gold);
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: gap 0.2s ease;
+    }
+    .contact-card:hover .link { gap: 12px }
+
+    /* Info Panel */
+    .info-panel {
+      background: var(--bg-card);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 32px;
+      height: fit-content;
+    }
+    .info-item {
+      padding: 20px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .info-item:first-child { padding-top: 0 }
+    .info-item:last-child { border-bottom: none; padding-bottom: 0 }
+    .info-item .label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+    .info-item .value {
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+    .info-item .value.highlight {
+      color: var(--gold);
     }
 
-    .hero p {
-      font-size: clamp(1.1rem, 2.5vw, 1.35rem);
-      color: rgba(255,255,255,0.85);
-      max-width: 540px;
-      margin: 0 auto 32px;
-      line-height: 1.55;
+    /* Form Section */
+    .form-section {
+      padding: clamp(60px, 10vh, 100px) 0;
+      background: linear-gradient(180deg, #0f1019 0%, #0a0b14 100%);
+    }
+    .form-wrapper {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 48px;
+      align-items: start;
+    }
+    @media (max-width: 992px) {
+      .form-wrapper { grid-template-columns: 1fr; gap: 32px }
     }
 
-    .hero-cta {
+    .form-card {
+      background: var(--bg-card);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 40px;
+      position: relative;
+    }
+    .form-card::before {
+      content: '';
+      position: absolute;
+      top: -1px;
+      left: 40px;
+      right: 40px;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      border-radius: 0 0 4px 4px;
+    }
+
+    .form-header {
+      margin-bottom: 32px;
+    }
+    .form-header h2 {
+      font-size: 1.75rem;
+      font-weight: 800;
+      margin: 0 0 8px;
+    }
+    .form-header p {
+      color: var(--ink-2);
+      margin: 0;
+    }
+
+    /* FAQ Section */
+    .faq-section {
+      padding: clamp(60px, 10vh, 100px) 0;
+      background: var(--bg);
+    }
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+    .section-header h2 {
+      font-size: clamp(1.75rem, 4vw, 2.25rem);
+      font-weight: 800;
+      margin: 0 0 12px;
+    }
+    .section-header p {
+      color: var(--ink-2);
+      font-size: 1.1rem;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    .faq-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    @media (max-width: 992px) {
+      .faq-grid { grid-template-columns: repeat(2, 1fr) }
+    }
+    @media (max-width: 600px) {
+      .faq-grid { grid-template-columns: 1fr }
+    }
+
+    .faq-card {
+      background: var(--bg-card);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 24px;
+      transition: all 0.3s ease;
+    }
+    .faq-card:hover {
+      border-color: var(--line-gold);
+      transform: translateY(-2px);
+    }
+    .faq-card h4 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin: 0 0 12px;
       display: flex;
-      gap: 16px;
-      justify-content: center;
-      flex-wrap: wrap;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .faq-card h4 i {
+      color: var(--gold);
+      font-size: 0.85rem;
+      margin-top: 4px;
+    }
+    .faq-card p {
+      color: var(--ink-2);
+      font-size: 0.9rem;
+      margin: 0;
+      line-height: 1.6;
+    }
+    .faq-card a {
+      color: var(--gold);
+      text-decoration: underline;
+    }
+
+    /* CTA Section */
+    .cta-section {
+      padding: clamp(60px, 10vh, 100px) 0;
+      background: linear-gradient(180deg, var(--bg) 0%, #0f1019 100%);
+    }
+    .cta-card {
+      background: linear-gradient(135deg, #1a1d2e 0%, #12141f 100%);
+      border: 1px solid var(--line-gold);
+      border-radius: 28px;
+      padding: clamp(40px, 6vw, 64px);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(255, 215, 0, 0.08) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .cta-card h3 {
+      font-size: clamp(1.5rem, 4vw, 2rem);
+      font-weight: 800;
+      margin: 0 0 12px;
+      position: relative;
+    }
+    .cta-card p {
+      color: var(--ink-2);
+      font-size: 1.05rem;
+      max-width: 400px;
+      margin: 0 auto 28px;
+      position: relative;
     }
 
     /* Buttons */
-    .btn-gold {
+    .btn-brand {
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 10px;
       background: var(--gold);
       color: #1a1a2e;
       border: none;
       border-radius: 14px;
-      padding: 16px 32px;
+      padding: 16px 28px;
       font-weight: 700;
       font-size: 1rem;
       box-shadow: 0 12px 32px rgba(255, 215, 0, 0.25);
       transition: all 0.2s ease;
+      position: relative;
     }
-    .btn-gold:hover {
+    .btn-brand:hover {
       background: #ffea80;
       transform: translateY(-2px);
       box-shadow: 0 16px 40px rgba(255, 215, 0, 0.35);
@@ -139,14 +412,15 @@
     .btn-outline {
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 8px;
       background: transparent;
       color: #fff;
-      border: 2px solid rgba(255,255,255,0.25);
+      border: 2px solid var(--line);
       border-radius: 14px;
-      padding: 14px 28px;
+      padding: 14px 24px;
       font-weight: 600;
-      font-size: 1rem;
+      font-size: 0.95rem;
       transition: all 0.2s ease;
     }
     .btn-outline:hover {
@@ -155,223 +429,30 @@
       text-decoration: none;
     }
 
-    /* Trust Strip */
-    .trust-strip {
-      padding: 48px 0;
-      background: var(--bg);
-      border-bottom: 1px solid var(--line);
-    }
-    .trust-row {
-      display: flex;
-      justify-content: center;
-      gap: clamp(32px, 6vw, 64px);
-      flex-wrap: wrap;
-    }
-    .trust-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-size: 0.95rem;
-      color: rgba(255,255,255,0.75);
-    }
-    .trust-item i {
-      color: var(--gold);
-      font-size: 1.1rem;
-    }
-
-    /* Two Column Section */
-    .two-col {
-      padding: clamp(60px, 10vh, 100px) 0;
-      background: var(--bg);
-    }
-    .two-col-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 48px;
-      align-items: start;
-    }
-    @media (max-width: 900px) {
-      .two-col-grid { grid-template-columns: 1fr; gap: 40px }
-    }
-
-    /* Form Card */
-    .form-card {
-      background: var(--bg-card);
-      border: 1px solid var(--line);
-      border-radius: 24px;
-      padding: clamp(28px, 5vw, 40px);
-    }
-    .form-card h2 {
-      font-size: 1.5rem;
-      font-weight: 700;
-      margin: 0 0 8px;
-    }
-    .form-card .sub {
-      color: var(--ink-2);
-      font-size: 0.95rem;
-      margin-bottom: 24px;
-    }
-
-    /* Why Section */
-    .why-card {
-      padding: clamp(28px, 5vw, 40px);
-    }
-    .why-card h2 {
-      font-size: 1.5rem;
-      font-weight: 700;
-      margin: 0 0 24px;
-    }
-
-    .why-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-    .why-list li {
-      display: flex;
-      align-items: flex-start;
-      gap: 14px;
-      padding: 18px 0;
-      border-bottom: 1px solid var(--line);
-    }
-    .why-list li:last-child { border-bottom: none }
-    .why-list .icon {
-      width: 40px;
-      height: 40px;
-      background: var(--gold-dim);
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-    .why-list .icon i {
-      color: var(--gold);
-      font-size: 1rem;
-    }
-    .why-list h4 {
-      font-size: 1rem;
-      font-weight: 600;
-      margin: 0 0 4px;
-    }
-    .why-list p {
-      color: var(--ink-2);
-      font-size: 0.9rem;
-      margin: 0;
-      line-height: 1.5;
-    }
-
-    /* Contact Options */
-    .options-section {
-      padding: clamp(40px, 8vh, 80px) 0;
-      background: linear-gradient(180deg, var(--bg) 0%, #0a0b12 100%);
-    }
-    .options-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-    }
-    @media (max-width: 768px) {
-      .options-grid { grid-template-columns: 1fr }
-    }
-
-    .option-card {
-      background: var(--bg-card);
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      padding: 28px;
-      text-align: center;
-      transition: all 0.25s ease;
-    }
-    .option-card:hover {
-      border-color: rgba(255,215,0,0.3);
-      transform: translateY(-4px);
-    }
-    .option-card .icon {
-      width: 56px;
-      height: 56px;
-      background: var(--gold-dim);
-      border-radius: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 18px;
-    }
-    .option-card .icon i {
-      color: var(--gold);
-      font-size: 1.4rem;
-    }
-    .option-card h3 {
-      font-size: 1.1rem;
-      font-weight: 700;
-      margin: 0 0 8px;
-    }
-    .option-card p {
-      color: var(--ink-2);
-      font-size: 0.9rem;
-      margin: 0 0 16px;
-      line-height: 1.5;
-    }
-    .option-card .link {
-      color: var(--gold);
-      font-weight: 600;
-      font-size: 0.9rem;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .option-card:hover .link { text-decoration: underline }
-
-    /* Final CTA */
-    .final-cta {
-      padding: clamp(60px, 10vh, 100px) 0;
-      background: var(--bg);
-    }
-    .cta-box {
-      background:
-        linear-gradient(135deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.5) 100%),
-        url('images/men-small-business.jpg') center/cover no-repeat;
-      border: 1px solid var(--line);
-      border-radius: 24px;
-      padding: clamp(40px, 6vw, 64px);
-      text-align: center;
-    }
-    .cta-box h3 {
-      font-size: clamp(1.5rem, 4vw, 2rem);
-      font-weight: 800;
-      margin: 0 0 12px;
-    }
-    .cta-box p {
-      color: rgba(255,255,255,0.8);
-      font-size: 1.05rem;
-      max-width: 420px;
-      margin: 0 auto 28px;
-    }
-
     /* Animations */
     .reveal {
       opacity: 0;
-      transform: translateY(18px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
     }
     .reveal.in {
       opacity: 1;
       transform: translateY(0);
     }
-    .d1 { transition-delay: 0.1s }
-    .d2 { transition-delay: 0.2s }
-    .d3 { transition-delay: 0.3s }
+    .reveal-delay-1 { transition-delay: 0.1s }
+    .reveal-delay-2 { transition-delay: 0.2s }
+    .reveal-delay-3 { transition-delay: 0.3s }
 
     /* Footer */
     footer {
       background: #000;
-      padding: 36px 0;
+      padding: 40px 0;
       text-align: center;
       border-top: 1px solid var(--line);
     }
-    footer a { color: rgba(255,255,255,0.7); transition: color 0.2s }
+    footer a { color: rgba(255, 255, 255, 0.7); transition: color 0.2s }
     footer a:hover { color: var(--gold) }
-    .footer-links { margin: 10px 0 }
+    .footer-links { margin: 12px 0 }
     .footer-links a { margin: 0 12px }
   </style>
 </head>
@@ -396,7 +477,7 @@
           <li class="nav-item"><a class="nav-link" href="faq.html">FAQ</a></li>
           <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
           <li class="nav-item"><a class="nav-link" href="contact-us.html">Contact</a></li>
-          <li class="nav-item ml-1"><a class="btn btn-sm btn-nav" href="consultation.html">Free Mockup</a></li>
+          <li class="nav-item ml-1"><a class="btn btn-sm btn-nav" href="consultation.html">Request Free Mockup</a></li>
         </ul>
       </div>
     </nav>
@@ -405,134 +486,132 @@
 
 <!-- HERO -->
 <header class="hero">
-  <div class="hero-content">
-    <h1 class="reveal">Your customers are <span class="gold">searching</span>.</h1>
-    <p class="reveal d1">A professional website helps them find you. Let's make sure they do.</p>
-    <div class="hero-cta reveal d2">
-      <a href="consultation.html" class="btn-gold">
-        Get a Free Mockup <i class="fas fa-arrow-right"></i>
-      </a>
-      <a href="#form" class="btn-outline">
-        Send a Message
-      </a>
+  <div class="container container-narrow">
+    <div class="row align-items-center">
+      <div class="col-lg-7">
+        <div class="kicker reveal"><i class="fas fa-paper-plane"></i> Get In Touch</div>
+        <h1 class="headline reveal reveal-delay-1">
+          Let's <span>talk</span>.
+        </h1>
+        <p class="sub reveal reveal-delay-2">
+          Have a question or ready to start a website? We're here to help. Reach out through any channel below.
+        </p>
+
+        <div class="contact-options">
+          <a href="help.html" class="contact-card reveal reveal-delay-2">
+            <div class="icon-wrap"><i class="fas fa-book-open"></i></div>
+            <h3>Help Center</h3>
+            <span class="link">Visit Help Center <i class="fas fa-arrow-right"></i></span>
+          </a>
+
+          <a href="https://webeaze.io/website-request" class="contact-card reveal reveal-delay-3">
+            <div class="icon-wrap"><i class="fas fa-user"></i></div>
+            <h3>Current Clients</h3>
+            
+            <span class="link">Submit Request <i class="fas fa-arrow-right"></i></span>
+          </a>
+        </div>
+
+        <div class="mt-4 reveal reveal-delay-3">
+          <a href="#form" class="btn-brand">
+            <i class="fas fa-envelope"></i> Send Us a Message
+          </a>
+        </div>
+      </div>
+
+      <div class="col-lg-5 mt-5 mt-lg-0">
+        <div class="info-panel reveal reveal-delay-2">
+          <div class="info-item">
+            <div class="label">Response Time</div>
+            <div class="value highlight">1-2 working days</div>
+          </div>
+          
+          <div class="info-item">
+            <div class="label">Prefer a Call?</div>
+            <div class="value" style="font-size: 0.95rem; font-weight: 400; color: var(--ink-2);">
+              Let us know in your message and we'll find the best way to connect.
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </header>
 
-<!-- TRUST STRIP -->
-<div class="trust-strip">
+<!-- FORM SECTION -->
+<section id="form" class="form-section">
   <div class="container container-narrow">
-    <div class="trust-row reveal">
-      <div class="trust-item">
-        <i class="fas fa-check-circle"></i>
-        <span>Free mockup, no commitment</span>
-      </div>
-      <div class="trust-item">
-        <i class="fas fa-check-circle"></i>
-        <span>Built for small businesses</span>
-      </div>
-      <div class="trust-item">
-        <i class="fas fa-check-circle"></i>
-        <span>One simple monthly price</span>
-      </div>
-      <div class="trust-item">
-        <i class="fas fa-check-circle"></i>
-        <span>Cancel anytime</span>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- FORM + WHY -->
-<section id="form" class="two-col">
-  <div class="container container-narrow">
-    <div class="two-col-grid">
-
+    <div class="form-wrapper">
       <div class="form-card reveal">
-        <h2>Tell us about your business</h2>
-        <p class="sub">We'll reach out within 1-2 business days.</p>
+        <div class="form-header">
+          <h2>Send a Message</h2>
+          <p>Include your domain name if you have one. We'll get back to you promptly.</p>
+        </div>
         <div>
           <script src="https://js-na2.hsforms.net/forms/embed/242171361.js" defer></script>
           <div class="hs-form-frame" data-region="na2" data-form-id="f25ce804-4669-4dc2-b582-35b9ef34a9be" data-portal-id="242171361"></div>
         </div>
       </div>
 
-      <div class="why-card reveal d1">
-        <h2>Why small businesses choose us</h2>
-        <ul class="why-list">
-          <li>
-            <div class="icon"><i class="fas fa-dollar-sign"></i></div>
-            <div>
-              <h4>Predictable pricing</h4>
-              <p>No hourly rates. No surprise invoices. One flat monthly fee covers everything.</p>
-            </div>
-          </li>
-          <li>
-            <div class="icon"><i class="fas fa-sync"></i></div>
-            <div>
-              <h4>Updates included</h4>
-              <p>Need a change? Just ask. We handle text updates, new pages, and design tweaks.</p>
-            </div>
-          </li>
-          <li>
-            <div class="icon"><i class="fas fa-headset"></i></div>
-            <div>
-              <h4>Real support</h4>
-              <p>Talk to actual people who know your site. No tickets lost in a queue.</p>
-            </div>
-          </li>
-          <li>
-            <div class="icon"><i class="fas fa-rocket"></i></div>
-            <div>
-              <h4>Fast turnaround</h4>
-              <p>Most requests completed same-day. Your business moves fast. So do we.</p>
-            </div>
-          </li>
-        </ul>
+      <div class="info-panel reveal reveal-delay-1">
+        <div class="info-item">
+          <div class="label">For New Websites</div>
+          <div class="value" style="font-size: 0.95rem; font-weight: 400; color: var(--ink-2);">
+            Use the contact form or <a href="consultation.html" style="color: var(--gold);">schedule a free mockup call</a> to discuss your website needs.
+          </div>
+        </div>
+        <div class="info-item">
+          <div class="label">For Existing Clients</div>
+          <div class="value" style="font-size: 0.95rem; font-weight: 400; color: var(--ink-2);">
+            Use the <a href="https://webeaze.io/website-request" style="color: var(--gold);">Website Request form</a> so your changes go directly to our queue.
+          </div>
+        </div>
+        <div class="info-item">
+          <div class="label">Urgent Issues?</div>
+          <div class="value" style="font-size: 0.95rem; font-weight: 400; color: var(--ink-2);">
+            Mark your request as urgent or check our <a href="emergency.html" style="color: var(--gold);">emergency assistance</a> page.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-section">
+  <div class="container container-narrow">
+    <div class="section-header reveal">
+      <h2>Quick Answers</h2>
+      <p>Common questions about getting in touch with us.</p>
+    </div>
+
+    <div class="faq-grid">
+      <div class="faq-card reveal">
+        <h4><i class="fas fa-clock"></i> How fast do you respond?</h4>
+        <p>Typically same-day on weekdays. During peak times, responses may take 3-5 working days.</p>
       </div>
 
+      <div class="faq-card reveal reveal-delay-1">
+        <h4><i class="fas fa-phone"></i> Do you offer phone support?</h4>
+        <p>Yes, for active clients. New inquiries can <a href="consultation.html">schedule a free mockup call</a> to discuss your website needs.</p>
+      </div>
+
+      <div class="faq-card reveal reveal-delay-2">
+        <h4><i class="fas fa-edit"></i> How do I request changes?</h4>
+        <p>Use the <a href="https://webeaze.io/website-request">Website Request form</a> so your request enters our tracked queue directly.</p>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- CONTACT OPTIONS -->
-<section class="options-section">
+<!-- CTA -->
+<section class="cta-section">
   <div class="container container-narrow">
-    <div class="options-grid">
-
-      <a href="consultation.html" class="option-card reveal">
-        <div class="icon"><i class="fas fa-calendar-check"></i></div>
-        <h3>Schedule a Call</h3>
-        <p>Book a free 15-minute call to discuss your website needs.</p>
-        <span class="link">Book now <i class="fas fa-arrow-right"></i></span>
-      </a>
-
-      <a href="help.html" class="option-card reveal d1">
-        <div class="icon"><i class="fas fa-book-open"></i></div>
-        <h3>Help Center</h3>
-        <p>Browse guides and answers for common questions.</p>
-        <span class="link">Visit Help Center <i class="fas fa-arrow-right"></i></span>
-      </a>
-
-      <a href="https://webeaze.io/website-request" class="option-card reveal d2">
-        <div class="icon"><i class="fas fa-edit"></i></div>
-        <h3>Current Clients</h3>
-        <p>Submit a website change request through your portal.</p>
-        <span class="link">Submit request <i class="fas fa-arrow-right"></i></span>
-      </a>
-
-    </div>
-  </div>
-</section>
-
-<!-- FINAL CTA -->
-<section class="final-cta">
-  <div class="container container-narrow">
-    <div class="cta-box reveal">
-      <h3>Ready to get started?</h3>
-      <p>See what your new website could look like. Free mockup, no strings attached.</p>
-      <a href="consultation.html" class="btn-gold">
-        Request Your Free Mockup <i class="fas fa-arrow-right"></i>
+    <div class="cta-card reveal">
+      <h3>Ready to see your website come to life?</h3>
+      <p>Get a free custom mockup designed for your business. No commitment required.</p>
+      <a href="consultation.html" class="btn-brand">
+        <i class="fas fa-magic"></i> Request Free Mockup
       </a>
     </div>
   </div>
@@ -557,6 +636,17 @@
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script>
+  // Nav shrink on scroll
+  (function() {
+    var wrap = document.querySelector('.nav-wrap');
+    if (!wrap) return;
+    function onScr() {
+      wrap.classList.toggle('scrolled', window.scrollY > 8);
+    }
+    window.addEventListener('scroll', onScr, { passive: true });
+    onScr();
+  })();
+
   // Reveal animations
   (function() {
     var els = [].slice.call(document.querySelectorAll('.reveal'));
