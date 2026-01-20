@@ -244,7 +244,7 @@
       </div>
       <div class="comparison-item highlight">
         <h4>WebEaze Subscription</h4>
-        <div class="price">$169<span>/month</span></div>
+        <div class="price">$<span class="dynamic-price">169</span><span>/month</span></div>
         <p>No upfront costs. Unlimited updates, ongoing support, and someone who knows your business.</p>
       </div>
       <div class="comparison-item">
@@ -267,7 +267,7 @@
       <div class="card-dark card-accent">
         <h5><strong>
             <i class="fas fa-gift"></i> Option 1: First Month Free</strong></h5>
-        <p style="margin-bottom:12px">Start your subscription today and get your first month completely free—a $169 value!</p>
+        <p style="margin-bottom:12px">Start your subscription today and get your first month completely free—a $<span class="dynamic-price">169</span> value!</p>
         <p style="color:var(--gold);font-size:.9rem;margin:0">Perfect if you want to try it risk-free</p>
       </div>
       <div class="card-dark card-accent">
@@ -307,7 +307,7 @@
         <h5><strong>
             <i class="fas fa-clock"></i>
             Hourly Plan Available</strong></h5>
-        <p style="margin:0;color:#666">You can switch to our Essential - Hourly plan at $40/hour for website requests. Keep in mind that basic monthly maintenance often costs more than the $169 subscription. It also doesn't include domain and hosting coverage. </p>
+        <p style="margin:0;color:#666">You can switch to our Essential - Hourly plan at $40/hour for website requests. Keep in mind that basic monthly maintenance often costs more than the $<span class="dynamic-price">169</span> subscription. It also doesn't include domain and hosting coverage. </p>
       </div>
     </div>
   </div>
@@ -343,6 +343,19 @@
 
 <script>
   document.getElementById('yr').textContent = new Date().getFullYear();
+
+  // Dynamic pricing based on URL hash (e.g., switch.html#99 or switch.html#169)
+  (function() {
+    var hash = window.location.hash.replace('#', '');
+    // Only update if hash is a valid number
+    if (hash && !isNaN(hash) && parseInt(hash) > 0) {
+      var price = parseInt(hash);
+      var priceElements = document.querySelectorAll('.dynamic-price');
+      priceElements.forEach(function(el) {
+        el.textContent = price;
+      });
+    }
+  })();
 </script>
 </body>
 </html>
