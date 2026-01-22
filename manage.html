@@ -499,14 +499,107 @@ a { color: inherit; text-decoration: none }
 }
 
 /* Footer */
-footer {
-  background: #000;
-  padding: 40px 0;
-  text-align: center;
-  border-top: 1px solid var(--line);
-}
-footer a { color: rgba(255,255,255,0.7); transition: color 0.2s }
-footer a:hover { color: var(--gold) }
+    footer {
+      background: #000;
+      padding: 60px 20px 40px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 48px;
+      max-width: 1100px;
+      margin: 0 auto 48px;
+      text-align: left;
+    }
+    @media (max-width: 768px) {
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 32px;
+      }
+    }
+    @media (max-width: 480px) {
+      .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 28px;
+      }
+    }
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .footer-brand img { height: 32px; }
+    .footer-brand span { font-weight: 700; font-size: 1.1rem; }
+    .footer-tagline {
+      color: #a0a6c0;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      margin-bottom: 20px;
+      max-width: 280px;
+    }
+    .footer-social {
+      display: flex;
+      gap: 12px;
+    }
+    .footer-social a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 10px;
+      color: #a0a6c0;
+      font-size: 1rem;
+      transition: all 0.2s ease;
+    }
+    .footer-social a:hover {
+      background: #ffd700;
+      color: #1a1a2e;
+    }
+    .footer-col h5 {
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #fff;
+      margin: 0 0 16px;
+    }
+    .footer-col ul { list-style: none; padding: 0; margin: 0; }
+    .footer-col li { margin-bottom: 10px; }
+    .footer-col a {
+      color: #a0a6c0;
+      font-size: 0.9rem;
+      transition: color 0.2s ease;
+    }
+    .footer-col a:hover { color: #ffd700; }
+    .footer-bottom {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .footer-bottom p { color: #6b7280; font-size: 0.85rem; margin: 0; }
+    .footer-legal { display: flex; gap: 24px; }
+    .footer-legal a {
+      color: #6b7280;
+      font-size: 0.85rem;
+      transition: color 0.2s ease;
+    }
+    .footer-legal a:hover { color: #ffd700; }
+    @media (max-width: 600px) {
+      .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
 
 /* Animations */
 .reveal {
@@ -844,14 +937,58 @@ footer a:hover { color: var(--gold) }
 
 <!-- FOOTER -->
 <footer>
-  <div class="container container-narrow">
-    <div class="mb-1">&copy; <span id="yr"></span> WebEaze. All rights reserved.</div>
-    <div class="small mb-2">
-      <a href="terms.html">Terms</a> &middot;
-      <a href="terms.html#privacy">Privacy</a> &middot;
+  <div class="footer-grid">
+    <div class="footer-about">
+      <div class="footer-brand">
+        <img src="images/webeaze-transparent copy.png" alt="WebEaze">
+        <span>WebEaze</span>
+      </div>
+      <p class="footer-tagline">Professional websites for small businesses. We build, host, and manage your site so you can focus on what matters.</p>
+      <div class="footer-social">
+        <a href="https://facebook.com/61568824951084" target="_blank" rel="noopener" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://www.linkedin.com/company/webeaze" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+        <a href="https://instagram.com/webeaze.io" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+      </div>
+    </div>
+
+    <div class="footer-col">
+      <h5>Services</h5>
+      <ul>
+        <li><a href="build.html">New Website</a></li>
+        <li><a href="manage.html">Website Management</a></li>
+        <li><a href="pricing.html">Pricing</a></li>
+        <li><a href="plan-guide.html">Plan Guide</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h5>Company</h5>
+      <ul>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="samples.html">Our Work</a></li>
+        <li><a href="referral.html">Referral Program</a></li>
+        <li><a href="contact-us.html">Contact</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h5>Support</h5>
+      <ul>
+        <li><a href="help.html">Help Center</a></li>
+        <li><a href="faq.html">FAQ</a></li>
+        <li><a href="consultation.html">Request Mockup</a></li>
+        <li><a href="accessibility.html">Accessibility</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>&copy; <span id="yr"></span> WebEaze. Made with &#9749; in Delaware, USA</p>
+    <div class="footer-legal">
+      <a href="terms.html#privacy">Privacy Policy</a>
+      <a href="terms.html">Terms of Service</a>
       <a href="site-map.html">Site Map</a>
     </div>
-    <div class="small" style="opacity:.5;">Made with <span style="color:var(--gold);">&#9749;</span> in Delaware, USA</div>
   </div>
 </footer>
 

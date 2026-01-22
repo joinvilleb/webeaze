@@ -596,6 +596,77 @@
 
     @media (max-width: 768px) {
       .comparison-table { display: none }
+      .mobile-comparison { display: block }
+    }
+
+    /* Mobile Comparison Cards */
+    .mobile-comparison {
+      display: none;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+    .mobile-plan-compare {
+      background: var(--bg-card);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      margin-bottom: 24px;
+      overflow: hidden;
+    }
+    .mobile-plan-compare.featured {
+      border-color: var(--gold);
+    }
+    .mobile-plan-header {
+      padding: 20px 24px;
+      background: rgba(255, 255, 255, 0.03);
+      border-bottom: 1px solid var(--line);
+      text-align: center;
+    }
+    .mobile-plan-compare.featured .mobile-plan-header {
+      background: rgba(255, 215, 0, 0.08);
+    }
+    .mobile-plan-header h4 {
+      margin: 0 0 4px;
+      font-size: 1.25rem;
+      font-weight: 700;
+    }
+    .mobile-plan-compare.featured .mobile-plan-header h4 {
+      color: var(--gold);
+    }
+    .mobile-plan-header .price {
+      font-size: 1.5rem;
+      font-weight: 800;
+    }
+    .mobile-plan-header .price span {
+      font-size: 0.9rem;
+      font-weight: 400;
+      color: var(--ink-2);
+    }
+    .mobile-feature-list {
+      padding: 20px 24px;
+    }
+    .mobile-feature-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--line);
+      font-size: 0.9rem;
+    }
+    .mobile-feature-row:last-child {
+      border-bottom: none;
+    }
+    .mobile-feature-row .label {
+      color: var(--ink-2);
+    }
+    .mobile-feature-row .value {
+      font-weight: 600;
+      color: var(--ink);
+    }
+    .mobile-feature-row i.fa-check {
+      color: var(--gold);
+    }
+    .mobile-feature-row i.fa-minus {
+      color: var(--muted);
     }
 
     /* CTA Section */
@@ -647,18 +718,127 @@
     /* Footer */
     footer {
       background: #000;
-      padding: 48px 20px;
-      text-align: center;
+      padding: 60px 20px 40px;
       border-top: 1px solid var(--line);
     }
-    footer p { color: var(--muted); margin: 0 0 12px; font-size: 0.9rem }
-    .footer-links a {
-      color: rgba(255, 255, 255, 0.6);
-      margin: 0 12px;
-      font-size: 0.9rem;
-      transition: color 0.2s;
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 48px;
+      max-width: 1100px;
+      margin: 0 auto 48px;
+      text-align: left;
     }
-    .footer-links a:hover { color: var(--gold) }
+    @media (max-width: 768px) {
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 32px;
+      }
+    }
+    @media (max-width: 480px) {
+      .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 28px;
+      }
+    }
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .footer-brand img {
+      height: 32px;
+    }
+    .footer-brand span {
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+    .footer-tagline {
+      color: var(--ink-2);
+      font-size: 0.9rem;
+      line-height: 1.6;
+      margin-bottom: 20px;
+      max-width: 280px;
+    }
+    .footer-social {
+      display: flex;
+      gap: 12px;
+    }
+    .footer-social a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 10px;
+      color: var(--ink-2);
+      font-size: 1rem;
+      transition: all 0.2s ease;
+    }
+    .footer-social a:hover {
+      background: var(--gold);
+      color: #1a1a2e;
+    }
+    .footer-col h5 {
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--ink);
+      margin: 0 0 16px;
+    }
+    .footer-col ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .footer-col li {
+      margin-bottom: 10px;
+    }
+    .footer-col a {
+      color: var(--ink-2);
+      font-size: 0.9rem;
+      transition: color 0.2s ease;
+    }
+    .footer-col a:hover {
+      color: var(--gold);
+    }
+    .footer-bottom {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding-top: 24px;
+      border-top: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .footer-bottom p {
+      color: var(--muted);
+      font-size: 0.85rem;
+      margin: 0;
+    }
+    .footer-legal {
+      display: flex;
+      gap: 24px;
+    }
+    .footer-legal a {
+      color: var(--muted);
+      font-size: 0.85rem;
+      transition: color 0.2s ease;
+    }
+    .footer-legal a:hover {
+      color: var(--gold);
+    }
+    @media (max-width: 600px) {
+      .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
 
     /* Animations */
     .reveal {
@@ -1016,6 +1196,63 @@
         <div>Fully Covered</div>
       </div>
     </div>
+
+    <!-- Mobile Comparison -->
+    <div class="mobile-comparison reveal">
+      <!-- Essential -->
+      <div class="mobile-plan-compare">
+        <div class="mobile-plan-header">
+          <h4>Essential</h4>
+          <div class="price">$169<span>/mo</span></div>
+        </div>
+        <div class="mobile-feature-list">
+          <div class="mobile-feature-row"><span class="label">Pages</span><span class="value">Up to 3</span></div>
+          <div class="mobile-feature-row"><span class="label">Unlimited Updates</span><span class="value"><i class="fas fa-check"></i></span></div>
+          <div class="mobile-feature-row"><span class="label">Domain Included</span><span class="value"><i class="fas fa-check"></i></span></div>
+          <div class="mobile-feature-row"><span class="label">Total Access Support</span><span class="value"><i class="fas fa-minus"></i></span></div>
+          <div class="mobile-feature-row"><span class="label">Performance Reports</span><span class="value"><i class="fas fa-minus"></i></span></div>
+          <div class="mobile-feature-row"><span class="label">Google Business Profile</span><span class="value"><i class="fas fa-minus"></i></span></div>
+          <div class="mobile-feature-row"><span class="label">Priority Response</span><span class="value"><i class="fas fa-minus"></i></span></div>
+          <div class="mobile-feature-row"><span class="label">Hosting Coverage</span><span class="value">Included*</span></div>
+        </div>
+      </div>
+
+      <!-- Growth -->
+      <div class="mobile-plan-compare featured">
+        <div class="mobile-plan-header">
+          <h4>Growth <span style="font-size: 0.7rem; background: var(--gold); color: #1a1a2e; padding: 4px 10px; border-radius: 100px; margin-left: 8px; vertical-align: middle;">Most Popular</span></h4>
+          <div class="price">$249<span>/mo</span></div>
+        </div>
+        <div class="mobile-feature-list">
+          <div class="mobile-feature-row"><span class="label">Pages</span><span class="value">Up to 6</span></div>
+          <div class="mobile-feature-row"><span class="label">Unlimited Updates</span><span class="value"><i class="fas fa-check"></i></span></div>
+          <div class="mobile-feature-row"><span class="label">Domain Included</span><span class="value"><i class="fas fa-check"></i></span></div>
+          <div class="mobile-feature-row"><span class="label">Total Access Support</span><span class="value"><i class="fas fa-check"></i></span></div>
+          <div class="mobile-feature-row"><span class="label">Performance Reports</span><span class="value">Monthly</span></div>
+          <div class="mobile-feature-row"><span class="label">Google Business Profile</span><span class="value"><i class="fas fa-check"></i></span></div>
+          <div class="mobile-feature-row"><span class="label">Priority Response</span><span class="value"><i class="fas fa-check"></i></span></div>
+          <div class="mobile-feature-row"><span class="label">Hosting Coverage</span><span class="value">Up to $50/yr**</span></div>
+        </div>
+      </div>
+
+      <!-- Elite -->
+      <div class="mobile-plan-compare">
+        <div class="mobile-plan-header">
+          <h4>Elite</h4>
+          <div class="price">$399<span>/mo</span></div>
+        </div>
+        <div class="mobile-feature-list">
+          <div class="mobile-feature-row"><span class="label">Pages</span><span class="value">Unlimited</span></div>
+          <div class="mobile-feature-row"><span class="label">Unlimited Updates</span><span class="value"><i class="fas fa-check"></i></span></div>
+          <div class="mobile-feature-row"><span class="label">Domain Included</span><span class="value"><i class="fas fa-check"></i></span></div>
+          <div class="mobile-feature-row"><span class="label">Total Access Support</span><span class="value"><i class="fas fa-check"></i></span></div>
+          <div class="mobile-feature-row"><span class="label">Performance Reports</span><span class="value">Advanced</span></div>
+          <div class="mobile-feature-row"><span class="label">Google Business Profile</span><span class="value"><i class="fas fa-check"></i></span></div>
+          <div class="mobile-feature-row"><span class="label">Priority Response</span><span class="value">Same-Day</span></div>
+          <div class="mobile-feature-row"><span class="label">Hosting Coverage</span><span class="value">Fully Covered</span></div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -1066,17 +1303,62 @@
 
 <!-- FOOTER -->
 <footer>
-  <div class="container container-narrow">
-    <p style="font-size: 0.85rem; color: var(--muted); max-width: 600px; margin: 0 auto 8px;">
-      *Hosting covered if hosted with GitHub Pages. **Hosting covered up to $50/year.
-    </p>
-    <p>&copy; <span id="yr"></span> WebEaze. All rights reserved.</p>
-    <div class="footer-links">
-      <a href="terms.html#privacy">Privacy</a>
-      <a href="terms.html">Terms</a>
+  <div class="footer-grid">
+    <div class="footer-about">
+      <div class="footer-brand">
+        <img src="images/webeaze-transparent copy.png" alt="WebEaze">
+        <span>WebEaze</span>
+      </div>
+      <p class="footer-tagline">Professional websites for small businesses. We build, host, and manage your site so you can focus on what matters.</p>
+      <div class="footer-social">
+        <a href="https://facebook.com/61568824951084" target="_blank" rel="noopener" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://www.linkedin.com/company/webeaze" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+        <a href="https://instagram.com/webeaze.io" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+      </div>
+    </div>
+
+    <div class="footer-col">
+      <h5>Services</h5>
+      <ul>
+        <li><a href="build.html">New Website</a></li>
+        <li><a href="manage.html">Website Management</a></li>
+        <li><a href="pricing.html">Pricing</a></li>
+        <li><a href="plan-guide.html">Plan Guide</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h5>Company</h5>
+      <ul>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="samples.html">Our Work</a></li>
+        <li><a href="referral.html">Referral Program</a></li>
+        <li><a href="contact-us.html">Contact</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h5>Support</h5>
+      <ul>
+        <li><a href="help.html">Help Center</a></li>
+        <li><a href="faq.html">FAQ</a></li>
+        <li><a href="consultation.html">Request Mockup</a></li>
+        <li><a href="accessibility.html">Accessibility</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <p style="font-size: 0.8rem; color: var(--muted); max-width: 600px; margin: 0 auto 20px; text-align: center;">
+    *Hosting covered if hosted with GitHub Pages. **Hosting covered up to $50/year.
+  </p>
+
+  <div class="footer-bottom">
+    <p>&copy; <span id="yr"></span> WebEaze. Made with &#9749; in Delaware, USA</p>
+    <div class="footer-legal">
+      <a href="terms.html#privacy">Privacy Policy</a>
+      <a href="terms.html">Terms of Service</a>
       <a href="site-map.html">Site Map</a>
     </div>
-    <p style="font-size: 0.8rem; margin-top: 16px; opacity: 0.5;">Made with &#9749; in Delaware, USA</p>
   </div>
 </footer>
 
