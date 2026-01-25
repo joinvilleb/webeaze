@@ -819,6 +819,355 @@ fee-tooltip {
   opacity:.7;
 }
 
+/* ===== NEW HERO STYLES ===== */
+.hero-section {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 70px 0 80px;
+  overflow: hidden;
+}
+
+.hero-glow-new {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 20% 50%, rgba(120,81,169,.35), transparent 60%),
+    radial-gradient(ellipse 50% 60% at 80% 30%, rgba(255,215,0,.15), transparent 50%);
+  pointer-events: none;
+  animation: glowPulse 12s ease-in-out infinite alternate;
+}
+
+@keyframes glowPulse {
+  0% { opacity: 0.6; transform: scale(1); }
+  100% { opacity: 0.85; transform: scale(1.05); }
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+
+@media (max-width: 992px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
+    gap: 50px;
+    text-align: center;
+  }
+  .hero-section {
+    padding: 70px 0 60px;
+    min-height: auto;
+  }
+}
+
+.hero-content-left {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: heroFadeUp 0.8s ease forwards 0.2s;
+}
+
+@keyframes heroFadeUp {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.hero-badge-new {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,215,0,.12);
+  border: 1px solid rgba(255,215,0,.25);
+  color: #ffd700;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 50px;
+  margin-bottom: 16px;
+  opacity: 0;
+  animation: badgePop 0.5s ease forwards 0.4s;
+}
+
+@keyframes badgePop {
+  0% { opacity: 0; transform: scale(0.8); }
+  60% { transform: scale(1.05); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.hero-badge-new i {
+  font-size: 14px;
+}
+
+.hero-title-new {
+  font-size: clamp(42px, 5.5vw, 62px);
+  font-weight: 600;
+  line-height: 1.1;
+  margin-bottom: 20px;
+  letter-spacing: -0.03em;
+}
+
+.hero-title-new .highlight {
+  background: linear-gradient(135deg, #ffd700 0%, #b389ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-subtitle-new {
+  font-size: 18px;
+  line-height: 1.7;
+  opacity: 0.75;
+  max-width: 480px;
+  margin-bottom: 32px;
+}
+
+@media (max-width: 992px) {
+  .hero-subtitle-new {
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+.hero-ctas {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+}
+
+@media (max-width: 992px) {
+  .hero-ctas {
+    justify-content: center;
+  }
+}
+
+.hero-cta-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(135deg, #ffd700, #f0c000);
+  color: #1a1a2e;
+  font-size: 15px;
+  font-weight: 700;
+  padding: 16px 28px;
+  border-radius: 14px;
+  text-decoration: none;
+  box-shadow: 0 8px 30px rgba(255,215,0,.3);
+  transition: all 0.25s ease;
+}
+
+.hero-cta-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(255,215,0,.4);
+  text-decoration: none;
+  color: #1a1a2e;
+}
+
+.hero-cta-primary i {
+  transition: transform 0.25s ease;
+}
+
+.hero-cta-primary:hover i {
+  transform: translateX(4px);
+}
+
+.hero-cta-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  color: #f3f5ff;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 16px 24px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,.2);
+  text-decoration: none;
+  transition: all 0.25s ease;
+}
+
+.hero-cta-secondary:hover {
+  background: rgba(255,255,255,.08);
+  border-color: rgba(255,255,255,.35);
+  text-decoration: none;
+  color: #fff;
+}
+
+.hero-trust {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  opacity: 0;
+  animation: heroFadeUp 0.6s ease forwards 0.8s;
+}
+
+@media (max-width: 992px) {
+  .hero-trust {
+    justify-content: center;
+  }
+}
+
+.trust-avatars {
+  display: flex;
+}
+
+.trust-avatars img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid #0f1228;
+  margin-left: -10px;
+  background: #1a1a2e;
+}
+
+.trust-avatars img:first-child {
+  margin-left: 0;
+}
+
+.trust-text {
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+.trust-text strong {
+  color: #ffd700;
+  font-weight: 600;
+}
+
+/* Hero Showcase (Right Side) */
+.hero-showcase {
+  position: relative;
+  opacity: 0;
+  animation: showcaseSlideIn 0.9s ease forwards 0.5s;
+}
+
+@keyframes showcaseSlideIn {
+  0% { opacity: 0; transform: translateX(40px) rotateY(-5deg); }
+  100% { opacity: 1; transform: translateX(0) rotateY(0); }
+}
+
+.showcase-browser-hero {
+  background: #0f0f1a;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,.1);
+  overflow: hidden;
+  box-shadow:
+    0 25px 80px rgba(0,0,0,.5),
+    0 0 0 1px rgba(255,255,255,.05);
+  transform: perspective(1000px) rotateY(-3deg) rotateX(2deg);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.showcase-browser-hero:hover {
+  transform: perspective(1000px) rotateY(0deg) rotateX(0deg);
+  box-shadow:
+    0 35px 100px rgba(0,0,0,.6),
+    0 0 60px rgba(120,81,169,.15);
+}
+
+.browser-bar-hero {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  background: #1a1a2a;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+}
+
+.browser-dots-hero {
+  display: flex;
+  gap: 7px;
+}
+
+.browser-dots-hero span {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: #333;
+}
+
+.browser-dots-hero span:nth-child(1) { background: #ff5f57; }
+.browser-dots-hero span:nth-child(2) { background: #febc2e; }
+.browser-dots-hero span:nth-child(3) { background: #28c840; }
+
+.browser-url-hero {
+  flex: 1;
+  background: rgba(255,255,255,.06);
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: 12px;
+  color: rgba(255,255,255,.5);
+  font-family: monospace;
+}
+
+.showcase-browser-hero img {
+  width: 100%;
+  display: block;
+  margin-bottom: -4px;
+}
+
+/* Floating elements */
+.hero-float-badge {
+  position: absolute;
+  background: #141428;
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 15px 40px rgba(0,0,0,.4);
+  animation: floatBadge 4s ease-in-out infinite;
+  z-index: 3;
+}
+
+.hero-float-badge.badge-1 {
+  top: 10%;
+  right: -20px;
+  animation-delay: 0s;
+}
+
+.hero-float-badge.badge-2 {
+  bottom: 15%;
+  left: -30px;
+  animation-delay: 1.5s;
+}
+
+@keyframes floatBadge {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.hero-float-badge i {
+  font-size: 18px;
+}
+
+.hero-float-badge .check-icon {
+  color: #28c840;
+}
+
+.hero-float-badge .speed-icon {
+  color: #ffd700;
+}
+
+@media (max-width: 992px) {
+  .showcase-browser-hero {
+    transform: none;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+  .showcase-browser-hero:hover {
+    transform: none;
+  }
+  .hero-float-badge {
+    display: none;
+  }
+}
+
 
 
 
@@ -868,32 +1217,76 @@ fee-tooltip {
 <main style="background:#050509; color:#fff;">
 
 
-  <section style="padding:70px 0 30px; text-align:center;">
+  <!-- HERO SECTION -->
+  <section class="hero-section">
+    <div class="hero-glow-new"></div>
     <div class="container container-narrow">
-      
-      <h1 class="hero-title">
-        Your website, 
-        <span class="gold-sweep">
-          handled.
-        </span>
-      </h1>
-      
-      
-      <p class="reveal" style="opacity:.7; font-size:17px; max-width:48ch; margin:0 auto 22px;">
-        We build and manage your website&nbsp;— all in one&nbsp;plan. Landscapers, plumbers,
-        contractors, and more.
-      </p>
-      
-      <a href="consultation.html" class="cta-btn reveal">
-        Request a free mockup
-        <span class="cta-arrow">→</span>
-      </a>
-      
-      <p class="reveal" style="opacity:.6; font-size:10px; margin-top:12px;">
-        Unlimited updates • Cancel anytime
-      </p>
-      
-  
+      <div class="hero-grid">
+
+        <!-- Left: Content -->
+        <div class="hero-content-left">
+          <div class="hero-badge-new">
+            <i class="fas fa-bolt"></i>
+            Get online in 7 days
+          </div>
+
+          <h1 class="hero-title-new">
+            Your website,<br>
+            <span class="highlight">handled.</span>
+          </h1>
+
+          <p class="hero-subtitle-new">
+            We build and manage your website — all in one plan.
+            Landscapers, plumbers, contractors, and more.
+          </p>
+
+          <div class="hero-ctas">
+            <a href="consultation.html" class="hero-cta-primary">
+              Get Your Free Mockup <i class="fas fa-arrow-right"></i>
+            </a>
+            <a href="samples.html" class="hero-cta-secondary">
+              <i class="fas fa-images"></i> See Our Work
+            </a>
+          </div>
+
+          <div class="hero-trust">
+            <div class="trust-avatars">
+              <img src="https://api.dicebear.com/7.x/notionists/svg?seed=Alexander" alt="">
+              <img src="https://api.dicebear.com/7.x/notionists/svg?seed=Felix" alt="">
+              <img src="https://api.dicebear.com/7.x/notionists/svg?seed=Sarah" alt="">
+              <img src="https://api.dicebear.com/7.x/notionists/svg?seed=Mike" alt="">
+            </div>
+            <div class="trust-text">
+              <strong>47+ businesses</strong> trust WebEaze
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Browser Showcase -->
+        <div class="hero-showcase">
+          <div class="hero-float-badge badge-1">
+            <i class="fas fa-check-circle check-icon"></i>
+            <span>Mobile Responsive</span>
+          </div>
+          <div class="hero-float-badge badge-2">
+            <i class="fas fa-bolt speed-icon"></i>
+            <span>Fast Loading</span>
+          </div>
+
+          <div class="showcase-browser-hero">
+            <div class="browser-bar-hero">
+              <div class="browser-dots-hero">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+              <div class="browser-url-hero">bearcarpetcare.com</div>
+            </div>
+            <img src="images/bear-carpet-care-home.png" alt="Bear Carpet Care - Website by WebEaze">
+          </div>
+        </div>
+
+      </div>
     </div>
   </section>
 
