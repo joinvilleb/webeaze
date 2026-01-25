@@ -12,6 +12,80 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 <link rel="shortcut icon" href="images/webeaze-transparent copy.png" type="image/png" />
 <link rel="canonical" href="https://www.webeaze.io/" />
+<meta name="robots" content="index, follow" />
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://www.webeaze.io/" />
+<meta property="og:title" content="WebEaze | Your website, handled." />
+<meta property="og:description" content="WebEaze builds and manages small business websites on one simple plan. New builds, redesigns, and ongoing updates with predictable pricing." />
+<meta property="og:image" content="https://www.webeaze.io/images/webeaze-transparent.png" />
+<meta property="og:site_name" content="WebEaze" />
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:url" content="https://www.webeaze.io/" />
+<meta name="twitter:title" content="WebEaze | Your website, handled." />
+<meta name="twitter:description" content="WebEaze builds and manages small business websites on one simple plan. New builds, redesigns, and ongoing updates with predictable pricing." />
+<meta name="twitter:image" content="https://www.webeaze.io/images/webeaze-og-image.png" />
+
+<!-- Schema.org Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "name": "WebEaze",
+  "description": "WebEaze builds and manages small business websites on one simple plan. New builds, redesigns, and ongoing updates with predictable pricing.",
+  "url": "https://www.webeaze.io/",
+  "logo": "https://www.webeaze.io/images/webeaze-transparent copy.png",
+  "image": "https://www.webeaze.io/images/webeaze-og-image.png",
+  "priceRange": "$169 - $249/month",
+  "address": {
+    "@type": "PostalAddress",
+    "addressCountry": "US"
+  },
+  "sameAs": [],
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Website Services",
+    "itemListElement": [
+      {
+        "@type": "Offer",
+        "name": "Essential Plan",
+        "description": "Perfect for businesses wanting a professional online presence",
+        "price": "169",
+        "priceCurrency": "USD",
+        "priceSpecification": {
+          "@type": "UnitPriceSpecification",
+          "price": "169",
+          "priceCurrency": "USD",
+          "billingIncrement": 1,
+          "unitText": "month"
+        }
+      },
+      {
+        "@type": "Offer",
+        "name": "Growth Plan",
+        "description": "For businesses ready to expand their digital footprint",
+        "price": "249",
+        "priceCurrency": "USD",
+        "priceSpecification": {
+          "@type": "UnitPriceSpecification",
+          "price": "249",
+          "priceCurrency": "USD",
+          "billingIncrement": 1,
+          "unitText": "month"
+        }
+      }
+    ]
+  },
+  "areaServed": {
+    "@type": "Country",
+    "name": "United States"
+  },
+  "serviceType": ["Web Design", "Website Development", "Website Management", "Small Business Websites"]
+}
+</script>
 
 <style>
   :root{
@@ -1559,6 +1633,257 @@ fee-tooltip {
   margin-top: 18px;
 }
 
+/* ===== TESTIMONIALS ACCORDION ===== */
+.testimonials-section {
+  padding: 90px 0 100px;
+}
+
+.testimonials-header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.testimonials-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,215,0,.1);
+  border: 1px solid rgba(255,215,0,.2);
+  color: #ffd700;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 18px;
+  border-radius: 50px;
+  margin-bottom: 20px;
+}
+
+.testimonials-title {
+  font-size: clamp(30px, 5vw, 42px);
+  font-weight: 600;
+  margin-bottom: 12px;
+  line-height: 1.2;
+}
+
+.testimonials-subtitle {
+  font-size: 16px;
+  opacity: 0.6;
+  max-width: 450px;
+  margin: 0 auto;
+}
+
+.testimonials-accordion {
+  max-width: 750px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.testimonial-item {
+  background: linear-gradient(145deg, rgba(20,20,40,0.7), rgba(15,15,30,0.8));
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 20px;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.testimonial-item:hover {
+  border-color: rgba(255,255,255,.15);
+  background: linear-gradient(145deg, rgba(25,25,50,0.8), rgba(18,18,38,0.85));
+}
+
+.testimonial-item.active {
+  border-color: rgba(255,215,0,.25);
+  box-shadow: 0 15px 50px rgba(0,0,0,.3), 0 0 30px rgba(255,215,0,.05);
+}
+
+.testimonial-trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 24px 28px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  color: #fff;
+  transition: all 0.3s ease;
+  outline: none !important;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.testimonial-trigger:focus,
+.testimonial-trigger:active,
+.testimonial-trigger:focus:active {
+  outline: none !important;
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+}
+
+.testimonial-trigger:focus-visible {
+  outline: 2px solid rgba(255,215,0,.25) !important;
+  outline-offset: -2px;
+}
+
+.testimonial-trigger:hover {
+  background: rgba(255,255,255,.02);
+}
+
+.testimonial-avatar-wrap {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.testimonial-avatar-new {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: #1a1a2e;
+  border: 2px solid rgba(255,255,255,.1);
+  transition: all 0.3s ease;
+}
+
+.testimonial-item.active .testimonial-avatar-new {
+  border-color: rgba(255,215,0,.4);
+}
+
+.testimonial-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.testimonial-name {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 4px;
+  color: #fff;
+}
+
+.testimonial-role {
+  font-size: 13px;
+  opacity: 0.5;
+}
+
+.testimonial-preview {
+  font-size: 14px;
+  opacity: 0.6;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 6px;
+  transition: opacity 0.3s ease;
+}
+
+.testimonial-item.active .testimonial-preview {
+  opacity: 0;
+  height: 0;
+  margin: 0;
+  overflow: hidden;
+}
+
+.testimonial-icon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: rgba(255,255,255,.05);
+  color: rgba(255,255,255,.4);
+  font-size: 14px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  flex-shrink: 0;
+}
+
+.testimonial-item.active .testimonial-icon {
+  background: rgba(255,215,0,.15);
+  color: #ffd700;
+  transform: rotate(180deg);
+}
+
+.testimonial-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), padding 0.4s ease;
+}
+
+.testimonial-item.active .testimonial-content {
+  max-height: 300px;
+}
+
+.testimonial-content-inner {
+  padding: 0 28px 28px;
+}
+
+.testimonial-quote {
+  font-size: 17px;
+  line-height: 1.75;
+  color: rgba(255,255,255,.85);
+  position: relative;
+  padding-left: 20px;
+  border-left: 3px solid rgba(255,215,0,.4);
+}
+
+.testimonial-quote::before {
+  content: '"';
+  position: absolute;
+  top: -10px;
+  left: -5px;
+  font-size: 60px;
+  color: rgba(255,215,0,.15);
+  font-family: Georgia, serif;
+  line-height: 1;
+}
+
+.testimonial-stars {
+  display: flex;
+  gap: 4px;
+  margin-top: 20px;
+}
+
+.testimonial-stars i {
+  color: #ffd700;
+  font-size: 14px;
+}
+
+@media (max-width: 768px) {
+  .testimonial-trigger {
+    padding: 20px;
+    gap: 14px;
+  }
+
+  .testimonial-avatar-new {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+  }
+
+  .testimonial-name {
+    font-size: 15px;
+  }
+
+  .testimonial-preview {
+    display: none;
+  }
+
+  .testimonial-content-inner {
+    padding: 0 20px 24px;
+  }
+
+  .testimonial-quote {
+    font-size: 15px;
+    padding-left: 16px;
+  }
+
+  .testimonial-icon {
+    width: 36px;
+    height: 36px;
+  }
+}
+
 
 </style>
 </head>
@@ -1842,55 +2167,155 @@ fee-tooltip {
     </section>
 
 
-  <!-- TESTIMONIALS -->
-<section style="padding:70px 0 80px;">
+  <!-- TESTIMONIALS ACCORDION -->
+<section class="testimonials-section">
   <div class="container container-narrow">
 
-    <h2 class="reveal" style="
-      font-size:clamp(28px,5vw,38px);
-      font-weight:550;
-      text-align:center;
-      margin-bottom:20px;
-    ">
-      Trusted by <span class="gold-sweep">47+ clients.</span>
-    </h2>
+    <div class="testimonials-header reveal">
+      <span class="testimonials-badge">
+        <i class="fas fa-star"></i>
+        Client Stories
+      </span>
+      <h2 class="testimonials-title">
+        Trusted by <span class="gold-sweep">47+ clients.</span>
+      </h2>
+      <p class="testimonials-subtitle">
+        Hear what business owners say about working with us.
+      </p>
+    </div>
 
-   
+    <div class="testimonials-accordion" id="testimonialsAccordion">
 
-    <div class="testimonial-grid">
-
-      <div class="testimonial-card reveal">
-        <div class="testimonial-header">
-          <img src="https://api.dicebear.com/7.x/notionists/svg?seed=Alexander"
-               alt="Alexander M." class="testimonial-avatar">
-          <div class="testimonial-meta">
-            <strong>Alexander M.</strong>
-           
+      <!-- Testimonial 1 -->
+      <div class="testimonial-item active reveal">
+        <button class="testimonial-trigger" aria-expanded="true">
+          <div class="testimonial-avatar-wrap">
+            <img src="https://api.dicebear.com/7.x/notionists/svg?seed=Alexander"
+                 alt="Alexander M." class="testimonial-avatar-new">
+          </div>
+          <div class="testimonial-info">
+            <div class="testimonial-name">Alexander M.</div>
+            <div class="testimonial-role">Home Services Business</div>
+            <div class="testimonial-preview">WebEaze is a game-changer...</div>
+          </div>
+          <div class="testimonial-icon">
+            <i class="fas fa-chevron-down"></i>
+          </div>
+        </button>
+        <div class="testimonial-content">
+          <div class="testimonial-content-inner">
+            <p class="testimonial-quote">
+              WebEaze is a game-changer. The first time I didn't have to worry about website upkeep. Updates are done within the same day. I like contacting someone any time I need something and knowing it will be done the right away.
+            </p>
+            <div class="testimonial-stars">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+            </div>
           </div>
         </div>
-        <p class="testimonial-text">
-          "WebEaze is a game-changer. The first time I didn't have to worry about website upkeep. Updates are done within the same day. I like contacting someone any time I need something and knowing it will be done the right away."
-        </p>
       </div>
 
-
-      <div class="testimonial-card reveal">
-        <div class="testimonial-header">
-          <img src="https://api.dicebear.com/7.x/notionists/svg?seed=Felix"
-               alt="Michael L." class="testimonial-avatar">
-          <div class="testimonial-meta">
-            <strong>Michael L.</strong>
-           
+      <!-- Testimonial 2 -->
+      <div class="testimonial-item reveal">
+        <button class="testimonial-trigger" aria-expanded="false">
+          <div class="testimonial-avatar-wrap">
+            <img src="https://api.dicebear.com/7.x/notionists/svg?seed=Felix"
+                 alt="Michael L." class="testimonial-avatar-new">
+          </div>
+          <div class="testimonial-info">
+            <div class="testimonial-name">Michael L.</div>
+            <div class="testimonial-role">Local Contractor</div>
+            <div class="testimonial-preview">The ongoing support is incredible...</div>
+          </div>
+          <div class="testimonial-icon">
+            <i class="fas fa-chevron-down"></i>
+          </div>
+        </button>
+        <div class="testimonial-content">
+          <div class="testimonial-content-inner">
+            <p class="testimonial-quote">
+              The ongoing support is incredible. I can ask for changes anytime and they're handled quick. I like being able to predict my costs every month without surprises.
+            </p>
+            <div class="testimonial-stars">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+            </div>
           </div>
         </div>
-        <p class="testimonial-text">
-          "The ongoing support is incredible.
-          I can ask for changes anytime and they're handled quick.
-          I like being able to predict my costs every month without surprises."
-        </p>
+      </div>
+
+      <!-- Testimonial 3 -->
+      <div class="testimonial-item reveal">
+        <button class="testimonial-trigger" aria-expanded="false">
+          <div class="testimonial-avatar-wrap">
+            <img src="https://api.dicebear.com/7.x/notionists/svg?seed=Priya"
+                 alt="Priya S." class="testimonial-avatar-new">
+          </div>
+          <div class="testimonial-info">
+            <div class="testimonial-name">Priya S.</div>
+            <div class="testimonial-role">Cleaning Service Owner</div>
+            <div class="testimonial-preview">Finally, a web company that isn't fake...</div>
+          </div>
+          <div class="testimonial-icon">
+            <i class="fas fa-chevron-down"></i>
+          </div>
+        </button>
+        <div class="testimonial-content">
+          <div class="testimonial-content-inner">
+            <p class="testimonial-quote">
+              Finally, a web company that isn't fake. I've worked with agencies before who took weeks to make simple changes. WebEaze gets it done same day. My site looks professional and I don't have to think about it.
+            </p>
+            <div class="testimonial-stars">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Testimonial 4 -->
+      <div class="testimonial-item reveal">
+        <button class="testimonial-trigger" aria-expanded="false">
+          <div class="testimonial-avatar-wrap">
+            <img src="https://api.dicebear.com/7.x/notionists/svg?seed=Carlos"
+                 alt="Carlos R." class="testimonial-avatar-new">
+          </div>
+          <div class="testimonial-info">
+            <div class="testimonial-name">Carlos R.</div>
+            <div class="testimonial-role">Landscaping Company</div>
+            <div class="testimonial-preview">Best decision I made for my business...</div>
+          </div>
+          <div class="testimonial-icon">
+            <i class="fas fa-chevron-down"></i>
+          </div>
+        </button>
+        <div class="testimonial-content">
+          <div class="testimonial-content-inner">
+            <p class="testimonial-quote">
+              Best decision I made for my business this year. I was paying more for hosting alone before, and now I get the whole package. The site they built me actually brings in leads. Worth every penny.
+            </p>
+            <div class="testimonial-stars">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+            </div>
+          </div>
+        </div>
       </div>
 
     </div>
+
   </div>
 </section>
 
@@ -2550,7 +2975,35 @@ fee-tooltip {
 
 </script>
 
+<!-- Testimonials Accordion -->
+<script>
+(function() {
+  const accordion = document.getElementById('testimonialsAccordion');
+  if (!accordion) return;
 
+  const items = accordion.querySelectorAll('.testimonial-item');
+  const triggers = accordion.querySelectorAll('.testimonial-trigger');
+
+  triggers.forEach((trigger, index) => {
+    trigger.addEventListener('click', () => {
+      const currentItem = items[index];
+      const isActive = currentItem.classList.contains('active');
+
+      // Close all items
+      items.forEach(item => {
+        item.classList.remove('active');
+        item.querySelector('.testimonial-trigger').setAttribute('aria-expanded', 'false');
+      });
+
+      // If clicked item wasn't active, open it
+      if (!isActive) {
+        currentItem.classList.add('active');
+        trigger.setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
+})();
+</script>
 
 
 </body>
