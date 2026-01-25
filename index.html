@@ -1168,8 +1168,389 @@ fee-tooltip {
   }
 }
 
+/* ===== PREMIUM PRICING SECTION ===== */
+.pricing-parallax-section {
+  position: relative;
+  padding: 100px 0 120px;
+  overflow: hidden;
+}
 
+.pricing-parallax-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(5,5,9,0.92) 0%, rgba(5,5,9,0.85) 50%, rgba(5,5,9,0.95) 100%),
+    url('images/about-us-small-business-md.png') center/cover no-repeat;
+  background-attachment: fixed;
+  z-index: 0;
+}
 
+@media (max-width: 768px) {
+  .pricing-parallax-bg {
+    background-attachment: scroll;
+  }
+}
+
+.pricing-parallax-section .container {
+  position: relative;
+  z-index: 2;
+}
+
+.pricing-header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.pricing-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(120,81,169,.15);
+  border: 1px solid rgba(120,81,169,.3);
+  color: #b389ff;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 18px;
+  border-radius: 50px;
+  margin-bottom: 20px;
+}
+
+.pricing-title {
+  font-size: clamp(32px, 5vw, 46px);
+  font-weight: 600;
+  margin-bottom: 16px;
+  line-height: 1.15;
+}
+
+.pricing-subtitle {
+  font-size: 17px;
+  opacity: 0.7;
+  max-width: 500px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* Premium Price Cards */
+.pricing-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 28px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .pricing-cards-grid {
+    grid-template-columns: 1fr;
+    max-width: 400px;
+  }
+}
+
+.pricing-card-premium {
+  background: linear-gradient(145deg, rgba(20,20,40,0.9), rgba(15,15,30,0.95));
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 24px;
+  padding: 40px 32px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.35s ease;
+}
+
+.pricing-card-premium::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, rgba(120,81,169,0.5), rgba(120,81,169,0));
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.pricing-card-premium:hover {
+  transform: translateY(-8px);
+  border-color: rgba(120,81,169,.3);
+  box-shadow: 0 25px 60px rgba(0,0,0,.4), 0 0 40px rgba(120,81,169,.1);
+}
+
+.pricing-card-premium:hover::before {
+  opacity: 1;
+}
+
+.pricing-card-premium.featured {
+  border-color: rgba(255,215,0,.25);
+  background: linear-gradient(145deg, rgba(30,25,45,0.95), rgba(20,18,35,0.98));
+}
+
+.pricing-card-premium.featured::before {
+  background: linear-gradient(90deg, #ffd700, rgba(255,215,0,0.3));
+  opacity: 1;
+}
+
+.pricing-card-premium.featured:hover {
+  border-color: rgba(255,215,0,.4);
+  box-shadow: 0 25px 60px rgba(0,0,0,.4), 0 0 50px rgba(255,215,0,.12);
+}
+
+.card-popular-tag {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: linear-gradient(135deg, #ffd700, #f0c000);
+  color: #1a1a2e;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.card-plan-name {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #fff;
+}
+
+.card-plan-desc {
+  font-size: 14px;
+  opacity: 0.6;
+  margin-bottom: 24px;
+}
+
+.card-price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.card-price {
+  font-size: 48px;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1;
+}
+
+.card-price-period {
+  font-size: 16px;
+  opacity: 0.5;
+}
+
+.card-setup {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  margin-bottom: 28px;
+}
+
+.card-setup del {
+  opacity: 0.5;
+}
+
+.card-setup .free-tag {
+  background: rgba(40,200,64,.15);
+  color: #28c840;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+}
+
+.card-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.1), transparent);
+  margin: 24px 0;
+}
+
+.card-features-title {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  opacity: 0.5;
+  margin-bottom: 16px;
+}
+
+.card-features-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 28px 0;
+}
+
+.card-features-list li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255,255,255,.04);
+}
+
+.card-features-list li:last-child {
+  border-bottom: none;
+}
+
+.card-features-list i {
+  color: #ffd700;
+  font-size: 14px;
+  width: 20px;
+}
+
+.card-cta {
+  display: block;
+  width: 100%;
+  text-align: center;
+  padding: 16px 24px;
+  border-radius: 14px;
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.25s ease;
+}
+
+.card-cta-outline {
+  background: transparent;
+  color: #fff;
+  border: 1px solid rgba(255,255,255,.2);
+}
+
+.card-cta-outline:hover {
+  background: rgba(255,255,255,.08);
+  border-color: rgba(255,255,255,.35);
+  color: #fff;
+  text-decoration: none;
+}
+
+.card-cta-gold {
+  background: linear-gradient(135deg, #ffd700, #f0c000);
+  color: #1a1a2e;
+  border: none;
+}
+
+.card-cta-gold:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(255,215,0,.35);
+  color: #1a1a2e;
+  text-decoration: none;
+}
+
+/* ===== PREMIUM CTA SECTION ===== */
+.cta-parallax-section {
+  position: relative;
+  padding: 100px 0 120px;
+  overflow: hidden;
+}
+
+.cta-parallax-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(5,5,9,0.9) 0%, rgba(5,5,9,0.75) 40%, rgba(5,5,9,0.9) 100%),
+    url('images/landscaper-new-construction.jpg') center/cover no-repeat;
+  background-attachment: fixed;
+  z-index: 0;
+}
+
+@media (max-width: 768px) {
+  .cta-parallax-bg {
+    background-attachment: scroll;
+  }
+}
+
+.cta-content-box {
+  position: relative;
+  z-index: 2;
+  max-width: 700px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.cta-icon-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 70px;
+  height: 70px;
+  background: linear-gradient(135deg, rgba(120,81,169,.25), rgba(255,215,0,.15));
+  border-radius: 20px;
+  margin-bottom: 28px;
+  font-size: 30px;
+}
+
+.cta-title-premium {
+  font-size: clamp(32px, 5vw, 48px);
+  font-weight: 600;
+  line-height: 1.15;
+  margin-bottom: 18px;
+}
+
+.cta-subtitle-premium {
+  font-size: 18px;
+  opacity: 0.7;
+  max-width: 500px;
+  margin: 0 auto 36px;
+  line-height: 1.65;
+}
+
+.cta-benefits-row {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+}
+
+.cta-benefit-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  opacity: 0.85;
+}
+
+.cta-benefit-item i {
+  color: #ffd700;
+}
+
+.cta-btn-premium {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: linear-gradient(135deg, #ffd700, #f0c000);
+  color: #1a1a2e;
+  font-size: 16px;
+  font-weight: 700;
+  padding: 18px 36px;
+  border-radius: 14px;
+  text-decoration: none;
+  box-shadow: 0 10px 40px rgba(255,215,0,.3);
+  transition: all 0.3s ease;
+}
+
+.cta-btn-premium:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 50px rgba(255,215,0,.4);
+  color: #1a1a2e;
+  text-decoration: none;
+}
+
+.cta-btn-premium i {
+  transition: transform 0.3s ease;
+}
+
+.cta-btn-premium:hover i {
+  transform: translateX(4px);
+}
+
+.cta-note-premium {
+  font-size: 13px;
+  opacity: 0.5;
+  margin-top: 18px;
+}
 
 
 </style>
@@ -1242,7 +1623,7 @@ fee-tooltip {
 
           <div class="hero-ctas">
             <a href="consultation.html" class="hero-cta-primary">
-              Get Your Free Mockup <i class="fas fa-arrow-right"></i>
+              Get Your Free Preview <i class="fas fa-arrow-right"></i>
             </a>
             <a href="samples.html" class="hero-cta-secondary">
               <i class="fas fa-images"></i> See Our Work
@@ -1280,7 +1661,7 @@ fee-tooltip {
                 <span></span>
                 <span></span>
               </div>
-              <div class="browser-url-hero">bearcarpetcare.com</div>
+              <div class="browser-url-hero"><a href="https://bearcarpetcare.com" target="_blank" rel="noopener noreferrer">bearcarpetcare.com</a></div>
             </div>
             <img src="images/bear-carpet-care-home.png" alt="Bear Carpet Care - Website by WebEaze">
           </div>
@@ -1366,83 +1747,90 @@ fee-tooltip {
     </div>
   </section>
 
-      <!-- PRICING SECTION ONLY -->
-    <section style="padding:30px 0 90px;">
-      <div class="container container-narrow reveal" style="text-align:center;">
-    
-        <h2 style="
-          font-size: clamp(29px,5vw,40px);
-          font-weight:550;
-          margin-bottom:10px;
-        ">
-        One plan.  <span class="gold-sweep">That's it.</span> <button class="info-icon-btn" aria-label="How pricing works" onclick="openModal()"><i class="fas fa-info-circle"></i></button>
-        </h2>
+      <!-- PREMIUM PRICING SECTION -->
+    <section class="pricing-parallax-section">
+      <div class="pricing-parallax-bg"></div>
+      <div class="container container-narrow">
 
-        
-  
-  
-        
-    
-        <div style="
-          display:grid;
-          grid-template-columns:repeat(2,1fr);
-          gap:24px;
-          margin-top:20px;
-        ">
-    
-          <!-- Essential -->
-          <div class="price-card">
-            <h3>Essential</h3>
-            <div class="price">$169/month</div>
-
-              <div class="setup-fee">
-                <del>$199 setup fee</del>
-                <span class="free">$0 today</span>
-
-                <div class="fee-tooltip">
-                  <i>i</i>
-                  <span>
-                    One-time setup covers initial build, launch, and configuration.
-                    Waived during this promotion.
-                  </span>
-                </div>
-              </div>
-
-
-
-            <p>Hosting, domain, and support included.</p>
-   
-            
-          </div>
-    
-          <!-- Growth -->
-          <div class="price-card featured">
-            <h3>Growth<span class="badge">Best Value</span></h3>
-            <div class="price">$249/month</div>
-
-        <div class="setup-fee">
-            <del>$199 setup fee</del>
-            <span class="free">$0 today</span>
-
-                <div class="fee-tooltip">
-                  <i>i</i>
-                <span>
-                  One-time setup covers initial build, launch, and configuration.
-                  Waived during this promotion.
-                </span>
-                </div>
-                </div>
-
-            <p>
-              SEO tools, monthly reports, and more. 
-            </p>
-
-           
-          </div>
-
-    
+        <div class="pricing-header reveal">
+          <span class="pricing-badge">
+            <i class="fas fa-tag"></i>
+            Simple Pricing
+          </span>
+          <h2 class="pricing-title">
+            One plan. <span class="gold-sweep">That's it.</span>
+          </h2>
+          <p class="pricing-subtitle">
+            Everything you need to launch and grow your online presence. No hidden fees, no surprises.
+          </p>
         </div>
-    
+
+        <div class="pricing-cards-grid">
+
+          <!-- Essential Card -->
+          <div class="pricing-card-premium reveal">
+            <h3 class="card-plan-name">Essential</h3>
+            <p class="card-plan-desc">Perfect for getting started</p>
+
+            <div class="card-price-row">
+              <span class="card-price">$169</span>
+              <span class="card-price-period">/month</span>
+            </div>
+
+            <div class="card-setup">
+              <del>$199 setup</del>
+              <span class="free-tag">FREE today</span>
+            </div>
+
+            <div class="card-divider"></div>
+
+            <p class="card-features-title">What's included</p>
+            <ul class="card-features-list">
+              <li><i class="fas fa-check"></i> Custom website design</li>
+              <li><i class="fas fa-check"></i> Standard hosting included</li>
+              <li><i class="fas fa-check"></i> Free domain registration</li>
+              <li><i class="fas fa-check"></i> Unlimited updates via Email</li>
+              <li><i class="fas fa-check"></i> SSL security certificate</li>
+            </ul>
+
+            <a href="consultation.html" class="card-cta card-cta-outline">Get Started</a>
+          </div>
+
+          <!-- Growth Card (Featured) -->
+          <div class="pricing-card-premium featured reveal">
+            <span class="card-popular-tag">Most Popular</span>
+            <h3 class="card-plan-name">Growth</h3>
+            <p class="card-plan-desc">For businesses ready to scale</p>
+
+            <div class="card-price-row">
+              <span class="card-price">$249</span>
+              <span class="card-price-period">/month</span>
+            </div>
+
+            <div class="card-setup">
+              <del>$199 setup</del>
+              <span class="free-tag">FREE today</span>
+            </div>
+
+            <div class="card-divider"></div>
+
+            <p class="card-features-title">Everything in Essential, plus</p>
+            <ul class="card-features-list">
+              
+              <li><i class="fas fa-check"></i> Advanced SEO optimization</li>
+              <li><i class="fas fa-check"></i> Premium hosting included</li>
+              <li><i class="fas fa-check"></i> Video, Live Chat, Phone support</li>
+              <li><i class="fas fa-check"></i> Monthly performance reports</li>
+              <li><i class="fas fa-check"></i> Google Business integration</li>
+              <li><i class="fas fa-check"></i> Priority support response</li>
+              <li><i class="fas fa-check"></i> Conversion tracking setup</li>
+            </ul>
+
+            <a href="consultation.html" class="card-cta card-cta-gold">Get Started</a>
+          </div>
+
+        </div>
+
       </div>
     </section>
 
@@ -1505,70 +1893,50 @@ fee-tooltip {
   
 
 
-  <!-- CTA — FINAL INSERT -->
-  <section style="padding:85px 0 110px;">
-    <div class="container reveal" style="max-width:920px; margin:0 auto;">
+<!-- CTA -->
+<section class="cta-parallax-section">
+  <div class="cta-parallax-bg" aria-hidden="true"></div>
 
-      <div class="cta-final" style="
-        padding:48px 32px;
-        border-radius:24px;
-        text-align:center;
-        background:
-          linear-gradient(135deg, rgba(0,0,0,.7) 0%, rgba(0,0,0,.5) 100%),
-          url('images/about-us-small-business-md.png') center/cover no-repeat;
-        border:1px solid rgba(255,255,255,.1);
-      ">
+  <div class="container container-narrow">
+    <div class="cta-content-box reveal">
 
-        <h3 style="
-          font-size:clamp(28px,5vw,38px);
-          font-weight:550;
-          line-height:1.15;
-          margin-bottom:12px;
-        ">
-          Hello, <span class="gold-sweep">simplicity.</span>
-        </h3>
-
-        <p style="
-          opacity:.75;
-          font-size:16px;
-          max-width:45ch;
-          margin:0 auto 28px;
-          line-height:1.5;
-        ">
-          Get a free mockup of your new website. You like it? We build it. 
-        </p>
-
-        <div style="
-          display:flex;
-          justify-content:center;
-          gap:10px;
-          flex-wrap:wrap;
-          margin-bottom:32px;
-          font-size:14px;
-          opacity:.85;
-        ">
-          <span><i class="fas fa-check" style="color:#ffd700;margin-right:6px;"></i> Free mockup</span>
-          <span><i class="fas fa-check" style="color:#ffd700;margin-right:6px;"></i> Unlimited support</span>
-          <span><i class="fas fa-check" style="color:#ffd700;margin-right:6px;"></i> Cancel anytime</span>
-        </div>
-
-        <a href="consultation.html" class="cta-btn">
-          Request a free mockup
-          <span class="cta-arrow">→</span>
-        </a>
-
-        <p style="
-          opacity:.5;
-          font-size:12px;
-          margin-top:16px;
-        ">
-          Most mockups delivered within 48 hours
-        </p>
-
+      <div class="cta-icon-badge">
+        <img src="images/webeaze-transparent copy.png" alt="WebEaze Logo" style="width:36px; height:36px;">
       </div>
 
+      <h3 class="cta-title-premium">
+        Hello, <span class="gold-sweep">simplicity.</span>
+      </h3>
+
+      <p class="cta-subtitle-premium">
+        Get a free preview of your new website.
+      </p>
+
+      <div class="cta-benefits-row">
+        <span class="cta-benefit-item">
+          <i class="fas fa-check"></i> Free mockup
+        </span>
+        <span class="cta-benefit-item">
+          <i class="fas fa-check"></i> Unlimited support
+        </span>
+        <span class="cta-benefit-item">
+          <i class="fas fa-check"></i> Cancel anytime
+        </span>
+      </div>
+
+      <a href="consultation.html" class="cta-btn-premium">
+        Request a free preview <i class="fas fa-arrow-right"></i>
+      </a>
+
+      <p class="cta-note-premium">
+        Most previews delivered within 48 hours. 
+        <br>
+        If you like it, we build it.
+      </p>
+
     </div>
-  </section>
+  </div>
+</section>
 
 
 
