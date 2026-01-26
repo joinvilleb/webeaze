@@ -3,20 +3,89 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>We Manage Your Website | WebEaze</title>
-<meta name="description" content="Stop worrying about your website. We actively manage, update, and improve your existing site so you can focus on running your business." />
+<title>Unlimited Website Management & Updates | WebEaze - No Per-Change Fees</title>
+<meta name="description" content="Truly unlimited website updates for one flat monthly fee. No hourly rates, no per-change fees, no surprise invoices. We manage your existing website so you can focus on your business." />
+<meta name="keywords" content="unlimited website updates, website management service, website maintenance, flat rate website updates, no hourly web developer, website support service" />
+
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Unlimited Website Management | WebEaze" />
+<meta property="og:description" content="Truly unlimited website updates for one flat monthly fee. No hourly rates, no per-change fees, no surprise invoices. Your website managed by real humans." />
+<meta property="og:image" content="https://webeaze.io/images/og-manage.jpg" />
+<meta property="og:url" content="https://webeaze.io/manage.html" />
+<meta property="og:site_name" content="WebEaze" />
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Unlimited Website Management | WebEaze" />
+<meta name="twitter:description" content="Truly unlimited website updates for one flat monthly fee. No hourly rates, no per-change fees. Real human support." />
+<meta name="twitter:image" content="https://webeaze.io/images/og-manage.jpg" />
+
+<!-- Canonical -->
+<link rel="canonical" href="https://webeaze.io/manage.html" />
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 <link rel="shortcut icon" href="images/webeaze-transparent copy.png" type="image/png" />
+
+<!-- Schema.org Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "Unlimited Website Management",
+  "description": "Flat-rate website management service with truly unlimited updates, same-day turnaround, and no per-change fees. We manage WordPress, Wix, Squarespace, and custom websites.",
+  "provider": {
+    "@type": "Organization",
+    "name": "WebEaze",
+    "url": "https://webeaze.io",
+    "logo": "https://webeaze.io/images/webeaze-transparent copy.png",
+    "address": {
+      "@type": "PostalAddress",
+      "addressRegion": "DE",
+      "addressCountry": "US"
+    }
+  },
+  "serviceType": "Website Management",
+  "areaServed": "United States",
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Website Management Plans",
+    "itemListElement": [
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Unlimited Website Updates"
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Same-Day Turnaround"
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Security & Backups"
+        }
+      }
+    ]
+  }
+}
+</script>
 
 <style>
 :root {
   --gold: #ffd700;
   --gold-dim: rgba(255,215,0,0.12);
+  --gold-glow: rgba(255,215,0,0.4);
   --purple: #7851a9;
   --bg: #050509;
   --bg-card: #0c0c14;
@@ -25,6 +94,8 @@
   --ink-muted: #a0a6c0;
   --line: rgba(255,255,255,0.08);
   --line-gold: rgba(255,215,0,0.25);
+  --success: #22c55e;
+  --danger: #ef4444;
 }
 
 html, body { height: 100%; overflow-x: hidden }
@@ -58,10 +129,10 @@ a { color: inherit; text-decoration: none }
 /* HERO */
 .hero {
   position: relative;
-  min-height: 85vh;
+  min-height: 100vh;
   display: flex;
   align-items: center;
-  padding: 80px 0;
+  padding: 100px 0 80px;
   overflow: hidden;
 }
 .hero::before {
@@ -69,80 +140,83 @@ a { color: inherit; text-decoration: none }
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(180deg, rgba(5,5,9,0.3) 0%, rgba(5,5,9,0.6) 40%, rgba(5,5,9,1) 100%),
+    linear-gradient(180deg, rgba(5,5,9,0.2) 0%, rgba(5,5,9,0.7) 50%, rgba(5,5,9,1) 100%),
     url('images/ongoing-support-image.jpg') center/cover no-repeat;
 }
 .hero::after {
   content: '';
   position: absolute;
-  top: -100px;
-  right: -200px;
-  width: 600px;
-  height: 600px;
-  background: radial-gradient(circle, rgba(255,215,0,0.15) 0%, transparent 60%);
+  top: -150px;
+  right: -250px;
+  width: 700px;
+  height: 700px;
+  background: radial-gradient(circle, rgba(255,215,0,0.18) 0%, transparent 55%);
   pointer-events: none;
 }
-.hero-content { position: relative; z-index: 2 }
+.hero-content { position: relative; z-index: 2; max-width: 680px; }
 
-.kicker {
+.unlimited-badge {
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--gold);
-  margin-bottom: 20px;
-  padding: 8px 16px;
-  background: var(--gold-dim);
+  margin-bottom: 24px;
+  padding: 12px 20px;
+  background: linear-gradient(135deg, rgba(255,215,0,0.15) 0%, rgba(255,215,0,0.05) 100%);
   border-radius: 999px;
-  border: 1px solid var(--line-gold);
+  border: 2px solid var(--gold);
+  box-shadow: 0 0 30px var(--gold-glow);
+  animation: pulse-glow 2s ease-in-out infinite;
 }
-.kicker i { font-size: 0.9rem }
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 30px var(--gold-glow); }
+  50% { box-shadow: 0 0 50px var(--gold-glow), 0 0 80px rgba(255,215,0,0.2); }
+}
 
 .headline {
-  font-size: clamp(2.5rem, 6vw, 4rem);
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  line-height: 1.08;
-  margin-bottom: 24px;
+  font-size: clamp(2.8rem, 7vw, 4.5rem);
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  line-height: 1.05;
+  margin-bottom: 28px;
 }
 .headline .highlight {
-  background: linear-gradient(135deg, var(--gold) 0%, #ffea80 100%);
+  display: block;
+  background: linear-gradient(135deg, var(--gold) 0%, #ffea80 50%, var(--gold) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
 .hero-sub {
-  font-size: 1.2rem;
+  font-size: 1.25rem;
   color: var(--ink-muted);
-  max-width: 540px;
-  line-height: 1.6;
-  margin-bottom: 32px;
+  max-width: 560px;
+  line-height: 1.7;
+  margin-bottom: 36px;
 }
+.hero-sub strong { color: #fff; }
 
-.hero-stats {
+.hero-value-props {
   display: flex;
-  gap: 40px;
-  margin-top: 48px;
-  padding-top: 32px;
-  border-top: 1px solid var(--line);
+  gap: 32px;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
 }
-.hero-stat {
-  text-align: left;
+.hero-value-prop {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1rem;
+  font-weight: 600;
 }
-.hero-stat-value {
-  font-size: 2rem;
-  font-weight: 700;
-  color: var(--gold);
-  line-height: 1;
-}
-.hero-stat-label {
-  font-size: 0.85rem;
-  color: var(--ink-muted);
-  margin-top: 4px;
+.hero-value-prop i {
+  color: var(--success);
+  font-size: 1.1rem;
 }
 
 /* Buttons */
@@ -154,9 +228,9 @@ a { color: inherit; text-decoration: none }
   color: #1a1a2e;
   border: none;
   border-radius: 14px;
-  padding: 16px 28px;
+  padding: 18px 32px;
   font-weight: 700;
-  font-size: 1rem;
+  font-size: 1.05rem;
   box-shadow: 0 12px 32px rgba(255,215,0,0.25);
   transition: all 0.2s ease;
 }
@@ -175,7 +249,7 @@ a { color: inherit; text-decoration: none }
   color: #fff;
   border: 2px solid rgba(255,255,255,0.2);
   border-radius: 14px;
-  padding: 14px 24px;
+  padding: 16px 28px;
   font-weight: 600;
   transition: all 0.2s ease;
 }
@@ -186,45 +260,288 @@ a { color: inherit; text-decoration: none }
 }
 .cta-group { display: flex; gap: 16px; flex-wrap: wrap }
 
-/* TRUST STRIP */
-.trust-strip {
-  background: var(--bg-card);
-  border-top: 1px solid var(--line);
+/* MEGA STATS */
+.mega-stats {
+  background: linear-gradient(180deg, var(--bg) 0%, var(--bg-card) 100%);
+  padding: 80px 0;
   border-bottom: 1px solid var(--line);
-  padding: 24px 0;
 }
-.trust-items {
-  display: flex;
-  justify-content: center;
-  gap: 48px;
-  flex-wrap: wrap;
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 40px;
 }
-.trust-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 0.9rem;
+@media (max-width: 992px) {
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 500px) {
+  .stats-grid { grid-template-columns: 1fr; }
+}
+.stat-card {
+  text-align: center;
+  padding: 32px 20px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  transition: all 0.3s ease;
+}
+.stat-card:hover {
+  border-color: var(--line-gold);
+  transform: translateY(-4px);
+}
+.stat-value {
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  font-weight: 900;
+  color: var(--gold);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.stat-label {
+  font-size: 1rem;
   color: var(--ink-muted);
+  font-weight: 500;
 }
-.trust-item i { color: var(--gold); font-size: 1rem }
 
 /* Section Styles */
-.section { padding: clamp(60px, 10vh, 100px) 0 }
+.section { padding: clamp(80px, 12vh, 120px) 0 }
 .section-dark { background: var(--bg-card) }
 .section-header {
   text-align: center;
-  margin-bottom: 56px;
+  margin-bottom: 64px;
+}
+.section-header .kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 16px;
 }
 .section-header h2 {
-  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-size: clamp(2rem, 5vw, 3rem);
   font-weight: 800;
-  margin: 0 0 16px;
+  margin: 0 0 20px;
+  line-height: 1.15;
 }
 .section-header p {
+  font-size: 1.15rem;
+  color: var(--ink-muted);
+  max-width: 620px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+/* COMPARISON SECTION */
+.comparison-section {
+  background: linear-gradient(180deg, var(--bg-card) 0%, var(--bg) 100%);
+}
+.comparison-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+@media (max-width: 768px) {
+  .comparison-grid { grid-template-columns: 1fr; }
+}
+.comparison-card {
+  padding: 40px;
+  border-radius: 24px;
+  position: relative;
+  overflow: hidden;
+}
+.comparison-card.others {
+  background: var(--bg-elevated);
+  border: 1px solid var(--line);
+}
+.comparison-card.webeaze {
+  background: linear-gradient(135deg, rgba(255,215,0,0.08) 0%, rgba(120,81,169,0.08) 100%);
+  border: 2px solid var(--gold);
+  box-shadow: 0 20px 60px rgba(255,215,0,0.15);
+}
+.comparison-card.webeaze::before {
+  content: 'RECOMMENDED';
+  position: absolute;
+  top: 20px;
+  right: -30px;
+  background: var(--gold);
+  color: #1a1a2e;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  padding: 6px 40px;
+  transform: rotate(45deg);
+}
+.comparison-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.comparison-card.others .comparison-title { color: var(--ink-muted); }
+.comparison-card.webeaze .comparison-title { color: var(--gold); }
+.comparison-subtitle {
+  font-size: 0.95rem;
+  color: var(--ink-muted);
+  margin-bottom: 28px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--line);
+}
+.comparison-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.comparison-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 0;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+.comparison-list li i {
+  margin-top: 4px;
+  font-size: 0.9rem;
+}
+.comparison-card.others .comparison-list li i { color: var(--danger); }
+.comparison-card.webeaze .comparison-list li i { color: var(--success); }
+
+/* UNLIMITED EXAMPLES */
+.examples-section {
+  background: var(--bg-elevated);
+}
+.examples-intro {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto 60px;
+}
+.examples-intro h2 {
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  font-weight: 800;
+  margin-bottom: 16px;
+}
+.examples-intro p {
   font-size: 1.1rem;
   color: var(--ink-muted);
-  max-width: 560px;
+  line-height: 1.7;
+}
+.examples-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+@media (max-width: 992px) {
+  .examples-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 600px) {
+  .examples-grid { grid-template-columns: 1fr; }
+}
+.example-card {
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 28px;
+  transition: all 0.3s ease;
+}
+.example-card:hover {
+  border-color: var(--line-gold);
+  transform: translateY(-4px);
+}
+.example-icon {
+  width: 52px;
+  height: 52px;
+  background: var(--gold-dim);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+.example-icon i { font-size: 1.3rem; color: var(--gold); }
+.example-card h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0 0 10px;
+}
+.example-card p {
+  font-size: 0.9rem;
+  color: var(--ink-muted);
+  margin: 0 0 16px;
+  line-height: 1.6;
+}
+.example-freq {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--success);
+  background: rgba(34, 197, 94, 0.1);
+  padding: 6px 12px;
+  border-radius: 999px;
+}
+
+/* TESTIMONIAL */
+.testimonial-section {
+  background: linear-gradient(135deg, rgba(120,81,169,0.1) 0%, rgba(255,215,0,0.05) 100%);
+  padding: clamp(80px, 12vh, 120px) 0;
+}
+.testimonial-content {
+  max-width: 800px;
   margin: 0 auto;
+  text-align: center;
+}
+.testimonial-quote {
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  font-weight: 500;
+  line-height: 1.6;
+  margin-bottom: 32px;
+  position: relative;
+}
+.testimonial-quote::before {
+  content: '"';
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 6rem;
+  color: var(--gold);
+  opacity: 0.2;
+  font-family: Georgia, serif;
+  line-height: 1;
+}
+.testimonial-author {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+.testimonial-avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--gold-dim);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: var(--gold);
+}
+.testimonial-info {
+  text-align: left;
+}
+.testimonial-name {
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+.testimonial-business {
+  color: var(--ink-muted);
+  font-size: 0.9rem;
 }
 
 /* What We Do Grid */
@@ -291,118 +608,26 @@ a { color: inherit; text-decoration: none }
   line-height: 1.6;
 }
 
-/* Big Value Section */
-.value-section {
-  background: linear-gradient(180deg, var(--bg) 0%, var(--bg-card) 100%);
-}
-.value-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 60px;
-  align-items: center;
-}
-@media (max-width: 992px) {
-  .value-grid { grid-template-columns: 1fr; gap: 40px }
-}
-
-.value-content h2 {
-  font-size: clamp(1.75rem, 4vw, 2.5rem);
-  font-weight: 800;
-  margin: 0 0 20px;
-  line-height: 1.15;
-}
-.value-content p {
-  font-size: 1.1rem;
-  color: var(--ink-muted);
-  line-height: 1.7;
-  margin-bottom: 24px;
-}
-.value-list {
-  list-style: none;
-  padding: 0;
-  margin: 0 0 32px;
-}
-.value-list li {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  padding: 12px 0;
-  border-bottom: 1px solid var(--line);
-  font-size: 1rem;
-}
-.value-list li:last-child { border-bottom: none }
-.value-list i { color: var(--gold); margin-top: 4px }
-
-.value-image {
-  position: relative;
-}
-.value-image img {
-  width: 100%;
-  border-radius: 20px;
-  box-shadow: 0 30px 60px rgba(0,0,0,0.5);
-}
-.value-image::before {
-  content: '';
-  position: absolute;
-  top: -20px;
-  right: -20px;
-  width: 200px;
-  height: 200px;
-  background: radial-gradient(circle, rgba(255,215,0,0.2) 0%, transparent 60%);
-  pointer-events: none;
-}
-
-/* Example Section */
-.example-section {
-  background: var(--bg-elevated);
-}
-.example-content {
-  display: grid;
-  grid-template-columns: 1fr 1.2fr;
-  gap: 60px;
-  align-items: center;
-}
-@media (max-width: 992px) {
-  .example-content { grid-template-columns: 1fr; gap: 40px }
-}
-
-.example-text h2 {
-  font-size: clamp(1.5rem, 3vw, 2rem);
-  font-weight: 700;
-  margin: 0 0 16px;
-}
-.example-text .client-name {
-  color: var(--gold);
-  font-weight: 600;
-}
-.example-text p {
-  color: var(--ink-muted);
-  line-height: 1.7;
-  margin-bottom: 20px;
-}
-.example-images {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-}
-.example-images img {
-  width: 100%;
-  border-radius: 16px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-  transition: transform 0.3s ease;
-}
-.example-images img:hover {
-  transform: translateY(-4px);
-}
-
 /* How It Works */
 .steps-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 32px;
+  position: relative;
+}
+.steps-grid::before {
+  content: '';
+  position: absolute;
+  top: 24px;
+  left: 15%;
+  right: 15%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--gold), var(--purple), var(--gold));
+  opacity: 0.3;
 }
 @media (max-width: 768px) {
   .steps-grid { grid-template-columns: 1fr }
+  .steps-grid::before { display: none; }
 }
 
 .step-card {
@@ -414,17 +639,19 @@ a { color: inherit; text-decoration: none }
   position: relative;
 }
 .step-number {
-  width: 48px;
-  height: 48px;
+  width: 52px;
+  height: 52px;
   background: var(--gold);
   color: #1a1a2e;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.25rem;
+  font-size: 1.4rem;
   font-weight: 800;
   margin: 0 auto 20px;
+  position: relative;
+  z-index: 2;
 }
 .step-card h3 {
   font-size: 1.15rem;
@@ -436,6 +663,72 @@ a { color: inherit; text-decoration: none }
   color: var(--ink-muted);
   margin: 0;
   line-height: 1.6;
+}
+
+/* CASE STUDY */
+.case-study-section {
+  background: var(--bg-card);
+}
+.case-study-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 60px;
+  align-items: center;
+}
+@media (max-width: 992px) {
+  .case-study-grid { grid-template-columns: 1fr; gap: 40px; }
+}
+.case-study-content h2 {
+  font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+  font-weight: 700;
+  margin: 0 0 20px;
+  line-height: 1.2;
+}
+.case-study-content .client-name {
+  color: var(--gold);
+  font-weight: 700;
+}
+.case-study-content p {
+  color: var(--ink-muted);
+  line-height: 1.7;
+  margin-bottom: 24px;
+  font-size: 1.05rem;
+}
+.case-study-stats {
+  display: flex;
+  gap: 32px;
+  margin: 28px 0;
+  padding: 24px 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.case-study-stat {
+  text-align: left;
+}
+.case-study-stat-value {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--gold);
+  line-height: 1;
+}
+.case-study-stat-label {
+  font-size: 0.85rem;
+  color: var(--ink-muted);
+  margin-top: 4px;
+}
+.case-study-images {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.case-study-images img {
+  width: 100%;
+  border-radius: 16px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+  transition: transform 0.3s ease;
+}
+.case-study-images img:hover {
+  transform: translateY(-4px);
 }
 
 /* FAQ */
@@ -483,129 +776,139 @@ a { color: inherit; text-decoration: none }
   background:
     linear-gradient(135deg, rgba(120,81,169,0.15) 0%, rgba(255,215,0,0.1) 100%),
     var(--bg);
-  padding: clamp(80px, 12vh, 120px) 0;
+  padding: clamp(100px, 15vh, 140px) 0;
   text-align: center;
 }
 .final-cta h2 {
-  font-size: clamp(2rem, 5vw, 3rem);
-  font-weight: 800;
-  margin: 0 0 16px;
+  font-size: clamp(2.2rem, 5vw, 3.5rem);
+  font-weight: 900;
+  margin: 0 0 20px;
 }
 .final-cta p {
-  font-size: 1.15rem;
+  font-size: 1.2rem;
   color: var(--ink-muted);
-  max-width: 500px;
-  margin: 0 auto 32px;
+  max-width: 550px;
+  margin: 0 auto 36px;
+  line-height: 1.6;
 }
+.final-cta-guarantee {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.95rem;
+  color: var(--ink-muted);
+  margin-top: 24px;
+}
+.final-cta-guarantee i { color: var(--success); }
 
 /* Footer */
-    footer {
-      background: #000;
-      padding: 60px 20px 40px;
-      border-top: 1px solid rgba(255,255,255,0.08);
-    }
-    .footer-grid {
-      display: grid;
-      grid-template-columns: 2fr 1fr 1fr 1fr;
-      gap: 48px;
-      max-width: 1100px;
-      margin: 0 auto 48px;
-      text-align: left;
-    }
-    @media (max-width: 768px) {
-      .footer-grid {
-        grid-template-columns: 1fr 1fr;
-        gap: 32px;
-      }
-    }
-    @media (max-width: 480px) {
-      .footer-grid {
-        grid-template-columns: 1fr;
-        gap: 28px;
-      }
-    }
-    .footer-brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 16px;
-    }
-    .footer-brand img { height: 32px; }
-    .footer-brand span { font-weight: 700; font-size: 1.1rem; }
-    .footer-tagline {
-      color: #a0a6c0;
-      font-size: 0.9rem;
-      line-height: 1.6;
-      margin-bottom: 20px;
-      max-width: 280px;
-    }
-    .footer-social {
-      display: flex;
-      gap: 12px;
-    }
-    .footer-social a {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 36px;
-      height: 36px;
-      background: rgba(255, 255, 255, 0.06);
-      border-radius: 10px;
-      color: #a0a6c0;
-      font-size: 1rem;
-      transition: all 0.2s ease;
-    }
-    .footer-social a:hover {
-      background: #ffd700;
-      color: #1a1a2e;
-    }
-    .footer-col h5 {
-      font-size: 0.85rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: #fff;
-      margin: 0 0 16px;
-    }
-    .footer-col ul { list-style: none; padding: 0; margin: 0; }
-    .footer-col li { margin-bottom: 10px; }
-    .footer-col a {
-      color: #a0a6c0;
-      font-size: 0.9rem;
-      transition: color 0.2s ease;
-    }
-    .footer-col a:hover { color: #ffd700; }
-    .footer-bottom {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding-top: 24px;
-      border-top: 1px solid rgba(255,255,255,0.08);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 16px;
-    }
-    .footer-bottom p { color: #6b7280; font-size: 0.85rem; margin: 0; }
-    .footer-legal { display: flex; gap: 24px; }
-    .footer-legal a {
-      color: #6b7280;
-      font-size: 0.85rem;
-      transition: color 0.2s ease;
-    }
-    .footer-legal a:hover { color: #ffd700; }
-    @media (max-width: 600px) {
-      .footer-bottom {
-        flex-direction: column;
-        text-align: center;
-      }
-    }
+footer {
+  background: #000;
+  padding: 60px 20px 40px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 48px;
+  max-width: 1100px;
+  margin: 0 auto 48px;
+  text-align: left;
+}
+@media (max-width: 768px) {
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+}
+@media (max-width: 480px) {
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+}
+.footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.footer-brand img { height: 32px; }
+.footer-brand span { font-weight: 700; font-size: 1.1rem; }
+.footer-tagline {
+  color: #a0a6c0;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  max-width: 280px;
+}
+.footer-social {
+  display: flex;
+  gap: 12px;
+}
+.footer-social a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  color: #a0a6c0;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+}
+.footer-social a:hover {
+  background: #ffd700;
+  color: #1a1a2e;
+}
+.footer-col h5 {
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #fff;
+  margin: 0 0 16px;
+}
+.footer-col ul { list-style: none; padding: 0; margin: 0; }
+.footer-col li { margin-bottom: 10px; }
+.footer-col a {
+  color: #a0a6c0;
+  font-size: 0.9rem;
+  transition: color 0.2s ease;
+}
+.footer-col a:hover { color: #ffd700; }
+.footer-bottom {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.footer-bottom p { color: #6b7280; font-size: 0.85rem; margin: 0; }
+.footer-legal { display: flex; gap: 24px; }
+.footer-legal a {
+  color: #6b7280;
+  font-size: 0.85rem;
+  transition: color 0.2s ease;
+}
+.footer-legal a:hover { color: #ffd700; }
+@media (max-width: 600px) {
+  .footer-bottom {
+    flex-direction: column;
+    text-align: center;
+  }
+}
 
 /* Animations */
 .reveal {
   opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
+  transform: translateY(24px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
 }
 .reveal.in-view {
   opacity: 1;
@@ -614,10 +917,10 @@ a { color: inherit; text-decoration: none }
 .reveal-delay-1 { transition-delay: 0.1s }
 .reveal-delay-2 { transition-delay: 0.2s }
 .reveal-delay-3 { transition-delay: 0.3s }
+.reveal-delay-4 { transition-delay: 0.4s }
 
 @media (max-width: 768px) {
-  .hero-stats { flex-direction: column; gap: 24px }
-  .trust-items { gap: 24px }
+  .hero-value-props { flex-direction: column; gap: 12px; }
 }
 </style>
 </head>
@@ -652,46 +955,76 @@ a { color: inherit; text-decoration: none }
 
 
 <!-- HERO -->
-<section class="hero">
+<header class="hero">
   <div class="container container-narrow">
     <div class="hero-content">
 
-      <div class="kicker reveal">
-        <i class="fas fa-hands-helping"></i>
-        Existing Website Support
+      <div class="unlimited-badge reveal">
+        <i class="fas fa-infinity"></i>
+        Truly Unlimited Updates
       </div>
 
       <h1 class="headline reveal reveal-delay-1">
-        Already have a site?<br>
-        <span class="highlight">We'll take it from here.</span>
+        Stop paying per change.
+        <span class="highlight">Start getting results.</span>
       </h1>
 
       <p class="hero-sub reveal reveal-delay-2">
-        Stop logging in. Stop Googling how to fix things. Stop worrying if your site looks outdated. Hand it to us and get back to running your business.
+        Other agencies charge $50-150 per update. We charge <strong>one flat monthly fee</strong> for unlimited changes. Text us, email us, call us—your website stays current without surprise invoices.
       </p>
+
+      <div class="hero-value-props reveal reveal-delay-2">
+        <div class="hero-value-prop">
+          <i class="fas fa-check-circle"></i>
+          <span>No per-change fees</span>
+        </div>
+        <div class="hero-value-prop">
+          <i class="fas fa-check-circle"></i>
+          <span>Same-day turnaround</span>
+        </div>
+        <div class="hero-value-prop">
+          <i class="fas fa-check-circle"></i>
+          <span>Real human support</span>
+        </div>
+      </div>
 
       <div class="cta-group reveal reveal-delay-3">
         <a href="consultation.html" class="btn-primary">
-          <i class="fas fa-calendar-check"></i> Request A Call
+          <i class="fas fa-calendar-check"></i> Get Started Today
         </a>
-        <a href="#how-it-works" class="btn-secondary">
-          <i class="fas fa-play-circle"></i> See How It Works
+        <a href="#comparison" class="btn-secondary">
+          <i class="fas fa-balance-scale"></i> See the Difference
         </a>
       </div>
 
-      <div class="hero-stats reveal reveal-delay-3">
-        <div class="hero-stat">
-          <div class="hero-stat-value">24hr</div>
-          <div class="hero-stat-label">Typical turnaround</div>
-        </div>
-        <div class="hero-stat">
-          <div class="hero-stat-value">Unlimited</div>
-          <div class="hero-stat-label">Updates included</div>
-        </div>
-        <div class="hero-stat">
-          <div class="hero-stat-value">$0</div>
-          <div class="hero-stat-label">Per-change fees</div>
-        </div>
+    </div>
+  </div>
+</header>
+
+
+<!-- MEGA STATS -->
+<section class="mega-stats">
+  <div class="container container-narrow">
+    <div class="stats-grid">
+
+      <div class="stat-card reveal">
+        <div class="stat-value">$0</div>
+        <div class="stat-label">Per-change fees</div>
+      </div>
+
+      <div class="stat-card reveal reveal-delay-1">
+        <div class="stat-value">24hr</div>
+        <div class="stat-label">Typical turnaround</div>
+      </div>
+
+      <div class="stat-card reveal reveal-delay-2">
+        <div class="stat-value">∞</div>
+        <div class="stat-label">Updates included</div>
+      </div>
+
+      <div class="stat-card reveal reveal-delay-3">
+        <div class="stat-value">100%</div>
+        <div class="stat-label">Human-powered support</div>
       </div>
 
     </div>
@@ -699,29 +1032,157 @@ a { color: inherit; text-decoration: none }
 </section>
 
 
-<!-- TRUST STRIP -->
-<div class="trust-strip">
+<!-- WHY WE'RE DIFFERENT -->
+<section class="section comparison-section" id="comparison">
   <div class="container container-narrow">
-    <div class="trust-items">
-      <div class="trust-item">
-        <i class="fas fa-check-circle"></i>
-        <span>WordPress, Wix, Squarespace & more</span>
+
+    <div class="section-header reveal">
+      <div class="kicker"><i class="fas fa-star"></i> Why We're Different</div>
+      <h2>Traditional agencies vs. WebEaze</h2>
+      <p>Most web agencies profit from keeping you dependent on them. We profit from keeping you happy.</p>
+    </div>
+
+    <div class="comparison-grid">
+
+      <div class="comparison-card others reveal">
+        <div class="comparison-title">
+          <i class="fas fa-building"></i>
+          Traditional Agencies
+        </div>
+        <div class="comparison-subtitle">The old way of doing things</div>
+        <ul class="comparison-list">
+          <li><i class="fas fa-times"></i> $50-150 per small update</li>
+          <li><i class="fas fa-times"></i> 3-5 day wait times (or longer)</li>
+          <li><i class="fas fa-times"></i> Complicated ticketing systems</li>
+          <li><i class="fas fa-times"></i> Extra charges for "rush" requests</li>
+          <li><i class="fas fa-times"></i> Lock-in contracts with penalties</li>
+          <li><i class="fas fa-times"></i> Talk to a different person each time</li>
+          <li><i class="fas fa-times"></i> Surprise invoices at month end</li>
+        </ul>
       </div>
-      <div class="trust-item">
-        <i class="fas fa-check-circle"></i>
-        <span>Same-day updates</span>
+
+      <div class="comparison-card webeaze reveal reveal-delay-1">
+        <div class="comparison-title">
+          <i class="fas fa-rocket"></i>
+          WebEaze
+        </div>
+        <div class="comparison-subtitle">A better way forward</div>
+        <ul class="comparison-list">
+          <li><i class="fas fa-check"></i> Unlimited updates, one flat fee</li>
+          <li><i class="fas fa-check"></i> Same-day turnaround (usually hours)</li>
+          <li><i class="fas fa-check"></i> Text, email, or call—whatever's easiest</li>
+          <li><i class="fas fa-check"></i> Urgent requests prioritized free</li>
+          <li><i class="fas fa-check"></i> Cancel anytime, no penalties</li>
+          <li><i class="fas fa-check"></i> Same team that knows your business</li>
+          <li><i class="fas fa-check"></i> Predictable monthly cost, always</li>
+        </ul>
       </div>
-      <div class="trust-item">
-        <i class="fas fa-check-circle"></i>
-        <span>Cancel anytime</span>
-      </div>
-      <div class="trust-item">
-        <i class="fas fa-check-circle"></i>
-        <span>Real human support</span>
+
+    </div>
+
+  </div>
+</section>
+
+
+<!-- WHAT UNLIMITED REALLY MEANS -->
+<section class="section examples-section">
+  <div class="container container-narrow">
+
+    <div class="examples-intro reveal">
+      <h2>"Unlimited" actually means unlimited</h2>
+      <p>No asterisks. No fine print. No "fair use" policies designed to limit you. Here's what our clients actually request—and we deliver every single time.</p>
+    </div>
+
+    <div class="examples-grid">
+
+      <article class="example-card reveal">
+        <div class="example-icon"><i class="fas fa-image"></i></div>
+        <h3>Swap product photos</h3>
+        <p>"Can you replace the hero image with this new one and add it to the gallery?"</p>
+        <div class="example-freq"><i class="fas fa-bolt"></i> Done in hours</div>
+      </article>
+
+      <article class="example-card reveal reveal-delay-1">
+        <div class="example-icon"><i class="fas fa-clock"></i></div>
+        <h3>Update business hours</h3>
+        <p>"We're closed next Monday for the holiday. Can you update the site?"</p>
+        <div class="example-freq"><i class="fas fa-bolt"></i> Done in hours</div>
+      </article>
+
+      <article class="example-card reveal reveal-delay-2">
+        <div class="example-icon"><i class="fas fa-bullhorn"></i></div>
+        <h3>Add seasonal promos</h3>
+        <p>"We're running a 20% off sale. Can you add a banner to the homepage?"</p>
+        <div class="example-freq"><i class="fas fa-bolt"></i> Done in hours</div>
+      </article>
+
+      <article class="example-card reveal">
+        <div class="example-icon"><i class="fas fa-file-alt"></i></div>
+        <h3>Create new pages</h3>
+        <p>"We launched a new service. Can you add a page for it?"</p>
+        <div class="example-freq"><i class="fas fa-bolt"></i> Done same day</div>
+      </article>
+
+      <article class="example-card reveal reveal-delay-1">
+        <div class="example-icon"><i class="fas fa-dollar-sign"></i></div>
+        <h3>Update pricing</h3>
+        <p>"Our prices went up 10%. Can you update the pricing page?"</p>
+        <div class="example-freq"><i class="fas fa-bolt"></i> Done in hours</div>
+      </article>
+
+      <article class="example-card reveal reveal-delay-2">
+        <div class="example-icon"><i class="fas fa-bug"></i></div>
+        <h3>Fix issues instantly</h3>
+        <p>"The contact form isn't working. Can you check it?"</p>
+        <div class="example-freq"><i class="fas fa-bolt"></i> Priority response</div>
+      </article>
+
+      <article class="example-card reveal">
+        <div class="example-icon"><i class="fas fa-palette"></i></div>
+        <h3>Refresh the design</h3>
+        <p>"The site looks dated. Can we modernize the look?"</p>
+        <div class="example-freq"><i class="fas fa-bolt"></i> Included in plan</div>
+      </article>
+
+      <article class="example-card reveal reveal-delay-1">
+        <div class="example-icon"><i class="fas fa-mobile-alt"></i></div>
+        <h3>Mobile improvements</h3>
+        <p>"The menu is hard to tap on phones. Can you fix it?"</p>
+        <div class="example-freq"><i class="fas fa-bolt"></i> Done same day</div>
+      </article>
+
+      <article class="example-card reveal reveal-delay-2">
+        <div class="example-icon"><i class="fas fa-star"></i></div>
+        <h3>Add testimonials</h3>
+        <p>"We got a great review. Can you add it to the site?"</p>
+        <div class="example-freq"><i class="fas fa-bolt"></i> Done in hours</div>
+      </article>
+
+    </div>
+
+  </div>
+</section>
+
+
+<!-- TESTIMONIAL -->
+<section class="testimonial-section">
+  <div class="container container-narrow">
+    <div class="testimonial-content reveal">
+      <blockquote class="testimonial-quote">
+        I used to dread needing a website update because I knew it would cost me $75-100 and take days. Now I just text Billy and it's done by lunch. The peace of mind is worth more than the money I'm saving.
+      </blockquote>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar">
+          <i class="fas fa-user"></i>
+        </div>
+        <div class="testimonial-info">
+          <div class="testimonial-name">Sarah M.</div>
+          <div class="testimonial-business">Bake 350 Degrees, Delaware</div>
+        </div>
       </div>
     </div>
   </div>
-</div>
+</section>
 
 
 <!-- WHAT WE ACTIVELY DO -->
@@ -729,47 +1190,48 @@ a { color: inherit; text-decoration: none }
   <div class="container container-narrow">
 
     <div class="section-header reveal">
-      <h2>We actively manage your website</h2>
-      <p>Not just fixing things when they break. We keep your site running, updated, and improving.</p>
+      <div class="kicker"><i class="fas fa-cogs"></i> Full-Service Management</div>
+      <h2>Everything your website needs, handled</h2>
+      <p>We don't just fix things when they break. We actively maintain, improve, and grow your website.</p>
     </div>
 
     <div class="services-grid">
 
-      <div class="service-card reveal">
+      <article class="service-card reveal">
         <div class="service-icon"><i class="fas fa-edit"></i></div>
         <h3>Content Updates</h3>
-        <p>New photos, changed hours, updated pricing, seasonal announcements. Just tell us what you need and it's done.</p>
-      </div>
+        <p>New photos, changed hours, updated pricing, seasonal promotions. Just tell us what you need.</p>
+      </article>
 
-      <div class="service-card reveal reveal-delay-1">
+      <article class="service-card reveal reveal-delay-1">
         <div class="service-icon"><i class="fas fa-wrench"></i></div>
         <h3>Fixes & Improvements</h3>
-        <p>Broken links, weird spacing, slow pages, mobile issues. We find problems and fix them before customers notice.</p>
-      </div>
+        <p>Broken links, weird spacing, slow pages. We find and fix problems before customers notice.</p>
+      </article>
 
-      <div class="service-card reveal reveal-delay-2">
+      <article class="service-card reveal reveal-delay-2">
         <div class="service-icon"><i class="fas fa-shield-alt"></i></div>
         <h3>Security & Backups</h3>
-        <p>We keep your site secure, updated, and backed up. If anything goes wrong, we restore it fast.</p>
-      </div>
+        <p>Your site stays secure, updated, and backed up. If anything goes wrong, we restore it fast.</p>
+      </article>
 
-      <div class="service-card reveal">
+      <article class="service-card reveal">
         <div class="service-icon"><i class="fas fa-server"></i></div>
         <h3>Hosting Management</h3>
-        <p>We can migrate your site to faster servers or manage your existing hosting. No technical headaches for you.</p>
-      </div>
+        <p>We can migrate your site to faster servers or manage your existing hosting seamlessly.</p>
+      </article>
 
-      <div class="service-card reveal reveal-delay-1">
+      <article class="service-card reveal reveal-delay-1">
         <div class="service-icon"><i class="fas fa-paint-brush"></i></div>
         <h3>Design Refreshes</h3>
-        <p>Site looking dated? We can modernize layouts, improve visuals, and make your site feel fresh again.</p>
-      </div>
+        <p>Site looking dated? We modernize layouts and visuals to keep your site feeling fresh.</p>
+      </article>
 
-      <div class="service-card reveal reveal-delay-2">
+      <article class="service-card reveal reveal-delay-2">
         <div class="service-icon"><i class="fas fa-chart-line"></i></div>
         <h3>Performance Monitoring</h3>
-        <p>We keep an eye on speed, uptime, and user experience. Your site stays fast and reliable.</p>
-      </div>
+        <p>We watch speed, uptime, and user experience. Your site stays fast and reliable.</p>
+      </article>
 
     </div>
 
@@ -777,63 +1239,44 @@ a { color: inherit; text-decoration: none }
 </section>
 
 
-<!-- WHY THIS MATTERS -->
-<section class="section value-section">
+<!-- CASE STUDY -->
+<section class="section case-study-section">
   <div class="container container-narrow">
-    <div class="value-grid">
 
-      <div class="value-content reveal">
-        <h2>Your website should work for you, not the other way around</h2>
+    <div class="case-study-grid">
+
+      <div class="case-study-content reveal">
+        <h2>See how <span class="client-name">Bake 350°</span> transformed their workflow</h2>
         <p>
-          Most business owners didn't start their company to become webmasters. But somehow you end up spending hours trying to update a photo, fix a broken form, or figure out why Google isn't showing your site.
+          This Delaware bakery came to us frustrated. Every time they wanted to add a new seasonal treat or update their charity announcements, they had to submit a ticket, wait 3-5 days, and pay $75.
         </p>
         <p>
-          That's where we come in. We become your website team. You focus on customers, sales, and growing your business. We handle everything else.
+          Now? They text us. "New cookie flavor launching Friday" and it's live within hours. We learned their menu, their mission, their voice. Updates are fast because we actually understand their business.
         </p>
 
-        <ul class="value-list">
-          <li><i class="fas fa-check"></i> Text us, email us, or fill out a quick form</li>
-          <li><i class="fas fa-check"></i> We make changes same-day (usually within hours)</li>
-          <li><i class="fas fa-check"></i> No extra charges, no surprise invoices</li>
-          <li><i class="fas fa-check"></i> We learn your business so updates are always accurate</li>
-        </ul>
+        <div class="case-study-stats">
+          <div class="case-study-stat">
+            <div class="case-study-stat-value">47</div>
+            <div class="case-study-stat-label">Updates last year</div>
+          </div>
+          <div class="case-study-stat">
+            <div class="case-study-stat-value">$3,500+</div>
+            <div class="case-study-stat-label">Saved vs. per-change</div>
+          </div>
+          <div class="case-study-stat">
+            <div class="case-study-stat-value">4hrs</div>
+            <div class="case-study-stat-label">Avg turnaround</div>
+          </div>
+        </div>
 
-        <a href="pricing.html" class="btn-secondary">
-          <i class="fas fa-dollar-sign"></i> See Simple Pricing
+        <a href="https://bake350degrees.com" target="_blank" class="btn-primary">
+          <i class="fas fa-external-link-alt"></i> Visit Their Site
         </a>
       </div>
 
-      <div class="value-image reveal reveal-delay-1">
-        <img src="images/men-small-business.jpg" alt="Small business owner">
-      </div>
-
-    </div>
-  </div>
-</section>
-
-
-<!-- REAL EXAMPLE -->
-<section class="section example-section">
-  <div class="container container-narrow">
-
-    <div class="example-content">
-
-      <div class="example-text reveal">
-        <h2>See how it works in practice</h2>
-        <p>
-          <span class="client-name">Bake 350 Degrees</span> came to us with an existing bakery website that was hard to update. Seasonal specials, new treats, charity announcements, they needed changes constantly but hated dealing with their website.
-        </p>
-        <p>
-          Now they just text us. "New cookie flavor launching Friday" or "Update the donation section" and it's live within hours. We learned their menu, their mission, their voice. Updates are fast because we actually understand their business.
-        </p>
-        <a href="https://bake350degrees.com" target="_blank" class="btn-primary" style="margin-top: 16px;">
-          <i class="fas fa-external-link-alt"></i> Visit Bake 350°
-        </a>
-      </div>
-
-      <div class="example-images reveal reveal-delay-1">
-        <img src="images/samples/bake350.png" alt="Bake 350 Degrees website">
-        <img src="images/samples/bake350-2.png" alt="Bake 350 Degrees website detail">
+      <div class="case-study-images reveal reveal-delay-1">
+        <img src="images/samples/bake350.png" alt="Bake 350 Degrees website homepage">
+        <img src="images/samples/bake350-2.png" alt="Bake 350 Degrees website detail page">
       </div>
 
     </div>
@@ -847,29 +1290,30 @@ a { color: inherit; text-decoration: none }
   <div class="container container-narrow">
 
     <div class="section-header reveal">
+      <div class="kicker"><i class="fas fa-play-circle"></i> How It Works</div>
       <h2>Getting started is simple</h2>
-      <p>We make the transition easy. No complicated onboarding or tech knowledge required.</p>
+      <p>No complicated onboarding. No technical knowledge required. We make the transition easy.</p>
     </div>
 
     <div class="steps-grid">
 
-      <div class="step-card reveal">
+      <article class="step-card reveal">
         <div class="step-number">1</div>
         <h3>We review your site</h3>
         <p>We look at what's working and what needs attention. If your site needs a refresh, we'll let you know upfront.</p>
-      </div>
+      </article>
 
-      <div class="step-card reveal reveal-delay-1">
+      <article class="step-card reveal reveal-delay-1">
         <div class="step-number">2</div>
         <h3>You send updates your way</h3>
-        <p>Text, email, call, or use our simple form. Whatever's easiest for you. Just tell us what you need.</p>
-      </div>
+        <p>Text, email, call, or use our form. Whatever's easiest for you. Just tell us what you need changed.</p>
+      </article>
 
-      <div class="step-card reveal reveal-delay-2">
+      <article class="step-card reveal reveal-delay-2">
         <div class="step-number">3</div>
         <h3>We keep it running</h3>
         <p>Your site stays updated, fast, and accurate. As your business grows, your website grows with it.</p>
-      </div>
+      </article>
 
     </div>
 
@@ -882,34 +1326,40 @@ a { color: inherit; text-decoration: none }
   <div class="container container-narrow">
 
     <div class="section-header reveal">
-      <h2>Common questions</h2>
+      <div class="kicker"><i class="fas fa-question-circle"></i> FAQ</div>
+      <h2>Questions about unlimited management</h2>
     </div>
 
     <div class="faq-grid">
 
       <details class="faq-item reveal">
+        <summary>Is it really unlimited? What's the catch?</summary>
+        <p>No catch. Unlimited means unlimited. Text changes, photo swaps, new pages, layout adjustments—send as many requests as you need. We don't have "fair use" policies or hidden limits. Our business model is built around keeping you happy, not nickel-and-diming you for every change.</p>
+      </details>
+
+      <details class="faq-item reveal">
         <summary>What platforms do you support?</summary>
-        <p>WordPress, Wix, Squarespace, Shopify, custom HTML, and most other platforms. Check our <a href="providers.html">supported platforms page</a> for details.</p>
+        <p>WordPress, Wix, Squarespace, Shopify, custom HTML/CSS, and most other platforms. If your site exists, we can probably manage it. Check our <a href="providers.html">supported platforms page</a> for the full list.</p>
+      </details>
+
+      <details class="faq-item reveal">
+        <summary>How fast do you complete requests?</summary>
+        <p>Most requests are completed same-day, often within a few hours. For urgent issues (site down, broken forms, etc.), we prioritize immediately. We don't charge extra for fast turnaround—it's just how we operate.</p>
       </details>
 
       <details class="faq-item reveal">
         <summary>Can you improve my existing design?</summary>
-        <p>Yes. If your site looks dated or isn't working well, we can refresh layouts, improve visuals, and modernize the overall feel. Sometimes we offer a full rebuild at no extra cost when you join a plan.</p>
+        <p>Absolutely. If your site looks dated or isn't converting well, we can refresh layouts, modernize visuals, and improve the user experience. Sometimes we even offer a full redesign at no extra cost when you join a management plan.</p>
       </details>
 
       <details class="faq-item reveal">
-        <summary>Is it really unlimited updates?</summary>
-        <p>Yes. Text changes, new photos, layout tweaks, adding pages. Send updates whenever you need them. Everything is included in your monthly plan.</p>
+        <summary>What if I need something complex?</summary>
+        <p>Custom functionality like booking systems, e-commerce features, or integrations may require additional one-time development costs. We're transparent about this upfront—no surprises. Day-to-day updates and improvements are always included.</p>
       </details>
 
       <details class="faq-item reveal">
-        <summary>Can you migrate my hosting?</summary>
-        <p>Yes. If you want faster, more reliable hosting, we handle the entire migration process. Your site stays live the whole time.</p>
-      </details>
-
-      <details class="faq-item reveal">
-        <summary>What if I need something urgent?</summary>
-        <p>We prioritize urgent requests. If your site is down or something critical needs fixing, let us know and we'll handle it immediately.</p>
+        <summary>Can I cancel anytime?</summary>
+        <p>Yes. No long-term contracts, no cancellation penalties. We earn your business every month. If you're not happy, you're free to leave. (But our clients tend to stick around.)</p>
       </details>
 
     </div>
@@ -921,15 +1371,19 @@ a { color: inherit; text-decoration: none }
 <!-- FINAL CTA -->
 <section class="final-cta">
   <div class="container container-narrow">
-    <h2 class="reveal">Ready to stop worrying about your website?</h2>
-    <p class="reveal reveal-delay-1">Request a call. We'll review your site and show you exactly how we can help.</p>
+    <h2 class="reveal">Ready to stop overpaying for updates?</h2>
+    <p class="reveal reveal-delay-1">Request a free consultation. We'll review your site and show you exactly how much you could save.</p>
     <div class="cta-group reveal reveal-delay-2" style="justify-content: center;">
       <a href="consultation.html" class="btn-primary">
-        <i class="fas fa-calendar-check"></i> Request A Call
+        <i class="fas fa-calendar-check"></i> Get Started Today
       </a>
       <a href="pricing.html" class="btn-secondary">
         <i class="fas fa-dollar-sign"></i> See Pricing
       </a>
+    </div>
+    <div class="final-cta-guarantee reveal reveal-delay-3">
+      <i class="fas fa-shield-alt"></i>
+      <span>No contracts • Cancel anytime • 100% satisfaction guarantee</span>
     </div>
   </div>
 </section>
@@ -1011,7 +1465,7 @@ document.getElementById('yr').textContent = new Date().getFullYear();
         io.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.15 });
+  }, { threshold: 0.12 });
   els.forEach(e => io.observe(e));
 })();
 
