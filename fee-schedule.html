@@ -11,181 +11,592 @@
 <!-- Fonts & CSS -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
 <style>
-  :root{
-    --brand:#7851a9; --gold:#ffd700;
-    --ink:#0f1228; --ink-2:#3c4260; --muted:#6b7280;
-    --line:#e7eaf4; --bg:#f7f8fc; --white:#fff;
-  }
-  html,body{height:100%}
-  body{margin:0;font-family:'Poppins',sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased}
-  a{color:inherit;text-decoration:none}
-  .container-narrow{max-width:1100px}
-  .logo{height:36px}
+:root {
+  --bg: #050509;
+  --bg-card: #0a0a12;
+  --bg-card-hover: #0f0f1a;
+  --gold: #ffd700;
+  --gold-dim: rgba(255, 215, 0, 0.1);
+  --gold-glow: rgba(255, 215, 0, 0.15);
+  --brand: #7851a9;
+  --brand-dim: rgba(120, 81, 169, 0.15);
+  --text: #ffffff;
+  --text-muted: #8b8fa8;
+  --line: rgba(255, 255, 255, 0.08);
+  --success: #22c55e;
+  --success-dim: rgba(34, 197, 94, 0.1);
+}
 
-  /* Nav */
-  .nav-wrap{position:sticky; top:0; z-index:9999; background:#000; border-bottom:1px solid rgba(255,255,255,.14)}
-  .webeaze-nav{background:transparent!important; box-shadow:none!important; padding:.6rem 0; transition:padding .18s ease}
-  .scrolled .webeaze-nav{padding:.45rem 0}
-  .navbar-dark .nav-link{color:#fff!important;opacity:.92;border-radius:10px;padding:.45rem .7rem}
-  .navbar-dark .nav-link:hover{opacity:1;background:rgba(255,255,255,.08)}
-  .btn-nav{background:var(--gold);color:#2f1e66;border:none;border-radius:12px;padding:.6rem .9rem;font-weight:700;box-shadow:0 8px 22px rgba(255,215,0,.22)}
-  .brand-word{letter-spacing:-.3px;font-weight:700;background:linear-gradient(90deg,#e8e7ea,#66615f);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+a { color: inherit; text-decoration: none; }
+.container-narrow { max-width: 1100px; }
+.logo { height: 36px; }
 
-  /* Page Head */
-  .hero{position:relative;padding:70px 0;background:linear-gradient(180deg,#ffffff,#f7f8fc 70%)}
-  .hero .eyebrow{font-size:.85rem;letter-spacing:.08em;text-transform:uppercase;color:#6b6f86}
-  .headline{font-weight:800;letter-spacing:-.02em;line-height:1.05; font-size: clamp(28px, 5.2vw, 48px)}
-  .sub{color:var(--ink-2)}
+/* NAV */
+.nav-wrap {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+  background: rgba(5, 5, 9, 0.9);
+  backdrop-filter: saturate(130%) blur(14px);
+  -webkit-backdrop-filter: saturate(130%) blur(14px);
+  border-bottom: 1px solid var(--line);
+}
+.webeaze-nav { background: transparent !important; box-shadow: none !important; padding: .6rem 0; }
+.brand-word { letter-spacing: -.3px; font-weight: 700; color: #fff; }
+.navbar-dark .nav-link { color: #fff !important; opacity: .85; border-radius: 10px; padding: .45rem .7rem; }
+.navbar-dark .nav-link:hover { opacity: 1; background: rgba(255, 255, 255, .08); }
+.btn-nav { background: var(--gold); color: #2f1e66; border: none; border-radius: 12px; padding: .55rem .85rem; font-weight: 700; font-size: 0.9rem; }
 
-  /* Layout */
-  section[id]{scroll-margin-top:90px}
-  html{scroll-behavior:smooth}
-  .surface{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 10px 32px rgba(16,18,37,.06);padding:20px}
-  .kicker{display:inline-block;padding:6px 10px;border-radius:999px;background:#fff;border:1px solid var(--line);color:#3c4260;font-size:.82rem;letter-spacing:.04em;text-transform:uppercase;font-weight:700}
+/* HERO */
+.hero {
+  position: relative;
+  padding: 140px 20px 80px;
+  text-align: center;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -200px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 800px;
+  height: 800px;
+  background: radial-gradient(circle, rgba(120, 81, 169, 0.15) 0%, transparent 50%);
+  pointer-events: none;
+}
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: var(--gold-dim);
+  border: 1px solid rgba(255, 215, 0, 0.2);
+  border-radius: 100px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 24px;
+}
+.hero h1 {
+  font-size: clamp(32px, 5vw, 52px);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin-bottom: 20px;
+}
+.hero h1 span {
+  background: linear-gradient(135deg, var(--gold) 0%, #ffaa00 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero p {
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  max-width: 600px;
+  margin: 0 auto 16px;
+  line-height: 1.7;
+}
+.hero-updated {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  opacity: 0.7;
+}
 
-  /* TOC */
-  .toc{position:sticky; top:96px}
-  .toc .card{border:1px solid var(--line); border-radius:14px}
-  .toc a{display:block;padding:.5rem .75rem;border-radius:10px;color:#3c4260}
-  .toc a:hover{background:#f6f7fb}
-  .toc .mini{font-size:.85rem;color:#6b7280}
-  .toc .active{background:#ede9fe;border:1px solid #d8cffb}
+/* QUICK NAV */
+.quick-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 32px;
+}
+.quick-nav a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  transition: all 0.25s ease;
+}
+.quick-nav a:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--gold);
+  color: var(--gold);
+  transform: translateY(-2px);
+}
+.quick-nav a i {
+  font-size: 0.85rem;
+}
 
-  /* Tables */
-  .fee-table{width:100%;border-collapse:separate;border-spacing:0}
-  .fee-table caption{caption-side:top;text-align:left;font-weight:800;margin-bottom:6px}
-  .fee-table th, .fee-table td{padding:12px;border-top:1px solid var(--line);vertical-align:top}
-  .fee-table thead th{background:#fafbff;border-top:0;color:#3a2577;font-weight:800}
-  .fee-table tr:first-child td{border-top:1px solid var(--line)}
-  .badge-note{display:inline-block;padding:.25rem .55rem;border-radius:999px;background:#ede9fe;border:1px solid #d8cffb;font-weight:700;color:#3a2577;font-size:.75rem}
-  .note{color:#6b7280}
+/* SECTIONS */
+.section {
+  padding: 80px 20px;
+}
+.section-header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+.section-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  background: var(--brand-dim);
+  border: 1px solid rgba(120, 81, 169, 0.25);
+  border-radius: 100px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #b794f6;
+  margin-bottom: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.section-header h2 {
+  font-size: clamp(28px, 4vw, 40px);
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+.section-header p {
+  color: var(--text-muted);
+  max-width: 600px;
+  margin: 0 auto;
+}
 
-  /* Cards for small screens */
-  @media(max-width:768px){
-    .table-wrap{border:1px solid var(--line); border-radius:14px; overflow:auto}
+/* OVERVIEW CARDS */
+.overview-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+@media (max-width: 768px) {
+  .overview-grid {
+    grid-template-columns: 1fr;
   }
+}
+.overview-card {
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 32px;
+  transition: all 0.3s ease;
+}
+.overview-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+.overview-card.included {
+  border-color: rgba(34, 197, 94, 0.3);
+  background: linear-gradient(135deg, var(--bg-card) 0%, rgba(34, 197, 94, 0.05) 100%);
+}
+.overview-card.extra {
+  border-color: rgba(255, 215, 0, 0.3);
+  background: linear-gradient(135deg, var(--bg-card) 0%, rgba(255, 215, 0, 0.05) 100%);
+}
+.overview-icon {
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  font-size: 1.4rem;
+  margin-bottom: 20px;
+}
+.overview-card.included .overview-icon {
+  background: var(--success-dim);
+  color: var(--success);
+}
+.overview-card.extra .overview-icon {
+  background: var(--gold-dim);
+  color: var(--gold);
+}
+.overview-card h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+.overview-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.overview-card li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 8px 0;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+}
+.overview-card li i {
+  margin-top: 4px;
+  font-size: 0.75rem;
+}
+.overview-card.included li i { color: var(--success); }
+.overview-card.extra li i { color: var(--gold); }
 
-  /* CTA Band */
-  .band{background:linear-gradient(180deg,#2b2355 0%, #201a46 100%); color:#fff; padding:40px 0; border-top:1px solid rgba(255,255,255,.08)}
-  .btn-brand{display:inline-flex;align-items:center;justify-content:center;background:var(--gold);color:#2f1e66;border:none;border-radius:12px;padding:.74rem 1.05rem;font-weight:700;box-shadow:0 10px 26px rgba(255,215,0,.22);transition:transform .15s ease, box-shadow .15s ease}
-  .btn-brand:hover{transform:translateY(-1px);box-shadow:0 14px 34px rgba(255,215,0,.3)}
-  .btn-ghost{display:inline-flex;align-items:center;justify-content:center;background:#fff;color:var(--ink);border:1px solid var(--line);border-radius:12px;padding:.74rem 1.05rem;font-weight:700}
+/* FEE CARDS */
+.fee-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 20px;
+}
+.fee-card {
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 24px;
+  transition: all 0.3s ease;
+}
+.fee-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+.fee-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+.fee-card h4 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin: 0;
+}
+.fee-price {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--gold);
+  white-space: nowrap;
+}
+.fee-price.recurring {
+  color: #b794f6;
+}
+.fee-card p {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin: 0;
+  line-height: 1.6;
+}
+.fee-tag {
+  display: inline-block;
+  padding: 4px 10px;
+  background: var(--brand-dim);
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #b794f6;
+  margin-top: 12px;
+}
 
-  /* Footer */
-  footer {
-    background: #000;
-    padding: 60px 20px 40px;
-    border-top: 1px solid rgba(255,255,255,.08);
-  }
-  .footer-grid {
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1fr;
-    gap: 48px;
-    max-width: 1100px;
-    margin: 0 auto 48px;
-    text-align: left;
-  }
-  @media (max-width: 768px) {
-    .footer-grid {
-      grid-template-columns: 1fr 1fr;
-      gap: 32px;
-    }
-  }
-  @media (max-width: 480px) {
-    .footer-grid {
-      grid-template-columns: 1fr;
-      gap: 28px;
-    }
-  }
-  .footer-brand {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 16px;
-  }
-  .footer-brand img { height: 32px; }
-  .footer-brand span { font-weight: 700; font-size: 1.1rem; }
-  .footer-tagline {
-    color: #a0a6c0;
-    font-size: 0.9rem;
-    line-height: 1.6;
-    margin-bottom: 20px;
-    max-width: 280px;
-  }
-  .footer-social {
-    display: flex;
-    gap: 12px;
-  }
-  .footer-social a {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 36px;
-    height: 36px;
-    background: rgba(255, 255, 255, 0.06);
-    border-radius: 10px;
-    color: #a0a6c0;
-    font-size: 1rem;
-    transition: all 0.2s ease;
-  }
-  .footer-social a:hover {
-    background: var(--gold);
-    color: #1a1a2e;
-  }
-  .footer-col h5 {
-    font-size: 0.85rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: #fff;
-    margin: 0 0 16px;
-  }
-  .footer-col ul { list-style: none; padding: 0; margin: 0; }
-  .footer-col li { margin-bottom: 10px; }
-  .footer-col a {
-    color: #a0a6c0;
-    font-size: 0.9rem;
-    transition: color 0.2s ease;
-  }
-  .footer-col a:hover { color: var(--gold); }
-  .footer-bottom {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding-top: 24px;
-    border-top: 1px solid rgba(255,255,255,.08);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 16px;
-  }
-  .footer-bottom p { color: #6b7280; font-size: 0.85rem; margin: 0; }
-  .footer-legal { display: flex; gap: 24px; }
-  .footer-legal a {
-    color: #6b7280;
-    font-size: 0.85rem;
-    transition: color 0.2s ease;
-  }
-  .footer-legal a:hover { color: var(--gold); }
-  @media (max-width: 600px) {
-    .footer-bottom {
-      flex-direction: column;
-      text-align: center;
-    }
-  }
+/* CATEGORY SECTIONS */
+.category-section {
+  padding: 60px 20px;
+  border-top: 1px solid var(--line);
+}
+.category-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+.category-icon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--gold-dim);
+  border-radius: 14px;
+  color: var(--gold);
+  font-size: 1.2rem;
+}
+.category-header h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+.category-header p {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  margin: 4px 0 0;
+}
 
-  /* Print */
-  @media print{
-    .nav-wrap, .band, footer{display:none!important}
-    body{background:#fff}
-    .surface{box-shadow:none;border-color:#ddd}
-    a[href]:after{content:" (" attr(href) ")"; font-size:.85em; color:#666}
+/* POLICY SECTION */
+.policy-section {
+  padding: 80px 20px;
+  background: linear-gradient(180deg, var(--bg) 0%, rgba(10, 10, 18, 1) 100%);
+}
+.policy-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+.policy-card {
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 28px;
+}
+.policy-card h3 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+.policy-card h3 i {
+  color: var(--gold);
+}
+.policy-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.policy-card li {
+  padding: 8px 0;
+  padding-left: 20px;
+  position: relative;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+.policy-card li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 16px;
+  width: 6px;
+  height: 6px;
+  background: var(--line);
+  border-radius: 50%;
+}
+
+/* CTA SECTION */
+.cta-section {
+  padding: 80px 20px;
+  text-align: center;
+  position: relative;
+}
+.cta-section::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 600px;
+  height: 400px;
+  background: radial-gradient(circle, var(--gold-glow) 0%, transparent 60%);
+  pointer-events: none;
+  opacity: 0.5;
+}
+.cta-content {
+  position: relative;
+  z-index: 1;
+}
+.cta-content h2 {
+  font-size: clamp(24px, 4vw, 36px);
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+.cta-content p {
+  color: var(--text-muted);
+  max-width: 500px;
+  margin: 0 auto 28px;
+}
+.cta-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+}
+.btn-gold {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 28px;
+  background: var(--gold);
+  color: #1a1a2e;
+  border-radius: 14px;
+  font-weight: 700;
+  font-size: 1rem;
+  transition: all 0.25s ease;
+}
+.btn-gold:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(255, 215, 0, 0.3);
+}
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 28px;
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.25s ease;
+}
+.btn-outline:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* FOOTER */
+footer {
+  background: #000;
+  padding: 60px 20px 40px;
+  border-top: 1px solid var(--line);
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 48px;
+  max-width: 1100px;
+  margin: 0 auto 48px;
+}
+@media (max-width: 768px) {
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+}
+@media (max-width: 480px) {
+  .footer-grid { grid-template-columns: 1fr; gap: 28px; }
+}
+.footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.footer-brand img { height: 32px; }
+.footer-brand span { font-weight: 700; font-size: 1.1rem; }
+.footer-tagline {
+  color: #a0a6c0;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  max-width: 280px;
+}
+.footer-social {
+  display: flex;
+  gap: 12px;
+}
+.footer-social a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  color: #a0a6c0;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+}
+.footer-social a:hover {
+  background: var(--gold);
+  color: #1a1a2e;
+}
+.footer-col h5 {
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #fff;
+  margin: 0 0 16px;
+}
+.footer-col ul { list-style: none; padding: 0; margin: 0; }
+.footer-col li { margin-bottom: 10px; }
+.footer-col a {
+  color: #a0a6c0;
+  font-size: 0.9rem;
+  transition: color 0.2s ease;
+}
+.footer-col a:hover { color: var(--gold); }
+.footer-bottom {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.footer-bottom p { color: #6b7280; font-size: 0.85rem; margin: 0; }
+.footer-legal { display: flex; gap: 24px; }
+.footer-legal a {
+  color: #6b7280;
+  font-size: 0.85rem;
+  transition: color 0.2s ease;
+}
+.footer-legal a:hover { color: var(--gold); }
+@media (max-width: 600px) {
+  .footer-bottom { flex-direction: column; text-align: center; }
+}
+
+/* ANIMATIONS */
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
   }
+  to {
+    transform: translateY(0);
+  }
+}
+.animate-on-scroll {
+  transform: translateY(20px);
+}
+.animate-on-scroll.visible {
+  animation: slideUp 0.5s ease forwards;
+}
+.animate-on-scroll.visible:nth-child(2) { animation-delay: 0.05s; }
+.animate-on-scroll.visible:nth-child(3) { animation-delay: 0.1s; }
+.animate-on-scroll.visible:nth-child(4) { animation-delay: 0.15s; }
+.animate-on-scroll.visible:nth-child(5) { animation-delay: 0.2s; }
+.animate-on-scroll.visible:nth-child(6) { animation-delay: 0.25s; }
+
+/* PRINT */
+@media print {
+  .nav-wrap, .cta-section, footer { display: none !important; }
+  body { background: #fff; color: #000; }
+  .fee-card, .policy-card, .overview-card { border-color: #ddd; background: #fff; }
+  .fee-price, .policy-card h3 i { color: #333 !important; }
+}
 </style>
 </head>
 <body>
@@ -210,7 +621,7 @@
           <li class="nav-item"><a class="nav-link" href="faq.html">FAQ</a></li>
           <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
           <li class="nav-item"><a class="nav-link" href="contact-us.html">Contact</a></li>
-          <li class="nav-item ml-1"><a class="btn btn-sm btn-nav" href="website-request.html">Submit Website Request</a></li>
+          <li class="nav-item ml-1"><a class="btn btn-sm btn-nav" href="consultation.html">Free Mockup</a></li>
         </ul>
       </div>
     </nav>
@@ -218,208 +629,321 @@
 </div>
 
 <!-- HERO -->
-<header class="hero" style="padding-bottom: 5px !important">
-  <div class="container container-narrow" >
-    <span class="eyebrow">
-      Fee Schedule
-    </span>
-    <h1 class="headline mt-2">
-      Add-Ons & One-Time Service Fees
-    </h1>
-    <p class="sub mb-1">These optional fees and pricing apply to extra services, one-time requests, or situations outside your plan's included coverage.</p>
-    <div class="note">Last updated: <strong>January 2026</strong></div>
+<header class="hero">
+  <div class="hero-badge">
+    <i class="fas fa-file-invoice-dollar"></i>
+    Fee Schedule
   </div>
+  <h1>Fees & <span>Add-Ons</span></h1>
+  <p>Clear pricing for optional services, one-time requests, and custom development. Your monthly plan covers the essentials; these are extras when you need them.</p>
+  <div class="hero-updated">Last updated: January 2026</div>
+
+  <nav class="quick-nav">
+    <a href="#overview"><i class="fas fa-eye"></i> Overview</a>
+    <a href="#one-time"><i class="fas fa-receipt"></i> One-Time Fees</a>
+    <a href="#add-ons"><i class="fas fa-puzzle-piece"></i> Add-Ons</a>
+    <a href="#custom"><i class="fas fa-code"></i> Custom Dev</a>
+    <a href="#policies"><i class="fas fa-shield-halved"></i> Policies</a>
+  </nav>
 </header>
 
-<!-- CONTENT -->
-<section class="py-4">
+<!-- OVERVIEW -->
+<section id="overview" class="section">
   <div class="container container-narrow">
-    <div class="row">
-      <!-- TOC -->
-      <aside class="col-lg-4 mb-3">
-        <div class="toc">
-          <div class="card p-2">
-            <div class="p-2 pb-1"><strong>On this page</strong></div>
-            <a href="#one-time" class="mini">One-Time & Setup Fees</a>
-            <a href="#add-ons" class="mini">Add-On Requests</a>
-            <a href="#media" class="mini">Image & Media Editing</a>
-            <a href="#custom" class="mini">Custom Features & Development</a>
-            <a href="#rush" class="mini">Rush, Special Requests</a>
-            <a href="#other" class="mini">Other Situations</a>
-            <a href="#request" class="mini">How to Request</a>
-            <a href="#billing" class="mini">Billing Notes</a>
-          </div>
-        </div>
-      </aside>
+    <div class="section-header">
+      <div class="section-badge"><i class="fas fa-lightbulb"></i> Quick Overview</div>
+      <h2>What's Included vs. What Costs Extra</h2>
+      <p>Your monthly plan covers most things. Here's a simple breakdown.</p>
+    </div>
 
-      <!-- Main -->
-      <div class="col-lg-8">
-        <article id="one-time" class="surface mb-3">
-          <span class="kicker">Section</span>
-          <h2 class="h5 mt-2 mb-3" style="font-weight:800">One-Time & Setup Fees</h2>
-          <div class="table-wrap">
-            <table class="fee-table">
-              <thead><tr><th style="width:36%">Service</th><th style="width:18%">Fee</th><th>Notes</th></tr></thead>
-              <tbody>
-                <tr><td>Website Setup</td><td>$199</td><td>Required to start a monthly plan.</td></tr>
-                <tr><td>Footer Credit Removal</td><td>$149</td><td>Applies if you request removal of our footer credit.</td></tr>
-                <tr><td>Additional Domain</td><td>$89</td><td>Includes domain registration.</td></tr>
-                <tr><td>Site Reactivation</td><td>$199</td><td>Based on time inactive and setup complexity.</td></tr>
-                <tr><td>Domain Retrieval</td><td>$99</td><td>If switching from another provider when WebEaze has paid for or manages your domain.</td></tr>
-                <tr><td>Site Transfer</td><td>$99</td><td>Transfer site contents after canceling a monthly plan under 12 months old.</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </article>
+    <div class="overview-grid">
+      <div class="overview-card included animate-on-scroll">
+        <div class="overview-icon"><i class="fas fa-check"></i></div>
+        <h3>Included in Your Plan</h3>
+        <ul>
+          <li><i class="fas fa-check"></i> Unlimited content updates</li>
+          <li><i class="fas fa-check"></i> Basic image resizing & optimization</li>
+          <li><i class="fas fa-check"></i> Text changes, link updates</li>
+          <li><i class="fas fa-check"></i> Layout tweaks within your pages</li>
+          <li><i class="fas fa-check"></i> Security updates & backups</li>
+          <li><i class="fas fa-check"></i> SSL certificate & hosting</li>
+          <li><i class="fas fa-check"></i> Standard domain (with credit)</li>
+        </ul>
+      </div>
 
-
-
-        <article id="add-ons" class="surface mb-3">
-          <span class="kicker">Section</span>
-          <h2 class="h5 mt-2 mb-3" style="font-weight:800">Add-On Requests</h2>
-        
-          <!-- HELP CENTER STYLE OVERVIEW -->
-          <div class="mb-3">
-            <button class="btn btn-light d-flex align-items-center justify-content-between w-100" type="button" data-toggle="collapse" data-target="#addonsOverview" aria-expanded="false" aria-controls="addonsOverview" style="border:1px solid var(--line); border-radius:12px; padding:.75rem 1rem;">
-              <span style="font-weight:600;">What are Add-Ons?</span>
-              <span style="font-size:1.25rem; line-height:1;">+</span>
-            </button>
-        
-            <div class="collapse mt-3" id="addonsOverview">
-              <div style="border:1px solid var(--line); border-radius:12px; padding:1rem; background:#fafbff;">
-                <p class="mb-2">Add-ons are optional features you can request to enhance or expand your site. They are billed separately from your subscription, unless otherwise stated.</p>
-        
-                <strong class="d-block mb-1">Common Add-Ons:</strong>
-                <ul class="mb-3">
-                  <li>Additional website pages</li>
-                  <li>Calendly or calendar booking tools</li>
-                  <li>Live chat setup (Tawk.to, Meta, etc.)</li>
-                  <li>E-commerce features</li>
-                  <li>Custom forms + CRM/lead capture</li>
-                  <li>Additional domain purchases</li>
-                  
-                </ul>
-                <p><i>We also offer other add-on services on request.</i></p>
-        
-
-        
- 
-              </div>
-            </div>
-          </div>
-        
-          <!-- TABLE -->
-          <div class="table-wrap">
-            <table class="fee-table">
-              <thead><tr><th>Request</th><th>Amount</th><th>Notes</th></tr></thead>
-              <tbody>
-                <tr><td>Additional Website Pages</td><td>$199 per page</td><td>Includes page layout and content setup.</td></tr>
-                <tr><td>E-commerce Functionality</td><td>$659</td><td>Requires Growth plan, covers  12 months of platform fees.</td></tr>
-                <tr><td>Live Chat Integration</td><td>$229*</td><td>*Excludes any ongoing provider fees.</td></tr>
-                <tr><td>Custom Form or Integration</td><td>$299</td><td>Examples include job applications or CRM handoffs.</td></tr>
-                <tr><td>Additional Domain</td><td>$89</td><td>Includes domain registration costs.</td></tr>
-                <tr><td>Google Business Profile Management</td><td>$79/mo</td><td class="note">Amount added to your subscription.</td></tr>
-                <tr><td>Monthly Email Newsletter</td><td>$99/mo</td><td class="note">Amount added to your subscription. </td></tr>
-              </tbody>
-            </table>
-          </div>
-        </article>
-        
-
-        <article id="media" class="surface mb-3">
-          <span class="kicker">Section</span>
-          <h2 class="h5 mt-2 mb-3" style="font-weight:800">Image & Media Editing</h2>
-          <div class="table-wrap">
-            <table class="fee-table">
-              <thead><tr><th>Edit Type</th><th>Fee</th><th>Notes</th></tr></thead>
-              <tbody>
-                <tr><td>Heavy Edits</td><td>$40 per batch</td><td>Applies to batches of more than 8 advanced edits. Subject to prior request history. 
-                </td></tr>
-              </tbody>
-            </table>
-          </div>
-        </article>
-
-        <article id="custom" class="surface mb-3">
-          <span class="kicker">Section</span>
-          <h2 class="h5 mt-2 mb-3" style="font-weight:800">Custom Features & Development</h2>
-          <div class="table-wrap">
-            <table class="fee-table">
-              <thead><tr><th>Feature</th><th>Amount</th><th>Notes</th></tr></thead>
-              <tbody>
-                <tr><td>Custom Form or API Integration</td><td>$299</td><td>Job applications, lead capture, CRM connections—complexity varies.</td></tr>
-                <tr><td>Booking System Setup</td><td>$329</td><td>Calendly, Square, or similar—you manage their subscription fees.</td></tr>
-                <tr><td>Marketing or Campaign Landing Page</td><td>$329</td><td>Standalone pages for ads, promotions, or campaigns.</td></tr>
-
-              </tbody>
-            </table>
-          </div>
-        </article>
-
-        <article id="rush" class="surface mb-3">
-          <span class="kicker">Section</span>
-          <h2 class="h5 mt-2 mb-3" style="font-weight:800">Rush or Special Requests</h2>
-          <div class="table-wrap">
-            <table class="fee-table">
-              <thead><tr><th>Request Type</th><th>Fee</th><th>Notes</th></tr></thead>
-              <tbody>
-                <tr><td>Same-Day Turnaround</td><td>$69</td><td>Subject to staff availability.</td></tr>
-                <tr><td>Weekend or After-Hours</td><td>$89</td><td>Outside Mon-Fri, 9-5 ET.</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </article>
-
-        <article id="other" class="surface mb-3">
-          <span class="kicker">Policy</span>
-          <h2 class="h5 mt-2 mb-3" style="font-weight:800">Other Situations That May Incur Fees</h2>
-
-          <p>
-            Fair-use cap limits are enforced only in the event of excessive or abuse usage that impacts our ability to serve other clients.
-          </p>
-            <p>
-              While we can help with light media, advanced content creation may incur a fee due to time and resources involved. This includes, but isn't limited to blog posts, extensive copywriting, and custom graphics. 
-              </p>
-
-              <p>
-                Heavy Edit fees apply when requests exceed typical usage patterns, such as large batches of complex image edits. It is subject to prior request history and may be waived at our discretion for infrequent or minor overages.
-              </p>
-       
-   
-     
-
-        </article>
-
-        <article id="request" class="surface mb-3">
-          <span class="kicker">How to Request</span>
-          <h2 class="h5 mt-2 mb-2" style="font-weight:800">Request Additional Services</h2>
-          Submit a <strong>Website Request</strong>. We'll confirm details and send you an invoice before work begins.</p>
-          <div class="d-flex flex-wrap gap-2">
-            <a href="website-request.html" class="btn-brand mr-2 mb-2">Submit Website Request</a>
-            <a href="pricing.html" class="btn-ghost mb-2">Compare Plans</a>
-          </div>
-        </article>
-
-        <article id="billing" class="surface">
-          <span class="kicker">Policy</span>
-          <h2 class="h5 mt-2 mb-2" style="font-weight:800">Billing Notes <span class="badge-note">Please read</span></h2>
-          <ul class="mb-0">
-            <li>
-              Add-on requests not listed on this page (e.g. custom work) are subject to custom pricing based on complexity and time required.
-            </li>
-            <li>Fees are billed through your Client Account and are separate from your subscription, unless otherwise stated.</li>
-            <li>All fees require your approval before billing.</li>
-            <li>Subject to our <a href="refund-policy.html"><strong>Refund Policy</strong></a>.</li>
-            <li>Fees and any additional add-on are subject to change at any time with or without notice.</li>
-            <li>We reserve the right to decline any request.</li>
-          </ul>
-        </article>
+      <div class="overview-card extra animate-on-scroll">
+        <div class="overview-icon"><i class="fas fa-plus"></i></div>
+        <h3>Costs Extra</h3>
+        <ul>
+          <li><i class="fas fa-circle"></i> Additional website pages</li>
+          <li><i class="fas fa-circle"></i> E-commerce functionality</li>
+          <li><i class="fas fa-circle"></i> Custom integrations & forms</li>
+          <li><i class="fas fa-circle"></i> Booking system setup</li>
+          <li><i class="fas fa-circle"></i> Rush or after-hours requests</li>
+          <li><i class="fas fa-circle"></i> Heavy image editing batches</li>
+          <li><i class="fas fa-circle"></i> Additional domains</li>
+        </ul>
       </div>
     </div>
   </div>
 </section>
 
+<!-- ONE-TIME FEES -->
+<section id="one-time" class="category-section">
+  <div class="container container-narrow">
+    <div class="category-header">
+      <div class="category-icon"><i class="fas fa-receipt"></i></div>
+      <div>
+        <h2>One-Time Fees</h2>
+        <p>Setup, reactivation, and transfer fees</p>
+      </div>
+    </div>
 
+    <div class="fee-grid">
+      <div class="fee-card animate-on-scroll">
+        <div class="fee-card-header">
+          <h4>Website Setup</h4>
+          <span class="fee-price">$199</span>
+        </div>
+        <p>Required one-time fee to start any new monthly plan. Covers initial design, development, and launch.</p>
+      </div>
+
+      <div class="fee-card animate-on-scroll">
+        <div class="fee-card-header">
+          <h4>Site Reactivation</h4>
+          <span class="fee-price">$199</span>
+        </div>
+        <p>Reactivate a previously canceled site. Fee may vary based on time inactive and setup complexity.</p>
+      </div>
+
+      <div class="fee-card animate-on-scroll">
+        <div class="fee-card-header">
+          <h4>Footer Credit Removal</h4>
+          <span class="fee-price">$149</span>
+        </div>
+        <p>Remove the "Built by WebEaze" credit from your website footer. One-time fee.</p>
+      </div>
+
+      <div class="fee-card animate-on-scroll">
+        <div class="fee-card-header">
+          <h4>Site Transfer</h4>
+          <span class="fee-price">$99</span>
+        </div>
+        <p>Transfer your site contents to another provider after canceling a plan under 12 months old.</p>
+      </div>
+
+      <div class="fee-card animate-on-scroll">
+        <div class="fee-card-header">
+          <h4>Domain Retrieval</h4>
+          <span class="fee-price">$99</span>
+        </div>
+        <p>Retrieve a domain that WebEaze registered or paid for on your behalf if switching providers.</p>
+      </div>
+
+      <div class="fee-card animate-on-scroll">
+        <div class="fee-card-header">
+          <h4>Additional Domain</h4>
+          <span class="fee-price">$89</span>
+        </div>
+        <p>Register an additional domain name. Includes first year of registration fees.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ADD-ONS -->
+<section id="add-ons" class="category-section">
+  <div class="container container-narrow">
+    <div class="category-header">
+      <div class="category-icon"><i class="fas fa-puzzle-piece"></i></div>
+      <div>
+        <h2>Add-On Services</h2>
+        <p>Enhance your site with additional features</p>
+      </div>
+    </div>
+
+    <div class="fee-grid">
+      <div class="fee-card animate-on-scroll">
+        <div class="fee-card-header">
+          <h4>Additional Pages</h4>
+          <span class="fee-price">$199/page</span>
+        </div>
+        <p>New pages beyond your plan's included pages. Includes layout design and content setup.</p>
+      </div>
+
+      <div class="fee-card animate-on-scroll">
+        <div class="fee-card-header">
+          <h4>E-commerce Setup</h4>
+          <span class="fee-price">$659</span>
+        </div>
+        <p>Full e-commerce functionality with product listings, cart, and checkout. Includes 12 months of platform fees.</p>
+        <span class="fee-tag">Requires Growth Plan</span>
+      </div>
+
+      <div class="fee-card animate-on-scroll">
+        <div class="fee-card-header">
+          <h4>Live Chat Integration</h4>
+          <span class="fee-price">$229</span>
+        </div>
+        <p>Setup Tawk.to, Meta Messenger, or similar chat widget. Excludes ongoing provider fees if any.</p>
+      </div>
+
+      <div class="fee-card animate-on-scroll">
+        <div class="fee-card-header">
+          <h4>Google Business Management</h4>
+          <span class="fee-price recurring">$79/mo</span>
+        </div>
+        <p>We manage your Google Business Profile, post updates, and respond to reviews on your behalf.</p>
+        <span class="fee-tag">Monthly Add-On</span>
+      </div>
+
+      <div class="fee-card animate-on-scroll">
+        <div class="fee-card-header">
+          <h4>Email Newsletter</h4>
+          <span class="fee-price recurring">$99/mo</span>
+        </div>
+        <p>Monthly email newsletter design and distribution to your subscriber list.</p>
+        <span class="fee-tag">Monthly Add-On</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CUSTOM DEVELOPMENT -->
+<section id="custom" class="category-section">
+  <div class="container container-narrow">
+    <div class="category-header">
+      <div class="category-icon"><i class="fas fa-code"></i></div>
+      <div>
+        <h2>Custom Development</h2>
+        <p>Forms, integrations, and specialized features</p>
+      </div>
+    </div>
+
+    <div class="fee-grid">
+      <div class="fee-card animate-on-scroll">
+        <div class="fee-card-header">
+          <h4>Custom Form / API Integration</h4>
+          <span class="fee-price">$299</span>
+        </div>
+        <p>Job applications, lead capture forms, CRM connections, or other custom integrations. Complexity may affect pricing.</p>
+      </div>
+
+      <div class="fee-card animate-on-scroll">
+        <div class="fee-card-header">
+          <h4>Booking System Setup</h4>
+          <span class="fee-price">$329</span>
+        </div>
+        <p>Integrate Calendly, Square Appointments, or similar. You manage the booking platform subscription.</p>
+      </div>
+
+      <div class="fee-card animate-on-scroll">
+        <div class="fee-card-header">
+          <h4>Campaign Landing Page</h4>
+          <span class="fee-price">$329</span>
+        </div>
+        <p>Standalone landing page for ads, promotions, or marketing campaigns with conversion tracking.</p>
+      </div>
+
+      <div class="fee-card animate-on-scroll">
+        <div class="fee-card-header">
+          <h4>Heavy Image Editing</h4>
+          <span class="fee-price">$40/batch</span>
+        </div>
+        <p>For batches exceeding 8 advanced edits. Subject to prior request history; may be waived for occasional overages.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RUSH REQUESTS -->
+<section class="category-section">
+  <div class="container container-narrow">
+    <div class="category-header">
+      <div class="category-icon"><i class="fas fa-bolt"></i></div>
+      <div>
+        <h2>Rush & Special Requests</h2>
+        <p>Need something done fast? We can accommodate.</p>
+      </div>
+    </div>
+
+    <div class="fee-grid">
+      <div class="fee-card animate-on-scroll">
+        <div class="fee-card-header">
+          <h4>Same-Day Turnaround</h4>
+          <span class="fee-price">$69</span>
+        </div>
+        <p>Get your request completed the same day. Subject to staff availability.</p>
+      </div>
+
+      <div class="fee-card animate-on-scroll">
+        <div class="fee-card-header">
+          <h4>Weekend / After-Hours</h4>
+          <span class="fee-price">$89</span>
+        </div>
+        <p>Requests handled outside Monday-Friday, 9am-5pm ET business hours.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- POLICIES -->
+<section id="policies" class="policy-section">
+  <div class="container container-narrow">
+    <div class="section-header">
+      <div class="section-badge"><i class="fas fa-shield-halved"></i> Important Info</div>
+      <h2>Billing & Policies</h2>
+      <p>Everything you need to know about how fees work.</p>
+    </div>
+
+    <div class="policy-grid">
+      <div class="policy-card animate-on-scroll">
+        <h3><i class="fas fa-credit-card"></i> How Billing Works</h3>
+        <ul>
+          <li>All fees require your approval before we bill.</li>
+          <li>One-time fees are billed separately from your monthly subscription.</li>
+          <li>Monthly add-ons are added to your regular subscription amount.</li>
+          <li>Invoices are sent to your email with secure payment links.</li>
+        </ul>
+      </div>
+
+      <div class="policy-card animate-on-scroll">
+        <h3><i class="fas fa-scale-balanced"></i> Fair Use Policy</h3>
+        <ul>
+          <li>Fair-use limits only apply in cases of excessive usage that impacts our ability to serve other clients.</li>
+          <li>Heavy Edit fees may be waived for occasional or minor overages at our discretion.</li>
+          <li>We'll always communicate before applying any usage-based fees.</li>
+        </ul>
+      </div>
+
+      <div class="policy-card animate-on-scroll">
+        <h3><i class="fas fa-info-circle"></i> Good to Know</h3>
+        <ul>
+          <li>Custom requests not listed here are quoted based on complexity.</li>
+          <li>Fees are subject to change. We'll notify you of any updates.</li>
+          <li>We reserve the right to decline requests that don't align with our services.</li>
+          <li>All fees are subject to our <a href="refund-policy.html" style="color: var(--gold);">Refund Policy</a>.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="cta-content">
+    <h2>Ready to Request Something?</h2>
+    <p>Submit a website request and we'll confirm the details and pricing before starting any work.</p>
+    <div class="cta-buttons">
+      <a href="website-request.html" class="btn-gold">
+        <i class="fas fa-paper-plane"></i> Submit Request
+      </a>
+      <a href="pricing.html" class="btn-outline">
+        <i class="fas fa-tag"></i> View Plans
+      </a>
+    </div>
+  </div>
+</section>
 
 <!-- FOOTER -->
 <footer>
@@ -479,45 +1003,45 @@
 </footer>
 
 <!-- JS -->
-<script>document.getElementById('yr').textContent=new Date().getFullYear();</script>
+<script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
-  // Sticky nav padding state
-  (function(){
-    var wrap=document.querySelector('.nav-wrap'); if(!wrap) return;
-    function onScr(){ (window.scrollY>8)?wrap.classList.add('scrolled'):wrap.classList.remove('scrolled'); }
-    window.addEventListener('scroll',onScr,{passive:true}); onScr();
-  })();
+// Scroll animation observer
+(function() {
+  const elements = document.querySelectorAll('.animate-on-scroll');
 
-  // TOC active state
-  (function(){
-    var links=[...document.querySelectorAll('.toc a')];
-    var ids=links.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
-    if(!('IntersectionObserver' in window)) return;
-    var io=new IntersectionObserver((entries)=>{
-      entries.forEach(e=>{
-        var id='#'+e.target.id;
-        var link=document.querySelector('.toc a[href="'+id+'"]');
-        if(!link) return;
-        if(e.isIntersecting){ links.forEach(l=>l.classList.remove('active')); link.classList.add('active'); }
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
       });
-    },{rootMargin:"-40% 0px -50% 0px", threshold:0});
-    ids.forEach(s=>io.observe(s));
-  })();
-
-  // Smooth internal links from collapsed mobile nav
-  (function(){
-    var menu=document.getElementById('mobileNav'); if(!menu) return;
-    menu.addEventListener('click',function(e){
-      var a=e.target.closest('a[href^="#"]'); if(!a) return;
-      var id=a.getAttribute('href').slice(1), target=document.getElementById(id); if(!target) return;
-      e.preventDefault(); $(menu).collapse('hide');
-      $(menu).one('hidden.bs.collapse',function(){ target.scrollIntoView({behavior:'smooth',block:'start'}); });
+    }, {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
     });
-  })();
+
+    elements.forEach(el => observer.observe(el));
+  } else {
+    // Fallback for older browsers
+    elements.forEach(el => el.classList.add('visible'));
+  }
+})();
+
+// Smooth scroll for anchor links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function(e) {
+    e.preventDefault();
+    const target = document.querySelector(this.getAttribute('href'));
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
 </script>
 </body>
 </html>
