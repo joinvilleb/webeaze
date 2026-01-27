@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Guides & Resources | WebEaze</title>
+<meta name="description" content="Helpful guides and resources for small business owners. Learn about payment systems, website best practices, and more." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+<link rel="shortcut icon" href="images/webeaze-transparent copy.png" type="image/png" />
+
+<style>
+:root {
+  --gold: #ffd700;
+  --gold-dim: rgba(255,215,0,0.12);
+  --gold-glow: rgba(255,215,0,0.4);
+  --purple: #7851a9;
+  --bg: #050509;
+  --bg-card: #0c0c14;
+  --bg-elevated: #12141f;
+  --ink: #ffffff;
+  --ink-muted: #a0a6c0;
+  --line: rgba(255,255,255,0.08);
+  --line-gold: rgba(255,215,0,0.25);
+  --success: #22c55e;
+}
+
+html, body { height: 100%; overflow-x: hidden; }
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-decoration: none; }
+.container-narrow { max-width: 1100px; }
+
+/* NAV */
+.nav-wrap {
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+  background: rgba(5,5,9,0.92);
+  backdrop-filter: saturate(130%) blur(12px);
+  -webkit-backdrop-filter: saturate(130%) blur(12px);
+  border-bottom: 1px solid var(--line);
+}
+.webeaze-nav { background: transparent !important; box-shadow: none !important; padding: .6rem 0; }
+.logo { height: 36px; }
+.brand-word { font-weight: 700; color: #fff; }
+.navbar-dark .nav-link { color: #fff !important; opacity: .85; padding: .45rem .7rem; border-radius: 10px; }
+.navbar-dark .nav-link:hover { opacity: 1; background: rgba(255,255,255,.08); }
+.btn-nav { background: var(--gold); color: #2f1e66; border: none; border-radius: 12px; padding: .6rem .9rem; font-weight: 700; }
+
+/* HERO */
+.hero {
+  padding: 80px 0 60px;
+  background: linear-gradient(180deg, var(--bg) 0%, var(--bg-card) 100%);
+  border-bottom: 1px solid var(--line);
+}
+.hero-content {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto;
+}
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 20px;
+  padding: 8px 16px;
+  background: var(--gold-dim);
+  border-radius: 999px;
+  border: 1px solid var(--line-gold);
+}
+.hero h1 {
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 800;
+  margin: 0 0 16px;
+  line-height: 1.15;
+}
+.hero p {
+  font-size: 1.15rem;
+  color: var(--ink-muted);
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* SECTIONS */
+.section { padding: clamp(60px, 10vh, 100px) 0; }
+.section-dark { background: var(--bg-card); }
+.section-header {
+  margin-bottom: 48px;
+}
+.section-header h2 {
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  font-weight: 700;
+  margin: 0 0 12px;
+}
+.section-header p {
+  font-size: 1rem;
+  color: var(--ink-muted);
+  margin: 0;
+}
+
+/* GUIDE CARDS GRID */
+.guides-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 24px;
+}
+@media (max-width: 400px) {
+  .guides-grid { grid-template-columns: 1fr; }
+}
+
+.guide-card {
+  background: var(--bg-elevated);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+.guide-card:hover {
+  border-color: var(--line-gold);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+}
+.guide-card-image {
+  height: 180px;
+  background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-elevated) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+.guide-card-image i {
+  font-size: 3.5rem;
+  color: var(--gold);
+  opacity: 0.8;
+}
+.guide-card-image.payments {
+  background: linear-gradient(135deg, rgba(99,91,255,0.15) 0%, rgba(0,214,50,0.1) 50%, rgba(0,48,135,0.15) 100%);
+}
+.guide-card-content {
+  padding: 24px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.guide-card-category {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--gold);
+  margin-bottom: 12px;
+}
+.guide-card h3 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin: 0 0 10px;
+  line-height: 1.3;
+}
+.guide-card p {
+  font-size: 0.9rem;
+  color: var(--ink-muted);
+  margin: 0 0 16px;
+  line-height: 1.6;
+  flex: 1;
+}
+.guide-card-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: var(--ink-muted);
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+}
+.guide-card-meta span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.guide-card-meta i { font-size: 0.75rem; }
+.read-more {
+  color: var(--gold);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: gap 0.2s ease;
+}
+.guide-card:hover .read-more { gap: 10px; }
+
+/* FEATURED ARTICLE */
+.featured-article {
+  background: var(--bg-elevated);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  overflow: hidden;
+  margin-bottom: 48px;
+}
+.featured-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  min-height: 400px;
+}
+@media (max-width: 900px) {
+  .featured-grid { grid-template-columns: 1fr; }
+}
+.featured-image {
+  background: linear-gradient(135deg, rgba(99,91,255,0.2) 0%, rgba(0,214,50,0.15) 50%, rgba(0,48,135,0.2) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  position: relative;
+}
+.featured-image-icons {
+  display: flex;
+  gap: 24px;
+}
+.featured-image-icons .icon-box {
+  width: 80px;
+  height: 80px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  color: #fff;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+}
+.icon-stripe { background: var(--stripe); }
+.icon-square { background: var(--square); }
+.icon-paypal { background: var(--paypal); }
+.featured-content {
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.featured-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--gold);
+  background: var(--gold-dim);
+  padding: 6px 12px;
+  border-radius: 999px;
+  margin-bottom: 16px;
+  width: fit-content;
+}
+.featured-content h2 {
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  font-weight: 800;
+  margin: 0 0 16px;
+  line-height: 1.2;
+}
+.featured-content p {
+  font-size: 1rem;
+  color: var(--ink-muted);
+  line-height: 1.7;
+  margin: 0 0 24px;
+}
+.featured-meta {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  font-size: 0.85rem;
+  color: var(--ink-muted);
+  margin-bottom: 24px;
+}
+.featured-meta span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--gold);
+  color: #1a1a2e;
+  border: none;
+  border-radius: 14px;
+  padding: 14px 24px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  box-shadow: 0 12px 32px rgba(255,215,0,0.25);
+  transition: all 0.2s ease;
+  width: fit-content;
+}
+.btn-primary:hover {
+  background: #ffea80;
+  transform: translateY(-2px);
+  box-shadow: 0 16px 40px rgba(255,215,0,0.35);
+  color: #1a1a2e;
+  text-decoration: none;
+}
+
+/* ARTICLE DETAIL VIEW */
+.article-view {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 60px 20px 80px;
+}
+.article-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--ink-muted);
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-bottom: 32px;
+  transition: color 0.2s ease;
+}
+.article-back:hover { color: var(--gold); text-decoration: none; }
+.article-header {
+  margin-bottom: 40px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--line);
+}
+.article-category {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--gold);
+  margin-bottom: 16px;
+}
+.article-header h1 {
+  font-size: clamp(1.75rem, 5vw, 2.5rem);
+  font-weight: 800;
+  margin: 0 0 20px;
+  line-height: 1.2;
+}
+.article-header .lead {
+  font-size: 1.15rem;
+  color: var(--ink-muted);
+  line-height: 1.7;
+  margin: 0 0 24px;
+}
+.article-meta {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.article-author {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.author-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--gold-dim);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.author-avatar img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.author-info {
+  font-size: 0.9rem;
+}
+.author-name { font-weight: 600; }
+.author-title { color: var(--ink-muted); font-size: 0.8rem; }
+.article-date {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  color: var(--ink-muted);
+}
+.article-read-time {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  color: var(--ink-muted);
+}
+
+/* ARTICLE CONTENT */
+.article-content {
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: rgba(255,255,255,0.9);
+}
+.article-content h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 48px 0 20px;
+  color: #fff;
+}
+.article-content h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 36px 0 16px;
+  color: #fff;
+}
+.article-content p {
+  margin: 0 0 20px;
+}
+.article-content ul, .article-content ol {
+  margin: 0 0 24px;
+  padding-left: 24px;
+}
+.article-content li {
+  margin-bottom: 12px;
+}
+.article-content a {
+  color: var(--gold);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.article-content a:hover {
+  color: #ffea80;
+}
+
+/* RECOMMENDED ARTICLES */
+.recommended-section {
+  margin-top: 60px;
+  padding-top: 48px;
+  border-top: 1px solid var(--line);
+}
+.recommended-section h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0 0 24px;
+}
+
+/* Footer */
+footer {
+  background: #000;
+  padding: 60px 20px 40px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 48px;
+  max-width: 1100px;
+  margin: 0 auto 48px;
+  text-align: left;
+}
+@media (max-width: 768px) {
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+}
+@media (max-width: 480px) {
+  .footer-grid { grid-template-columns: 1fr; gap: 28px; }
+}
+.footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.footer-brand img { height: 32px; }
+.footer-brand span { font-weight: 700; font-size: 1.1rem; color: #fff; }
+.footer-tagline {
+  color: #a0a6c0;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  max-width: 280px;
+}
+.footer-social {
+  display: flex;
+  gap: 12px;
+}
+.footer-social a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  color: #a0a6c0;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+}
+.footer-social a:hover {
+  background: var(--gold);
+  color: #1a1a2e;
+}
+.footer-col h5 {
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #fff;
+  margin: 0 0 16px;
+}
+.footer-col ul { list-style: none; padding: 0; margin: 0; }
+.footer-col li { margin-bottom: 10px; }
+.footer-col a {
+  color: #a0a6c0;
+  font-size: 0.9rem;
+  transition: color 0.2s ease;
+}
+.footer-col a:hover { color: var(--gold); }
+.footer-bottom {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.footer-bottom p { color: #6b7280; font-size: 0.85rem; margin: 0; }
+.footer-legal { display: flex; gap: 24px; }
+.footer-legal a {
+  color: #6b7280;
+  font-size: 0.85rem;
+  transition: color 0.2s ease;
+}
+.footer-legal a:hover { color: var(--gold); }
+@media (max-width: 600px) {
+  .footer-bottom { flex-direction: column; text-align: center; }
+}
+
+/* Animations */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+
+/* View toggle */
+.view-hub { display: block; }
+.view-article { display: none; }
+body.article-open .view-hub { display: none; }
+body.article-open .view-article { display: block; }
+</style>
+</head>
+
+<body>
+
+<!-- NAV -->
+<div class="nav-wrap">
+  <div class="container container-narrow">
+    <nav class="navbar navbar-expand-lg navbar-dark webeaze-nav">
+      <a class="navbar-brand d-flex align-items-center" href="index.html">
+        <img class="logo" src="images/webeaze-transparent copy.png" alt="WebEaze">
+        <strong class="ml-2 brand-word">WebEaze</strong>
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mobileNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div id="mobileNav" class="collapse navbar-collapse">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item"><a class="nav-link" href="build.html">New Website</a></li>
+          <li class="nav-item"><a class="nav-link" href="manage.html">Existing Site</a></li>
+          <li class="nav-item"><a class="nav-link" href="pricing.html">Pricing</a></li>
+          <li class="nav-item"><a class="nav-link" href="faq.html">FAQ</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact-us.html">Contact</a></li>
+          <li class="nav-item ml-1"><a class="btn btn-sm btn-nav" href="consultation.html">Request Free Mockup</a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+</div>
+
+
+<!-- ========== HUB VIEW ========== -->
+<div class="view-hub">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container container-narrow">
+      <div class="hero-content reveal">
+        <div class="hero-badge">
+          <i class="fas fa-book-open"></i>
+          Resources
+        </div>
+        <h1>Guides & Resources</h1>
+        <p>Helpful articles to help you make smart decisions for your business website. No fluff, just practical advice.</p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- FEATURED ARTICLE -->
+  <section class="section">
+    <div class="container container-narrow">
+
+      <a href="#checkout-guide" class="featured-article reveal" onclick="openArticle('checkout-guide'); return false;">
+        <div class="featured-grid">
+          <div class="featured-image" style="padding: 0;">
+            <img src="images/guides/which-checkout-to-use-header.png" alt="Stripe vs Square vs PayPal" style="width: 100%; height: 100%; object-fit: cover;">
+          </div>
+          <div class="featured-content">
+            <div class="featured-badge">
+              <i class="fas fa-star"></i> Featured Guide
+            </div>
+            <h2>Which Checkout Should I Use?</h2>
+            <p>Stripe vs. Square vs. PayPal. Choosing the right checkout system depends on how you sell. Here's a quick comparison to help you decide.</p>
+            <div class="featured-meta">
+              <span><i class="fas fa-clock"></i> 3 min read</span>
+              <span><i class="fas fa-calendar"></i> Updated Aug 2024</span>
+            </div>
+            <span class="btn-primary">
+              Read Guide <i class="fas fa-arrow-right"></i>
+            </span>
+          </div>
+        </div>
+      </a>
+
+
+      <!-- ALL GUIDES GRID -->
+      <div class="section-header reveal">
+        <h2>All Guides</h2>
+        <p>Browse our collection of helpful resources.</p>
+      </div>
+
+      <div class="guides-grid">
+
+        <!-- Guide Card 1 -->
+        <a href="#checkout-guide" class="guide-card reveal" onclick="openArticle('checkout-guide'); return false;">
+          <div class="guide-card-image payments" style="padding: 0;">
+            <img src="images/guides/which-checkout-to-use-header.png" alt="Which Checkout Should I Use?" style="width: 100%; height: 100%; object-fit: cover;">
+          </div>
+          <div class="guide-card-content">
+            <div class="guide-card-category">
+              <i class="fas fa-shopping-cart"></i> Payments
+            </div>
+            <h3>Which Checkout Should I Use?</h3>
+            <p>Stripe vs. Square vs. PayPal. A quick comparison to help you choose the right payment system.</p>
+            <div class="guide-card-meta">
+              <span><i class="fas fa-clock"></i> 3 min</span>
+              <span class="read-more">Read <i class="fas fa-arrow-right"></i></span>
+            </div>
+          </div>
+        </a>
+
+        <!-- Placeholder for future guides -->
+        <div class="guide-card reveal reveal-delay-1" style="opacity: 0.5; pointer-events: none;">
+          <div class="guide-card-image">
+            <i class="fas fa-search"></i>
+          </div>
+          <div class="guide-card-content">
+            <div class="guide-card-category">
+              <i class="fas fa-chart-line"></i> SEO
+            </div>
+            <h3>SEO Basics for Small Business</h3>
+            <p>Simple steps to help your website show up in Google searches.</p>
+            <div class="guide-card-meta">
+              <span><i class="fas fa-clock"></i> Coming soon</span>
+              <span class="read-more">Soon <i class="fas fa-arrow-right"></i></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="guide-card reveal reveal-delay-2" style="opacity: 0.5; pointer-events: none;">
+          <div class="guide-card-image">
+            <i class="fas fa-mobile-alt"></i>
+          </div>
+          <div class="guide-card-content">
+            <div class="guide-card-category">
+              <i class="fas fa-palette"></i> Design
+            </div>
+            <h3>Why Mobile-First Matters</h3>
+            <p>Most of your visitors are on phones. Here's how to make sure your site works for them.</p>
+            <div class="guide-card-meta">
+              <span><i class="fas fa-clock"></i> Coming soon</span>
+              <span class="read-more">Soon <i class="fas fa-arrow-right"></i></span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+</div>
+
+
+<!-- ========== ARTICLE VIEW: CHECKOUT GUIDE ========== -->
+<div class="view-article" id="article-checkout-guide">
+  <div class="article-view">
+
+    <a href="#" class="article-back" onclick="closeArticle(); return false;">
+      <i class="fas fa-arrow-left"></i> Back to Guides
+    </a>
+
+    <article>
+      <header class="article-header">
+        <div class="article-category">
+          <i class="fas fa-shopping-cart"></i> Payments
+        </div>
+        <h1>Which Checkout Should I Use?</h1>
+        <p class="lead">Stripe vs. Square vs. PayPal. Choosing the right checkout system depends on how you sell. Here's a quick guide to help you decide.</p>
+
+        <div class="article-meta">
+          <div class="article-author">
+            <div class="author-avatar">
+              <img src="images/webeaze-transparent copy.png" alt="WebEaze">
+            </div>
+            <div class="author-info">
+              <div class="author-name">WebEaze</div>
+              <div class="author-title">Team</div>
+            </div>
+          </div>
+          <div class="article-date">
+            <i class="fas fa-calendar"></i> Updated Aug 2024
+          </div>
+          <div class="article-read-time">
+            <i class="fas fa-clock"></i> 3 min read
+          </div>
+        </div>
+      </header>
+
+      <div class="article-content">
+
+        <h2>Stripe</h2>
+        <p><strong>Best for:</strong> Online-only businesses</p>
+        <p>Stripe offers a clean checkout experience that keeps customers on your website. It's particularly good for subscriptions and recurring payments. The checkout process feels professional and seamless.</p>
+        <p><strong>Fees:</strong> 2.9% + 30&cent; per online transaction</p>
+
+        <h2>Square</h2>
+        <p><strong>Best for:</strong> Businesses that sell both in-person and online</p>
+        <p>Square is ideal if you have a physical location or attend events. It includes POS hardware, inventory management, and even payroll tools. Great all-in-one solution for local businesses.</p>
+        <p><strong>Fees:</strong> 2.9% + 30&cent; online, 2.6% + 10&cent; in-person</p>
+
+        <h2>PayPal</h2>
+        <p><strong>Best for:</strong> International sales and quick setup</p>
+        <p>PayPal is fast to set up and customers recognize the brand. It works well for freelancers, consultants, and anyone selling to international clients.</p>
+        <p><strong>Fees:</strong> 3.49% + 49&cent; per online transaction</p>
+
+        <h2>Which One Should You Choose?</h2>
+        <ul>
+          <li><strong>Selling online only?</strong> Go with Stripe.</li>
+          <li><strong>Selling online + in-person?</strong> Go with Square.</li>
+          <li><strong>Working with international clients?</strong> Go with PayPal.</li>
+        </ul>
+
+        <h2>Can WebEaze Help Me Set This Up?</h2>
+        <p>Yes. We can install and connect your chosen checkout system, configure shipping, taxes, and receipts, and make sure everything runs smoothly so you don't lose sales.</p>
+        <p>If you need help, <a href="contact-us.html">get in touch</a>. Setup is subject to a fee as listed on our <a href="fee-schedule.html">Fee Schedule</a>. Elite Plan members get this integration at no extra cost.</p>
+
+      </div>
+    </article>
+
+    <!-- RECOMMENDED ARTICLES -->
+    <div class="recommended-section">
+      <h3>More Guides</h3>
+      <div class="guides-grid">
+
+        <div class="guide-card" style="opacity: 0.5; pointer-events: none;">
+          <div class="guide-card-image">
+            <i class="fas fa-search"></i>
+          </div>
+          <div class="guide-card-content">
+            <div class="guide-card-category">
+              <i class="fas fa-chart-line"></i> SEO
+            </div>
+            <h3>SEO Basics for Small Business</h3>
+            <p>Simple steps to help your website show up in Google searches.</p>
+            <div class="guide-card-meta">
+              <span><i class="fas fa-clock"></i> Coming soon</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="guide-card" style="opacity: 0.5; pointer-events: none;">
+          <div class="guide-card-image">
+            <i class="fas fa-mobile-alt"></i>
+          </div>
+          <div class="guide-card-content">
+            <div class="guide-card-category">
+              <i class="fas fa-palette"></i> Design
+            </div>
+            <h3>Why Mobile-First Matters</h3>
+            <p>Most of your visitors are on phones. Here's how to make sure your site works for them.</p>
+            <div class="guide-card-meta">
+              <span><i class="fas fa-clock"></i> Coming soon</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-about">
+      <div class="footer-brand">
+        <img src="images/webeaze-transparent copy.png" alt="WebEaze">
+        <span>WebEaze</span>
+      </div>
+      <p class="footer-tagline">Professional websites for small businesses. We build, host, and manage your site so you can focus on what matters.</p>
+      <div class="footer-social">
+        <a href="https://facebook.com/61568824951084" target="_blank" rel="noopener" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://www.linkedin.com/company/webeaze" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+        <a href="https://instagram.com/webeaze.io" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+      </div>
+    </div>
+
+    <div class="footer-col">
+      <h5>Services</h5>
+      <ul>
+        <li><a href="build.html">New Website</a></li>
+        <li><a href="manage.html">Website Management</a></li>
+        <li><a href="pricing.html">Pricing</a></li>
+        <li><a href="plan-guide.html">Plan Guide</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h5>Company</h5>
+      <ul>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="samples.html">Our Work</a></li>
+        <li><a href="referral.html">Referral Program</a></li>
+        <li><a href="contact-us.html">Contact</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h5>Support</h5>
+      <ul>
+        <li><a href="help.html">Help Center</a></li>
+        <li><a href="faq.html">FAQ</a></li>
+        <li><a href="consultation.html">Request Mockup</a></li>
+        <li><a href="guides.html">Guides</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>&copy; <span id="yr"></span> WebEaze. Made with &#9749; in Delaware, USA</p>
+    <div class="footer-legal">
+      <a href="terms.html#privacy">Privacy Policy</a>
+      <a href="terms.html">Terms of Service</a>
+      <a href="site-map.html">Site Map</a>
+    </div>
+  </div>
+</footer>
+
+
+<!-- JS -->
+<script>
+document.getElementById('yr').textContent = new Date().getFullYear();
+
+// Article view toggle
+function openArticle(articleId) {
+  document.body.classList.add('article-open');
+  window.scrollTo(0, 0);
+  history.pushState({ article: articleId }, '', '#' + articleId);
+}
+
+function closeArticle() {
+  document.body.classList.remove('article-open');
+  window.scrollTo(0, 0);
+  history.pushState({}, '', window.location.pathname);
+}
+
+// Handle back button
+window.addEventListener('popstate', function(e) {
+  if (e.state && e.state.article) {
+    document.body.classList.add('article-open');
+  } else {
+    document.body.classList.remove('article-open');
+  }
+});
+
+// Check URL hash on load
+if (window.location.hash) {
+  const hash = window.location.hash.substring(1);
+  if (hash === 'checkout-guide') {
+    document.body.classList.add('article-open');
+  }
+}
+
+// Reveal on scroll
+(function() {
+  const els = [...document.querySelectorAll('.reveal')];
+  if (!('IntersectionObserver' in window)) {
+    els.forEach(e => e.classList.add('in-view'));
+    return;
+  }
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in-view');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  els.forEach(e => io.observe(e));
+})();
+
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(link => {
+  if (!link.getAttribute('onclick')) {
+    link.addEventListener('click', function(e) {
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  }
+});
+</script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>
