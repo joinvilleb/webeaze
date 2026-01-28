@@ -1,362 +1,919 @@
 <!DOCTYPE html>
-<html lang="en" class="page-gbp-management">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Google Business Management | WebEaze</title>
   <meta name="description" content="Show up on Google Search & Maps. Setup, optimization, posts, photos, and reviews—managed for you. Included in Growth & Elite; add‑on for Essential." />
 
-  <!-- Fonts & CSS -->
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet"/>
-  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <link rel="shortcut icon" href="images/webeaze-transparent copy.png" type="image/png"/>
   <link rel="canonical" href="https://www.webeaze.io/google-business-management.html" />
 
   <style>
-    :root{
-      --brand:#7851a9; --brand-ink:#3e257b; --gold:#ffd700; --ink:#101225;
-      --muted:#616782; --line:#e6e8ef; --white:#fff;
-      --bg:#f6f8ff; --card:#ffffff; --shadow:0 8px 28px rgba(16,18,37,.08);
+    :root {
+      --gold: #ffd700;
+      --brand: #7851a9;
+      --dark: #0a0a0f;
+      --darker: #050508;
+      --surface: #111118;
+      --surface-2: #1a1a24;
+      --line: #2a2a35;
+      --ink: #f5f6fa;
+      --muted: #9ca3af;
     }
-    html,body{height:100%}
-    body{margin:0;font-family:'Poppins',sans-serif;-webkit-font-smoothing:antialiased;background:linear-gradient(180deg,#f7f8fc,#eef2ff)}
 
-    /* --- Global UI --- */
-    .container-narrow{max-width:1100px}
-    .eyebrow{font-size:.82rem;letter-spacing:.08em;text-transform:uppercase;color:#6b6f86}
-    .headline{font-weight:800;letter-spacing:-.02em;line-height:1.07;font-size:clamp(28px,5vw,52px);color:#0f1228}
-    .sub{color:var(--muted);font-size:1.02rem}
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
-    .btn-brand{display:inline-flex;align-items:center;justify-content:center;background:var(--gold);color:#2f1e66;border:none;border-radius:12px;padding:.75rem 1.05rem;font-weight:800;line-height:1;box-shadow:0 8px 22px rgba(255,215,0,.22);transition:transform .15s ease, box-shadow .15s ease}
-    .btn-brand:hover{transform:translateY(-1px);box-shadow:0 12px 28px rgba(255,215,0,.33);color:#2f1e66}
-    .btn-ghost{display:inline-flex;align-items:center;justify-content:center;background:#fff;color:#0f1228;border:1px solid var(--line);border-radius:12px;padding:.75rem 1.05rem;font-weight:800;line-height:1;transition:transform .15s ease, box-shadow .15s ease}
-    .btn-ghost:hover{transform:translateY(-1px); box-shadow:0 8px 28px rgba(16,18,37,.10)}
-    .btn-sm-fix{padding:.55rem .9rem;font-weight:800}
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--dark);
+      color: var(--ink);
+      -webkit-font-smoothing: antialiased;
+    }
 
-    .surface{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:22px}
+    a { text-decoration: none; color: inherit; }
 
-    section[id]{scroll-margin-top:76px}
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
 
-    /* --- Nav --- */
-    .nav-wrap{position:sticky; top:0; z-index:9999; background:#000000; border-bottom:1px solid rgba(255,255,255,.14);}
-    .logo{height:36px}
-    .brand-word{letter-spacing:-.3px;font-weight:700;background:linear-gradient(90deg,#d5cfeb,#ffffff); -webkit-background-clip:text;-webkit-text-fill-color:transparent}
-    .navbar-dark .nav-link{color:#fff!important;opacity:.92;border-radius:10px;padding:.45rem .7rem}
-    .navbar-dark .nav-link:hover{opacity:1;background:rgba(255,255,255,.1)}
+    /* NAV */
+    .nav-wrap {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(10, 10, 15, 0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
 
-    /* --- Hero --- */
-    .hero{padding:72px 0 48px}
-    .badge-line{display:inline-flex;gap:8px;flex-wrap:wrap}
-    .pill{display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--line);border-radius:999px;padding:.4rem .75rem;font-weight:700;font-size:.92rem}
-    .pill .dot{width:6px;height:6px;border-radius:99px;background:var(--brand)}
-    .pill.gold{background:#fff7c2;border-color:#ffe88a}
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 0;
+    }
 
-    /* --- Cards grid --- */
-    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
-    .card-min{grid-column:span 4;background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px}
-    .card-min:hover{box-shadow:var(--shadow)}
-    .card-min .icon{display:inline-flex;width:40px;height:40px;border-radius:10px;align-items:center;justify-content:center;background:linear-gradient(180deg,#ede9fe,#ffffff);border:1px solid var(--line);margin-right:.5rem}
-    @media (max-width:900px){.card-min{grid-column:span 12}}
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
 
-    /* --- Included list --- */
-    .inc-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:12px}
-    .inc{grid-column:span 6;background:#fafbff;border:1px solid #e8eaf5;border-radius:12px;padding:12px}
-    .inc strong{color:#0f1228}
-    @media (max-width:900px){.inc{grid-column:span 12}}
+    .nav-brand img { height: 36px; }
+    .nav-brand span { font-weight: 700; font-size: 1.1rem; }
 
-    /* --- Process --- */
-    .step{grid-column:span 3;background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px}
-    .bubble{display:inline-flex;width:34px;height:34px;border-radius:10px;align-items:center;justify-content:center;background:#ede9fe;color:#3a2577;font-weight:800;margin-bottom:6px}
-    @media (max-width:900px){.step{grid-column:span 12}}
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
 
-    /* --- FAQ --- */
-    .faq-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-    details.faq{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px}
-    details.faq summary{cursor:pointer;list-style:none}
-    details.faq summary::-webkit-details-marker{display:none}
-    @media (max-width:900px){.faq-grid{grid-template-columns:1fr}}
+    .nav-links a {
+      padding: 10px 14px;
+      font-size: 14px;
+      font-weight: 500;
+      color: rgba(255,255,255,.85);
+      border-radius: 8px;
+      transition: .2s;
+    }
 
-    /* --- Footer --- */
-    footer{background:#000000}
+    .nav-links a:hover {
+      background: rgba(255,255,255,.08);
+      color: #fff;
+    }
 
-    /* Footer Grid */
+    .btn-nav {
+      background: var(--gold) !important;
+      color: #1a1a1a !important;
+      font-weight: 700 !important;
+      padding: 10px 18px !important;
+      border-radius: 10px !important;
+    }
+
+    .menu-toggle {
+      display: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: #fff;
+    }
+
+    /* HERO */
+    .hero {
+      position: relative;
+      padding: 100px 0 80px;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 200%;
+      height: 100%;
+      background: radial-gradient(ellipse at center, rgba(120,81,169,.15) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      text-align: center;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,215,0,.1);
+      border: 1px solid rgba(255,215,0,.25);
+      padding: 8px 16px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--gold);
+      margin-bottom: 24px;
+    }
+
+    .hero h1 {
+      font-size: clamp(40px, 7vw, 72px);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      margin-bottom: 24px;
+    }
+
+    .hero h1 span {
+      background: linear-gradient(135deg, var(--gold), #fff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      font-size: 18px;
+      color: var(--muted);
+      max-width: 600px;
+      margin: 0 auto 32px;
+      line-height: 1.6;
+    }
+
+    .hero-btns {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--gold);
+      color: #1a1a1a;
+      padding: 16px 28px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 15px;
+      transition: .2s;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(255,215,0,.25);
+      color: #1a1a1a;
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      color: #fff;
+      padding: 16px 28px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 15px;
+      transition: .2s;
+    }
+
+    .btn-secondary:hover {
+      background: var(--surface-2);
+      border-color: rgba(255,255,255,.15);
+    }
+
+    /* WHAT WE DO */
+    .what-we-do {
+      padding: 80px 0;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-header h2 {
+      font-size: clamp(28px, 4vw, 40px);
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    .section-header p {
+      color: var(--muted);
+      font-size: 16px;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .feature-card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 32px 28px;
+      transition: .3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--brand), var(--gold));
+      opacity: 0;
+      transition: .3s;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(255,215,0,.2);
+    }
+
+    .feature-card:hover::before {
+      opacity: 1;
+    }
+
+    .feature-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(120,81,169,.2), rgba(255,215,0,.1));
+      border: 1px solid rgba(255,255,255,.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+
+    .feature-card h3 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .feature-card p {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    /* SIMPLE PROCESS */
+    .process {
+      padding: 80px 0;
+      background: var(--darker);
+    }
+
+    .process-steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      margin-top: 48px;
+    }
+
+    .step {
+      text-align: center;
+      position: relative;
+    }
+
+    .step::after {
+      content: '';
+      position: absolute;
+      top: 32px;
+      right: -12px;
+      width: calc(100% - 64px);
+      height: 2px;
+      background: linear-gradient(90deg, var(--line), transparent);
+    }
+
+    .step:last-child::after {
+      display: none;
+    }
+
+    .step-num {
+      width: 64px;
+      height: 64px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, var(--brand), rgba(120,81,169,.5));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      font-weight: 800;
+      margin: 0 auto 20px;
+    }
+
+    .step h3 {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .step p {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    /* PRICING */
+    .pricing {
+      padding: 80px 0;
+    }
+
+    .pricing-box {
+      background: linear-gradient(135deg, var(--surface), var(--surface-2));
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 48px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+    }
+
+    .pricing-info h2 {
+      font-size: 32px;
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+
+    .pricing-info p {
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.7;
+      margin-bottom: 24px;
+    }
+
+    .pricing-tiers {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .tier {
+      background: rgba(255,255,255,.03);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 20px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .tier.featured {
+      background: rgba(255,215,0,.08);
+      border-color: rgba(255,215,0,.25);
+    }
+
+    .tier-name {
+      font-weight: 700;
+      font-size: 15px;
+    }
+
+    .tier-price {
+      font-weight: 800;
+      font-size: 18px;
+      color: var(--gold);
+    }
+
+    .tier-price span {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--muted);
+    }
+
+    /* FAQ */
+    .faq {
+      padding: 80px 0;
+      background: var(--darker);
+    }
+
+    .faq-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 48px;
+    }
+
+    .faq-item {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .faq-item summary {
+      padding: 20px 24px;
+      cursor: pointer;
+      list-style: none;
+      font-weight: 600;
+      font-size: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .faq-item summary::-webkit-details-marker { display: none; }
+
+    .faq-item summary::after {
+      content: '+';
+      font-size: 20px;
+      color: var(--muted);
+      transition: .2s;
+    }
+
+    .faq-item[open] summary::after {
+      transform: rotate(45deg);
+    }
+
+    .faq-answer {
+      padding: 0 24px 20px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .faq-answer a {
+      color: var(--gold);
+      text-decoration: underline;
+    }
+
+    /* CTA */
+    .cta {
+      padding: 80px 0;
+    }
+
+    .cta-box {
+      background: linear-gradient(135deg, rgba(120,81,169,.15), rgba(255,215,0,.08));
+      border: 1px solid rgba(255,215,0,.2);
+      border-radius: 24px;
+      padding: 64px;
+      text-align: center;
+    }
+
+    .cta-box h2 {
+      font-size: clamp(28px, 4vw, 40px);
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+
+    .cta-box p {
+      color: var(--muted);
+      font-size: 16px;
+      margin-bottom: 32px;
+    }
+
+    /* FOOTER */
     footer {
       background: #000;
-      padding: 60px 20px 40px;
-      border-top: 1px solid rgba(255,255,255,.08);
+      padding: 60px 24px 40px;
+      border-top: 1px solid var(--line);
     }
+
+    .footer-disclaimer {
+      max-width: 1100px;
+      margin: 0 auto 32px;
+      padding: 16px;
+      color: #6b7280;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
     .footer-grid {
       display: grid;
       grid-template-columns: 2fr 1fr 1fr 1fr;
       gap: 48px;
       max-width: 1100px;
       margin: 0 auto 48px;
-      text-align: left;
     }
-    @media (max-width: 768px) {
-      .footer-grid {
-        grid-template-columns: 1fr 1fr;
-        gap: 32px;
-      }
-    }
-    @media (max-width: 480px) {
-      .footer-grid {
-        grid-template-columns: 1fr;
-        gap: 28px;
-      }
-    }
+
     .footer-brand {
       display: flex;
       align-items: center;
       gap: 10px;
       margin-bottom: 16px;
     }
+
     .footer-brand img { height: 32px; }
-    .footer-brand span { font-weight: 700; font-size: 1.1rem; color: #fff; }
+    .footer-brand span { font-weight: 700; font-size: 1.1rem; }
+
     .footer-tagline {
       color: #a0a6c0;
-      font-size: 0.9rem;
+      font-size: 14px;
       line-height: 1.6;
       margin-bottom: 20px;
       max-width: 280px;
     }
+
     .footer-social {
       display: flex;
       gap: 12px;
     }
+
     .footer-social a {
+      width: 36px;
+      height: 36px;
+      background: rgba(255,255,255,.06);
+      border-radius: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 36px;
-      height: 36px;
-      background: rgba(255, 255, 255, 0.06);
-      border-radius: 10px;
       color: #a0a6c0;
-      font-size: 1rem;
-      transition: all 0.2s ease;
+      transition: .2s;
     }
+
     .footer-social a:hover {
       background: var(--gold);
-      color: #1a1a2e;
+      color: #1a1a1a;
     }
+
     .footer-col h5 {
-      font-size: 0.85rem;
+      font-size: 12px;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.08em;
-      color: #fff;
-      margin: 0 0 16px;
+      margin-bottom: 16px;
     }
-    .footer-col ul { list-style: none; padding: 0; margin: 0; }
+
+    .footer-col ul { list-style: none; }
     .footer-col li { margin-bottom: 10px; }
     .footer-col a {
       color: #a0a6c0;
-      font-size: 0.9rem;
-      transition: color 0.2s ease;
+      font-size: 14px;
+      transition: .2s;
     }
     .footer-col a:hover { color: var(--gold); }
+
     .footer-bottom {
       max-width: 1100px;
       margin: 0 auto;
       padding-top: 24px;
-      border-top: 1px solid rgba(255,255,255,.08);
+      border-top: 1px solid var(--line);
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
       gap: 16px;
     }
-    .footer-bottom p { color: #6b7280; font-size: 0.85rem; margin: 0; }
-    .footer-legal { display: flex; gap: 24px; }
+
+    .footer-bottom p {
+      color: #6b7280;
+      font-size: 13px;
+    }
+
+    .footer-legal {
+      display: flex;
+      gap: 24px;
+    }
+
     .footer-legal a {
       color: #6b7280;
-      font-size: 0.85rem;
-      transition: color 0.2s ease;
-    }
-    .footer-legal a:hover { color: var(--gold); }
-    .footer-disclaimer {
-      max-width: 1100px;
-      margin: 0 auto 32px;
-      padding: 16px;
-      color: #a0a6c0;
-      font-size: 0.85rem;
-      text-align: left;
-      line-height: 1.6;
-    }
-    @media (max-width: 600px) {
-      .footer-bottom {
-        flex-direction: column;
-        text-align: center;
-      }
+      font-size: 13px;
+      transition: .2s;
     }
 
-    /* --- Reduced motion: reveal off by default for simplicity --- */
+    .footer-legal a:hover { color: var(--gold); }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .nav-links { display: none; }
+      .menu-toggle { display: block; }
+
+      .features-grid { grid-template-columns: 1fr; }
+      .process-steps { grid-template-columns: repeat(2, 1fr); }
+      .step::after { display: none; }
+      .pricing-box { grid-template-columns: 1fr; }
+      .faq-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 600px) {
+      .process-steps { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+      .cta-box { padding: 40px 24px; }
+      .pricing-box { padding: 32px 24px; }
+    }
+
+    /* Mobile menu */
+    .mobile-menu {
+      display: none;
+      flex-direction: column;
+      background: var(--surface);
+      border-top: 1px solid var(--line);
+      padding: 16px;
+    }
+
+    .mobile-menu.active { display: flex; }
+
+    .mobile-menu a {
+      padding: 14px 16px;
+      border-radius: 10px;
+      font-weight: 500;
+      color: #fff;
+    }
+
+    .mobile-menu a:hover {
+      background: rgba(255,255,255,.05);
+    }
   </style>
 </head>
-<body class="gbp-page">
+<body>
 
-<!-- NAV (kept consistent) -->
+<!-- NAV -->
 <div class="nav-wrap">
-  <div class="container container-narrow">
-    <nav class="navbar navbar-expand-lg navbar-dark webeaze-nav" role="navigation" aria-label="Primary">
-      <a class="navbar-brand d-flex align-items-center" href="index.html">
-        <img class="logo" src="images/webeaze-transparent copy.png" alt="WebEaze" />
-        <strong class="ml-2 brand-word">WebEaze</strong>
+  <div class="container">
+    <div class="nav">
+      <a href="index.html" class="nav-brand">
+        <img src="images/webeaze-transparent copy.png" alt="WebEaze">
+        <span>WebEaze</span>
       </a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mobileNav" aria-controls="mobileNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
 
-      <div id="mobileNav" class="collapse navbar-collapse">
-        <ul class="navbar-nav ml-auto main-nav">
-          <li class="nav-item"><a class="nav-link" href="build.html">New Website</a></li>
-          <li class="nav-item"><a class="nav-link" href="manage.html">Existing Site</a></li>
-          <li class="nav-item"><a class="nav-link" href="pricing.html">Pricing</a></li>
-          <li class="nav-item"><a class="nav-link" href="faq.html">FAQ</a></li>
-          <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
-          <li class="nav-item"><a class="nav-link" href="contact-us.html">Contact</a></li>
-          <li class="nav-item ml-1"><a class="btn-brand" href="consultation.html">Free Consultation</a></li>
-        </ul>
+      <div class="nav-links">
+        <a href="build.html">New Website</a>
+        <a href="manage.html">Existing Site</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="faq.html">FAQ</a>
+        <a href="about.html">About</a>
+        <a href="contact-us.html">Contact</a>
+        <a href="consultation.html" class="btn-nav">Free Consultation</a>
       </div>
-    </nav>
+
+      <div class="menu-toggle" onclick="toggleMenu()">
+        <i class="fas fa-bars"></i>
+      </div>
+    </div>
+  </div>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="build.html">New Website</a>
+    <a href="manage.html">Existing Site</a>
+    <a href="pricing.html">Pricing</a>
+    <a href="faq.html">FAQ</a>
+    <a href="about.html">About</a>
+    <a href="contact-us.html">Contact</a>
+    <a href="consultation.html">Free Consultation</a>
   </div>
 </div>
 
-<main>
-  <!-- HERO -->
-  <section class="hero">
-    <div class="container container-narrow">
-      <div class="row align-items-center">
-        <div class="col-lg-9">
-          <div class="badge-line mb-2">
-            <span class="pill"><span class="dot"></span> Included in Growth & Elite</span>
-            <span class="pill gold">Promo: <strong>$39/month</strong> for Essential</span>
-          </div>
-          <h1 class="headline mt-2">Google Business Management. 
-            <br>
-            Simple, done for you.</h1>
-          <p class="sub mt-2">We set up, optimize, and keep your Google Business Profile fresh so you show up on Search & Maps and turn views into calls.</p>
-          <div class="mt-3 d-flex flex-wrap align-items-center" style="gap:10px">
-            <a href="website-request.html" class="btn-brand">Activate Management</a>
-            <a href="#included" class="btn-ghost">What's included</a>
-          </div>
-          <div class="mt-3" style="color:#6b7280;font-size:.95rem">You keep ownership · We're added as managers · Multi-location friendly</div>
-        </div>
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-badge">
+        <i class="fab fa-google"></i>
+        Included with Growth & Elite Plans
+      </div>
+
+      <h1>Get Found on <span>Google</span></h1>
+
+      <p>We set up, optimize, and manage your Google Business Profile so you show up when customers search. You own it. We handle it.</p>
+
+      <div class="hero-btns">
+        <a href="website-request.html" class="btn-primary">
+          <i class="fas fa-bolt"></i> Activate Now
+        </a>
+        <a href="pricing.html" class="btn-secondary">
+          <i class="fas fa-tag"></i> View Pricing
+        </a>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- WHAT WE HANDLE  -->
-  <section class="py-4">
-    <div class="container container-narrow">
+<!-- WHAT WE DO -->
+<section class="what-we-do">
+  <div class="container">
+    <div class="section-header">
+      <h2>Everything We Handle</h2>
+      <p>From setup to ongoing optimization, we take care of it all.</p>
+    </div>
 
-      <h2 class="h3 mb-3" style="font-weight:800;color:#0f1228">Parts we handle. For success.</h2>
-      
-      <div class="grid">
-        
-        <div class="card-min"><div class="d-flex align-items-center mb-1"><div class="icon">📍</div><strong>Create & verify</strong></div><div class="text-muted">Create and claim, postcard or video verification, NAP checks, and more.</div></div>
-        <div class="card-min"><div class="d-flex align-items-center mb-1"><div class="icon">🧭</div><strong>Optimize details</strong></div><div class="text-muted">Categories, description, hours, services, links, booking.</div></div>
-        <div class="card-min"><div class="d-flex align-items-center mb-1"><div class="icon">🖼️</div><strong>Posts & photos</strong></div><div class="text-muted">Fresh updates and seasonal promos every month.</div></div>
-        <div class="card-min"><div class="d-flex align-items-center mb-1"><div class="icon">⭐</div><strong>Reviews</strong></div><div class="text-muted">Monitor new reviews with tone‑matched reply suggestions.</div></div>
-        <div class="card-min"><div class="d-flex align-items-center mb-1"><div class="icon">📊</div><strong>Insights</strong></div><div class="text-muted">Simple monthly summary of searches, views, calls, routes.</div></div>
-        <div class="card-min"><div class="d-flex align-items-center mb-1"><div class="icon">🏪</div><strong>Multi-location</strong></div><div class="text-muted">Manage multiple locations under one brand. Clear pricing.</div></div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-map-marker-alt" style="color: var(--gold);"></i>
+        </div>
+        <h3>Setup & Verification</h3>
+        <p>We create or claim your profile, complete verification (postcard or video), and ensure your business info is accurate across Google.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-sliders-h" style="color: var(--gold);"></i>
+        </div>
+        <h3>Profile Optimization</h3>
+        <p>Categories, services, business description, hours, attributes, and links—all optimized to help you rank higher in local search.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-images" style="color: var(--gold);"></i>
+        </div>
+        <h3>Posts & Photos</h3>
+        <p>Fresh content every month. We publish updates, promotions, and photos to keep your profile active and engaging.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-star" style="color: var(--gold);"></i>
+        </div>
+        <h3>Review Management</h3>
+        <p>We monitor new reviews and provide tone-matched reply suggestions. Full reply management available on Growth & Elite plans.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-chart-line" style="color: var(--gold);"></i>
+        </div>
+        <h3>Monthly Insights</h3>
+        <p>Simple reports showing searches, profile views, calls, direction requests, and website clicks. Know what's working.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-store" style="color: var(--gold);"></i>
+        </div>
+        <h3>Multi-Location Support</h3>
+        <p>Multiple locations? No problem. We manage each one under your brand with clear, per-location pricing.</p>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- INCLUDED -->
-  <section id="included" class="py-4">
-    <div class="container container-narrow">
-      <div class="surface">
-        <div class="d-flex justify-content-between align-items-center mb-2">
-          <h2 class="h4 mb-0" style="font-weight:800;color:#0f1228">What's in the vault?</h2>
-        </div>
-        <div class="inc-grid">
-          <div class="inc"><strong>Foundation:</strong> Creation of your Google Business Profile, verification, NAP consistency, accurate map pin, and so much more.</div>
-          <div class="inc"><strong>Profile polish:</strong> Categories, services, attributes, description, hours, links.</div>
-          <div class="inc"><strong>Visuals:</strong> Monthly posts, photos, logo & cover refresh, promos.</div>
-          <div class="inc"><strong>Reputation:</strong> Review monitoring, suggested replies. People love with businesses reply to their reviews. </div>
-          <div class="inc"><strong>Insights:</strong> Monthly visibility recap. Think, search terms, calls, routes, site taps.</div>
-          <div class="inc"><strong>Ownership:</strong> You own it. We're invited as managers for secure access.</div>
-        </div>
-        <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between mt-3">
-          <div class="mb-2 mb-md-0" style="color:#3a3f56">
-            <strong>Included</strong> in Growth & Elite plans.
-            <br>
-             <strong>Essential plan</strong> add-on: $39/month (reg. $79) for a limited time.
-          </div>
+<!-- PROCESS -->
+<section class="process">
+  <div class="container">
+    <div class="section-header">
+      <h2>How It Works</h2>
+      <p>Four simple steps. Zero hassle.</p>
+    </div>
+
+    <div class="process-steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>Invite</h3>
+        <p>We send a manager invite to your Google account. You approve it.</p>
+      </div>
+
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>Verify</h3>
+        <p>If needed, we handle postcard or video verification for you.</p>
+      </div>
+
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>Optimize</h3>
+        <p>We complete your profile with categories, services, hours, and links.</p>
+      </div>
+
+      <div class="step">
+        <div class="step-num">4</div>
+        <h3>Maintain</h3>
+        <p>Monthly posts, photos, and review monitoring to keep you visible.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing">
+  <div class="container">
+    <div class="pricing-box">
+      <div class="pricing-info">
+        <h2>Simple Pricing</h2>
+        <p>Google Business Management is included at no extra cost on our Growth and Elite plans. On Essential? Add it for a low monthly fee.</p>
+        <p><strong>You keep ownership.</strong> We're added as managers and can be removed anytime. Your profile, your control.</p>
+      </div>
+
+      <div class="pricing-tiers">
+        <div class="tier featured">
           <div>
-            <a href="pricing.html#plans" class="btn-brand btn-sm-fix">See Plans</a>
-            <a href="consultation.html" class="btn-ghost btn-sm-fix">Talk to Us</a>
+            <div class="tier-name">Growth & Elite Plans</div>
           </div>
+          <div class="tier-price">Included</div>
+        </div>
+
+        <div class="tier">
+          <div>
+            <div class="tier-name">Essential Plan Add-On</div>
+          </div>
+          <div class="tier-price">$39<span>/mo</span></div>
+        </div>
+
+        <div class="tier">
+          <div>
+            <div class="tier-name">Additional Locations</div>
+          </div>
+          <div class="tier-price">$39<span>/each</span></div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- PROCESS (short) -->
-  <section id="process" class="py-4">
-    <div class="container container-narrow">
-      <h2 class="h4 mb-3" style="font-weight:800;color:#0f1228">It can't get easier than this.
-      </h2>
-      <div class="grid">
-        <div class="step"><div class="bubble">1</div><h3 class="h6 mb-1" style="font-weight:800;color:#0f1228">Invite</h3><div class="text-muted">We send a manager invite. You approve.</div></div>
-        <div class="step"><div class="bubble">2</div><h3 class="h6 mb-1" style="font-weight:800;color:#0f1228">Verify</h3><div class="text-muted">Postcard or video verification if needed.</div></div>
-        <div class="step"><div class="bubble">3</div><h3 class="h6 mb-1" style="font-weight:800;color:#0f1228">Optimize</h3><div class="text-muted">We complete categories, services, links, hours.</div></div>
-        <div class="step"><div class="bubble">4</div><h3 class="h6 mb-1" style="font-weight:800;color:#0f1228">Publish</h3><div class="text-muted">Monthly posts & photos and review monitoring.</div></div>
+<!-- FAQ -->
+<section class="faq">
+  <div class="container">
+    <div class="section-header">
+      <h2>Questions? Answered.</h2>
+    </div>
+
+    <div class="faq-grid">
+      <details class="faq-item">
+        <summary>Do I keep ownership of my profile?</summary>
+        <div class="faq-answer">Yes, always. You own the profile. We're added as managers and can be removed at any time. Your business, your control.</div>
+      </details>
+
+      <details class="faq-item">
+        <summary>How often do you update my profile?</summary>
+        <div class="faq-answer">We review and update your profile monthly, publishing posts and photos tied to your promotions. Need an urgent update? Submit a <a href="website-request.html">support request</a>.</div>
+      </details>
+
+      <details class="faq-item">
+        <summary>Do you support multiple locations?</summary>
+        <div class="faq-answer">Yes. We manage each location under your brand. First location is included with Growth & Elite plans; additional locations are $39/month each.</div>
+      </details>
+
+      <details class="faq-item">
+        <summary>Will you respond to my reviews?</summary>
+        <div class="faq-answer">We provide suggested replies written in your tone. Full reply management is available on Growth and Elite plans—just <a href="website-request.html">submit a request</a> when you get a new review.</div>
+      </details>
+
+      <details class="faq-item">
+        <summary>What if I already have a Google Business Profile?</summary>
+        <div class="faq-answer">Perfect. We'll send a manager invite to your existing profile. Once you approve, we'll audit it and optimize everything.</div>
+      </details>
+
+      <details class="faq-item">
+        <summary>How do I get started?</summary>
+        <div class="faq-answer">If you're on Growth or Elite, just <a href="website-request.html">submit a request</a> to activate. On Essential? Add the feature through your <a href="https://billing.stripe.com/p/login/7sI3gfaO14CEdlm144">billing portal</a> or contact us.</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <div class="container">
+    <div class="cta-box">
+      <h2>Ready to Get Found?</h2>
+      <p>Turn Google searches into calls and visits. Let's set up your profile.</p>
+      <div class="hero-btns">
+        <a href="website-request.html" class="btn-primary">
+          <i class="fas fa-bolt"></i> Activate Now
+        </a>
+        <a href="consultation.html" class="btn-secondary">
+          <i class="fas fa-comments"></i> Talk to Us
+        </a>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- FAQ (trimmed) -->
-  <section id="faq" class="py-5">
-    <div class="container container-narrow">
-      <h2 class="h4 mb-3" style="font-weight:800;color:#0f1228">Bring on your Qs.</h2>
-      <div class="faq-grid">
-        <details class="faq"><summary><strong>Do I keep ownership?</strong></summary><div class="pt-2">Yes. You own the profile. We're added as managers and can be removed anytime.</div></details>
-        <details class="faq"><summary><strong>How often do you update it?</strong></summary><div class="pt-2">We review your business profile monthly and publish your post/photos tied to your promos. Urgent edits must be done on request and may include a $69 rush fee.</div></details>
-        <details class="faq"><summary><strong>Do you support multiple locations?</strong></summary><div class="pt-2">Yes. We manage each location under your brand. Our pricing is per location. For example, if you're on our Growth plan and you have two business locations, your first one is included and your second one is available as an add-on.</div></details>
-        <details class="faq"><summary><strong>Will you respond to reviews?</strong></summary><div class="pt-2">We provide suggested replies in your tone. 
-        Full reply management is available if needed, provided that you are on Growth and Elite plan. To request help with replying to reviews, submit a <a href="website-request.html">support ticket</a>.
-        </div></details>
-        <details class="faq"><summary><strong>How does payment work?</strong></summary><div class="pt-2">
-          Our Google Business management feature is included with Growth and Elite plans at no extra cost. It is available as an add-on if you're on our Essential plan. The recurring price will be added to your subscription (ex. $169 + $79 = $248).
-          </div></details>
-
-        </details>
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA -->
-  <section class="py-5">
-    <div class="container container-narrow">
-      <div class="surface d-flex flex-column flex-md-row align-items-md-center justify-content-between">
-        <div class="mb-2 mb-md-0">
-          <div class="eyebrow">Be discoverable everywhere</div>
-          <h3 class="h5 mb-1" style="font-weight:800;color:#0f1228">Ready for Search & Maps to work harder?</h3>
-          <div class="text-muted">Turn profile views into calls and visits.</div>
-        </div>
-        <div>
-          <a href="website-request.html" class="btn-brand btn-sm-fix">Activate Now</a>
-          <a href="consultation.html" class="btn-ghost btn-sm-fix">Talk to Us</a>
-        </div>
-      </div>
-    </div>
-  </section>
-</main>
-
+<!-- FOOTER -->
 <footer>
   <div class="footer-disclaimer">
-    Google Business Profile and Google My Business are trademarks of Google LLC. WebEaze is an independent web design service and is not affiliated with or endorsed by Google LLC. We are not responsible for actions taken by Google, including profile suspensions or removals.
+    Google Business Profile and Google My Business are trademarks of Google LLC. WebEaze is an independent web design service and is not affiliated with or endorsed by Google LLC.
   </div>
 
   <div class="footer-grid">
-    <div class="footer-about">
+    <div>
       <div class="footer-brand">
         <img src="images/webeaze-transparent copy.png" alt="WebEaze">
         <span>WebEaze</span>
@@ -410,60 +967,23 @@
   </div>
 </footer>
 
-<script>document.getElementById('yr').textContent=new Date().getFullYear();</script>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script>
-  // Smooth internal links from collapsed mobile nav
-  (function(){
-    var menu=document.getElementById('mobileNav'); if(!menu) return;
-    menu.addEventListener('click',function(e){
-      var a=e.target.closest('a[href^="#"]'); if(!a) return;
-      var id=a.getAttribute('href').slice(1), target=document.getElementById(id); if(!target) return;
-      e.preventDefault(); $(menu).collapse('hide');
-      $(menu).one('hidden.bs.collapse',function(){ target.scrollIntoView({behavior:'smooth',block:'start'}); });
-    });
-  })();
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  function toggleMenu() {
+    document.getElementById('mobileMenu').classList.toggle('active');
+  }
 </script>
 
-<!-- Schema: Service + FAQPage -->
+<!-- Schema -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "Service",
   "name": "Google Business Management",
   "provider": {"@type": "Organization", "name": "WebEaze", "url": "https://www.webeaze.io"},
-  "areaServed": ["US-DE","US-MD","US-PA","US-NJ"],
   "serviceType": "Local SEO & Google Business Profile Management",
-  "description": "Setup, optimization, posts, photos, reviews, and monthly insights for your Google Business Profile.",
-  "offers": {
-    "@type": "Offer",
-    "priceSpecification": [{
-      "@type": "UnitPriceSpecification",
-      "name": "Included in Growth & Elite",
-      "price": "0",
-      "priceCurrency": "USD"
-    },{
-      "@type": "UnitPriceSpecification",
-      "name": "Essential Add‑On (limited‑time)",
-      "price": "10",
-      "priceCurrency": "USD"
-    }],
-    "url": "https://www.webeaze.io/google-business-management.html"
-  }
-}
-</script>
-<script type="application/ld+json">
-{
-  "@context":"https://schema.org",
-  "@type":"FAQPage",
-  "mainEntity":[
-    {"@type":"Question","name":"Do I keep ownership?","acceptedAnswer":{"@type":"Answer","text":"Yes. You own the profile. We’re added as managers and can be removed anytime."}},
-    {"@type":"Question","name":"How often do you update it?","acceptedAnswer":{"@type":"Answer","text":"We review monthly and publish posts/photos tied to your promos. Urgent edits on request."}},
-    {"@type":"Question","name":"Do you support multiple locations?","acceptedAnswer":{"@type":"Answer","text":"Yes. We manage each location under your brand. Pricing is per location."}},
-    {"@type":"Question","name":"Will you respond to reviews?","acceptedAnswer":{"@type":"Answer","text":"We provide suggested replies in your tone. Full reply management is available if needed."}}
-  ]
+  "description": "Setup, optimization, posts, photos, reviews, and monthly insights for your Google Business Profile."
 }
 </script>
 </body>
