@@ -263,44 +263,93 @@
     .updates-section {
       padding: 50px 0;
     }
-    .update-card {
+    .update-accordion {
       background: var(--dark-2);
       border: 1px solid var(--line);
-      border-radius: 16px;
-      padding: 24px;
-      margin-bottom: 16px;
-      transition: border-color .2s;
+      border-radius: 12px;
+      margin-bottom: 12px;
+      overflow: hidden;
     }
-    .update-card:hover { border-color: rgba(255,255,255,.2); }
-    .update-header {
+    .update-accordion summary {
+      list-style: none;
+      cursor: pointer;
+      padding: 18px 20px;
       display: flex;
       justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 12px;
-      flex-wrap: wrap;
-      gap: 10px;
+      align-items: center;
+      gap: 12px;
+      transition: background .2s;
     }
-    .update-card h3 {
-      font-size: 17px;
+    .update-accordion summary:hover { background: var(--dark-3); }
+    .update-accordion summary::-webkit-details-marker { display: none; }
+    .update-accordion .update-title {
+      font-size: 15px;
       font-weight: 600;
-      margin: 0;
+      flex: 1;
     }
-    .update-date {
-      font-size: 13px;
+    .update-accordion .update-date {
+      font-size: 12px;
       color: var(--muted);
       background: var(--dark-3);
-      padding: 4px 12px;
+      padding: 4px 10px;
       border-radius: 20px;
+      white-space: nowrap;
     }
-    .update-card p {
-      margin: 0;
+    .update-accordion .chev {
+      font-size: 14px;
+      color: var(--muted);
+      transition: transform .2s;
+    }
+    .update-accordion[open] .chev { transform: rotate(180deg); }
+    .update-body {
+      padding: 0 20px 20px;
+      border-top: 1px solid var(--line);
+    }
+    .update-body p {
+      margin: 16px 0 0;
       color: rgba(255,255,255,.7);
       font-size: 14px;
       line-height: 1.7;
     }
-    .update-card a {
+    .update-body a {
       color: var(--gold);
       text-decoration: underline;
+    }
+
+    /* HERO TABS */
+    .hero-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 28px;
+      flex-wrap: wrap;
+    }
+    .hero-tab {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      background: var(--dark-3);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      color: rgba(255,255,255,.8);
+      transition: .2s;
+    }
+    .hero-tab:hover {
+      background: rgba(255,255,255,.1);
+      border-color: rgba(255,255,255,.2);
+      color: #fff;
+    }
+    .hero-tab i {
+      font-size: 14px;
+      color: var(--gold);
+    }
+
+    /* Scroll offset for sticky nav */
+    section[id] {
+      scroll-margin-top: 80px;
     }
 
     /* FOOTER */
@@ -448,11 +497,17 @@
       <span class="status-dot"></span>
       <span class="status-text">Checking status...</span>
     </div>
+
+    <div class="hero-tabs">
+      <a href="#hours" class="hero-tab"><i class="fas fa-clock"></i> Support Hours</a>
+      <a href="#holidays" class="hero-tab"><i class="fas fa-calendar-alt"></i> Holiday Schedule</a>
+      <a href="#updates" class="hero-tab"><i class="fas fa-bullhorn"></i> Recent Updates</a>
+    </div>
   </div>
 </header>
 
 <!-- HOURS SECTION -->
-<section class="hours-section">
+<section class="hours-section" id="hours">
   <div class="container container-narrow">
 
     <div class="section-header">
@@ -511,7 +566,7 @@
 </section>
 
 <!-- HOLIDAY SCHEDULES -->
-<section class="holidays-section">
+<section class="holidays-section" id="holidays">
   <div class="container container-narrow">
 
     <div class="section-header">
@@ -580,7 +635,7 @@
 </section>
 
 <!-- UPDATES SECTION -->
-<section class="updates-section">
+<section class="updates-section" id="updates">
   <div class="container container-narrow">
 
     <div class="section-header">
@@ -588,65 +643,83 @@
       <h2>Recent Updates</h2>
     </div>
 
-    <div class="update-card">
-      <div class="update-header">
-        <h3>Changes to Domain and Hosting Coverage</h3>
+    <details class="update-accordion" open>
+      <summary>
+        <span class="update-title">Changes to Domain and Hosting Coverage</span>
         <span class="update-date">Jan 3, 2026</span>
+        <i class="fas fa-chevron-down chev"></i>
+      </summary>
+      <div class="update-body">
+        <p>
+          To ensure we provide an all-in-one service, we've updated our domain and hosting coverage policy. Effective January 3, 2026, all new and renewing clients will have their domain costs covered directly through WebEaze as part of their plan. Hosting coverage will also be included if we're building and hosting the website via GitHub Pages. This change doesn't impact existing clients with active domain or hosting credits. Read full details in our <a href="help.html#/domain-and-hosting-credit">Help Center</a>.
+        </p>
       </div>
-      <p>
-        To ensure we provide an all-in-one service, we've updated our domain and hosting coverage policy. Effective January 3, 2026, all new and renewing clients will have their domain costs covered directly through WebEaze as part of their plan. Hosting coverage will also be included if we're building and hosting the website via GitHub Pages. This change doesn't impact existing clients with active domain or hosting credits. Read full details in our <a href="help.html#/domain-and-hosting-credit">Help Center</a>.
-      </p>
-    </div>
+    </details>
 
-    <div class="update-card">
-      <div class="update-header">
-        <h3>Total Access Support</h3>
+    <details class="update-accordion">
+      <summary>
+        <span class="update-title">Total Access Support</span>
         <span class="update-date">Jan 3, 2026</span>
+        <i class="fas fa-chevron-down chev"></i>
+      </summary>
+      <div class="update-body">
+        <p>
+          To enhance your support experience, we've introduced <strong>Total Access Support</strong> for Growth and Elite plan clients. This bundled feature includes options for Google Meet sessions, Live Chat, and Phone support, ensuring you can reach us in the way that suits you best.
+        </p>
       </div>
-      <p>
-        To enhance your support experience, we've introduced <strong>Total Access Support</strong> for Growth and Elite plan clients. This bundled feature includes options for Google Meet sessions, Live Chat, and Phone support, ensuring you can reach us in the way that suits you best.
-      </p>
-    </div>
+    </details>
 
-    <div class="update-card">
-      <div class="update-header">
-        <h3>Switch to Google Meet for Live Support</h3>
+    <details class="update-accordion">
+      <summary>
+        <span class="update-title">Switch to Google Meet for Live Support</span>
         <span class="update-date">Nov 25, 2025</span>
+        <i class="fas fa-chevron-down chev"></i>
+      </summary>
+      <div class="update-body">
+        <p>
+          To make your client experience even easier and more reliable, we're transitioning from Zoom to Google Meet for all live support sessions beginning December 1, 2025. Moving forward, our Zoom Live Support benefit will be renamed <strong>Google Meet</strong> for naming consistency.
+        </p>
       </div>
-      <p>
-        To make your client experience even easier and more reliable, we're transitioning from Zoom to Google Meet for all live support sessions beginning December 1, 2025. Moving forward, our Zoom Live Support benefit will be renamed <strong>Google Meet</strong> for naming consistency.
-      </p>
-    </div>
+    </details>
 
-    <div class="update-card">
-      <div class="update-header">
-        <h3>Current Events and Service Impacts</h3>
+    <details class="update-accordion">
+      <summary>
+        <span class="update-title">Current Events and Service Impacts</span>
         <span class="update-date">Nov 7, 2025</span>
+        <i class="fas fa-chevron-down chev"></i>
+      </summary>
+      <div class="update-body">
+        <p>
+          We're aware of ongoing events occurring in the United States and their impact on small businesses. If you're at risk of missing a payment or need to pause your service, please contact us as soon as possible to discuss options. We are here to help.
+        </p>
       </div>
-      <p>
-        We're aware of ongoing events occurring in the United States and their impact on small businesses. If you're at risk of missing a payment or need to pause your service, please contact us as soon as possible to discuss options. We are here to help.
-      </p>
-    </div>
+    </details>
 
-    <div class="update-card">
-      <div class="update-header">
-        <h3>Plan Upgrade Savings for WSP clients</h3>
+    <details class="update-accordion">
+      <summary>
+        <span class="update-title">Plan Upgrade Savings for WSP clients</span>
         <span class="update-date">Oct 27, 2025</span>
+        <i class="fas fa-chevron-down chev"></i>
+      </summary>
+      <div class="update-body">
+        <p>
+          Legacy clients can upgrade to our Essential or Growth plans before November 30 to secure reduced pricing. You will receive an email if you're eligible for this special offer.
+        </p>
       </div>
-      <p>
-        Legacy clients can upgrade to our Essential or Growth plans before November 30 to secure reduced pricing. You will receive an email if you're eligible for this special offer.
-      </p>
-    </div>
+    </details>
 
-    <div class="update-card">
-      <div class="update-header">
-        <h3>Google Business Profile Integration Launched</h3>
+    <details class="update-accordion">
+      <summary>
+        <span class="update-title">Google Business Profile Integration Launched</span>
         <span class="update-date">Oct 15, 2025</span>
+        <i class="fas fa-chevron-down chev"></i>
+      </summary>
+      <div class="update-body">
+        <p>
+          We've added Google Business Profile integration to our Growth and Elite plans. Now we can help manage your business listing on Google through a simple website request.
+        </p>
       </div>
-      <p>
-        We've added Google Business Profile integration to our Growth and Elite plans. Now we can help manage your business listing on Google through a simple website request.
-      </p>
-    </div>
+    </details>
 
   </div>
 </section>
@@ -804,6 +877,17 @@
   updateStatus();
   updateClosureBanner();
   setInterval(updateStatus, 60000);
+
+  // Smooth scroll for hero tabs
+  document.querySelectorAll('.hero-tab').forEach(tab => {
+    tab.addEventListener('click', function(e) {
+      e.preventDefault();
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
 </script>
 
 </body>
