@@ -59,82 +59,42 @@
     .container-narrow { max-width: 1100px; }
 
     /* NAV */
-    nav {
-      position: fixed;
+    .nav-wrap {
+      position: sticky;
       top: 0;
-      left: 0;
-      right: 0;
       z-index: 9999;
       background: rgba(0,0,0,.85);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--line);
-      padding: 12px 0;
-      transition: padding .2s ease;
     }
-    nav.scrolled { padding: 8px 0; }
-    nav .inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .logo-group {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .logo-group img { height: 36px; }
-    .logo-group span { font-weight: 800; font-size: 18px; letter-spacing: -.3px; }
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .nav-links a {
-      padding: 8px 14px;
-      border-radius: 10px;
-      font-weight: 500;
+    .promo-bar {
+      background: linear-gradient(90deg, var(--brand), #9b6dff);
+      padding: 10px 20px;
+      text-align: center;
       font-size: 14px;
-      color: rgba(255,255,255,.85);
-      transition: background .2s, color .2s;
+      font-weight: 600;
     }
-    .nav-links a:hover {
-      background: rgba(255,255,255,.08);
-      color: #fff;
+    .promo-bar i { margin-right: 8px; }
+    .navbar { padding: .6rem 0; }
+    .navbar-dark .nav-link { color: #fff !important; opacity: .85; padding: .45rem .7rem; border-radius: 10px; }
+    .navbar-dark .nav-link:hover { opacity: 1; background: rgba(255,255,255,.08); }
+    .logo { height: 36px; }
+    .brand-word {
+      background: linear-gradient(90deg, #e8e7ea, #a8a5a0);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-size: 1.1rem;
     }
-    .nav-cta {
-      background: var(--gold) !important;
-      color: #1a1a22 !important;
-      font-weight: 700 !important;
-      box-shadow: 0 4px 20px rgba(255, 215, 0, .25);
-    }
-    .nav-cta:hover {
-      background: #f5cc00 !important;
-      transform: translateY(-1px);
-    }
-    .mobile-toggle {
-      display: none;
-      background: none;
+    .btn-nav {
+      background: var(--gold);
+      color: #2f1e66;
       border: none;
-      color: #fff;
-      font-size: 24px;
-      cursor: pointer;
-    }
-    @media (max-width: 991px) {
-      .nav-links { display: none; }
-      .mobile-toggle { display: block; }
-      .nav-links.open {
-        display: flex;
-        flex-direction: column;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
-        background: rgba(10,10,15,.98);
-        padding: 20px;
-        gap: 8px;
-        border-bottom: 1px solid var(--line);
-      }
+      border-radius: 10px;
+      padding: .55rem .9rem;
+      font-weight: 700;
+      font-size: 14px;
     }
 
     /* HERO */
@@ -181,7 +141,7 @@
       position: relative;
       z-index: 2;
       text-align: center;
-      padding: 120px 20px 80px;
+      padding: 80px 20px 80px;
       max-width: 900px;
     }
     .hero-badge {
@@ -1138,28 +1098,33 @@
 <body>
 
 <!-- NAV -->
-<nav id="mainNav">
-  <div class="container container-narrow">
-    <div class="inner">
-      <a href="index.html" class="logo-group">
-        <img src="images/webeaze-transparent copy.png" alt="WebEaze" />
-        <span>WebEaze</span>
-      </a>
-      <div class="nav-links" id="navLinks">
-        <a href="build.html">New Website</a>
-        <a href="manage.html">Existing Site</a>
-        <a href="pricing.html">Pricing</a>
-        <a href="faq.html">FAQ</a>
-        <a href="about.html">About</a>
-        <a href="contact-us.html">Contact</a>
-        <a href="consultation.html" class="nav-cta">Request Free Mockup</a>
-      </div>
-      <button class="mobile-toggle" onclick="document.getElementById('navLinks').classList.toggle('open')">
-        <i class="fas fa-bars"></i>
-      </button>
-    </div>
+<div class="nav-wrap">
+  <div class="promo-bar">
+    <i class="fas fa-gift"></i> Last Chance: $0 Setup Fee on all plans. Ends 1/31.
   </div>
-</nav>
+  <div class="container container-narrow">
+    <nav class="navbar navbar-expand-lg navbar-dark">
+      <a class="navbar-brand d-flex align-items-center" href="index.html">
+        <img src="images/webeaze-transparent copy.png" class="logo" alt="WebEaze">
+        <strong class="ml-2 brand-word">WebEaze</strong>
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div id="nav" class="collapse navbar-collapse">
+        <ul class="navbar-nav ml-auto main-nav">
+          <li class="nav-item"><a class="nav-link" href="build.html">New Website</a></li>
+          <li class="nav-item"><a class="nav-link" href="manage.html">Existing Site</a></li>
+          <li class="nav-item"><a class="nav-link" href="pricing.html">Pricing</a></li>
+          <li class="nav-item"><a class="nav-link" href="faq.html">FAQ</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact-us.html">Contact</a></li>
+          <li class="nav-item ml-1"><a class="btn btn-sm btn-nav" href="consultation.html">Request Free Mockup</a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+</div>
 
 <!-- HERO -->
 <section class="hero">
@@ -1708,16 +1673,6 @@
 <script>
 document.getElementById('yr').textContent = new Date().getFullYear();
 
-// Nav scroll effect
-(function() {
-  const nav = document.getElementById('mainNav');
-  function onScroll() {
-    nav.classList.toggle('scrolled', window.scrollY > 20);
-  }
-  window.addEventListener('scroll', onScroll, { passive: true });
-  onScroll();
-})();
-
 // Particles
 (function() {
   const container = document.getElementById('particles');
@@ -1795,6 +1750,10 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   });
 });
 </script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 </body>
 </html>
