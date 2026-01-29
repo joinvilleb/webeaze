@@ -138,13 +138,19 @@ a { color: inherit; text-decoration: none; }
   box-shadow: 0 20px 50px rgba(0,0,0,0.4);
 }
 .guide-card-image {
-  height: 180px;
+  aspect-ratio: 16 / 9;
   background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-elevated) 100%);
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
   overflow: hidden;
+}
+.guide-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 .guide-card-image i {
   font-size: 3.5rem;
@@ -153,6 +159,9 @@ a { color: inherit; text-decoration: none; }
 }
 .guide-card-image.payments {
   background: linear-gradient(135deg, rgba(99,91,255,0.15) 0%, rgba(0,214,50,0.1) 50%, rgba(0,48,135,0.15) 100%);
+}
+.guide-card-image.warning {
+  background: linear-gradient(135deg, rgba(239,68,68,0.15) 0%, rgba(251,191,36,0.15) 100%);
 }
 .guide-card-content {
   padding: 24px;
@@ -658,10 +667,10 @@ body.article-open .view-article { display: block; }
 
       <div class="guides-grid">
 
-        <!-- Guide Card 1 -->
+        <!-- Guide Card 1: Checkout Guide -->
         <a href="#checkout-guide" class="guide-card reveal" onclick="openArticle('checkout-guide'); return false;">
-          <div class="guide-card-image payments" style="padding: 0;">
-            <img src="images/guides/which-checkout-to-use-header.png" alt="Which Checkout Should I Use?" style="width: 100%; height: 100%; object-fit: cover;">
+          <div class="guide-card-image payments">
+            <img src="images/guides/which-checkout-to-use-header.png" alt="Which Checkout Should I Use?">
           </div>
           <div class="guide-card-content">
             <div class="guide-card-category">
@@ -676,8 +685,26 @@ body.article-open .view-article { display: block; }
           </div>
         </a>
 
+        <!-- Guide Card 2: Hidden Costs -->
+        <a href="#hidden-costs-guide" class="guide-card reveal reveal-delay-1" onclick="openArticle('hidden-costs-guide'); return false;">
+          <div class="guide-card-image warning">
+            <i class="fas fa-exclamation-triangle"></i>
+          </div>
+          <div class="guide-card-content">
+            <div class="guide-card-category">
+              <i class="fas fa-lightbulb"></i> Advice
+            </div>
+            <h3>The Hidden Costs of Cheap Web Design</h3>
+            <p>What to watch out for with budget web design services. If it sounds too good to be true, it probably is.</p>
+            <div class="guide-card-meta">
+              <span><i class="fas fa-clock"></i> 5 min</span>
+              <span class="read-more">Read <i class="fas fa-arrow-right"></i></span>
+            </div>
+          </div>
+        </a>
+
         <!-- Placeholder for future guides -->
-        <div class="guide-card reveal reveal-delay-1" style="opacity: 0.5; pointer-events: none;">
+        <div class="guide-card reveal reveal-delay-2" style="opacity: 0.5; pointer-events: none;">
           <div class="guide-card-image">
             <i class="fas fa-search"></i>
           </div>
@@ -687,23 +714,6 @@ body.article-open .view-article { display: block; }
             </div>
             <h3>SEO Basics for Small Business</h3>
             <p>Simple steps to help your website show up in Google searches.</p>
-            <div class="guide-card-meta">
-              <span><i class="fas fa-clock"></i> Coming soon</span>
-              <span class="read-more">Soon <i class="fas fa-arrow-right"></i></span>
-            </div>
-          </div>
-        </div>
-
-        <div class="guide-card reveal reveal-delay-2" style="opacity: 0.5; pointer-events: none;">
-          <div class="guide-card-image">
-            <i class="fas fa-mobile-alt"></i>
-          </div>
-          <div class="guide-card-content">
-            <div class="guide-card-category">
-              <i class="fas fa-palette"></i> Design
-            </div>
-            <h3>Why Mobile-First Matters</h3>
-            <p>Most of your visitors are on phones. Here's how to make sure your site works for them.</p>
             <div class="guide-card-meta">
               <span><i class="fas fa-clock"></i> Coming soon</span>
               <span class="read-more">Soon <i class="fas fa-arrow-right"></i></span>
