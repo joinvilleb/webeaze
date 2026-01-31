@@ -2887,12 +2887,28 @@ function renderTopicResults(topicId) {
 </script>
 
 <script>
-
+// Nav hide on scroll down, show on scroll up
 (function() {
   var nav = document.querySelector('.nav-wrap');
+  var navCollapse = document.getElementById('nav');
+  var toggler = document.querySelector('.navbar-toggler');
   if (!nav) return;
   var lastScroll = 0;
+
+  // Show nav when hamburger is clicked
+  if (toggler) {
+    toggler.addEventListener('click', function() {
+      nav.classList.remove('nav-hidden');
+    });
+  }
+
   window.addEventListener('scroll', function() {
+    // Don't hide nav if mobile menu is open
+    if (navCollapse && navCollapse.classList.contains('show')) {
+      nav.classList.remove('nav-hidden');
+      return;
+    }
+
     var currentScroll = window.pageYOffset;
     if (currentScroll <= 0) {
       nav.classList.remove('nav-hidden');
