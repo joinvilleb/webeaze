@@ -61,6 +61,10 @@
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--line);
+      transition: transform .3s ease;
+    }
+    .nav-wrap.nav-hidden {
+      transform: translateY(-100%);
     }
     .navbar { padding: .6rem 0; }
     .navbar-dark .nav-link {
@@ -2880,6 +2884,28 @@ function renderTopicResults(topicId) {
   // Scroll to results so users see where they went
   $results.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
+</script>
+
+<script>
+
+(function() {
+  var nav = document.querySelector('.nav-wrap');
+  if (!nav) return;
+  var lastScroll = 0;
+  window.addEventListener('scroll', function() {
+    var currentScroll = window.pageYOffset;
+    if (currentScroll <= 0) {
+      nav.classList.remove('nav-hidden');
+      return;
+    }
+    if (currentScroll > lastScroll && currentScroll > 80) {
+      nav.classList.add('nav-hidden');
+    } else {
+      nav.classList.remove('nav-hidden');
+    }
+    lastScroll = currentScroll;
+  }, { passive: true });
+})();
 </script>
 </body>
 </html>
