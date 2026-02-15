@@ -982,6 +982,320 @@
   .browse-bar { flex-wrap: wrap; justify-content: flex-start; }
 }
 
+/* ---- AI ASSISTANT STYLES ---- */
+.ai-chat-button {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--brand), var(--brand-light));
+  border: none;
+  box-shadow: 0 4px 20px rgba(120, 81, 169, 0.4);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.ai-chat-button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 30px rgba(120, 81, 169, 0.6);
+}
+
+.ai-chat-button i {
+  font-size: 24px;
+  color: #fff;
+}
+
+.ai-chat-button.active {
+  background: var(--dark-2);
+}
+
+.ai-chat-window {
+  position: fixed;
+  bottom: 100px;
+  right: 24px;
+  width: 400px;
+  max-width: calc(100vw - 48px);
+  height: 600px;
+  max-height: calc(100vh - 140px);
+  background: var(--dark-2);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
+  display: none;
+  flex-direction: column;
+  z-index: 999;
+  overflow: hidden;
+}
+
+.ai-chat-window.open {
+  display: flex;
+}
+
+.ai-chat-header {
+  padding: 20px;
+  background: linear-gradient(135deg, var(--brand), var(--brand-light));
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ai-chat-header-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.ai-chat-header-icon {
+  width: 36px;
+  height: 36px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ai-chat-header-icon i {
+  font-size: 18px;
+  color: #fff;
+}
+
+.ai-chat-header-text h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.ai-chat-header-text p {
+  margin: 0;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.ai-chat-close {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 4px;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+
+.ai-chat-close:hover {
+  opacity: 1;
+}
+
+.ai-chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ai-message {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.ai-message.user {
+  flex-direction: row-reverse;
+}
+
+.ai-message-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 14px;
+}
+
+.ai-message.assistant .ai-message-avatar {
+  background: linear-gradient(135deg, var(--brand), var(--brand-light));
+  color: #fff;
+}
+
+.ai-message.user .ai-message-avatar {
+  background: var(--dark-4);
+  color: var(--gold);
+}
+
+.ai-message-content {
+  background: var(--dark-3);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 12px 16px;
+  max-width: 75%;
+  word-wrap: break-word;
+}
+
+.ai-message.user .ai-message-content {
+  background: var(--brand);
+  border-color: var(--brand-light);
+}
+
+.ai-message-content p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.ai-message-content p + p {
+  margin-top: 8px;
+}
+
+.ai-message-content a {
+  color: var(--gold);
+  text-decoration: underline;
+}
+
+.ai-typing {
+  display: flex;
+  gap: 4px;
+  padding: 8px 0;
+}
+
+.ai-typing span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--brand);
+  animation: typing 1.4s infinite;
+}
+
+.ai-typing span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.ai-typing span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes typing {
+  0%, 60%, 100% {
+    opacity: 0.3;
+    transform: translateY(0);
+  }
+  30% {
+    opacity: 1;
+    transform: translateY(-10px);
+  }
+}
+
+.ai-chat-input-wrapper {
+  padding: 16px;
+  background: var(--dark-3);
+  border-top: 1px solid var(--line);
+}
+
+.ai-chat-input-container {
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+}
+
+.ai-chat-input {
+  flex: 1;
+  background: var(--dark-4);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 12px 16px;
+  color: #fff;
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  resize: none;
+  max-height: 120px;
+  transition: border-color 0.2s;
+}
+
+.ai-chat-input:focus {
+  outline: none;
+  border-color: var(--brand);
+}
+
+.ai-chat-input::placeholder {
+  color: var(--muted);
+}
+
+.ai-chat-send {
+  background: var(--brand);
+  border: none;
+  border-radius: 10px;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+  flex-shrink: 0;
+}
+
+.ai-chat-send:hover:not(:disabled) {
+  background: var(--brand-light);
+  transform: scale(1.05);
+}
+
+.ai-chat-send:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.ai-chat-send i {
+  color: #fff;
+  font-size: 16px;
+}
+
+.ai-chat-suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.ai-suggestion {
+  background: var(--dark-4);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 8px 14px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.ai-suggestion:hover {
+  background: var(--brand);
+  border-color: var(--brand);
+  color: #fff;
+}
+
+@media (max-width: 768px) {
+  .ai-chat-window {
+    width: calc(100vw - 48px);
+    height: calc(100vh - 140px);
+  }
+
+  .ai-message-content {
+    max-width: 80%;
+  }
+}
+
 
   </style>
 </head>
@@ -2073,7 +2387,8 @@
 
       { id: 'billing', title: 'Plans & Billing', icon: 'fa-credit-card', articles: [
         { slug: 'manage-your-plan', title: 'How can I manage my plan?', updated: TODAY, meta: 'Update your payment method, receipts, and plan changes.', body: `
-          <p>You can manage your WebEaze plan by visiting the Stripe payment portal. From there, you can manage your payment methods, view invoices, make plan changes. </p>
+          <p>You can manage your WebEaze plan by visiting the <a href="https://billing.stripe.com/p/login/7sI3gfaO14CEdlm144" target="_blank">
+          Stripe payment portal</a>. From there, you can manage your payment methods, view invoices, make plan changes. </p>
 
            <img src="images/assets/stripe-portal.png" alt="Stripe Portal Screenshot" class="img-fluid my-3"/>
 
@@ -3140,5 +3455,531 @@ function renderTopicResults(topicId) {
   }, { passive: true });
 })();
 </script>
+
+<!-- AI ASSISTANT WIDGET -->
+<button class="ai-chat-button" id="aiChatButton" aria-label="Open AI Assistant">
+  <i class="fas fa-comment-dots"></i>
+</button>
+
+<div class="ai-chat-window" id="aiChatWindow">
+  <div class="ai-chat-header">
+    <div class="ai-chat-header-content">
+      <div class="ai-chat-header-icon">
+        <i class="fas fa-robot"></i>
+      </div>
+      <div class="ai-chat-header-text">
+        <h3>AI Assistant</h3>
+        <p>Powered by Claude</p>
+      </div>
+    </div>
+    <button class="ai-chat-close" id="aiChatClose" aria-label="Close chat">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+
+  <div class="ai-chat-messages" id="aiChatMessages">
+    <div class="ai-message assistant">
+      <div class="ai-message-avatar">
+        <i class="fas fa-robot"></i>
+      </div>
+      <div class="ai-message-content">
+        <p>Hello! I'm your WebEaze AI assistant. I can help answer questions about plans, pricing, refunds, cancellations, billing, domains, SEO, and much more. Ask me anything!</p>
+      </div>
+    </div>
+    <div class="ai-chat-suggestions" id="aiChatSuggestions">
+      <button class="ai-suggestion" data-question="What's your refund policy?">What's your refund policy?</button>
+      <button class="ai-suggestion" data-question="How do I cancel my plan?">How do I cancel?</button>
+      <button class="ai-suggestion" data-question="What plans do you offer?">What plans do you offer?</button>
+      <button class="ai-suggestion" data-question="How long does it take to build a website?">How long does it take?</button>
+      <button class="ai-suggestion" data-question="Can I request changes after launch?">Request changes</button>
+      <button class="ai-suggestion" data-question="Do you help with SEO?">Do you help with SEO?</button>
+    </div>
+  </div>
+
+  <div class="ai-chat-input-wrapper">
+    <div class="ai-chat-input-container">
+      <textarea
+        class="ai-chat-input"
+        id="aiChatInput"
+        placeholder="Ask me anything about WebEaze..."
+        rows="1"
+      ></textarea>
+      <button class="ai-chat-send" id="aiChatSend" aria-label="Send message">
+        <i class="fas fa-paper-plane"></i>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ---- AI ASSISTANT FUNCTIONALITY ----
+(function() {
+  const chatButton = document.getElementById('aiChatButton');
+  const chatWindow = document.getElementById('aiChatWindow');
+  const chatClose = document.getElementById('aiChatClose');
+  const chatMessages = document.getElementById('aiChatMessages');
+  const chatInput = document.getElementById('aiChatInput');
+  const chatSend = document.getElementById('aiChatSend');
+  const chatSuggestions = document.getElementById('aiChatSuggestions');
+
+  let conversationHistory = [];
+
+  // Toggle chat window
+  chatButton.addEventListener('click', () => {
+    chatWindow.classList.toggle('open');
+    chatButton.classList.toggle('active');
+    if (chatWindow.classList.contains('open')) {
+      chatInput.focus();
+    }
+  });
+
+  chatClose.addEventListener('click', () => {
+    chatWindow.classList.remove('open');
+    chatButton.classList.remove('active');
+  });
+
+  // Auto-resize textarea
+  chatInput.addEventListener('input', () => {
+    chatInput.style.height = 'auto';
+    chatInput.style.height = Math.min(chatInput.scrollHeight, 120) + 'px';
+  });
+
+  // Handle suggestions
+  chatSuggestions.addEventListener('click', (e) => {
+    const suggestion = e.target.closest('.ai-suggestion');
+    if (suggestion) {
+      const question = suggestion.getAttribute('data-question');
+      chatInput.value = question;
+      sendMessage();
+    }
+  });
+
+  // Send message on Enter (Shift+Enter for new line)
+  chatInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  });
+
+  chatSend.addEventListener('click', sendMessage);
+
+  function sendMessage() {
+    const message = chatInput.value.trim();
+    if (!message) return;
+
+    // Hide suggestions after first message
+    if (chatSuggestions) {
+      chatSuggestions.remove();
+    }
+
+    // Add user message to UI
+    addMessage(message, 'user');
+
+    // Clear input
+    chatInput.value = '';
+    chatInput.style.height = 'auto';
+
+    // Add to conversation history
+    conversationHistory.push({
+      role: 'user',
+      content: message
+    });
+
+    // Show typing indicator
+    const typingIndicator = addTypingIndicator();
+
+    // Disable input while processing
+    chatInput.disabled = true;
+    chatSend.disabled = true;
+
+    // Send to AI
+    getAIResponse(message)
+      .then(response => {
+        typingIndicator.remove();
+        addMessage(response, 'assistant');
+        conversationHistory.push({
+          role: 'assistant',
+          content: response
+        });
+      })
+      .catch(error => {
+        typingIndicator.remove();
+        addMessage('Sorry, I encountered an error. Please try again or contact us directly for assistance.', 'assistant');
+        console.error('AI Error:', error);
+      })
+      .finally(() => {
+        chatInput.disabled = false;
+        chatSend.disabled = false;
+        chatInput.focus();
+      });
+  }
+
+  function addMessage(content, role) {
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `ai-message ${role}`;
+
+    const avatar = document.createElement('div');
+    avatar.className = 'ai-message-avatar';
+    avatar.innerHTML = role === 'assistant'
+      ? '<i class="fas fa-robot"></i>'
+      : '<i class="fas fa-user"></i>';
+
+    const contentDiv = document.createElement('div');
+    contentDiv.className = 'ai-message-content';
+
+    // Simple markdown-like parsing for links
+    const htmlContent = content.replace(
+      /\[([^\]]+)\]\(([^)]+)\)/g,
+      '<a href="$2" target="_blank">$1</a>'
+    );
+
+    contentDiv.innerHTML = `<p>${htmlContent.replace(/\n/g, '</p><p>')}</p>`;
+
+    messageDiv.appendChild(avatar);
+    messageDiv.appendChild(contentDiv);
+    chatMessages.appendChild(messageDiv);
+
+    // Scroll to bottom
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+  }
+
+  function addTypingIndicator() {
+    const messageDiv = document.createElement('div');
+    messageDiv.className = 'ai-message assistant';
+    messageDiv.id = 'typingIndicator';
+
+    const avatar = document.createElement('div');
+    avatar.className = 'ai-message-avatar';
+    avatar.innerHTML = '<i class="fas fa-robot"></i>';
+
+    const contentDiv = document.createElement('div');
+    contentDiv.className = 'ai-message-content';
+    contentDiv.innerHTML = '<div class="ai-typing"><span></span><span></span><span></span></div>';
+
+    messageDiv.appendChild(avatar);
+    messageDiv.appendChild(contentDiv);
+    chatMessages.appendChild(messageDiv);
+
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+
+    return messageDiv;
+  }
+
+  // Build context from help data
+  function buildHelpContext() {
+    if (typeof HELP_DATA === 'undefined') return '';
+
+    let context = 'WebEaze Help Center Information:\n\n';
+
+    HELP_DATA.topics.forEach(topic => {
+      context += `${topic.title}:\n`;
+      topic.articles.slice(0, 3).forEach(article => {
+        context += `- ${article.title}\n`;
+        if (article.meta) {
+          context += `  ${article.meta}\n`;
+        }
+      });
+      context += '\n';
+    });
+
+    return context;
+  }
+
+  async function getAIResponse(userMessage) {
+    // NOTE: For production, you should NEVER expose your API key in client-side code.
+    // This should be handled by a backend server/API endpoint.
+    // For demonstration purposes, this uses a mock response.
+
+    // In production, you would make a call to your backend:
+    // const response = await fetch('/api/chat', {
+    //   method: 'POST',
+    //   headers: { 'Content-Type': 'application/json' },
+    //   body: JSON.stringify({ message: userMessage, history: conversationHistory })
+    // });
+    // return await response.json();
+
+    // For now, use intelligent rule-based responses based on the help content
+    return generateSmartResponse(userMessage);
+  }
+
+  // Helper function to search for relevant help articles
+  function findRelevantArticles(query) {
+    if (typeof HELP_DATA === 'undefined') return [];
+
+    const results = [];
+    const lowerQuery = query.toLowerCase();
+
+    // Extract keywords from the query
+    const keywords = lowerQuery
+      .replace(/[?.,!]/g, '')
+      .split(/\s+/)
+      .filter(word => word.length > 2 && !['the', 'you', 'your', 'can', 'how', 'what', 'does', 'will', 'are'].includes(word));
+
+    HELP_DATA.topics.forEach(topic => {
+      topic.articles.forEach(article => {
+        let score = 0;
+        const titleLower = article.title.toLowerCase();
+        const metaLower = (article.meta || '').toLowerCase();
+        const bodyLower = (article.body || '').toLowerCase().substring(0, 1000); // First 1000 chars only
+
+        // Check for full query match (highest score)
+        if (titleLower.includes(lowerQuery)) score += 100;
+        if (metaLower.includes(lowerQuery)) score += 50;
+
+        // Check for individual keyword matches
+        keywords.forEach(keyword => {
+          if (titleLower.includes(keyword)) score += 20;
+          if (metaLower.includes(keyword)) score += 10;
+          if (bodyLower.includes(keyword)) score += 5;
+        });
+
+        if (score > 0) {
+          results.push({
+            title: article.title,
+            slug: article.slug,
+            meta: article.meta,
+            topicTitle: topic.title,
+            score: score
+          });
+        }
+      });
+    });
+
+    // Sort by score (highest first) and return
+    return results.sort((a, b) => b.score - a.score);
+  }
+
+  function generateSmartResponse(message) {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        const lowerMsg = message.toLowerCase();
+
+        // Refund questions
+        if (lowerMsg.includes('refund') || lowerMsg.includes('money back')) {
+          resolve(`We have a no-refund policy for completed work. Once services are rendered (website builds, updates, maintenance), we don't offer refunds since the work has already been done.
+
+[Read our full refund policy](help.html#/refund-policy)`);
+        }
+
+        // Cancellation questions
+        else if (lowerMsg.includes('cancel') && !lowerMsg.includes('subscription')) {
+          resolve(`You can cancel anytime through your Stripe Portal. Cancellation is immediate, with no refunds for unused time. Backup retention depends on how long you've been a client - under 12 months gets 2 working days, 12+ months or annual plans get 30 days.
+
+[Complete cancellation details](help.html#/cancel-your-plan)`);
+        }
+
+        // Pause plan questions
+        else if (lowerMsg.includes('pause') || lowerMsg.includes('freeze') || lowerMsg.includes('suspend')) {
+          resolve(`We don't offer plan pauses because website security, hosting, backups, and maintenance continue 24/7 even when you're not requesting updates. You can cancel and reactivate later, but may face a reactivation fee.
+
+[Learn more about pausing](help.html#/pause-plans)`);
+        }
+
+        // Payment failure questions
+        else if (lowerMsg.includes('payment fail') || lowerMsg.includes('payment declined') || lowerMsg.includes('card declined')) {
+          resolve(`Payment failures happen! Log into your Stripe Portal, update your payment method, and retry. If you need help, contact us before your account gets canceled.
+
+[What to do about failed payments](help.html#/failed-payment)`);
+        }
+
+        // Setup fee questions
+        else if (lowerMsg.includes('setup fee') || lowerMsg.includes('onboarding fee') || lowerMsg.includes('$199')) {
+          resolve(`There's a one-time $199 setup fee that covers professional design, development, domain setup, content integration, QA testing, and launch support. It's charged once at checkout.
+
+[More about the setup fee](help.html#/one-time-setup-fee)`);
+        }
+
+        // Annual vs monthly questions
+        else if (lowerMsg.includes('annual') || lowerMsg.includes('yearly') || (lowerMsg.includes('monthly') && lowerMsg.includes('vs'))) {
+          resolve(`Annual plans save you money (10-15% discount) and include better backup retention if you cancel. Monthly plans offer more flexibility with month-to-month payments. You can switch from monthly to annual anytime.
+
+[Compare annual vs monthly plans](help.html#/annual-vs-monthly)`);
+        }
+
+        // Plan upgrade/downgrade questions
+        else if ((lowerMsg.includes('upgrade') || lowerMsg.includes('downgrade')) && lowerMsg.includes('plan')) {
+          resolve(`Yes! Submit a Website Request and we'll process your plan change. Upgrades are immediate with prorated charges, downgrades take effect at your next billing cycle.
+
+[Learn about changing plans](help.html#/change-subscription)`);
+        }
+
+        // Invoice/billing questions
+        else if (lowerMsg.includes('invoice') || lowerMsg.includes('receipt') || lowerMsg.includes('billing')) {
+          resolve(`View and download invoices through your Stripe Portal. You can also update payment methods and billing info there.
+
+[Manage your plan and billing](help.html#/manage-your-plan)`);
+        }
+
+        // Domain and hosting credits
+        else if (lowerMsg.includes('domain') && (lowerMsg.includes('credit') || lowerMsg.includes('hosting'))) {
+          resolve(`All plans include $50 USD credit for domain and hosting, or full coverage for one year. We can purchase and manage everything for you, or credit your payment if you already own a domain.
+
+[Domain & hosting coverage details](help.html#/domain-and-hosting-credit)`);
+        }
+
+        // General domain questions
+        else if (lowerMsg.includes('domain') || lowerMsg.includes('dns')) {
+          resolve(`We can help with domain registration, transfers, or connecting your existing domain. We also handle all DNS settings and nameserver configuration for you.
+
+[How we connect domains](help.html#/connect-your-domain) | [Understanding DNS](help.html#/understanding-dns-domains)`);
+        }
+
+        // Backup questions
+        else if (lowerMsg.includes('backup') || lowerMsg.includes('export')) {
+          resolve(`We provide automatic backups while you're subscribed. You can request a full export anytime. Upon cancellation, backups are retained for 2 working days (under 12 months) or 30 days (12+ months or annual).
+
+[How backups work](help.html#/how-backups-work)`);
+        }
+
+        // SEO questions
+        else if (lowerMsg.includes('seo') || lowerMsg.includes('google search') || lowerMsg.includes('ranking')) {
+          resolve(`Yes! We optimize every website for search engines with proper titles, meta descriptions, fast loading, mobile responsiveness, and clean code. Growth and Elite plans include monthly performance reports.
+
+[SEO optimization details](help.html#/seo-optimization)`);
+        }
+
+        // Email questions
+        else if (lowerMsg.includes('email') && (lowerMsg.includes('custom') || lowerMsg.includes('professional') || lowerMsg.includes('@'))) {
+          resolve(`Yes! You can get a professional email like you@yourbusiness.com through Google Workspace ($6-12/month) or Microsoft 365. We help with setup and configuration. Email costs are separate from your plan.
+
+[Custom email setup guide](help.html#/custom-email-setup)`);
+        }
+
+        // Ownership questions
+        else if (lowerMsg.includes('ownership') || lowerMsg.includes('own my website')) {
+          resolve(`You can request a full export of your website files anytime. Backup fees depend on your plan length - under 12 months costs $99, while 12+ months or annual plans get free backups within 30 days of cancellation.
+
+[Website ownership and rights](help.html#/website-ownership-access)`);
+        }
+
+        // Add-on services (ecommerce, blog, extra pages)
+        else if (lowerMsg.includes('ecommerce') || lowerMsg.includes('online store') || lowerMsg.includes('sell products')) {
+          resolve(`Yes! We can add ecommerce functionality including product catalog, shopping cart, payment processing, and order tracking. Submit a Website Request with your requirements and we'll provide a quote.
+
+[Ecommerce upgrades](help.html#/ecommerce-upgrades)`);
+        }
+
+        else if (lowerMsg.includes('blog') || lowerMsg.includes('news section')) {
+          resolve(`Yes! We can add a blog or news section to help with SEO and customer engagement. Submit a Website Request and we'll set it up. Blog setup is included in most plans.
+
+[Adding a blog to your site](help.html#/add-a-blog)`);
+        }
+
+        else if (lowerMsg.includes('more pages') || lowerMsg.includes('additional pages') || lowerMsg.includes('extra pages')) {
+          resolve(`Yes! Plan limits are Essential (1-3 pages), Growth (4-6 pages), and Elite (7-10 pages). Submit a Website Request for a quote on additional pages, or consider upgrading your plan.
+
+[About additional pages](help.html#/additional-pages)`);
+        }
+
+        // Plan-related questions
+        else if (lowerMsg.includes('plan') || lowerMsg.includes('pricing') || lowerMsg.includes('price') || lowerMsg.includes('cost')) {
+          resolve(`We offer three plans: Essential (1-3 pages), Growth (4-6 pages), and Elite (7-10 pages). All include unlimited updates, domain/hosting coverage, and a one-time $199 setup fee.
+
+[View detailed pricing](pricing.html) | [Plan guide](plan-guide.html)`);
+        }
+
+        // Timeline questions
+        else if (lowerMsg.includes('how long') || lowerMsg.includes('timeline') || lowerMsg.includes('when will')) {
+          resolve(`Most websites go live within 1-2 weeks after you submit your content. The timeline includes a free mockup call, content submission, design/development (3-7 days), review/revisions, and launch.
+
+[Full process timeline](help.html#/getting-started) | [Launch details](help.html#/when-will-my-website-launch)`);
+        }
+
+        // Changes/updates questions
+        else if (lowerMsg.includes('change') || lowerMsg.includes('update') || lowerMsg.includes('edit') || lowerMsg.includes('modify') || lowerMsg.includes('request')) {
+          resolve(`All plans include unlimited updates! Use our Website Request page to submit changes. Typical turnaround: text/image updates (1-3 days), layout changes (3-5 days), new pages (5-7 days).
+
+[How to request updates](help.html#/how-to-request-updates) | [Turnaround times](help.html#/turnarounds-and-common-requests)`);
+        }
+
+        // Getting started
+        else if (lowerMsg.includes('start') || lowerMsg.includes('begin') || lowerMsg.includes('how do') || lowerMsg.includes('how does')) {
+          resolve(`Start with a free 15-minute mockup call, choose your plan, submit your content, we build your site, you review and provide feedback, then we launch. No technical knowledge needed!
+
+[Schedule free mockup call](consultation.html) | [View the process](help.html#/getting-started)`);
+        }
+
+        // Content submission questions
+        else if (lowerMsg.includes('content') || lowerMsg.includes('what do i need') || lowerMsg.includes('what to provide')) {
+          resolve(`You'll need to provide text, images, your logo, business info, and any specific preferences. Use our Content Submission Form to get started - it's the fastest way to begin your project.
+
+[What content to provide](help.html#/what-content-do-i-need) | [Submit your content](https://406km9.share-na2.hsforms.com/2BrG2FrkxQX6to17RxtyS5g)`);
+        }
+
+        // Google Business Profile questions
+        else if (lowerMsg.includes('google business') || lowerMsg.includes('google profile') || lowerMsg.includes('google my business')) {
+          resolve(`Google Business Profile management is included with Growth and Elite plans, or available as a $79/month add-on. We handle setup, optimization, and ongoing management.
+
+[Google Business Profile details](help.html#/google-business-profile)`);
+        }
+
+        // Security questions
+        else if (lowerMsg.includes('security') || lowerMsg.includes('ssl') || lowerMsg.includes('https') || lowerMsg.includes('secure')) {
+          resolve(`All websites include SSL certificates, HTTPS encryption, security monitoring, uptime monitoring, and protection against common threats.
+
+[Website security features](help.html#/website-security)`);
+        }
+
+        // Performance/reports questions
+        else if (lowerMsg.includes('performance') || lowerMsg.includes('report') || lowerMsg.includes('analytics')) {
+          resolve(`Growth and Elite plans include monthly performance reports with traffic data, SEO insights, and recommendations for improvement.
+
+[About performance reports](help.html#/performance-reports)`);
+        }
+
+        // Existing website questions
+        else if (lowerMsg.includes('existing website') || lowerMsg.includes('current site') || lowerMsg.includes('already have')) {
+          resolve(`Yes! We can work with your existing website, not just sites we build from scratch. We offer maintenance, updates, and improvements for existing sites.
+
+[Working with existing websites](help.html#/existing-website)`);
+        }
+
+        // Review/draft questions
+        else if (lowerMsg.includes('review') || lowerMsg.includes('draft') || lowerMsg.includes('preview') || lowerMsg.includes('feedback')) {
+          resolve(`You'll get a preview link to review your website before launch. You can provide feedback, request revisions, and we'll refine everything before going live.
+
+[How to review your draft](help.html#/reviewing-your-draft) | [Preview before launch](help.html#/preview-before-launch)`);
+        }
+
+        // Support questions
+        else if (lowerMsg.includes('support')) {
+          resolve(`All plans include unlimited email support, maintenance, security monitoring, and backups. Growth and Elite add priority support, Google Meet sessions, live chat, and performance reports. You'll always talk to real people, not bots!
+
+[Support details](help.html#/will-i-talk-to-a-real-person) | [Contact us](contact-us.html)`);
+        }
+
+        // Contact/mockup
+        else if (lowerMsg.includes('contact') || lowerMsg.includes('mockup') || lowerMsg.includes('call') || lowerMsg.includes('meeting')) {
+          resolve(`You can schedule a free 15-minute mockup call, contact us through our form, submit your content to get started, or use our Website Request page if you're already a client.
+
+[Schedule mockup call](consultation.html) | [Contact us](contact-us.html) | [Submit content](https://406km9.share-na2.hsforms.com/2BrG2FrkxQX6to17RxtyS5g)`);
+        }
+
+        // Default - try to find relevant articles
+        else {
+          const articles = findRelevantArticles(message);
+
+          if (articles.length > 0) {
+            const topResults = articles.slice(0, 3);
+            let response = `Here's what I found:\n\n`;
+            topResults.forEach((article, index) => {
+              response += `${index + 1}. [${article.title}](help.html#/${article.slug})`;
+              if (article.meta) {
+                response += `\n   ${article.meta}`;
+              }
+              response += `\n\n`;
+            });
+            resolve(response.trim());
+          } else {
+            resolve(`I can help answer questions about:\n\nPlans & pricing • Refunds & cancellations • Domains & hosting • SEO • Timelines • Updates • Support • And much more!\n\nTry asking a specific question, or browse our [Help Center](help.html) to explore all topics.`);
+          }
+        }
+      }, 1000 + Math.random() * 1000); // Simulate network delay
+    });
+  }
+})();
+</script>
+
 </body>
 </html>
