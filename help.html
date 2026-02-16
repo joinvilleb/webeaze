@@ -1291,23 +1291,33 @@
     right: 16px;
     width: 56px;
     height: 56px;
+    z-index: 10001;
   }
 
   .ai-chat-button i {
     font-size: 22px;
   }
 
+  .ai-chat-button.active {
+    display: none;
+  }
+
   .ai-chat-window {
-    bottom: 80px;
-    right: 16px;
-    width: calc(100vw - 32px);
-    height: calc(100vh - 120px);
-    max-height: 600px;
-    border-radius: 12px;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 0;
+    z-index: 10000;
   }
 
   .ai-chat-header {
-    padding: 16px;
+    padding: 14px 16px;
+    flex-shrink: 0;
   }
 
   .ai-chat-header-text h3 {
@@ -1321,6 +1331,8 @@
   .ai-chat-messages {
     padding: 16px;
     gap: 12px;
+    flex: 1;
+    min-height: 0;
   }
 
   .ai-message-content {
@@ -1336,16 +1348,17 @@
 
   .ai-chat-input-wrapper {
     padding: 12px;
+    flex-shrink: 0;
   }
 
   .ai-chat-input {
-    font-size: 14px;
+    font-size: 16px;
     padding: 10px 14px;
   }
 
   .ai-chat-send {
-    width: 40px;
-    height: 40px;
+    width: 42px;
+    height: 42px;
   }
 
   .ai-suggestion {
@@ -3663,13 +3676,39 @@ function renderTopicResults(topicId) {
     chatWindow.classList.toggle('open');
     chatButton.classList.toggle('active');
     if (chatWindow.classList.contains('open')) {
+      document.body.style.overflow = 'hidden';
       chatInput.focus();
+    } else {
+      document.body.style.overflow = '';
     }
   });
 
   chatClose.addEventListener('click', () => {
     chatWindow.classList.remove('open');
     chatButton.classList.remove('active');
+    document.body.style.overflow = '';
+  });
+
+  // Handle mobile keyboard resize
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', () => {
+      if (!chatWindow.classList.contains('open')) return;
+      const viewportHeight = window.visualViewport.height;
+      chatWindow.style.height = viewportHeight + 'px';
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    });
+
+    window.visualViewport.addEventListener('scroll', () => {
+      if (!chatWindow.classList.contains('open')) return;
+      chatWindow.style.top = window.visualViewport.offsetTop + 'px';
+    });
+  }
+
+  // Scroll messages into view when input is focused on mobile
+  chatInput.addEventListener('focus', () => {
+    setTimeout(() => {
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }, 300);
   });
 
   // Auto-resize textarea
