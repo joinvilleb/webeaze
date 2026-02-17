@@ -2611,7 +2611,7 @@
         { slug: 'taxes-and-fees', title: 'Are taxes and fees included in my plan price?', updated: TODAY, meta: 'Information about taxes, processing fees, and other applicable charges that may apply to your account.', body: `
           <p>The prices listed for WebEaze plans do not include applicable taxes or fees. Depending on your location and local regulations, additional charges may apply to your invoice.</p>
 
-          <h2>What charges are the client's responsibility?</h2>
+          <h2>What charges are your responsibility?</h2>
           <ul>
             <li><strong>Sales Tax / VAT / GST:</strong> If required by your jurisdiction, sales tax, VAT, or GST will be calculated and added to your invoice automatically by our payment processor, Stripe.</li>
             <li><strong>Payment Processing Fees:</strong> Stripe may charge transaction or processing fees in certain regions or for specific payment methods.</li>
@@ -3656,7 +3656,7 @@ function renderTopicResults(topicId) {
 </div>
 
 <script>
-// ---- AI ASSISTANT FUNCTIONALITY ----
+
 (function() {
   const chatButton = document.getElementById('aiChatButton');
   const chatWindow = document.getElementById('aiChatWindow');
@@ -3982,336 +3982,672 @@ function renderTopicResults(topicId) {
   function generateSmartResponse(message) {
     return new Promise((resolve) => {
       setTimeout(() => {
-        const lowerMsg = message.toLowerCase();
+        const msg = message.toLowerCase().trim();
 
-        // Greetings
-        if (/^(hi|hello|hey|yo|sup|what'?s up|howdy|good morning|good afternoon|good evening)\b/i.test(lowerMsg.trim())) {
-          resolve(`Hey! Welcome to WebEaze. What can I help you with today?`);
+        // Helper: check if message matches any keyword/phrase in the list
+        function has(...terms) {
+          return terms.some(t => msg.includes(t));
         }
 
-        // Thanks
-        else if (/^(thanks|thank you|thx|ty|appreciate|awesome|great|perfect|cool)\b/i.test(lowerMsg.trim())) {
-          resolve(`You're welcome! Let me know if there's anything else I can help with.`);
+        // Helper: check if message matches a regex
+        function matches(regex) {
+          return regex.test(msg);
         }
 
-        // Goodbye
-        else if (/^(bye|goodbye|see ya|later|that'?s all|nothing)\b/i.test(lowerMsg.trim())) {
-          resolve(`No problem! If you need anything else, I'm here. Have a great day!`);
+        // ── Greetings ──
+        if (matches(/^(hi|hello|hey|yo|sup|what'?s up|howdy|hola|good\s?(morning|afternoon|evening|day)|greetings|what up)\b/)) {
+          resolve(`Hey there! Welcome to WebEaze. I can help with plans, pricing, support, domains, and more. What's on your mind?`);
+          return;
         }
 
-        // Refund questions
-        else if (lowerMsg.includes('refund') || lowerMsg.includes('money back')) {
-          resolve(`No, we don't offer refunds for completed work. Since your payments cover services already delivered (design, development, maintenance), they're non-refundable. If you have concerns, we'd love to work things out with you first!
+        // ── Thanks / appreciation ──
+        if (matches(/^(thanks|thank you|thx|ty|appreciate|cheers|much appreciated|that helps|helpful|you rock)\b/) || has('thank you so much', 'thanks a lot', 'thanks so much')) {
+          resolve(`You're welcome! Happy to help. Let me know if anything else comes up.`);
+          return;
+        }
+
+        // ── Goodbye ──
+        if (matches(/^(bye|goodbye|see ya|later|take care|that'?s (all|it)|nothing else|no more|i'?m good|all good|nope|no thanks|no thank)\b/)) {
+          resolve(`No problem at all! If you ever need anything, I'm right here. Have a great day!`);
+          return;
+        }
+
+        // ── Positive reactions ──
+        if (matches(/^(awesome|great|perfect|cool|nice|ok|okay|got it|sounds good|wonderful|sweet|amazing|fantastic|brilliant|excellent)\b/)) {
+          resolve(`Glad to hear it! Let me know if there's anything else I can help with.`);
+          return;
+        }
+
+        // ── Who are you / what is this ──
+        if (has('who are you', 'what are you', 'are you a bot', 'are you real', 'are you ai', 'are you human', 'chatbot', 'is this a bot', 'am i talking to')) {
+          resolve(`I'm WebEaze's virtual assistant! I can answer common questions about our services, plans, and support. For anything I can't help with, our real human team is always available.
+
+[Contact our team](contact-us.html)`);
+          return;
+        }
+
+        // ── What is WebEaze / about ──
+        if (has('what is webeaze', 'what does webeaze do', 'tell me about webeaze', 'about webeaze', 'about your company', 'who is webeaze', 'what do you do', 'what do you guys do', 'what services')) {
+          resolve(`WebEaze is a web design agency for small businesses. We build, host, and manage professional websites so you can focus on running your business. Plans start at just $29/month with unlimited updates included!
+
+[Learn more about us](about.html) | [See our plans](pricing.html)`);
+          return;
+        }
+
+        // ── Customer service / talk to a person / human support ──
+        if (has('customer service', 'talk to someone', 'talk to a person', 'talk to a human', 'speak to someone', 'speak with someone', 'speak to a person', 'real person', 'real human', 'human agent', 'live agent', 'representative', 'agent', 'operator', 'speak with a rep', 'get in touch', 'reach someone', 'reach out', 'reach you')) {
+          resolve(`Of course! You'll always talk to a real person at WebEaze - never bots or call centers. Here's how to reach us:
+
+• **Email:** support@webeaze.io
+• **Contact form:** [Contact Us](contact-us.html)
+• **Website requests:** [Website Request page](website-request.html)
+
+Growth and Elite clients also get Google Meet sessions and live chat support.`);
+          return;
+        }
+
+        // ── Phone number / call us ──
+        if (has('phone', 'phone number', 'call you', 'call us', 'give you a call', 'telephone', 'ring you')) {
+          resolve(`We primarily communicate through email and our Website Request page to keep everything organized and documented. But Growth and Elite plan clients can book Google Meet video calls for face-to-face support!
+
+• **Email:** support@webeaze.io
+• **Contact form:** [Contact Us](contact-us.html)
+• **Book a call:** [Schedule a free mockup call](consultation.html)`);
+          return;
+        }
+
+        // ── Hours / availability / when are you open ──
+        if (has('hours', 'business hours', 'open hours', 'office hours', 'when are you open', 'when are you available', 'availability', 'working hours', 'response time', 'how quickly', 'when do you respond')) {
+          resolve(`We respond to most emails within 1 business day. Turnaround times for website changes depend on the type of request:
+
+• **Simple changes** (text, images): 1-3 business days
+• **Layout changes**: 3-5 business days
+• **New pages**: 5-7 business days
+
+Growth and Elite clients get priority support with faster turnaround times.
+
+[Support hours & updates](website-request.html) | [Turnaround times](help.html#/turnarounds-and-common-requests)`);
+          return;
+        }
+
+        // ── Email (general) / how to contact ──
+        if (has('email address', 'your email', 'email you', 'send an email', 'what is your email', 'how to contact', 'how do i contact', 'how can i contact', 'how to reach')) {
+          resolve(`You can reach us at **support@webeaze.io** or through our contact form. We typically respond within 1 business day.
+
+[Contact Us](contact-us.html) | [Website Request page](website-request.html)`);
+          return;
+        }
+
+        // ── Location / where are you based ──
+        if (has('where are you located', 'where are you based', 'your location', 'your address', 'where is webeaze', 'what state', 'what country', 'based out of', 'located in')) {
+          resolve(`WebEaze is based in Delaware, USA. We work with small businesses across the country - everything is done remotely, so we can help you no matter where you are!
+
+[About us](about.html)`);
+          return;
+        }
+
+        // ── Refund questions ──
+        if (has('refund', 'money back', 'get my money', 'want my money')) {
+          resolve(`We don't offer refunds for completed work since payments cover services already delivered (design, development, maintenance). However, if you have concerns, we'd love to work things out with you first!
 
 [Full refund policy](help.html#/refund-policy)`);
+          return;
         }
 
-        // Cancellation questions
-        else if (lowerMsg.includes('cancel') && !lowerMsg.includes('subscription')) {
+        // ── Cancellation questions ──
+        if (has('cancel', 'cancellation', 'end my plan', 'stop my plan', 'terminate', 'unsubscribe', 'stop paying', 'end my subscription', 'quit')) {
           resolve(`Yes, you can cancel anytime through your Stripe Portal - it takes effect immediately. Just keep in mind there are no refunds for unused time, and your backup retention depends on how long you've been with us.
 
 [How to cancel and what to expect](help.html#/cancel-your-plan)`);
+          return;
         }
 
-        // Pause plan questions
-        else if (lowerMsg.includes('pause') || lowerMsg.includes('freeze') || lowerMsg.includes('suspend')) {
-          resolve(`Unfortunately, no. We can't pause plans because hosting, security, and backups run 24/7 behind the scenes. You're welcome to cancel and come back later, though a reactivation fee may apply.
+        // ── Pause plan questions ──
+        if (has('pause', 'freeze', 'suspend', 'put on hold', 'hold my plan', 'take a break')) {
+          resolve(`Unfortunately, we can't pause plans because hosting, security, and backups run 24/7 behind the scenes. You're welcome to cancel and come back later, though a reactivation fee may apply.
 
 [More about this](help.html#/pause-plans)`);
+          return;
         }
 
-        // Payment failure questions
-        else if (lowerMsg.includes('payment fail') || lowerMsg.includes('payment declined') || lowerMsg.includes('card declined')) {
-          resolve(`No worries, it happens! Just log into your Stripe Portal, update your payment method, and retry. If you're running into trouble, reach out to us and we'll help sort it out before anything gets canceled.
+        // ── Reactivation ──
+        if (has('reactivat', 'come back', 'rejoin', 'sign up again', 'restart my plan', 're-subscribe', 'start again')) {
+          resolve(`Welcome back! If you've been away, there may be a reactivation fee depending on how long it's been. Just reach out to us and we'll walk you through getting set up again.
+
+[Contact us to reactivate](contact-us.html)`);
+          return;
+        }
+
+        // ── Payment failure questions ──
+        if (has('payment fail', 'payment declined', 'card declined', 'card rejected', 'payment issue', 'payment problem', 'card not working', 'charge failed', 'transaction failed')) {
+          resolve(`No worries, it happens! Just log into your Stripe Portal, update your payment method, and retry. If you're running into trouble, reach out to us and we'll help sort it out before anything gets affected.
 
 [What to do next](help.html#/failed-payment)`);
+          return;
         }
 
-        // Setup fee questions
-        else if (lowerMsg.includes('setup fee') || lowerMsg.includes('onboarding fee') || lowerMsg.includes('$199')) {
-          resolve(`Yes, there's a one-time $199 setup fee at checkout. It covers your entire website build - design, development, domain setup, QA testing, and launch. After that, you just pay your monthly plan.
+        // ── Payment method / how to pay ──
+        if (has('payment method', 'how do i pay', 'how to pay', 'accept credit card', 'accept debit', 'accept paypal', 'stripe', 'payment option', 'ways to pay', 'forms of payment')) {
+          resolve(`We process all payments securely through Stripe. You can pay with any major credit or debit card. Your billing is managed through your Stripe Portal where you can update your payment method anytime.
+
+[Manage your billing](help.html#/manage-your-plan)`);
+          return;
+        }
+
+        // ── Setup fee questions ──
+        if (has('setup fee', 'onboarding fee', '$199', 'one-time fee', 'one time fee', 'upfront cost', 'initial fee', 'activation fee')) {
+          resolve(`There's a one-time $199 setup fee at checkout. It covers your entire website build - custom design, development, domain setup, QA testing, and launch. After that, it's just your monthly plan. If you choose yearly billing, the setup fee is already included!
 
 [Setup fee breakdown](help.html#/one-time-setup-fee)`);
+          return;
         }
 
-        // Annual vs monthly questions
-        else if (lowerMsg.includes('annual') || lowerMsg.includes('yearly') || (lowerMsg.includes('monthly') && lowerMsg.includes('vs'))) {
+        // ── Annual vs monthly questions ──
+        if (has('annual', 'yearly') || (has('monthly') && has('vs', 'or', 'versus', 'compared', 'difference', 'better'))) {
           resolve(`Great question! Annual plans save you 10-15% and come with better backup retention. Monthly gives you more flexibility. You can switch from monthly to annual anytime if you'd like to save.
 
 [Compare plans side by side](help.html#/annual-vs-monthly)`);
+          return;
         }
 
-        // Plan upgrade/downgrade questions
-        else if ((lowerMsg.includes('upgrade') || lowerMsg.includes('downgrade')) && lowerMsg.includes('plan')) {
+        // ── Plan upgrade/downgrade questions ──
+        if ((has('upgrade', 'downgrade', 'switch plan', 'change plan', 'change my plan', 'different plan', 'switch to'))) {
           resolve(`Absolutely! Just submit a Website Request and we'll handle it. Upgrades kick in right away (prorated), and downgrades take effect at your next billing cycle.
 
 [Change your plan](help.html#/change-subscription)`);
+          return;
         }
 
-        // Invoice/billing questions
-        else if (lowerMsg.includes('invoice') || lowerMsg.includes('receipt') || lowerMsg.includes('billing')) {
-          resolve(`Sure! You can view, download, and manage all your invoices through your Stripe Portal. You can also update your payment method and billing info there.
+        // ── Invoice/billing/receipt questions ──
+        if (has('invoice', 'receipt', 'billing', 'billing portal', 'stripe portal', 'manage subscription', 'manage my plan', 'subscription management')) {
+          resolve(`You can view, download, and manage all your invoices through your Stripe Portal. You can also update your payment method and billing info there.
 
-[Go to billing](help.html#/manage-your-plan)`);
+[Manage your billing](help.html#/manage-your-plan)`);
+          return;
         }
 
-        // Tax and fee questions
-        else if (lowerMsg.includes('tax') || lowerMsg.includes('vat') || lowerMsg.includes('gst') || (lowerMsg.includes('fee') && !lowerMsg.includes('setup'))) {
-          resolve(`No, plan prices don't include taxes. Sales tax, VAT, or GST will be added automatically based on your location. You're also responsible for things like currency conversion fees and third-party service costs.
+        // ── Tax and fee questions ──
+        if (has('tax', 'taxes', 'vat', 'gst', 'sales tax') || (has('fee') && !has('setup') && !has('onboarding'))) {
+          resolve(`Plan prices don't include taxes. Sales tax, VAT, or GST will be added automatically based on your location. You're also responsible for things like currency conversion fees and third-party service costs.
 
 [Taxes & fees details](help.html#/taxes-and-fees)`);
+          return;
         }
 
-        // Domain and hosting credits
-        else if (lowerMsg.includes('domain') && (lowerMsg.includes('credit') || lowerMsg.includes('hosting'))) {
-          resolve(`Yes! All plans come with a $50 credit for domain and hosting (or full coverage for one year). We can buy and manage it for you, or credit your account if you already own one.
+        // ── Discount / coupon / promo / free trial ──
+        if (has('discount', 'coupon', 'promo', 'promo code', 'deal', 'special offer', 'free trial', 'trial', 'promotion')) {
+          resolve(`We don't currently offer promo codes or free trials, but our free mockup call lets you see a preview of your website before committing. Annual billing also saves you 10-15% compared to monthly!
+
+[Book a free mockup call](consultation.html) | [See pricing](pricing.html)`);
+          return;
+        }
+
+        // ── Free / is it free / cost nothing ──
+        if (matches(/\b(is it free|for free|no cost|free of charge|completely free)\b/)) {
+          resolve(`Our mockup call is 100% free with no obligation! Plans start at $29/month with a one-time $199 setup fee. All plans include unlimited updates, hosting, and ongoing support.
+
+[Book a free mockup call](consultation.html) | [See pricing](pricing.html)`);
+          return;
+        }
+
+        // ── Domain and hosting credits ──
+        if (has('domain') && (has('credit', 'hosting', 'included', 'covered', 'free'))) {
+          resolve(`All plans include domain and hosting support! Essential plan covers hosting via GitHub Pages. Growth and Elite plans include a $50 credit or full coverage for one year. We can buy and manage it for you, or credit your account if you already own one.
 
 [Domain & hosting coverage](help.html#/domain-and-hosting-credit)`);
+          return;
         }
 
-        // General domain questions
-        else if (lowerMsg.includes('domain') || lowerMsg.includes('dns')) {
-          resolve(`Yes, we handle all of that! Whether you need a new domain, want to transfer one, or connect an existing one - we take care of the setup, DNS, and everything technical.
+        // ── General domain questions ──
+        if (has('domain', 'dns', 'nameserver', 'registrar', 'godaddy', 'namecheap')) {
+          resolve(`We handle all of that! Whether you need a new domain, want to transfer one, or connect an existing one - we take care of the setup, DNS, and everything technical.
 
 [Domain setup](help.html#/connect-your-domain) | [DNS explained](help.html#/understanding-dns-domains)`);
+          return;
         }
 
-        // Backup questions
-        else if (lowerMsg.includes('backup') || lowerMsg.includes('export')) {
+        // ── Hosting questions ──
+        if (has('hosting', 'server', 'where is my site hosted', 'github pages', 'host')) {
+          resolve(`We handle hosting for you! Essential plan sites are hosted on GitHub Pages (free and fast). Growth and Elite plans include a $50 credit toward your preferred hosting provider. We take care of all the technical setup.
+
+[Hosting coverage](help.html#/domain-and-hosting-credit) | [Supported providers](providers.html)`);
+          return;
+        }
+
+        // ── Backup questions ──
+        if (has('backup', 'back up', 'export', 'download my site', 'copy of my site', 'download my files')) {
           resolve(`Yes! We run automatic backups while you're subscribed, and you can request a full export anytime. If you ever cancel, your files are kept for 2-30 days depending on how long you've been a client.
 
 [Backup details](help.html#/how-backups-work)`);
+          return;
         }
 
-        // SEO questions
-        else if (lowerMsg.includes('seo') || lowerMsg.includes('google search') || lowerMsg.includes('ranking')) {
-          resolve(`Yes! Every site we build is optimized for Google - proper titles, meta descriptions, fast loading, mobile-friendly, clean code, the works. Growth and Elite plans also get monthly performance reports.
+        // ── SEO questions ──
+        if (has('seo', 'search engine', 'google search', 'ranking', 'rank on google', 'show up on google', 'search results', 'google ranking', 'organic traffic')) {
+          resolve(`Every site we build is optimized for Google - proper titles, meta descriptions, fast loading, mobile-friendly, clean code, the works. Growth and Elite plans also get monthly performance reports.
 
-[How we do SEO](help.html#/seo-optimization)`);
+[How we do SEO](help.html#/seo-optimization) | [Our SEO services](seo.html)`);
+          return;
         }
 
-        // Email questions
-        else if (lowerMsg.includes('email') && (lowerMsg.includes('custom') || lowerMsg.includes('professional') || lowerMsg.includes('@'))) {
-          resolve(`Yes! We can set you up with a professional email like you@yourbusiness.com through Google Workspace ($6-12/month) or Microsoft 365. We handle all the technical setup for you.
+        // ── Custom email questions ──
+        if (has('email') && (has('custom', 'professional', 'business email', '@', 'my own email', 'branded email', 'company email', 'email address setup'))) {
+          resolve(`We can set you up with a professional email like you@yourbusiness.com through Google Workspace, Microsoft 365, or Zoho Mail. We handle all the DNS and technical setup - the email subscription itself is billed by the provider.
 
 [Email setup guide](help.html#/custom-email-setup)`);
+          return;
         }
 
-        // Ownership questions
-        else if (lowerMsg.includes('ownership') || lowerMsg.includes('own my website') || lowerMsg.includes('my files') || lowerMsg.includes('my website')) {
-          resolve(`Yes, you can request a full export of your website files anytime. If you cancel, backup fees depend on your plan length - free for long-term clients, $99 for under 12 months.
+        // ── Ownership questions ──
+        if (has('ownership', 'own my website', 'own my site', 'my files', 'who owns', 'do i own', 'keep my website', 'take my website')) {
+          resolve(`You can request a full export of your website files anytime. If you cancel, backup retention depends on your plan length - free for long-term clients (12+ months), $99 for under 12 months.
 
 [Your ownership rights](help.html#/website-ownership-access)`);
+          return;
         }
 
-        // Add-on services (ecommerce, blog, extra pages)
-        else if (lowerMsg.includes('ecommerce') || lowerMsg.includes('online store') || lowerMsg.includes('sell products') || lowerMsg.includes('shop')) {
-          resolve(`Yes, we can do that! We'll add product pages, a shopping cart, payment processing, and everything you need to sell online. Just submit a Website Request with what you're looking for.
+        // ── Ecommerce / online store ──
+        if (has('ecommerce', 'e-commerce', 'online store', 'sell products', 'sell online', 'shopping cart', 'product page', 'shopify', 'woocommerce')) {
+          resolve(`Yes, we can set that up! We'll add product pages, a shopping cart, payment processing, and everything you need to sell online. Just submit a Website Request with what you're looking for.
 
 [Ecommerce details](help.html#/ecommerce-upgrades)`);
+          return;
         }
 
-        else if (lowerMsg.includes('blog') || lowerMsg.includes('news section')) {
-          resolve(`Yes! A blog is a great way to boost your SEO and engage customers. Just submit a Website Request and we'll set it up - blog setup is included with most plans.
+        // ── Blog ──
+        if (has('blog', 'news section', 'articles section', 'writing posts', 'blog post')) {
+          resolve(`A blog is a great way to boost your SEO and engage customers. Just submit a Website Request and we'll set it up - blog setup is included with most plans.
 
 [Blog setup info](help.html#/add-a-blog)`);
+          return;
         }
 
-        else if (lowerMsg.includes('more pages') || lowerMsg.includes('additional pages') || lowerMsg.includes('extra pages')) {
-          resolve(`Yes! Your plan includes a set number of pages (Essential: 1-3, Growth: 4-6, Elite: 7-10). Need more? Submit a Website Request and we'll give you a quote - or you might want to consider upgrading.
+        // ── More pages ──
+        if (has('more pages', 'additional pages', 'extra pages', 'add a page', 'add pages', 'new page', 'how many pages')) {
+          resolve(`Your plan includes a set number of pages: Essential (1-3), Growth (4-6), Elite (7-10). Need more? Submit a Website Request and we'll give you a quote - or you might want to consider upgrading.
 
 [Page limits & options](help.html#/additional-pages)`);
+          return;
         }
 
-        // Newsletter questions
-        else if (lowerMsg.includes('newsletter') || lowerMsg.includes('email marketing') || lowerMsg.includes('mailchimp')) {
+        // ── Newsletter / email marketing ──
+        if (has('newsletter', 'email marketing', 'mailchimp', 'email campaign', 'mailing list', 'email list', 'constant contact')) {
           resolve(`Yes! We offer newsletter management for an additional monthly fee. We can handle setup, design, and sending so you can stay connected with your audience.
 
 [Newsletter management](help.html#/newsletter-management)`);
+          return;
         }
 
-        // Referral questions
-        else if (lowerMsg.includes('referral') || lowerMsg.includes('refer')) {
-          resolve(`Yes! You can earn $50 cash for every business you refer that signs up for a paid WebEaze service. Whether you're a client or not, you're welcome to participate.
+        // ── Referral program ──
+        if (has('referral', 'refer a friend', 'refer someone', 'earn money', 'affiliate')) {
+          resolve(`Great question! You can earn $50 cash for every business you refer that signs up for a paid WebEaze service. Whether you're a client or not, you're welcome to participate.
 
-[Referral program details](help.html#/referral-program)`);
+[Referral program details](help.html#/referral-program) | [Referral page](referral.html)`);
+          return;
         }
 
-        // Showcase questions
-        else if (lowerMsg.includes('showcase') || lowerMsg.includes('featured')) {
-          resolve(`Our Showcase Program features outstanding client websites. It's a great way to get extra visibility for your business!
+        // ── Showcase / examples / portfolio ──
+        if (has('showcase', 'featured', 'portfolio', 'examples', 'samples', 'your work', 'see your work', 'past work', 'previous work')) {
+          resolve(`You can check out examples of our work on our Samples page! We also have a Showcase Program that features outstanding client websites for extra visibility.
 
-[About the Showcase Program](help.html#/showcase-program)`);
+[See our work](samples.html) | [Showcase program](help.html#/showcase-program)`);
+          return;
         }
 
-        // Geo pages questions
-        else if (lowerMsg.includes('geo') || lowerMsg.includes('location') || lowerMsg.includes('local search')) {
-          resolve(`Yes! Geo pages are location-specific pages that help your business show up in local searches across multiple areas. They're great if you serve more than one city or region.
+        // ── Geo pages / local SEO ──
+        if (has('geo page', 'geo pages', 'location page', 'local seo', 'local search', 'multiple cities', 'service area')) {
+          resolve(`Geo pages are location-specific pages that help your business show up in local searches across multiple areas. They're great if you serve more than one city or region.
 
 [What are geo pages?](help.html#/geo-pages)`);
+          return;
         }
 
-        // Fair use questions
-        else if (lowerMsg.includes('fair use') || lowerMsg.includes('fair usage') || lowerMsg.includes('limit')) {
-          resolve(`We have a fair usage policy to keep things running smoothly for everyone. It sets reasonable limits on support requests and troubleshooting hours so all clients get great service.
+        // ── Fair use ──
+        if (has('fair use', 'fair usage', 'usage limit', 'request limit', 'how many requests', 'unlimited really')) {
+          resolve(`We have a fair usage policy to keep things running smoothly for everyone. It sets reasonable limits on support requests and troubleshooting hours so all clients get great service. Don't worry - the limits are generous and most clients never come close!
 
 [Fair usage policy](help.html#/fair-use)`);
+          return;
         }
 
-        // Footer credit questions
-        else if (lowerMsg.includes('footer credit') || lowerMsg.includes('maintained by') || lowerMsg.includes('webeaze badge') || lowerMsg.includes('remove credit')) {
-          resolve(`Yes, you can remove the "Maintained by WebEaze" footer credit from your website. Check out the details on how to do that here.
+        // ── Footer credit ──
+        if (has('footer credit', 'maintained by', 'webeaze badge', 'remove credit', 'remove badge', 'remove logo from footer')) {
+          resolve(`Yes, you can remove the "Maintained by WebEaze" footer credit from your website.
 
 [Footer credit removal](help.html#/footer-credit)`);
+          return;
         }
 
-        // Self management questions
-        else if (lowerMsg.includes('manage myself') || lowerMsg.includes('self manage') || lowerMsg.includes('edit myself') || lowerMsg.includes('own edits')) {
+        // ── Self management ──
+        if (has('manage myself', 'self manage', 'edit myself', 'own edits', 'make my own changes', 'access my site', 'login to my site', 'admin access', 'cms access', 'dashboard access')) {
           resolve(`There are some things you can manage yourself and others we recommend leaving to us while you're on a plan. This helps keep everything running smoothly and avoids conflicts.
 
 [Self-management details](help.html#/self-management)`);
+          return;
         }
 
-        // Error/troubleshooting questions
-        else if (lowerMsg.includes('error') || lowerMsg.includes('broken') || lowerMsg.includes('not working') || lowerMsg.includes('down') || lowerMsg.includes('issue')) {
+        // ── Errors / site down / troubleshooting ──
+        if (has('error', 'broken', 'not working', 'site is down', 'website is down', 'site down', 'page not found', '404', '500', 'crashed', 'offline', 'can\'t access', 'won\'t load', 'not loading')) {
           resolve(`Sorry to hear that! If your site is down or showing an error, submit an urgent Website Request and select "URGENT, site down" so we can prioritize it right away.
 
 [Troubleshooting guide](help.html#/website-error-troubleshooting) | [Submit urgent request](website-request.html)`);
+          return;
         }
 
-        // Plan-related questions
-        else if (lowerMsg.includes('plan') || lowerMsg.includes('pricing') || lowerMsg.includes('price') || lowerMsg.includes('cost')) {
-          resolve(`We have three plans: Essential (1-3 pages), Growth (4-6 pages), and Elite (7-10 pages). All come with unlimited updates, domain/hosting coverage, and a one-time $199 setup fee. Happy to help you pick the right one!
+        // ── Complaint / unhappy / frustrated ──
+        if (has('complaint', 'unhappy', 'dissatisfied', 'frustrated', 'disappointed', 'not happy', 'bad experience', 'terrible', 'awful', 'worst', 'unacceptable', 'poor service', 'rip off', 'scam')) {
+          resolve(`I'm really sorry to hear you're not having a great experience. We take every concern seriously and want to make things right. Please reach out to our team directly so we can address this for you personally.
 
-[See pricing](pricing.html) | [Plan guide](plan-guide.html)`);
+**Email:** support@webeaze.io
+[Contact us](contact-us.html)`);
+          return;
         }
 
-        // Timeline questions
-        else if (lowerMsg.includes('how long') || lowerMsg.includes('timeline') || lowerMsg.includes('when will')) {
-          resolve(`Most sites go live within 1-2 weeks after you submit your content. The speed depends on how quickly you provide feedback and how complex your site is.
+        // ── Urgent / emergency / ASAP ──
+        if (has('urgent', 'emergency', 'asap', 'right away', 'immediately', 'critical', 'time sensitive', 'rush')) {
+          resolve(`For urgent issues, submit a Website Request and select the **"URGENT, site down"** priority level. This ensures our team sees it immediately and prioritizes your request.
 
-[Full timeline](help.html#/getting-started) | [Launch details](help.html#/when-will-my-website-launch)`);
+[Submit urgent request](website-request.html) | **Email:** support@webeaze.io`);
+          return;
         }
 
-        // Changes/updates questions
-        else if (lowerMsg.includes('change') || lowerMsg.includes('update') || lowerMsg.includes('edit') || lowerMsg.includes('modify') || lowerMsg.includes('request')) {
-          resolve(`Yes! All plans include unlimited updates. Just use the Website Request page and we'll take care of it. Simple changes take 1-3 days, layout changes 3-5 days, and new pages 5-7 days.
+        // ── Plans / pricing / cost ──
+        if (has('plan', 'pricing', 'price', 'cost', 'how much', 'afford', 'budget', 'expensive', 'cheap', 'cheapest', 'worth it', 'packages', 'subscription')) {
+          resolve(`We have three plans to fit different needs:
 
-[Request an update](help.html#/how-to-request-updates) | [Turnaround times](help.html#/turnarounds-and-common-requests)`);
+• **Essential** ($29/mo) - 1-3 pages, perfect for simple sites
+• **Growth** ($59/mo) - 4-6 pages, priority support & reports
+• **Elite** ($99/mo) - 7-10 pages, full coverage & fastest support
+
+All plans include unlimited updates, hosting, and a one-time $199 setup fee. Annual billing saves 10-15%!
+
+[See full pricing](pricing.html) | [Plan guide](plan-guide.html)`);
+          return;
         }
 
-        // Getting started
-        else if (lowerMsg.includes('start') || lowerMsg.includes('begin') || lowerMsg.includes('how do') || lowerMsg.includes('how does')) {
-          resolve(`Easy! Start with a free 15-minute mockup call where we'll show you examples. Then pick a plan, submit your content, and we'll build and launch your site. No tech skills needed!
+        // ── Timeline / how long ──
+        if (has('how long', 'timeline', 'when will', 'how soon', 'turnaround', 'delivery time', 'eta', 'estimated time')) {
+          resolve(`Most sites go live within 1-2 weeks after you submit your content. Here's the typical breakdown:
 
-[Book a free mockup call](consultation.html) | [See the full process](help.html#/getting-started)`);
+• **First draft:** 7-14 days
+• **Final launch:** 3-5 more working days after your approval
+
+The speed depends on how quickly you provide content and feedback.
+
+[Full timeline](help.html#/how-long-does-it-take) | [Getting started](help.html#/getting-started)`);
+          return;
         }
 
-        // Content submission questions
-        else if (lowerMsg.includes('content') || lowerMsg.includes('what do i need') || lowerMsg.includes('what to provide')) {
+        // ── Changes / updates / requests ──
+        if (has('change', 'update', 'edit', 'modify', 'revision', 'tweak', 'fix something', 'request a change', 'make a change')) {
+          resolve(`All plans include unlimited updates! Just use the Website Request page and we'll take care of it. Here are typical turnaround times:
+
+• **Simple changes** (text, images): 1-3 days
+• **Layout changes**: 3-5 days
+• **New pages**: 5-7 days
+
+[Request an update](website-request.html) | [Turnaround times](help.html#/turnarounds-and-common-requests)`);
+          return;
+        }
+
+        // ── Getting started / how does it work ──
+        if (has('get started', 'getting started', 'begin', 'sign up', 'how do i start', 'how does it work', 'how does this work', 'how do you work', 'process', 'first step', 'what do i do', 'next step', 'how to begin')) {
+          resolve(`Here's how WebEaze works:
+
+1. **Free mockup call** - We show you examples and a preview (15 min, no commitment)
+2. **Pick a plan** - Essential, Growth, or Elite
+3. **Submit your content** - Text, images, and logo
+4. **We build it** - Professional design in 1-2 weeks
+5. **Review & launch** - Nothing goes live without your approval!
+
+[Book a free mockup call](consultation.html) | [Full process](help.html#/getting-started)`);
+          return;
+        }
+
+        // ── Content submission ──
+        if (has('content', 'what do i need', 'what to provide', 'what should i send', 'what information', 'submit content', 'content form', 'submission form')) {
           resolve(`You'll need your business info, text for each page, images, and your logo. Our Content Submission Form walks you through everything - it's the fastest way to get started!
 
 [What to provide](help.html#/what-content-do-i-need) | [Submit content](https://406km9.share-na2.hsforms.com/2BrG2FrkxQX6to17RxtyS5g)`);
+          return;
         }
 
-        // Google Business Profile questions
-        else if (lowerMsg.includes('google business') || lowerMsg.includes('google profile') || lowerMsg.includes('google my business')) {
-          resolve(`Yes! Google Business Profile management comes with Growth and Elite plans, or you can add it for $79/month. We handle setup, optimization, and ongoing management.
+        // ── Google Business Profile ──
+        if (has('google business', 'google profile', 'google my business', 'google maps', 'business listing')) {
+          resolve(`Google Business Profile management comes with Growth and Elite plans, or you can add it for $79/month. We handle setup, optimization, and ongoing management to help you show up in local searches.
 
 [Google Business details](help.html#/google-business-profile)`);
+          return;
         }
 
-        // Security questions
-        else if (lowerMsg.includes('security') || lowerMsg.includes('ssl') || lowerMsg.includes('https') || lowerMsg.includes('secure')) {
-          resolve(`Yes, your site is secure! Every website includes SSL certificates, HTTPS encryption, security monitoring, uptime monitoring, and protection against common threats.
+        // ── Security / SSL ──
+        if (has('security', 'ssl', 'https', 'secure', 'hack', 'malware', 'virus', 'protection', 'safe')) {
+          resolve(`Your site is secure! Every website includes SSL certificates, HTTPS encryption, security monitoring, uptime monitoring, and protection against common threats. We keep everything up to date so you don't have to worry.
 
 [Security features](help.html#/website-security)`);
+          return;
         }
 
-        // Performance/reports questions
-        else if (lowerMsg.includes('performance') || lowerMsg.includes('report') || lowerMsg.includes('analytics')) {
-          resolve(`Yes! Growth and Elite plans come with monthly performance reports covering traffic, SEO insights, and recommendations. It's a great way to see how your site is doing.
+        // ── Performance / reports / analytics ──
+        if (has('performance', 'report', 'analytics', 'traffic', 'stats', 'statistics', 'visitors', 'google analytics', 'how is my site doing')) {
+          resolve(`Growth and Elite plans come with monthly performance reports covering traffic, SEO insights, and recommendations. It's a great way to track how your site is performing!
 
 [About reports](help.html#/performance-reports)`);
+          return;
         }
 
-        // Existing website questions
-        else if (lowerMsg.includes('existing website') || lowerMsg.includes('current site') || lowerMsg.includes('already have')) {
-          resolve(`Yes, absolutely! We don't just build new sites - we can maintain, update, and improve your existing website too.
-
-[Working with existing sites](help.html#/existing-website)`);
+        // ── Mobile / responsive ──
+        if (has('mobile', 'responsive', 'tablet', 'mobile friendly', 'looks on phone', 'mobile version')) {
+          resolve(`Every website we build is fully responsive - meaning it looks great and works perfectly on phones, tablets, and desktops. We test across multiple devices before launch.`);
+          return;
         }
 
-        // Review/draft questions
-        else if (lowerMsg.includes('review') || lowerMsg.includes('draft') || lowerMsg.includes('preview') || lowerMsg.includes('feedback')) {
-          resolve(`Yes! You'll get a preview link to review everything before we launch. Share your feedback, we'll make revisions, and nothing goes live until you're happy with it.
+        // ── Speed / loading time ──
+        if (has('speed', 'slow', 'loading time', 'load time', 'page speed', 'performance score', 'core web vitals')) {
+          resolve(`We build every site with performance in mind - optimized images, clean code, fast hosting, and modern best practices. If your site feels slow, submit a Website Request and we'll investigate and optimize.
+
+[Request optimization](website-request.html) | [Performance reports](help.html#/performance-reports)`);
+          return;
+        }
+
+        // ── Existing website ──
+        if (has('existing website', 'current site', 'already have a site', 'already have a website', 'my current website', 'redesign', 'rebuild', 'redo my site')) {
+          resolve(`Yes, we can work with your existing website! Whether it's on WordPress, Wix, Squarespace, or another platform - we can maintain, update, improve, or completely redesign it.
+
+[Working with existing sites](help.html#/existing-website) | [Supported providers](providers.html)`);
+          return;
+        }
+
+        // ── Platform questions (WordPress, Wix, etc.) ──
+        if (has('wordpress', 'wix', 'squarespace', 'webflow', 'shopify', 'weebly', 'godaddy website', 'platform', 'what platform', 'which platform', 'what do you build with', 'what technology')) {
+          resolve(`We work with a variety of platforms including WordPress, Wix, Squarespace, Webflow, Shopify, and custom-built solutions. We'll recommend the best fit for your business needs during your mockup call.
+
+[Supported providers](providers.html) | [Book a free mockup call](consultation.html)`);
+          return;
+        }
+
+        // ── Review / draft / preview ──
+        if (has('review', 'draft', 'preview', 'feedback', 'see before launch', 'approve')) {
+          resolve(`You'll always get a preview link to review everything before we launch. Share your feedback through the Website Request page, we'll make revisions, and nothing goes live until you're happy with it!
 
 [Review process](help.html#/reviewing-your-draft) | [Preview info](help.html#/preview-before-launch)`);
+          return;
         }
 
-        // Support questions
-        else if (lowerMsg.includes('support') || lowerMsg.includes('help me')) {
-          resolve(`Yes! All plans include unlimited email support, maintenance, security, and backups. Growth and Elite also get priority support, Google Meet sessions, live chat, and monthly reports. And you'll always talk to real people - never bots!
+        // ── Social media ──
+        if (has('social media', 'facebook', 'instagram', 'linkedin', 'twitter', 'tiktok', 'social links', 'social icons', 'social integration')) {
+          resolve(`We can add social media links and icons to your website, plus embed feeds if needed. Just let us know which platforms you use when submitting your content, and we'll integrate them into your design.
+
+[Submit your content](https://406km9.share-na2.hsforms.com/2BrG2FrkxQX6to17RxtyS5g)`);
+          return;
+        }
+
+        // ── Logo design ──
+        if (has('logo', 'logo design', 'need a logo', 'make a logo', 'create a logo', 'design a logo', 'branding')) {
+          resolve(`We don't offer logo design as a standalone service, but we can work with your existing logo or help source one. If you don't have a logo yet, we recommend services like Canva, Fiverr, or 99designs. Once you have one, send it our way!
+
+[Submit your content](https://406km9.share-na2.hsforms.com/2BrG2FrkxQX6to17RxtyS5g)`);
+          return;
+        }
+
+        // ── Forms / contact form ──
+        if (has('form', 'contact form', 'inquiry form', 'lead form', 'booking form', 'appointment', 'scheduling')) {
+          resolve(`Yes! We can add contact forms, booking forms, inquiry forms, and more to your website. Just let us know what you need when submitting your content or through a Website Request.
+
+[Website Request page](website-request.html)`);
+          return;
+        }
+
+        // ── Photos / images ──
+        if (has('photo', 'image', 'picture', 'stock photo', 'photography', 'upload image')) {
+          resolve(`We can use photos you provide or help select professional stock images. For best results, send high-resolution originals. We have tips for taking great photos with your phone too!
+
+[Photo tips](help.html#/professional-photos)`);
+          return;
+        }
+
+        // ── Support / help me ──
+        if (has('support', 'help me', 'need help', 'i need assistance', 'assist me', 'can you help')) {
+          resolve(`Of course! All plans include unlimited email support, maintenance, security, and backups. Growth and Elite also get priority support, Google Meet sessions, live chat, and monthly reports. You'll always talk to real people!
 
 [Support options](help.html#/will-i-talk-to-a-real-person) | [Contact us](contact-us.html)`);
+          return;
         }
 
-        // Contact/mockup
-        else if (lowerMsg.includes('contact') || lowerMsg.includes('mockup') || lowerMsg.includes('call') || lowerMsg.includes('meeting')) {
-          resolve(`Sure! Here are your options:
+        // ── Contact / mockup / call ──
+        if (has('contact', 'mockup', 'consultation', 'meeting', 'schedule', 'book a call', 'free call', 'demo')) {
+          resolve(`Here are your options:
 
-[Book a free mockup call](consultation.html) | [Contact us](contact-us.html) | [Submit content](https://406km9.share-na2.hsforms.com/2BrG2FrkxQX6to17RxtyS5g)`);
+• **Free mockup call:** See a preview of your website with no obligation
+• **Contact form:** Send us a message anytime
+• **Email:** support@webeaze.io
+
+[Book a free mockup call](consultation.html) | [Contact us](contact-us.html)`);
+          return;
         }
 
-        // Legal pages questions
-        else if (lowerMsg.includes('legal') || lowerMsg.includes('privacy policy') || lowerMsg.includes('terms of service') || lowerMsg.includes('ada') || lowerMsg.includes('accessibility') || lowerMsg.includes('compliance')) {
-          resolve(`We can add any legal content you provide to your site, but we don't write legal pages ourselves or guarantee ADA compliance. We recommend consulting a legal professional for your privacy policy, terms of service, and accessibility needs.
+        // ── Legal pages ──
+        if (has('legal', 'privacy policy', 'terms of service', 'terms and conditions', 'ada', 'accessibility', 'compliance', 'gdpr', 'cookie policy')) {
+          resolve(`We can add any legal content you provide to your site, but we don't write legal pages ourselves or guarantee ADA/GDPR compliance. We recommend consulting a legal professional for your privacy policy, terms of service, and accessibility needs.
 
 [Legal pages info](help.html#/legal-pages)`);
+          return;
         }
 
-        // Price changes questions
-        else if (lowerMsg.includes('price change') || lowerMsg.includes('price increase') || lowerMsg.includes('price go up')) {
+        // ── Price changes ──
+        if (has('price change', 'price increase', 'price go up', 'prices go up', 'will prices change', 'raise prices')) {
           resolve(`We work hard to keep prices stable. If anything ever changes, you'll get 30 days' notice via email, and existing clients always get special consideration like loyalty discounts or grace periods.
 
 [Price update policy](help.html#/price-updates)`);
+          return;
         }
 
-        // Default - try to find relevant articles and provide actual answers
-        else {
-          const articles = findRelevantArticles(message);
+        // ── Website request page ──
+        if (has('website request', 'request page', 'submit a request', 'how to request')) {
+          resolve(`The Website Request page is your go-to for everything - changes, new content, bug reports, questions, and more. Just fill out the form and we'll take it from there!
 
-          if (articles.length > 0) {
-            const topArticle = articles[0];
+[Go to Website Request page](website-request.html)`);
+          return;
+        }
 
-            // Provide the actual answer from the article
-            let response = '';
+        // ── What's included / what do I get ──
+        if (has('what\'s included', 'what is included', 'what do i get', 'what comes with', 'features', 'benefits', 'include')) {
+          resolve(`Every plan includes: custom website design, mobile optimization, unlimited updates, hosting support, security monitoring, SSL, backups, and ongoing maintenance. Growth and Elite add priority support, reports, Google Meet, and more!
 
-            // If we have a good excerpt, use it as the main answer
-            if (topArticle.excerpt && topArticle.excerpt.length > 50) {
-              response = topArticle.excerpt + '\n\n';
-              response += `[Read more here](help.html#/${topArticle.slug})`;
-            } else {
-              response = topArticle.meta || topArticle.title;
-              response += '\n\n';
-              response += `[Learn more](help.html#/${topArticle.slug})`;
+[Compare all plans](plan-features.html) | [See pricing](pricing.html)`);
+          return;
+        }
+
+        // ── Guarantee / trust ──
+        if (has('guarantee', 'risk', 'trust', 'legitimate', 'legit', 'trustworthy', 'reliable', 'reviews', 'testimonials')) {
+          resolve(`We understand wanting to feel confident! Our free mockup call lets you see a preview before committing. We've helped dozens of small businesses launch professional websites, and we're based right here in Delaware, USA.
+
+[See our work](samples.html) | [About us](about.html) | [Book a free mockup call](consultation.html)`);
+          return;
+        }
+
+        // ── New website / build me a site ──
+        if (has('new website', 'build a website', 'build me a', 'create a website', 'make a website', 'need a website', 'want a website', 'build my site', 'design a website', 'web design')) {
+          resolve(`We'd love to help! Here's how to get started:
+
+1. Book a **free mockup call** where we'll show you a preview of your site
+2. Pick a plan that fits your needs (Essential, Growth, or Elite)
+3. Submit your content, and we'll build and launch it in 1-2 weeks!
+
+[Book a free mockup call](consultation.html) | [See pricing](pricing.html)`);
+          return;
+        }
+
+        // ── Comparison / why WebEaze / vs competitors ──
+        if (has('why webeaze', 'why choose', 'compared to', 'versus', 'better than', 'different from', 'what makes you', 'why should i')) {
+          resolve(`Great question! With WebEaze, you get a professional website built and managed for you - no DIY builders, no templates, no hassle. We handle everything: design, hosting, updates, security, and support. Plus, you always talk to real people!
+
+[About us](about.html) | [See our work](samples.html)`);
+          return;
+        }
+
+        // ── Random / nonsense / test ──
+        if (matches(/^(test|testing|asdf|lol|lmao|haha|hmm|ok|k|\.{1,}|!{1,}|\?{1,})$/)) {
+          resolve(`Looks like you might be testing things out! I'm here whenever you have a question about WebEaze - plans, pricing, support, domains, anything!`);
+          return;
+        }
+
+        // ── Single word or very short queries that might be topics ──
+        if (msg.split(/\s+/).length <= 2) {
+          const topicMap = {
+            'website': `I can help with website questions! Are you looking to build a new site, update an existing one, or something else?\n\n[New website](build.html) | [Existing site](manage.html) | [Book a free call](consultation.html)`,
+            'design': `We handle all the design for you! Our team creates professional, mobile-friendly websites tailored to your brand. You'll review a draft before anything goes live.\n\n[See our work](samples.html) | [Book a free mockup call](consultation.html)`,
+            'help': `I'm here to help! You can ask me about plans, pricing, domains, support, changes, or anything else about WebEaze. Or browse our Help Center for detailed articles.\n\n[Browse Help Center](help.html) | [Contact us](contact-us.html)`,
+            'pricing': `We have three plans: Essential ($29/mo), Growth ($59/mo), and Elite ($99/mo). All include unlimited updates and a one-time $199 setup fee.\n\n[See full pricing](pricing.html)`,
+            'services': `We offer website design, development, hosting, ongoing maintenance, SEO optimization, and more - all managed for you!\n\n[Our services](build.html) | [See pricing](pricing.html)`,
+          };
+
+          for (const [key, response] of Object.entries(topicMap)) {
+            if (msg.includes(key)) {
+              resolve(response);
+              return;
             }
-
-            // If there are other relevant articles, show them
-            if (articles.length > 1) {
-              const otherArticles = articles.slice(1, 3);
-              response += '\n\nYou might also find these helpful:';
-              otherArticles.forEach(article => {
-                response += `\n• [${article.title}](help.html#/${article.slug})`;
-              });
-            }
-
-            resolve(response);
-          } else {
-            resolve(`Hmm, I'm not sure about that one! Try rephrasing your question, or browse our [Help Center](help.html) to explore all topics.\n\nYou can also [contact us](contact-us.html) and a real person will be happy to help!`);
           }
         }
-      }, 1000 + Math.random() * 1000); // Simulate network delay
+
+        // ── Fallback: search help articles ──
+        const articles = findRelevantArticles(message);
+
+        if (articles.length > 0) {
+          const topArticle = articles[0];
+          let response = '';
+
+          if (topArticle.excerpt && topArticle.excerpt.length > 50) {
+            response = topArticle.excerpt + '\n\n';
+            response += `[Read more here](help.html#/${topArticle.slug})`;
+          } else {
+            response = topArticle.meta || topArticle.title;
+            response += '\n\n';
+            response += `[Learn more](help.html#/${topArticle.slug})`;
+          }
+
+          if (articles.length > 1) {
+            const otherArticles = articles.slice(1, 3);
+            response += '\n\nYou might also find these helpful:';
+            otherArticles.forEach(article => {
+              response += `\n• [${article.title}](help.html#/${article.slug})`;
+            });
+          }
+
+          resolve(response);
+        } else {
+          resolve(`Hmm, I'm not sure about that one! Here are some things I can help with:
+
+• Plans & pricing
+• Getting started
+• Website updates & changes
+• Domains & hosting
+• Billing & payments
+• Support options
+
+You can also [browse our Help Center](help.html) or [contact our team](contact-us.html) directly - a real person will be happy to help!`);
+        }
+      }, 800 + Math.random() * 800);
     });
   }
 })();

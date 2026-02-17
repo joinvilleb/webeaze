@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fernanda Salas — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--navy:#1e2140;--ivory:#f8f4ef;--pink:#e8a0b0;--teal:#3a9b8e;--yellow:#f0c85a;--soft-pink:#f7dde5;--dark:#14162a;--text-mid:#4a4f6a}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--ivory);color:var(--navy);overflow-x:hidden}
+nav{position:fixed;top:0;width:100%;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:24px 60px;background:rgba(30,33,64,0.92);backdrop-filter:blur(10px)}
+.nav-logo{font-family:'Playfair Display',serif;font-style:italic;font-size:1.4rem;color:var(--ivory);letter-spacing:1px}
+.nav-links{display:flex;gap:36px;list-style:none}
+.nav-links a{color:rgba(248,244,239,0.75);text-decoration:none;font-size:0.75rem;letter-spacing:2px;text-transform:uppercase;transition:color 0.3s}
+.nav-links a:hover{color:var(--pink)}
+.hero{min-height:100vh;background:var(--navy);display:flex;align-items:flex-end;padding:0 60px 80px;position:relative;overflow:hidden}
+.hero-bg-accent{position:absolute;top:0;right:0;width:45%;height:100%;background:linear-gradient(135deg,#2a2f55 0%,#1e2140 100%);clip-path:polygon(15% 0,100% 0,100% 100%,0% 100%)}
+.hero-teal-bar{position:absolute;top:0;left:0;width:4px;height:100%;background:linear-gradient(180deg,var(--teal),var(--pink))}
+.hero-floating-pill{position:absolute;top:140px;right:80px;background:var(--teal);color:var(--ivory);padding:10px 22px;border-radius:40px;font-size:0.7rem;letter-spacing:2px;text-transform:uppercase}
+.hero-content{position:relative;z-index:2;max-width:750px}
+.hero-eyebrow{font-size:0.7rem;letter-spacing:4px;text-transform:uppercase;color:var(--pink);margin-bottom:20px}
+.hero-name{font-family:'Playfair Display',serif;font-size:clamp(4rem,10vw,9rem);font-weight:400;font-style:italic;color:var(--ivory);line-height:0.9;margin-bottom:28px}
+.hero-name span{color:var(--pink)}
+.hero-tagline{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:300;color:rgba(248,244,239,0.65);letter-spacing:3px;text-transform:uppercase;margin-bottom:48px}
+.hero-tagline span{color:var(--teal)}
+.hero-cta-row{display:flex;gap:20px;align-items:center}
+.btn-primary{background:var(--pink);color:var(--navy);padding:14px 36px;border:none;border-radius:2px;font-size:0.75rem;letter-spacing:2px;text-transform:uppercase;cursor:pointer;font-family:'Inter',sans-serif;font-weight:500;text-decoration:none;transition:all 0.3s}
+.btn-primary:hover{background:var(--teal);color:var(--ivory)}
+.btn-ghost{color:rgba(248,244,239,0.6);font-size:0.75rem;letter-spacing:2px;text-transform:uppercase;text-decoration:none;border-bottom:1px solid rgba(248,244,239,0.3);padding-bottom:2px;transition:all 0.3s}
+.btn-ghost:hover{color:var(--yellow);border-color:var(--yellow)}
+.hero-scroll{position:absolute;bottom:40px;right:60px;color:rgba(248,244,239,0.35);font-size:0.65rem;letter-spacing:3px;text-transform:uppercase;writing-mode:vertical-rl}
+.intro-strip{background:var(--teal);padding:22px 60px;display:flex;align-items:center;gap:40px;overflow:hidden}
+.intro-strip-item{white-space:nowrap;font-size:0.7rem;letter-spacing:3px;text-transform:uppercase;color:var(--ivory);opacity:0.85;display:flex;align-items:center;gap:16px}
+.intro-strip-item::after{content:'✦';opacity:0.5;font-size:0.6rem}
+.about{display:grid;grid-template-columns:1fr 1fr;min-height:85vh;background:var(--ivory)}
+.about-left{padding:100px 80px 100px 60px;display:flex;flex-direction:column;justify-content:center}
+.section-tag{font-size:0.65rem;letter-spacing:4px;text-transform:uppercase;color:var(--teal);margin-bottom:24px}
+.about-heading{font-family:'Playfair Display',serif;font-size:clamp(2.5rem,4vw,4rem);font-weight:400;line-height:1.15;color:var(--navy);margin-bottom:28px}
+.about-heading em{font-style:italic;color:var(--pink)}
+.about-body{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:300;line-height:1.8;color:var(--text-mid);margin-bottom:40px;max-width:440px}
+.about-stats{display:flex;gap:48px}
+.stat-num{font-family:'Playfair Display',serif;font-size:2.8rem;font-style:italic;color:var(--navy)}
+.stat-label{font-size:0.65rem;letter-spacing:2px;text-transform:uppercase;color:var(--text-mid);margin-top:4px}
+.about-right{background:var(--navy);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.about-photo-placeholder{width:320px;height:420px;background:linear-gradient(135deg,#2a2f55,#3a3f6a);border:1px solid rgba(248,244,239,0.1);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px}
+.about-photo-placeholder p{color:rgba(248,244,239,0.3);font-size:0.7rem;letter-spacing:2px;text-transform:uppercase}
+.about-yellow-accent{position:absolute;bottom:60px;left:-20px;width:80px;height:80px;border-radius:50%;background:var(--yellow);opacity:0.15}
+.about-pink-accent{position:absolute;top:40px;right:40px;width:120px;height:4px;background:var(--pink);opacity:0.4}
+.experience{background:var(--soft-pink);padding:120px 60px}
+.experience-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:80px}
+.experience-title{font-family:'Playfair Display',serif;font-size:clamp(2.5rem,5vw,5rem);font-weight:400;color:var(--navy);line-height:1.1}
+.experience-title em{font-style:italic;color:var(--teal)}
+.exp-resume-link{color:var(--navy);font-size:0.7rem;letter-spacing:2px;text-transform:uppercase;text-decoration:none;border-bottom:1px solid var(--navy);padding-bottom:2px;transition:all 0.3s}
+.exp-resume-link:hover{color:var(--teal);border-color:var(--teal)}
+.experience-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+.exp-card{background:var(--ivory);padding:48px 40px;position:relative;overflow:hidden;transition:all 0.3s}
+.exp-card:hover{transform:translateY(-4px)}
+.exp-card::before{content:'';position:absolute;top:0;left:0;width:3px;height:0;background:var(--pink);transition:height 0.4s ease}
+.exp-card:hover::before{height:100%}
+.exp-year{font-size:0.65rem;letter-spacing:3px;text-transform:uppercase;color:var(--pink);margin-bottom:20px}
+.exp-role{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:400;color:var(--navy);margin-bottom:8px;line-height:1.3}
+.exp-company{font-family:'Cormorant Garamond',serif;font-size:1rem;font-style:italic;color:var(--teal);margin-bottom:20px}
+.exp-desc{font-size:0.85rem;line-height:1.7;color:var(--text-mid)}
+.portfolio{background:var(--navy);padding:120px 60px}
+.portfolio-header{margin-bottom:60px}
+.portfolio-title{font-family:'Playfair Display',serif;font-size:clamp(2.5rem,5vw,5rem);font-weight:400;font-style:italic;color:var(--ivory);line-height:1.1;margin-bottom:16px}
+.portfolio-title span{color:var(--yellow);font-style:normal}
+.portfolio-sub{font-size:0.75rem;letter-spacing:3px;text-transform:uppercase;color:rgba(248,244,239,0.4)}
+.portfolio-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr;grid-template-rows:auto auto;gap:16px}
+.portfolio-item{position:relative;overflow:hidden;cursor:pointer}
+.portfolio-item:first-child{grid-row:span 2}
+.portfolio-img-placeholder{width:100%;aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;transition:transform 0.5s ease}
+.portfolio-item:first-child .portfolio-img-placeholder{aspect-ratio:3/4;background:linear-gradient(135deg,#e8a0b022,#e8a0b044);border:1px solid rgba(232,160,176,0.2)}
+.portfolio-item:nth-child(2) .portfolio-img-placeholder{background:linear-gradient(135deg,#3a9b8e22,#3a9b8e44);border:1px solid rgba(58,155,142,0.2)}
+.portfolio-item:nth-child(3) .portfolio-img-placeholder{background:linear-gradient(135deg,#f0c85a22,#f0c85a44);border:1px solid rgba(240,200,90,0.2)}
+.portfolio-item:nth-child(4) .portfolio-img-placeholder{background:linear-gradient(135deg,#e8a0b022,#3a9b8e44);border:1px solid rgba(58,155,142,0.2)}
+.portfolio-item:nth-child(5) .portfolio-img-placeholder{background:linear-gradient(135deg,#f0c85a22,#e8a0b044);border:1px solid rgba(232,160,176,0.2)}
+.portfolio-item:hover .portfolio-img-placeholder{transform:scale(1.03)}
+.portfolio-img-placeholder p{color:rgba(248,244,239,0.25);font-size:0.65rem;letter-spacing:2px;text-transform:uppercase;text-align:center}
+.portfolio-overlay{position:absolute;bottom:0;left:0;right:0;padding:32px 28px;background:linear-gradient(transparent,rgba(14,16,42,0.85));transform:translateY(20px);opacity:0;transition:all 0.3s ease}
+.portfolio-item:hover .portfolio-overlay{transform:translateY(0);opacity:1}
+.portfolio-overlay-title{font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--ivory);margin-bottom:6px}
+.portfolio-overlay-tag{font-size:0.65rem;letter-spacing:2px;color:var(--pink);text-transform:uppercase}
+.artwork{background:var(--ivory);padding:120px 60px}
+.artwork-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:70px}
+.artwork-title{font-family:'Playfair Display',serif;font-size:clamp(2.5rem,4vw,4.5rem);font-weight:400;color:var(--navy)}
+.artwork-title em{font-style:italic;color:var(--pink)}
+.artwork-note{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-style:italic;color:var(--text-mid);max-width:280px;text-align:right;line-height:1.6}
+.artwork-slider{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.artwork-card{position:relative;overflow:hidden}
+.artwork-img{width:100%;aspect-ratio:3/4;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;transition:transform 0.5s}
+.artwork-card:nth-child(1) .artwork-img{background:#e8a0b033;border:1px solid #e8a0b066}
+.artwork-card:nth-child(2) .artwork-img{background:#3a9b8e22;border:1px solid #3a9b8e55}
+.artwork-card:nth-child(3) .artwork-img{background:#f0c85a22;border:1px solid #f0c85a55}
+.artwork-card:nth-child(4) .artwork-img{background:#1e214022;border:1px solid #1e214066}
+.artwork-card:hover .artwork-img{transform:scale(1.02)}
+.artwork-img p{font-size:0.65rem;letter-spacing:2px;text-transform:uppercase;color:var(--text-mid);opacity:0.5;text-align:center}
+.artwork-label{padding:16px 0 0;font-family:'Cormorant Garamond',serif;font-size:1rem;font-style:italic;color:var(--navy)}
+.artwork-year{font-size:0.65rem;letter-spacing:2px;color:var(--teal);text-transform:uppercase}
+.skills{background:var(--navy);padding:100px 60px}
+.skills-inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.skills-title{font-family:'Playfair Display',serif;font-size:clamp(2.5rem,4vw,4rem);font-weight:400;color:var(--ivory);margin-bottom:16px;line-height:1.1}
+.skills-title em{font-style:italic;color:var(--teal)}
+.skills-sub{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-style:italic;color:rgba(248,244,239,0.5);margin-bottom:48px}
+.skill-row{margin-bottom:28px}
+.skill-top{display:flex;justify-content:space-between;margin-bottom:10px}
+.skill-name{font-size:0.75rem;letter-spacing:2px;text-transform:uppercase;color:rgba(248,244,239,0.7)}
+.skill-pct{font-size:0.75rem;color:var(--pink)}
+.skill-bar{height:2px;background:rgba(248,244,239,0.1);border-radius:2px;overflow:hidden}
+.skill-fill{height:100%;border-radius:2px}
+.skills-right{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.skill-tag{border:1px solid rgba(248,244,239,0.12);padding:24px 20px;transition:all 0.3s}
+.skill-tag:hover{border-color:var(--teal);background:rgba(58,155,142,0.08)}
+.skill-tag-icon{font-size:1.4rem;margin-bottom:12px}
+.skill-tag-name{font-size:0.75rem;letter-spacing:2px;text-transform:uppercase;color:rgba(248,244,239,0.8)}
+.resume-cta{background:var(--teal);padding:100px 60px;display:flex;justify-content:space-between;align-items:center}
+.resume-cta-heading{font-family:'Playfair Display',serif;font-size:clamp(2rem,4vw,3.5rem);font-weight:400;font-style:italic;color:var(--ivory);margin-bottom:12px}
+.resume-cta-sub{font-size:0.75rem;letter-spacing:3px;text-transform:uppercase;color:rgba(248,244,239,0.65)}
+.btn-white{background:var(--ivory);color:var(--teal);padding:18px 48px;border:none;border-radius:2px;font-size:0.75rem;letter-spacing:2px;text-transform:uppercase;cursor:pointer;font-family:'Inter',sans-serif;font-weight:500;text-decoration:none;white-space:nowrap;transition:all 0.3s;flex-shrink:0}
+.btn-white:hover{background:var(--navy);color:var(--ivory)}
+.contact{background:var(--soft-pink);padding:120px 60px}
+.contact-inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
+.contact-title{font-family:'Playfair Display',serif;font-size:clamp(2.5rem,5vw,5rem);font-weight:400;color:var(--navy);line-height:1.1;margin-bottom:24px}
+.contact-title em{font-style:italic;color:var(--teal)}
+.contact-body{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:300;color:var(--text-mid);line-height:1.7;margin-bottom:48px;max-width:380px}
+.contact-links{display:flex;flex-direction:column;gap:20px}
+.contact-link{display:flex;align-items:center;gap:16px;color:var(--navy);text-decoration:none;font-size:0.75rem;letter-spacing:2px;text-transform:uppercase;transition:color 0.3s}
+.contact-link:hover{color:var(--teal)}
+.contact-link-dot{width:8px;height:8px;border-radius:50%;background:var(--pink);flex-shrink:0}
+.contact-form{display:flex;flex-direction:column;gap:20px}
+.form-group{display:flex;flex-direction:column;gap:8px}
+.form-label{font-size:0.65rem;letter-spacing:3px;text-transform:uppercase;color:var(--text-mid)}
+.form-input{background:var(--ivory);border:1px solid rgba(30,33,64,0.15);padding:14px 20px;font-family:'Inter',sans-serif;font-size:0.9rem;color:var(--navy);outline:none;transition:border-color 0.3s}
+.form-input:focus{border-color:var(--teal)}
+.form-input::placeholder{color:rgba(74,79,106,0.4)}
+textarea.form-input{min-height:120px;resize:vertical}
+.form-submit{background:var(--navy);color:var(--ivory);padding:16px 40px;border:none;cursor:pointer;font-family:'Inter',sans-serif;font-size:0.75rem;letter-spacing:2px;text-transform:uppercase;align-self:flex-start;transition:all 0.3s}
+.form-submit:hover{background:var(--teal)}
+footer{background:var(--dark);padding:40px 60px;display:flex;justify-content:space-between;align-items:center}
+.footer-logo{font-family:'Playfair Display',serif;font-style:italic;font-size:1.2rem;color:var(--ivory)}
+.footer-credit{font-size:0.65rem;letter-spacing:2px;text-transform:uppercase;color:rgba(248,244,239,0.25)}
+.footer-credit span{color:var(--teal)}
+.footer-links{display:flex;gap:28px}
+.footer-links a{color:rgba(248,244,239,0.35);font-size:0.65rem;letter-spacing:2px;text-transform:uppercase;text-decoration:none;transition:color 0.3s}
+.footer-links a:hover{color:var(--pink)}
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-logo">Fernanda Salas</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#portfolio">Portfolio</a></li>
+    <li><a href="#artwork">Artwork</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="hero-bg-accent"></div>
+  <div class="hero-teal-bar"></div>
+  <div class="hero-floating-pill">Open to Opportunities</div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Portfolio — 2025</p>
+    <h1 class="hero-name">Fernanda<br><span>Salas</span></h1>
+    <p class="hero-tagline">Luxury Retail &nbsp;·&nbsp; <span>Bespoke Styling</span> &nbsp;·&nbsp; Client Experience</p>
+    <div class="hero-cta-row">
+      <a href="#portfolio" class="btn-primary">View My Work</a>
+      <a href="#contact" class="btn-ghost">Let's Connect</a>
+    </div>
+  </div>
+  <p class="hero-scroll">Scroll to Explore</p>
+</section>
+
+<div class="intro-strip">
+  <div class="intro-strip-item">Luxury Retail Specialist</div>
+  <div class="intro-strip-item">Bespoke Client Styling</div>
+  <div class="intro-strip-item">Visual Merchandising</div>
+  <div class="intro-strip-item">Brand Experience</div>
+  <div class="intro-strip-item">High-Touch Client Relations</div>
+  <div class="intro-strip-item">Fashion &amp; Art</div>
+</div>
+
+<section class="about" id="about">
+  <div class="about-left">
+    <p class="section-tag">About Fernanda</p>
+    <h2 class="about-heading">Crafting experiences<br>that feel <em>intentional</em></h2>
+    <p class="about-body">I'm a luxury retail and styling professional with a deep passion for creating unforgettable client experiences. My background blends high-touch service, an eye for aesthetics, and a genuine love for connecting people with pieces that tell their story.</p>
+    <div class="about-stats">
+      <div><div class="stat-num">5+</div><div class="stat-label">Years Experience</div></div>
+      <div><div class="stat-num">200+</div><div class="stat-label">Clients Styled</div></div>
+      <div><div class="stat-num">3</div><div class="stat-label">Luxury Brands</div></div>
+    </div>
+  </div>
+  <div class="about-right">
+    <div class="about-photo-placeholder">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+      <p>Your Photo Here</p>
+    </div>
+    <div class="about-yellow-accent"></div>
+    <div class="about-pink-accent"></div>
+  </div>
+</section>
+
+<section class="experience" id="experience">
+  <div class="experience-header">
+    <h2 class="experience-title">Professional<br><em>Experience</em></h2>
+    <a href="#" class="exp-resume-link">Download Résumé ↓</a>
+  </div>
+  <div class="experience-grid">
+    <div class="exp-card">
+      <p class="exp-year">2023 — Present</p>
+      <h3 class="exp-role">Senior Style Advisor</h3>
+      <p class="exp-company">Luxury Brand, Location</p>
+      <p class="exp-desc">Curated bespoke wardrobe consultations for high-net-worth clientele, managing relationships with 80+ recurring clients and consistently exceeding monthly sales targets by 30%.</p>
+    </div>
+    <div class="exp-card">
+      <p class="exp-year">2021 — 2023</p>
+      <h3 class="exp-role">Client Experience Lead</h3>
+      <p class="exp-company">Brand Name, Location</p>
+      <p class="exp-desc">Led a team of 6 in delivering white-glove retail experiences. Developed personalized outreach programs that increased client retention by 40%.</p>
+    </div>
+    <div class="exp-card">
+      <p class="exp-year">2019 — 2021</p>
+      <h3 class="exp-role">Visual Merchandiser</h3>
+      <p class="exp-company">Brand Name, Location</p>
+      <p class="exp-desc">Designed and executed seasonal floor layouts and window displays, translating brand narratives into compelling visual stories that drove foot traffic.</p>
+    </div>
+  </div>
+</section>
+
+<section class="portfolio" id="portfolio">
+  <div class="portfolio-header">
+    <h2 class="portfolio-title">Selected <span>Work</span> &amp;<br><em>Projects</em></h2>
+    <p class="portfolio-sub">Styling · Events · Collaborations</p>
+  </div>
+  <div class="portfolio-grid">
+    <div class="portfolio-item">
+      <div class="portfolio-img-placeholder">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        <p>Featured Project Image</p>
+      </div>
+      <div class="portfolio-overlay">
+        <p class="portfolio-overlay-title">Editorial Styling — Spring Collection</p>
+        <p class="portfolio-overlay-tag">Styling · Photography Direction</p>
+      </div>
+    </div>
+    <div class="portfolio-item">
+      <div class="portfolio-img-placeholder">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        <p>Project Image</p>
+      </div>
+      <div class="portfolio-overlay">
+        <p class="portfolio-overlay-title">VIP Client Event</p>
+        <p class="portfolio-overlay-tag">Event Styling</p>
+      </div>
+    </div>
+    <div class="portfolio-item">
+      <div class="portfolio-img-placeholder">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        <p>Project Image</p>
+      </div>
+      <div class="portfolio-overlay">
+        <p class="portfolio-overlay-title">Brand Collaboration</p>
+        <p class="portfolio-overlay-tag">Creative Direction</p>
+      </div>
+    </div>
+    <div class="portfolio-item">
+      <div class="portfolio-img-placeholder">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        <p>Project Image</p>
+      </div>
+      <div class="portfolio-overlay">
+        <p class="portfolio-overlay-title">Window Display Design</p>
+        <p class="portfolio-overlay-tag">Visual Merchandising</p>
+      </div>
+    </div>
+    <div class="portfolio-item">
+      <div class="portfolio-img-placeholder">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        <p>Project Image</p>
+      </div>
+      <div class="portfolio-overlay">
+        <p class="portfolio-overlay-title">Wardrobe Consultation</p>
+        <p class="portfolio-overlay-tag">Bespoke Styling</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="artwork" id="artwork">
+  <div class="artwork-header">
+    <h2 class="artwork-title">Creative<br><em>Artwork</em></h2>
+    <p class="artwork-note">A selection of pieces from my high school years — where my love for color and form first began.</p>
+  </div>
+  <div class="artwork-slider">
+    <div class="artwork-card">
+      <div class="artwork-img">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#e8a0b0" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        <p>Artwork 1</p>
+      </div>
+      <p class="artwork-label">Untitled No. 1</p>
+      <p class="artwork-year">2018 · Mixed Media</p>
+    </div>
+    <div class="artwork-card">
+      <div class="artwork-img">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#3a9b8e" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+        <p>Artwork 2</p>
+      </div>
+      <p class="artwork-label">In Bloom</p>
+      <p class="artwork-year">2019 · Acrylic on Canvas</p>
+    </div>
+    <div class="artwork-card">
+      <div class="artwork-img">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#f0c85a" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <p>Artwork 3</p>
+      </div>
+      <p class="artwork-label">Golden Hour</p>
+      <p class="artwork-year">2019 · Watercolor</p>
+    </div>
+    <div class="artwork-card">
+      <div class="artwork-img">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#4a4f6a" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        <p>Artwork 4</p>
+      </div>
+      <p class="artwork-label">Soft Geometry</p>
+      <p class="artwork-year">2020 · Ink &amp; Charcoal</p>
+    </div>
+  </div>
+</section>
+
+<section class="skills" id="skills">
+  <div class="skills-inner">
+    <div class="skills-left">
+      <p class="section-tag" style="color:var(--teal)">What I Bring</p>
+      <h2 class="skills-title">Skills &amp;<br><em>Expertise</em></h2>
+      <p class="skills-sub">Built through years of hands-on experience in luxury retail environments.</p>
+      <div class="skill-row">
+        <div class="skill-top"><span class="skill-name">Client Relations</span><span class="skill-pct">95%</span></div>
+        <div class="skill-bar"><div class="skill-fill" style="width:95%;background:var(--pink)"></div></div>
+      </div>
+      <div class="skill-row">
+        <div class="skill-top"><span class="skill-name">Personal Styling</span><span class="skill-pct">90%</span></div>
+        <div class="skill-bar"><div class="skill-fill" style="width:90%;background:var(--teal)"></div></div>
+      </div>
+      <div class="skill-row">
+        <div class="skill-top"><span class="skill-name">Visual Merchandising</span><span class="skill-pct">85%</span></div>
+        <div class="skill-bar"><div class="skill-fill" style="width:85%;background:var(--yellow)"></div></div>
+      </div>
+      <div class="skill-row">
+        <div class="skill-top"><span class="skill-name">Sales Strategy</span><span class="skill-pct">88%</span></div>
+        <div class="skill-bar"><div class="skill-fill" style="width:88%;background:var(--pink)"></div></div>
+      </div>
+    </div>
+    <div class="skills-right">
+      <div class="skill-tag"><div class="skill-tag-icon">✦</div><div class="skill-tag-name">Brand Storytelling</div></div>
+      <div class="skill-tag"><div class="skill-tag-icon">◈</div><div class="skill-tag-name">Trend Forecasting</div></div>
+      <div class="skill-tag"><div class="skill-tag-icon">◉</div><div class="skill-tag-name">Event Curation</div></div>
+      <div class="skill-tag"><div class="skill-tag-icon">▸</div><div class="skill-tag-name">Team Leadership</div></div>
+      <div class="skill-tag"><div class="skill-tag-icon">◆</div><div class="skill-tag-name">Luxury Market</div></div>
+      <div class="skill-tag"><div class="skill-tag-icon">○</div><div class="skill-tag-name">Client Retention</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="resume-cta">
+  <div>
+    <h3 class="resume-cta-heading">Want the full picture?</h3>
+    <p class="resume-cta-sub">Download my résumé · Updated 2025</p>
+  </div>
+  <a href="#" class="btn-white">Download Résumé →</a>
+</div>
+
+<section class="contact" id="contact">
+  <div class="contact-inner">
+    <div>
+      <p class="section-tag">Get In Touch</p>
+      <h2 class="contact-title">Let's work<br><em>together</em></h2>
+      <p class="contact-body">Whether you're looking for a styling consultation, a brand collaboration, or simply want to connect — I'd love to hear from you.</p>
+      <div class="contact-links">
+        <a href="mailto:fernanda@email.com" class="contact-link"><div class="contact-link-dot"></div>fernanda@email.com</a>
+        <a href="#" class="contact-link"><div class="contact-link-dot"></div>LinkedIn — Fernanda Salas</a>
+        <a href="#" class="contact-link"><div class="contact-link-dot"></div>Instagram — @fernanda.salas</a>
+      </div>
+    </div>
+    <div class="contact-form">
+      <div class="form-group">
+        <label class="form-label">Your Name</label>
+        <input type="text" class="form-input" placeholder="Full name">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email Address</label>
+        <input type="email" class="form-input" placeholder="your@email.com">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Message</label>
+        <textarea class="form-input" placeholder="Tell me about your project or inquiry..."></textarea>
+      </div>
+      <button class="form-submit">Send Message →</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">Fernanda Salas</div>
+  <div class="footer-links">
+    <a href="#about">About</a>
+    <a href="#experience">Experience</a>
+    <a href="#portfolio">Work</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <p class="footer-credit">Built by <span>WebEaze</span> · 2025</p>
+</footer>
+</body>
+</html>
