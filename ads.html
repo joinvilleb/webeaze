@@ -3,17 +3,51 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Ad Management | WebEaze</title>
-  <meta name="description" content="We create and manage Google & Facebook ads for your small business. Strategy, creative, and optimization — all handled for you. Starting at $149/mo." />
+  <title>Google & Facebook Ad Management for Small Business | WebEaze</title>
+  <meta name="description" content="Expert Google Ads & Facebook ad management for small businesses. Strategy, creative, optimization & reporting — all handled for $149/mo. Get leads faster with WebEaze." />
   <link rel="canonical" href="https://www.webeaze.io/ads.html" />
 
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="WebEaze" />
-  <meta property="og:title" content="Ad Management | WebEaze" />
-  <meta property="og:description" content="We create and manage Google & Facebook ads for your small business. Strategy, creative, and optimization — all handled for you." />
+  <meta property="og:title" content="Google & Facebook Ad Management for Small Business | WebEaze" />
+  <meta property="og:description" content="Expert Google Ads & Facebook ad management for small businesses. Strategy, creative, optimization & reporting — all handled for $149/mo." />
   <meta property="og:url" content="https://www.webeaze.io/ads.html" />
   <meta property="og:image" content="https://webeaze.io/images/default-monochrome.png" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Google & Facebook Ad Management for Small Business | WebEaze" />
+  <meta name="twitter:description" content="Expert Google Ads & Facebook ad management for small businesses. Strategy, creative, optimization & reporting — all handled for $149/mo." />
+  <meta name="twitter:image" content="https://webeaze.io/images/default-monochrome.png" />
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": "Ad Management for Small Business",
+    "provider": {
+      "@type": "Organization",
+      "name": "WebEaze",
+      "url": "https://www.webeaze.io"
+    },
+    "description": "Professional Google Ads and Facebook/Instagram ad management for small businesses. Includes strategy, creative, optimization, and monthly reporting.",
+    "url": "https://www.webeaze.io/ads.html",
+    "areaServed": "US",
+    "offers": {
+      "@type": "Offer",
+      "price": "149",
+      "priceCurrency": "USD",
+      "priceSpecification": {
+        "@type": "UnitPriceSpecification",
+        "price": "149",
+        "priceCurrency": "USD",
+        "unitText": "month"
+      }
+    }
+  }
+  </script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -44,6 +78,7 @@
       background: var(--bg);
       color: var(--ink);
       -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
     }
     a { color: inherit; text-decoration: none; }
     .container-narrow { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
@@ -65,23 +100,80 @@
     .navbar-dark .nav-link:hover { opacity: 1; background: rgba(255,255,255,.08); }
     .btn-nav { background: var(--gold); color: #2f1e66; border: none; border-radius: 12px; padding: .6rem .9rem; font-weight: 700; box-shadow: 0 8px 22px rgba(255,215,0,.22); }
 
-    /* ─── HERO ─── */
+    /* ─── SCROLL REVEAL ─── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.7s cubic-bezier(.22,1,.36,1), transform 0.7s cubic-bezier(.22,1,.36,1);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ─── ANIMATED HERO BACKGROUND ─── */
     .hero {
-      padding: 100px 20px 80px;
+      padding: 120px 20px 80px;
       text-align: center;
       position: relative;
       overflow: hidden;
     }
-    .hero::before {
-      content: '';
+    .hero-bg {
       position: absolute;
-      top: -200px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 900px;
-      height: 900px;
-      background: radial-gradient(circle, rgba(120,81,169,.15) 0%, transparent 55%);
-      pointer-events: none;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .hero-bg .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(100px);
+      opacity: .4;
+      will-change: transform;
+    }
+    .hero-bg .orb-1 {
+      width: 600px; height: 600px;
+      background: var(--brand);
+      top: -200px; left: -100px;
+      animation: orbFloat1 18s ease-in-out infinite;
+    }
+    .hero-bg .orb-2 {
+      width: 500px; height: 500px;
+      background: var(--gold);
+      opacity: .15;
+      top: -100px; right: -150px;
+      animation: orbFloat2 22s ease-in-out infinite;
+    }
+    .hero-bg .orb-3 {
+      width: 400px; height: 400px;
+      background: #4285F4;
+      opacity: .12;
+      bottom: -100px; left: 30%;
+      animation: orbFloat3 20s ease-in-out infinite;
+    }
+    @keyframes orbFloat1 {
+      0%,100% { transform: translate(0,0) scale(1); }
+      33% { transform: translate(80px,60px) scale(1.1); }
+      66% { transform: translate(-40px,30px) scale(0.95); }
+    }
+    @keyframes orbFloat2 {
+      0%,100% { transform: translate(0,0) scale(1); }
+      33% { transform: translate(-60px,80px) scale(1.05); }
+      66% { transform: translate(40px,-40px) scale(0.9); }
+    }
+    @keyframes orbFloat3 {
+      0%,100% { transform: translate(0,0) scale(1); }
+      50% { transform: translate(60px,-60px) scale(1.1); }
+    }
+    .hero-bg .grid-overlay {
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(rgba(255,255,255,.04) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 1;
     }
     .hero-badge {
       display: inline-flex;
@@ -95,25 +187,32 @@
       letter-spacing: .15em;
       padding: 6px 16px;
       border-radius: 999px;
-      margin-bottom: 20px;
+      margin-bottom: 24px;
+      border: 1px solid rgba(255,215,0,.15);
     }
     .hero h1 {
-      font-size: clamp(2.4rem, 5vw, 3.4rem);
-      font-weight: 600;
-      letter-spacing: -.02em;
-      line-height: 1.1;
-      margin: 0 0 20px;
+      font-size: clamp(2.4rem, 5.5vw, 3.8rem);
+      font-weight: 800;
+      letter-spacing: -.03em;
+      line-height: 1.08;
+      margin: 0 0 24px;
     }
     .hero h1 .gradient-text {
-      background: linear-gradient(135deg, var(--brand), var(--gold));
+      background: linear-gradient(135deg, var(--gold), var(--brand), #4285F4, var(--gold));
+      background-size: 300% 300%;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+      animation: gradientShift 6s ease-in-out infinite;
+    }
+    @keyframes gradientShift {
+      0%,100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
     }
     .hero p {
-      font-size: 1.1rem;
+      font-size: 1.15rem;
       color: var(--muted);
-      max-width: 580px;
-      margin: 0 auto 36px;
+      max-width: 600px;
+      margin: 0 auto 40px;
       line-height: 1.7;
     }
     .hero-cta {
@@ -122,71 +221,360 @@
       gap: 10px;
       background: var(--gold);
       color: #1a1a2e;
-      padding: 14px 28px;
-      border-radius: 12px;
+      padding: 16px 32px;
+      border-radius: 14px;
       font-weight: 700;
-      font-size: .95rem;
+      font-size: 1rem;
       transition: transform .2s, box-shadow .2s;
-      box-shadow: 0 8px 28px rgba(255,215,0,.2);
+      box-shadow: 0 8px 28px rgba(255,215,0,.25);
+      animation: pulse 2.5s ease-in-out infinite;
     }
     .hero-cta:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 36px rgba(255,215,0,.3);
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 14px 40px rgba(255,215,0,.35);
       color: #1a1a2e;
       text-decoration: none;
+      animation: none;
+    }
+    .hero-cta:active {
+      transform: translateY(0) scale(0.98);
+    }
+    @keyframes pulse {
+      0%,100% { box-shadow: 0 8px 28px rgba(255,215,0,.25); }
+      50% { box-shadow: 0 8px 40px rgba(255,215,0,.4), 0 0 0 8px rgba(255,215,0,.06); }
+    }
+
+    /* ─── SOCIAL PROOF BAR ─── */
+    .proof-bar {
+      padding: 48px 20px;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      background: var(--surface);
+    }
+    .proof-bar-inner {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 48px;
+      flex-wrap: wrap;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .proof-item {
+      text-align: center;
+    }
+    .proof-item .proof-value {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--gold);
+      margin-bottom: 4px;
+    }
+    .proof-item .proof-label {
+      font-size: .78rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      font-weight: 500;
+    }
+    @media (max-width: 600px) {
+      .proof-bar-inner { gap: 28px; }
+      .proof-item .proof-value { font-size: 1.3rem; }
     }
 
     /* ─── PROBLEM ─── */
     .problem-section {
-      padding: 80px 20px;
+      padding: 100px 20px;
       text-align: center;
     }
     .problem-section h2 {
-      font-size: clamp(1.4rem, 3vw, 1.8rem);
+      font-size: clamp(1.5rem, 3.5vw, 2rem);
       font-weight: 600;
-      margin: 0 0 48px;
-      color: var(--muted);
+      margin: 0 0 16px;
+      color: var(--ink);
     }
-    .problem-section h2 strong { color: #fff; }
+    .problem-section > .container-narrow > .problem-sub {
+      font-size: 1rem;
+      color: var(--muted);
+      max-width: 560px;
+      margin: 0 auto 56px;
+      line-height: 1.7;
+    }
     .problem-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 24px;
-      max-width: 900px;
+      max-width: 960px;
       margin: 0 auto;
     }
     .problem-card {
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      padding: 32px 24px;
+      background: rgba(17,17,24,.6);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255,255,255,.07);
+      border-radius: 20px;
+      padding: 36px 28px;
       text-align: left;
+      transition: transform .3s cubic-bezier(.22,1,.36,1), box-shadow .3s, border-color .3s;
+    }
+    .problem-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 50px rgba(0,0,0,.4);
+      border-color: rgba(239,68,68,.2);
     }
     .problem-card .icon {
-      width: 44px;
-      height: 44px;
-      border-radius: 12px;
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 18px;
-      margin-bottom: 16px;
+      font-size: 19px;
+      margin-bottom: 20px;
       background: rgba(239,68,68,.1);
       color: #ef4444;
     }
-    .problem-card h4 { font-size: .95rem; font-weight: 600; margin: 0 0 8px; }
-    .problem-card p { font-size: .85rem; color: var(--muted); margin: 0; line-height: 1.6; }
+    .problem-card h3 { font-size: 1rem; font-weight: 600; margin: 0 0 10px; }
+    .problem-card p { font-size: .87rem; color: var(--muted); margin: 0; line-height: 1.7; }
     @media (max-width: 700px) {
-      .problem-grid { grid-template-columns: 1fr; max-width: 400px; }
+      .problem-grid { grid-template-columns: 1fr; max-width: 420px; }
+    }
+
+    /* ─── AD MOCKUP ─── */
+    .mockup-section {
+      padding: 20px 20px 100px;
+      text-align: center;
+    }
+    .mockup-section .section-label {
+      font-size: .72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .15em;
+      color: var(--gold);
+      margin-bottom: 12px;
+    }
+    .mockup-section h2 {
+      font-size: clamp(1.5rem, 3.5vw, 2rem);
+      font-weight: 600;
+      margin: 0 0 48px;
+    }
+    .mockup-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 28px;
+      max-width: 760px;
+      margin: 0 auto;
+    }
+    .ad-mock {
+      background: rgba(17,17,24,.7);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 20px;
+      padding: 32px 26px;
+      text-align: left;
+      position: relative;
+      overflow: hidden;
+      transition: transform .4s cubic-bezier(.22,1,.36,1), box-shadow .4s;
+    }
+    .ad-mock::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.15), transparent);
+      opacity: 0;
+      transition: opacity .4s;
+    }
+    .ad-mock:hover::before { opacity: 1; }
+    .ad-mock:hover {
+      transform: translateY(-8px) rotateX(2deg) rotateY(-1deg);
+      box-shadow: 0 30px 60px rgba(0,0,0,.4), 0 0 40px rgba(120,81,169,.08);
+    }
+    .ad-mock .shine {
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(135deg, transparent 40%, rgba(255,255,255,.03) 50%, transparent 60%);
+      animation: shine 4s ease-in-out infinite;
+      pointer-events: none;
+    }
+    @keyframes shine {
+      0%,100% { transform: translate(-10%,-10%); }
+      50% { transform: translate(10%,10%); }
+    }
+    .ad-mock .platform {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: .75rem;
+      font-weight: 600;
+      color: var(--dim);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-bottom: 16px;
+      position: relative;
+    }
+    .ad-mock .platform i { font-size: 1rem; }
+    .ad-mock .platform.google i { color: #4285F4; }
+    .ad-mock .platform.meta i { color: #1877F2; }
+    .ad-mock .sponsored {
+      font-size: .65rem;
+      font-weight: 600;
+      color: var(--dim);
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      margin-bottom: 8px;
+      opacity: .7;
+    }
+    .ad-mock-headline {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+    .ad-mock-url {
+      font-size: .75rem;
+      color: #34a853;
+      margin-bottom: 10px;
+    }
+    .ad-mock-desc {
+      font-size: .82rem;
+      color: var(--muted);
+      line-height: 1.55;
+      margin-bottom: 14px;
+    }
+    .ad-mock-img {
+      width: 100%;
+      height: 110px;
+      background: linear-gradient(135deg, rgba(120,81,169,.18), rgba(255,215,0,.1));
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 14px;
+      position: relative;
+      overflow: hidden;
+    }
+    .ad-mock-img::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,.05);
+    }
+    .ad-mock-img i { font-size: 1.5rem; color: var(--dim); }
+    .ad-mock-engagement {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: .72rem;
+      color: var(--dim);
+      margin-bottom: 14px;
+    }
+    .ad-mock-engagement span { display: flex; align-items: center; gap: 4px; }
+    .ad-mock-btn {
+      display: inline-block;
+      padding: 7px 16px;
+      border-radius: 8px;
+      font-size: .78rem;
+      font-weight: 600;
+    }
+    .ad-mock-btn.google { background: #4285F4; color: #fff; }
+    .ad-mock-btn.meta { background: #1877F2; color: #fff; }
+    .ad-mock-ext {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .ad-mock-ext span {
+      font-size: .7rem;
+      color: #4285F4;
+      border: 1px solid rgba(66,133,244,.2);
+      padding: 3px 8px;
+      border-radius: 4px;
+    }
+    @media (max-width: 600px) {
+      .mockup-grid { grid-template-columns: 1fr; max-width: 380px; }
+    }
+
+    /* ─── STATS / RESULTS ─── */
+    .stats-section {
+      padding: 80px 20px;
+      text-align: center;
+      position: relative;
+    }
+    .stats-section::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(180deg, transparent, rgba(120,81,169,.04), transparent);
+      pointer-events: none;
+    }
+    .stats-section h2 {
+      font-size: clamp(1.5rem, 3.5vw, 2rem);
+      font-weight: 600;
+      margin: 0 0 48px;
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .stat-card {
+      background: rgba(17,17,24,.6);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255,255,255,.07);
+      border-radius: 20px;
+      padding: 40px 24px;
+      transition: transform .3s, box-shadow .3s, border-color .3s;
+    }
+    .stat-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(0,0,0,.3);
+      border-color: rgba(120,81,169,.2);
+    }
+    .stat-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      background: rgba(120,81,169,.1);
+      color: var(--brand);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      margin: 0 auto 16px;
+    }
+    .stat-value {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--gold);
+      margin-bottom: 4px;
+    }
+    .stat-label {
+      font-size: .85rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    @media (max-width: 600px) {
+      .stats-grid { grid-template-columns: 1fr; max-width: 340px; }
     }
 
     /* ─── WHAT'S INCLUDED ─── */
     .included-section {
-      padding: 80px 20px 100px;
+      padding: 100px 20px;
     }
     .included-header {
       text-align: center;
-      margin-bottom: 56px;
+      margin-bottom: 60px;
     }
     .included-header .label {
       font-size: .72rem;
@@ -211,36 +599,175 @@
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 24px;
-      max-width: 900px;
+      max-width: 920px;
       margin: 0 auto;
     }
     .included-card {
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      padding: 32px 28px;
+      background: rgba(17,17,24,.6);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255,255,255,.07);
+      border-radius: 20px;
+      padding: 36px 30px;
+      transition: transform .3s cubic-bezier(.22,1,.36,1), box-shadow .3s, border-color .3s;
+    }
+    .included-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 50px rgba(0,0,0,.35);
+      border-color: rgba(120,81,169,.2);
     }
     .included-card .card-icon {
-      width: 44px;
-      height: 44px;
-      border-radius: 12px;
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 18px;
-      margin-bottom: 16px;
+      font-size: 19px;
+      margin-bottom: 18px;
       background: rgba(120,81,169,.1);
       color: var(--brand);
     }
-    .included-card h4 { font-size: .95rem; font-weight: 600; margin: 0 0 8px; }
-    .included-card p { font-size: .85rem; color: var(--muted); margin: 0; line-height: 1.6; }
+    .included-card h3 { font-size: 1rem; font-weight: 600; margin: 0 0 10px; }
+    .included-card p { font-size: .87rem; color: var(--muted); margin: 0; line-height: 1.7; }
     @media (max-width: 600px) {
       .included-grid { grid-template-columns: 1fr; }
     }
 
+    /* ─── COMPARISON TABLE ─── */
+    .compare-section {
+      padding: 100px 20px;
+    }
+    .compare-section .section-header {
+      text-align: center;
+      margin-bottom: 56px;
+    }
+    .compare-section .section-header .label {
+      font-size: .72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .15em;
+      color: var(--gold);
+      margin-bottom: 12px;
+    }
+    .compare-section .section-header h2 {
+      font-size: clamp(1.5rem, 3.5vw, 2rem);
+      font-weight: 600;
+      margin: 0 0 12px;
+    }
+    .compare-section .section-header p {
+      font-size: 1rem;
+      color: var(--muted);
+      max-width: 520px;
+      margin: 0 auto;
+    }
+    .compare-table {
+      max-width: 720px;
+      margin: 0 auto;
+      background: rgba(17,17,24,.6);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255,255,255,.07);
+      border-radius: 20px;
+      overflow: hidden;
+    }
+    .compare-header {
+      display: grid;
+      grid-template-columns: 1.6fr 1fr 1fr;
+      gap: 0;
+      padding: 20px 28px;
+      border-bottom: 1px solid var(--line);
+      font-size: .78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: var(--muted);
+    }
+    .compare-header span:nth-child(2) { text-align: center; color: var(--dim); }
+    .compare-header span:nth-child(3) { text-align: center; color: var(--gold); }
+    .compare-row {
+      display: grid;
+      grid-template-columns: 1.6fr 1fr 1fr;
+      gap: 0;
+      padding: 16px 28px;
+      border-bottom: 1px solid rgba(255,255,255,.04);
+      font-size: .88rem;
+      align-items: center;
+    }
+    .compare-row:last-child { border-bottom: none; }
+    .compare-row span:nth-child(2),
+    .compare-row span:nth-child(3) { text-align: center; }
+    .compare-row .check { color: var(--gold); font-size: .85rem; }
+    .compare-row .cross { color: #ef4444; font-size: .85rem; }
+    .compare-row .partial { color: var(--dim); font-size: .8rem; }
+    @media (max-width: 550px) {
+      .compare-header, .compare-row {
+        grid-template-columns: 1.2fr 1fr 1fr;
+        padding: 14px 16px;
+        font-size: .78rem;
+      }
+    }
+
+    /* ─── HOW IT WORKS ─── */
+    .how-section {
+      padding: 100px 20px;
+      text-align: center;
+    }
+    .how-section .label {
+      font-size: .72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .15em;
+      color: var(--gold);
+      margin-bottom: 12px;
+    }
+    .how-section h2 {
+      font-size: clamp(1.5rem, 3.5vw, 2rem);
+      font-weight: 600;
+      margin: 0 0 48px;
+    }
+    .how-steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 28px;
+      max-width: 920px;
+      margin: 0 auto;
+    }
+    .how-step {
+      text-align: center;
+      position: relative;
+    }
+    .how-step .num {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: rgba(120,81,169,.12);
+      color: var(--brand);
+      font-weight: 700;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 18px;
+      border: 2px solid rgba(120,81,169,.2);
+      transition: background .3s, border-color .3s;
+    }
+    .how-step:hover .num {
+      background: rgba(120,81,169,.2);
+      border-color: var(--brand);
+    }
+    .how-step h3 { font-size: .95rem; font-weight: 600; margin: 0 0 8px; }
+    .how-step p { font-size: .85rem; color: var(--muted); margin: 0; line-height: 1.65; }
+    @media (max-width: 700px) {
+      .how-steps { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 480px) {
+      .how-steps { grid-template-columns: 1fr; max-width: 320px; }
+    }
+
     /* ─── PRICING ─── */
     .pricing-section {
-      padding: 80px 20px;
+      padding: 100px 20px;
       text-align: center;
     }
     .pricing-section h2 {
@@ -248,21 +775,38 @@
       font-weight: 600;
       margin: 0 0 12px;
     }
-    .pricing-section > p {
+    .pricing-section > .container-narrow > .pricing-sub {
       font-size: 1rem;
       color: var(--muted);
-      max-width: 520px;
+      max-width: 540px;
       margin: 0 auto 48px;
       line-height: 1.7;
     }
     .pricing-card {
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: 20px;
-      padding: 48px 40px;
-      max-width: 520px;
+      background: rgba(17,17,24,.6);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 24px;
+      padding: 52px 44px;
+      max-width: 540px;
       margin: 0 auto;
       text-align: left;
+      position: relative;
+      overflow: hidden;
+      transition: box-shadow .4s;
+    }
+    .pricing-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--brand), var(--gold));
+    }
+    .pricing-card:hover {
+      box-shadow: 0 24px 60px rgba(0,0,0,.3), 0 0 40px rgba(120,81,169,.06);
     }
     .pricing-card .tag {
       display: inline-flex;
@@ -290,8 +834,11 @@
       margin-bottom: 8px;
     }
     .pricing-card .amount {
-      font-size: 2.2rem;
-      font-weight: 700;
+      font-size: 2.6rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #fff, var(--gold));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
     .pricing-card .period {
       font-size: .9rem;
@@ -300,23 +847,42 @@
     .pricing-card .note {
       font-size: .82rem;
       color: var(--dim);
-      margin: 0 0 24px;
-      line-height: 1.5;
+      margin: 0 0 28px;
+      line-height: 1.55;
     }
+    .trust-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .trust-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: .75rem;
+      font-weight: 600;
+      color: var(--muted);
+      background: rgba(255,255,255,.04);
+      padding: 6px 12px;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,.06);
+    }
+    .trust-badge i { color: var(--gold); font-size: .7rem; }
     .pricing-features {
       list-style: none;
       padding: 0;
-      margin: 0 0 28px;
+      margin: 0 0 32px;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 12px;
     }
     .pricing-features li {
       display: flex;
       align-items: flex-start;
       gap: 10px;
       font-size: .9rem;
-      color: rgba(255,255,255,.8);
+      color: rgba(255,255,255,.85);
     }
     .pricing-features li i {
       color: var(--gold);
@@ -328,158 +894,133 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 14px 28px;
-      border-radius: 12px;
-      font-size: .95rem;
+      padding: 16px 32px;
+      border-radius: 14px;
+      font-size: 1rem;
       font-weight: 700;
       transition: all .25s;
       background: var(--gold);
       color: #1a1a2e;
-      box-shadow: 0 8px 28px rgba(255,215,0,.2);
+      box-shadow: 0 8px 28px rgba(255,215,0,.25);
+      animation: pulse 2.5s ease-in-out infinite;
     }
     .pricing-cta:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 36px rgba(255,215,0,.3);
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 14px 40px rgba(255,215,0,.35);
       text-decoration: none;
       color: #1a1a2e;
+      animation: none;
+    }
+    .pricing-cta:active {
+      transform: translateY(0) scale(0.98);
     }
 
-    /* ─── AD MOCKUP ─── */
-    .mockup-section {
-      padding: 0 20px 80px;
+    /* ─── FAQ ACCORDION ─── */
+    .faq-section {
+      padding: 100px 20px;
+    }
+    .faq-section .section-header {
       text-align: center;
+      margin-bottom: 56px;
     }
-    .mockup-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 24px;
-      max-width: 700px;
-      margin: 0 auto;
-    }
-    .ad-mock {
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      padding: 28px 24px;
-      text-align: left;
-    }
-    .ad-mock .platform {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: .75rem;
-      font-weight: 600;
-      color: var(--dim);
+    .faq-section .section-header .label {
+      font-size: .72rem;
+      font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: .08em;
-      margin-bottom: 16px;
-    }
-    .ad-mock .platform i { font-size: 1rem; }
-    .ad-mock .platform.google i { color: #4285F4; }
-    .ad-mock .platform.meta i { color: #1877F2; }
-    .ad-mock-headline {
-      font-size: .95rem;
-      font-weight: 600;
-      color: #fff;
-      margin-bottom: 6px;
-    }
-    .ad-mock-url {
-      font-size: .75rem;
-      color: #34a853;
-      margin-bottom: 8px;
-    }
-    .ad-mock-desc {
-      font-size: .8rem;
-      color: var(--muted);
-      line-height: 1.5;
+      letter-spacing: .15em;
+      color: var(--gold);
       margin-bottom: 12px;
     }
-    .ad-mock-img {
-      width: 100%;
-      height: 100px;
-      background: linear-gradient(135deg, rgba(120,81,169,.15), rgba(255,215,0,.08));
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 12px;
-    }
-    .ad-mock-img i { font-size: 1.5rem; color: var(--dim); }
-    .ad-mock-btn {
-      display: inline-block;
-      padding: 6px 14px;
-      border-radius: 6px;
-      font-size: .75rem;
-      font-weight: 600;
-    }
-    .ad-mock-btn.google { background: #4285F4; color: #fff; }
-    .ad-mock-btn.meta { background: #1877F2; color: #fff; }
-    @media (max-width: 600px) {
-      .mockup-grid { grid-template-columns: 1fr; max-width: 340px; }
-    }
-
-    /* ─── HOW IT WORKS ─── */
-    .how-section {
-      padding: 80px 20px;
-      text-align: center;
-    }
-    .how-section h2 {
+    .faq-section .section-header h2 {
       font-size: clamp(1.5rem, 3.5vw, 2rem);
       font-weight: 600;
-      margin: 0 0 48px;
+      margin: 0;
     }
-    .how-steps {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 28px;
-      max-width: 900px;
+    .faq-list {
+      max-width: 680px;
       margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
     }
-    .how-step { text-align: center; }
-    .how-step .num {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      background: rgba(120,81,169,.12);
-      color: var(--brand);
-      font-weight: 700;
-      font-size: 1.1rem;
+    .faq-item {
+      background: rgba(17,17,24,.6);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,.07);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: border-color .3s;
+    }
+    .faq-item.active { border-color: rgba(120,81,169,.25); }
+    .faq-question {
       display: flex;
       align-items: center;
-      justify-content: center;
-      margin: 0 auto 16px;
+      justify-content: space-between;
+      padding: 20px 24px;
+      cursor: pointer;
+      font-size: .95rem;
+      font-weight: 600;
+      color: var(--ink);
+      user-select: none;
+      transition: color .2s;
     }
-    .how-step h4 { font-size: .95rem; font-weight: 600; margin: 0 0 6px; }
-    .how-step p { font-size: .85rem; color: var(--muted); margin: 0; line-height: 1.6; }
-    @media (max-width: 700px) {
-      .how-steps { grid-template-columns: repeat(2, 1fr); }
+    .faq-question:hover { color: var(--gold); }
+    .faq-question .faq-icon {
+      font-size: .8rem;
+      color: var(--dim);
+      transition: transform .3s, color .3s;
     }
-    @media (max-width: 480px) {
-      .how-steps { grid-template-columns: 1fr; max-width: 320px; }
+    .faq-item.active .faq-icon {
+      transform: rotate(180deg);
+      color: var(--gold);
+    }
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height .35s cubic-bezier(.22,1,.36,1);
+    }
+    .faq-answer-inner {
+      padding: 0 24px 20px;
+      font-size: .88rem;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+    .faq-item.active .faq-answer {
+      max-height: 300px;
     }
 
     /* ─── CTA ─── */
     .cta-section {
-      padding: 80px 20px;
+      padding: 80px 20px 100px;
       text-align: center;
     }
     .cta-box {
-      background: linear-gradient(135deg, rgba(120,81,169,.1), rgba(255,215,0,.05));
+      background: linear-gradient(135deg, rgba(120,81,169,.12), rgba(255,215,0,.06));
       border: 1px solid rgba(120,81,169,.2);
-      border-radius: 20px;
-      padding: 56px 40px;
-      max-width: 700px;
+      border-radius: 24px;
+      padding: 64px 44px;
+      max-width: 720px;
       margin: 0 auto;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-box::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
     }
     .cta-box h2 {
-      font-size: clamp(1.5rem, 3.5vw, 2rem);
-      font-weight: 600;
-      margin: 0 0 12px;
+      font-size: clamp(1.5rem, 3.5vw, 2.1rem);
+      font-weight: 700;
+      margin: 0 0 14px;
     }
     .cta-box p {
       font-size: 1rem;
       color: var(--muted);
-      margin: 0 0 32px;
+      margin: 0 0 36px;
       line-height: 1.7;
     }
     .cta-box .btn-gold {
@@ -488,18 +1029,23 @@
       gap: 10px;
       background: var(--gold);
       color: #1a1a2e;
-      padding: 14px 28px;
-      border-radius: 12px;
+      padding: 16px 32px;
+      border-radius: 14px;
       font-weight: 700;
-      font-size: .95rem;
+      font-size: 1rem;
       transition: transform .2s, box-shadow .2s;
-      box-shadow: 0 8px 28px rgba(255,215,0,.2);
+      box-shadow: 0 8px 28px rgba(255,215,0,.25);
+      animation: pulse 2.5s ease-in-out infinite;
     }
     .cta-box .btn-gold:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 36px rgba(255,215,0,.3);
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 14px 40px rgba(255,215,0,.35);
       text-decoration: none;
       color: #1a1a2e;
+      animation: none;
+    }
+    .cta-box .btn-gold:active {
+      transform: translateY(0) scale(0.98);
     }
 
     /* ─── FOOTER ─── */
@@ -615,154 +1161,364 @@
 
 <!-- HERO -->
 <header class="hero">
-  <div class="hero-badge"><i class="fas fa-bolt"></i> New Add-On</div>
-  <h1>Strategic ads that<br><span class="gradient-text">bring customers to you</span></h1>
-  <p>We create, manage, and optimize Google and Facebook ads for your small business. You get the leads — we handle the rest.</p>
-  <a href="website-request.html" class="hero-cta">Get Started <i class="fas fa-arrow-right"></i></a>
+  <div class="hero-bg" aria-hidden="true">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div class="grid-overlay"></div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-badge"><i class="fas fa-bolt"></i> Ad Management Add-On</div>
+    <h1>Stop waiting for customers.<br><span class="gradient-text">Start attracting them.</span></h1>
+    <p>We build, launch, and optimize Google and Facebook ad campaigns that put your business in front of the right people, right when they are searching for what you offer.</p>
+    <a href="website-request.html" class="hero-cta">Start Getting Leads <i class="fas fa-arrow-right"></i></a>
+  </div>
 </header>
 
+<!-- SOCIAL PROOF BAR -->
+<section class="proof-bar reveal" aria-label="Key metrics">
+  <div class="proof-bar-inner">
+    <div class="proof-item">
+      <div class="proof-value" data-count="3" data-suffix="-5x">3-5x</div>
+      <div class="proof-label">Avg. Return on Ad Spend</div>
+    </div>
+    <div class="proof-item">
+      <div class="proof-value" data-count="7" data-suffix=" Days">&lt;7 Days</div>
+      <div class="proof-label">To Launch Your Ads</div>
+    </div>
+    <div class="proof-item">
+      <div class="proof-value" data-count="149" data-prefix="$" data-suffix="/mo">$149/mo</div>
+      <div class="proof-label">Full-Service Management</div>
+    </div>
+    <div class="proof-item">
+      <div class="proof-value">Monthly</div>
+      <div class="proof-label">Performance Reports</div>
+    </div>
+  </div>
+</section>
+
 <!-- PROBLEM -->
-<section class="problem-section">
+<section class="problem-section" aria-label="Common advertising problems">
   <div class="container container-narrow">
-    <h2>A great website means nothing <strong>if no one sees it.</strong></h2>
+    <h2 class="reveal">Your competitors are running ads right now.<br>Are your customers finding <em>them</em> instead?</h2>
+    <p class="problem-sub reveal">A beautiful website means nothing if nobody sees it. Every day without ads is another day your ideal customers are choosing someone else.</p>
     <div class="problem-grid">
-      <div class="problem-card">
+      <article class="problem-card reveal" style="transition-delay:.05s;">
         <div class="icon"><i class="fas fa-eye-slash"></i></div>
-        <h4>No traffic, no leads</h4>
-        <p>You built a website, but customers aren't finding it. SEO takes time — ads get you in front of people now.</p>
-      </div>
-      <div class="problem-card">
-        <div class="icon"><i class="fas fa-money-bill-wave"></i></div>
-        <h4>Wasted ad spend</h4>
-        <p>Running ads without a strategy is like burning cash. Bad targeting, weak copy, and no tracking means no results.</p>
-      </div>
-      <div class="problem-card">
+        <h3>Invisible Online</h3>
+        <p>You invested in a website, but it is buried on page 5 of Google. Meanwhile, your competitors show up first because they are running ads. SEO takes months. Ads get you in front of buyers today.</p>
+      </article>
+      <article class="problem-card reveal" style="transition-delay:.15s;">
+        <div class="icon"><i class="fas fa-fire"></i></div>
+        <h3>Burning Money on Bad Ads</h3>
+        <p>Boosting Facebook posts and hoping for the best is not a strategy. Without proper targeting, compelling copy, and conversion tracking, every dollar you spend is a gamble.</p>
+      </article>
+      <article class="problem-card reveal" style="transition-delay:.25s;">
         <div class="icon"><i class="fas fa-clock"></i></div>
-        <h4>No time to learn ads</h4>
-        <p>Google Ads and Facebook Ads are complex. You shouldn't have to become a marketing expert to grow your business.</p>
-      </div>
+        <h3>No Time to Figure It Out</h3>
+        <p>Google Ads alone has hundreds of settings. Facebook's ad manager changes constantly. You did not start a business to become a digital marketer. Let someone who does this every day handle it.</p>
+      </article>
     </div>
   </div>
 </section>
 
 <!-- AD MOCKUPS -->
-<section class="mockup-section">
+<section class="mockup-section" aria-label="Ad examples">
   <div class="container container-narrow">
+    <p class="section-label reveal">What Your Ads Could Look Like</p>
+    <h2 class="reveal">Professional ads that actually convert</h2>
     <div class="mockup-grid">
-      <div class="ad-mock">
+      <article class="ad-mock reveal" style="transition-delay:.05s;">
+        <div class="shine"></div>
         <div class="platform google"><i class="fab fa-google"></i> Google Search Ad</div>
-        <div class="ad-mock-headline">Smith's Plumbing — Free Estimates</div>
-        <div class="ad-mock-url">smithsplumbing.com</div>
-        <div class="ad-mock-desc">Licensed plumber in Wilmington, DE. Same-day service, upfront pricing. Call now or book online.</div>
+        <div class="sponsored">Sponsored</div>
+        <div class="ad-mock-headline">Smith's Plumbing | Free Estimates Today</div>
+        <div class="ad-mock-url"><i class="fas fa-globe" style="font-size:.65rem;margin-right:4px;"></i> smithsplumbing.com</div>
+        <div class="ad-mock-desc">Licensed plumber in Wilmington, DE. Same-day emergency service, transparent pricing, 5-star rated. Call now or book online.</div>
         <span class="ad-mock-btn google">Visit site</span>
-      </div>
-      <div class="ad-mock">
+        <div class="ad-mock-ext">
+          <span><i class="fas fa-phone" style="font-size:.6rem;margin-right:3px;"></i> (302) 555-0123</span>
+          <span>Free Estimates</span>
+          <span>Emergency Service</span>
+        </div>
+      </article>
+      <article class="ad-mock reveal" style="transition-delay:.15s;">
+        <div class="shine"></div>
         <div class="platform meta"><i class="fab fa-facebook"></i> Facebook / Instagram Ad</div>
         <div class="ad-mock-img"><i class="fas fa-image"></i></div>
-        <div class="ad-mock-headline">Need a new roof? Get a free quote.</div>
-        <div class="ad-mock-desc">Johnson Roofing has served Delaware families for 15 years. Book your free inspection today.</div>
+        <div class="ad-mock-headline">Need a new roof? Get a free quote today.</div>
+        <div class="ad-mock-desc">Johnson Roofing has served Delaware families for 15 years. Book your free inspection in 30 seconds.</div>
+        <div class="ad-mock-engagement">
+          <span><i class="fas fa-thumbs-up"></i> 47</span>
+          <span><i class="fas fa-comment"></i> 12</span>
+          <span><i class="fas fa-share"></i> 8</span>
+        </div>
         <span class="ad-mock-btn meta">Learn more</span>
-      </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTS / STATS -->
+<section class="stats-section" aria-label="Results and performance">
+  <div class="container container-narrow">
+    <h2 class="reveal">Real results for real businesses</h2>
+    <div class="stats-grid">
+      <article class="stat-card reveal" style="transition-delay:.05s;">
+        <div class="stat-icon"><i class="fas fa-chart-line"></i></div>
+        <div class="stat-value">3-5x</div>
+        <div class="stat-label">Average return on ad spend across client campaigns</div>
+      </article>
+      <article class="stat-card reveal" style="transition-delay:.15s;">
+        <div class="stat-icon"><i class="fas fa-rocket"></i></div>
+        <div class="stat-value">&lt;7 Days</div>
+        <div class="stat-label">From sign-up to your first ads running live</div>
+      </article>
+      <article class="stat-card reveal" style="transition-delay:.25s;">
+        <div class="stat-icon"><i class="fas fa-file-chart-line"></i></div>
+        <div class="stat-value">Monthly</div>
+        <div class="stat-label">Detailed performance reports so you see every result</div>
+      </article>
     </div>
   </div>
 </section>
 
 <!-- WHAT'S INCLUDED -->
-<section class="included-section">
+<section class="included-section" aria-label="What is included">
   <div class="container container-narrow">
     <div class="included-header">
-      <p class="label">What's Included</p>
-      <h2>Everything you need to run effective ads</h2>
-      <p>We handle strategy, creative, targeting, and optimization. You just approve and watch the leads come in.</p>
+      <p class="label reveal">What's Included</p>
+      <h2 class="reveal">Everything you need. Nothing you don't.</h2>
+      <p class="reveal">We handle the strategy, the creative, the targeting, and the optimization. You approve the ads and watch the leads come in.</p>
     </div>
     <div class="included-grid">
-      <div class="included-card">
+      <article class="included-card reveal" style="transition-delay:.05s;">
         <div class="card-icon"><i class="fas fa-bullseye"></i></div>
-        <h4>Ad strategy & targeting</h4>
-        <p>We research your market, competitors, and audience to build a strategy that reaches the right people at the right time.</p>
-      </div>
-      <div class="included-card">
+        <h3>Ad strategy and audience targeting</h3>
+        <p>We research your market, analyze your competitors, and build a custom targeting strategy that reaches the right people at the right time, on the right platform.</p>
+      </article>
+      <article class="included-card reveal" style="transition-delay:.1s;">
         <div class="card-icon"><i class="fas fa-pen-ruler"></i></div>
-        <h4>Ad creative & copywriting</h4>
-        <p>We write compelling ad copy and design visuals that grab attention. For both Google search ads and Facebook/Instagram display ads.</p>
-      </div>
-      <div class="included-card">
+        <h3>Ad creative and copywriting</h3>
+        <p>Scroll-stopping headlines, persuasive copy, and eye-catching visuals. We craft ads designed to capture attention and drive clicks for both Google Search and social platforms.</p>
+      </article>
+      <article class="included-card reveal" style="transition-delay:.15s;">
         <div class="card-icon"><i class="fas fa-chart-line"></i></div>
-        <h4>Monthly optimization</h4>
-        <p>We monitor performance, A/B test variations, and adjust targeting and bids to maximize your return on ad spend.</p>
-      </div>
-      <div class="included-card">
+        <h3>Monthly optimization and A/B testing</h3>
+        <p>We do not set it and forget it. Every month we review performance, test new variations, adjust bids, and refine targeting to squeeze more results from your budget.</p>
+      </article>
+      <article class="included-card reveal" style="transition-delay:.2s;">
+        <div class="card-icon"><i class="fas fa-crosshairs"></i></div>
+        <h3>Conversion tracking setup</h3>
+        <p>We install proper tracking so you know exactly which ads drive calls, form submissions, and sales. No guessing, just data.</p>
+      </article>
+      <article class="included-card reveal" style="transition-delay:.25s;">
         <div class="card-icon"><i class="fas fa-file-alt"></i></div>
-        <h4>Monthly performance report</h4>
-        <p>A clear, easy-to-read report showing impressions, clicks, leads, and cost per result — so you know exactly what your ads are doing.</p>
+        <h3>Monthly performance report</h3>
+        <p>A clear, jargon-free report showing impressions, clicks, leads, and cost per result. You will always know exactly what your investment is doing.</p>
+      </article>
+      <article class="included-card reveal" style="transition-delay:.3s;">
+        <div class="card-icon"><i class="fas fa-headset"></i></div>
+        <h3>Dedicated support</h3>
+        <p>Have questions? Want to adjust your strategy? We are just a message away. You get direct access to the team managing your ads.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- COMPARISON: DIY vs MANAGED -->
+<section class="compare-section" aria-label="DIY versus managed comparison">
+  <div class="container container-narrow">
+    <div class="section-header">
+      <p class="label reveal">Why Go Managed?</p>
+      <h2 class="reveal">DIY ads vs. WebEaze managed ads</h2>
+      <p class="reveal">See why business owners choose professional management over the DIY approach.</p>
+    </div>
+    <div class="compare-table reveal">
+      <div class="compare-header">
+        <span>Feature</span>
+        <span>DIY</span>
+        <span>WebEaze</span>
+      </div>
+      <div class="compare-row">
+        <span>Custom ad strategy</span>
+        <span class="partial">You figure it out</span>
+        <span class="check"><i class="fas fa-check-circle"></i></span>
+      </div>
+      <div class="compare-row">
+        <span>Professional ad copy</span>
+        <span class="cross"><i class="fas fa-times-circle"></i></span>
+        <span class="check"><i class="fas fa-check-circle"></i></span>
+      </div>
+      <div class="compare-row">
+        <span>Audience research</span>
+        <span class="partial">Basic</span>
+        <span class="check"><i class="fas fa-check-circle"></i></span>
+      </div>
+      <div class="compare-row">
+        <span>Conversion tracking</span>
+        <span class="cross"><i class="fas fa-times-circle"></i></span>
+        <span class="check"><i class="fas fa-check-circle"></i></span>
+      </div>
+      <div class="compare-row">
+        <span>Monthly optimization</span>
+        <span class="cross"><i class="fas fa-times-circle"></i></span>
+        <span class="check"><i class="fas fa-check-circle"></i></span>
+      </div>
+      <div class="compare-row">
+        <span>A/B testing</span>
+        <span class="cross"><i class="fas fa-times-circle"></i></span>
+        <span class="check"><i class="fas fa-check-circle"></i></span>
+      </div>
+      <div class="compare-row">
+        <span>Performance reports</span>
+        <span class="partial">Raw data</span>
+        <span class="check"><i class="fas fa-check-circle"></i></span>
+      </div>
+      <div class="compare-row">
+        <span>Hours spent per month</span>
+        <span class="partial">10-20 hrs</span>
+        <span class="check">0 hrs</span>
       </div>
     </div>
   </div>
 </section>
 
-<!-- PRICING -->
-<section class="pricing-section">
+<!-- HOW IT WORKS -->
+<section class="how-section" aria-label="How it works">
   <div class="container container-narrow">
-    <h2>Simple, transparent pricing</h2>
-    <p>One monthly fee covers everything. Your ad budget is separate and paid directly to Google or Meta — you control how much you spend.</p>
+    <p class="label reveal">Simple Process</p>
+    <h2 class="reveal">From sign-up to leads in four steps</h2>
+    <div class="how-steps">
+      <article class="how-step reveal" style="transition-delay:.05s;">
+        <div class="num">1</div>
+        <h3>Tell us your goals</h3>
+        <p>More calls? More bookings? More foot traffic? We build a campaign strategy around the outcomes that matter most to your business.</p>
+      </article>
+      <article class="how-step reveal" style="transition-delay:.12s;">
+        <div class="num">2</div>
+        <h3>We build the ads</h3>
+        <p>We write the copy, design the creative, configure targeting, and set up conversion tracking. You review and approve everything before launch.</p>
+      </article>
+      <article class="how-step reveal" style="transition-delay:.19s;">
+        <div class="num">3</div>
+        <h3>Your ads go live</h3>
+        <p>Within days, your ads are live on Google, Facebook, and Instagram. We monitor performance daily and make real-time adjustments.</p>
+      </article>
+      <article class="how-step reveal" style="transition-delay:.26s;">
+        <div class="num">4</div>
+        <h3>We optimize monthly</h3>
+        <p>Each month we analyze results, test new variations, refine targeting, and send you a clear report showing exactly what your ads delivered.</p>
+      </article>
+    </div>
+  </div>
+</section>
 
-    <div class="pricing-card">
+<!-- PRICING -->
+<section class="pricing-section" aria-label="Pricing">
+  <div class="container container-narrow">
+    <h2 class="reveal">Simple, transparent pricing</h2>
+    <p class="pricing-sub reveal">One flat monthly fee. No hidden costs. Your ad budget is separate and paid directly to Google or Meta. You decide how much to spend.</p>
+
+    <div class="pricing-card reveal">
       <span class="tag"><i class="fas fa-bullhorn"></i> Ad Management</span>
       <h3>Strategic Ad Management</h3>
       <div class="price-row">
         <span class="amount">$149</span>
         <span class="period">/month</span>
       </div>
-      <p class="note">Ad budget is separate and paid directly to Google/Meta. We recommend starting with at least $200-$500/mo in ad spend for best results.</p>
+      <p class="note">Ad budget is separate and paid directly to Google/Meta. We recommend starting with $200-$500/mo in ad spend for best results.</p>
+      <div class="trust-badges">
+        <span class="trust-badge"><i class="fas fa-shield-alt"></i> No contracts</span>
+        <span class="trust-badge"><i class="fas fa-times-circle"></i> Cancel anytime</span>
+        <span class="trust-badge"><i class="fas fa-sliders-h"></i> You control your budget</span>
+      </div>
       <ul class="pricing-features">
         <li><i class="fas fa-check"></i> Google Ads and/or Facebook & Instagram Ads</li>
-        <li><i class="fas fa-check"></i> Ad strategy, targeting, and audience research</li>
-        <li><i class="fas fa-check"></i> Ad creative design and copywriting</li>
+        <li><i class="fas fa-check"></i> Custom ad strategy, targeting, and audience research</li>
+        <li><i class="fas fa-check"></i> Professional ad creative design and copywriting</li>
         <li><i class="fas fa-check"></i> Monthly optimization and A/B testing</li>
-        <li><i class="fas fa-check"></i> Conversion tracking setup</li>
-        <li><i class="fas fa-check"></i> Monthly performance report</li>
-        <li><i class="fas fa-check"></i> No long-term contracts — cancel anytime</li>
+        <li><i class="fas fa-check"></i> Conversion tracking setup and monitoring</li>
+        <li><i class="fas fa-check"></i> Monthly performance report with actionable insights</li>
+        <li><i class="fas fa-check"></i> Dedicated support from your ad management team</li>
       </ul>
       <a href="website-request.html" class="pricing-cta">Get started <i class="fas fa-arrow-right"></i></a>
     </div>
   </div>
 </section>
 
-<!-- HOW IT WORKS -->
-<section class="how-section">
+<!-- FAQ -->
+<section class="faq-section" aria-label="Frequently asked questions">
   <div class="container container-narrow">
-    <h2>How it works</h2>
-    <div class="how-steps">
-      <div class="how-step">
-        <div class="num">1</div>
-        <h4>Tell us your goals</h4>
-        <p>More calls? More bookings? More foot traffic? We'll build a strategy around what matters to you.</p>
+    <div class="section-header">
+      <p class="label reveal">FAQ</p>
+      <h2 class="reveal">Common questions about ad management</h2>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item reveal" style="transition-delay:.05s;">
+        <div class="faq-question" role="button" tabindex="0" aria-expanded="false">
+          <span>How much should I spend on ads?</span>
+          <i class="fas fa-chevron-down faq-icon"></i>
+        </div>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">We recommend starting with at least $200-$500 per month in ad spend. This budget goes directly to Google or Meta, not to us. We will help you determine the right budget based on your industry, goals, and local competition.</div>
+        </div>
       </div>
-      <div class="how-step">
-        <div class="num">2</div>
-        <h4>We build the ads</h4>
-        <p>We write the copy, design the creative, and set up targeting. You review and approve everything.</p>
+      <div class="faq-item reveal" style="transition-delay:.1s;">
+        <div class="faq-question" role="button" tabindex="0" aria-expanded="false">
+          <span>How quickly will I see results?</span>
+          <i class="fas fa-chevron-down faq-icon"></i>
+        </div>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">Most clients see their first leads within the first week of ads going live. However, the real magic happens in months 2-3 as we gather data and optimize your campaigns for better and better performance.</div>
+        </div>
       </div>
-      <div class="how-step">
-        <div class="num">3</div>
-        <h4>Ads go live</h4>
-        <p>Your ads start running on Google, Facebook, and/or Instagram. We monitor performance daily.</p>
+      <div class="faq-item reveal" style="transition-delay:.15s;">
+        <div class="faq-question" role="button" tabindex="0" aria-expanded="false">
+          <span>Do I need a WebEaze website to use this?</span>
+          <i class="fas fa-chevron-down faq-icon"></i>
+        </div>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">This add-on is available to active WebEaze plan subscribers and one-time website build clients. If you are not a client yet, start with a free mockup and we will get you set up with both a great website and effective ads.</div>
+        </div>
       </div>
-      <div class="how-step">
-        <div class="num">4</div>
-        <h4>We optimize monthly</h4>
-        <p>Each month we review results, test new variations, and fine-tune targeting to improve your ROI.</p>
+      <div class="faq-item reveal" style="transition-delay:.2s;">
+        <div class="faq-question" role="button" tabindex="0" aria-expanded="false">
+          <span>Can I run ads on both Google and Facebook?</span>
+          <i class="fas fa-chevron-down faq-icon"></i>
+        </div>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">Yes. Your $149/mo management fee covers both platforms. We will recommend the best platform mix based on your business type and goals. Many clients see great results running both simultaneously.</div>
+        </div>
+      </div>
+      <div class="faq-item reveal" style="transition-delay:.25s;">
+        <div class="faq-question" role="button" tabindex="0" aria-expanded="false">
+          <span>Is there a long-term contract?</span>
+          <i class="fas fa-chevron-down faq-icon"></i>
+        </div>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">No. There are no contracts and no commitments. You can cancel anytime. We earn your business every month by delivering results, not by locking you in.</div>
+        </div>
+      </div>
+      <div class="faq-item reveal" style="transition-delay:.3s;">
+        <div class="faq-question" role="button" tabindex="0" aria-expanded="false">
+          <span>What is included in the monthly report?</span>
+          <i class="fas fa-chevron-down faq-icon"></i>
+        </div>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">Your report includes impressions, clicks, click-through rates, conversions, cost per lead, and overall return on ad spend. We also include our analysis of what is working, what we are testing, and our recommendations for the next month.</div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
 <!-- CTA -->
-<section class="cta-section">
+<section class="cta-section" aria-label="Get started">
   <div class="container container-narrow">
-    <div class="cta-box">
-      <h2>Ready to get more customers?</h2>
-      <p>Tell us about your business and goals and we'll put together an ad strategy for you. No long contracts — add or remove anytime.</p>
+    <div class="cta-box reveal">
+      <h2>Ready to stop being invisible and start getting customers?</h2>
+      <p>Tell us about your business and goals. We will put together a custom ad strategy designed to drive real leads. No contracts, cancel anytime.</p>
       <a href="website-request.html" class="btn-gold">Get started <i class="fas fa-arrow-right"></i></a>
       <p style="font-size:.8rem;color:var(--muted);margin:20px 0 0;line-height:1.6;">This add-on is available to active WebEaze plan subscribers and one-time website build clients. Not a client yet? <a href="consultation.html" style="color:var(--gold);text-decoration:underline;">Start with a free mockup</a>.</p>
     </div>
@@ -830,6 +1586,51 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+// Scroll reveal with IntersectionObserver
+(function() {
+  var els = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    els.forEach(function(el) { observer.observe(el); });
+  } else {
+    els.forEach(function(el) { el.classList.add('visible'); });
+  }
+})();
+
+// FAQ accordion
+(function() {
+  var items = document.querySelectorAll('.faq-question');
+  items.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var parent = this.parentElement;
+      var isActive = parent.classList.contains('active');
+      document.querySelectorAll('.faq-item.active').forEach(function(item) {
+        item.classList.remove('active');
+        item.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
+      });
+      if (!isActive) {
+        parent.classList.add('active');
+        this.setAttribute('aria-expanded', 'true');
+      }
+    });
+    btn.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        this.click();
+      }
+    });
+  });
+})();
+</script>
 
 </body>
 </html>
