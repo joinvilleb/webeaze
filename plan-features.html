@@ -542,6 +542,99 @@
       font-size:12px;
     }
 
+    /* ===== Add-On Cards ===== */
+    .addon-grid{
+      display:grid;
+      grid-template-columns:repeat(2, 1fr);
+      gap:20px;
+      margin:24px 0;
+    }
+    @media (max-width: 768px){
+      .addon-grid{
+        grid-template-columns:1fr;
+      }
+    }
+    .addon-card{
+      background:var(--white);
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:24px;
+      transition:all .3s;
+      position:relative;
+      overflow:hidden;
+    }
+    .addon-card::before{
+      content:'';
+      position:absolute;
+      top:0;
+      left:0;
+      right:0;
+      height:3px;
+      background:linear-gradient(90deg, var(--brand), var(--gold));
+      opacity:0;
+      transition:.3s;
+    }
+    .addon-card:hover{
+      transform:translateY(-4px);
+      box-shadow:0 8px 24px rgba(0,0,0,.08);
+      border-color:rgba(120,81,169,.2);
+    }
+    .addon-card:hover::before{
+      opacity:1;
+    }
+    .addon-card-header{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      margin-bottom:14px;
+    }
+    .addon-icon{
+      width:48px;
+      height:48px;
+      border-radius:12px;
+      background:linear-gradient(135deg, rgba(120,81,169,.12), rgba(255,215,0,.08));
+      border:1px solid rgba(120,81,169,.15);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:20px;
+      color:var(--brand);
+      flex-shrink:0;
+    }
+    .addon-card h4{
+      font-size:18px;
+      font-weight:700;
+      margin:0;
+      color:var(--ink);
+    }
+    .addon-price{
+      font-size:14px;
+      font-weight:600;
+      color:var(--brand);
+      margin:0;
+    }
+    .addon-card p{
+      font-size:14px;
+      color:var(--ink-2);
+      line-height:1.6;
+      margin:0 0 16px;
+    }
+    .addon-link{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      font-size:14px;
+      font-weight:600;
+      color:var(--brand);
+      text-decoration:none;
+    }
+    .addon-link:hover{
+      text-decoration:underline;
+    }
+    .addon-link i{
+      font-size:12px;
+    }
+
     /* ===== Support Tiers ===== */
     .support-tiers{
       display:grid;
@@ -1073,7 +1166,8 @@
           <li><a href="#support-policy"><i class="fas fa-headset"></i> Support Policy</a></li>
           <li><a href="#billing-fees"><i class="fas fa-credit-card"></i> Billing & Fees</a></li>
           <li><a href="#domain-hosting"><i class="fas fa-server"></i> Domain & Hosting</a></li>
-          <li><a href="#addons-automation"><i class="fas fa-puzzle-piece"></i> Add-Ons</a></li>
+          <li><a href="#available-addons"><i class="fas fa-puzzle-piece"></i> Available Add-Ons</a></li>
+          <li><a href="#addons-automation"><i class="fas fa-cog"></i> Add-On Policy</a></li>
           <li><a href="#credits-transfers"><i class="fas fa-right-left"></i> Credits & Transfers</a></li>
         </ul>
       </nav>
@@ -1212,9 +1306,72 @@
           </a>
         </div>
 
+        <!-- Available Add-Ons -->
+        <div class="policy-section" id="available-addons">
+          <h3><i class="fas fa-puzzle-piece"></i> Available Add-Ons</h3>
+          <p>
+            Enhance your plan with these optional services. All add-ons are month-to-month with no long-term commitment.
+          </p>
+
+          <div class="addon-grid">
+            <div class="addon-card">
+              <div class="addon-card-header">
+                <div class="addon-icon"><i class="fas fa-robot"></i></div>
+                <div>
+                  <h4>AI Chatbot</h4>
+                  <p class="addon-price">$79/month</p>
+                </div>
+              </div>
+              <p>Custom AI assistant trained on your business. Answers visitor questions 24/7, captures leads, and matches your brand.</p>
+              <a href="ai.html" class="addon-link">Learn More <i class="fas fa-arrow-right"></i></a>
+            </div>
+
+            <div class="addon-card">
+              <div class="addon-card-header">
+                <div class="addon-icon"><i class="fas fa-bullhorn"></i></div>
+                <div>
+                  <h4>Ad Management</h4>
+                  <p class="addon-price">$149/month</p>
+                </div>
+              </div>
+              <p>We create and manage Google and Facebook/Instagram ads for your business. Includes strategy, creative, and monthly reporting.</p>
+              <a href="ads.html" class="addon-link">Learn More <i class="fas fa-arrow-right"></i></a>
+            </div>
+
+            <div class="addon-card">
+              <div class="addon-card-header">
+                <div class="addon-icon"><i class="fas fa-envelope"></i></div>
+                <div>
+                  <h4>Newsletter Management</h4>
+                  <p class="addon-price">$99/month</p>
+                </div>
+              </div>
+              <p>We design, write, and send email newsletters to your subscriber list. Keep your audience engaged with regular updates.</p>
+              <a href="help.html#/newsletter-management" class="addon-link">Learn More <i class="fas fa-arrow-right"></i></a>
+            </div>
+
+            <div class="addon-card">
+              <div class="addon-card-header">
+                <div class="addon-icon"><i class="fab fa-google"></i></div>
+                <div>
+                  <h4>Google Business Profile</h4>
+                  <p class="addon-price">$79/month</p>
+                </div>
+              </div>
+              <p>Complete Google Business Profile setup and ongoing management. Get found on Google Maps and local search.</p>
+              <a href="help.html#/google-business-add" class="addon-link">Learn More <i class="fas fa-arrow-right"></i></a>
+            </div>
+          </div>
+
+          <p style="font-size:14px; color:var(--ink-3); margin-top:20px;">
+            <i class="fas fa-info-circle" style="color:var(--brand); margin-right:6px;"></i>
+            Add-on services are available to active WebEaze plan subscribers and one-time website build clients.
+          </p>
+        </div>
+
         <!-- Add-Ons -->
         <div class="policy-section" id="addons-automation">
-          <h3><i class="fas fa-puzzle-piece"></i> Add-On & Automation Policy</h3>
+          <h3><i class="fas fa-cog"></i> Add-On & Automation Policy</h3>
           <p>
             Add-ons (like extra pages, booking integrations, or custom features) are billed separately
             unless they're already included in your plan's scope.
