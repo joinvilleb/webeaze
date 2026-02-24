@@ -1793,7 +1793,7 @@
           <h2>What else do I need to know? </h2>
 
         <p>After we deliver your website, you will receive the design files and all necessary credentials. We will not retain access to your site or provide ongoing support. You can choose to host the site with us for an additional fee or transfer it to another hosting provider.</p>
-        <p>If you wish to add ongoing support, hosting, or maintenance after the build, you can subscribe to one of our monthly or yearly plans at any time. We'll waive the setup fee and first month's payment to avoid charging you twice for the initial build.</p>
+        <p>If you wish to add ongoing support, hosting, or maintenance after the build, you can subscribe to one of our monthly or yearly plans within <strong>90 days</strong> of your initial build. We'll waive the setup fee and first month's payment to avoid charging you twice for the initial build.</p>
 
         <h2>How to get started</h2>
         <p>Pay the one-time fee through our secure checkout link below. Enter a valid email address during checkout so we can send you the Content Submission Form and next steps. Once payment is received and the form is submitted, your website should be ready within 7-14 business days. </p>
@@ -3178,7 +3178,7 @@
 
       { id: 'add-ons', title: 'Add-ons', icon: 'fa-puzzle-piece', articles: [
 
-        { slug: 'ecommerce-upgrades', title: 'Can you add ecommerce to my website?', updated: TODAY, meta: 'Yes! Add online store functionality with product pages, shopping cart, and payment processing.', body: `
+        { slug: 'ecommerce-upgrades', title: 'Can you add ecommerce to my website?', updated: TODAY, meta: 'Add online store functionality with product pages, shopping cart, and payment processing.', body: `
 
         <p>We can add ecommerce functionality to your website so you can sell products or services online. Whether you need a simple product catalog or a full online store, we can help.</p>
 
@@ -3204,7 +3204,7 @@
         },
 
         { slug: 'additional-pages', title: 'Can you add more pages to my website?', updated: '10-27-2024', meta: 'Page limits by plan and how to request additional pages beyond your plan.', body: `
-          <p>Yes! We can add new pages to your website at any time. Each plan includes a set number of pages, and you can add more as your business grows.</p>
+          <p>We can add new pages to your website at any time. Each plan includes a set number of pages, and you can add more as your business grows.</p>
 
           <h2>What's included in your plan</h2>
           <ul>
@@ -3943,11 +3943,10 @@ function renderTopicResults(topicId) {
     const contentDiv = document.createElement('div');
     contentDiv.className = 'ai-message-content';
 
-    // Simple markdown-like parsing for links
-    const htmlContent = content.replace(
-      /\[([^\]]+)\]\(([^)]+)\)/g,
-      '<a href="$2" target="_blank">$1</a>'
-    );
+    // Simple markdown-like parsing for links and bold text
+    let htmlContent = content
+      .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>') // Bold text
+      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>'); // Links
 
     contentDiv.innerHTML = `<p>${htmlContent.replace(/\n/g, '</p><p>')}</p>`;
 
@@ -4352,7 +4351,7 @@ Your ad budget is separate — you pay Google/Meta directly and control how much
 
         // ── One-time website build ──
         if (has('one-time build', 'one time build', 'no subscription', 'no monthly', 'without a plan', 'without subscription', 'just a website', 'one-time website', 'no maintenance', '$449', 'flat fee', 'one time payment', 'single payment')) {
-          resolve(`Yes! We offer a one-time website build for a flat fee of $449. This includes custom design and development, but does not include ongoing maintenance, updates, hosting, backups, or domain registration (domain cost will be added to your invoice separately).
+          resolve(`We offer a one-time website build for a flat fee of $449. This includes custom design and development, but does not include ongoing maintenance, updates, hosting, backups, or domain registration (domain cost will be added to your invoice separately).
 
 It's a great option if you want full control of your site after it's built.
 
@@ -4799,7 +4798,8 @@ The speed depends on how quickly you provide content and feedback.
         // ── Fallback: search help articles ──
         const articles = findRelevantArticles(message);
 
-        if (articles.length > 0) {
+        // Only show article results if there's a strong match (score >= 50)
+        if (articles.length > 0 && articles[0].score >= 50) {
           const topArticle = articles[0];
           let response = '';
 
@@ -4822,16 +4822,15 @@ The speed depends on how quickly you provide content and feedback.
 
           resolve(response);
         } else {
-          resolve(`Hmm, I'm not sure about that one! Here are some things I can help with:
+          // If no strong match, show "I'm still learning" message
+          resolve(`I'm still learning and didn't quite understand that. Here are some popular articles that might help:
 
-• Plans & pricing
-• Getting started
-• Website updates & changes
-• Domains & hosting
-• Billing & payments
-• Support options
+• [Which plan should I choose?](help.html#/which-plan-should-i-choose)
+• [How can I manage my plan?](help.html#/manage-your-plan)
+• [What happens during website setup?](help.html#/website-setup)
+• [How long do updates take?](help.html#/turnarounds-and-common-requests)
 
-You can also [browse our Help Center](help.html) or [contact our team](contact-us.html) directly - a real person will be happy to help!`);
+You can also [browse our Help Center](help.html) or [contact our team](contact-us.html) directly!`);
         }
       }, 800 + Math.random() * 800);
     });
