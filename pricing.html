@@ -95,9 +95,20 @@ a { text-decoration: none; color: inherit; transition: .2s; }
   padding: 8px 20px;
   overflow-x: auto;
   scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
 }
 
 .page-nav-inner::-webkit-scrollbar { display: none; }
+
+/* On mobile, justify-content:center + overflow-x:auto breaks scrolling —
+   switch to flex-start so items anchor left and scroll right naturally */
+@media (max-width: 640px) {
+  .page-nav-inner {
+    justify-content: flex-start;
+    padding: 8px 12px;
+    gap: 0;
+  }
+}
 
 .page-nav-link {
   display: inline-flex;
@@ -110,6 +121,13 @@ a { text-decoration: none; color: inherit; transition: .2s; }
   border-radius: 999px;
   transition: color .2s ease, background .2s ease;
   text-decoration: none !important;
+}
+
+@media (max-width: 640px) {
+  .page-nav-link {
+    padding: 7px 13px;
+    font-size: 12px;
+  }
 }
 
 .page-nav-link:hover {
@@ -842,7 +860,7 @@ a { text-decoration: none; color: inherit; transition: .2s; }
   <div class="page-nav-inner">
     <a href="#section-plans" class="page-nav-link active" data-section="section-plans">Plans</a>
     <a href="#section-compare" class="page-nav-link" data-section="section-compare">Compare</a>
-    <a href="#section-savings" class="page-nav-link" data-section="section-savings">What's Included</a>
+    <a href="#section-savings" class="page-nav-link" data-section="section-savings">Included</a>
     <a href="#section-faq" class="page-nav-link" data-section="section-faq">FAQ</a>
   </div>
 </nav>
