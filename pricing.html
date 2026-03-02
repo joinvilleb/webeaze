@@ -75,6 +75,53 @@ a { text-decoration: none; color: inherit; transition: .2s; }
   font-size: 14px;
 }
 
+/* IN-PAGE NAV */
+.page-nav {
+  position: sticky;
+  top: 0; /* JS sets this precisely after measuring the main nav */
+  z-index: 990;
+  background: rgba(10,10,15,.95);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+
+.page-nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 8px 20px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.page-nav-inner::-webkit-scrollbar { display: none; }
+
+.page-nav-link {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 18px;
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(255,255,255,.5);
+  white-space: nowrap;
+  border-radius: 999px;
+  transition: color .2s ease, background .2s ease;
+  text-decoration: none !important;
+}
+
+.page-nav-link:hover {
+  color: rgba(255,255,255,.85);
+  background: rgba(255,255,255,.06);
+}
+
+.page-nav-link.active {
+  color: #1a1a2e;
+  background: #ffd700;
+}
+
 /* HERO */
 .hero {
   padding: 80px 0 60px;
@@ -181,7 +228,7 @@ a { text-decoration: none; color: inherit; transition: .2s; }
 
 /* PLANS SECTION */
 .plans-section {
-  padding: 0 0 60px;
+  padding: 32px 0 60px;
 }
 .plans-grid {
   display: grid;
@@ -771,12 +818,12 @@ a { text-decoration: none; color: inherit; transition: .2s; }
     <p class="subtitle">No hourly billing. No surprise fees. Just a simple monthly plan that covers your entire web presence.</p>
 
     <div class="value-strip">
-      <div class="value-item"><i class="fas fa-check-circle"></i> Custom design included</div>
+      <div class="value-item"><i class="fas fa-check-circle"></i> Custom design</div>
       <div class="value-item"><i class="fas fa-check-circle"></i> Unlimited updates</div>
       <div class="value-item"><i class="fas fa-check-circle"></i> Hosting covered</div>
       <div class="value-item"><i class="fas fa-check-circle"></i> Domain covered</div>
       <div class="value-item"><i class="fas fa-check-circle"></i> SEO services</div>
-      <div class="value-item"><i class="fas fa-check-circle"></i> Cancel anytime</div>
+      
     </div>
 
     <!-- TOGGLE -->
@@ -790,8 +837,18 @@ a { text-decoration: none; color: inherit; transition: .2s; }
   </div>
 </header>
 
+<!-- IN-PAGE NAV -->
+<nav class="page-nav" id="pageNav" aria-label="Page sections">
+  <div class="page-nav-inner">
+    <a href="#section-plans" class="page-nav-link active" data-section="section-plans">Plans</a>
+    <a href="#section-compare" class="page-nav-link" data-section="section-compare">Compare</a>
+    <a href="#section-savings" class="page-nav-link" data-section="section-savings">What's Included</a>
+    <a href="#section-faq" class="page-nav-link" data-section="section-faq">FAQ</a>
+  </div>
+</nav>
+
 <!-- PLANS -->
-<section class="plans-section">
+<section class="plans-section" id="section-plans">
   <div class="container container-narrow">
 
     <!-- MONTHLY PLANS -->
@@ -996,7 +1053,7 @@ a { text-decoration: none; color: inherit; transition: .2s; }
 </section>
 
 <!-- COMPARISON TABLE -->
-<section class="compare-section">
+<section class="compare-section" id="section-compare">
   <div class="container container-narrow">
 
     <div class="section-header">
@@ -1119,7 +1176,7 @@ a { text-decoration: none; color: inherit; transition: .2s; }
 </section>
 
 <!-- SUBSCRIPTION COMPARISON -->
-<section class="why-section" style="background: var(--dark-2); border-bottom: 1px solid var(--line);">
+<section class="why-section" id="section-savings" style="background: var(--dark-2); border-bottom: 1px solid var(--line);">
   <div class="container container-narrow">
 
     <div class="section-header">
@@ -1142,11 +1199,11 @@ a { text-decoration: none; color: inherit; transition: .2s; }
           </div>
         </div>
         <div style="font-size: 14px; color: rgba(255,255,255,.8); line-height: 2;">
-          <div style="display: flex; justify-content: space-between;"><span>Website builder (Wix, Squarespace)</span><strong>$20-45</strong></div>
+          <div style="display: flex; justify-content: space-between;"><span>Website builder</span><strong>$20-45</strong></div>
           <div style="display: flex; justify-content: space-between;"><span>Domain name</span><strong>$1-2</strong></div>
           <div style="display: flex; justify-content: space-between;"><span>Premium hosting</span><strong>$15-50</strong></div>
-          <div style="display: flex; justify-content: space-between;"><span>Designer for changes (hourly)</span><strong>$75-150/hr</strong></div>
-          <div style="display: flex; justify-content: space-between;"><span>SEO tools (Semrush, Ahrefs)</span><strong>$30-100</strong></div>
+          <div style="display: flex; justify-content: space-between;"><span>Designer for changes</span><strong>$75-150/hr</strong></div>
+          <div style="display: flex; justify-content: space-between;"><span>SEO tools </span><strong>$30-100</strong></div>
           <div style="display: flex; justify-content: space-between;"><span>Google Business management</span><strong>$50-100</strong></div>
           <div style="border-top: 1px solid rgba(255,255,255,.1); margin-top: 16px; padding-top: 16px; display: flex; justify-content: space-between; font-weight: 700; color: #fca5a5;">
             <span>Monthly total</span><span>$150-400+</span>
@@ -1230,7 +1287,7 @@ a { text-decoration: none; color: inherit; transition: .2s; }
 </section>
 
 <!-- FAQ MINI -->
-<section class="faq-section">
+<section class="faq-section" id="section-faq">
   <div class="container container-narrow">
 
     <div class="section-header">
@@ -1450,6 +1507,51 @@ function closeModal(event) {
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') closeModal();
 });
+
+// In-page nav scroll spy
+(function() {
+  const mainNav = document.querySelector('.nav-wrap');
+  const pageNav = document.getElementById('pageNav');
+  const navLinks = document.querySelectorAll('.page-nav-link');
+  const sections = ['section-plans','section-compare','section-savings','section-faq']
+    .map(id => document.getElementById(id))
+    .filter(Boolean);
+
+  // Set sticky top offset to sit flush below the main nav
+  function setTopOffset() {
+    if (mainNav && pageNav) {
+      pageNav.style.top = mainNav.offsetHeight + 'px';
+    }
+  }
+  setTopOffset();
+  window.addEventListener('resize', setTopOffset);
+
+  // Smooth scroll accounting for both sticky bars
+  navLinks.forEach(link => {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      const target = document.getElementById(this.dataset.section);
+      if (target) {
+        const offset = (mainNav ? mainNav.offsetHeight : 0) + (pageNav ? pageNav.offsetHeight : 0) + 8;
+        const top = target.getBoundingClientRect().top + window.scrollY - offset;
+        window.scrollTo({ top, behavior: 'smooth' });
+      }
+    });
+  });
+
+  // Scroll spy
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(l => l.classList.remove('active'));
+        const active = document.querySelector(`.page-nav-link[data-section="${entry.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-25% 0px -65% 0px' });
+
+  sections.forEach(s => observer.observe(s));
+})();
 </script>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
