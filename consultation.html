@@ -49,9 +49,7 @@ a { text-decoration: none; color: inherit; }
 .logo { height: 36px; }
 .nav-wrap {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
+  top: 0; left: 0; right: 0;
   z-index: 9999;
   background: rgba(5, 5, 9, 0.85);
   backdrop-filter: saturate(130%) blur(14px);
@@ -61,500 +59,530 @@ a { text-decoration: none; color: inherit; }
 .webeaze-nav { background: transparent !important; box-shadow: none !important; padding: .6rem 0; }
 .brand-word { letter-spacing: -.3px; font-weight: 700; color: #fff; }
 .navbar-dark .nav-link { color: #fff !important; opacity: .85; border-radius: 10px; padding: .45rem .7rem; }
-.navbar-dark .nav-link:hover { opacity: 1; background: rgba(255, 255, 255, .08); }
+.navbar-dark .nav-link:hover { opacity: 1; background: rgba(255,255,255,.08); }
 .btn-nav { background: var(--gold); color: #2f1e66; border: none; border-radius: 12px; padding: .55rem .85rem; font-weight: 700; font-size: 0.9rem; }
 
-/* HERO */
-.hero {
-  position: relative;
-  min-height: 100vh;
+/* =====================
+   CAROUSEL SYSTEM
+   ===================== */
+
+.carousel-wrap {
+  padding-top: 57px; /* fixed nav height */
+}
+
+/* Step Bar */
+.step-bar {
+  position: sticky;
+  top: 57px;
+  z-index: 500;
+  background: rgba(5, 5, 9, 0.96);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--line);
+  padding: 14px 20px;
+}
+
+.step-bar-inner {
   display: flex;
   align-items: center;
-  padding: 120px 0 80px;
-  overflow: hidden;
+  justify-content: center;
+  max-width: 560px;
+  margin: 0 auto;
+  gap: 0;
 }
 
-/* Premium gradient orbs */
-.hero::before {
-  content: '';
-  position: absolute;
-  top: -300px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 1200px;
-  height: 1200px;
-  background: radial-gradient(circle, rgba(120, 81, 169, 0.2) 0%, transparent 40%);
-  pointer-events: none;
-}
-.hero::after {
-  content: '';
-  position: absolute;
-  top: 100px;
-  right: -200px;
-  width: 800px;
-  height: 800px;
-  background: radial-gradient(circle, rgba(255, 215, 0, 0.08) 0%, transparent 45%);
-  pointer-events: none;
-}
-
-.hero-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 60px;
+.step-pill {
+  display: flex;
+  flex-direction: column;
   align-items: center;
+  gap: 5px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: rgba(255,255,255,.3);
+  padding: 0 10px;
+  transition: color .25s;
+  flex-shrink: 0;
+}
+.step-pill:focus { outline: none; }
+.step-pill:hover { color: rgba(255,255,255,.6); }
+.step-pill.active { color: var(--gold); }
+.step-pill.completed { color: rgba(255,255,255,.55); cursor: pointer; }
+
+.step-num {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 2px solid currentColor;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  transition: background .25s, border-color .25s, color .25s;
+}
+.step-pill.active .step-num {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: #1a1a2e;
+}
+.step-pill.completed .step-num {
+  background: rgba(255,255,255,.08);
+  border-color: rgba(255,255,255,.25);
+}
+
+.step-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.step-connector {
+  flex: 1;
+  height: 2px;
+  background: rgba(255,255,255,.1);
+  margin: 0 4px 16px;
+  transition: background .25s;
+}
+.step-connector.done {
+  background: rgba(255,255,255,.3);
+}
+
+/* Slides */
+.slides-viewport {
   position: relative;
-  z-index: 1;
-}
-@media (max-width: 992px) {
-  .hero-grid { grid-template-columns: 1fr; text-align: center; }
 }
 
-.hero-content { max-width: 540px; }
-@media (max-width: 992px) {
-  .hero-content { max-width: 100%; margin: 0 auto; }
+.slide {
+  display: none;
+  width: 100%;
+  padding: 56px 0 120px; /* bottom padding clears sticky footer */
 }
 
+.slide.active {
+  display: block;
+}
+
+/* Directional slide animations */
+.slides-viewport[data-dir="forward"] .slide.active {
+  animation: slideInFwd .38s cubic-bezier(.4,0,.2,1) both;
+}
+.slides-viewport[data-dir="back"] .slide.active {
+  animation: slideInBck .38s cubic-bezier(.4,0,.2,1) both;
+}
+
+@keyframes slideInFwd {
+  from { opacity: 0; transform: translateX(28px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes slideInBck {
+  from { opacity: 0; transform: translateX(-28px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* Carousel sticky footer nav */
+.carousel-foot {
+  position: sticky;
+  bottom: 0;
+  z-index: 500;
+  background: rgba(5, 5, 9, 0.96);
+  backdrop-filter: blur(14px);
+  border-top: 1px solid var(--line);
+  padding: 14px 20px;
+}
+.carousel-foot-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1100px;
+  margin: 0 auto;
+  gap: 16px;
+}
+
+.nav-dots {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.nav-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.2);
+  transition: all .25s ease;
+  cursor: pointer;
+  border: none;
+}
+.nav-dot.active {
+  background: var(--gold);
+  width: 22px;
+  border-radius: 4px;
+}
+
+.nav-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 22px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .2s ease;
+  font-family: 'Poppins', sans-serif;
+  white-space: nowrap;
+}
+.nav-btn-prev {
+  background: transparent;
+  color: rgba(255,255,255,.45);
+  border: 1px solid rgba(255,255,255,.12);
+}
+.nav-btn-prev:hover:not(:disabled) {
+  color: #fff;
+  border-color: rgba(255,255,255,.3);
+  background: rgba(255,255,255,.05);
+}
+.nav-btn-prev:disabled {
+  opacity: .25;
+  cursor: default;
+}
+.nav-btn-next {
+  background: var(--gold);
+  color: #1a1a2e;
+  border: none;
+  box-shadow: 0 6px 20px rgba(255,215,0,.25);
+}
+.nav-btn-next:hover {
+  background: #ffea80;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 26px rgba(255,215,0,.35);
+}
+.nav-btn-next.hidden { visibility: hidden; }
+
+/* =====================
+   SLIDE CONTENT STYLES
+   ===================== */
+
+/* Offer badge */
 .offer-badge {
   display: inline-flex;
   align-items: center;
   gap: 8px;
   padding: 8px 16px;
-  background: var(--gold-dim);
-  border: 1px solid var(--line-gold);
+  background: rgba(34,197,94,0.12);
+  border: 1px solid rgba(34,197,94,0.3);
   border-radius: 100px;
   font-size: 0.85rem;
   font-weight: 600;
-  color: var(--gold);
+  color: #22c55e;
   margin-bottom: 24px;
 }
-.offer-badge i { font-size: 0.9rem; }
 
-.hero h1 {
-  font-size: clamp(2.5rem, 5vw, 3.5rem);
-  font-weight: 800;
+/* Slide 1 layout */
+.slide-1-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+@media (max-width: 900px) {
+  .slide-1-grid { grid-template-columns: 1fr; gap: 40px; text-align: center; }
+}
+
+.slide-h1 {
+  font-size: clamp(2.2rem, 5vw, 3.2rem);
+  font-weight: 700;
   letter-spacing: -0.03em;
   line-height: 1.1;
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 }
-.hero h1 .highlight {
+.slide-h1 .highlight {
   background: linear-gradient(135deg, var(--gold) 0%, #ffea80 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-.hero-sub {
-  font-size: 1.15rem;
+.slide-sub {
+  font-size: 1.05rem;
   color: var(--text-muted);
-  line-height: 1.7;
-  margin-bottom: 32px;
+  line-height: 1.75;
+  margin-bottom: 30px;
 }
-.hero-sub strong { color: var(--gold); }
+.slide-sub strong { color: var(--gold); }
 
-/* Value Props */
 .value-props {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  margin-bottom: 36px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 20px;
 }
-@media (max-width: 992px) {
-  .value-props { justify-content: center; }
+@media (max-width: 900px) {
+  .value-props { max-width: 400px; margin: 0 auto; }
+}
+@media (max-width: 480px) {
+  .value-props { grid-template-columns: 1fr; }
 }
 .value-prop {
   display: flex;
   align-items: center;
   gap: 10px;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
 }
 .value-prop i {
-  width: 28px;
-  height: 28px;
-  background: rgba(34, 197, 94, 0.15);
-  border-radius: 8px;
+  width: 24px;
+  height: 24px;
+  background: rgba(34,197,94,.15);
+  border-radius: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--green);
-  font-size: 0.75rem;
+  font-size: 0.7rem;
+  flex-shrink: 0;
 }
 
-/* CTA Buttons */
-.cta-group {
-  display: flex;
-  gap: 14px;
-  flex-wrap: wrap;
-}
-@media (max-width: 992px) {
-  .cta-group { justify-content: center; }
-}
-
-.btn-primary {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  background: var(--gold);
-  color: #0a0a14;
-  padding: 16px 28px;
-  border-radius: 14px;
-  font-weight: 700;
-  font-size: 1rem;
-  box-shadow: 0 12px 40px var(--gold-glow);
-  transition: all 0.25s ease;
-}
-.btn-primary:hover {
-  background: #ffea80;
-  transform: translateY(-3px);
-  box-shadow: 0 16px 50px rgba(255, 215, 0, 0.4);
-}
-
-.btn-secondary {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: transparent;
-  color: #fff;
-  padding: 16px 24px;
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  font-weight: 600;
-  font-size: 0.95rem;
-  transition: all 0.2s;
-}
-.btn-secondary:hover {
-  border-color: var(--gold);
-  color: var(--gold);
-}
-
-/* Scheduler Card */
-.scheduler-card {
+/* Stats 2x2 */
+.stats-box {
   background: var(--bg-card);
   border: 1px solid var(--line);
   border-radius: 24px;
-  overflow: hidden;
-  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.5);
+  padding: 32px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
   position: relative;
+  overflow: hidden;
 }
-.scheduler-card::before {
+.stats-box::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
+  top: 0; left: 0; right: 0;
   height: 3px;
   background: linear-gradient(90deg, var(--purple), var(--gold));
 }
-
-.scheduler-header {
-  padding: 24px 28px;
-  border-bottom: 1px solid var(--line);
+.stat-block {
   text-align: center;
-}
-.scheduler-header h3 {
-  font-size: 1.1rem;
-  font-weight: 700;
-  margin-bottom: 4px;
-}
-.scheduler-header p {
-  font-size: 0.9rem;
-  color: var(--text-muted);
-}
-
-.meetings-iframe-container {
-  height: 800px;
-  background: var(--bg-card);
-}
-
-/* SOCIAL PROOF */
-.social-proof {
-  padding: 80px 0;
-  background: var(--bg-elevated);
-  border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
-}
-
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 32px;
-  text-align: center;
-}
-@media (max-width: 768px) {
-  .stats-grid { grid-template-columns: repeat(2, 1fr); }
-}
-
-.stat-item {
-  padding: 24px;
+  padding: 12px 0;
 }
 .stat-number {
-  font-size: clamp(2rem, 4vw, 2.5rem);
+  font-size: clamp(1.8rem, 3.5vw, 2.2rem);
   font-weight: 800;
   background: linear-gradient(135deg, var(--gold) 0%, #ffea80 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   line-height: 1.1;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 .stat-label {
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   color: var(--text-muted);
+  line-height: 1.3;
 }
 
-/* SHOWCASE */
-.showcase {
-  padding: 100px 0;
-  background: var(--bg);
-}
-
+/* Section header */
 .section-header {
   text-align: center;
-  margin-bottom: 60px;
+  margin-bottom: 48px;
 }
 .section-header .kicker {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: var(--gold);
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 .section-header h2 {
-  font-size: clamp(1.75rem, 4vw, 2.5rem);
-  font-weight: 800;
-  margin-bottom: 12px;
+  font-size: clamp(1.7rem, 4vw, 2.4rem);
+  font-weight: 700;
+  margin-bottom: 10px;
 }
 .section-header p {
   color: var(--text-muted);
-  font-size: 1.1rem;
-  max-width: 500px;
+  font-size: 1rem;
+  max-width: 480px;
   margin: 0 auto;
 }
 
+/* Showcase cards (Slide 2) */
 .showcase-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
+  gap: 22px;
 }
-@media (max-width: 992px) {
-  .showcase-grid { grid-template-columns: 1fr; max-width: 500px; margin: 0 auto; }
+@media (max-width: 900px) {
+  .showcase-grid { grid-template-columns: 1fr; max-width: 480px; margin: 0 auto; }
 }
-
 .showcase-card {
   background: var(--bg-card);
   border: 1px solid var(--line);
-  border-radius: 20px;
+  border-radius: 18px;
   overflow: hidden;
-  transition: all 0.3s ease;
+  transition: all .3s ease;
   position: relative;
+  display: block;
+  color: inherit;
 }
 .showcase-card:hover {
   border-color: var(--line-gold);
-  transform: translateY(-8px);
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4);
+  transform: translateY(-6px);
+  box-shadow: 0 20px 50px rgba(0,0,0,.4);
+  color: inherit;
 }
-
 .showcase-card .badge {
   position: absolute;
-  top: 16px;
-  right: 16px;
+  top: 14px; right: 14px;
   background: var(--purple);
   color: #fff;
-  padding: 6px 12px;
-  border-radius: 8px;
-  font-size: 0.75rem;
+  padding: 5px 10px;
+  border-radius: 7px;
+  font-size: 0.72rem;
   font-weight: 600;
   z-index: 2;
 }
-
 .showcase-card img {
   width: 100%;
   aspect-ratio: 16/10;
   object-fit: cover;
   border-bottom: 1px solid var(--line);
+  display: block;
 }
-
 .showcase-content {
-  padding: 24px;
+  padding: 20px;
 }
-.showcase-content h3 {
-  font-size: 1.15rem;
-  font-weight: 700;
-  margin-bottom: 8px;
-}
-.showcase-content p {
-  color: var(--text-muted);
-  font-size: 0.9rem;
-  line-height: 1.5;
-  margin-bottom: 16px;
-}
+.showcase-content h3 { font-size: 1rem; font-weight: 700; margin-bottom: 6px; }
+.showcase-content p { color: var(--text-muted); font-size: 0.85rem; line-height: 1.5; margin-bottom: 14px; }
 .showcase-link {
   display: inline-flex;
   align-items: center;
   gap: 6px;
   color: var(--gold);
   font-weight: 600;
-  font-size: 0.9rem;
-  transition: gap 0.2s;
+  font-size: 0.85rem;
+  transition: gap .2s;
 }
 .showcase-link:hover { gap: 10px; }
 
-/* FEATURES */
-.features {
-  padding: 100px 0;
-  background: var(--bg-elevated);
-}
-
+/* Feature cards (Slide 3) */
 .features-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
+  gap: 20px;
 }
-@media (max-width: 992px) {
+@media (max-width: 900px) {
   .features-grid { grid-template-columns: repeat(2, 1fr); }
 }
-@media (max-width: 600px) {
+@media (max-width: 560px) {
   .features-grid { grid-template-columns: 1fr; }
 }
-
 .feature-card {
   background: var(--bg-card);
   border: 1px solid var(--line);
-  border-radius: 20px;
-  padding: 32px;
-  transition: all 0.3s ease;
+  border-radius: 18px;
+  padding: 26px;
+  transition: all .3s ease;
 }
-.feature-card:hover {
-  border-color: var(--line-gold);
-  transform: translateY(-4px);
-}
-
+.feature-card:hover { border-color: var(--line-gold); transform: translateY(-3px); }
 .feature-icon {
+  width: 48px;
+  height: 48px;
+  background: var(--gold-dim);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+.feature-icon i { font-size: 1.2rem; color: var(--gold); }
+.feature-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 6px; }
+.feature-card p { color: var(--text-muted); font-size: 0.85rem; line-height: 1.6; }
+
+/* Promise cards (Slide 4) */
+.promises-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-bottom: 40px;
+}
+@media (max-width: 768px) {
+  .promises-grid { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto 32px; }
+}
+.promise-card {
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 28px;
+  text-align: center;
+  transition: all .3s ease;
+}
+.promise-card:hover { border-color: var(--line-gold); }
+.promise-icon {
   width: 56px;
   height: 56px;
   background: var(--gold-dim);
+  border: 1px solid var(--line-gold);
   border-radius: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 20px;
+  margin: 0 auto 16px;
 }
-.feature-icon i {
-  font-size: 1.4rem;
-  color: var(--gold);
-}
+.promise-icon i { font-size: 1.3rem; color: var(--gold); }
+.promise-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
+.promise-card p { color: var(--text-muted); font-size: 0.85rem; line-height: 1.6; }
 
-.feature-card h3 {
-  font-size: 1.1rem;
-  font-weight: 700;
-  margin-bottom: 8px;
-}
-.feature-card p {
-  color: var(--text-muted);
-  font-size: 0.9rem;
-  line-height: 1.6;
-}
-
-/* PROMISES */
-.promises {
-  padding: 100px 0;
-  background: var(--bg);
-}
-
-.promises-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
-}
-@media (max-width: 768px) {
-  .promises-grid { grid-template-columns: 1fr; }
-}
-
-.promise-card {
-  background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-card-hover) 100%);
+/* Scheduler card */
+.scheduler-card {
+  background: var(--bg-card);
   border: 1px solid var(--line);
-  border-radius: 20px;
-  padding: 36px;
-  text-align: center;
-  transition: all 0.3s ease;
-}
-.promise-card:hover {
-  border-color: var(--line-gold);
-}
-
-.promise-icon {
-  width: 64px;
-  height: 64px;
-  background: var(--gold-dim);
-  border: 1px solid var(--line-gold);
-  border-radius: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto 20px;
-}
-.promise-icon i {
-  font-size: 1.5rem;
-  color: var(--gold);
-}
-
-.promise-card h3 {
-  font-size: 1.15rem;
-  font-weight: 700;
-  margin-bottom: 10px;
-}
-.promise-card p {
-  color: var(--text-muted);
-  font-size: 0.9rem;
-  line-height: 1.6;
-}
-
-/* FINAL CTA */
-.final-cta {
-  padding: 100px 0;
-  background: linear-gradient(180deg, var(--bg-elevated) 0%, var(--bg) 100%);
-  text-align: center;
-  position: relative;
+  border-radius: 24px;
   overflow: hidden;
+  box-shadow: 0 30px 80px rgba(0,0,0,.4);
+  position: relative;
+  max-width: 860px;
+  margin: 0 auto;
 }
-.final-cta::before {
+.scheduler-card::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 800px;
-  height: 400px;
-  background: radial-gradient(ellipse, rgba(255, 215, 0, 0.08) 0%, transparent 50%);
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--purple), var(--gold));
+}
+.scheduler-header {
+  padding: 22px 28px;
+  border-bottom: 1px solid var(--line);
+  text-align: center;
+}
+.scheduler-header h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 4px; }
+.scheduler-header p { font-size: 0.88rem; color: var(--text-muted); }
+.meetings-iframe-container { height: 700px; background: var(--bg-card); }
+
+/* Background glow */
+.page-glow {
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(120,81,169,.18), transparent),
+    radial-gradient(ellipse 50% 40% at 90% 80%, rgba(255,215,0,.07), transparent);
   pointer-events: none;
+  z-index: 0;
 }
 
-.final-cta h2 {
-  font-size: clamp(1.75rem, 4vw, 2.25rem);
-  font-weight: 800;
-  margin-bottom: 16px;
-  position: relative;
-}
-.final-cta p {
-  color: var(--text-muted);
-  font-size: 1.1rem;
-  max-width: 480px;
-  margin: 0 auto 32px;
-  position: relative;
-}
-.final-cta .cta-group {
-  justify-content: center;
-  position: relative;
-}
-
-/* Footer */
+/* =====================
+   FOOTER
+   ===================== */
 footer {
   background: #000;
   padding: 60px 20px 40px;
   border-top: 1px solid rgba(255,255,255,0.08);
+  position: relative;
+  z-index: 1;
 }
 .footer-grid {
   display: grid;
@@ -564,114 +592,43 @@ footer {
   margin: 0 auto 48px;
   text-align: left;
 }
-@media (max-width: 768px) {
-  .footer-grid {
-    grid-template-columns: 1fr 1fr;
-    gap: 32px;
-  }
-}
-@media (max-width: 480px) {
-  .footer-grid {
-    grid-template-columns: 1fr;
-    gap: 28px;
-  }
-}
-.footer-brand {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 16px;
-}
+@media (max-width: 768px) { .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; } }
+@media (max-width: 480px) { .footer-grid { grid-template-columns: 1fr; gap: 28px; } }
+.footer-brand { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
 .footer-brand img { height: 32px; }
 .footer-brand span { font-weight: 700; font-size: 1.1rem; }
-.footer-tagline {
-  color: #a0a6c0;
-  font-size: 0.9rem;
-  line-height: 1.6;
-  margin-bottom: 20px;
-  max-width: 280px;
-}
-.footer-social {
-  display: flex;
-  gap: 12px;
-}
+.footer-tagline { color: #a0a6c0; font-size: 0.9rem; line-height: 1.6; margin-bottom: 20px; max-width: 280px; }
+.footer-social { display: flex; gap: 12px; }
 .footer-social a {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  background: rgba(255, 255, 255, 0.06);
-  border-radius: 10px;
-  color: #a0a6c0;
-  font-size: 1rem;
-  transition: all 0.2s ease;
+  display: flex; align-items: center; justify-content: center;
+  width: 36px; height: 36px;
+  background: rgba(255,255,255,.06); border-radius: 10px;
+  color: #a0a6c0; font-size: 1rem; transition: all .2s ease;
 }
-.footer-social a:hover {
-  background: #ffd700;
-  color: #1a1a2e;
-}
-.footer-col h5 {
-  font-size: 0.85rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: #fff;
-  margin: 0 0 16px;
-}
+.footer-social a:hover { background: #ffd700; color: #1a1a2e; }
+.footer-col h5 { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #fff; margin: 0 0 16px; }
 .footer-col ul { list-style: none; padding: 0; margin: 0; }
 .footer-col li { margin-bottom: 10px; }
-.footer-col a {
-  color: #a0a6c0;
-  font-size: 0.9rem;
-  transition: color 0.2s ease;
-}
+.footer-col a { color: #a0a6c0; font-size: 0.9rem; transition: color .2s ease; }
 .footer-col a:hover { color: #ffd700; }
 .footer-bottom {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding-top: 24px;
-  border-top: 1px solid rgba(255,255,255,0.08);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 16px;
+  max-width: 1100px; margin: 0 auto; padding-top: 24px;
+  border-top: 1px solid rgba(255,255,255,.08);
+  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;
 }
 .footer-bottom p { color: #6b7280; font-size: 0.85rem; margin: 0; }
 .footer-legal { display: flex; gap: 24px; }
-.footer-legal a {
-  color: #6b7280;
-  font-size: 0.85rem;
-  transition: color 0.2s ease;
-}
+.footer-legal a { color: #6b7280; font-size: 0.85rem; transition: color .2s ease; }
 .footer-legal a:hover { color: #ffd700; }
-@media (max-width: 600px) {
-  .footer-bottom {
-    flex-direction: column;
-    text-align: center;
-  }
-}
-
-/* REVEAL */
-.reveal {
-  opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
-}
-.reveal.show {
-  opacity: 1;
-  transform: translateY(0);
-}
-.reveal-delay-1 { transition-delay: 0.1s; }
-.reveal-delay-2 { transition-delay: 0.2s; }
-.reveal-delay-3 { transition-delay: 0.3s; }
+@media (max-width: 600px) { .footer-bottom { flex-direction: column; text-align: center; } }
 </style>
 </head>
 
 <body>
 
-<!-- NAV -->
+<!-- page glow -->
+<div class="page-glow" aria-hidden="true"></div>
+
 <!-- NAV -->
 <div class="nav-wrap">
   <div class="container container-narrow">
@@ -698,237 +655,238 @@ footer {
   </div>
 </div>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="container">
-    <div class="hero-grid">
+<!-- CAROUSEL WRAP -->
+<div class="carousel-wrap" id="carousel">
 
-      <div class="hero-content reveal">
-        <div class="offer-badge" style="background:rgba(34,197,94,0.12);border-color:rgba(34,197,94,0.3);color:#22c55e;">
-          <i class="fas fa-clover"></i>
-          $19 Setup Fee Through 3/31
+  <!-- Step Bar -->
+  <div class="step-bar">
+    <div class="step-bar-inner">
+      <button class="step-pill active" data-go="0" aria-label="Step 1: Overview">
+        <span class="step-num">1</span>
+        <span class="step-label">Overview</span>
+      </button>
+      <span class="step-connector" id="conn-0"></span>
+      <button class="step-pill" data-go="1" aria-label="Step 2: Our Work">
+        <span class="step-num">2</span>
+        <span class="step-label">Our Work</span>
+      </button>
+      <span class="step-connector" id="conn-1"></span>
+      <button class="step-pill" data-go="2" aria-label="Step 3: Included">
+        <span class="step-num">3</span>
+        <span class="step-label">Included</span>
+      </button>
+      <span class="step-connector" id="conn-2"></span>
+      <button class="step-pill" data-go="3" aria-label="Step 4: Book">
+        <span class="step-num">4</span>
+        <span class="step-label">Book</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Slides Viewport -->
+  <div class="slides-viewport" id="slidesViewport" data-dir="forward">
+
+    <!-- ========================
+         SLIDE 1 — OVERVIEW
+         ======================== -->
+    <div class="slide active" id="slide-0">
+      <div class="container">
+        <div class="slide-1-grid">
+
+          <div>
+            <div class="offer-badge">
+              <i class="fas fa-clover"></i>
+              $19 Setup Fee Through 3/31
+            </div>
+            <h1 class="slide-h1">Your Website,<br><span class="highlight">Fully Managed.</span></h1>
+            <p class="slide-sub">
+              We build, host, and maintain professional websites for small businesses.
+              <strong>One simple monthly price</strong> covers everything — unlimited updates, SEO, hosting, domain, and support.
+            </p>
+            <div class="value-props">
+              <div class="value-prop"><i class="fas fa-check"></i><span>Unlimited website updates</span></div>
+              <div class="value-prop"><i class="fas fa-check"></i><span>SEO optimization included</span></div>
+              <div class="value-prop"><i class="fas fa-check"></i><span>Hosting & domain covered</span></div>
+              <div class="value-prop"><i class="fas fa-check"></i><span>Monthly or yearly plans</span></div>
+              <div class="value-prop"><i class="fas fa-check"></i><span>No long-term contracts</span></div>
+              <div class="value-prop"><i class="fas fa-check"></i><span>See your mockup first</span></div>
+            </div>
+          </div>
+
+          <div class="stats-box">
+            <div class="stat-block">
+              <div class="stat-number">48hr</div>
+              <div class="stat-label">Mockup Delivery</div>
+            </div>
+            <div class="stat-block">
+              <div class="stat-number">$19</div>
+              <div class="stat-label">Setup Fee Today</div>
+            </div>
+            <div class="stat-block">
+              <div class="stat-number">$169</div>
+              <div class="stat-label">Per Month All-In</div>
+            </div>
+            <div class="stat-block">
+              <div class="stat-number">67+</div>
+              <div class="stat-label">Sites Launched</div>
+            </div>
+          </div>
+
         </div>
+      </div>
+    </div>
 
-        <h1 style="font-weight: 600;">Your Website, <span class="highlight">Fully Managed</span>.</h1>
-
-        <p class="hero-sub">
-          We build, host, and maintain professional websites for small businesses. <strong>One simple monthly price</strong> covers everything: unlimited updates, SEO optimization, hosting, domain management, and ongoing support.
-        </p>
-
-        <div class="value-props">
-          <div class="value-prop">
-            <i class="fas fa-check"></i>
-            <span>Unlimited website updates</span>
-          </div>
-          <div class="value-prop">
-            <i class="fas fa-check"></i>
-            <span>SEO optimization included</span>
-          </div>
-          <div class="value-prop">
-            <i class="fas fa-check"></i>
-            <span>Hosting & domain covered</span>
-          </div>
-          <div class="value-prop">
-            <i class="fas fa-check"></i>
-            <span>Monthly or yearly plans</span>
-          </div>
-          <div class="value-prop">
-            <i class="fas fa-check"></i>
-            <span>No long-term contracts</span>
-          </div>
-          <div class="value-prop">
-            <i class="fas fa-check"></i>
-            <span>See your mockup first — free</span>
-          </div>
+    <!-- ========================
+         SLIDE 2 — OUR WORK
+         ======================== -->
+    <div class="slide" id="slide-1">
+      <div class="container">
+        <div class="section-header">
+          <div class="kicker"><i class="fas fa-sparkles"></i> Real Results</div>
+          <h2>Websites We've Built</h2>
+          <p>See what we've created for businesses like yours</p>
         </div>
-
-        <div class="cta-group">
-          <a href="#book" class="btn-primary">
-            <i class="fas fa-calendar-check"></i> Schedule Free Mockup Call
+        <div class="showcase-grid">
+          <a href="https://bearcarpetcare.com" target="_blank" class="showcase-card">
+            <span class="badge">Service Business</span>
+            <img src="images/samples/bear-carpet-care.png" alt="Bear Carpet Care">
+            <div class="showcase-content">
+              <h3>Bear Carpet Care</h3>
+              <p>Professional service site with easy booking and trust signals.</p>
+              <span class="showcase-link">View Live <i class="fas fa-arrow-right"></i></span>
+            </div>
           </a>
-          <a href="pricing.html" class="btn-secondary">
-            <i class="fas fa-tag"></i> View Pricing
+          <a href="https://ibisprep.com" target="_blank" class="showcase-card">
+            <span class="badge">Education</span>
+            <img src="images/samples/ibis-prep.png" alt="Ibis Prep">
+            <div class="showcase-content">
+              <h3>Ibis Prep</h3>
+              <p>Clean, credibility-focused design for tutoring services.</p>
+              <span class="showcase-link">View Live <i class="fas fa-arrow-right"></i></span>
+            </div>
+          </a>
+          <a href="https://pembertoncoffeehouse.com" target="_blank" class="showcase-card">
+            <span class="badge">Local Business</span>
+            <img src="images/samples/pemberton-coffeehouse.png" alt="Pemberton Coffeehouse">
+            <div class="showcase-content">
+              <h3>Pemberton Coffeehouse</h3>
+              <p>Warm, inviting design with clear menus and local info.</p>
+              <span class="showcase-link">View Live <i class="fas fa-arrow-right"></i></span>
+            </div>
           </a>
         </div>
       </div>
+    </div>
 
-      <div class="scheduler-card reveal reveal-delay-1" id="book">
-        <div class="scheduler-header">
-          <h3>Schedule Your Free Call</h3>
-          <p>15 minutes to discuss your business & website goals</p>
+    <!-- ========================
+         SLIDE 3 — WHAT'S INCLUDED
+         ======================== -->
+    <div class="slide" id="slide-2">
+      <div class="container">
+        <div class="section-header">
+          <div class="kicker"><i class="fas fa-box-open"></i> What's Included</div>
+          <h2>Everything for $169/month</h2>
+          <p>No hidden fees. No surprise charges. Ever.</p>
         </div>
-        <div class="meetings-iframe-container"
-             data-src="https://meetings-na2.hubspot.com/webeaze/free-consultation?embed=true">
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon"><i class="fas fa-palette"></i></div>
+            <h3>Custom Design</h3>
+            <p>A professional website designed specifically for your business. Not a template.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon"><i class="fas fa-server"></i></div>
+            <h3>Hosting Included</h3>
+            <p>Fast, secure hosting via GitHub Pages. No separate bills or technical headaches.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon"><i class="fas fa-sync-alt"></i></div>
+            <h3>Unlimited Updates</h3>
+            <p>Need changes? Just ask. New photos, updated prices, seasonal info — all included.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon"><i class="fas fa-mobile-screen"></i></div>
+            <h3>Mobile-Ready</h3>
+            <p>Your site looks perfect on phones, tablets, and desktops. Responsive design standard.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon"><i class="fas fa-magnifying-glass"></i></div>
+            <h3>SEO Basics</h3>
+            <p>We set up your site so customers can find you when they search online.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon"><i class="fas fa-headset"></i></div>
+            <h3>Ongoing Support</h3>
+            <p>Questions? Problems? Ideas? We're here whenever you need us — at no extra cost.</p>
+          </div>
         </div>
-        <script src="https://static.hsappstatic.net/MeetingsEmbed/ex/MeetingsEmbedCode.js"></script>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- SOCIAL PROOF -->
-<section class="social-proof">
-  <div class="container">
-    <div class="stats-grid">
-      <div class="stat-item reveal">
-        <div class="stat-number">48hr</div>
-        <div class="stat-label">Mockup Delivery</div>
-      </div>
-      <div class="stat-item reveal reveal-delay-1">
-        <div class="stat-number">$99</div>
-        <div class="stat-label">Setup Fee</div>
-      </div>
-      <div class="stat-item reveal reveal-delay-2">
-        <div class="stat-number">$169</div>
-        <div class="stat-label">Per Month All-In</div>
-      </div>
-      <div class="stat-item reveal reveal-delay-3">
-        <div class="stat-number">67+</div>
-        <div class="stat-label">Sites Launched</div>
       </div>
     </div>
-  </div>
-</section>
 
-<!-- SHOWCASE -->
-<section class="showcase">
-  <div class="container">
-    <div class="section-header reveal">
-      <div class="kicker"><i class="fas fa-sparkles"></i> Real Results</div>
-      <h2>Websites We've Built</h2>
-      <p>See what we've created for businesses like yours</p>
-    </div>
-
-    <div class="showcase-grid">
-      <a href="https://bearcarpetcare.com" target="_blank" class="showcase-card reveal">
-        <span class="badge">Service Business</span>
-        <img src="images/samples/bear-carpet-care.png" alt="Bear Carpet Care">
-        <div class="showcase-content">
-          <h3>Bear Carpet Care</h3>
-          <p>Professional service site with easy booking and trust signals.</p>
-          <span class="showcase-link">View Live <i class="fas fa-arrow-right"></i></span>
+    <!-- ========================
+         SLIDE 4 — BOOK
+         ======================== -->
+    <div class="slide" id="slide-3">
+      <div class="container">
+        <div class="section-header">
+          <div class="kicker"><i class="fas fa-handshake"></i> Zero Pressure</div>
+          <h2>See It Before You Commit.</h2>
+          <p>We design your mockup first. If you don't love it, you owe us nothing.</p>
         </div>
-      </a>
 
-      <a href="https://ibisprep.com" target="_blank" class="showcase-card reveal reveal-delay-1">
-        <span class="badge">Education</span>
-        <img src="images/samples/ibis-prep.png" alt="Ibis Prep">
-        <div class="showcase-content">
-          <h3>Ibis Prep</h3>
-          <p>Clean, credibility-focused design for tutoring services.</p>
-          <span class="showcase-link">View Live <i class="fas fa-arrow-right"></i></span>
+        <div class="promises-grid">
+          <div class="promise-card">
+            <div class="promise-icon"><i class="fas fa-eye"></i></div>
+            <h3>See It First</h3>
+            <p>We design your mockup before you commit. No love, no charge.</p>
+          </div>
+          <div class="promise-card">
+            <div class="promise-icon"><i class="fas fa-comments"></i></div>
+            <h3>Honest Advice</h3>
+            <p>If WebEaze isn't the right fit for your needs, we'll tell you. No sales tricks.</p>
+          </div>
+          <div class="promise-card">
+            <div class="promise-icon"><i class="fas fa-door-open"></i></div>
+            <h3>No Lock-In</h3>
+            <p>Cancel anytime. Month-to-month. You stay because you want to, not because you're stuck.</p>
+          </div>
         </div>
-      </a>
 
-      <a href="https://pembertoncoffeehouse.com" target="_blank" class="showcase-card reveal reveal-delay-2">
-        <span class="badge">Local Business</span>
-        <img src="images/samples/pemberton-coffeehouse.png" alt="Pemberton Coffeehouse">
-        <div class="showcase-content">
-          <h3>Pemberton Coffeehouse</h3>
-          <p>Warm, inviting design with clear menus and info.</p>
-          <span class="showcase-link">View Live <i class="fas fa-arrow-right"></i></span>
+        <div class="scheduler-card">
+          <div class="scheduler-header">
+            <h3>Schedule Your Free Call</h3>
+            <p>15 minutes to discuss your business &amp; website goals</p>
+          </div>
+          <div class="meetings-iframe-container"
+               data-src="https://meetings-na2.hubspot.com/webeaze/free-consultation?embed=true">
+          </div>
+          <script src="https://static.hsappstatic.net/MeetingsEmbed/ex/MeetingsEmbedCode.js"></script>
         </div>
-      </a>
+      </div>
+    </div>
+
+  </div><!-- end slides-viewport -->
+
+  <!-- Sticky carousel footer nav -->
+  <div class="carousel-foot">
+    <div class="carousel-foot-inner">
+      <button class="nav-btn nav-btn-prev" id="prevBtn" disabled>
+        <i class="fas fa-arrow-left"></i> Back
+      </button>
+      <div class="nav-dots">
+        <button class="nav-dot active" data-go="0" aria-label="Go to slide 1"></button>
+        <button class="nav-dot" data-go="1" aria-label="Go to slide 2"></button>
+        <button class="nav-dot" data-go="2" aria-label="Go to slide 3"></button>
+        <button class="nav-dot" data-go="3" aria-label="Go to slide 4"></button>
+      </div>
+      <button class="nav-btn nav-btn-next" id="nextBtn">
+        See Our Work <i class="fas fa-arrow-right"></i>
+      </button>
     </div>
   </div>
-</section>
 
-<!-- FEATURES -->
-<section class="features">
-  <div class="container">
-    <div class="section-header reveal">
-      <div class="kicker"><i class="fas fa-box-open"></i> What's Included</div>
-      <h2>Everything for $169/month</h2>
-      <p>No hidden fees. No surprise charges. Ever.</p>
-    </div>
+</div><!-- end carousel-wrap -->
 
-    <div class="features-grid">
-      <div class="feature-card reveal">
-        <div class="feature-icon"><i class="fas fa-palette"></i></div>
-        <h3>Custom Design</h3>
-        <p>A professional website designed specifically for your business. Not a template.</p>
-      </div>
-
-      <div class="feature-card reveal reveal-delay-1">
-        <div class="feature-icon"><i class="fas fa-server"></i></div>
-        <h3>Hosting Included</h3>
-        <p>Fast, secure hosting via GitHub Pages. No separate bills or technical headaches.</p>
-      </div>
-
-      <div class="feature-card reveal reveal-delay-2">
-        <div class="feature-icon"><i class="fas fa-sync-alt"></i></div>
-        <h3>Unlimited Updates</h3>
-        <p>Need changes? Just ask. New photos, updated prices, seasonal info. All included.</p>
-      </div>
-
-      <div class="feature-card reveal">
-        <div class="feature-icon"><i class="fas fa-mobile-screen"></i></div>
-        <h3>Mobile-Ready</h3>
-        <p>Your site looks perfect on phones, tablets, and desktops. Responsive design standard.</p>
-      </div>
-
-      <div class="feature-card reveal reveal-delay-1">
-        <div class="feature-icon"><i class="fas fa-magnifying-glass"></i></div>
-        <h3>SEO Basics</h3>
-        <p>We set up your site so customers can find you when they search online.</p>
-      </div>
-
-      <div class="feature-card reveal reveal-delay-2">
-        <div class="feature-icon"><i class="fas fa-headset"></i></div>
-        <h3>Ongoing Support</h3>
-        <p>Questions? Problems? Ideas? We're here to help whenever you need us. At no extra cost. </p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- PROMISES -->
-<section class="promises">
-  <div class="container">
-    <div class="section-header reveal">
-      <div class="kicker"><i class="fas fa-handshake"></i> Our Promise</div>
-      <h2>Zero Risk, Zero Pressure</h2>
-      <p>We believe in earning your business, not pressuring you</p>
-    </div>
-
-    <div class="promises-grid">
-      <div class="promise-card reveal">
-        <div class="promise-icon"><i class="fas fa-eye"></i></div>
-        <h3>See It First</h3>
-        <p>We design your mockup before you commit. If you don't love it, you owe us nothing.</p>
-      </div>
-
-      <div class="promise-card reveal reveal-delay-1">
-        <div class="promise-icon"><i class="fas fa-comments"></i></div>
-        <h3>Honest Advice</h3>
-        <p>If WebEaze isn't the right fit for your needs, we'll tell you. No sales tricks.</p>
-      </div>
-
-      <div class="promise-card reveal reveal-delay-2">
-        <div class="promise-icon"><i class="fas fa-door-open"></i></div>
-        <h3>No Lock-In</h3>
-        <p>Cancel anytime. Month-to-month. You stay because you want to, not because you're stuck.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- FINAL CTA -->
-<section class="final-cta">
-  <div class="container">
-    <h2 class="reveal">Ready to See Your Website?</h2>
-    <p class="reveal">Book your free call now. We'll have your custom mockup ready in 48 hours.</p>
-    <div class="cta-group reveal">
-      <a href="#book" class="btn-primary">
-        <i class="fas fa-calendar-check"></i> Book Free Mockup Call
-      </a>
-      <a href="pricing.html" class="btn-secondary">
-        <i class="fas fa-dollar-sign"></i> See Pricing
-      </a>
-    </div>
-  </div>
-</section>
 
 <!-- FOOTER -->
 <footer>
@@ -945,7 +903,6 @@ footer {
         <a href="https://instagram.com/webeaze.io" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
       </div>
     </div>
-
     <div class="footer-col">
       <h5>Services</h5>
       <ul>
@@ -955,7 +912,6 @@ footer {
         <li><a href="plan-guide.html">Plan Guide</a></li>
       </ul>
     </div>
-
     <div class="footer-col">
       <h5>Company</h5>
       <ul>
@@ -965,7 +921,6 @@ footer {
         <li><a href="contact-us.html">Contact Us</a></li>
       </ul>
     </div>
-
     <div class="footer-col">
       <h5>Support</h5>
       <ul>
@@ -976,7 +931,6 @@ footer {
       </ul>
     </div>
   </div>
-
   <div class="footer-bottom">
     <p>&copy; <span id="yr"></span> WebEaze. Made with &#9749; in Delaware, USA</p>
     <div class="footer-legal">
@@ -988,35 +942,79 @@ footer {
 </footer>
 
 <script>
-  document.getElementById('yr').textContent = new Date().getFullYear();
+document.getElementById('yr').textContent = new Date().getFullYear();
 
-  // Reveal animations
-  (function() {
-    const els = document.querySelectorAll('.reveal');
-    if (!('IntersectionObserver' in window)) {
-      els.forEach(el => el.classList.add('show'));
-      return;
-    }
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('show');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.1 });
-    els.forEach(el => observer.observe(el));
-  })();
+// ======= CAROUSEL =======
+(function() {
+  const slides     = document.querySelectorAll('.slide');
+  const pills      = document.querySelectorAll('.step-pill');
+  const connectors = document.querySelectorAll('.step-connector');
+  const dots       = document.querySelectorAll('.nav-dot');
+  const prevBtn    = document.getElementById('prevBtn');
+  const nextBtn    = document.getElementById('nextBtn');
+  const viewport   = document.getElementById('slidesViewport');
+  const carousel   = document.getElementById('carousel');
 
-  // Smooth scroll to scheduler
-  document.querySelectorAll('a[href="#book"]').forEach(link => {
-    link.addEventListener('click', function(e) {
-      e.preventDefault();
-      document.getElementById('book').scrollIntoView({ behavior: 'smooth', block: 'center' });
-      // Close mobile menu if open
-      $('#mobileNav').collapse('hide');
+  const nextLabels = [
+    'See Our Work',
+    "What's Included",
+    'Book My Mockup'
+  ];
+
+  let current = 0;
+  const total = slides.length;
+
+  function goTo(n, dir) {
+    if (n === current) return;
+    const direction = dir ?? (n > current ? 'forward' : 'back');
+    current = Math.max(0, Math.min(total - 1, n));
+
+    // Animate direction
+    viewport.setAttribute('data-dir', direction);
+
+    // Toggle active slide
+    slides.forEach((s, i) => s.classList.toggle('active', i === current));
+
+    // Step pills
+    pills.forEach((p, i) => {
+      p.classList.remove('active', 'completed');
+      if (i === current) p.classList.add('active');
+      else if (i < current) p.classList.add('completed');
     });
-  });
+
+    // Connectors
+    connectors.forEach((c, i) => {
+      c.classList.toggle('done', i < current);
+    });
+
+    // Dots
+    dots.forEach((d, i) => d.classList.toggle('active', i === current));
+
+    // Prev button
+    prevBtn.disabled = current === 0;
+
+    // Next button
+    if (current === total - 1) {
+      nextBtn.classList.add('hidden');
+    } else {
+      nextBtn.classList.remove('hidden');
+      nextBtn.innerHTML = nextLabels[current] + ' <i class="fas fa-arrow-right"></i>';
+    }
+
+    // Scroll carousel to top (below nav + step bar)
+    const barTop = carousel.getBoundingClientRect().top + window.scrollY;
+    window.scrollTo({ top: barTop - 57, behavior: 'smooth' });
+  }
+
+  // Wire up controls
+  pills.forEach((p) => p.addEventListener('click', () => goTo(+p.dataset.go)));
+  dots.forEach((d)  => d.addEventListener('click',  () => goTo(+d.dataset.go)));
+  prevBtn.addEventListener('click', () => goTo(current - 1, 'back'));
+  nextBtn.addEventListener('click', () => goTo(current + 1, 'forward'));
+
+  // Initialize
+  goTo(0, 'forward');
+})();
 </script>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
