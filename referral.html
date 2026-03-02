@@ -714,6 +714,138 @@
       }
     }
 
+    /* Cash credibility badge */
+    .cash-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(34, 197, 94, 0.1);
+      border: 1px solid rgba(34, 197, 94, 0.28);
+      color: var(--success);
+      border-radius: 40px;
+      padding: 8px 16px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    /* Mock payment notification */
+    .payment-notif {
+      background: rgba(34, 197, 94, 0.05);
+      border: 1px solid rgba(34, 197, 94, 0.2);
+      border-radius: 18px;
+      padding: 20px 22px 18px;
+      margin-bottom: 22px;
+      position: relative;
+    }
+    .payment-notif::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 20px; right: 20px;
+      height: 2px;
+      background: linear-gradient(90deg, var(--success), var(--gold));
+      border-radius: 0 0 3px 3px;
+    }
+    .notif-row {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      margin-bottom: 14px;
+    }
+    .notif-app-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 11px;
+      background: #00d64f;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 17px;
+      color: #fff;
+      flex-shrink: 0;
+      letter-spacing: -1px;
+    }
+    .notif-meta { flex: 1; }
+    .notif-meta .app-name { font-size: 12px; font-weight: 700; color: var(--ink); line-height: 1.3; }
+    .notif-meta .app-sub { font-size: 11px; color: var(--muted); }
+    .notif-time { font-size: 11px; color: var(--muted); white-space: nowrap; }
+    .notif-amount {
+      font-size: 2.4rem;
+      font-weight: 700;
+      color: var(--success);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .notif-note {
+      font-size: 0.85rem;
+      color: var(--ink-2);
+      font-style: italic;
+    }
+
+    /* Branded payment badges */
+    .pay-badges-label {
+      font-size: 0.78rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+    .pay-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 22px;
+    }
+    .pay-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      border-radius: 40px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      border: 1px solid;
+    }
+    .pay-badge.venmo   { background: rgba(61,149,206,.12); border-color: rgba(61,149,206,.4); color: #3d95ce; }
+    .pay-badge.cashapp { background: rgba(0,214,79,.1);   border-color: rgba(0,214,79,.35);  color: #00d64f; }
+    .pay-badge.paypal  { background: rgba(0,112,224,.1);  border-color: rgba(0,112,224,.35); color: #4a9de8; }
+    .pay-badge.zelle   { background: rgba(109,30,212,.1); border-color: rgba(155,109,255,.4);color: #9b6dff; }
+
+    /* Proof strip */
+    .proof-strip {
+      background: rgba(34, 197, 94, 0.07);
+      border-top: 1px solid rgba(34, 197, 94, 0.18);
+      border-bottom: 1px solid rgba(34, 197, 94, 0.18);
+      padding: 22px 20px;
+    }
+    .proof-strip-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      text-align: center;
+      flex-wrap: wrap;
+    }
+    .proof-strip-icon {
+      font-size: 1.4rem;
+      color: var(--success);
+      flex-shrink: 0;
+    }
+    .proof-strip p {
+      margin: 0;
+      font-size: 0.97rem;
+      font-weight: 600;
+      color: var(--ink);
+      line-height: 1.5;
+    }
+    .proof-strip p span {
+      color: var(--success);
+    }
+
     /* Animations */
     .reveal {
       opacity: 0;
@@ -764,10 +896,13 @@
       <div class="col-lg-7">
         <div class="kicker reveal"><i class="fas fa-gift"></i> Referral Program</div>
         <h1 class="headline reveal reveal-delay-1">
-          Earn <span class="amount">$50</span> for every referral.
+          Earn <span class="amount">$50 cash</span><br>for every referral.
         </h1>
+        <div class="cash-badge reveal reveal-delay-1">
+          <i class="fas fa-circle-check"></i> Real money — not credits or gift cards
+        </div>
         <p class="sub reveal reveal-delay-2">
-          Know a business that needs a professional website? Send them our way. When they sign up, you get paid. Simple as that.
+          Know a business that needs a website? Refer them to WebEaze and we'll send you $50 — real money, sent directly to your Venmo, Cash App, PayPal, or Zelle — when they sign up.
         </p>
         <div class="hero-cta reveal reveal-delay-3">
           <a href="https://406km9.share-na2.hsforms.com/2dzuAwKMYSnOES4ubap3SiQ" class="btn-brand" target="_blank" rel="noopener">
@@ -777,31 +912,48 @@
             <i class="fas fa-play"></i> How It Works
           </a>
         </div>
-        <div class="payout-methods reveal reveal-delay-3">
-          <span>Payouts via:</span>
-          <i class="fab fa-paypal" title="PayPal"></i>
-          <i class="fas fa-money-bill-wave" title="Venmo"></i>
-          <i class="fas fa-dollar-sign" title="Cash App"></i>
-          <span style="color: var(--ink-2);">Zelle</span>
-        </div>
       </div>
 
       <div class="col-lg-5 mt-5 mt-lg-0">
         <div class="hero-card reveal reveal-delay-2">
-          <h3><i class="fas fa-trophy"></i> Your Reward</h3>
-          <div class="reward-amount">$50</div>
-          <div class="reward-label">per successful referral</div>
+          <div class="payment-notif">
+            <div class="notif-row">
+              <div class="notif-app-icon">$</div>
+              <div class="notif-meta">
+                <div class="app-name">Cash App</div>
+                <div class="app-sub">New payment received</div>
+              </div>
+              <div class="notif-time">just now</div>
+            </div>
+            <div class="notif-amount">+$50.00</div>
+            <div class="notif-note">"From WebEaze — thanks for the referral!"</div>
+          </div>
+          <div class="pay-badges-label">Choose how you get paid</div>
+          <div class="pay-badges">
+            <span class="pay-badge venmo">Venmo</span>
+            <span class="pay-badge cashapp">Cash App</span>
+            <span class="pay-badge paypal">PayPal</span>
+            <span class="pay-badge zelle">Zelle</span>
+          </div>
           <ul class="reward-features">
-            <li><i class="fas fa-check"></i> No limit on referrals</li>
+            <li><i class="fas fa-check"></i> No credits, no gift cards — cash only</li>
             <li><i class="fas fa-check"></i> Paid within 7 business days</li>
-            <li><i class="fas fa-check"></i> 90-day tracking window</li>
-            <li><i class="fas fa-check"></i> Anyone can refer</li>
+            <li><i class="fas fa-check"></i> No limit on referrals</li>
+            <li><i class="fas fa-check"></i> Anyone can refer, anytime</li>
           </ul>
         </div>
       </div>
     </div>
   </div>
 </header>
+
+<!-- PROOF STRIP -->
+<div class="proof-strip">
+  <div class="proof-strip-inner">
+    <span class="proof-strip-icon"><i class="fas fa-circle-check"></i></span>
+    <p>We've already paid out <span>$1,300+</span> in referral bonuses.</p>
+  </div>
+</div>
 
 <!-- HOW IT WORKS -->
 <section id="how" class="how-section">
@@ -830,7 +982,7 @@
         <div class="step-number">3</div>
         <div class="step-icon"><i class="fas fa-wallet"></i></div>
         <h3>You Get Paid</h3>
-        <p>After their first week as an active client, we send you $50 via your preferred payment method.</p>
+        <p>After their first week as a client, we send $50 cash straight to your Venmo, Cash App, PayPal, or Zelle — your pick.</p>
       </div>
     </div>
   </div>
@@ -903,20 +1055,20 @@
   <div class="container container-narrow">
     <div class="trust-grid reveal">
       <div class="trust-item">
-        <div class="trust-value">50+</div>
-        <div class="trust-label">Websites Launched</div>
-      </div>
-      <div class="trust-item">
-        <div class="trust-value">100%</div>
-        <div class="trust-label">Mobile Responsive</div>
-      </div>
-      <div class="trust-item">
-        <div class="trust-value">24hr</div>
-        <div class="trust-label">Average Response</div>
+        <div class="trust-value">$1,300+</div>
+        <div class="trust-label">Paid Out in Referrals</div>
       </div>
       <div class="trust-item">
         <div class="trust-value">$50</div>
-        <div class="trust-label">Per Referral</div>
+        <div class="trust-label">Per Successful Referral</div>
+      </div>
+      <div class="trust-item">
+        <div class="trust-value">7 Days</div>
+        <div class="trust-label">Avg Payout Time</div>
+      </div>
+      <div class="trust-item">
+        <div class="trust-value">No Limit</div>
+        <div class="trust-label">Referrals Per Person</div>
       </div>
     </div>
   </div>
