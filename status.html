@@ -38,7 +38,7 @@
     }
     a { text-decoration: none; color: inherit; transition: .2s; }
 
-    .container-narrow { max-width: 900px; margin: 0 auto; padding: 0 20px; }
+    .container-narrow { max-width: 860px; margin: 0 auto; padding: 0 20px; }
 
     /* NAV */
     .nav-wrap {
@@ -71,20 +71,20 @@
 
     /* HERO */
     .hero {
-      padding: 60px 0 50px;
+      padding: 52px 0 40px;
       text-align: center;
       background: linear-gradient(180deg, var(--dark-2), var(--dark));
       border-bottom: 1px solid var(--line);
     }
     .hero h1 {
-      font-size: clamp(28px, 5vw, 36px);
-      font-weight: 600;
-      margin-bottom: 12px;
+      font-size: clamp(24px, 5vw, 32px);
+      font-weight: 700;
+      margin-bottom: 8px;
     }
     .hero .subtitle {
       color: var(--muted);
-      font-size: 17px;
-      max-width: 550px;
+      font-size: 15px;
+      max-width: 480px;
       margin: 0 auto;
     }
 
@@ -93,264 +93,255 @@
       display: inline-flex;
       align-items: center;
       gap: 10px;
-      background: rgba(34, 197, 94, .1);
-      border: 1px solid rgba(34, 197, 94, .3);
-      padding: 10px 20px;
+      padding: 8px 18px;
       border-radius: 999px;
-      margin-top: 24px;
+      margin-top: 20px;
+      border: 1px solid rgba(34,197,94,.3);
+      background: rgba(34,197,94,.08);
     }
-    .status-indicator.online { background: rgba(34, 197, 94, .1); border-color: rgba(34, 197, 94, .3); }
-    .status-indicator.offline { background: rgba(239, 68, 68, .1); border-color: rgba(239, 68, 68, .3); }
-    .status-indicator.away { background: rgba(245, 158, 11, .1); border-color: rgba(245, 158, 11, .3); }
+    .status-indicator.offline { background: rgba(239,68,68,.08); border-color: rgba(239,68,68,.3); }
+    .status-indicator.away    { background: rgba(245,158,11,.08); border-color: rgba(245,158,11,.3); }
 
     .status-dot {
-      width: 10px;
-      height: 10px;
+      width: 9px; height: 9px;
       border-radius: 50%;
       background: var(--success);
       animation: pulse-dot 2s ease-in-out infinite;
     }
     .status-indicator.offline .status-dot { background: var(--danger); animation: none; }
-    .status-indicator.away .status-dot { background: var(--warning); animation: none; }
+    .status-indicator.away    .status-dot { background: var(--warning); animation: none; }
 
     @keyframes pulse-dot {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: .6; transform: scale(1.1); }
+      0%,100% { opacity:1; transform:scale(1); }
+      50%      { opacity:.6; transform:scale(1.15); }
     }
 
-    .status-text {
-      font-size: 14px;
-      font-weight: 600;
-    }
-    .status-indicator.online .status-text { color: var(--success); }
+    .status-text { font-size: 13px; font-weight: 600; color: var(--success); }
     .status-indicator.offline .status-text { color: var(--danger); }
-    .status-indicator.away .status-text { color: var(--warning); }
+    .status-indicator.away    .status-text { color: var(--warning); }
 
-    /* SECTION HEADERS */
+    /* STICKY IN-PAGE NAV */
+    .page-nav-wrap {
+      position: sticky;
+      top: 57px;
+      z-index: 998;
+      background: rgba(10,10,15,.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+      transition: box-shadow .2s;
+    }
+    .page-nav-wrap.scrolled { box-shadow: 0 4px 20px rgba(0,0,0,.4); }
+    .page-nav {
+      display: flex;
+      gap: 4px;
+      padding: 10px 0;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .page-nav::-webkit-scrollbar { display: none; }
+    .page-nav-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 7px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      color: rgba(255,255,255,.6);
+      white-space: nowrap;
+      transition: .15s;
+      border: 1px solid transparent;
+      cursor: pointer;
+    }
+    .page-nav-link:hover, .page-nav-link.active {
+      color: #fff;
+      background: rgba(255,255,255,.08);
+      border-color: var(--line);
+    }
+    .page-nav-link.active { color: var(--gold); }
+    .page-nav-link i { font-size: 12px; color: var(--gold); }
+
+    /* SECTION LAYOUT */
+    section[id] { scroll-margin-top: 110px; }
+    .page-section { padding: 48px 0; border-bottom: 1px solid var(--line); }
+    .page-section:last-of-type { border-bottom: none; }
+
     .section-header {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
       margin-bottom: 24px;
     }
-    .section-header i {
-      color: var(--brand);
-      font-size: 22px;
-    }
-    .section-header h2 {
-      font-size: 22px;
-      font-weight: 700;
-      margin: 0;
-    }
+    .section-header i { color: var(--brand); font-size: 20px; }
+    .section-header h2 { font-size: 20px; font-weight: 700; margin: 0; }
 
-    /* HOURS SECTION */
-    .hours-section {
-      padding: 50px 0;
-      border-bottom: 1px solid var(--line);
-    }
+    /* HOURS */
     .hours-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
     }
     .hours-card {
       background: var(--dark-2);
       border: 1px solid var(--line);
-      border-radius: 16px;
-      padding: 24px;
+      border-radius: 14px;
+      padding: 20px 22px;
     }
     .hours-card h3 {
-      font-size: 16px;
+      font-size: 14px;
       font-weight: 600;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
+      color: rgba(255,255,255,.85);
     }
-    .hours-card h3 i {
-      color: var(--gold);
-      font-size: 18px;
-    }
+    .hours-card h3 i { color: var(--gold); font-size: 15px; }
     .hours-row {
       display: flex;
       justify-content: space-between;
-      padding: 10px 0;
+      padding: 8px 0;
       border-bottom: 1px solid var(--line);
-      font-size: 14px;
+      font-size: 13px;
     }
     .hours-row:last-child { border-bottom: none; }
     .hours-day { color: var(--muted); }
     .hours-time { font-weight: 500; }
 
-    /* UPCOMING CLOSURE BANNER */
+    /* CLOSURE BANNER */
     .closure-banner {
-      background: linear-gradient(135deg, rgba(245, 158, 11, .15), rgba(239, 68, 68, .1));
-      border: 1px solid rgba(245, 158, 11, .3);
-      border-radius: 16px;
-      padding: 24px;
-      margin-top: 30px;
+      background: linear-gradient(135deg, rgba(245,158,11,.12), rgba(239,68,68,.08));
+      border: 1px solid rgba(245,158,11,.3);
+      border-radius: 14px;
+      padding: 20px 22px;
+      margin-top: 20px;
       display: none;
     }
     .closure-banner.visible { display: block; }
     .closure-banner h3 {
-      font-size: 16px;
+      font-size: 14px;
       font-weight: 600;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       color: var(--warning);
     }
-    .closure-banner p {
-      margin: 0;
-      color: rgba(255,255,255,.8);
-      font-size: 14px;
-      line-height: 1.6;
-    }
+    .closure-banner p { margin: 0; color: rgba(255,255,255,.75); font-size: 13px; line-height: 1.6; }
 
-    /* HOLIDAY SCHEDULES */
-    .holidays-section {
-      padding: 50px 0;
-      border-bottom: 1px solid var(--line);
+    /* HOLIDAYS */
+    .holiday-years {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
     }
-    .holiday-accordion {
+    @media (max-width: 560px) { .holiday-years { grid-template-columns: 1fr; } }
+    .holiday-card {
       background: var(--dark-2);
       border: 1px solid var(--line);
-      border-radius: 12px;
-      margin-bottom: 12px;
+      border-radius: 14px;
       overflow: hidden;
     }
-    .holiday-accordion summary {
-      list-style: none;
-      cursor: pointer;
-      padding: 18px 20px;
-      font-weight: 600;
-      font-size: 15px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      transition: background .2s;
-    }
-    .holiday-accordion summary:hover { background: var(--dark-3); }
-    .holiday-accordion summary::-webkit-details-marker { display: none; }
-    .holiday-accordion .chev {
-      font-size: 14px;
-      color: var(--muted);
-      transition: transform .2s;
-    }
-    .holiday-accordion[open] .chev { transform: rotate(180deg); }
-    .holiday-body {
-      padding: 0 20px 20px;
-      border-top: 1px solid var(--line);
-    }
-    .holiday-body ul {
-      margin: 16px 0 0;
-      padding-left: 0;
-      list-style: none;
-    }
-    .holiday-body li {
-      padding: 10px 0;
+    .holiday-card-header {
+      padding: 14px 18px;
+      font-size: 13px;
+      font-weight: 700;
+      color: rgba(255,255,255,.7);
+      text-transform: uppercase;
+      letter-spacing: .06em;
       border-bottom: 1px solid var(--line);
-      font-size: 14px;
+      background: var(--dark-3);
+    }
+    .holiday-list { list-style: none; padding: 0; margin: 0; }
+    .holiday-list li {
       display: flex;
       justify-content: space-between;
+      padding: 10px 18px;
+      border-bottom: 1px solid var(--line);
+      font-size: 13px;
     }
-    .holiday-body li:last-child { border-bottom: none; }
+    .holiday-list li:last-child { border-bottom: none; }
     .holiday-name { color: rgba(255,255,255,.7); }
     .holiday-date { font-weight: 500; }
 
-    /* UPDATES SECTION */
-    .updates-section {
-      padding: 50px 0;
+    .holiday-note {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 14px;
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
     }
-    .update-accordion {
+
+    /* UPDATES */
+    .update-item {
       background: var(--dark-2);
       border: 1px solid var(--line);
       border-radius: 12px;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
       overflow: hidden;
     }
-    .update-accordion summary {
+    .update-item summary {
       list-style: none;
       cursor: pointer;
-      padding: 18px 20px;
+      padding: 16px 18px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 12px;
-      transition: background .2s;
+      transition: background .15s;
     }
-    .update-accordion summary:hover { background: var(--dark-3); }
-    .update-accordion summary::-webkit-details-marker { display: none; }
-    .update-accordion .update-title {
-      font-size: 15px;
-      font-weight: 600;
-      flex: 1;
+    .update-item summary:hover { background: var(--dark-3); }
+    .update-item summary::-webkit-details-marker { display: none; }
+    .update-title { font-size: 14px; font-weight: 600; flex: 1; }
+    .update-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
     }
-    .update-accordion .update-date {
-      font-size: 12px;
+    .update-date {
+      font-size: 11px;
       color: var(--muted);
       background: var(--dark-3);
-      padding: 4px 10px;
+      padding: 3px 9px;
       border-radius: 20px;
       white-space: nowrap;
     }
-    .update-accordion .chev {
-      font-size: 14px;
-      color: var(--muted);
-      transition: transform .2s;
-    }
-    .update-accordion[open] .chev { transform: rotate(180deg); }
+    .update-arrow { font-size: 12px; color: var(--muted); transition: transform .2s; }
+    .update-item[open] .update-arrow { transform: rotate(180deg); }
     .update-body {
-      padding: 0 20px 20px;
+      padding: 0 18px 16px;
       border-top: 1px solid var(--line);
     }
     .update-body p {
-      margin: 16px 0 0;
+      margin: 14px 0 0;
       color: rgba(255,255,255,.7);
-      font-size: 14px;
+      font-size: 13px;
       line-height: 1.7;
     }
-    .update-body a {
-      color: var(--gold);
-      text-decoration: underline;
-    }
+    .update-body a { color: var(--gold); text-decoration: underline; }
 
-    /* HERO TABS */
-    .hero-tabs {
+    /* SHOW OLDER BUTTON */
+    .older-updates { margin-top: 6px; }
+    .btn-older {
       display: flex;
-      justify-content: center;
-      gap: 8px;
-      margin-top: 28px;
-      flex-wrap: wrap;
-    }
-    .hero-tab {
-      display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 10px 18px;
-      background: var(--dark-3);
+      background: none;
       border: 1px solid var(--line);
       border-radius: 10px;
+      color: var(--muted);
       font-size: 13px;
       font-weight: 600;
-      color: rgba(255,255,255,.8);
-      transition: .2s;
+      padding: 10px 16px;
+      cursor: pointer;
+      width: 100%;
+      justify-content: center;
+      transition: .15s;
+      font-family: 'Poppins', sans-serif;
     }
-    .hero-tab:hover {
-      background: rgba(255,255,255,.1);
-      border-color: rgba(255,255,255,.2);
-      color: #fff;
-    }
-    .hero-tab i {
-      font-size: 14px;
-      color: var(--gold);
-    }
-
-    /* Scroll offset for sticky nav */
-    section[id] {
-      scroll-margin-top: 80px;
-    }
+    .btn-older:hover { color: #fff; border-color: rgba(255,255,255,.2); background: rgba(255,255,255,.04); }
 
     /* FOOTER */
     footer {
@@ -364,98 +355,37 @@
       gap: 48px;
       max-width: 1100px;
       margin: 0 auto 48px;
-      text-align: left;
     }
-    @media (max-width: 768px) {
-      .footer-grid {
-        grid-template-columns: 1fr 1fr;
-        gap: 32px;
-      }
-    }
-    @media (max-width: 480px) {
-      .footer-grid {
-        grid-template-columns: 1fr;
-        gap: 28px;
-      }
-    }
-    .footer-brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 16px;
-    }
+    @media (max-width: 768px) { .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; } }
+    @media (max-width: 480px) { .footer-grid { grid-template-columns: 1fr; gap: 28px; } }
+    .footer-brand { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
     .footer-brand img { height: 32px; }
     .footer-brand span { font-weight: 700; font-size: 1.1rem; }
-    .footer-tagline {
-      color: #a0a6c0;
-      font-size: 0.9rem;
-      line-height: 1.6;
-      margin-bottom: 20px;
-      max-width: 280px;
-    }
-    .footer-social {
-      display: flex;
-      gap: 12px;
-    }
+    .footer-tagline { color: #a0a6c0; font-size: .9rem; line-height: 1.6; margin-bottom: 20px; max-width: 280px; }
+    .footer-social { display: flex; gap: 12px; }
     .footer-social a {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 36px;
-      height: 36px;
-      background: rgba(255, 255, 255, 0.06);
-      border-radius: 10px;
-      color: #a0a6c0;
-      font-size: 1rem;
-      transition: all 0.2s ease;
+      display: flex; align-items: center; justify-content: center;
+      width: 36px; height: 36px;
+      background: rgba(255,255,255,.06); border-radius: 10px;
+      color: #a0a6c0; font-size: 1rem; transition: .2s;
     }
-    .footer-social a:hover {
-      background: var(--gold);
-      color: #1a1a2e;
-    }
-    .footer-col h5 {
-      font-size: 0.85rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: #fff;
-      margin: 0 0 16px;
-    }
+    .footer-social a:hover { background: var(--gold); color: #1a1a2e; }
+    .footer-col h5 { font-size: .85rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: #fff; margin: 0 0 16px; }
     .footer-col ul { list-style: none; padding: 0; margin: 0; }
     .footer-col li { margin-bottom: 10px; }
-    .footer-col a {
-      color: #a0a6c0;
-      font-size: 0.9rem;
-      transition: color 0.2s ease;
-    }
+    .footer-col a { color: #a0a6c0; font-size: .9rem; transition: color .2s; }
     .footer-col a:hover { color: var(--gold); }
     .footer-bottom {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding-top: 24px;
+      max-width: 1100px; margin: 0 auto; padding-top: 24px;
       border-top: 1px solid var(--line);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 16px;
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;
     }
-    .footer-bottom p { color: #6b7280; font-size: 0.85rem; margin: 0; }
+    .footer-bottom p { color: #6b7280; font-size: .85rem; margin: 0; }
     .footer-legal { display: flex; gap: 24px; }
-    .footer-legal a {
-      color: #6b7280;
-      font-size: 0.85rem;
-      transition: color 0.2s ease;
-    }
+    .footer-legal a { color: #6b7280; font-size: .85rem; transition: color .2s; }
     .footer-legal a:hover { color: var(--gold); }
-
     @media (max-width: 600px) {
-      .hours-grid { grid-template-columns: 1fr; }
-      .update-header { flex-direction: column; }
-      .footer-bottom {
-        flex-direction: column;
-        text-align: center;
-      }
+      .footer-bottom { flex-direction: column; text-align: center; }
     }
   </style>
 </head>
@@ -490,24 +420,28 @@
 <!-- HERO -->
 <header class="hero">
   <div class="container container-narrow">
-    <h1><i class="fas fa-clock" style="margin-right:12px;color:var(--brand);"></i> Support Hours & News</h1>
-    <p class="subtitle">Support hours, holiday schedules, and service updates from WebEaze.</p>
-
+    <h1>Support Hours & Updates</h1>
+    <p class="subtitle">Hours, holiday closures, and service announcements from WebEaze.</p>
     <div class="status-indicator" id="status-indicator">
       <span class="status-dot"></span>
       <span class="status-text">Checking status...</span>
     </div>
-
-    <div class="hero-tabs">
-      <a href="#hours" class="hero-tab"><i class="fas fa-clock"></i> Support Hours</a>
-      <a href="#holidays" class="hero-tab"><i class="fas fa-calendar-alt"></i> Holiday Schedule</a>
-      <a href="#updates" class="hero-tab"><i class="fas fa-bullhorn"></i> Recent Updates</a>
-    </div>
   </div>
 </header>
 
-<!-- HOURS SECTION -->
-<section class="hours-section" id="hours">
+<!-- STICKY IN-PAGE NAV -->
+<div class="page-nav-wrap" id="page-nav-wrap">
+  <div class="container container-narrow">
+    <nav class="page-nav">
+      <a class="page-nav-link active" data-target="hours"><i class="fas fa-clock"></i> Support Hours</a>
+      <a class="page-nav-link" data-target="holidays"><i class="fas fa-calendar-alt"></i> Holiday Schedule</a>
+      <a class="page-nav-link" data-target="updates"><i class="fas fa-bullhorn"></i> Recent Updates</a>
+    </nav>
+  </div>
+</div>
+
+<!-- HOURS -->
+<section class="page-section" id="hours">
   <div class="container container-narrow">
 
     <div class="section-header">
@@ -518,25 +452,13 @@
     <div class="hours-grid">
 
       <div class="hours-card">
-        <h3><i class="fas fa-envelope"></i> Email & Chat</h3>
+        <h3><i class="fas fa-headset"></i> Email, Chat & Video</h3>
         <div class="hours-row">
-          <span class="hours-day">Mon-Fri</span>
-          <span class="hours-time">9:00am - 5:00pm ET</span>
+          <span class="hours-day">Mon – Fri</span>
+          <span class="hours-time">9:00am – 5:00pm ET</span>
         </div>
         <div class="hours-row">
-          <span class="hours-day">Sat-Sun</span>
-          <span class="hours-time">Closed</span>
-        </div>
-      </div>
-
-      <div class="hours-card">
-        <h3><i class="fas fa-video"></i> Google Meet</h3>
-        <div class="hours-row">
-          <span class="hours-day">Mon-Fri</span>
-          <span class="hours-time">9:00am - 5:00pm ET</span>
-        </div>
-        <div class="hours-row">
-          <span class="hours-day">Sat-Sun</span>
+          <span class="hours-day">Sat – Sun</span>
           <span class="hours-time">Closed</span>
         </div>
       </div>
@@ -544,98 +466,72 @@
       <div class="hours-card">
         <h3><i class="fas fa-wrench"></i> Website Updates</h3>
         <div class="hours-row">
-          <span class="hours-day">Turnaround</span>
-          <span class="hours-time">24-48 hours</span>
+          <span class="hours-day">Standard turnaround</span>
+          <span class="hours-time">24–48 hrs</span>
         </div>
         <div class="hours-row">
-          <span class="hours-day">Rush requests</span>
-          <span class="hours-time">Same day*</span>
+          <span class="hours-day">Rush / same-day</span>
+          <span class="hours-time">+ $69 fee</span>
         </div>
-        <p style="font-size:12px;color:var(--muted);margin:12px 0 0;">*Subject to $69 fee.</p>
       </div>
 
     </div>
 
-    <!-- UPCOMING CLOSURE BANNER -->
     <div class="closure-banner" id="closure-banner">
       <h3><i class="fas fa-calendar-xmark"></i> <span id="closure-title">Upcoming Closure</span></h3>
-      <p id="closure-message">Details will appear here when a closure is approaching.</p>
+      <p id="closure-message"></p>
     </div>
 
   </div>
 </section>
 
-<!-- HOLIDAY SCHEDULES -->
-<section class="holidays-section" id="holidays">
+<!-- HOLIDAYS -->
+<section class="page-section" id="holidays">
   <div class="container container-narrow">
 
     <div class="section-header">
       <i class="fas fa-calendar-alt"></i>
-      <h2>Holiday Schedules</h2>
+      <h2>Holiday Schedule</h2>
     </div>
 
-     <p style="font-size:13px;color:var(--muted);margin-top:20px;text-align:left;">
-          We're closed on major U.S. holidays. 
-    </p>
+    <div class="holiday-years">
 
-       
-
-    <details class="holiday-accordion" open>
-      <summary>
-        2026 Holiday Schedule
-        <i class="fas fa-chevron-down chev"></i>
-      </summary>
-      <div class="holiday-body">
-        <ul>
+      <div class="holiday-card">
+        <div class="holiday-card-header">2026</div>
+        <ul class="holiday-list">
           <li><span class="holiday-name">New Year's Day</span><span class="holiday-date">Jan 1</span></li>
           <li><span class="holiday-name">Memorial Day</span><span class="holiday-date">May 25</span></li>
-          <li><span class="holiday-name">Independence Day (Observed)</span><span class="holiday-date">July 3</span></li>
-          <li><span class="holiday-name">Labor Day</span><span class="holiday-date">Sept 7</span></li>
-          <li><span class="holiday-name">Thanksgiving</span><span class="holiday-date">Nov 25-29</span></li>
-          <li><span class="holiday-name">December Holidays</span><span class="holiday-date">Dec 24 - Jan 3, 2027</span></li>
+          <li><span class="holiday-name">Independence Day</span><span class="holiday-date">Jul 3</span></li>
+          <li><span class="holiday-name">Labor Day</span><span class="holiday-date">Sep 7</span></li>
+          <li><span class="holiday-name">Thanksgiving</span><span class="holiday-date">Nov 25–29</span></li>
+          <li><span class="holiday-name">December Holidays</span><span class="holiday-date">Dec 24–Jan 3</span></li>
         </ul>
       </div>
-    </details>
 
-    <details class="holiday-accordion">
-      <summary>
-        2027 Holiday Schedule
-        <i class="fas fa-chevron-down chev"></i>
-      </summary>
-      <div class="holiday-body">
-        <ul>
-          <li><span class="holiday-name">New Year's Day</span><span class="holiday-date">Jan 1-3</span></li>
+      <div class="holiday-card">
+        <div class="holiday-card-header">2027</div>
+        <ul class="holiday-list">
+          <li><span class="holiday-name">New Year's Day</span><span class="holiday-date">Jan 1–3</span></li>
           <li><span class="holiday-name">Memorial Day</span><span class="holiday-date">May 31</span></li>
-          <li><span class="holiday-name">Independence Day (Observed)</span><span class="holiday-date">July 5</span></li>
-          <li><span class="holiday-name">Labor Day</span><span class="holiday-date">Sept 6</span></li>
-          <li><span class="holiday-name">Thanksgiving</span><span class="holiday-date">Nov 25-29</span></li>
-          <li><span class="holiday-name">December Holidays</span><span class="holiday-date">Dec 24 - Jan 2, 2028</span></li>
+          <li><span class="holiday-name">Independence Day</span><span class="holiday-date">Jul 5</span></li>
+          <li><span class="holiday-name">Labor Day</span><span class="holiday-date">Sep 6</span></li>
+          <li><span class="holiday-name">Thanksgiving</span><span class="holiday-date">Nov 25–29</span></li>
+          <li><span class="holiday-name">December Holidays</span><span class="holiday-date">Dec 24–Jan 2</span></li>
         </ul>
       </div>
-    </details>
 
-    <details class="holiday-accordion">
-      <summary>
-        2028 Holiday Schedule
-        <i class="fas fa-chevron-down chev"></i>
-      </summary>
-      <div class="holiday-body">
-        <p style="color:var(--muted);font-size:14px;margin-top:16px;">
-          We're finalizing our 2028 holiday schedule and will update this section soon.
-        </p>
-      </div>
-    </details>
+    </div>
 
-    <p style="font-size:13px;color:var(--muted);margin-top:20px;text-align:center;">
-      <i class="fas fa-info-circle" style="margin-right:6px;"></i>
-      Requests can still be submitted during closures and will be handled when we reopen.
+    <p class="holiday-note">
+      <i class="fas fa-info-circle" style="color:var(--brand);margin-top:2px;flex-shrink:0;"></i>
+      Requests submitted during closures are handled when we reopen. 
     </p>
 
   </div>
 </section>
 
-<!-- UPDATES SECTION -->
-<section class="updates-section" id="updates">
+<!-- UPDATES -->
+<section class="page-section" id="updates">
   <div class="container container-narrow">
 
     <div class="section-header">
@@ -643,142 +539,181 @@
       <h2>Recent Updates</h2>
     </div>
 
-    <details class="update-accordion" open>
+    <!-- Recent (always visible) -->
+    <details class="update-item" open>
+      <summary>
+        <span class="update-title">Elite Plan Discontinued</span>
+        <span class="update-meta">
+          <span class="update-date">Mar 1, 2026</span>
+          <i class="fas fa-chevron-down update-arrow"></i>
+        </span>
+      </summary>
+      <div class="update-body">
+        <p>
+          We've simplified our offerings to two plans — <strong>Essential ($169/mo)</strong> and <strong>Growth ($249/mo)</strong>. The Elite Plan has been discontinued. Existing Elite clients will continue receiving service without interruption. <a href="help.html#/elite-plan-discontinued">Read the full announcement</a>.
+        </p>
+      </div>
+    </details>
+
+    <details class="update-item" open>
       <summary>
         <span class="update-title">Introducing One-Time Web Projects</span>
-        <span class="update-date">Feb 18, 2026</span>
-        <i class="fas fa-chevron-down chev"></i>
+        <span class="update-meta">
+          <span class="update-date">Feb 18, 2026</span>
+          <i class="fas fa-chevron-down update-arrow"></i>
+        </span>
       </summary>
       <div class="update-body">
         <p>
-          We now offer <strong>One-Time Web Projects</strong>, no monthly plan required. Whether you need a brand-new website or updates to an existing one, choose the tier that fits: Basic ($149) for small changes, Standard ($299) for multi-page updates, or Full Build ($449) for new pages or a complete new site. <a href="help.html#/one-time-web-project">Learn more</a>.
+          We now offer <strong>One-Time Web Projects</strong> — no monthly plan required. Choose from Basic ($149), Standard ($299), or Full Build ($449). <a href="help.html#/one-time-web-project">Learn more</a>.
         </p>
       </div>
     </details>
 
-    <details class="update-accordion">
+    <details class="update-item">
       <summary>
-        <span class="update-title">Introducing AI Chatbot & Ad Management Add-Ons</span>
-        <span class="update-date">Feb 18, 2026</span>
-        <i class="fas fa-chevron-down chev"></i>
+        <span class="update-title">AI Chatbot & Ad Management Add-Ons</span>
+        <span class="update-meta">
+          <span class="update-date">Feb 18, 2026</span>
+          <i class="fas fa-chevron-down update-arrow"></i>
+        </span>
       </summary>
       <div class="update-body">
         <p>
-          We've launched two new add-on services for active WebEaze clients. <strong>AI Chatbot</strong> is a custom assistant trained on your business that answers visitor questions 24/7, captures leads, and matches your website's design. It works with most platforms. <a href="ai.html">Learn more</a>. 
-          
-          <br>
-          <strong>Ad Management</strong> is an add-on where we create, manage, and optimize Google and Facebook/Instagram ads for your business, including strategy, creative, and bi-monthly performance checks. Ad budget is separate. <a href="ads.html">Learn more</a>.
-          
-          <br>
-          <br>
-          Both are available to plan subscribers and one-time build clients. Submit a <a href="website-request.html">Website Request</a> to get started.
+          Two new add-ons are now available. <strong>AI Chatbot</strong> — a custom assistant trained on your business, available 24/7. <a href="ai.html">Learn more</a>. <strong>Ad Management</strong> — we create and manage Google and Facebook/Instagram ads for you. <a href="ads.html">Learn more</a>.
         </p>
       </div>
     </details>
 
-    <details class="update-accordion">
+    <details class="update-item">
       <summary>
         <span class="update-title">Changes to Email Communications</span>
-        <span class="update-date">Feb 4, 2026</span>
-        <i class="fas fa-chevron-down chev"></i>
+        <span class="update-meta">
+          <span class="update-date">Feb 4, 2026</span>
+          <i class="fas fa-chevron-down update-arrow"></i>
+        </span>
       </summary>
       <div class="update-body">
         <p>
-          Starting in March, we will no longer send out monthly email newsletters. Instead, important updates and announcements will be emailed and posted on our <a href="status.html">Status Page</a> as they occur. This change is part of our commitment to reducing email clutter and ensuring you only receive the most relevant information.
+          We've stopped sending monthly newsletters. Important updates are now posted here and emailed as they happen — reducing inbox clutter and keeping things relevant.
         </p>
       </div>
     </details>
 
-
-    <details class="update-accordion">
+    <details class="update-item">
       <summary>
-        <span class="update-title">Changes to Domain and Hosting Coverage</span>
-        <span class="update-date">Jan 3, 2026</span>
-        <i class="fas fa-chevron-down chev"></i>
+        <span class="update-title">Updated Domain & Hosting Coverage Policy</span>
+        <span class="update-meta">
+          <span class="update-date">Jan 3, 2026</span>
+          <i class="fas fa-chevron-down update-arrow"></i>
+        </span>
       </summary>
       <div class="update-body">
         <p>
-          To ensure we provide an all-in-one service, we've updated our domain and hosting coverage policy. Effective January 3, 2026, all new and renewing clients will have their domain costs covered directly through WebEaze as part of their plan. Hosting coverage will also be included if we're building and hosting the website via GitHub Pages. This change doesn't impact existing clients with active domain or hosting credits. Read full details in our <a href="help.html#/domain-and-hosting-credit">Help Center</a>.
+          All new and renewing clients have domain and GitHub Pages hosting covered as part of their plan. This doesn't affect existing clients with active credits. <a href="help.html#/domain-and-hosting-credit">Full details in the Help Center</a>.
         </p>
       </div>
     </details>
 
-    <details class="update-accordion">
-      <summary>
-        <span class="update-title">Introducing Total Access Support</span>
-        <span class="update-date">Jan 3, 2026</span>
-        <i class="fas fa-chevron-down chev"></i>
-      </summary>
-      <div class="update-body">
-        <p>
-          To enhance your support experience, we've introduced <strong>Total Access Support</strong> for Growth and Elite plan clients. This bundled feature includes options for Google Meet sessions, Live Chat, and Phone support, ensuring you can reach us in the way that suits you best.
-        </p>
-      </div>
-    </details>
+    <!-- Older updates (hidden by default) -->
+    <div class="older-updates" id="older-updates" style="display:none;">
 
-    <details class="update-accordion">
-      <summary>
-        <span class="update-title">Switching to Google Meet for Live Support</span>
-        <span class="update-date">Nov 25, 2025</span>
-        <i class="fas fa-chevron-down chev"></i>
-      </summary>
-      <div class="update-body">
-        <p>
-          To make your client experience even easier and more reliable, we're transitioning from Zoom to Google Meet for all live support sessions beginning December 1, 2025. Moving forward, our Zoom Live Support benefit will be renamed <strong>Google Meet</strong> for naming consistency.
-        </p>
-      </div>
-    </details>
+      <details class="update-item">
+        <summary>
+          <span class="update-title">Introducing Total Access Support</span>
+          <span class="update-meta">
+            <span class="update-date">Jan 3, 2026</span>
+            <i class="fas fa-chevron-down update-arrow"></i>
+          </span>
+        </summary>
+        <div class="update-body">
+          <p>
+            Growth plan clients now have <strong>Total Access Support</strong> — Google Meet, Live Chat, and Phone support bundled together so you can reach us however works best for you.
+          </p>
+        </div>
+      </details>
 
-    <details class="update-accordion">
-      <summary>
-        <span class="update-title">Current Events and Service Impacts</span>
-        <span class="update-date">Nov 7, 2025</span>
-        <i class="fas fa-chevron-down chev"></i>
-      </summary>
-      <div class="update-body">
-        <p>
-          We're aware of ongoing events occurring in the United States related to the government shutdown and their impact on small businesses. If you're at risk of missing a payment or need to pause your service, please contact us as soon as possible to discuss options. We are here to help.
-        </p>
-      </div>
-    </details>
+      <details class="update-item">
+        <summary>
+          <span class="update-title">Switching to Google Meet for Live Support</span>
+          <span class="update-meta">
+            <span class="update-date">Nov 25, 2025</span>
+            <i class="fas fa-chevron-down update-arrow"></i>
+          </span>
+        </summary>
+        <div class="update-body">
+          <p>
+            We've moved from Zoom to Google Meet for all live support sessions starting December 1, 2025.
+          </p>
+        </div>
+      </details>
 
-    <details class="update-accordion">
-      <summary>
-        <span class="update-title">Plan Upgrade Savings for WSP clients</span>
-        <span class="update-date">Oct 27, 2025</span>
-        <i class="fas fa-chevron-down chev"></i>
-      </summary>
-      <div class="update-body">
-        <p>
-          Legacy clients can upgrade to our Essential or Growth plans before November 30 to secure reduced pricing. You will receive an email if you're eligible for this special offer.
-        </p>
-      </div>
-    </details>
+      <details class="update-item">
+        <summary>
+          <span class="update-title">Support for Clients Affected by Government Shutdown</span>
+          <span class="update-meta">
+            <span class="update-date">Nov 7, 2025</span>
+            <i class="fas fa-chevron-down update-arrow"></i>
+          </span>
+        </summary>
+        <div class="update-body">
+          <p>
+            If you're at risk of missing a payment or need to pause your service due to economic impact, contact us as soon as possible and we'll work something out.
+          </p>
+        </div>
+      </details>
 
-    <details class="update-accordion">
-      <summary>
-        <span class="update-title">Introducing Google Business Profile Integration </span>
-        <span class="update-date">Oct 15, 2025</span>
-        <i class="fas fa-chevron-down chev"></i>
-      </summary>
-      <div class="update-body">
-        <p>
-          We've added Google Business Profile integration to our Growth and Elite plans. Now we can help manage your business listing on Google through a simple website request.
-        </p>
-      </div>
-    </details>
+      <details class="update-item">
+        <summary>
+          <span class="update-title">Plan Upgrade Savings for Legacy WSP Clients</span>
+          <span class="update-meta">
+            <span class="update-date">Oct 27, 2025</span>
+            <i class="fas fa-chevron-down update-arrow"></i>
+          </span>
+        </summary>
+        <div class="update-body">
+          <p>
+            Legacy clients were able to upgrade to Essential or Growth at reduced pricing before November 30. Eligible clients were contacted by email.
+          </p>
+        </div>
+      </details>
 
-    <details class="update-accordion">
-      <summary>
-        <span class="update-title">Welcome to Status Page</span>
-        <span class="update-date">Sep 10, 2025</span>
-        <i class="fas fa-chevron-down chev"></i>
-      </summary>
-      <div class="update-body">
-        <p>
-          This is our new Status Page. Here, you'll find up-to-date information on our support hours, holiday schedules, and any recent service updates. Bookmark this page to stay informed about WebEaze services. These updates will also be emailed to clients as they occur.
-        </p>
-      </div>
+      <details class="update-item">
+        <summary>
+          <span class="update-title">Google Business Profile Integration Added</span>
+          <span class="update-meta">
+            <span class="update-date">Oct 15, 2025</span>
+            <i class="fas fa-chevron-down update-arrow"></i>
+          </span>
+        </summary>
+        <div class="update-body">
+          <p>
+            Growth plan clients can now request Google Business Profile management through the standard Website Request form.
+          </p>
+        </div>
+      </details>
+
+      <details class="update-item">
+        <summary>
+          <span class="update-title">Welcome to the Status Page</span>
+          <span class="update-meta">
+            <span class="update-date">Sep 10, 2025</span>
+            <i class="fas fa-chevron-down update-arrow"></i>
+          </span>
+        </summary>
+        <div class="update-body">
+          <p>
+            This page launched as the central place for support hours, holiday schedules, and announcements. Bookmark it to stay up to date.
+          </p>
+        </div>
+      </details>
+
+    </div>
+
+    <button class="btn-older" id="btn-older" onclick="toggleOlder()">
+      <i class="fas fa-chevron-down" id="older-icon"></i>
+      <span id="older-label">Show older updates</span>
+    </button>
 
   </div>
 </section>
@@ -847,106 +782,113 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <script>
-  // Eastern Time conversion
-  function getEasternTime() {
+  // Eastern Time
+  function getET() {
     return new Date(new Date().toLocaleString('en-US', { timeZone: 'America/New_York' }));
   }
 
-  // Holiday closures for checking upcoming closures
   function getClosures() {
     return [
-      { name: 'Memorial Day', start: '2026-05-25', end: '2026-05-25' },
-      { name: 'Independence Day', start: '2026-07-03', end: '2026-07-03' },
-      { name: 'Labor Day', start: '2026-09-07', end: '2026-09-07' },
-      { name: 'Thanksgiving', start: '2026-11-25', end: '2026-11-29' },
-      { name: 'December Holidays', start: '2026-12-24', end: '2027-01-03' }
+      { name: 'Memorial Day',        start: '2026-05-25', end: '2026-05-25' },
+      { name: 'Independence Day',    start: '2026-07-03', end: '2026-07-03' },
+      { name: 'Labor Day',           start: '2026-09-07', end: '2026-09-07' },
+      { name: 'Thanksgiving',        start: '2026-11-25', end: '2026-11-29' },
+      { name: 'December Holidays',   start: '2026-12-24', end: '2027-01-03' }
     ].map(c => ({
       name: c.name,
       start: new Date(c.start + 'T00:00:00'),
-      end: new Date(c.end + 'T23:59:59')
+      end:   new Date(c.end   + 'T23:59:59')
     }));
-  }
-
-  function isCurrentlyClosed(date) {
-    return getClosures().some(c => date >= c.start && date <= c.end);
-  }
-
-  function getUpcomingClosure(date) {
-    const sevenDaysFromNow = new Date(date);
-    sevenDaysFromNow.setDate(sevenDaysFromNow.getDate() + 7);
-
-    return getClosures().find(c => c.start > date && c.start <= sevenDaysFromNow);
   }
 
   function updateStatus() {
     const indicator = document.getElementById('status-indicator');
-    const now = getEasternTime();
-    const day = now.getDay();
-    const hour = now.getHours();
-    const closedForHoliday = isCurrentlyClosed(now);
+    const now = getET();
+    const day = now.getDay(), hour = now.getHours();
+    const closures = getClosures();
+    const onHoliday = closures.some(c => now >= c.start && now <= c.end);
 
-    let statusClass = 'online';
-    let statusText = '';
-
-    if (closedForHoliday) {
-      statusClass = 'offline';
-      statusText = 'Closed for holiday';
+    let cls = 'online', txt = 'Online now';
+    if (onHoliday) {
+      cls = 'offline'; txt = 'Closed for holiday';
     } else if (day === 0 || day === 6) {
-      statusClass = 'away';
-      statusText = 'Away for weekend';
-    } else if (hour >= 9 && hour < 17) {
-      statusClass = 'online';
-      statusText = 'Online now';
-    } else {
-      statusClass = 'away';
-      statusText = 'Outside working hours';
+      cls = 'away'; txt = 'Away for weekend';
+    } else if (hour < 9 || hour >= 17) {
+      cls = 'away'; txt = 'Outside working hours';
     }
 
-    indicator.className = 'status-indicator ' + statusClass;
-    indicator.querySelector('.status-text').textContent = statusText;
+    indicator.className = 'status-indicator ' + cls;
+    indicator.querySelector('.status-text').textContent = txt;
   }
 
   function updateClosureBanner() {
-    const banner = document.getElementById('closure-banner');
-    const title = document.getElementById('closure-title');
+    const banner  = document.getElementById('closure-banner');
+    const title   = document.getElementById('closure-title');
     const message = document.getElementById('closure-message');
-    const now = getEasternTime();
+    const now     = getET();
+    const closures = getClosures();
+    const soon    = new Date(now); soon.setDate(soon.getDate() + 7);
 
-    const upcoming = getUpcomingClosure(now);
-    const currentClosure = getClosures().find(c => now >= c.start && now <= c.end);
+    const current  = closures.find(c => now >= c.start && now <= c.end);
+    const upcoming = closures.find(c => c.start > now && c.start <= soon);
 
-    if (currentClosure) {
+    if (current) {
+      const ret = new Date(current.end); ret.setDate(ret.getDate() + 1);
+      title.textContent   = 'Currently Closed — ' + current.name;
+      message.textContent = 'We\'re closed for ' + current.name + '. We\'ll be back ' + ret.toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric' }) + '. Requests will be handled when we reopen.';
       banner.classList.add('visible');
-      title.textContent = 'Currently Closed: ' + currentClosure.name;
-      const returnDate = new Date(currentClosure.end);
-      returnDate.setDate(returnDate.getDate() + 1);
-      message.textContent = 'We are currently closed for ' + currentClosure.name + '. We will return on ' + returnDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' }) + '. Requests submitted during this time will be handled when we reopen.';
     } else if (upcoming) {
+      const s = upcoming.start.toLocaleDateString('en-US', { month:'long', day:'numeric' });
+      const e = upcoming.end.toLocaleDateString('en-US',   { month:'long', day:'numeric' });
+      title.textContent   = 'Upcoming Closure — ' + upcoming.name;
+      message.textContent = 'We\'ll be closed ' + s + '–' + e + ' for ' + upcoming.name + '. Submit any urgent requests before then.';
       banner.classList.add('visible');
-      title.textContent = 'Upcoming Closure: ' + upcoming.name;
-      const startDate = upcoming.start.toLocaleDateString('en-US', { month: 'long', day: 'numeric' });
-      const endDate = upcoming.end.toLocaleDateString('en-US', { month: 'long', day: 'numeric' });
-      message.textContent = 'We will be closed ' + startDate + ' through ' + endDate + ' for ' + upcoming.name + '. Please plan accordingly and submit any urgent requests before the closure.';
-    } else {
-      banner.classList.remove('visible');
     }
   }
 
-  // Initialize
+  // Sticky in-page nav highlighting
+  function initPageNav() {
+    const navWrap = document.getElementById('page-nav-wrap');
+    const links = document.querySelectorAll('.page-nav-link');
+    const sections = ['hours', 'holidays', 'updates'].map(id => document.getElementById(id));
+
+    // Click scrolling
+    links.forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        const target = document.getElementById(link.dataset.target);
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+
+    // Active highlight on scroll
+    window.addEventListener('scroll', () => {
+      const scrollY = window.scrollY + 130;
+      navWrap.classList.toggle('scrolled', window.scrollY > 80);
+
+      let current = sections[0];
+      sections.forEach(s => { if (s && s.offsetTop <= scrollY) current = s; });
+      links.forEach(link => {
+        link.classList.toggle('active', link.dataset.target === current.id);
+      });
+    }, { passive: true });
+  }
+
+  // Show/hide older updates
+  function toggleOlder() {
+    const box   = document.getElementById('older-updates');
+    const icon  = document.getElementById('older-icon');
+    const label = document.getElementById('older-label');
+    const open  = box.style.display === 'none';
+    box.style.display  = open ? 'block' : 'none';
+    label.textContent  = open ? 'Hide older updates' : 'Show older updates';
+    icon.className     = open ? 'fas fa-chevron-up' : 'fas fa-chevron-down';
+  }
+
   updateStatus();
   updateClosureBanner();
+  initPageNav();
   setInterval(updateStatus, 60000);
-
-  // Smooth scroll for hero tabs
-  document.querySelectorAll('.hero-tab').forEach(tab => {
-    tab.addEventListener('click', function(e) {
-      e.preventDefault();
-      const target = document.querySelector(this.getAttribute('href'));
-      if (target) {
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    });
-  });
 </script>
 
 </body>

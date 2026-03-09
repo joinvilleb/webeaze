@@ -675,64 +675,6 @@
     }
 
     /* === MODAL === */
-    .modal-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,.7);
-      backdrop-filter: blur(6px);
-      align-items: center;
-      justify-content: center;
-      z-index: 9999;
-    }
-
-    .modal-overlay.active {
-      display: flex;
-    }
-
-    .modal-box {
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: 20px;
-      padding: 28px;
-      max-width: 400px;
-      width: 90%;
-      text-align: center;
-    }
-
-    .modal-box h4 {
-      font-size: 20px;
-      font-weight: 700;
-      margin: 0 0 12px;
-    }
-
-    .modal-box p {
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.6;
-      margin: 0 0 20px;
-    }
-
-    .modal-box a {
-      color: var(--gold);
-      text-decoration: underline;
-    }
-
-    .modal-close {
-      background: var(--brand);
-      color: #fff;
-      border: none;
-      border-radius: 10px;
-      padding: 12px 28px;
-      font-weight: 600;
-      font-size: 14px;
-      cursor: pointer;
-      transition: .2s;
-    }
-
-    .modal-close:hover {
-      background: #6a47a0;
-    }
 
     /* Highlight animation */
     .highlight-flash {
@@ -877,7 +819,7 @@
 
       <p class="form-note">
         <i class="fas fa-info-circle" style="color:var(--brand);"></i>
-        Requests submitted outside <a id="hours-link" style="text-decoration: underline;">working hours</a> will be handled when we reopen.
+        Requests submitted outside <a href="status.html" style="text-decoration: underline;">working hours</a> will be handled when we reopen.
       </p>
     </div>
 
@@ -1005,17 +947,6 @@
 
 </main>
 
-<!-- HOURS MODAL -->
-<div class="modal-overlay" id="hours-modal">
-  <div class="modal-box">
-    <h4>Support Hours</h4>
-    <p>
-      Monday - Friday, 9:00am - 5:00pm ET<br>
-      Check our <a href="status.html">Live Availability</a> for any closures.
-    </p>
-    <button class="modal-close" id="close-modal">Got it</button>
-  </div>
-</div>
 
 <!-- FOOTER -->
 <footer>
@@ -1083,11 +1014,6 @@
   // Year
   document.getElementById('yr').textContent = new Date().getFullYear();
 
-  // Modal
-  const modal = document.getElementById('hours-modal');
-  document.getElementById('hours-link').addEventListener('click', () => modal.classList.add('active'));
-  document.getElementById('close-modal').addEventListener('click', () => modal.classList.remove('active'));
-  modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('active'); });
 
   // Smooth scroll
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
