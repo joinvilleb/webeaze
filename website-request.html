@@ -3,352 +3,189 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Client Hub | WebEaze</title>
-  <meta name="description" content="Submit website updates, manage billing, schedule a call, or get live support — your one-stop WebEaze client hub." />
+  <title>Website Request | WebEaze</title>
+  <meta name="description" content="Submit a website request, manage billing, or reach our team — your WebEaze client hub." />
   <link rel="canonical" href="https://www.webeaze.io/website-request.html" />
   <link rel="shortcut icon" href="images/webeaze-transparent copy.png" type="image/png" />
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
-  <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="WebEaze" />
-  <meta property="og:title" content="Client Hub | WebEaze" />
-  <meta property="og:description" content="Submit website updates, manage billing, schedule a call, or get live support." />
-  <meta property="og:url" content="https://www.webeaze.io/website-request.html" />
-  <meta property="og:image" content="https://webeaze.io/images/default-monochrome.png" />
-
   <style>
     :root {
       --brand: #7851a9;
-      --brand-light: rgba(120,81,169,.15);
       --gold: #ffd700;
       --dark: #0a0a0f;
       --dark-2: #111118;
       --dark-3: #18181f;
       --line: rgba(255,255,255,.09);
-      --muted: rgba(255,255,255,.5);
+      --soft: rgba(255,255,255,.75);
       --success: #22c55e;
       --warning: #f59e0b;
       --danger: #ef4444;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    html { scroll-behavior: smooth; scroll-padding-top: 80px; }
-
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: var(--dark);
-      color: #fff;
-      line-height: 1.6;
-      min-height: 100vh;
-    }
-
+    html { scroll-behavior: smooth; scroll-padding-top: 70px; }
+    body { font-family: 'Poppins', sans-serif; background: var(--dark); color: #fff; min-height: 100vh; }
     a { text-decoration: none; color: inherit; }
-
-    .wrap { max-width: 860px; margin: 0 auto; padding: 0 20px; }
+    .wrap { max-width: 720px; margin: 0 auto; padding: 0 20px; }
 
     /* NAV */
     .nav-wrap {
       position: sticky; top: 0; z-index: 9999;
-      background: rgba(10,10,15,.92);
+      background: rgba(10,10,15,.95);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--line);
     }
-    .navbar { padding: .6rem 0; }
-    .navbar-dark .nav-link { color: #fff !important; opacity: .85; padding: .45rem .7rem; border-radius: 8px; font-size: 14px; }
+    .navbar { padding: .55rem 0; }
+    .navbar-dark .nav-link { color: #fff !important; opacity: .8; padding: .4rem .65rem; border-radius: 8px; font-size: 13px; }
     .navbar-dark .nav-link:hover { opacity: 1; background: rgba(255,255,255,.08); }
-    .btn-nav { background: var(--gold); color: #1a1a1a; border: none; border-radius: 10px; padding: .5rem .9rem; font-weight: 700; font-size: 14px; }
-    .logo { height: 36px; }
+    .btn-nav { background: var(--gold); color: #1a1a1a; border: none; border-radius: 9px; padding: .45rem .85rem; font-weight: 700; font-size: 13px; }
+    .logo { height: 34px; }
 
-    /* NOTICE BANNER */
-    .notice-banner {
-      background: linear-gradient(90deg, rgba(59,130,246,.18), rgba(147,197,253,.1));
-      border-bottom: 1px solid rgba(59,130,246,.25);
-      padding: 10px 20px;
+    /* NOTICE */
+    .notice {
+      background: rgba(59,130,246,.12);
+      border-bottom: 1px solid rgba(59,130,246,.2);
+      padding: 9px 20px;
       text-align: center;
-      font-size: 13px;
-      color: rgba(255,255,255,.85);
-    }
-    .notice-banner i { color: #60a5fa; margin-right: 6px; }
-    .notice-banner a { color: #93c5fd; font-weight: 600; text-decoration: underline; }
-
-    /* HERO */
-    .hero {
-      padding: 52px 0 44px;
-      text-align: center;
-      border-bottom: 1px solid var(--line);
-      background: linear-gradient(180deg, var(--dark-2) 0%, var(--dark) 100%);
-    }
-    .hero-eyebrow {
       font-size: 12px;
-      font-weight: 700;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 10px;
+      color: rgba(255,255,255,.9);
     }
-    .hero h1 {
-      font-size: clamp(26px, 5vw, 38px);
-      font-weight: 700;
-      margin-bottom: 6px;
-      line-height: 1.15;
-    }
-    .hero-sub {
-      font-size: 15px;
-      color: var(--muted);
-      margin-bottom: 22px;
-    }
+    .notice i { color: #60a5fa; margin-right: 5px; }
+    .notice a { color: #93c5fd; font-weight: 600; text-decoration: underline; }
 
-    /* STATUS CHIP */
-    .status-chip {
+    /* HEADER */
+    .page-header {
+      padding: 36px 0 28px;
+      border-bottom: 1px solid var(--line);
+    }
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+    .header-title { font-size: 22px; font-weight: 700; }
+    .header-sub { font-size: 13px; color: var(--soft); margin-top: 3px; }
+
+    /* STATUS BADGE */
+    .status-badge {
       display: inline-flex;
       align-items: center;
-      gap: 9px;
-      padding: 8px 16px;
+      gap: 8px;
+      padding: 7px 14px;
       border-radius: 999px;
       background: var(--dark-3);
       border: 1px solid var(--line);
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: .2s;
-    }
-    .status-chip:hover { border-color: rgba(255,255,255,.18); }
-    .status-dot {
-      width: 8px; height: 8px;
-      border-radius: 50%;
-      background: var(--success);
-      animation: pulse 2s ease-in-out infinite;
-    }
-    .status-chip.away .status-dot,
-    .status-chip.holiday .status-dot { background: var(--warning); animation: none; }
-    .status-chip.closed .status-dot { background: var(--danger); animation: none; }
-    @keyframes pulse {
-      0%,100% { opacity:1; transform:scale(1); }
-      50% { opacity:.5; transform:scale(1.2); }
-    }
-
-    /* ACTION TILES */
-    .actions-section { padding: 44px 0 0; }
-    .actions-label {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 16px;
-    }
-    .actions-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 14px;
-    }
-    @media (max-width: 720px) { .actions-grid { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 400px) { .actions-grid { grid-template-columns: 1fr; } }
-
-    .action-tile {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 12px;
-      padding: 20px 18px;
-      background: var(--dark-2);
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      transition: .2s;
-      position: relative;
-      overflow: hidden;
-    }
-    .action-tile::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, rgba(120,81,169,.06), transparent);
-      opacity: 0;
-      transition: .2s;
-    }
-    .action-tile:hover {
-      border-color: rgba(255,215,0,.25);
-      transform: translateY(-3px);
-      box-shadow: 0 10px 28px rgba(0,0,0,.25);
-    }
-    .action-tile:hover::after { opacity: 1; }
-
-    .action-tile.primary-tile {
-      border-color: rgba(120,81,169,.4);
-      background: linear-gradient(135deg, rgba(120,81,169,.12), var(--dark-2));
-    }
-    .action-tile.primary-tile:hover { border-color: rgba(120,81,169,.7); }
-
-    .tile-icon {
-      width: 42px; height: 42px;
-      border-radius: 12px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 18px;
-      background: rgba(255,215,0,.1);
-      color: var(--gold);
-      flex-shrink: 0;
-    }
-    .action-tile.primary-tile .tile-icon {
-      background: rgba(120,81,169,.2);
-      color: #c4a7e7;
-    }
-
-    .tile-text { position: relative; z-index: 1; }
-    .tile-title { font-size: 14px; font-weight: 700; margin-bottom: 3px; }
-    .tile-desc { font-size: 12px; color: var(--muted); line-height: 1.4; }
-
-    .tile-badge {
-      position: absolute;
-      top: 10px; right: 10px;
-      font-size: 9px;
-      font-weight: 700;
-      letter-spacing: .06em;
-      text-transform: uppercase;
-      padding: 3px 7px;
-      border-radius: 5px;
-      background: rgba(120,81,169,.25);
-      border: 1px solid rgba(120,81,169,.35);
-      color: #c4a7e7;
-    }
-
-    /* DIVIDER */
-    .divider {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 40px 0 28px;
-      color: var(--muted);
       font-size: 12px;
       font-weight: 600;
-      letter-spacing: .08em;
-      text-transform: uppercase;
+      white-space: nowrap;
+      transition: .2s;
     }
-    .divider::before, .divider::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: var(--line);
-    }
+    .status-badge:hover { border-color: rgba(255,255,255,.18); }
+    .status-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--success); animation: blink 2s ease-in-out infinite; }
+    .status-badge.away .status-dot,
+    .status-badge.holiday .status-dot { background: var(--warning); animation: none; }
+    .status-badge.closed .status-dot { background: var(--danger); animation: none; }
+    @keyframes blink { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(1.2)} }
 
-    /* FORM CARD */
-    .form-card {
-      background: var(--dark-2);
-      border: 1px solid var(--line);
-      border-radius: 20px;
-      padding: 32px;
-      margin-bottom: 16px;
-    }
-    .form-card-header {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      margin-bottom: 24px;
-      padding-bottom: 20px;
-      border-bottom: 1px solid var(--line);
-    }
-    .form-card-icon {
-      width: 46px; height: 46px;
-      border-radius: 12px;
-      background: linear-gradient(135deg, rgba(120,81,169,.2), rgba(255,215,0,.08));
-      border: 1px solid rgba(255,255,255,.08);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 20px;
-      color: var(--gold);
-      flex-shrink: 0;
-    }
-    .form-card-title { font-size: 18px; font-weight: 700; margin-bottom: 2px; }
-    .form-card-sub { font-size: 13px; color: var(--muted); }
-
+    /* FORM */
+    .form-section { padding: 28px 0; }
     .form-note {
-      margin-top: 14px;
+      margin-top: 10px;
       font-size: 12px;
-      color: var(--muted);
-      display: flex;
-      align-items: center;
-      gap: 6px;
+      color: var(--soft);
     }
     .form-note a { color: var(--gold); text-decoration: underline; }
 
-    /* RESOURCES STRIP */
-    .resources-section { padding: 40px 0 60px; }
-    .resources-label {
+    /* SHORTCUTS */
+    .shortcuts {
+      border-top: 1px solid var(--line);
+      padding: 28px 0 52px;
+    }
+    .shortcuts-label {
       font-size: 11px;
       font-weight: 700;
       letter-spacing: .1em;
       text-transform: uppercase;
-      color: var(--muted);
+      color: var(--soft);
       margin-bottom: 14px;
     }
-    .resources-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-    }
-    @media (max-width: 560px) { .resources-grid { grid-template-columns: 1fr; } }
-
-    .resource-link {
+    .shortcut-row {
       display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .sc-btn {
+      display: inline-flex;
       align-items: center;
-      gap: 12px;
-      padding: 16px 18px;
+      gap: 8px;
+      padding: 10px 16px;
+      border-radius: 10px;
       background: var(--dark-2);
       border: 1px solid var(--line);
-      border-radius: 14px;
       font-size: 13px;
       font-weight: 600;
-      color: rgba(255,255,255,.8);
-      transition: .2s;
-    }
-    .resource-link i { color: var(--gold); font-size: 14px; width: 16px; text-align: center; }
-    .resource-link:hover {
-      border-color: rgba(255,215,0,.2);
       color: #fff;
-      transform: translateX(3px);
+      transition: .15s;
+      white-space: nowrap;
     }
-    .resource-link .arrow { margin-left: auto; font-size: 11px; color: var(--muted); }
+    .sc-btn i { font-size: 13px; color: var(--gold); opacity: .85; }
+    .sc-btn:hover { border-color: rgba(255,215,0,.3); background: var(--dark-3); }
+    .sc-btn:hover i { opacity: 1; }
+    .badge-growth {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: .05em;
+      padding: 2px 5px;
+      border-radius: 4px;
+      background: rgba(120,81,169,.25);
+      border: 1px solid rgba(120,81,169,.4);
+      color: #c4a7e7;
+      text-transform: uppercase;
+    }
 
     /* FOOTER */
-    footer { background: #000; padding: 60px 20px 40px; border-top: 1px solid var(--line); }
+    footer { background: #000; padding: 50px 20px 36px; border-top: 1px solid var(--line); }
     .footer-grid {
       display: grid;
       grid-template-columns: 2fr 1fr 1fr 1fr;
-      gap: 48px;
+      gap: 40px;
       max-width: 1100px;
-      margin: 0 auto 48px;
+      margin: 0 auto 40px;
     }
-    @media (max-width: 768px) { .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; } }
-    @media (max-width: 480px) { .footer-grid { grid-template-columns: 1fr; gap: 28px; } }
-    .footer-brand { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
-    .footer-brand img { height: 32px; }
-    .footer-brand span { font-weight: 700; font-size: 1.1rem; }
-    .footer-tagline { color: #a0a6c0; font-size: .9rem; line-height: 1.6; margin-bottom: 20px; max-width: 280px; }
-    .footer-social { display: flex; gap: 12px; }
+    @media (max-width: 768px) { .footer-grid { grid-template-columns: 1fr 1fr; gap: 28px; } }
+    @media (max-width: 480px) { .footer-grid { grid-template-columns: 1fr; gap: 24px; } }
+    .footer-brand { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+    .footer-brand img { height: 30px; }
+    .footer-brand span { font-weight: 700; font-size: 1rem; }
+    .footer-tagline { color: #a0a6c0; font-size: .85rem; line-height: 1.6; margin-bottom: 16px; max-width: 260px; }
+    .footer-social { display: flex; gap: 10px; }
     .footer-social a {
       display: flex; align-items: center; justify-content: center;
-      width: 36px; height: 36px;
-      background: rgba(255,255,255,.06); border-radius: 10px;
-      color: #a0a6c0; font-size: 1rem; transition: .2s;
+      width: 34px; height: 34px;
+      background: rgba(255,255,255,.06); border-radius: 9px;
+      color: #a0a6c0; font-size: .9rem; transition: .2s;
     }
     .footer-social a:hover { background: var(--gold); color: #1a1a2e; }
-    .footer-col h5 { font-size: .85rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: #fff; margin-bottom: 16px; }
+    .footer-col h5 { font-size: .8rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: #fff; margin-bottom: 12px; }
     .footer-col ul { list-style: none; }
-    .footer-col li { margin-bottom: 10px; }
-    .footer-col a { color: #a0a6c0; font-size: .9rem; transition: color .2s; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #a0a6c0; font-size: .85rem; transition: color .2s; }
     .footer-col a:hover { color: var(--gold); }
     .footer-bottom {
-      max-width: 1100px; margin: 0 auto; padding-top: 24px;
+      max-width: 1100px; margin: 0 auto; padding-top: 20px;
       border-top: 1px solid var(--line);
-      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
     }
-    .footer-bottom p { color: #6b7280; font-size: .85rem; }
-    .footer-legal { display: flex; gap: 24px; }
-    .footer-legal a { color: #6b7280; font-size: .85rem; transition: color .2s; }
+    .footer-bottom p { color: #6b7280; font-size: .8rem; }
+    .footer-legal { display: flex; gap: 20px; }
+    .footer-legal a { color: #6b7280; font-size: .8rem; transition: color .2s; }
     .footer-legal a:hover { color: var(--gold); }
     @media (max-width: 600px) { .footer-bottom { flex-direction: column; text-align: center; } }
   </style>
@@ -356,23 +193,23 @@
 <body>
 
 <!-- TAX SEASON NOTICE -->
-<div class="notice-banner">
+<div class="notice">
   <i class="fas fa-file-invoice-dollar"></i>
-  Tax season is here. Need your invoices? <a href="https://webeaze.io/help#/view-invoices" rel="noopener">Follow these steps</a>.
+  Tax season is here. Need your invoices? <a href="https://webeaze.io/help#/view-invoices">Follow these steps</a>.
 </div>
 
 <!-- NAV -->
 <div class="nav-wrap">
-  <div class="wrap">
+  <div class="wrap" style="max-width:1100px;">
     <nav class="navbar navbar-expand-lg navbar-dark">
       <a class="navbar-brand d-flex align-items-center" href="index.html">
         <img class="logo" src="images/webeaze-transparent copy.png" alt="WebEaze" />
         <strong class="ml-2" style="font-weight:700;">WebEaze</strong>
       </a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mobileNav">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div id="mobileNav" class="collapse navbar-collapse">
+      <div id="nav" class="collapse navbar-collapse">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item"><a class="nav-link" href="build.html">New Website</a></li>
           <li class="nav-item"><a class="nav-link" href="manage.html">Existing Site</a></li>
@@ -387,129 +224,54 @@
   </div>
 </div>
 
-<!-- HERO -->
-<header class="hero">
+<!-- PAGE HEADER -->
+<div class="page-header">
   <div class="wrap">
-    <p class="hero-eyebrow">WebEaze Client Hub</p>
-    <h1>How can we help today?</h1>
-
-    <br>
-    
-   
-    <a href="status.html" class="status-chip" id="status-chip">
-      <span class="status-dot"></span>
-      <span id="status-text">Checking availability...</span>
-    </a>
-  </div>
-</header>
-
-<!-- ACTIONS -->
-<div class="actions-section">
-  <div class="wrap">
-    <p class="actions-label">What would you like to do?</p>
-    <div class="actions-grid">
-
-      <a href="#request-form" class="action-tile primary-tile">
-        <div class="tile-icon"><i class="fas fa-paper-plane"></i></div>
-        <div class="tile-text">
-          <div class="tile-title">Submit a Request</div>
-          <div class="tile-desc">Send us an update, fix, or change for your site</div>
-        </div>
+    <div class="header-inner">
+      <div>
+        <div class="header-title">Website Request</div>
+        <div class="header-sub">Fill out the form below and we'll get it done</div>
+      </div>
+      <a href="status.html" class="status-badge" id="status-badge">
+        <span class="status-dot"></span>
+        <span id="status-text">Checking...</span>
       </a>
-
-      <a href="https://billing.stripe.com/p/login/7sI3gfaO14CEdlm144" target="_blank" class="action-tile">
-        <div class="tile-icon"><i class="fas fa-credit-card"></i></div>
-        <div class="tile-text">
-          <div class="tile-title">Manage Billing</div>
-          <div class="tile-desc">View invoices, update payment, or change your plan</div>
-        </div>
-      </a>
-
-      <a href="https://meetings-na2.hubspot.com/webeaze/live-zoom-support" target="_blank" class="action-tile">
-        <span class="tile-badge">Growth+</span>
-        <div class="tile-icon"><i class="fas fa-video"></i></div>
-        <div class="tile-text">
-          <div class="tile-title">Schedule a Call</div>
-          <div class="tile-desc">Book a Google Meet session with our team</div>
-        </div>
-      </a>
-
-      <a href="portal.html" class="action-tile">
-        <span class="tile-badge">Growth+</span>
-        <div class="tile-icon"><i class="fas fa-comments"></i></div>
-        <div class="tile-text">
-          <div class="tile-title">Live Chat</div>
-          <div class="tile-desc">Get instant answers during business hours</div>
-        </div>
-      </a>
-
     </div>
   </div>
 </div>
 
-<!-- REQUEST FORM -->
-<div class="wrap">
-  <div class="divider">Submit a request</div>
-
-  <div class="form-card" id="request-form">
-    <div class="form-card-header">
-      <div class="form-card-icon"><i class="fas fa-paper-plane"></i></div>
-      <div>
-        <div class="form-card-title">Website Request Form</div>
-        <div class="form-card-sub">Tell us what needs to be updated, added, or fixed on your site.</div>
-      </div>
-    </div>
-
+<!-- FORM -->
+<div class="form-section">
+  <div class="wrap">
     <script src="https://js-na2.hsforms.net/forms/embed/242171361.js" defer></script>
     <div class="hs-form-frame" data-region="na2" data-form-id="1bd7643f-da22-4812-a77f-8fe06fb55990" data-portal-id="242171361"></div>
-
-    <p style="font-size: 14px; color: var(--muted);">
-      <i class="fas fa-info-circle" style="color:var(--brand);"></i>
-      Requests submitted outside <a href="status.html"><u>working hours</u></a> will be handled when we reopen.
+    <p class="form-note">
+      <i class="fas fa-clock" style="margin-right:5px;"></i>
+      Requests outside <a href="status.html">working hours</a> are handled when we reopen.
     </p>
   </div>
+</div>
 
-  <!-- RESOURCES -->
-  <div class="resources-section">
-    <p class="resources-label">Helpful resources</p>
-    <div class="resources-grid">
-
-      <a href="help.html" class="resource-link">
-        <i class="fas fa-book-open"></i>
-        Help Center
-        <i class="fas fa-arrow-right arrow"></i>
+<!-- SHORTCUTS -->
+<div class="shortcuts">
+  <div class="wrap">
+    <div class="shortcuts-label">Need something else?</div>
+    <div class="shortcut-row">
+      <a href="https://billing.stripe.com/p/login/7sI3gfaO14CEdlm144" target="_blank" class="sc-btn">
+        <i class="fas fa-credit-card"></i> Billing Portal
       </a>
-
-      <a href="status.html" class="resource-link">
-        <i class="fas fa-clock"></i>
-        Support Hours & Updates
-        <i class="fas fa-arrow-right arrow"></i>
+      <a href="https://meetings-na2.hubspot.com/webeaze/live-zoom-support" target="_blank" class="sc-btn">
+        <i class="fas fa-video"></i> Schedule a Call <span class="badge-growth">Growth+</span>
       </a>
-
-      <a href="https://meetings-na2.hubspot.com/webeaze/phone-support" target="_blank" class="resource-link">
-        <i class="fas fa-phone"></i>
-        Phone Support
-        <i class="fas fa-arrow-right arrow"></i>
+      <a href="https://meetings-na2.hubspot.com/webeaze/phone-support" target="_blank" class="sc-btn">
+        <i class="fas fa-phone"></i> Phone Support <span class="badge-growth">Growth+</span>
       </a>
-
-      <a href="pricing.html" class="resource-link">
-        <i class="fas fa-tag"></i>
-        View Plans & Pricing
-        <i class="fas fa-arrow-right arrow"></i>
+      <a href="portal.html" class="sc-btn">
+        <i class="fas fa-comments"></i> Live Chat <span class="badge-growth">Growth+</span>
       </a>
-
-      <a href="referral.html" class="resource-link">
-        <i class="fas fa-gift"></i>
-        Refer & Earn
-        <i class="fas fa-arrow-right arrow"></i>
+      <a href="help.html" class="sc-btn">
+        <i class="fas fa-book-open"></i> Help Center
       </a>
-
-      <a href="contact-us.html" class="resource-link">
-        <i class="fas fa-envelope"></i>
-        General Contact
-        <i class="fas fa-arrow-right arrow"></i>
-      </a>
-
     </div>
   </div>
 </div>
@@ -574,61 +336,38 @@
 <script>
   document.getElementById('yr').textContent = new Date().getFullYear();
 
-  // Smooth scroll for anchor links
-  document.querySelectorAll('a[href^="#"]').forEach(a => {
-    a.addEventListener('click', function(e) {
-      const target = document.querySelector(this.getAttribute('href'));
-      if (target) {
-        e.preventDefault();
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    });
-  });
-
-  // Live status chip
   function getET() {
     return new Date(new Date().toLocaleString('en-US', { timeZone: 'America/New_York' }));
   }
-
   function getClosures() {
     return [
-      { name: "New Year's Day",    start: '2026-01-01', end: '2026-01-01' },
-      { name: "Memorial Day",      start: '2026-05-25', end: '2026-05-25' },
-      { name: "Independence Day",  start: '2026-07-03', end: '2026-07-03' },
-      { name: "Labor Day",         start: '2026-09-07', end: '2026-09-07' },
-      { name: "Thanksgiving",      start: '2026-11-25', end: '2026-11-29' },
-      { name: "December Holidays", start: '2026-12-24', end: '2027-01-03' }
-    ].map(c => ({ name: c.name, start: new Date(c.start + 'T00:00:00'), end: new Date(c.end + 'T23:59:59') }));
+      { name: 'Memorial Day',      start: '2026-05-25', end: '2026-05-25' },
+      { name: 'Independence Day',  start: '2026-07-03', end: '2026-07-03' },
+      { name: 'Labor Day',         start: '2026-09-07', end: '2026-09-07' },
+      { name: 'Thanksgiving',      start: '2026-11-25', end: '2026-11-29' },
+      { name: 'December Holidays', start: '2026-12-24', end: '2027-01-03' }
+    ].map(c => ({ name: c.name, start: new Date(c.start+'T00:00:00'), end: new Date(c.end+'T23:59:59') }));
   }
-
   function updateStatus() {
-    const chip = document.getElementById('status-chip');
-    const text = document.getElementById('status-text');
-    if (!chip || !text) return;
-
-    const now = getET();
-    const day = now.getDay(), hour = now.getHours();
+    const badge = document.getElementById('status-badge');
+    const text  = document.getElementById('status-text');
+    if (!badge || !text) return;
+    const now = getET(), day = now.getDay(), hour = now.getHours();
     const holiday = getClosures().find(c => now >= c.start && now <= c.end);
-
-    chip.className = 'status-chip';
-
+    badge.className = 'status-badge';
     if (holiday) {
-      chip.classList.add('holiday');
-      text.textContent = 'Closed for ' + holiday.name;
+      badge.classList.add('holiday');
+      text.textContent = 'Closed — ' + holiday.name;
     } else if (day === 0 || day === 6) {
-      chip.classList.add('closed');
+      badge.classList.add('closed');
       text.textContent = 'Away for the weekend';
     } else if (hour >= 9 && hour < 17) {
-      text.textContent = 'Available now — Mon–Fri 9am–5pm ET';
-    } else if (hour >= 17) {
-      chip.classList.add('away');
-      text.textContent = day === 5 ? 'Back Monday at 9am ET' : 'Back tomorrow at 9am ET';
+      text.textContent = 'Available now';
     } else {
-      chip.classList.add('away');
-      text.textContent = 'Back at 9am ET today';
+      badge.classList.add('away');
+      text.textContent = day === 5 && hour >= 17 ? 'Back Monday 9am ET' : 'Back at 9am ET';
     }
   }
-
   updateStatus();
   setInterval(updateStatus, 60000);
 </script>
