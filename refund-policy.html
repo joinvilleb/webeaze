@@ -24,14 +24,8 @@
   <style>
     :root {
       --gold: #ffd700;
-      --gold-dim: rgba(255, 215, 0, 0.12);
       --bg: #030305;
-      --bg-card: #0a0a10;
-      --bg-elevated: #101018;
-      --ink: #ffffff;
-      --ink-muted: #9ca3af;
       --line: rgba(255, 255, 255, 0.08);
-      --line-gold: rgba(255, 215, 0, 0.2);
     }
 
     *, *::before, *::after { box-sizing: border-box; }
@@ -40,15 +34,15 @@
       margin: 0;
       font-family: 'Poppins', sans-serif;
       background: var(--bg);
-      color: var(--ink);
+      color: #fff;
       -webkit-font-smoothing: antialiased;
       line-height: 1.7;
       overflow-x: hidden;
       min-width: 320px;
     }
     a { color: var(--gold); text-decoration: none; }
-    a:hover { color: #fff; text-decoration: underline; }
-    .container-narrow { max-width: 900px; }
+    a:hover { opacity: .9; }
+    .container-narrow { max-width: 900px; margin: 0 auto; }
 
     /* NAV */
     .nav-wrap {
@@ -70,353 +64,79 @@
     .navbar-brand, .navbar-brand:hover { text-decoration: none !important }
 
     /* HERO */
-    .hero {
-      position: relative;
-      padding: clamp(100px, 15vh, 140px) 0 clamp(60px, 10vh, 80px);
-      background: linear-gradient(180deg, #0a0a12 0%, var(--bg) 100%);
-      border-bottom: 1px solid var(--line);
-      overflow: hidden;
-    }
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: -100px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: min(800px, 200vw);
-      height: 500px;
-      background: radial-gradient(ellipse, rgba(255, 215, 0, 0.06) 0%, transparent 70%);
-      pointer-events: none;
-    }
+    .hero { background: #1a1a1a; border-bottom: 1px solid #333; }
+    .hero-inner { padding: 60px 18px 44px; text-align: center; }
+    .eyebrow { display: inline-block; font-size: .75rem; letter-spacing: .1em; text-transform: uppercase; color: #888; margin-bottom: 8px; }
+    .hero h1 { font-weight: 600; letter-spacing: 0; font-size: 2rem; margin: .25rem 0; color: #fff; }
+    .hero p.lead { max-width: 680px; margin: 12px auto 0; line-height: 1.6; color: #999; font-size: 1rem; }
+    .pill { display: inline-block; padding: 6px 12px; border-radius: 6px; background: rgba(255,255,255,.08); border: 1px solid #333; font-size: .8rem; margin: 0 6px; color: #ccc; }
+    .hero-cta { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-top: 20px; }
+    .btn-ghost { display: inline-block; padding: 10px 20px; border-radius: 6px; text-decoration: none; font-weight: 500; font-size: .9rem; border: 1px solid #555; color: #ccc; background: transparent; }
+    .btn-ghost:hover { background: rgba(255,255,255,.06); color: #fff; text-decoration: none; }
 
-    .hero-content {
-      position: relative;
-      z-index: 1;
-      text-align: center;
-      max-width: 700px;
-      margin: 0 auto;
-    }
+    /* CONTENT SECTION */
+    .section-light { background: #f9f7ff; padding: 60px 18px 72px; }
 
-    .policy-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 16px;
-      background: var(--gold-dim);
-      border: 1px solid var(--line-gold);
-      border-radius: 999px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--gold);
-      margin-bottom: 20px;
-    }
-
-    .hero h1 {
-      font-size: clamp(2.5rem, 6vw, 3.5rem);
-      font-weight: 800;
-      letter-spacing: -0.03em;
-      line-height: 1.1;
-      margin: 0 0 16px;
-      color: #fff;
-    }
-
-    .hero-sub {
-      font-size: 1.1rem;
-      color: var(--ink-muted);
-      max-width: 560px;
-      margin: 0 auto;
-      line-height: 1.7;
-    }
-
-    .effective-date {
-      margin-top: 24px;
-      font-size: 0.85rem;
-      color: var(--ink-muted);
-    }
-    .effective-date strong { color: var(--ink); }
-
-    /* KEY POINTS */
-    .key-points {
-      padding: 60px 0;
-      background: var(--bg-card);
-      border-bottom: 1px solid var(--line);
-    }
-
-    .points-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-    }
-    @media (max-width: 768px) {
-      .points-grid { grid-template-columns: 1fr; }
-      .policy-container { padding: 24px 20px; border-radius: 16px; }
-      .policy-container::before { left: 20px; right: 20px; }
-      .hero { padding: clamp(80px, 12vh, 100px) 0 clamp(40px, 8vh, 60px); }
-      .hero h1 { font-size: clamp(1.75rem, 8vw, 2.5rem); }
-      .hero-sub { font-size: 1rem; }
-      .policy-content h2 { font-size: 1.15rem; flex-wrap: wrap; }
-      .section-number { width: 28px; height: 28px; font-size: 0.8rem; margin-right: 10px; margin-bottom: 8px; }
-      .notice-box, .warning-box, .legal-block { padding: 16px; flex-direction: column; gap: 10px; }
-      .contact-card { padding: 28px 20px; }
-      .contact-links { flex-direction: column; }
-      .contact-link { width: 100%; justify-content: center; }
-    }
-
-    .point-card {
-      background: var(--bg-elevated);
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      padding: 28px;
-      text-align: center;
-    }
-
-    .point-icon {
-      width: 56px;
-      height: 56px;
-      background: var(--gold-dim);
+    .card-solid {
+      background: #fff;
+      border: 1px solid #e8e5f0;
       border-radius: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 16px;
-      font-size: 1.4rem;
-      color: var(--gold);
+      padding: 36px 40px;
+      color: #1e1a29;
+    }
+    @media (max-width: 640px) {
+      .card-solid { padding: 24px 20px; }
     }
 
-    .point-card h3 {
-      font-size: 1.1rem;
+    .card-solid h2 {
+      font-size: 1.2rem;
       font-weight: 700;
-      margin: 0 0 8px;
-      color: #fff;
+      color: #1e1a29;
+      margin: 44px 0 12px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #ece9f8;
     }
+    .card-solid h2:first-child { margin-top: 0; }
 
-    .point-card p {
-      font-size: 0.9rem;
-      color: var(--ink-muted);
-      margin: 0;
-      line-height: 1.6;
-    }
-
-    /* POLICY CONTENT */
-    .policy-section {
-      padding: 80px 0;
-    }
-
-    .policy-container {
-      background: var(--bg-card);
-      border: 1px solid var(--line);
-      border-radius: 24px;
-      padding: clamp(32px, 5vw, 56px);
-      position: relative;
-    }
-    .policy-container::before {
-      content: '';
-      position: absolute;
-      top: -1px;
-      left: 48px;
-      right: 48px;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, var(--gold), transparent);
-      border-radius: 0 0 2px 2px;
-    }
-
-    .section-number {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 32px;
-      height: 32px;
-      background: var(--gold-dim);
-      border: 1px solid var(--line-gold);
-      border-radius: 8px;
-      font-size: 0.85rem;
-      font-weight: 700;
-      color: var(--gold);
-      margin-right: 12px;
-    }
-
-    .policy-content h2 {
-      font-size: 1.35rem;
-      font-weight: 700;
-      color: #fff;
-      margin: 48px 0 16px;
-      padding-bottom: 12px;
-      border-bottom: 1px solid var(--line);
-      display: flex;
-      align-items: center;
-    }
-    .policy-content h2:first-child { margin-top: 0; }
-
-    .policy-content p {
-      color: rgba(255, 255, 255, 0.85);
-      margin: 0 0 16px;
-      font-size: 1rem;
+    .card-solid p {
+      color: #3a3550;
+      font-size: .97rem;
       line-height: 1.8;
+      margin: 0 0 14px;
     }
 
-    .policy-content ul {
-      margin: 0 0 20px;
-      padding-left: 0;
-      list-style: none;
+    .card-solid ul {
+      padding-left: 20px;
+      margin: 0 0 18px;
+    }
+    .card-solid li {
+      color: #3a3550;
+      font-size: .97rem;
+      line-height: 1.75;
+      margin-bottom: 8px;
     }
 
-    .policy-content li {
-      position: relative;
-      padding-left: 28px;
-      margin-bottom: 12px;
-      color: rgba(255, 255, 255, 0.85);
-      font-size: 1rem;
-      line-height: 1.7;
-    }
-    .policy-content li::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 10px;
-      width: 8px;
-      height: 8px;
-      background: var(--gold);
-      border-radius: 2px;
-    }
+    .card-solid a { color: #4b35a6; }
+    .card-solid a:hover { opacity: .8; text-decoration: underline; }
+    .card-solid strong { color: #1e1a29; }
 
-    .policy-content strong {
-      color: #fff;
-      font-weight: 600;
+    .note {
+      background: #f3f0ff;
+      border-left: 3px solid #9b87d4;
+      border-radius: 0 8px 8px 0;
+      padding: 14px 18px;
+      margin: 18px 0 24px;
     }
+    .note p { margin: 0; font-size: .93rem; color: #3a3550; }
 
-    /* NOTICE BOX */
-    .notice-box {
-      background: rgba(255, 215, 0, 0.08);
-      border: 1px solid var(--line-gold);
-      border-radius: 14px;
-      padding: 20px 24px;
-      margin: 24px 0;
-      display: flex;
-      align-items: flex-start;
-      gap: 14px;
+    .warning-note {
+      background: #fff5f5;
+      border-left: 3px solid #e57373;
+      border-radius: 0 8px 8px 0;
+      padding: 14px 18px;
+      margin: 18px 0 24px;
     }
-    .notice-box i {
-      color: var(--gold);
-      font-size: 1.1rem;
-      margin-top: 2px;
-    }
-    .notice-box p {
-      margin: 0;
-      color: rgba(255, 255, 255, 0.9);
-    }
-    .notice-box strong {
-      display: block;
-      color: var(--gold);
-      margin-bottom: 4px;
-    }
-
-    /* WARNING BOX */
-    .warning-box {
-      background: rgba(239, 68, 68, 0.08);
-      border: 1px solid rgba(239, 68, 68, 0.25);
-      border-radius: 14px;
-      padding: 20px 24px;
-      margin: 24px 0;
-      display: flex;
-      align-items: flex-start;
-      gap: 14px;
-    }
-    .warning-box i {
-      color: #ef4444;
-      font-size: 1.1rem;
-      margin-top: 2px;
-    }
-    .warning-box p {
-      margin: 0;
-      color: rgba(255, 255, 255, 0.9);
-    }
-    .warning-box strong {
-      display: block;
-      color: #f87171;
-      margin-bottom: 4px;
-    }
-
-    /* LEGAL BLOCK */
-    .legal-block {
-      background: var(--bg-elevated);
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      padding: 20px 24px;
-      margin: 24px 0;
-    }
-    .legal-block p {
-      font-size: 0.95rem;
-      color: rgba(255, 255, 255, 0.75);
-      margin: 0;
-    }
-
-    /* CONTACT SECTION */
-    .contact-section {
-      padding: 60px 0 80px;
-      background: var(--bg-card);
-      border-top: 1px solid var(--line);
-    }
-
-    .contact-card {
-      background: var(--bg-elevated);
-      border: 1px solid var(--line);
-      border-radius: 20px;
-      padding: 40px;
-      text-align: center;
-      max-width: 600px;
-      margin: 0 auto;
-    }
-
-    .contact-card h3 {
-      font-size: 1.5rem;
-      font-weight: 700;
-      margin: 0 0 12px;
-      color: #fff;
-    }
-
-    .contact-card p {
-      color: var(--ink-muted);
-      margin: 0 0 28px;
-    }
-
-    .contact-links {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 12px;
-    }
-
-    .contact-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 14px 24px;
-      background: transparent;
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      color: #fff;
-      font-weight: 600;
-      font-size: 0.95rem;
-    }
-    .contact-link:hover {
-      border-color: var(--gold);
-      color: var(--gold);
-      text-decoration: none;
-    }
-    .contact-link i { font-size: 1rem; }
-
-    .contact-link.primary {
-      background: var(--gold);
-      border-color: var(--gold);
-      color: #000;
-    }
-    .contact-link.primary:hover {
-      background: #ffea80;
-      border-color: #ffea80;
-      color: #000;
-    }
+    .warning-note p { margin: 0; font-size: .93rem; color: #3a3550; }
 
     /* FOOTER */
     footer {
@@ -438,102 +158,26 @@
     @media (max-width: 480px) {
       .footer-grid { grid-template-columns: 1fr; gap: 28px; }
     }
-    .footer-brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 16px;
-    }
+    .footer-brand { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
     .footer-brand img { height: 32px; }
     .footer-brand span { font-weight: 700; font-size: 1.1rem; color: #fff; }
-    .footer-tagline {
-      color: #a0a6c0;
-      font-size: 0.9rem;
-      line-height: 1.6;
-      margin-bottom: 20px;
-      max-width: 280px;
-    }
-    .footer-social {
-      display: flex;
-      gap: 12px;
-    }
-    .footer-social a {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 36px;
-      height: 36px;
-      background: rgba(255, 255, 255, 0.06);
-      border-radius: 10px;
-      color: #a0a6c0;
-      font-size: 1rem;
-      transition: all 0.2s ease;
-      text-decoration: none;
-    }
-    .footer-social a:hover {
-      background: var(--gold);
-      color: #1a1a2e;
-    }
-    .footer-col h5 {
-      font-size: 0.85rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: #fff;
-      margin: 0 0 16px;
-    }
+    .footer-tagline { color: #a0a6c0; font-size: 0.9rem; line-height: 1.6; margin-bottom: 20px; max-width: 280px; }
+    .footer-social { display: flex; gap: 12px; }
+    .footer-social a { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; background: rgba(255,255,255,0.06); border-radius: 10px; color: #a0a6c0; font-size: 1rem; transition: all 0.2s ease; text-decoration: none; }
+    .footer-social a:hover { background: var(--gold); color: #1a1a2e; }
+    .footer-col h5 { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #fff; margin: 0 0 16px; }
     .footer-col ul { list-style: none; padding: 0; margin: 0; }
     .footer-col li { margin-bottom: 10px; }
-    .footer-col a {
-      color: #a0a6c0;
-      font-size: 0.9rem;
-      transition: color 0.2s ease;
-      text-decoration: none;
-    }
+    .footer-col a { color: #a0a6c0; font-size: 0.9rem; transition: color 0.2s ease; text-decoration: none; }
     .footer-col a:hover { color: var(--gold); text-decoration: none; }
-    .footer-bottom {
-      max-width: 900px;
-      margin: 0 auto;
-      padding-top: 24px;
-      border-top: 1px solid rgba(255,255,255,0.08);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 16px;
-    }
+    .footer-bottom { max-width: 900px; margin: 0 auto; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
     .footer-bottom p { color: #6b7280; font-size: 0.85rem; margin: 0; }
     .footer-legal { display: flex; gap: 24px; }
-    .footer-legal a {
-      color: #6b7280;
-      font-size: 0.85rem;
-      transition: color 0.2s ease;
-      text-decoration: none;
-    }
+    .footer-legal a { color: #6b7280; font-size: 0.85rem; transition: color 0.2s ease; text-decoration: none; }
     .footer-legal a:hover { color: var(--gold); }
     @media (max-width: 600px) {
       .footer-bottom { flex-direction: column; text-align: center; }
     }
-
-    /* ANIMATIONS */
-    .reveal {
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
-    }
-    .reveal.in {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    .reveal-delay-1 { transition-delay: 0.1s; }
-    .reveal-delay-2 { transition-delay: 0.2s; }
-    .reveal-delay-3 { transition-delay: 0.3s; }
-
-    /* Fallback for browsers without IntersectionObserver or reduced motion */
-    @media (prefers-reduced-motion: reduce) {
-      .reveal { opacity: 1; transform: none; }
-    }
-    .no-js .reveal { opacity: 1; transform: none; }
   </style>
 </head>
 <body>
@@ -567,130 +211,91 @@
 
 <!-- HERO -->
 <header class="hero">
-  <div class="container container-narrow">
-    <div class="hero-content">
-      <div class="policy-badge reveal">
-        <i class="fas fa-file-contract"></i>
-        Legal Policy
-      </div>
-      <h1 class="reveal reveal-delay-1" style="font-weight: 600;">Refund Policy</h1>
-      <p class="hero-sub reveal reveal-delay-2">
-        This policy governs all refunds, cancellations, and billing disputes for WebEaze services. By subscribing to our services, you acknowledge and agree to the terms outlined below.
-      </p>
-      <div class="effective-date reveal reveal-delay-3">
-        <strong>Effective Date:</strong> October 1, 2024
-      </div>
+  <div class="hero-inner container-narrow">
+    <span class="eyebrow">Legal &amp; Policy</span>
+    <h1>Refund Policy</h1>
+    <p class="lead">All payments are final. If something isn't right, we're here to fix it.</p>
+    <div class="mt-2">
+      <span class="pill">Effective: <strong>October 1, 2024</strong></span>
+    </div>
+    <div class="hero-cta">
+      <a class="btn-ghost" href="terms.html">Terms of Service</a>
     </div>
   </div>
 </header>
 
-<!-- KEY POINTS -->
-<section class="key-points">
-  <div class="container container-narrow">
-    <div class="points-grid">
-      <div class="point-card reveal">
-        <div class="point-icon"><i class="fas fa-ban"></i></div>
-        <h3>All Sales Are Final</h3>
-        <p>Payments for services rendered, including setup fees, subscriptions, and add-ons, are non-refundable.</p>
-      </div>
-      <div class="point-card reveal reveal-delay-1">
-        <div class="point-icon"><i class="fas fa-tools"></i></div>
-        <h3>We Resolve Issues</h3>
-        <p>If something isn't right, contact us. We will work diligently to remedy any service-related concerns.</p>
-      </div>
-      <div class="point-card reveal reveal-delay-2">
-        <div class="point-icon"><i class="fas fa-door-open"></i></div>
-        <h3>Cancel Anytime</h3>
-        <p>You may cancel your subscription at any time. Cancellation takes effect immediately with no further charges.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- POLICY CONTENT -->
-<section class="policy-section">
-  <div class="container container-narrow">
-    <div class="policy-container reveal">
-      <div class="policy-content">
+<section class="section-light">
+  <div class="container-narrow">
+    <div class="card-solid">
 
-        <h2><span class="section-number">1</span> Scope of This Policy</h2>
-        <p>This Refund Policy ("Policy") applies to all WebEaze subscription plans, one-time setup fees, add-on services, and any other fees charged in connection with WebEaze services ("Services"). This Policy constitutes part of your agreement with WebEaze and should be read in conjunction with our <a href="terms.html">Terms of Service</a>.</p>
+      <h2>1. Scope of This Policy</h2>
+      <p>This Refund Policy ("Policy") applies to all WebEaze subscription plans, one-time setup fees, add-on services, and any other fees charged in connection with WebEaze services ("Services"). This Policy constitutes part of your agreement with WebEaze and should be read in conjunction with our <a href="terms.html">Terms of Service</a>.</p>
 
-        <h2><span class="section-number">2</span> Non-Refundable Payments</h2>
-        <p><strong>All payments made to WebEaze are final and non-refundable.</strong> This includes, but is not limited to:</p>
-        <ul>
-          <li>One-time website setup and onboarding fees</li>
-          <li>Monthly subscription payments</li>
-          <li>Annual subscription payments</li>
-          <li>Add-on services charged from our <a href="fee-schedule.html">Fee Schedule</a></li>
-          <li>Domain registration and renewal fees</li>
-          <li>Any custom development or design work</li>
-        </ul>
-
-        <div class="legal-block">
-          <p><strong>Rationale:</strong> Upon payment, WebEaze immediately allocates resources, reserves time on our production schedule, and begins work on your project. Due to the nature of digital services and the immediate commencement of work, refunds cannot be issued for services rendered or time reserved.</p>
-        </div>
-
-        <h2><span class="section-number">3</span> Service Issues and Remedies</h2>
-        <p>WebEaze is committed to delivering high-quality services. If you are dissatisfied with any aspect of our services, we encourage you to contact us promptly so we may address your concerns.</p>
-        <p><strong>Our resolution process:</strong></p>
-        <ul>
-          <li><strong>Report the issue</strong> via our <a href="https://webeaze.io/website-request">Website Request form</a> or by email, including a clear description of the problem and any supporting documentation such as screenshots, URLs, etc.</li>
-          <li><strong>Confirmation</strong>: We will acknowledge your issue and confirm the scope of the problem within two (2) business days</li>
-          <li><strong>Resolution plan</strong>: We will provide a clear timeline and action plan to remedy the issue</li>
-          <li><strong>Implementation</strong>: Fixes, revisions, or corrections will be delivered within the scope of your active subscription plan</li>
-        </ul>
-
-        <div class="notice-box">
-          <i class="fas fa-info-circle"></i>
-          <p><strong>Out-of-Scope Requests</strong>
-          If your request falls outside the scope of your current plan or requires work beyond standard maintenance, we will notify you in advance and provide a quote for any additional costs before proceeding.</p>
-        </div>
-
-        <h2><span class="section-number">4</span> Billing Errors</h2>
-        <p>In the event of a billing error, you must notify WebEaze within <strong>fourteen (14) days</strong> of the charge date.</p>
-        <p>To report a billing error, please provide:</p>
-        <ul>
-          <li>Date of the transaction</li>
-          <li>Amount charged</li>
-          <li>Last four digits of the payment method used</li>
-          <li>Description of the suspected error</li>
-        </ul>
-        <p>Upon verification of a legitimate billing error, WebEaze will issue a reversal, account credit, or other appropriate remedy at our discretion.</p>
-
-        <h2><span class="section-number">5</span> Cancellation</h2>
-        <p>You may cancel your WebEaze subscription at any time through your <a href="https://billing.stripe.com/p/login/7sI3gfaO14CEdlm144">Stripe billing portal</a>. Upon cancellation:</p>
-        <ul>
-          <li>Your cancellation takes effect immediately</li>
-          <li>No further charges will be applied to your account</li>
-          <li>You will retain access to services through the end of your current billing period, if applicable</li>
-          <li><strong>No refunds or credits</strong> will be issued for unused time or prepaid amounts</li>
-        </ul>
-
-        <div class="legal-block">
-          <p><strong>Post-Cancellation:</strong> Website files and data will be retained for thirty (30) days following cancellation. After this period, data may be permanently deleted. Domain and hosting services managed by WebEaze will be discontinued. See our <a href="help.html#/cancel-your-plan">cancellation policy</a> for complete details.</p>
-        </div>
-
-        <h2><span class="section-number">6</span> Chargebacks and Disputes</h2>
-        <p>WebEaze strongly discourages filing chargebacks or payment disputes for services that have been delivered or are in progress. Initiating a chargeback after receiving services constitutes a breach of this agreement and may be considered fraud.</p>
-
-        <div class="warning-box">
-          <i class="fas fa-exclamation-triangle"></i>
-          <p><strong>Important Notice</strong>
-          In the event of a chargeback, WebEaze reserves the right to: (a) immediately suspend or terminate your services, (b) provide documentation of services rendered to the payment processor, (c) pursue recovery of disputed amounts plus any associated fees and costs, and (d) report fraudulent chargebacks to appropriate authorities.</p>
-        </div>
-
-        <p>We strongly encourage you to <a href="contact-us.html">contact us directly</a> to resolve any concerns before initiating a dispute with your payment provider. We are committed to fair and reasonable resolutions.</p>
-
-        <h2><span class="section-number">7</span> Exceptions and Consumer Rights</h2>
-        <p>Nothing in this Policy is intended to limit or waive any non-waivable consumer rights under applicable federal, state, or local law. If your jurisdiction mandates a cooling-off period, right of withdrawal, or other consumer protection that supersedes this Policy, WebEaze will comply with such requirements.</p>
-        <p>To invoke any statutory rights, please contact us in writing within the applicable timeframe specified by your local law at our physical address: WebEaze Web Design, 109 Pleasant Hill Drive, Camden-Wyoming, Delaware 19934, USA. </p>
-
+      <h2>2. Non-Refundable Payments</h2>
+      <p><strong>All payments made to WebEaze are final and non-refundable.</strong> This includes, but is not limited to:</p>
+      <ul>
+        <li>One-time website setup and onboarding fees</li>
+        <li>Monthly subscription payments</li>
+        <li>Annual subscription payments</li>
+        <li>Add-on services charged from our <a href="fee-schedule.html">Fee Schedule</a></li>
+        <li>Domain registration and renewal fees</li>
+        <li>Any custom development or design work</li>
+      </ul>
+      <div class="note">
+        <p><strong>Rationale:</strong> Upon payment, WebEaze immediately allocates resources, reserves time on our production schedule, and begins work on your project. Due to the nature of digital services and the immediate commencement of work, refunds cannot be issued for services rendered or time reserved.</p>
       </div>
+
+      <h2>3. Service Issues and Remedies</h2>
+      <p>WebEaze is committed to delivering high-quality services. If you are dissatisfied with any aspect of our services, we encourage you to contact us promptly so we may address your concerns.</p>
+      <p><strong>Our resolution process:</strong></p>
+      <ul>
+        <li><strong>Report the issue</strong> via our <a href="https://webeaze.io/website-request">Website Request form</a> or by email, including a clear description of the problem and any supporting documentation such as screenshots, URLs, etc.</li>
+        <li><strong>Confirmation:</strong> We will acknowledge your issue and confirm the scope of the problem within two (2) business days</li>
+        <li><strong>Resolution plan:</strong> We will provide a clear timeline and action plan to remedy the issue</li>
+        <li><strong>Implementation:</strong> Fixes, revisions, or corrections will be delivered within the scope of your active subscription plan</li>
+      </ul>
+      <div class="note">
+        <p><strong>Out-of-Scope Requests:</strong> If your request falls outside the scope of your current plan or requires work beyond standard maintenance, we will notify you in advance and provide a quote for any additional costs before proceeding.</p>
+      </div>
+
+      <h2>4. Billing Errors</h2>
+      <p>In the event of a billing error, you must notify WebEaze within <strong>fourteen (14) days</strong> of the charge date.</p>
+      <p>To report a billing error, please provide:</p>
+      <ul>
+        <li>Date of the transaction</li>
+        <li>Amount charged</li>
+        <li>Last four digits of the payment method used</li>
+        <li>Description of the suspected error</li>
+      </ul>
+      <p>Upon verification of a legitimate billing error, WebEaze will issue a reversal, account credit, or other appropriate remedy at our discretion.</p>
+
+      <h2>5. Cancellation</h2>
+      <p>You may cancel your WebEaze subscription at any time through your <a href="https://billing.stripe.com/p/login/7sI3gfaO14CEdlm144">Stripe billing portal</a>. Upon cancellation:</p>
+      <ul>
+        <li>Your cancellation takes effect immediately</li>
+        <li>No further charges will be applied to your account</li>
+        <li>You will retain access to services through the end of your current billing period, if applicable</li>
+        <li><strong>No refunds or credits</strong> will be issued for unused time or prepaid amounts</li>
+      </ul>
+      <div class="note">
+        <p><strong>Post-Cancellation:</strong> Website files and data will be retained for thirty (30) days following cancellation. After this period, data may be permanently deleted. Domain and hosting services managed by WebEaze will be discontinued. See our <a href="help.html#/cancel-your-plan">cancellation policy</a> for complete details.</p>
+      </div>
+
+      <h2>6. Chargebacks and Disputes</h2>
+      <p>WebEaze strongly discourages filing chargebacks or payment disputes for services that have been delivered or are in progress. Initiating a chargeback after receiving services constitutes a breach of this agreement and may be considered fraud.</p>
+      <div class="warning-note">
+        <p><strong>Important Notice:</strong> In the event of a chargeback, WebEaze reserves the right to: (a) immediately suspend or terminate your services, (b) provide documentation of services rendered to the payment processor, (c) pursue recovery of disputed amounts plus any associated fees and costs, and (d) report fraudulent chargebacks to appropriate authorities.</p>
+      </div>
+      <p>We strongly encourage you to <a href="contact-us.html">contact us directly</a> to resolve any concerns before initiating a dispute with your payment provider. We are committed to fair and reasonable resolutions.</p>
+
+      <h2>7. Exceptions and Consumer Rights</h2>
+      <p>Nothing in this Policy is intended to limit or waive any non-waivable consumer rights under applicable federal, state, or local law. If your jurisdiction mandates a cooling-off period, right of withdrawal, or other consumer protection that supersedes this Policy, WebEaze will comply with such requirements.</p>
+      <p>To invoke any statutory rights, please contact us in writing within the applicable timeframe specified by your local law at our physical address: WebEaze Web Design, 109 Pleasant Hill Drive, Camden-Wyoming, Delaware 19934, USA.</p>
+
     </div>
   </div>
 </section>
-
 
 <!-- FOOTER -->
 <footer>
@@ -740,7 +345,7 @@
   </div>
 
   <div class="footer-bottom">
-    <p style="color:#fff">&copy; <span id="yr"></span> WebEaze. Made in Delaware, USA 🇺🇸</p>
+    <p style="color:#fff">&copy; <span id="yr"></span> WebEaze. Made in Delaware, USA &#127482;&#127480;</p>
     <div class="footer-legal">
       <a href="terms.html#privacy">Privacy Policy</a>
       <a href="terms.html">Terms of Service</a>
@@ -754,34 +359,5 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script>
-  // Reveal on scroll
-  (function() {
-    var els = document.querySelectorAll('.reveal');
-    if (!els.length) return;
-
-    // Fallback: show all content after 2 seconds if still hidden
-    var fallbackTimer = setTimeout(function() {
-      els.forEach(function(e) { e.classList.add('in'); });
-    }, 2000);
-
-    if (!('IntersectionObserver' in window)) {
-      clearTimeout(fallbackTimer);
-      els.forEach(function(e) { e.classList.add('in'); });
-      return;
-    }
-
-    var io = new IntersectionObserver(function(entries) {
-      entries.forEach(function(entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('in');
-          io.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.05, rootMargin: '50px' });
-
-    els.forEach(function(el) { io.observe(el); });
-  })();
-</script>
 </body>
 </html>
