@@ -2238,6 +2238,7 @@ fee-tooltip {
             <div class="pricing-mini-name">Essential</div>
             <div class="pricing-mini-tagline">Great for getting started</div>
             <div class="pricing-mini-price">$169<span>/mo</span></div>
+            <div class="pricing-mini-setup">+ $199 one-time setup <span class="setup-q" onclick="openSetupModal()">?</span></div>
             <div class="pricing-mini-divider"></div>
             <ul class="pricing-mini-list">
               <li><i class="fas fa-check"></i> Custom website + hosting</li>
@@ -2253,6 +2254,7 @@ fee-tooltip {
             <div class="pricing-mini-name">Growth</div>
             <div class="pricing-mini-tagline">For businesses ready to scale</div>
             <div class="pricing-mini-price">$249<span>/mo</span></div>
+            <div class="pricing-mini-setup">+ $199 one-time setup <span class="setup-q" onclick="openSetupModal()">?</span></div>
             <div class="pricing-mini-divider"></div>
             <ul class="pricing-mini-list">
               <li><i class="fas fa-check"></i> Everything in Essential</li>
@@ -2873,8 +2875,21 @@ fee-tooltip {
     }
     .pricing-mini-name { font-size: 16px; font-weight: 700; margin: 0 0 3px; }
     .pricing-mini-tagline { font-size: 12px; color: rgba(255,255,255,.45); margin-bottom: 14px; }
-    .pricing-mini-price { font-size: 40px; font-weight: 800; line-height: 1; margin-bottom: 16px; letter-spacing: -.02em; }
+    .pricing-mini-price { font-size: 40px; font-weight: 800; line-height: 1; margin-bottom: 8px; letter-spacing: -.02em; }
     .pricing-mini-price span { font-size: 16px; font-weight: 500; color: rgba(255,255,255,.45); }
+    .pricing-mini-setup {
+      font-size: 12px; color: rgba(255,255,255,.55); margin-bottom: 14px;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .setup-q {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 16px; height: 16px; border-radius: 50%;
+      background: rgba(255,215,0,.15); border: 1px solid rgba(255,215,0,.3);
+      color: #ffd700; font-size: 10px; font-weight: 700;
+      cursor: pointer; line-height: 1; flex-shrink: 0;
+      transition: background .15s;
+    }
+    .setup-q:hover { background: rgba(255,215,0,.28); }
     .pricing-mini-divider { height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,.08), transparent); margin: 0 0 16px; }
     .pricing-mini-list { list-style: none; padding: 0; margin: 0 0 20px; display: flex; flex-direction: column; gap: 8px; }
     .pricing-mini-list li { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.75); }
@@ -3186,6 +3201,24 @@ fee-tooltip {
   </div>
 </div>
 
+<div id="setupFeeModal" class="modal-overlay" onclick="closeSetupModal(event)">
+  <div class="modal-card">
+    <h3>What's the $199 setup fee?</h3>
+    <p style="font-size:.9rem;opacity:.8;margin-bottom:14px;">It's a one-time fee to get your website built and launched. Here's what it covers:</p>
+    <ul class="pricing-list">
+      <li><i class="fas fa-check-circle"></i> Custom website design from scratch</li>
+      <li><i class="fas fa-check-circle"></i> Full development and mobile optimization</li>
+      <li><i class="fas fa-check-circle"></i> Domain configuration and DNS setup</li>
+      <li><i class="fas fa-check-circle"></i> Content layout and image setup</li>
+      <li><i class="fas fa-check-circle"></i> Testing and final launch</li>
+    </ul>
+    <p class="modal-foot" style="border-top:1px solid rgba(255,255,255,.08);padding-top:12px;margin-top:4px;">
+      Most web design agencies charge <strong style="color:#fff;">$1,000 to $5,000+</strong> just to build a site. Our $199 setup is one of the lowest in the industry.
+    </p>
+    <button class="modal-close" onclick="closeSetupModal()">Got it</button>
+  </div>
+</div>
+
 <script>
   function openModal() {
     document.getElementById('pricingModal').classList.add('active');
@@ -3196,12 +3229,23 @@ fee-tooltip {
       document.getElementById('pricingModal').classList.remove('active');
     }
   }
+
+  function openSetupModal() {
+    document.getElementById('setupFeeModal').classList.add('active');
+  }
+
+  function closeSetupModal(e) {
+    if (!e || e.target.id === 'setupFeeModal') {
+      document.getElementById('setupFeeModal').classList.remove('active');
+    }
+  }
 </script>
 
 <script>
   document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') {
       document.getElementById('pricingModal').classList.remove('active');
+      document.getElementById('setupFeeModal').classList.remove('active');
       document.body.style.overflow = '';
     }
   });
