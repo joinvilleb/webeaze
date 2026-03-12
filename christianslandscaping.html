@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Christian's Landscaping LLC – Frederick, MD</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --green-dark: #1a2e1a;
+    --green-mid: #2d5a27;
+    --green-light: #4a8c3f;
+    --gold: #c9a84c;
+    --cream: #f5f0e8;
+    --white: #ffffff;
+    --gray: #6b7280;
+    --text: #1a1a1a;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Lato', sans-serif;
+    color: var(--text);
+    background: var(--cream);
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 48px;
+    background: rgba(26, 46, 26, 0.95);
+    backdrop-filter: blur(8px);
+  }
+
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .nav-logo img {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    filter: invert(1);
+    object-fit: contain;
+    background: transparent;
+  }
+
+  .nav-logo span {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: var(--cream);
+    letter-spacing: 0.03em;
+    line-height: 1.2;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 36px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: rgba(245, 240, 232, 0.8);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--gold); }
+
+  .nav-cta {
+    background: var(--gold);
+    color: var(--green-dark) !important;
+    padding: 10px 22px;
+    border-radius: 2px;
+    font-weight: 700 !important;
+    transition: background 0.2s !important;
+  }
+
+  .nav-cta:hover { background: #e0bc6a !important; color: var(--green-dark) !important; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    position: relative;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--green-dark) 0%, #243824 40%, #1e3a1e 100%);
+  }
+
+  .hero-pattern {
+    position: absolute;
+    inset: 0;
+    background-image: 
+      radial-gradient(circle at 20% 50%, rgba(74, 140, 63, 0.15) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(201, 168, 76, 0.1) 0%, transparent 40%);
+  }
+
+  .hero-img-overlay {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 55%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .hero-img-overlay::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, var(--green-dark) 0%, rgba(26,46,26,0.3) 40%, transparent 100%);
+    z-index: 1;
+  }
+
+  .hero-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.6;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    padding: 120px 48px 80px;
+    max-width: 600px;
+  }
+
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(201, 168, 76, 0.15);
+    border: 1px solid rgba(201, 168, 76, 0.4);
+    color: var(--gold);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 2px;
+    margin-bottom: 24px;
+  }
+
+  .hero-tag::before {
+    content: '★';
+    font-size: 0.7rem;
+  }
+
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.8rem, 5vw, 4.2rem);
+    font-weight: 900;
+    color: var(--white);
+    line-height: 1.1;
+    margin-bottom: 20px;
+  }
+
+  .hero h1 span {
+    color: var(--gold);
+    display: block;
+  }
+
+  .hero p {
+    font-size: 1.1rem;
+    color: rgba(245, 240, 232, 0.75);
+    line-height: 1.7;
+    margin-bottom: 40px;
+    font-weight: 300;
+    max-width: 460px;
+  }
+
+  .hero-btns {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    background: var(--gold);
+    color: var(--green-dark);
+    padding: 16px 32px;
+    border: none;
+    border-radius: 2px;
+    font-family: 'Lato', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+    display: inline-block;
+  }
+
+  .btn-primary:hover { background: #e0bc6a; transform: translateY(-1px); }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--cream);
+    padding: 16px 32px;
+    border: 1px solid rgba(245, 240, 232, 0.35);
+    border-radius: 2px;
+    font-family: 'Lato', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    text-decoration: none;
+    transition: border-color 0.2s, color 0.2s;
+    display: inline-block;
+  }
+
+  .btn-secondary:hover { border-color: var(--gold); color: var(--gold); }
+
+  .hero-stats {
+    position: absolute;
+    bottom: 48px;
+    left: 48px;
+    right: 48px;
+    z-index: 2;
+    display: flex;
+    gap: 48px;
+  }
+
+  .stat {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--gold);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 0.75rem;
+    color: rgba(245, 240, 232, 0.6);
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+
+  /* SERVICES */
+  .services {
+    background: var(--white);
+    padding: 100px 48px;
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 64px;
+  }
+
+  .section-tag {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--green-light);
+    margin-bottom: 12px;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 3.5vw, 2.8rem);
+    font-weight: 700;
+    color: var(--green-dark);
+    line-height: 1.2;
+  }
+
+  .section-line {
+    width: 60px;
+    height: 3px;
+    background: var(--gold);
+    margin: 20px auto 0;
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2px;
+    max-width: 1200px;
+    margin: 0 auto;
+    background: #e5e5e5;
+  }
+
+  .service-card {
+    background: var(--white);
+    padding: 48px 36px;
+    transition: background 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .service-card::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 100%;
+    height: 3px;
+    background: var(--gold);
+    transform: scaleX(0);
+    transition: transform 0.3s;
+    transform-origin: left;
+  }
+
+  .service-card:hover { background: var(--cream); }
+  .service-card:hover::before { transform: scaleX(1); }
+
+  .service-icon {
+    font-size: 2.2rem;
+    margin-bottom: 20px;
+    display: block;
+  }
+
+  .service-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--green-dark);
+    margin-bottom: 12px;
+  }
+
+  .service-card p {
+    color: var(--gray);
+    font-size: 0.9rem;
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  /* ABOUT / TRUST */
+  .about {
+    background: var(--green-dark);
+    padding: 100px 48px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    max-width: 100%;
+  }
+
+  .about-photos {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    position: relative;
+  }
+
+  .about-photo {
+    border-radius: 2px;
+    overflow: hidden;
+    aspect-ratio: 4/3;
+  }
+
+  .about-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s;
+  }
+
+  .about-photo:hover img { transform: scale(1.04); }
+
+  .about-photo:first-child {
+    grid-column: 1 / -1;
+    aspect-ratio: 16/7;
+  }
+
+  .about-content .section-tag { text-align: left; color: var(--gold); }
+  .about-content .section-title { color: var(--white); text-align: left; }
+  .about-content .section-line { margin: 20px 0 0; }
+
+  .about-content p {
+    color: rgba(245, 240, 232, 0.7);
+    font-size: 1rem;
+    line-height: 1.8;
+    margin-top: 24px;
+    font-weight: 300;
+  }
+
+  .trust-badges {
+    display: flex;
+    gap: 24px;
+    margin-top: 40px;
+    flex-wrap: wrap;
+  }
+
+  .badge {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.12);
+    padding: 12px 20px;
+    border-radius: 2px;
+  }
+
+  .badge-icon { font-size: 1.3rem; }
+
+  .badge-text {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--cream);
+    letter-spacing: 0.05em;
+  }
+
+  /* REVIEWS */
+  .reviews {
+    background: var(--cream);
+    padding: 100px 48px;
+  }
+
+  .reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .review-card {
+    background: var(--white);
+    padding: 36px;
+    border-radius: 2px;
+    border-left: 4px solid var(--gold);
+    position: relative;
+  }
+
+  .review-stars {
+    color: var(--gold);
+    font-size: 1rem;
+    letter-spacing: 2px;
+    margin-bottom: 16px;
+  }
+
+  .review-text {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: #444;
+    font-style: italic;
+    margin-bottom: 20px;
+    font-weight: 300;
+  }
+
+  .review-author {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--green-dark);
+    letter-spacing: 0.05em;
+  }
+
+  /* CTA SECTION */
+  .cta-section {
+    background: var(--green-mid);
+    padding: 80px 48px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 50%, rgba(201,168,76,0.15) 0%, transparent 60%);
+  }
+
+  .cta-section h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 3.5vw, 2.8rem);
+    color: var(--white);
+    margin-bottom: 16px;
+    position: relative;
+  }
+
+  .cta-section p {
+    color: rgba(255,255,255,0.7);
+    font-size: 1.05rem;
+    margin-bottom: 36px;
+    font-weight: 300;
+    position: relative;
+  }
+
+  .cta-contact {
+    display: flex;
+    gap: 24px;
+    justify-content: center;
+    flex-wrap: wrap;
+    position: relative;
+  }
+
+  .contact-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--cream);
+    font-size: 1rem;
+    font-weight: 700;
+    text-decoration: none;
+    background: rgba(255,255,255,0.1);
+    padding: 14px 28px;
+    border-radius: 2px;
+    transition: background 0.2s;
+  }
+
+  .contact-item:hover { background: rgba(255,255,255,0.18); }
+
+  /* FOOTER */
+  footer {
+    background: var(--green-dark);
+    padding: 40px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .footer-logo {
+    font-family: 'Playfair Display', serif;
+    color: var(--cream);
+    font-size: 1rem;
+    font-weight: 700;
+  }
+
+  .footer-copy {
+    color: rgba(245,240,232,0.4);
+    font-size: 0.8rem;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-tag { animation: fadeUp 0.6s ease both; }
+  .hero h1 { animation: fadeUp 0.6s 0.15s ease both; }
+  .hero p { animation: fadeUp 0.6s 0.3s ease both; }
+  .hero-btns { animation: fadeUp 0.6s 0.45s ease both; }
+  .hero-stats { animation: fadeUp 0.6s 0.6s ease both; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <img src="/images/mockupimg/christianslandscapinglogo.jpg" alt="Christians Landscaping Logo">
+    <span>Christian's<br>Landscaping LLC</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#reviews">Reviews</a></li>
+    <li><a href="#contact" class="nav-cta">Get a Quote</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-pattern"></div>
+  <div class="hero-img-overlay">
+    <img class="hero-photo" src="/images/mockupimg/christianslandscapinghero.jpg" alt="Landscaping work">
+  </div>
+  <div class="hero-content">
+    <div class="hero-tag">Frederick, MD &amp; Surrounding Areas</div>
+    <h1>Your Yard,<span>Done Right.</span></h1>
+    <p>Professional landscaping services trusted by homeowners across Frederick County. Quality work, fair prices, and a team that shows up on time — every time.</p>
+    <div class="hero-btns">
+      <a href="#contact" class="btn-primary">Get a Free Quote</a>
+      <a href="#services" class="btn-secondary">Our Services</a>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="stat">
+      <span class="stat-num">37+</span>
+      <span class="stat-label">5-Star Reviews</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">100%</span>
+      <span class="stat-label">Recommend Rate</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">Local</span>
+      <span class="stat-label">Frederick, MD</span>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="section-header">
+    <p class="section-tag">What We Do</p>
+    <h2 class="section-title">Services We Offer</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="services-grid">
+    <div class="service-card">
+      <span class="service-icon">🌿</span>
+      <h3>Weeding</h3>
+      <p>Keep your beds clean and your lawn healthy. We remove weeds at the root so they don't come back.</p>
+    </div>
+    <div class="service-card">
+      <span class="service-icon">✂️</span>
+      <h3>Trimming</h3>
+      <p>Precision trimming for hedges, shrubs, and edges that give your property a clean, polished look.</p>
+    </div>
+    <div class="service-card">
+      <span class="service-icon">🪵</span>
+      <h3>Mulching</h3>
+      <p>Fresh mulch protects your plants and makes your beds look sharp. We do the hauling, spreading, and cleanup.</p>
+    </div>
+    <div class="service-card">
+      <span class="service-icon">🌱</span>
+      <h3>Planting</h3>
+      <p>From seasonal flowers to shrubs and trees, we help you choose and plant the right greenery for your space.</p>
+    </div>
+    <div class="service-card">
+      <span class="service-icon">💧</span>
+      <h3>Power Washing</h3>
+      <p>Driveways, patios, siding, decks — we blast away years of grime and leave surfaces looking new.</p>
+    </div>
+    <div class="service-card">
+      <span class="service-icon">🚛</span>
+      <h3>Junk Removal</h3>
+      <p>Clearing out yard debris, old furniture, or bulk waste? We haul it away so you don't have to.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-photos">
+    <div class="about-photo">
+      <img src="/images/mockupimg/christianslandscapinghero.jpg" alt="Landscaping project">
+    </div>
+    <div class="about-photo">
+      <img src="/images/mockupimg/christianslandscapinghero.jpg" alt="Garden bed project">
+    </div>
+    <div class="about-photo">
+      <img src="/images/mockupimg/christianslandscapinghero.jpg" alt="Landscaping detail">
+    </div>
+  </div>
+  <div class="about-content">
+    <p class="section-tag">About Us</p>
+    <h2 class="section-title">Local Crew.<br>Honest Work.</h2>
+    <div class="section-line"></div>
+    <p>Christian's Landscaping LLC has been serving homeowners in Frederick, MD with dependable, detail-oriented landscaping. We're a local crew that takes pride in every job — big or small.</p>
+    <p>With 37 five-star reviews and a 100% recommendation rate, our reputation speaks for itself. We show up on time, communicate clearly, and leave your property better than we found it.</p>
+    <div class="trust-badges">
+      <div class="badge">
+        <span class="badge-icon">⭐</span>
+        <span class="badge-text">100% Recommend Rate</span>
+      </div>
+      <div class="badge">
+        <span class="badge-icon">📍</span>
+        <span class="badge-text">Frederick, MD Based</span>
+      </div>
+      <div class="badge">
+        <span class="badge-icon">🤝</span>
+        <span class="badge-text">Free Estimates</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section class="reviews" id="reviews">
+  <div class="section-header">
+    <p class="section-tag">What Clients Say</p>
+    <h2 class="section-title">37 Five-Star Reviews</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="reviews-grid">
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"Christian and his team did an incredible job on our front yard. They were on time, professional, and the mulching looks perfect. Will definitely be calling them again!"</p>
+      <span class="review-author">— Sarah M., Frederick MD</span>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"Had them power wash our driveway and trim all the hedges. Couldn't be happier. Honestly the yard has never looked this good. Highly recommend to anyone in the area."</p>
+      <span class="review-author">— Mike T., Frederick MD</span>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"Great communication, fair pricing, and the work was excellent. They planted a whole new flower bed for us and it looks amazing. Will be using them every season."</p>
+      <span class="review-author">— Jennifer R., Frederick MD</span>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="contact">
+  <h2>Ready for a Better-Looking Yard?</h2>
+  <p>Call or email us for a free estimate. We serve Frederick, MD and surrounding areas.</p>
+  <div class="cta-contact">
+    <a href="tel:2406787319" class="contact-item">📞 (240) 678-7319</a>
+    <a href="mailto:christianslandscaping1981@gmail.com" class="contact-item">✉️ Send Us an Email</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-logo">Christian's Landscaping LLC</span>
+  <span class="footer-copy">Frederick, MD 21702 &nbsp;·&nbsp; (240) 678-7319 &nbsp;·&nbsp; christianslandscaping1981@gmail.com</span>
+</footer>
+
+</body>
+</html>
