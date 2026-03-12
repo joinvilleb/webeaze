@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Marshall Mowing LLC – Lawn Care Services</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --green-deep: #0d3d0d;
+    --green-mid: #1a6b1a;
+    --green-bright: #2ea82e;
+    --green-logo: #4a9e4a;
+    --lime: #7bc142;
+    --white: #ffffff;
+    --off-white: #f8faf6;
+    --dark: #111a11;
+    --gray: #5a6b5a;
+    --light-gray: #e8f0e8;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    color: var(--dark);
+    background: var(--off-white);
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 48px;
+    background: var(--green-deep);
+    border-bottom: 2px solid var(--green-bright);
+  }
+
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .logo-hex {
+    width: 46px;
+    height: 46px;
+    background: var(--green-logo);
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    flex-shrink: 0;
+  }
+
+  .nav-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem;
+    color: var(--white);
+    letter-spacing: 0.08em;
+    line-height: 1.1;
+  }
+
+  .nav-name span {
+    display: block;
+    font-size: 0.65rem;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--lime);
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+    align-items: center;
+  }
+
+  .nav-links a {
+    color: rgba(255,255,255,0.75);
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--lime); }
+
+  .nav-cta {
+    background: var(--green-bright) !important;
+    color: var(--white) !important;
+    padding: 10px 24px;
+    border-radius: 4px;
+    font-weight: 700 !important;
+    transition: background 0.2s !important;
+  }
+
+  .nav-cta:hover { background: var(--lime) !important; color: var(--dark) !important; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    background: var(--green-deep);
+    position: relative;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    padding-top: 80px;
+  }
+
+  /* Diagonal stripe pattern */
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 40px,
+      rgba(46, 168, 46, 0.04) 40px,
+      rgba(46, 168, 46, 0.04) 80px
+    );
+  }
+
+  .hero-glow {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(46,168,46,0.18) 0%, transparent 70%);
+    top: -100px;
+    right: -100px;
+    pointer-events: none;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    padding: 80px 48px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    width: 100%;
+    max-width: 1300px;
+    margin: 0 auto;
+  }
+
+  .hero-left {}
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(46,168,46,0.15);
+    border: 1px solid rgba(46,168,46,0.4);
+    color: var(--lime);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 100px;
+    margin-bottom: 28px;
+  }
+
+  .hero h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3.5rem, 6vw, 5.5rem);
+    color: var(--white);
+    line-height: 0.95;
+    letter-spacing: 0.03em;
+    margin-bottom: 24px;
+  }
+
+  .hero h1 .accent {
+    color: var(--lime);
+    display: block;
+  }
+
+  .hero-sub {
+    font-size: 1.05rem;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.75;
+    margin-bottom: 40px;
+    font-weight: 300;
+    max-width: 420px;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-bottom: 48px;
+  }
+
+  .btn-green {
+    background: var(--green-bright);
+    color: var(--white);
+    padding: 15px 32px;
+    border-radius: 4px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+    display: inline-block;
+  }
+
+  .btn-green:hover { background: var(--lime); color: var(--dark); transform: translateY(-2px); }
+
+  .btn-outline {
+    background: transparent;
+    color: rgba(255,255,255,0.8);
+    padding: 15px 32px;
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 4px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: border-color 0.2s, color 0.2s;
+    display: inline-block;
+  }
+
+  .btn-outline:hover { border-color: var(--lime); color: var(--lime); }
+
+  .hero-contacts {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .hero-contact-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: rgba(255,255,255,0.55);
+    font-size: 0.85rem;
+  }
+
+  .hero-contact-item span:first-child {
+    color: var(--lime);
+    font-size: 1rem;
+  }
+
+  /* Hero right — service cards */
+  .hero-right {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .hero-service-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(46,168,46,0.2);
+    border-radius: 8px;
+    padding: 28px 22px;
+    transition: background 0.25s, border-color 0.25s, transform 0.2s;
+    cursor: default;
+  }
+
+  .hero-service-card:hover {
+    background: rgba(46,168,46,0.1);
+    border-color: rgba(46,168,46,0.5);
+    transform: translateY(-3px);
+  }
+
+  .hsc-icon { font-size: 1.8rem; margin-bottom: 12px; display: block; }
+
+  .hsc-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.15rem;
+    color: var(--white);
+    letter-spacing: 0.05em;
+    margin-bottom: 6px;
+  }
+
+  .hsc-desc {
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.5;
+    font-weight: 300;
+  }
+
+  /* SERVICES DETAIL */
+  .services {
+    background: var(--white);
+    padding: 100px 48px;
+  }
+
+  .section-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--green-bright);
+    margin-bottom: 10px;
+  }
+
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.2rem, 4vw, 3.2rem);
+    color: var(--green-deep);
+    letter-spacing: 0.04em;
+    line-height: 1;
+    margin-bottom: 16px;
+  }
+
+  .section-bar {
+    width: 50px;
+    height: 4px;
+    background: var(--lime);
+    border-radius: 2px;
+    margin-bottom: 60px;
+  }
+
+  .services-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .svc-item {
+    display: flex;
+    gap: 18px;
+    align-items: flex-start;
+    padding: 28px;
+    border: 1px solid var(--light-gray);
+    border-radius: 8px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .svc-item:hover {
+    border-color: var(--green-bright);
+    box-shadow: 0 4px 20px rgba(46,168,46,0.1);
+  }
+
+  .svc-check {
+    width: 32px;
+    height: 32px;
+    background: var(--green-bright);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 0.85rem;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .svc-text h4 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1rem;
+    color: var(--green-deep);
+    letter-spacing: 0.05em;
+    margin-bottom: 6px;
+  }
+
+  .svc-text p {
+    font-size: 0.83rem;
+    color: var(--gray);
+    line-height: 1.6;
+    font-weight: 300;
+  }
+
+  /* WHY US */
+  .why {
+    background: var(--off-white);
+    padding: 100px 48px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    max-width: 100%;
+  }
+
+  .why-content {}
+
+  .why-points {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin-top: 36px;
+  }
+
+  .why-point {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  .why-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    color: var(--green-bright);
+    line-height: 1;
+    min-width: 40px;
+    opacity: 0.5;
+  }
+
+  .why-point-text h4 {
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--green-deep);
+    margin-bottom: 4px;
+  }
+
+  .why-point-text p {
+    font-size: 0.85rem;
+    color: var(--gray);
+    line-height: 1.6;
+    font-weight: 300;
+  }
+
+  .why-visual {
+    background: var(--green-deep);
+    border-radius: 12px;
+    padding: 52px 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 32px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .why-visual::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 30px,
+      rgba(46,168,46,0.04) 30px,
+      rgba(46,168,46,0.04) 60px
+    );
+  }
+
+  .why-big-logo {
+    width: 120px;
+    height: 120px;
+    background: var(--green-logo);
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.8rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .why-visual-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    color: var(--white);
+    letter-spacing: 0.06em;
+    position: relative;
+    z-index: 1;
+    line-height: 1.1;
+  }
+
+  .why-visual-tagline {
+    font-size: 0.82rem;
+    color: rgba(255,255,255,0.5);
+    font-weight: 300;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    position: relative;
+    z-index: 1;
+  }
+
+  .why-stat-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+  }
+
+  .why-stat {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(46,168,46,0.2);
+    border-radius: 6px;
+    padding: 16px;
+    text-align: center;
+  }
+
+  .why-stat-val {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8rem;
+    color: var(--lime);
+    letter-spacing: 0.04em;
+    line-height: 1;
+  }
+
+  .why-stat-label {
+    font-size: 0.7rem;
+    color: rgba(255,255,255,0.5);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-top: 4px;
+  }
+
+  /* CTA */
+  .cta {
+    background: var(--green-mid);
+    padding: 80px 48px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 100%, rgba(123,193,66,0.2) 0%, transparent 60%);
+  }
+
+  .cta h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    color: var(--white);
+    letter-spacing: 0.04em;
+    line-height: 1;
+    margin-bottom: 14px;
+    position: relative;
+  }
+
+  .cta p {
+    color: rgba(255,255,255,0.65);
+    font-size: 1rem;
+    margin-bottom: 40px;
+    font-weight: 300;
+    position: relative;
+  }
+
+  .cta-btns {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+    position: relative;
+  }
+
+  .cta-contact-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.25);
+    color: var(--white);
+    padding: 15px 32px;
+    border-radius: 4px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+
+  .cta-contact-btn:hover { background: rgba(255,255,255,0.2); }
+
+  .cta-contact-btn.primary {
+    background: var(--white);
+    color: var(--green-deep);
+    border-color: var(--white);
+  }
+
+  .cta-contact-btn.primary:hover { background: var(--off-white); }
+
+  /* FOOTER */
+  footer {
+    background: var(--dark);
+    padding: 36px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .footer-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1rem;
+    color: var(--white);
+    letter-spacing: 0.08em;
+  }
+
+  .footer-copy {
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.35);
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-badge { animation: fadeUp 0.5s ease both; }
+  .hero h1 { animation: fadeUp 0.5s 0.12s ease both; }
+  .hero-sub { animation: fadeUp 0.5s 0.24s ease both; }
+  .hero-actions { animation: fadeUp 0.5s 0.36s ease both; }
+  .hero-contacts { animation: fadeUp 0.5s 0.48s ease both; }
+  .hero-right { animation: fadeUp 0.5s 0.3s ease both; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <div class="logo-hex">🌿</div>
+    <div class="nav-name">
+      Marshall Mowing
+      <span>Lawn Care LLC</span>
+    </div>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#why">Why Us</a></li>
+    <li><a href="#contact" class="nav-cta">Book Now</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <div class="hero-left">
+      <div class="hero-badge">🌱 Professional Lawn Care</div>
+      <h1>
+        A Lawn You'll
+        <span class="accent">Be Proud Of.</span>
+      </h1>
+      <p class="hero-sub">Mowing, edging, trimming, sod installation, and more. Marshall Mowing handles the yard so you don't have to.</p>
+      <div class="hero-actions">
+        <a href="#contact" class="btn-green">Get a Free Quote</a>
+        <a href="#services" class="btn-outline">See Services</a>
+      </div>
+      <div class="hero-contacts">
+        <div class="hero-contact-item"><span>📞</span><span>(803) 361-1724</span></div>
+        <div class="hero-contact-item"><span>✉️</span><span>marshallmowingllc1@gmail.com</span></div>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-service-card">
+        <span class="hsc-icon">🌿</span>
+        <div class="hsc-title">Mowing & Edging</div>
+        <div class="hsc-desc">Clean cuts, sharp edges, every visit.</div>
+      </div>
+      <div class="hero-service-card">
+        <span class="hsc-icon">✂️</span>
+        <div class="hsc-title">Hedge Trimming</div>
+        <div class="hsc-desc">Shrub pruning and shaping done right.</div>
+      </div>
+      <div class="hero-service-card">
+        <span class="hsc-icon">🌾</span>
+        <div class="hsc-title">Sod Installation</div>
+        <div class="hsc-desc">New lawn installs with lasting results.</div>
+      </div>
+      <div class="hero-service-card">
+        <span class="hsc-icon">🌸</span>
+        <div class="hsc-title">Flower Beds</div>
+        <div class="hsc-desc">Cleanups, installs, and bed edging.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div style="max-width:1200px;margin:0 auto;">
+    <p class="section-label">What We Offer</p>
+    <h2 class="section-title">Our Services</h2>
+    <div class="section-bar"></div>
+    <div class="services-list">
+      <div class="svc-item">
+        <div class="svc-check">✓</div>
+        <div class="svc-text">
+          <h4>Mowing / Edging / Bed Edging</h4>
+          <p>A full mow-and-edge package that leaves your lawn looking professionally maintained every time.</p>
+        </div>
+      </div>
+      <div class="svc-item">
+        <div class="svc-check">✓</div>
+        <div class="svc-text">
+          <h4>Bed Cleanups & Shrub Removal</h4>
+          <p>Clearing out overgrown beds and unwanted shrubs so your yard has a clean, open feel.</p>
+        </div>
+      </div>
+      <div class="svc-item">
+        <div class="svc-check">✓</div>
+        <div class="svc-text">
+          <h4>Hedge Trimming & Shrub Pruning</h4>
+          <p>Precision shaping for hedges and shrubs that keeps your property looking polished year-round.</p>
+        </div>
+      </div>
+      <div class="svc-item">
+        <div class="svc-check">✓</div>
+        <div class="svc-text">
+          <h4>Sod Installation</h4>
+          <p>From bare patches to full lawn installs — we source and lay quality sod that takes root fast.</p>
+        </div>
+      </div>
+      <div class="svc-item">
+        <div class="svc-check">✓</div>
+        <div class="svc-text">
+          <h4>Flower Bed Installation</h4>
+          <p>We design and install flower beds that add color and curb appeal to your home.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY US -->
+<section class="why" id="why">
+  <div class="why-content">
+    <p class="section-label">Why Marshall Mowing</p>
+    <h2 class="section-title">Built on Reliability</h2>
+    <div class="section-bar" style="margin-bottom:0;"></div>
+    <div class="why-points">
+      <div class="why-point">
+        <span class="why-num">01</span>
+        <div class="why-point-text">
+          <h4>We Show Up</h4>
+          <p>Punctual, consistent, and communicative. No guessing when we're coming — we keep you in the loop.</p>
+        </div>
+      </div>
+      <div class="why-point">
+        <span class="why-num">02</span>
+        <div class="why-point-text">
+          <h4>Free Estimates, No Pressure</h4>
+          <p>Tell us what you need and we'll give you a fair price upfront. No hidden fees, no surprises on the invoice.</p>
+        </div>
+      </div>
+      <div class="why-point">
+        <span class="why-num">03</span>
+        <div class="why-point-text">
+          <h4>We Do the Full Job</h4>
+          <p>We don't just mow and leave. Every visit includes edging, cleanup, and attention to the details that matter.</p>
+        </div>
+      </div>
+      <div class="why-point">
+        <span class="why-num">04</span>
+        <div class="why-point-text">
+          <h4>Local & Owner-Operated</h4>
+          <p>You're not calling a call center. You're working directly with the people doing the work.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="why-visual">
+    <div class="why-big-logo">🌿</div>
+    <div class="why-visual-name">Marshall Mowing LLC</div>
+    <div class="why-visual-tagline">Professional Lawn Care</div>
+    <div class="why-stat-row">
+      <div class="why-stat">
+        <div class="why-stat-val">5</div>
+        <div class="why-stat-label">Services Offered</div>
+      </div>
+      <div class="why-stat">
+        <div class="why-stat-val">Free</div>
+        <div class="why-stat-label">Estimates</div>
+      </div>
+      <div class="why-stat">
+        <div class="why-stat-val">LLC</div>
+        <div class="why-stat-label">Licensed Business</div>
+      </div>
+      <div class="why-stat">
+        <div class="why-stat-val">Local</div>
+        <div class="why-stat-label">Owner-Operated</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta" id="contact">
+  <h2>Ready to Book Your Yard?</h2>
+  <p>Call or email us for a free estimate. We'd love to take care of your lawn.</p>
+  <div class="cta-btns">
+    <a href="tel:8033611724" class="cta-contact-btn primary">📞 (803) 361-1724</a>
+    <a href="mailto:marshallmowingllc1@gmail.com" class="cta-contact-btn">✉️ Send Us an Email</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-name">Marshall Mowing LLC</span>
+  <span class="footer-copy">(803) 361-1724 &nbsp;·&nbsp; marshallmowingllc1@gmail.com</span>
+</footer>
+
+</body>
+</html>
