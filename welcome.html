@@ -9,6 +9,7 @@
   <link rel="shortcut icon" href="images/webeaze-transparent copy.png" type="image/png" />
 
   <meta name="description" content="Welcome to WebEaze. Here's what happens next, how your plan works, and how to get the most from your website." />
+  <meta name="robots" content="noindex, nofollow" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -30,6 +31,8 @@
       --green: #22c55e;
       --line: rgba(255, 255, 255, 0.06);
       --line-gold: rgba(255, 215, 0, 0.2);
+      --hero-glow-1: rgba(255, 215, 0, 0.18);
+      --hero-glow-2: rgba(255, 215, 0, 0.06);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -47,7 +50,7 @@
 
     .container { max-width: 900px; margin: 0 auto; padding: 0 20px; }
 
-    /* HERO */
+    /* ── HERO ── */
     .hero {
       position: relative;
       padding: clamp(60px, 12vh, 100px) 0 clamp(40px, 8vh, 60px);
@@ -57,38 +60,32 @@
     .hero::before {
       content: '';
       position: absolute;
-      top: -200px;
-      left: 50%;
+      top: -200px; left: 50%;
       transform: translateX(-50%);
-      width: 800px;
-      height: 800px;
-      background: radial-gradient(circle, rgba(120, 81, 169, 0.25) 0%, transparent 50%);
+      width: 800px; height: 800px;
+      background: radial-gradient(circle, var(--hero-glow-1) 0%, transparent 50%);
       pointer-events: none;
     }
     .hero::after {
       content: '';
       position: absolute;
-      top: 100px;
-      left: 50%;
+      top: 100px; left: 50%;
       transform: translateX(-50%);
-      width: 600px;
-      height: 600px;
-      background: radial-gradient(circle, rgba(255, 215, 0, 0.08) 0%, transparent 50%);
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, var(--hero-glow-2) 0%, transparent 50%);
       pointer-events: none;
     }
-
     .hero-content { position: relative; z-index: 1; }
 
     .logo-wrap {
-      display: inline-flex;
+      display: flex;
       align-items: center;
       justify-content: center;
-      width: 64px;
-      height: 64px;
+      width: 64px; height: 64px;
       background: var(--bg-card);
       border: 1px solid var(--line);
       border-radius: 16px;
-      margin-bottom: 24px;
+      margin: 0 auto 24px;
     }
     .logo-wrap img { width: 36px; height: auto; }
 
@@ -106,8 +103,7 @@
       margin-bottom: 20px;
     }
     .status-badge .dot {
-      width: 8px;
-      height: 8px;
+      width: 8px; height: 8px;
       background: var(--green);
       border-radius: 50%;
       animation: pulse 2s ease-in-out infinite;
@@ -130,15 +126,13 @@
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
-
     .hero-sub {
       font-size: 1.05rem;
       color: rgba(255,255,255,.85);
-      max-width: 480px;
+      max-width: 520px;
       margin: 0 auto 24px;
       line-height: 1.6;
     }
-
     .plan-badge {
       display: inline-flex;
       align-items: center;
@@ -153,34 +147,85 @@
     .plan-badge .plan { color: var(--text-muted); }
     .plan-badge .plan strong { color: var(--gold); }
 
-    /* TIMELINE */
-    .timeline-section {
-      padding: 60px 0;
-      background: linear-gradient(180deg, transparent 0%, rgba(12, 13, 20, 0.5) 100%);
-    }
-    .section-header {
-      text-align: center;
-      margin-bottom: 40px;
-    }
+    /* ── SECTION HEADER (shared) ── */
+    .section-header { text-align: center; margin-bottom: 40px; }
     .section-header h2 {
       font-size: clamp(1.5rem, 4vw, 2rem);
       font-weight: 700;
       margin-bottom: 8px;
     }
-    .section-header p {
-      color: var(--text-muted);
-      font-size: 1rem;
+    .section-header p { color: var(--text-muted); font-size: 1rem; }
+
+    /* ── WHAT'S INCLUDED ── */
+    .includes-section { padding: 70px 0 40px; }
+    .includes-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+    @media (max-width: 580px) { .includes-grid { grid-template-columns: 1fr; } }
+
+    .include-item {
+      background: var(--bg-card);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 18px 20px;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      transition: border-color 0.2s;
+    }
+    .include-item:hover { border-color: rgba(255, 215, 0, 0.15); }
+    .include-item.highlight {
+      border-color: var(--line-gold);
+      background: linear-gradient(135deg, rgba(255, 215, 0, 0.06) 0%, var(--bg-card) 100%);
+    }
+    .include-icon {
+      width: 40px; height: 40px;
+      flex-shrink: 0;
+      background: var(--gold-dim);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .include-icon i { font-size: 1rem; color: var(--gold); }
+    .include-item.highlight .include-icon { background: var(--gold); }
+    .include-item.highlight .include-icon i { color: #0a0a14; }
+    .include-text { flex: 1; }
+    .include-text h4 {
+      font-size: 0.92rem;
+      font-weight: 700;
+      margin-bottom: 3px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .include-text p { font-size: 0.8rem; color: var(--text-muted); line-height: 1.4; }
+    .plan-tag {
+      font-size: 0.58rem;
+      padding: 2px 7px;
+      background: var(--gold);
+      color: #0a0a14;
+      border-radius: 5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
     }
 
+    /* ── TIMELINE ── */
+    .timeline-section {
+      padding: 40px 0 60px;
+      background: linear-gradient(180deg, transparent 0%, rgba(12, 13, 20, 0.5) 100%);
+    }
     .timeline {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 20px;
-      position: relative;
     }
-    @media (max-width: 768px) {
-      .timeline { grid-template-columns: 1fr; gap: 16px; }
-    }
+    @media (max-width: 768px) { .timeline { grid-template-columns: 1fr; gap: 16px; } }
 
     .timeline-step {
       background: var(--bg-card);
@@ -191,10 +236,7 @@
       transition: all 0.3s ease;
       position: relative;
     }
-    .timeline-step:hover {
-      border-color: var(--line-gold);
-      transform: translateY(-4px);
-    }
+    .timeline-step:hover { border-color: var(--line-gold); transform: translateY(-4px); }
     .timeline-step.active {
       border-color: var(--gold);
       background: linear-gradient(180deg, rgba(255, 215, 0, 0.05) 0%, var(--bg-card) 100%);
@@ -202,17 +244,13 @@
     .timeline-step.active::before {
       content: '';
       position: absolute;
-      top: -1px;
-      left: 24px;
-      right: 24px;
+      top: -1px; left: 24px; right: 24px;
       height: 3px;
       background: var(--gold);
       border-radius: 0 0 4px 4px;
     }
-
     .step-number {
-      width: 48px;
-      height: 48px;
+      width: 48px; height: 48px;
       background: var(--gold-dim);
       border: 1px solid rgba(255, 215, 0, 0.2);
       border-radius: 12px;
@@ -224,31 +262,13 @@
       color: var(--gold);
       margin: 0 auto 16px;
     }
-    .timeline-step.active .step-number {
-      background: var(--gold);
-      color: #0a0a14;
-    }
+    .timeline-step.active .step-number { background: var(--gold); color: #0a0a14; }
+    .timeline-step h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; }
+    .timeline-step p { color: var(--text-muted); font-size: 0.9rem; line-height: 1.5; }
 
-    .timeline-step h3 {
-      font-size: 1.1rem;
-      font-weight: 700;
-      margin-bottom: 8px;
-    }
-    .timeline-step p {
-      color: var(--text-muted);
-      font-size: 0.9rem;
-      line-height: 1.5;
-    }
-
-    /* RESOURCES */
-    .resources-section {
-      padding: 60px 0;
-    }
-    .resources-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 16px;
-    }
+    /* ── RESOURCES ── */
+    .resources-section { padding: 60px 0; }
+    .resources-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
 
     .resource-card {
       background: var(--bg-card);
@@ -260,18 +280,13 @@
       gap: 20px;
       transition: all 0.3s ease;
     }
-    .resource-card:hover {
-      border-color: var(--line-gold);
-      transform: translateY(-2px);
-    }
+    .resource-card:hover { border-color: var(--line-gold); transform: translateY(-2px); }
     .resource-card.featured {
       background: linear-gradient(135deg, rgba(255, 215, 0, 0.08) 0%, var(--bg-card) 100%);
       border-color: var(--line-gold);
     }
-
     .resource-icon {
-      width: 56px;
-      height: 56px;
+      width: 56px; height: 56px;
       background: var(--gold-dim);
       border-radius: 14px;
       display: flex;
@@ -279,17 +294,9 @@
       justify-content: center;
       flex-shrink: 0;
     }
-    .resource-icon i {
-      font-size: 1.4rem;
-      color: var(--gold);
-    }
-    .resource-card.featured .resource-icon {
-      background: var(--gold);
-    }
-    .resource-card.featured .resource-icon i {
-      color: #0a0a14;
-    }
-
+    .resource-icon i { font-size: 1.4rem; color: var(--gold); }
+    .resource-card.featured .resource-icon { background: var(--gold); }
+    .resource-card.featured .resource-icon i { color: #0a0a14; }
     .resource-content { flex: 1; }
     .resource-content h3 {
       font-size: 1.15rem;
@@ -309,12 +316,7 @@
       text-transform: uppercase;
       letter-spacing: 0.05em;
     }
-    .resource-content p {
-      color: var(--text-muted);
-      font-size: 0.9rem;
-      line-height: 1.5;
-      margin-bottom: 12px;
-    }
+    .resource-content p { color: var(--text-muted); font-size: 0.9rem; line-height: 1.5; margin-bottom: 12px; }
     .resource-link {
       display: inline-flex;
       align-items: center;
@@ -324,30 +326,12 @@
       color: var(--gold);
       transition: gap 0.2s;
     }
-    .resource-link:hover {
-      gap: 10px;
-      text-decoration: none;
-    }
+    .resource-link:hover { gap: 10px; text-decoration: none; }
 
-    /* INFO CARDS */
-    .info-section {
-      padding: 40px 0 80px;
-    }
-    .info-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 16px;
-    }
-    @media (max-width: 768px) {
-      .info-grid { grid-template-columns: 1fr; }
-    }
+    /* ── INFO CARD ── */
+    .info-section { padding: 0 0 60px; }
 
-    .info-card {
-      background: var(--bg-card);
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      padding: 24px;
-    }
+    .info-card { background: var(--bg-card); border: 1px solid var(--line); border-radius: 16px; padding: 24px; }
     .info-card h4 {
       font-size: 0.8rem;
       font-weight: 600;
@@ -360,10 +344,7 @@
       gap: 8px;
     }
     .info-card h4 i { color: var(--gold); font-size: 0.9rem; }
-
-    .info-list {
-      list-style: none;
-    }
+    .info-list { list-style: none; }
     .info-list li {
       display: flex;
       align-items: flex-start;
@@ -374,14 +355,153 @@
       color: rgba(255,255,255,.85);
     }
     .info-list li:last-child { border-bottom: none; }
-    .info-list li i {
-      color: var(--gold);
-      font-size: 0.75rem;
-      margin-top: 5px;
-    }
-    .info-list li strong { color: var(--text); }
+    .info-list li > i { color: var(--gold); font-size: 0.75rem; margin-top: 5px; flex-shrink: 0; }
 
-    /* FOOTER CTA */
+    /* ── BOOKMARK SECTION ── */
+    .bookmark-section { padding: 0 0 60px; }
+    .bookmark-card {
+      background: linear-gradient(135deg, rgba(255, 215, 0, 0.07) 0%, var(--bg-card) 100%);
+      border: 1px solid var(--line-gold);
+      border-radius: 24px;
+      padding: clamp(36px, 6vw, 56px) clamp(24px, 5vw, 48px);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .bookmark-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 50%;
+      transform: translateX(-50%);
+      width: 600px; height: 300px;
+      background: radial-gradient(ellipse, rgba(255, 215, 0, 0.1) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .bookmark-icon {
+      width: 64px; height: 64px;
+      background: var(--gold);
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      position: relative;
+    }
+    .bookmark-icon i { font-size: 1.6rem; color: #0a0a14; }
+    .bookmark-eyebrow {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--gold);
+      margin-bottom: 10px;
+      position: relative;
+    }
+    .bookmark-card h2 {
+      font-size: clamp(1.5rem, 4vw, 2rem);
+      font-weight: 700;
+      margin-bottom: 10px;
+      position: relative;
+    }
+    .bookmark-card > .bookmark-inner > p {
+      color: var(--text-muted);
+      font-size: 1rem;
+      max-width: 460px;
+      margin: 0 auto 22px;
+      line-height: 1.6;
+      position: relative;
+    }
+    .bookmark-url {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-family: monospace;
+      color: var(--text-muted);
+      margin-bottom: 28px;
+      position: relative;
+    }
+    .bookmark-url i { color: var(--gold); font-size: 0.7rem; }
+    .bookmark-inner { position: relative; }
+    .btn-bookmark {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 16px 32px;
+      border-radius: 14px;
+      font-weight: 700;
+      font-size: 1rem;
+      background: var(--gold);
+      color: #0a0a14;
+      box-shadow: 0 8px 32px rgba(255, 215, 0, 0.22);
+      transition: all 0.2s;
+    }
+    .btn-bookmark:hover { background: #ffea80; transform: translateY(-2px); box-shadow: 0 14px 40px rgba(255, 215, 0, 0.35); text-decoration: none; }
+
+    /* ── UPGRADE NUDGE ── */
+    .upgrade-section { padding: 0 0 60px; }
+    .upgrade-card {
+      background: linear-gradient(135deg, rgba(120, 81, 169, 0.18) 0%, rgba(255, 215, 0, 0.06) 100%);
+      border: 1px solid rgba(120, 81, 169, 0.35);
+      border-radius: 24px;
+      padding: clamp(28px, 5vw, 44px);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 28px;
+      align-items: center;
+    }
+    @media (max-width: 640px) { .upgrade-card { grid-template-columns: 1fr; } }
+    .upgrade-eyebrow {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #b39ddb;
+      margin-bottom: 6px;
+    }
+    .upgrade-card h3 { font-size: 1.3rem; font-weight: 700; margin-bottom: 6px; }
+    .upgrade-card h3 span {
+      background: linear-gradient(135deg, var(--gold) 0%, #ffea80 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .upgrade-card > div > p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 16px; }
+    .upgrade-features { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; }
+    .upgrade-features li {
+      font-size: 0.78rem;
+      padding: 5px 12px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 20px;
+      color: rgba(255,255,255,0.8);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .upgrade-features li i { color: var(--gold); font-size: 0.68rem; }
+    .upgrade-cta { flex-shrink: 0; text-align: center; }
+    .btn-upgrade {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 24px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      background: var(--gold);
+      color: #0a0a14;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .btn-upgrade:hover { background: #ffea80; transform: translateY(-2px); text-decoration: none; }
+    .upgrade-note { font-size: 0.7rem; color: rgba(255,255,255,0.35); margin-top: 8px; }
+
+    /* ── FOOTER CTA ── */
     .footer-cta {
       padding: 60px 0;
       background: linear-gradient(180deg, var(--bg) 0%, #0a0b12 100%);
@@ -398,33 +518,15 @@
     .cta-card::before {
       content: '';
       position: absolute;
-      top: 0;
-      left: 50%;
+      top: 0; left: 50%;
       transform: translateX(-50%);
-      width: 400px;
-      height: 200px;
+      width: 400px; height: 200px;
       background: radial-gradient(ellipse, rgba(255, 215, 0, 0.1) 0%, transparent 60%);
       pointer-events: none;
     }
-    .cta-card h3 {
-      font-size: clamp(1.25rem, 3vw, 1.5rem);
-      font-weight: 700;
-      margin-bottom: 8px;
-      position: relative;
-    }
-    .cta-card p {
-      color: var(--text-muted);
-      margin-bottom: 24px;
-      position: relative;
-    }
-    .cta-buttons {
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      flex-wrap: wrap;
-      position: relative;
-    }
-
+    .cta-card h3 { font-size: clamp(1.25rem, 3vw, 1.5rem); font-weight: 700; margin-bottom: 8px; position: relative; }
+    .cta-card p { color: var(--text-muted); margin-bottom: 24px; position: relative; }
+    .cta-buttons { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; position: relative; }
     .btn {
       display: inline-flex;
       align-items: center;
@@ -435,37 +537,14 @@
       font-size: 0.95rem;
       transition: all 0.2s ease;
     }
-    .btn-primary {
-      background: var(--gold);
-      color: #0a0a14;
-      box-shadow: 0 8px 24px var(--gold-glow);
-    }
-    .btn-primary:hover {
-      background: #ffea80;
-      transform: translateY(-2px);
-      text-decoration: none;
-    }
-    .btn-secondary {
-      background: transparent;
-      color: var(--text);
-      border: 1px solid var(--line);
-    }
-    .btn-secondary:hover {
-      border-color: var(--gold);
-      color: var(--gold);
-      text-decoration: none;
-    }
+    .btn-primary { background: var(--gold); color: #0a0a14; box-shadow: 0 8px 24px var(--gold-glow); }
+    .btn-primary:hover { background: #ffea80; transform: translateY(-2px); text-decoration: none; }
+    .btn-secondary { background: transparent; color: var(--text); border: 1px solid var(--line); }
+    .btn-secondary:hover { border-color: var(--gold); color: var(--gold); text-decoration: none; }
 
-    /* REVEAL */
-    .reveal {
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
-    }
-    .reveal.show {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    /* ── REVEAL ── */
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.show { opacity: 1; transform: translateY(0); }
     .reveal-delay-1 { transition-delay: 0.1s; }
     .reveal-delay-2 { transition-delay: 0.2s; }
     .reveal-delay-3 { transition-delay: 0.3s; }
@@ -480,136 +559,94 @@
       <div class="logo-wrap">
         <img src="images/webeaze-transparent copy.png" alt="WebEaze" />
       </div>
-
-
-
-      <h1>Welcome to <span>WebEaze</span>!</h1>
-      <p class="hero-sub">
-        You're all set. Here's what to expect and how to get started.
-      </p>
-
+      <div class="status-badge">
+        <span class="dot"></span>
+        <span id="status-label">Plan Active</span>
+      </div>
+      <h1 id="hero-title">Welcome to <span>WebEaze</span>!</h1>
+      <p class="hero-sub" id="hero-sub">You're all set. Here's what to expect and how to get started.</p>
       <div class="plan-badge">
-        <i class="fas fa-crown"></i>
-        <span class="plan">Check <strong>Welcome Email</strong> for plan info</span>
+        <i class="fas fa-gem" id="plan-icon"></i>
+        <span class="plan" id="plan-label">Your Plan</span>
       </div>
     </div>
   </div>
 </header>
 
-<!-- TIMELINE -->
+<!-- WHAT'S INCLUDED -->
+<section class="includes-section">
+  <div class="container">
+    <div class="section-header reveal">
+      <h2 id="includes-heading">What&#8217;s Included in Your Plan</h2>
+      <p id="includes-sub">Everything that comes with your subscription</p>
+    </div>
+    <div class="includes-grid" id="includes-grid"></div>
+  </div>
+</section>
+
+<!-- WHAT HAPPENS NEXT -->
 <section class="timeline-section">
   <div class="container">
     <div class="section-header reveal">
       <h2>What Happens Next</h2>
-      <p>Three steps to get your site live</p>
+      <p id="timeline-sub">Here's how your site goes from zero to live</p>
     </div>
-
-    <div class="timeline">
-      <div class="timeline-step active reveal reveal-delay-1">
-        <div class="step-number">1</div>
-        <h3>Submit Your Content</h3>
-        <p>Fill out the <a href="https://406km9.share-na2.hsforms.com/2BrG2FrkxQX6to17RxtyS5g" target="_blank" style="color: var(--gold); text-decoration: underline;">Content Submission Form</a> with your text, photos, logo, and business info. This is how we get started.</p>
-      </div>
-
-      <div class="timeline-step reveal reveal-delay-2">
-        <div class="step-number">2</div>
-        <h3>We Build Your Site</h3>
-        <p>Our team designs your website and sends you a draft to review before anything goes live.</p>
-      </div>
-
-      <div class="timeline-step reveal reveal-delay-3">
-        <div class="step-number">3</div>
-        <h3>You Go Live</h3>
-        <p>Once you approve the draft, we launch your site. Need changes after that? Just submit a request anytime.</p>
-      </div>
-    </div>
+    <div class="timeline" id="timeline"></div>
   </div>
 </section>
 
-<!-- RESOURCES -->
-<section class="resources-section">
+<!-- BOOKMARK — Website Request Page -->
+<section class="bookmark-section">
   <div class="container">
-    <div class="section-header reveal">
-      <h2>Key Resources</h2>
-      <p>Pages worth bookmarking</p>
-    </div>
-
-    <div class="resources-grid">
-      <div class="resource-card featured reveal">
-        <div class="resource-icon">
-          <i class="fas fa-file-arrow-up"></i>
-        </div>
-        <div class="resource-content">
-          <h3>Content Submission Form <span class="badge">Start Here</span></h3>
-          <p>Send us your text, photos, logo, and business details. This is the first thing we need to start building your site.</p>
-          <a href="https://406km9.share-na2.hsforms.com/2BrG2FrkxQX6to17RxtyS5g" target="_blank" class="resource-link">
-            Submit Your Content <i class="fas fa-arrow-right"></i>
-          </a>
-        </div>
-      </div>
-
-      <div class="resource-card reveal reveal-delay-1">
-        <div class="resource-icon">
-          <i class="fas fa-paper-plane"></i>
-        </div>
-        <div class="resource-content">
-          <h3>Website Request Page <span class="badge">Bookmark This</span></h3>
-          <p>Once your site is live, this is where you send updates, change requests, and anything else you need from us.</p>
-          <a href="https://webeaze.io/website-request" target="_blank" class="resource-link">
-            Open Request Page <i class="fas fa-arrow-right"></i>
-          </a>
-        </div>
-      </div>
-
-      <div class="resource-card reveal reveal-delay-2">
-        <div class="resource-icon">
-          <i class="fas fa-book-open"></i>
-        </div>
-        <div class="resource-content">
-          <h3>Help Center</h3>
-          <p>Common questions, how updates work, billing info, and more. A good place to check before reaching out.</p>
-          <a href="help.html" class="resource-link">
-            Browse Guides <i class="fas fa-arrow-right"></i>
-          </a>
-        </div>
-      </div>
-
-      <div class="resource-card reveal reveal-delay-3">
-        <div class="resource-icon">
-          <i class="fas fa-layer-group"></i>
-        </div>
-        <div class="resource-content">
-          <h3>Plan Features</h3>
-          <p>A full breakdown of what's included in your plan, including pages, support channels, and add-on options.</p>
-          <a href="plan-features.html" class="resource-link">
-            View Features <i class="fas fa-arrow-right"></i>
-          </a>
-        </div>
+    <div class="bookmark-card reveal">
+      <div class="bookmark-inner">
+        <div class="bookmark-icon"><i class="fas fa-bookmark"></i></div>
+        <div class="bookmark-eyebrow">Save This &mdash; You&rsquo;ll Use It Often</div>
+        <h2>Website Request Page</h2>
+        <p>Once your site is live, this is how you contact us for everything &mdash; updates, content changes, questions, and more. Submit a request and we&rsquo;ll handle the rest.</p>
+        <div class="bookmark-url"><i class="fas fa-link"></i> webeaze.io/website-request</div>
+        <br>
+        <a href="https://webeaze.io/website-request" target="_blank" class="btn-bookmark">
+          <i class="fas fa-arrow-up-right-from-square"></i> Open &amp; Bookmark This Page
+        </a>
       </div>
     </div>
   </div>
 </section>
 
-<!-- INFO CARDS -->
+<!-- WHAT WE NEED FROM YOU -->
 <section class="info-section">
   <div class="container">
-    <div class="info-grid">
-      <div class="info-card reveal">
-        <h4><i class="fas fa-clipboard-check"></i> What We Need From You</h4>
-        <ul class="info-list">
-          <li><i class="fas fa-check"></i> <span>Fill out the <a href="https://406km9.share-na2.hsforms.com/2BrG2FrkxQX6to17RxtyS5g" target="_blank">Content Submission Form</a> to get started</span></li>
-          <li><i class="fas fa-check"></i> <span>Check your email so we can reach you if we have questions</span></li>
-          <li><i class="fas fa-check"></i> <span>Use the Website Request page for all future updates</span></li>
+    <div class="info-card reveal">
+      <h4><i class="fas fa-clipboard-check"></i> What We Need From You</h4>
+      <ul class="info-list" id="needs-list"></ul>
+    </div>
+  </div>
+</section>
+
+<!-- UPGRADE NUDGE — Essential only -->
+<section class="upgrade-section" id="upgrade-section" style="display:none;">
+  <div class="container">
+    <div class="upgrade-card reveal">
+      <div>
+        <div class="upgrade-eyebrow">Upgrade Available</div>
+        <h3>Unlock More with <span>Growth</span></h3>
+        <p>Your Essential plan is a great foundation. When you&#8217;re ready for more pages, priority turnaround, and advanced SEO &#8212; Growth has it all.</p>
+        <ul class="upgrade-features">
+          <li><i class="fas fa-check"></i> Up to 6 pages</li>
+          <li><i class="fas fa-check"></i> Priority turnaround</li>
+          <li><i class="fas fa-check"></i> Advanced SEO</li>
+          <li><i class="fas fa-check"></i> Total Access Support</li>
+          <li><i class="fas fa-check"></i> Google Business Profile setup</li>
+          <li><i class="fas fa-check"></i> Online review management</li>
+          <li><i class="fas fa-check"></i> $50 hosting/domain credit</li>
         </ul>
       </div>
-
-      <div class="info-card reveal reveal-delay-1">
-        <h4><i class="fas fa-cog"></i> What We Take Care Of</h4>
-        <ul class="info-list">
-          <li><i class="fas fa-check"></i> <span>Designing and building your website</span></li>
-          <li><i class="fas fa-check"></i> <span>Hosting, domain setup, and all the technical stuff</span></li>
-          <li><i class="fas fa-check"></i> <span>Making updates whenever you send a request</span></li>
-        </ul>
+      <div class="upgrade-cta">
+        <a href="pricing.html" class="btn-upgrade">
+          <i class="fas fa-bolt"></i> See Growth Plan
+        </a>
+        <p class="upgrade-note">No commitment required</p>
       </div>
     </div>
   </div>
@@ -620,7 +657,7 @@
   <div class="container">
     <div class="cta-card reveal">
       <h3>Have a Question?</h3>
-      <p>Send us a message through the Website Request page and we'll get back to you the same business day.</p>
+      <p>Send us a message through the Website Request page and we&#8217;ll get back to you the same business day.</p>
       <div class="cta-buttons">
         <a href="https://webeaze.io/website-request" target="_blank" class="btn btn-primary">
           <i class="fas fa-paper-plane"></i> Submit a Request
@@ -634,40 +671,247 @@
 </section>
 
 <script>
-  // Reveal animations
-  (function() {
+  (function () {
     const els = document.querySelectorAll('.reveal');
-    if (!('IntersectionObserver' in window)) {
-      els.forEach(el => el.classList.add('show'));
-      return;
-    }
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('show');
-          observer.unobserve(entry.target);
-        }
-      });
+    if (!('IntersectionObserver' in window)) { els.forEach(function(el){ el.classList.add('show'); }); return; }
+    const obs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) { if (e.isIntersecting) { e.target.classList.add('show'); obs.unobserve(e.target); } });
     }, { threshold: 0.1 });
-    els.forEach(el => observer.observe(el));
+    els.forEach(function(el){ obs.observe(el); });
   })();
 </script>
 
 <script>
-  // Plan detection from URL (?plan=Essential)
-  (function() {
-    const urlParams = new URLSearchParams(window.location.search);
-    let plan = urlParams.get('plan');
+(function () {
 
-    if (plan) {
-      plan = plan.replace(/\+/g, " ");
-    }
+  /* ─────────────────────────────────────────────
+     PLAN CONFIGS
+  ───────────────────────────────────────────── */
+  var CONFIGS = {
 
-    const planEl = document.querySelector(".plan");
-    if (plan && planEl) {
-      planEl.innerHTML = `You're on the <strong>${plan}</strong> plan`;
-    }
-  })();
+    essential: {
+      planIcon:       'fa-gem',
+      planBadge:      'You&#8217;re on the <strong>Essential</strong> plan',
+      statusLabel:    'Essential Plan Active',
+      heroGlow:       'rgba(255, 215, 0, 0.18)',
+      heroTitle:      'Welcome to <span>WebEaze</span>!',
+      heroSub:        'Your Essential plan is active. Let\u2019s get your site built and live \u2014 here\u2019s everything you need to know.',
+      includesHeading:'What\u2019s in Your Essential Plan',
+      includesSub:    'Everything your business needs \u2014 professionally managed, every month',
+      includes: [
+        { icon: 'fa-file-lines',         label: 'Up to 3 Pages',               desc: 'Home, About, and Contact \u2014 designed and built for you' },
+        { icon: 'fa-mobile-screen',      label: 'Mobile-Responsive Design',    desc: 'Looks great on phones, tablets, and desktops automatically' },
+        { icon: 'fa-rotate',             label: 'Unlimited Content Updates',   desc: 'Submit a request anytime and we handle the changes' },
+        { icon: 'fa-server',             label: 'Hosting & SSL Included',      desc: 'Fully managed \u2014 no separate hosting bill' },
+        { icon: 'fa-circle-info',        label: 'Domain Setup Assistance',     desc: 'We help connect your domain to your new site' },
+        { icon: 'fa-magnifying-glass',   label: 'Basic SEO Setup',             desc: 'Page titles, meta descriptions, and foundational optimization' },
+        { icon: 'fa-envelope',           label: 'Email Support',               desc: 'Reach us anytime through your Website Request page' },
+        { icon: 'fa-calendar-days',      label: 'Support Schedules',           desc: 'Know exactly when we\u2019re available' },
+        { icon: 'fa-envelope-open-text', label: 'Contact Form Included',       desc: 'Built in and ready to capture leads from day one' },
+        { icon: 'fa-chart-bar',          label: 'Monthly Performance Reports', desc: 'Traffic, search rankings, and site health every month' },
+      ],
+      timelineSub: 'Three steps to get your site live',
+      timeline: [
+        { step: 1, active: true,  title: 'Submit Your Content', desc: 'Fill out the <a href="https://406km9.share-na2.hsforms.com/2BrG2FrkxQX6to17RxtyS5g" target="_blank">Content Submission Form</a> with your text, photos, logo, and business info. This is how we get started.' },
+        { step: 2, active: false, title: 'We Build Your Site',  desc: 'Our team designs your 3-page website and sends you a preview to review and approve before anything goes live.' },
+        { step: 3, active: false, title: 'You Go Live',         desc: 'Once you approve, we launch. Need changes after? Submit a request from your Website Request page anytime.' },
+      ],
+      showUpgrade: true,
+      needs: [
+        'Fill out the <a href="https://406km9.share-na2.hsforms.com/2BrG2FrkxQX6to17RxtyS5g" target="_blank">Content Submission Form</a> to kick things off',
+        'Keep an eye on your email so we can reach you with questions',
+        'Bookmark your <a href="website-request.html">Website Request page</a> for all future changes',
+      ],
+      weHandle: [
+        'Designing and building your 3-page website',
+        'Hosting, domain setup, and all technical management',
+        'Processing every update request you send in',
+        'Delivering your monthly performance report',
+      ],
+    },
+
+    growth: {
+      planIcon:       'fa-bolt',
+      planBadge:      'You&#8217;re on the <strong>Growth</strong> plan',
+      statusLabel:    'Growth Plan Active',
+      heroGlow:       'rgba(34, 197, 94, 0.18)',
+      heroTitle:      'You\u2019ve got everything to <span>grow.</span>',
+      heroSub:        'Your Growth plan is fully active. You\u2019re on our most popular plan \u2014 here\u2019s everything included and how to make the most of it.',
+      includesHeading:'What\u2019s in Your Growth Plan',
+      includesSub:    'Everything in Essential, plus priority access, advanced tools, and more',
+      planTagName:    'Growth',
+      includes: [
+        { icon: 'fa-file-lines',             label: 'Up to 6 Pages',               desc: 'More room to tell your story and convert visitors',                       highlight: true  },
+        { icon: 'fa-mobile-screen',          label: 'Mobile-Responsive Design',    desc: 'Looks great on phones, tablets, and desktops automatically'               },
+        { icon: 'fa-rotate',                 label: 'Unlimited Content Updates',   desc: 'Submit a request anytime and we handle the changes'                       },
+        { icon: 'fa-bolt',                   label: 'Priority Turnaround',         desc: 'Your build and every future request go to the front of the queue',        highlight: true  },
+        { icon: 'fa-coins',                  label: '$50 Hosting/Domain Credit',   desc: 'Applied automatically to your first invoice',                             highlight: true  },
+        { icon: 'fa-magnifying-glass-chart', label: 'Advanced SEO Optimization',  desc: 'Keyword research, schema markup, and full site structure optimization',   highlight: true  },
+        { icon: 'fa-headset',                label: 'Total Access Support',        desc: 'Phone, text, and email \u2014 not just email like Essential',             highlight: true  },
+        { icon: 'fa-map-location-dot',       label: 'Google Business Profile',     desc: 'We create, verify, and fully optimize your listing for local search',     highlight: true  },
+        { icon: 'fa-star',                   label: 'Online Review Management',    desc: 'Tools to grow, track, and respond to your online reviews',                highlight: true  },
+        { icon: 'fa-server',                 label: 'Hosting & SSL Included',      desc: 'Fully managed \u2014 no separate hosting bill'                            },
+        { icon: 'fa-chart-bar',              label: 'Monthly Performance Reports', desc: 'Traffic, rankings, and site health delivered every month'                 },
+        { icon: 'fa-envelope-open-text',     label: 'Contact Form Included',       desc: 'Built in and ready to capture leads from day one'                         },
+      ],
+      timelineSub: 'Your priority build \u2014 here\u2019s how it works',
+      timeline: [
+        { step: 1, active: true,  title: 'Submit Your Content', desc: 'Fill out the <a href="https://406km9.share-na2.hsforms.com/2BrG2FrkxQX6to17RxtyS5g" target="_blank">Content Submission Form</a> with your text, photos, logo, and business info. The more detail you share, the better the result.' },
+        { step: 2, active: false, title: 'Priority Build',      desc: 'We prioritize your project and design up to 6 pages. You\u2019ll receive a full preview to review and approve before launch.' },
+        { step: 3, active: false, title: 'Launch + More',       desc: 'Once approved, we launch your site and set up your Google Business Profile so you show up in local searches right away.' },
+      ],
+      showUpgrade: false,
+      needs: [
+        'Fill out the <a href="https://406km9.share-na2.hsforms.com/2BrG2FrkxQX6to17RxtyS5g" target="_blank">Content Submission Form</a> to kick things off',
+        'Keep an eye on your email \u2014 we may follow up during your build',
+        'Share Google Business access when requested so we can complete your profile setup',
+        'Bookmark your <a href="website-request.html">Website Request page</a> for all future changes',
+      ],
+      weHandle: [
+        'Designing and building your full 6-page site on a priority timeline',
+        'Processing all future requests with priority turnaround',
+        'Hosting, domain setup, and all technical management',
+        'Google Business Profile creation, verification, and optimization',
+        'Online review tracking and reputation monitoring',
+        'Delivering your monthly performance report',
+      ],
+    },
+
+    elite: {
+      planIcon:       'fa-crown',
+      planBadge:      'You&#8217;re on the <strong>Elite</strong> plan',
+      statusLabel:    'Elite Plan Active',
+      heroGlow:       'rgba(120, 81, 169, 0.3)',
+      heroTitle:      'Welcome to the <span>top tier.</span>',
+      heroSub:        'You\u2019re on our legacy Elite plan \u2014 our most comprehensive offering. Here\u2019s everything you have access to.',
+      includesHeading:'What\u2019s in Your Elite Plan',
+      includesSub:    'Our most complete plan \u2014 the full suite of WebEaze capabilities',
+      planTagName:    'Elite',
+      includes: [
+        { icon: 'fa-infinity',               label: 'Unlimited Pages',             desc: 'No page cap \u2014 build out as much as your business needs',             highlight: true  },
+        { icon: 'fa-mobile-screen',          label: 'Mobile-Responsive Design',    desc: 'Looks great on phones, tablets, and desktops automatically'               },
+        { icon: 'fa-rotate',                 label: 'Unlimited Content Updates',   desc: 'Submit a request anytime and we handle the changes'                       },
+        { icon: 'fa-stopwatch',              label: 'Same-Day Turnaround',         desc: 'Available for urgent requests \u2014 just let us know',                   highlight: true  },
+        { icon: 'fa-magnifying-glass-chart', label: 'Advanced SEO Optimization',  desc: 'Keyword research, schema markup, and full site structure optimization',   highlight: true  },
+        { icon: 'fa-headset',                label: 'Total Access Support',        desc: 'Phone, text, and email \u2014 always accessible',                         highlight: true  },
+        { icon: 'fa-map-location-dot',       label: 'Google Business Profile',     desc: 'We create, verify, and fully optimize your listing for local search',     highlight: true  },
+        { icon: 'fa-star',                   label: 'Online Review Management',    desc: 'Tools to grow, track, and respond to your online reviews',                highlight: true  },
+        { icon: 'fa-plug',                   label: 'Custom Integrations',         desc: 'Booking systems, payment tools, and third-party apps',                    highlight: true  },
+        { icon: 'fa-user-tie',               label: 'Dedicated Account Manager',   desc: 'One point of contact who knows your business inside and out',             highlight: true  },
+        { icon: 'fa-server',                 label: 'Hosting & SSL Included',      desc: 'Fully managed \u2014 no separate hosting bill'                            },
+        { icon: 'fa-chart-bar',              label: 'Monthly Performance Reports', desc: 'Traffic, rankings, and site health delivered every month'                 },
+      ],
+      timelineSub: 'Your dedicated build process',
+      timeline: [
+        { step: 1, active: true,  title: 'Submit Your Content',  desc: 'Fill out the <a href="https://406km9.share-na2.hsforms.com/2BrG2FrkxQX6to17RxtyS5g" target="_blank">Content Submission Form</a>. Your account manager will reach out shortly to align on scope and timeline.' },
+        { step: 2, active: false, title: 'Dedicated Build',      desc: 'Your account manager oversees the build with no page limits. You\u2019ll get a full preview to review and approve before launch.' },
+        { step: 3, active: false, title: 'Launch + Full Setup',  desc: 'After launch, we set up your Google Business Profile, review tools, and confirm all integrations are live and working.' },
+      ],
+      showUpgrade: false,
+      needs: [
+        'Fill out the <a href="https://406km9.share-na2.hsforms.com/2BrG2FrkxQX6to17RxtyS5g" target="_blank">Content Submission Form</a> to kick things off',
+        'Watch for a direct email from your dedicated account manager',
+        'Share any third-party credentials needed for integrations when requested',
+        'Bookmark your <a href="website-request.html">Website Request page</a> for all future changes',
+      ],
+      weHandle: [
+        'Designing and building your site with no page limit',
+        'Same-day or priority processing for all requests',
+        'Hosting, domain setup, and all technical management',
+        'Google Business Profile setup and ongoing optimization',
+        'Custom integrations and third-party connections',
+        'Dedicated account management and monthly reporting',
+      ],
+    },
+
+  };
+
+  /* ─────────────────────────────────────────────
+     DETECT PLAN
+  ───────────────────────────────────────────── */
+  var params  = new URLSearchParams(window.location.search);
+  var rawPlan = (params.get('plan') || 'essential').toLowerCase().replace(/\+/g, ' ').trim();
+  var cfg     = CONFIGS[rawPlan] || CONFIGS.essential;
+
+  /* ─────────────────────────────────────────────
+     HERO
+  ───────────────────────────────────────────── */
+  document.documentElement.style.setProperty('--hero-glow-1', cfg.heroGlow);
+  document.getElementById('status-label').textContent = cfg.statusLabel;
+  document.getElementById('hero-title').innerHTML     = cfg.heroTitle;
+  document.getElementById('hero-sub').innerHTML       = cfg.heroSub;
+  document.getElementById('plan-icon').className      = 'fas ' + cfg.planIcon;
+  document.getElementById('plan-label').innerHTML     = cfg.planBadge;
+
+  /* ─────────────────────────────────────────────
+     WHAT'S INCLUDED
+  ───────────────────────────────────────────── */
+  document.getElementById('includes-heading').innerHTML  = cfg.includesHeading;
+  document.getElementById('includes-sub').innerHTML      = cfg.includesSub;
+
+  var grid = document.getElementById('includes-grid');
+  cfg.includes.forEach(function (item, i) {
+    var delays  = ['', ' reveal-delay-1', ' reveal-delay-2', ' reveal-delay-3'];
+    var delay   = delays[i % 4];
+    var tagHTML = (item.highlight && cfg.planTagName)
+      ? ' <span class="plan-tag">' + cfg.planTagName + '</span>'
+      : '';
+    var div = document.createElement('div');
+    div.className = 'include-item reveal' + delay + (item.highlight ? ' highlight' : '');
+    div.innerHTML =
+      '<div class="include-icon"><i class="fas ' + item.icon + '"></i></div>' +
+      '<div class="include-text"><h4>' + item.label + tagHTML + '</h4><p>' + item.desc + '</p></div>';
+    grid.appendChild(div);
+  });
+
+  /* ─────────────────────────────────────────────
+     TIMELINE
+  ───────────────────────────────────────────── */
+  document.getElementById('timeline-sub').innerHTML = cfg.timelineSub;
+  var timeline = document.getElementById('timeline');
+  cfg.timeline.forEach(function (step, i) {
+    var div = document.createElement('div');
+    div.className = 'timeline-step reveal reveal-delay-' + (i + 1) + (step.active ? ' active' : '');
+    div.innerHTML =
+      '<div class="step-number">' + step.step + '</div>' +
+      '<h3>' + step.title + '</h3>' +
+      '<p>' + step.desc + '</p>';
+    timeline.appendChild(div);
+  });
+
+  /* ─────────────────────────────────────────────
+     INFO CARD — What We Need From You
+  ───────────────────────────────────────────── */
+  var needsList = document.getElementById('needs-list');
+  cfg.needs.forEach(function (item) {
+    var li = document.createElement('li');
+    li.innerHTML = '<i class="fas fa-check"></i><span>' + item + '</span>';
+    needsList.appendChild(li);
+  });
+
+  /* ─────────────────────────────────────────────
+     UPGRADE NUDGE
+  ───────────────────────────────────────────── */
+  if (cfg.showUpgrade) {
+    document.getElementById('upgrade-section').style.display = '';
+  }
+
+  /* ─────────────────────────────────────────────
+     RE-OBSERVE DYNAMICALLY ADDED ELEMENTS
+  ───────────────────────────────────────────── */
+  var newEls = document.querySelectorAll('.reveal:not(.show)');
+  if ('IntersectionObserver' in window) {
+    var obs2 = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('show'); obs2.unobserve(e.target); }
+      });
+    }, { threshold: 0.1 });
+    newEls.forEach(function (el) { obs2.observe(el); });
+  } else {
+    newEls.forEach(function (el) { el.classList.add('show'); });
+  }
+
+})();
 </script>
 
 </body>
