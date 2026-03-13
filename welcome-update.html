@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en" class="page-welcome-update">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Your Order is Confirmed | WebEaze</title>
+
+  <link rel="icon" type="image/png" href="images/webeaze-transparent.png" />
+  <link rel="shortcut icon" href="images/webeaze-transparent copy.png" type="image/png" />
+
+  <meta name="description" content="Your WebEaze one-time web project is confirmed. Here's what happens next." />
+  <meta name="robots" content="noindex, nofollow" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+  <style>
+    :root {
+      --bg: #050508;
+      --bg-card: #0c0d14;
+      --text: #ffffff;
+      --text-muted: #c2c5da;
+      --gold: #ffd700;
+      --gold-dim: rgba(255, 215, 0, 0.12);
+      --gold-glow: rgba(255, 215, 0, 0.25);
+      --green: #22c55e;
+      --line: rgba(255, 255, 255, 0.06);
+      --line-gold: rgba(255, 215, 0, 0.2);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "Poppins", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: var(--gold); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .container { max-width: 900px; margin: 0 auto; padding: 0 20px; }
+
+    /* HERO */
+    .hero {
+      position: relative;
+      padding: clamp(60px, 12vh, 100px) 0 clamp(40px, 8vh, 60px);
+      text-align: center;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -200px; left: 50%;
+      transform: translateX(-50%);
+      width: 800px; height: 800px;
+      background: radial-gradient(circle, rgba(34, 197, 94, 0.14) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      top: 100px; left: 50%;
+      transform: translateX(-50%);
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(255, 215, 0, 0.07) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .hero-content { position: relative; z-index: 1; }
+
+    .logo-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 64px; height: 64px;
+      background: var(--bg-card);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      margin: 0 auto 24px;
+    }
+    .logo-wrap img { width: 36px; height: auto; }
+
+    .confirmed-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: rgba(34, 197, 94, 0.1);
+      border: 1px solid rgba(34, 197, 94, 0.25);
+      border-radius: 100px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--green);
+      margin-bottom: 20px;
+    }
+    .confirmed-badge .dot {
+      width: 8px; height: 8px;
+      background: var(--green);
+      border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4); }
+      50% { opacity: 0.8; box-shadow: 0 0 0 8px rgba(34, 197, 94, 0); }
+    }
+
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 16px;
+    }
+    .hero h1 span {
+      background: linear-gradient(135deg, var(--gold) 0%, #ffea80 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-sub {
+      font-size: 1.05rem;
+      color: rgba(255,255,255,.85);
+      max-width: 500px;
+      margin: 0 auto 24px;
+      line-height: 1.6;
+    }
+
+    .tier-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 20px;
+      background: var(--bg-card);
+      border: 1px solid var(--line-gold);
+      border-radius: 14px;
+      font-size: 0.95rem;
+    }
+    .tier-badge i { color: var(--gold); }
+    .tier-badge span { color: var(--text-muted); }
+    .tier-badge strong { color: var(--gold); }
+
+    /* SECTIONS */
+    .timeline-section {
+      padding: 60px 0;
+      background: linear-gradient(180deg, transparent 0%, rgba(12, 13, 20, 0.5) 100%);
+    }
+    .section-header { text-align: center; margin-bottom: 40px; }
+    .section-header h2 {
+      font-size: clamp(1.5rem, 4vw, 2rem);
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .section-header p { color: var(--text-muted); font-size: 1rem; }
+
+    .timeline {
+      display: grid;
+      gap: 20px;
+    }
+    .timeline.steps-3 { grid-template-columns: repeat(3, 1fr); }
+    .timeline.steps-4 { grid-template-columns: repeat(4, 1fr); }
+    @media (max-width: 768px) {
+      .timeline.steps-3,
+      .timeline.steps-4 { grid-template-columns: 1fr; gap: 16px; }
+    }
+    @media (min-width: 769px) and (max-width: 960px) {
+      .timeline.steps-4 { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    .timeline-step {
+      background: var(--bg-card);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 28px 24px;
+      text-align: center;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+    .timeline-step:hover { border-color: var(--line-gold); transform: translateY(-4px); }
+    .timeline-step.active {
+      border-color: var(--gold);
+      background: linear-gradient(180deg, rgba(255, 215, 0, 0.05) 0%, var(--bg-card) 100%);
+    }
+    .timeline-step.active::before {
+      content: '';
+      position: absolute;
+      top: -1px; left: 24px; right: 24px;
+      height: 3px;
+      background: var(--gold);
+      border-radius: 0 0 4px 4px;
+    }
+
+    .step-number {
+      width: 48px; height: 48px;
+      background: var(--gold-dim);
+      border: 1px solid rgba(255, 215, 0, 0.2);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--gold);
+      margin: 0 auto 16px;
+    }
+    .timeline-step.active .step-number { background: var(--gold); color: #0a0a14; }
+
+    .timeline-step h3 { font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
+    .timeline-step p { color: var(--text-muted); font-size: 0.88rem; line-height: 1.55; }
+
+    /* RESOURCES */
+    .resources-section { padding: 60px 0; }
+    .resources-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+
+    .resource-card {
+      background: var(--bg-card);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 28px;
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+      transition: all 0.3s ease;
+    }
+    .resource-card:hover { border-color: var(--line-gold); transform: translateY(-2px); }
+    .resource-card.featured {
+      background: linear-gradient(135deg, rgba(255, 215, 0, 0.08) 0%, var(--bg-card) 100%);
+      border-color: var(--line-gold);
+    }
+
+    .resource-icon {
+      width: 56px; height: 56px;
+      background: var(--gold-dim);
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .resource-icon i { font-size: 1.4rem; color: var(--gold); }
+    .resource-card.featured .resource-icon { background: var(--gold); }
+    .resource-card.featured .resource-icon i { color: #0a0a14; }
+
+    .resource-content { flex: 1; }
+    .resource-content h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .resource-content h3 .badge {
+      font-size: 0.65rem;
+      padding: 3px 8px;
+      background: var(--gold);
+      color: #0a0a14;
+      border-radius: 6px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .resource-content p { color: var(--text-muted); font-size: 0.9rem; line-height: 1.5; margin-bottom: 12px; }
+    .resource-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--gold);
+      transition: gap 0.2s;
+    }
+    .resource-link:hover { gap: 10px; text-decoration: none; }
+
+    /* INFO CARDS */
+    .info-section { padding: 40px 0 20px; }
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+    @media (max-width: 768px) { .info-grid { grid-template-columns: 1fr; } }
+
+    .info-card {
+      background: var(--bg-card);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 24px;
+    }
+    .info-card h4 {
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .info-card h4 i { color: var(--gold); font-size: 0.9rem; }
+
+    .info-list { list-style: none; }
+    .info-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--line);
+      font-size: 0.9rem;
+      color: rgba(255,255,255,.85);
+    }
+    .info-list li:last-child { border-bottom: none; }
+    .info-list li i { color: var(--gold); font-size: 0.75rem; margin-top: 5px; }
+    .info-list li.x-item i { color: rgba(255,255,255,.3); }
+    .info-list li.x-item { color: rgba(255,255,255,.5); }
+
+    /* UPGRADE NUDGE */
+    .upgrade-section { padding: 20px 0 60px; }
+    .upgrade-card {
+      background: var(--bg-card);
+      border: 1px solid var(--line-gold);
+      border-radius: 20px;
+      padding: 28px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .upgrade-card-text h4 { font-size: 1rem; font-weight: 700; margin-bottom: 4px; }
+    .upgrade-card-text p { font-size: 0.88rem; color: var(--text-muted); line-height: 1.55; max-width: 500px; }
+    .btn-upgrade {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 22px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      background: transparent;
+      color: var(--gold);
+      border: 1px solid var(--line-gold);
+      transition: all 0.2s ease;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .btn-upgrade:hover { background: var(--gold-dim); text-decoration: none; }
+
+    /* FOOTER CTA */
+    .footer-cta {
+      padding: 60px 0;
+      background: linear-gradient(180deg, var(--bg) 0%, #0a0b12 100%);
+      text-align: center;
+    }
+    .cta-card {
+      background: linear-gradient(135deg, rgba(120, 81, 169, 0.15) 0%, rgba(255, 215, 0, 0.08) 100%);
+      border: 1px solid var(--line-gold);
+      border-radius: 24px;
+      padding: clamp(32px, 6vw, 48px);
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 50%;
+      transform: translateX(-50%);
+      width: 400px; height: 200px;
+      background: radial-gradient(ellipse, rgba(255, 215, 0, 0.1) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .cta-card h3 { font-size: clamp(1.25rem, 3vw, 1.5rem); font-weight: 700; margin-bottom: 8px; position: relative; }
+    .cta-card p { color: var(--text-muted); margin-bottom: 24px; position: relative; }
+    .cta-buttons { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; position: relative; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 24px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: all 0.2s ease;
+    }
+    .btn-primary {
+      background: var(--gold);
+      color: #0a0a14;
+      box-shadow: 0 8px 24px var(--gold-glow);
+    }
+    .btn-primary:hover { background: #ffea80; transform: translateY(-2px); text-decoration: none; }
+    .btn-secondary {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--line);
+    }
+    .btn-secondary:hover { border-color: var(--gold); color: var(--gold); text-decoration: none; }
+
+    /* REVEAL */
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.show { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+  </style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="container">
+    <div class="hero-content reveal">
+      <div class="logo-wrap">
+        <img src="images/webeaze-transparent copy.png" alt="WebEaze" />
+      </div>
+
+      <div class="confirmed-badge">
+        <span class="dot"></span>
+        Payment Confirmed
+      </div>
+
+      <h1>You're all set.<br><span id="hero-title">Let's get to work.</span></h1>
+      <p class="hero-sub" id="hero-sub">Your order is confirmed. Here's what to expect and what we need from you to get started.</p>
+
+      <div class="tier-badge">
+        <i class="fas fa-receipt"></i>
+        <span id="tier-label"><strong>One-Time Web Project</strong></span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- TIMELINE (injected by JS) -->
+<section class="timeline-section">
+  <div class="container">
+    <div class="section-header reveal">
+      <h2>What Happens Next</h2>
+      <p id="timeline-sub">Here's how your project works</p>
+    </div>
+    <div class="timeline" id="timeline-grid"></div>
+  </div>
+</section>
+
+<!-- RESOURCES (injected by JS) -->
+<section class="resources-section">
+  <div class="container">
+    <div class="section-header reveal">
+      <h2>Key Links</h2>
+      <p>Everything you need in one place</p>
+    </div>
+    <div class="resources-grid" id="resources-grid"></div>
+  </div>
+</section>
+
+<!-- INFO CARDS -->
+<section class="info-section">
+  <div class="container">
+    <div class="info-grid">
+      <div class="info-card reveal">
+        <h4><i class="fas fa-clipboard-check"></i> What We Need From You</h4>
+        <ul class="info-list" id="need-list"></ul>
+      </div>
+      <div class="info-card reveal reveal-delay-1">
+        <h4><i class="fas fa-ban"></i> What's Not Included</h4>
+        <ul class="info-list">
+          <li class="x-item"><i class="fas fa-xmark"></i> Ongoing maintenance or future updates</li>
+          <li class="x-item"><i class="fas fa-xmark"></i> Hosting, backups, or security monitoring</li>
+          <li class="x-item"><i class="fas fa-xmark"></i> Priority support or performance reports</li>
+          <li class="x-item"><i class="fas fa-xmark" id="domain-note-item" style="display:none"></i> <span id="domain-note"></span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- UPGRADE NUDGE -->
+<section class="upgrade-section">
+  <div class="container">
+    <div class="upgrade-card reveal">
+      <div class="upgrade-card-text">
+        <h4>Want ongoing support after this project?</h4>
+        <p>Subscribe to a monthly or yearly plan within 14 days and we'll waive the setup fee and first month's payment. Starting at $169/mo.</p>
+      </div>
+      <a href="pricing.html" class="btn-upgrade">
+        <i class="fas fa-arrow-up-right-from-square"></i> See Plans
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER CTA -->
+<section class="footer-cta">
+  <div class="container">
+    <div class="cta-card reveal">
+      <h3>Questions About Your Project?</h3>
+      <p>Reach out anytime. We respond to all messages the same business day.</p>
+      <div class="cta-buttons">
+        <a href="contact-us.html" class="btn btn-primary">
+          <i class="fas fa-envelope"></i> Contact Us
+        </a>
+        <a href="help.html#/one-time-web-project" class="btn btn-secondary">
+          <i class="fas fa-book-open"></i> Project FAQ
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Reveal on scroll
+  (function() {
+    const els = document.querySelectorAll('.reveal');
+    if (!('IntersectionObserver' in window)) {
+      els.forEach(el => el.classList.add('show'));
+      return;
+    }
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('show');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08 });
+    els.forEach(el => observer.observe(el));
+  })();
+
+  // Type config: ?type=build | standard | basic  (defaults to build)
+  (function() {
+    const params = new URLSearchParams(window.location.search);
+    const type = (params.get('type') || 'build').toLowerCase();
+
+    const config = {
+      build: {
+        label: 'Full Build &mdash; $449',
+        heroTitle: "Let&rsquo;s build your site.",
+        heroSub: "Your order is confirmed and your project is queued. Fill out the content form below and we&rsquo;ll get started right away.",
+        timelineSub: "Four steps from here to launch",
+        timelineClass: "steps-4",
+        steps: [
+          { active: true,  icon: null, num: 1, title: "Submit Your Content", body: 'Fill out the <a href="https://406km9.share-na2.hsforms.com/2BrG2FrkxQX6to17RxtyS5g" target="_blank" style="color:var(--gold);text-decoration:underline;">Content Submission Form</a> with your text, photos, logo, and business info. This is the first thing we need.' },
+          { active: false, num: 2, title: "We Design Your Site",   body: "Our team builds your website and prepares a preview for you to review before anything goes live." },
+          { active: false, num: 3, title: "You Review the Draft",  body: "We send you a link to look over your site. Let us know any changes and we'll take care of them." },
+          { active: false, num: 4, title: "Your Site Goes Live",   body: "Once you approve it, we launch. You&rsquo;ll get a confirmation with your live URL and all login credentials." }
+        ],
+        resources: [
+          { featured: true,  icon: "fa-file-arrow-up", title: "Content Submission Form", badge: "Start Here", desc: "Send us your text, photos, logo, and business details. We can't begin the build without it.", link: "https://406km9.share-na2.hsforms.com/2BrG2FrkxQX6to17RxtyS5g", linkText: "Submit Your Content", external: true },
+          { featured: false, icon: "fa-book-open",     title: "Project FAQ",             badge: null,         desc: "Questions about timelines, the review process, and what to expect during your build.", link: "help.html#/one-time-web-project", linkText: "Read the FAQ", external: false },
+          { featured: false, icon: "fa-envelope",      title: "Contact Us",              badge: null,         desc: "Have a question before submitting your content? Reach out and we&rsquo;ll get back to you quickly.", link: "contact-us.html", linkText: "Get in Touch", external: false }
+        ],
+        needs: [
+          'Fill out the <a href="https://406km9.share-na2.hsforms.com/2BrG2FrkxQX6to17RxtyS5g" target="_blank">Content Submission Form</a> to get us started',
+          "Send your logo, photos, and any brand colors or style preferences",
+          "Check your email so we can reach you if we have questions during the build"
+        ],
+        domainNote: "Domain registration is not included for full builds and will be invoiced separately if needed"
+      },
+
+      standard: {
+        label: 'Standard Update &mdash; $299',
+        heroTitle: "Your update is queued.",
+        heroSub: "Your order is confirmed. Submit your request with as much detail as possible and we&rsquo;ll take it from there.",
+        timelineSub: "Three steps from here to done",
+        timelineClass: "steps-3",
+        steps: [
+          { active: true,  num: 1, title: "Tell Us What You Need",  body: 'Submit your request through the <a href="https://webeaze.io/website-request" target="_blank" style="color:var(--gold);text-decoration:underline;">Website Request form</a>. Describe the changes across each page and attach any relevant files.' },
+          { active: false, num: 2, title: "We Make the Changes",    body: "We work through your updates, typically completing everything within two to three business days." },
+          { active: false, num: 3, title: "Review and Done",        body: "Once complete, we let you know. Review the changes and reach out if anything needs adjusting." }
+        ],
+        resources: [
+          { featured: true,  icon: "fa-paper-plane", title: "Website Request Page", badge: "Submit Here", desc: "Use this form to describe exactly what needs to change. Be as specific as possible and include any reference files.", link: "https://webeaze.io/website-request", linkText: "Open Request Page", external: true },
+          { featured: false, icon: "fa-book-open",   title: "Project FAQ",          badge: null,          desc: "What&rsquo;s in scope for a Standard update, what the process looks like, and how long it takes.", link: "help.html#/one-time-web-project", linkText: "Read the FAQ", external: false },
+          { featured: false, icon: "fa-envelope",    title: "Contact Us",           badge: null,          desc: "Have a question before submitting? Reach out and we&rsquo;ll help clarify what&rsquo;s covered.", link: "contact-us.html", linkText: "Get in Touch", external: false }
+        ],
+        needs: [
+          'Submit your request through the <a href="https://webeaze.io/website-request" target="_blank">Website Request page</a>',
+          "Describe each change clearly, page by page, so nothing gets missed",
+          "Attach any files, images, or references that would help us understand what you want"
+        ],
+        domainNote: null
+      },
+
+      basic: {
+        label: 'Basic Update &mdash; $149',
+        heroTitle: "Your update is queued.",
+        heroSub: "Your order is confirmed. Submit your request with the details of what needs to change and we&rsquo;ll handle the rest.",
+        timelineSub: "Three steps from here to done",
+        timelineClass: "steps-3",
+        steps: [
+          { active: true,  num: 1, title: "Tell Us What You Need", body: 'Submit your request through the <a href="https://webeaze.io/website-request" target="_blank" style="color:var(--gold);text-decoration:underline;">Website Request form</a>. Describe the specific change you need and include any supporting files.' },
+          { active: false, num: 2, title: "We Make the Change",    body: "We complete your update, typically within one to two business days." },
+          { active: false, num: 3, title: "Review and Done",       body: "Once complete, we let you know. Review the change and reach out if anything needs a tweak." }
+        ],
+        resources: [
+          { featured: true,  icon: "fa-paper-plane", title: "Website Request Page", badge: "Submit Here", desc: "Use this form to tell us exactly what needs to change. Include any files, screenshots, or links that would help.", link: "https://webeaze.io/website-request", linkText: "Open Request Page", external: true },
+          { featured: false, icon: "fa-book-open",   title: "Project FAQ",          badge: null,          desc: "What&rsquo;s in scope for a Basic update, how long it takes, and what to expect.", link: "help.html#/one-time-web-project", linkText: "Read the FAQ", external: false },
+          { featured: false, icon: "fa-envelope",    title: "Contact Us",           badge: null,          desc: "Have a question before submitting? We&rsquo;re happy to help clarify what&rsquo;s covered.", link: "contact-us.html", linkText: "Get in Touch", external: false }
+        ],
+        needs: [
+          'Submit your request through the <a href="https://webeaze.io/website-request" target="_blank">Website Request page</a>',
+          "Describe the change clearly, one focused request works best",
+          "Attach any files or references that make it easier to understand what you need"
+        ],
+        domainNote: null
+      }
+    };
+
+    const c = config[type] || config.build;
+
+    // Hero
+    document.getElementById('hero-title').innerHTML = c.heroTitle;
+    document.getElementById('hero-sub').innerHTML = c.heroSub;
+    document.getElementById('tier-label').innerHTML = '<strong>' + c.label + '</strong>';
+
+    // Timeline
+    document.getElementById('timeline-sub').textContent = c.timelineSub;
+    const tGrid = document.getElementById('timeline-grid');
+    tGrid.className = 'timeline ' + c.timelineClass;
+    c.steps.forEach((s, i) => {
+      const delay = i > 0 ? ' reveal-delay-' + i : '';
+      tGrid.innerHTML += `
+        <div class="timeline-step${s.active ? ' active' : ''} reveal${delay}">
+          <div class="step-number">${s.num}</div>
+          <h3>${s.title}</h3>
+          <p>${s.body}</p>
+        </div>`;
+    });
+
+    // Resources
+    const rGrid = document.getElementById('resources-grid');
+    c.resources.forEach((r, i) => {
+      const delay = i > 0 ? ' reveal-delay-' + i : '';
+      const badge = r.badge ? `<span class="badge">${r.badge}</span>` : '';
+      const target = r.external ? ' target="_blank"' : '';
+      rGrid.innerHTML += `
+        <div class="resource-card${r.featured ? ' featured' : ''} reveal${delay}">
+          <div class="resource-icon"><i class="fas ${r.icon}"></i></div>
+          <div class="resource-content">
+            <h3>${r.title} ${badge}</h3>
+            <p>${r.desc}</p>
+            <a href="${r.link}"${target} class="resource-link">${r.linkText} <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>`;
+    });
+
+    // Need list
+    const nList = document.getElementById('need-list');
+    c.needs.forEach(n => {
+      nList.innerHTML += `<li><i class="fas fa-check"></i> <span>${n}</span></li>`;
+    });
+
+    // Domain note
+    if (c.domainNote) {
+      document.getElementById('domain-note-item').style.display = '';
+      document.getElementById('domain-note').textContent = c.domainNote;
+    }
+
+    // Re-run reveal observer on dynamically added elements
+    const newEls = document.querySelectorAll('.reveal:not(.show)');
+    if ('IntersectionObserver' in window) {
+      const obs = new IntersectionObserver(entries => {
+        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('show'); obs.unobserve(e.target); } });
+      }, { threshold: 0.08 });
+      newEls.forEach(el => obs.observe(el));
+    } else {
+      newEls.forEach(el => el.classList.add('show'));
+    }
+  })();
+</script>
+
+</body>
+</html>
