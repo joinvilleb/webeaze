@@ -186,6 +186,44 @@
       transition: color .15s;
     }
     .modal-close:hover { color: #fff; }
+    .modal-tips {
+      background: rgba(255, 215, 0, 0.07);
+      border: 1px solid rgba(255, 215, 0, 0.18);
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin-bottom: 20px;
+    }
+    .modal-tips-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+    .modal-tips ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .modal-tips ul li {
+      font-size: 13px;
+      color: rgba(255,255,255,.8);
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      line-height: 1.45;
+    }
+    .modal-tips ul li i { color: var(--gold); font-size: 11px; margin-top: 3px; flex-shrink: 0; }
+    .modal-section-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: rgba(255,255,255,.35);
+      margin-bottom: 10px;
+    }
     .modal-footer-note {
       font-size: 12px;
       color: rgba(255,255,255,.4);
@@ -295,18 +333,16 @@
 <div class="help-modal-backdrop" id="helpModal" onclick="closeHelpModal(event)">
   <div class="help-modal">
     <button class="modal-close" onclick="closeHelpModal()">&times;</button>
-    <h3>What can I submit?</h3>
-    <p class="modal-sub">Use this form for any change or update to your website. Here are some examples:</p>
+    <h3>Submitting a Request</h3>
+    <p class="modal-sub">Use this form for anything related to your site. Be specific about what you want changed and where &mdash; we&rsquo;ll handle the rest.</p>
     <ul class="request-list">
       <li><i class="fas fa-pen"></i> Update text, pricing, hours, or business info</li>
       <li><i class="fas fa-image"></i> Swap out photos or add new images</li>
       <li><i class="fas fa-plus"></i> Add a new page, section, or feature</li>
       <li><i class="fas fa-bug"></i> Report a broken link, form, or display issue</li>
       <li><i class="fas fa-palette"></i> Change colors, fonts, or layout</li>
-      <li><i class="fas fa-plug"></i> Connect a new tool or integration</li>
-      <li><i class="fas fa-file-alt"></i> Add a menu, gallery, testimonials, and more</li>
     </ul>
-    <p class="modal-footer-note">Not sure if your request is in scope? Submit it anyway and we'll let you know.</p>
+    <p class="modal-footer-note">Not sure if it&rsquo;s in scope? Submit it anyway and we&rsquo;ll let you know.</p>
   </div>
 </div>
 
@@ -319,8 +355,7 @@
 <!-- REFERRAL BANNER -->
 <div class="notice-referral">
   <i class="fas fa-gift"></i>
-  <strong>Earn $50</strong> per referral & get <strong>$20 off</strong> your plan for 1 month.
-  <a href="help.html#/referral-program">Learn More</a>.
+  <strong>Earn $50</strong> per referral & get <strong>$20 off</strong> your plan for 1 month.<a href="help.html#/referral-program">Learn more</a>.
 </div>
 
 
@@ -359,7 +394,7 @@
         <div class="header-title">Website Request</div>
         <div class="header-sub">Unlimited updates, included with your plan</div>
         <button class="help-link" onclick="openHelpModal()">
-          <i class="fas fa-circle-question"></i> What can I submit?
+          <i class="fas fa-circle-question"></i> How do I submit a request?
         </button>
       </div>
       <a href="status.html" class="status-badge" id="status-badge">
@@ -487,15 +522,15 @@
     badge.className = 'status-badge';
     if (holiday) {
       badge.classList.add('holiday');
-      text.textContent = 'Closed — ' + holiday.name;
+      text.textContent = 'Support: Closed for ' + holiday.name;
     } else if (day === 0 || day === 6) {
       badge.classList.add('closed');
-      text.textContent = 'Away for the weekend';
+      text.textContent = "Support: Away for the weekend";
     } else if (hour >= 9 && hour < 17) {
-      text.textContent = 'Available now';
+      text.textContent = 'Support: Available now';
     } else {
       badge.classList.add('away');
-      text.textContent = day === 5 && hour >= 17 ? 'Back Monday 9am ET' : 'Back at 9am ET';
+      text.textContent = day === 5 && hour >= 17 ? 'Support: Back Monday 9am ET' : 'Support: Back at 9am ET';
     }
   }
   updateStatus();
