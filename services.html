@@ -1,0 +1,1457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Our Services | WebEaze</title>
+<meta name="description" content="New websites, ongoing site management, and one-time projects. WebEaze handles everything so you can focus on running your business." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+<link rel="shortcut icon" href="images/webeaze-transparent copy.png" type="image/png" />
+
+<style>
+/* ── TOKENS ─────────────────────────────────────── */
+:root {
+  --gold:        #ffd700;
+  --gold-soft:   rgba(255,215,0,0.12);
+  --gold-border: rgba(255,215,0,0.28);
+  --purple:      #7851a9;
+  --green:       #22c55e;
+  --ink:         #ffffff;
+  --muted:       #a0a6c0;
+  --bg:          #050509;
+  --card:        #0c0c14;
+  --card-2:      #0f0f1a;
+  --surface:     #121420;
+  --line:        rgba(255,255,255,0.08);
+  --radius-sm:   12px;
+  --radius-md:   18px;
+  --radius-lg:   24px;
+}
+
+/* ── BASE ────────────────────────────────────────── */
+*  { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+html, body { overflow-x: hidden; }
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+}
+a { text-decoration: none; color: inherit; }
+.container-narrow { max-width: 1100px; }
+
+/* ── NAVBAR ──────────────────────────────────────── */
+.nav-wrap {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
+  background: rgba(5,5,9,0.88);
+  backdrop-filter: saturate(140%) blur(16px);
+  -webkit-backdrop-filter: saturate(140%) blur(16px);
+  border-bottom: 1px solid var(--line);
+}
+.webeaze-nav { background: transparent !important; box-shadow: none !important; padding: .6rem 0; }
+.logo { height: 36px; }
+.brand-word { letter-spacing: -.3px; font-weight: 700; color: #fff; }
+.navbar-dark .nav-link { color: #fff !important; opacity: .82; border-radius: 10px; padding: .45rem .7rem; transition: all .2s; }
+.navbar-dark .nav-link:hover { opacity: 1; background: rgba(255,255,255,.07); }
+.navbar-dark .nav-link.active-page { color: var(--gold) !important; opacity: 1; }
+.btn-nav { background: var(--gold); color: #2f1e66; border: none; border-radius: var(--radius-sm); padding: .55rem .9rem; font-weight: 700; font-size: .88rem; }
+
+/* ── HERO ────────────────────────────────────────── */
+.hero {
+  position: relative;
+  min-height: 60vh;
+  display: flex; align-items: center; justify-content: center; text-align: center;
+  padding: 148px 20px 88px;
+  overflow: hidden;
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  background: url('images/construction-worker.png') center/cover no-repeat;
+  transform: scale(1.06);
+  animation: heroZoom 22s ease-in-out infinite alternate;
+}
+@keyframes heroZoom {
+  from { transform: scale(1.06); }
+  to   { transform: scale(1.13); }
+}
+.hero-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg,
+    rgba(5,5,9,0.4) 0%,
+    rgba(5,5,9,0.72) 55%,
+    rgba(5,5,9,1) 100%);
+}
+.hero-glow {
+  position: absolute;
+  top: -80px; left: 50%; transform: translateX(-50%);
+  width: 700px; height: 500px;
+  background: radial-gradient(ellipse, rgba(255,215,0,0.1) 0%, transparent 65%);
+  pointer-events: none;
+}
+.hero-content {
+  position: relative; z-index: 2;
+  max-width: 680px;
+}
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--gold-soft);
+  border: 1px solid var(--gold-border);
+  border-radius: 50px;
+  padding: 8px 20px;
+  font-size: .82rem; font-weight: 600; color: var(--gold);
+  letter-spacing: .04em; text-transform: uppercase;
+  margin-bottom: 24px;
+  opacity: 0;
+  animation: fadeUp .7s ease .05s forwards;
+}
+.hero h1 {
+  font-size: clamp(2.3rem, 6vw, 3.8rem);
+  font-weight: 700; letter-spacing: -.03em; line-height: 1.08;
+  margin-bottom: 20px;
+  opacity: 0;
+  animation: fadeUp .7s ease .15s forwards;
+}
+.hero h1 .gold {
+  background: linear-gradient(135deg, var(--gold) 0%, #ffe97a 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.hero p {
+  font-size: clamp(.98rem, 2.2vw, 1.18rem);
+  color: rgba(255,255,255,.78);
+  max-width: 500px; margin: 0 auto 0;
+  line-height: 1.7;
+  opacity: 0;
+  animation: fadeUp .7s ease .25s forwards;
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── TAB NAV ─────────────────────────────────────── */
+.tab-nav-wrap {
+  position: sticky; top: 61px; z-index: 500;
+  background: rgba(5,5,9,.98);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--line);
+}
+.tab-nav {
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  padding: 12px 20px;
+  max-width: 1100px; margin: 0 auto;
+}
+.tab-btn {
+  display: inline-flex; align-items: center; gap: 9px;
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  color: var(--muted);
+  font-family: 'Poppins', sans-serif;
+  font-size: .88rem; font-weight: 600;
+  padding: 9px 20px; cursor: pointer;
+  transition: all .22s ease;
+  white-space: nowrap;
+}
+.tab-btn i { font-size: .8rem; }
+.tab-btn:hover {
+  border-color: rgba(255,215,0,.25);
+  color: rgba(255,255,255,.9);
+  background: rgba(255,255,255,.04);
+}
+.tab-btn.active {
+  background: var(--gold-soft);
+  border-color: var(--gold-border);
+  color: var(--gold);
+}
+@media (max-width: 560px) {
+  .tab-btn { font-size: .78rem; padding: 8px 14px; }
+}
+
+/* ── PANEL PANELS ────────────────────────────────── */
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* Panel fade-in on switch */
+.tab-panel.active { animation: panelFade .35s ease; }
+@keyframes panelFade {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── SHARED SECTION LAYOUT ───────────────────────── */
+.section     { padding: clamp(60px,10vh,100px) 0; }
+.section-alt { background: var(--card); }
+
+.section-header { text-align: center; margin-bottom: 52px; }
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 6px 15px;
+  background: var(--gold-soft);
+  border: 1px solid var(--gold-border);
+  border-radius: 50px;
+  font-size: .77rem; font-weight: 600; color: var(--gold);
+  text-transform: uppercase; letter-spacing: .06em;
+  margin-bottom: 14px;
+}
+.eyebrow.green {
+  background: rgba(34,197,94,.1);
+  border-color: rgba(34,197,94,.3);
+  color: var(--green);
+}
+.eyebrow.purple {
+  background: rgba(120,81,169,.15);
+  border-color: rgba(120,81,169,.35);
+  color: #c4a8ff;
+}
+.section-header h2 {
+  font-size: clamp(1.8rem,4vw,2.6rem);
+  font-weight: 800; letter-spacing: -.025em;
+  margin: 0 0 14px;
+}
+.section-header p {
+  font-size: 1.05rem; color: var(--muted);
+  max-width: 520px; margin: 0 auto; line-height: 1.7;
+}
+
+/* ── PANEL INTRO ─────────────────────────────────── */
+.panel-intro {
+  padding: 60px 0 48px;
+  background: var(--card);
+  border-bottom: 1px solid var(--line);
+}
+.intro-grid {
+  display: grid; grid-template-columns: 1fr auto; gap: 48px; align-items: center;
+}
+@media (max-width: 800px) { .intro-grid { grid-template-columns: 1fr; } }
+.intro-eyebrow {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 6px 15px;
+  background: var(--gold-soft); border: 1px solid var(--gold-border); border-radius: 50px;
+  font-size: .77rem; font-weight: 600; color: var(--gold);
+  text-transform: uppercase; letter-spacing: .06em;
+  margin-bottom: 16px;
+}
+.intro-headline {
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 700; letter-spacing: -.03em; line-height: 1.1;
+  margin: 0 0 16px;
+}
+.intro-headline .gold {
+  background: linear-gradient(135deg, var(--gold) 0%, #ffe97a 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.intro-sub {
+  font-size: 1.08rem; color: var(--muted); line-height: 1.7; margin: 0 0 24px;
+  max-width: 480px;
+}
+.trust-row {
+  display: flex; gap: 20px; flex-wrap: wrap; align-items: center;
+}
+.trust-pill {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-size: .82rem; color: rgba(255,255,255,.75);
+}
+.trust-pill i { color: var(--green); font-size: .8rem; }
+.intro-cta { display: flex; flex-direction: column; gap: 10px; align-items: flex-start; }
+@media (max-width: 800px) { .intro-cta { flex-direction: row; flex-wrap: wrap; } }
+
+/* ── BUTTONS ─────────────────────────────────────── */
+.btn-gold {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: var(--gold); color: #1a1a2e;
+  border: none; border-radius: var(--radius-sm);
+  padding: 14px 26px; font-family: 'Poppins', sans-serif;
+  font-weight: 700; font-size: .93rem;
+  box-shadow: 0 8px 24px rgba(255,215,0,.22);
+  transition: all .22s ease; cursor: pointer; white-space: nowrap;
+}
+.btn-gold:hover {
+  background: #ffe97a; transform: translateY(-2px);
+  box-shadow: 0 14px 36px rgba(255,215,0,.32);
+  color: #1a1a2e; text-decoration: none;
+}
+.btn-ghost {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: transparent; color: #fff;
+  border: 1.5px solid rgba(255,255,255,.2); border-radius: var(--radius-sm);
+  padding: 13px 22px; font-family: 'Poppins', sans-serif;
+  font-weight: 600; font-size: .93rem;
+  transition: all .22s ease; cursor: pointer; white-space: nowrap;
+}
+.btn-ghost:hover {
+  border-color: var(--gold-border); color: var(--gold); text-decoration: none;
+}
+
+/* ── FEATURE GRID ────────────────────────────────── */
+.feature-grid {
+  display: grid; grid-template-columns: repeat(3,1fr); gap: 20px;
+}
+@media (max-width: 880px) { .feature-grid { grid-template-columns: repeat(2,1fr); } }
+@media (max-width: 540px) { .feature-grid { grid-template-columns: 1fr; } }
+
+.feat-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: 28px 24px;
+  transition: border-color .25s, transform .25s, box-shadow .25s;
+  position: relative; overflow: hidden;
+}
+.feat-card::after {
+  content: '';
+  position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, var(--gold), transparent);
+  transform: scaleX(0); transform-origin: left;
+  transition: transform .35s ease;
+}
+.feat-card:hover { border-color: var(--gold-border); transform: translateY(-4px); box-shadow: 0 16px 44px rgba(0,0,0,.3); }
+.feat-card:hover::after { transform: scaleX(1); }
+.feat-icon {
+  width: 48px; height: 48px;
+  background: var(--gold-soft); border-radius: 13px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 16px;
+  transition: background .25s;
+}
+.feat-card:hover .feat-icon { background: rgba(255,215,0,.2); }
+.feat-icon i { font-size: 1.25rem; color: var(--gold); }
+.feat-card h3 { font-size: 1.05rem; font-weight: 700; margin: 0 0 8px; }
+.feat-card p  { font-size: .9rem; color: var(--muted); margin: 0; line-height: 1.65; }
+
+/* ── STEPS ───────────────────────────────────────── */
+.steps-grid {
+  display: grid; grid-template-columns: repeat(3,1fr); gap: 32px;
+  max-width: 860px; margin: 0 auto;
+  position: relative;
+}
+.steps-grid::before {
+  content: '';
+  position: absolute; top: 28px; left: 18%; right: 18%; height: 2px;
+  background: linear-gradient(90deg, var(--gold), var(--purple), var(--gold));
+  opacity: .2;
+}
+@media (max-width: 680px) { .steps-grid { grid-template-columns: 1fr; max-width: 380px; } .steps-grid::before { display: none; } }
+
+.step-item { text-align: center; }
+.step-num {
+  width: 56px; height: 56px;
+  background: linear-gradient(135deg, var(--gold), #ffe97a);
+  color: #1a1a2e; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 1.35rem;
+  margin: 0 auto 18px;
+  box-shadow: 0 8px 24px rgba(255,215,0,.25);
+  position: relative; z-index: 2;
+  transition: transform .3s;
+}
+.step-item:hover .step-num { transform: scale(1.1); }
+.step-item h3 { font-size: 1.05rem; font-weight: 700; margin: 0 0 8px; }
+.step-item p  { font-size: .9rem; color: var(--muted); margin: 0; line-height: 1.65; }
+
+/* ── SPLIT LAYOUT ────────────────────────────────── */
+.split {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center;
+}
+@media (max-width: 880px) { .split { grid-template-columns: 1fr; gap: 40px; } }
+.split-text h2 { font-size: clamp(1.8rem,4vw,2.4rem); font-weight: 800; letter-spacing: -.025em; margin: 0 0 16px; }
+.split-text p  { font-size: 1rem; color: var(--muted); line-height: 1.75; margin-bottom: 18px; }
+.check-list { list-style: none; padding: 0; margin: 0 0 28px; }
+.check-list li {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 10px 0; border-bottom: 1px solid var(--line);
+  font-size: .95rem;
+}
+.check-list li:last-child { border-bottom: none; }
+.check-list i { color: var(--gold); margin-top: 3px; flex-shrink: 0; }
+.split-image img { width: 100%; border-radius: var(--radius-lg); box-shadow: 0 28px 64px rgba(0,0,0,.5); }
+
+/* ── SUBSCRIPTION VALUE BAR ──────────────────────── */
+.value-bar {
+  background: linear-gradient(135deg, rgba(120,81,169,.18) 0%, rgba(255,215,0,.08) 100%);
+  border: 1px solid rgba(255,215,0,.18);
+  border-radius: var(--radius-lg);
+  padding: 40px 48px;
+  display: grid; grid-template-columns: 1fr auto; gap: 32px; align-items: center;
+}
+@media (max-width: 720px) { .value-bar { grid-template-columns: 1fr; padding: 32px; } }
+.value-bar-pills { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+.vpill {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: rgba(255,255,255,.06); border: 1px solid var(--line);
+  border-radius: 50px; padding: 7px 14px;
+  font-size: .82rem; font-weight: 500; color: rgba(255,255,255,.85);
+}
+.vpill i { color: var(--gold); font-size: .78rem; }
+.value-bar h3 { font-size: 1.5rem; font-weight: 800; margin: 0 0 6px; }
+.value-bar p  { font-size: .97rem; color: var(--muted); margin: 0; }
+
+/* ── PRICING CARDS ───────────────────────────────── */
+.pricing-row {
+  display: grid; grid-template-columns: repeat(2,1fr); gap: 20px;
+  max-width: 640px; margin: 0 auto;
+}
+@media (max-width: 520px) { .pricing-row { grid-template-columns: 1fr; } }
+
+.price-card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg); padding: 32px 28px;
+  text-align: center; position: relative; overflow: hidden;
+  transition: all .3s ease;
+}
+.price-card:hover { transform: translateY(-6px); border-color: var(--gold-border); box-shadow: 0 20px 52px rgba(0,0,0,.3); }
+.price-card.pop {
+  border-color: var(--gold-border);
+  background: linear-gradient(145deg, var(--card-2) 0%, var(--card) 100%);
+}
+.pop-badge {
+  position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+  background: linear-gradient(135deg, var(--gold), #ffe97a);
+  color: #1a1a2e; font-size: .7rem; font-weight: 700;
+  padding: 5px 18px; border-radius: 0 0 10px 10px;
+}
+.price-card h3 { font-size: 1.1rem; font-weight: 600; margin: 0 0 10px; }
+.price-num {
+  font-size: 2.4rem; font-weight: 800;
+  background: linear-gradient(135deg, var(--gold), #ffe97a);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  margin-bottom: 5px; line-height: 1;
+}
+.price-card .note { font-size: .85rem; color: var(--muted); }
+.pricing-footer { text-align: center; margin-top: 24px; }
+.pricing-footer a {
+  display: inline-flex; align-items: center; gap: 7px;
+  color: var(--gold); font-weight: 600; font-size: .93rem;
+  transition: gap .2s;
+}
+.pricing-footer a:hover { gap: 11px; text-decoration: none; }
+
+/* ── PROJECT TIERS ───────────────────────────────── */
+.tier-grid {
+  display: grid; grid-template-columns: repeat(3,1fr); gap: 20px;
+  max-width: 880px; margin: 0 auto;
+}
+@media (max-width: 720px) { .tier-grid { grid-template-columns: 1fr; max-width: 400px; } }
+
+.tier-card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg); padding: 34px 26px;
+  display: flex; flex-direction: column;
+  position: relative; overflow: hidden;
+  transition: all .3s ease;
+}
+.tier-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--gold), var(--purple));
+  opacity: 0; transition: opacity .3s;
+}
+.tier-card:hover { border-color: var(--gold-border); transform: translateY(-6px); box-shadow: 0 20px 52px rgba(0,0,0,.35); }
+.tier-card:hover::before { opacity: 1; }
+.tier-card.pop-tier { border-color: var(--gold-border); background: linear-gradient(145deg, var(--card-2) 0%, var(--card) 100%); }
+.tier-card.pop-tier::before { opacity: 1; }
+.tier-badge {
+  position: absolute; top: 0; right: 20px;
+  background: linear-gradient(135deg, var(--gold), #ffe97a);
+  color: #1a1a2e; font-size: .68rem; font-weight: 700;
+  padding: 4px 13px; border-radius: 0 0 10px 10px;
+}
+.tier-card h3 { font-size: 1.15rem; font-weight: 700; margin: 0 0 5px; }
+.tier-price {
+  font-size: 2.5rem; font-weight: 800;
+  background: linear-gradient(135deg, var(--gold), #ffe97a);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  line-height: 1; margin-bottom: 4px;
+}
+.tier-label { font-size: .82rem; color: var(--muted); margin-bottom: 22px; }
+.tier-list { list-style: none; padding: 0; margin: 0 0 26px; flex: 1; }
+.tier-list li {
+  display: flex; align-items: flex-start; gap: 9px;
+  padding: 8px 0; border-bottom: 1px solid var(--line);
+  font-size: .88rem; color: rgba(255,255,255,.85);
+}
+.tier-list li:last-child { border-bottom: none; }
+.tier-list i { color: var(--gold); flex-shrink: 0; margin-top: 3px; font-size: .78rem; }
+
+/* ── SHOWCASE ────────────────────────────────────── */
+.showcase {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg); padding: 44px;
+  display: grid; grid-template-columns: 1.1fr 1fr; gap: 48px; align-items: center;
+  position: relative; overflow: hidden;
+}
+.showcase::before {
+  content: '';
+  position: absolute; top: -160px; right: -160px; width: 360px; height: 360px;
+  background: radial-gradient(circle, rgba(34,197,94,.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+@media (max-width: 820px) { .showcase { grid-template-columns: 1fr; padding: 28px; gap: 28px; } }
+.browser {
+  background: #14141e; border-radius: 13px; overflow: hidden;
+  box-shadow: 0 28px 68px rgba(0,0,0,.5);
+  transform: perspective(1000px) rotateY(-4deg) rotateX(1.5deg);
+  transition: transform .5s ease;
+}
+.showcase:hover .browser { transform: perspective(1000px) rotateY(0) rotateX(0); }
+.browser-bar {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 14px; background: #0d0d14;
+  border-bottom: 1px solid var(--line);
+}
+.dots { display: flex; gap: 5px; }
+.dots span { width: 9px; height: 9px; border-radius: 50%; }
+.dots span:nth-child(1) { background: #ff5f57; }
+.dots span:nth-child(2) { background: #ffbd2e; }
+.dots span:nth-child(3) { background: #28ca41; }
+.browser-url {
+  flex: 1; background: rgba(255,255,255,.05); border-radius: 5px;
+  padding: 5px 10px; font-size: .7rem; color: var(--muted); margin-left: 10px;
+}
+.browser img { width: 100%; display: block; }
+.showcase-info h3 { font-size: 1.45rem; font-weight: 700; margin: 0 0 7px; }
+.client-tag {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 5px 12px; background: rgba(34,197,94,.1); border-radius: 20px;
+  font-size: .76rem; font-weight: 600; color: var(--green); margin-bottom: 16px;
+}
+.showcase-info p { font-size: .93rem; color: var(--muted); line-height: 1.72; margin: 0 0 20px; }
+.feat-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
+.feat-pill {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(255,255,255,.05); border: 1px solid var(--line);
+  border-radius: 50px; padding: 5px 12px; font-size: .8rem;
+}
+.feat-pill i { color: var(--gold); font-size: .75rem; }
+.showcase-btns { display: flex; gap: 10px; flex-wrap: wrap; }
+
+/* ── FAQ ─────────────────────────────────────────── */
+.faq-wrap { max-width: 760px; margin: 0 auto; }
+.faq-item {
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--radius-md); margin-bottom: 12px; overflow: hidden;
+}
+.faq-item summary {
+  padding: 18px 22px; font-weight: 600; font-size: .95rem;
+  cursor: pointer; display: flex; align-items: center; justify-content: space-between;
+  list-style: none;
+}
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary::after { content: '+'; font-size: 1.3rem; color: var(--gold); transition: transform .2s; flex-shrink: 0; }
+.faq-item[open] summary::after { transform: rotate(45deg); }
+.faq-item p { padding: 0 22px 18px; margin: 0; color: var(--muted); line-height: 1.68; font-size: .92rem; }
+.faq-item a { color: var(--gold); text-decoration: underline; }
+
+/* ── UPSELL BOX (one-time tab) ───────────────────── */
+.upsell-box {
+  background: linear-gradient(135deg, rgba(120,81,169,.18) 0%, rgba(255,215,0,.07) 100%);
+  border: 1px solid rgba(120,81,169,.3);
+  border-radius: var(--radius-lg); padding: 48px;
+}
+@media (max-width: 880px) { .upsell-box { padding: 32px; } }
+
+/* ── FINAL CTA ───────────────────────────────────── */
+.final-cta {
+  padding: clamp(80px,12vh,120px) 0;
+  text-align: center;
+  background: linear-gradient(180deg, var(--bg) 0%, var(--card) 100%);
+}
+.final-cta h2 { font-size: clamp(1.9rem,5vw,3rem); font-weight: 800; margin: 0 0 14px; }
+.final-cta p  { font-size: 1.08rem; color: var(--muted); max-width: 460px; margin: 0 auto 28px; line-height: 1.7; }
+.btn-group { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+/* ── REVEAL ANIMATIONS ───────────────────────────── */
+.reveal {
+  opacity: 0; transform: translateY(22px);
+  transition: opacity .7s cubic-bezier(.4,0,.2,1), transform .7s cubic-bezier(.4,0,.2,1);
+}
+.reveal.in { opacity: 1; transform: translateY(0); }
+.d1 { transition-delay: .1s; }
+.d2 { transition-delay: .18s; }
+.d3 { transition-delay: .26s; }
+.d4 { transition-delay: .34s; }
+.d5 { transition-delay: .42s; }
+
+/* ── FOOTER ──────────────────────────────────────── */
+footer {
+  background: #000;
+  padding: 60px 20px 40px;
+  border-top: 1px solid rgba(255,255,255,.08);
+}
+.footer-grid {
+  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px;
+  max-width: 1100px; margin: 0 auto 48px; text-align: left;
+}
+@media (max-width: 768px) { .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; } }
+@media (max-width: 480px) { .footer-grid { grid-template-columns: 1fr; gap: 28px; } }
+.footer-brand { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+.footer-brand img { height: 32px; }
+.footer-brand span { font-weight: 700; font-size: 1.1rem; }
+.footer-tagline { color: #a0a6c0; font-size: .9rem; line-height: 1.6; margin-bottom: 20px; max-width: 280px; }
+.footer-social { display: flex; gap: 12px; }
+.footer-social a {
+  display: flex; align-items: center; justify-content: center;
+  width: 36px; height: 36px; background: rgba(255,255,255,.06);
+  border-radius: 10px; color: #a0a6c0; font-size: 1rem; transition: all .2s;
+}
+.footer-social a:hover { background: var(--gold); color: #1a1a2e; }
+.footer-col h5 { font-size: .82rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: #fff; margin: 0 0 16px; }
+.footer-col ul { list-style: none; padding: 0; margin: 0; }
+.footer-col li { margin-bottom: 10px; }
+.footer-col a { color: #a0a6c0; font-size: .88rem; transition: color .2s; }
+.footer-col a:hover { color: var(--gold); }
+.footer-bottom {
+  max-width: 1100px; margin: 0 auto; padding-top: 24px;
+  border-top: 1px solid rgba(255,255,255,.08);
+  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;
+}
+.footer-bottom p { color: #6b7280; font-size: .83rem; margin: 0; }
+.footer-legal { display: flex; gap: 24px; }
+.footer-legal a { color: #6b7280; font-size: .83rem; transition: color .2s; }
+.footer-legal a:hover { color: var(--gold); }
+@media (max-width: 600px) { .footer-bottom { flex-direction: column; text-align: center; } }
+
+/* ── MOBILE ──────────────────────────────────────── */
+
+/* Tab nav: scrollable strip on small screens */
+@media (max-width: 600px) {
+  .tab-nav-wrap { top: 56px; }
+  .tab-nav {
+    justify-content: flex-start;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding: 10px 16px;
+    gap: 8px;
+  }
+  .tab-nav::-webkit-scrollbar { display: none; }
+  .tab-btn { flex-shrink: 0; font-size: .8rem; padding: 9px 16px; }
+}
+
+/* Hero: tighter on phones */
+@media (max-width: 600px) {
+  .hero { min-height: 48vh; padding: 120px 20px 64px; }
+  .hero-glow { width: 320px; height: 280px; }
+}
+
+/* Panel intro: tighter on phones */
+@media (max-width: 600px) {
+  .panel-intro { padding: 40px 0 32px; }
+  .intro-headline { font-size: clamp(1.8rem, 8vw, 2.4rem); }
+  .intro-sub { font-size: 1rem; }
+  .intro-cta { flex-direction: column; width: 100%; }
+  .intro-cta .btn-gold,
+  .intro-cta .btn-ghost { width: 100%; justify-content: center; }
+}
+
+/* Trust pills: wrap tighter */
+@media (max-width: 480px) {
+  .trust-row { gap: 12px; }
+  .trust-pill { font-size: .78rem; }
+}
+
+/* Feature grid: 2 cols on tablets, 1 on phones */
+@media (max-width: 480px) {
+  .feature-grid { grid-template-columns: 1fr; gap: 14px; }
+  .feat-card { padding: 22px 20px; }
+}
+
+/* Steps: full-width single column */
+@media (max-width: 680px) {
+  .steps-grid { max-width: 100%; }
+  .step-item { text-align: left; display: flex; align-items: flex-start; gap: 16px; }
+  .step-item .step-num { flex-shrink: 0; width: 48px; height: 48px; font-size: 1.15rem; margin: 0; }
+  .step-item h3 { margin-top: 2px; }
+}
+
+/* Pricing row: side by side stays ok, just reduce padding */
+@media (max-width: 480px) {
+  .pricing-row { max-width: 100%; }
+  .price-card { padding: 28px 20px; }
+}
+
+/* Tier grid: full-width, remove narrow max-width */
+@media (max-width: 720px) {
+  .tier-grid { max-width: 100%; }
+  .tier-card { padding: 28px 22px; }
+}
+
+/* Split: ensure image hides gracefully on phones */
+@media (max-width: 600px) {
+  .split { gap: 28px; }
+  .split > div:last-child img { max-height: 220px; object-fit: cover; }
+  .check-list li { font-size: .9rem; }
+}
+
+/* Showcase: flat on phones */
+@media (max-width: 820px) {
+  .browser { transform: none !important; }
+}
+@media (max-width: 600px) {
+  .showcase { padding: 22px; gap: 22px; border-radius: var(--radius-md); }
+  .feat-pills { gap: 6px; }
+  .feat-pill { font-size: .75rem; padding: 4px 10px; }
+  .showcase-btns .btn-gold,
+  .showcase-btns .btn-ghost { font-size: .82rem; padding: 10px 16px; }
+}
+
+/* Bake 350 image grid on mobile */
+@media (max-width: 600px) {
+  .bake-grid { grid-template-columns: 1fr !important; }
+}
+
+/* Upsell box */
+@media (max-width: 560px) {
+  .upsell-box { padding: 24px 20px; }
+}
+
+/* Value bar pills */
+@media (max-width: 480px) {
+  .value-bar { padding: 24px 20px; }
+  .vpill { font-size: .76rem; padding: 6px 11px; }
+}
+
+/* Section padding tighter on phones */
+@media (max-width: 600px) {
+  .section { padding: clamp(44px,8vw,72px) 0; }
+  .section-header { margin-bottom: 36px; }
+  .section-header h2 { font-size: clamp(1.6rem,7vw,2rem); }
+}
+
+/* FAQ */
+@media (max-width: 480px) {
+  .faq-item summary { font-size: .9rem; padding: 15px 18px; }
+  .faq-item p { padding: 0 18px 16px; }
+}
+
+/* Final CTA buttons full-width on phones */
+@media (max-width: 480px) {
+  .btn-group { flex-direction: column; align-items: stretch; }
+  .btn-group .btn-gold,
+  .btn-group .btn-ghost { justify-content: center; }
+}
+
+/* Disable hover transforms on touch devices */
+@media (hover: none) {
+  .feat-card:hover,
+  .tier-card:hover,
+  .price-card:hover,
+  .showcase:hover .browser { transform: none; box-shadow: none; }
+  .feat-card:hover::after { transform: scaleX(0); }
+}
+</style>
+</head>
+<body>
+
+<!-- ── NAV ────────────────────────────────────────── -->
+<div class="nav-wrap">
+  <div class="container container-narrow">
+    <nav class="navbar navbar-expand-lg navbar-dark webeaze-nav" role="navigation" aria-label="Primary">
+      <a class="navbar-brand d-flex align-items-center" href="index.html">
+        <img class="logo" src="images/webeaze-transparent copy.png" alt="WebEaze" />
+        <strong class="ml-2 brand-word">WebEaze</strong>
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mobileNav"
+              aria-controls="mobileNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div id="mobileNav" class="collapse navbar-collapse">
+        <ul class="navbar-nav ml-auto main-nav">
+          <li class="nav-item"><a class="nav-link active-page" href="services.html">Our Services</a></li>
+          <li class="nav-item"><a class="nav-link" href="pricing.html">Pricing</a></li>
+          <li class="nav-item"><a class="nav-link" href="faq.html">FAQ</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact-us.html">Contact</a></li>
+          <li class="nav-item ml-1"><a class="btn btn-sm btn-nav" href="consultation.html">Free Mockup</a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+</div>
+
+
+<!-- ── HERO ───────────────────────────────────────── -->
+<header class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow"><i class="fas fa-layer-group"></i> Built for small businesses</div>
+    <h1>Your website, <span class="gold">handled.</span></h1>
+    <p>Whether you need a brand-new site, help with the one you have, or a single project done right, we take care of it all.</p>
+  </div>
+</header>
+
+
+<!-- ── TAB NAV ────────────────────────────────────── -->
+<div class="tab-nav-wrap">
+  <div class="tab-nav">
+    <button class="tab-btn active" data-tab="new">
+      <i class="fas fa-hammer"></i> New Website
+    </button>
+    <button class="tab-btn" data-tab="manage">
+      <i class="fas fa-tools"></i> Manage My Site
+    </button>
+    <button class="tab-btn" data-tab="onetime">
+      <i class="fas fa-bolt"></i> One-Time Project
+    </button>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════
+     TAB 1  |  NEW WEBSITE
+═════════════════════════════════════════════════ -->
+<div class="tab-panel active" id="tab-new">
+
+  <!-- Intro -->
+  <div class="panel-intro">
+    <div class="container container-narrow">
+      <div class="intro-grid">
+        <div class="reveal">
+          <div class="intro-eyebrow"><i class="fas fa-hammer"></i> Build From Scratch</div>
+          <h2 class="intro-headline">A website that <span class="gold">works</span> for your business.</h2>
+          <p class="intro-sub">No templates, no DIY builders, no technical headaches. We design, build, host, and maintain your site for one flat monthly price.</p>
+          <div class="trust-row">
+            <div class="trust-pill"><i class="fas fa-check-circle"></i> Live in 7 days</div>
+            <div class="trust-pill"><i class="fas fa-check-circle"></i> Unlimited updates</div>
+            <div class="trust-pill"><i class="fas fa-check-circle"></i> Cancel anytime</div>
+          </div>
+        </div>
+        <div class="intro-cta reveal d1">
+          <a href="consultation.html" class="btn-gold"><i class="fas fa-arrow-right"></i> Get Your Free Mockup</a>
+          <a href="#build-work" class="btn-ghost"><i class="fas fa-eye"></i> See Our Work</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- What subscribers get -->
+  <section class="section section-alt">
+    <div class="container container-narrow">
+      <div class="section-header reveal">
+        <div class="eyebrow"><i class="fas fa-star"></i> Included Every Month</div>
+        <h2>Everything your site needs, nothing extra to pay for</h2>
+        <p>Your subscription covers design, hosting, updates, and support. One price, no surprises.</p>
+      </div>
+      <div class="feature-grid">
+        <div class="feat-card reveal">
+          <div class="feat-icon"><i class="fas fa-paint-brush"></i></div>
+          <h3>Custom design</h3>
+          <p>Built specifically for your business. Your brand, your style, your content. Not a template.</p>
+        </div>
+        <div class="feat-card reveal d1">
+          <div class="feat-icon"><i class="fas fa-sync-alt"></i></div>
+          <h3>Unlimited updates</h3>
+          <p>Need a change? Just ask. New photos, hours, pricing, pages. All covered, no per-request fees.</p>
+        </div>
+        <div class="feat-card reveal d2">
+          <div class="feat-icon"><i class="fas fa-server"></i></div>
+          <h3>Hosting included</h3>
+          <p>Fast, secure hosting on our servers. No separate bills, no server setup on your end.</p>
+        </div>
+        <div class="feat-card reveal d3">
+          <div class="feat-icon"><i class="fas fa-mobile-screen"></i></div>
+          <h3>Mobile-ready</h3>
+          <p>Your site looks great on every device. Responsive design is standard, not an add-on.</p>
+        </div>
+        <div class="feat-card reveal d4">
+          <div class="feat-icon"><i class="fas fa-headset"></i></div>
+          <h3>Real support</h3>
+          <p>Talk to people who actually know your website. No bots, no support queues.</p>
+        </div>
+        <div class="feat-card reveal d5">
+          <div class="feat-icon"><i class="fas fa-rocket"></i></div>
+          <h3>Same-day turnaround</h3>
+          <p>Most updates are done the same day you ask. Your business moves fast, and so do we.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why subscribe -->
+  <section class="section">
+    <div class="container container-narrow">
+      <div class="split">
+        <div class="split-text reveal">
+          <div class="eyebrow" style="margin-bottom:16px;"><i class="fas fa-shield-halved"></i> Why a Subscription</div>
+          <h2>We take care of everything, every month</h2>
+          <p>A one-time build leaves you with a site you have to maintain yourself. With WebEaze, you get a dedicated team that keeps your site current, secure, and updated for as long as you are a customer.</p>
+          <ul class="check-list">
+            <li><i class="fas fa-check"></i> You own your domain, content, and all files</li>
+            <li><i class="fas fa-check"></i> No contracts. Month-to-month with no lock-in</li>
+            <li><i class="fas fa-check"></i> Hosting, backups, and security handled for you</li>
+            <li><i class="fas fa-check"></i> Changes made same-day by real people who know your site</li>
+          </ul>
+          <a href="about.html" class="btn-ghost"><i class="fas fa-users"></i> About the Team</a>
+        </div>
+        <div class="reveal d1">
+          <img src="images/men-small-business.jpg" alt="Small business owner using WebEaze" class="split-image-img" style="width:100%; border-radius:22px; box-shadow:0 28px 64px rgba(0,0,0,.5);">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Real work -->
+  <section class="section section-alt" id="build-work">
+    <div class="container container-narrow">
+      <div class="section-header reveal">
+        <div class="eyebrow green"><i class="fas fa-star"></i> Real Client Work</div>
+        <h2>See what we built</h2>
+        <p>Not a template demo. A real website we designed from scratch for a real business.</p>
+      </div>
+      <div class="showcase reveal">
+        <div class="browser">
+          <div class="browser-bar">
+            <div class="dots"><span></span><span></span><span></span></div>
+            <div class="browser-url">bearcarpetcare.com</div>
+          </div>
+          <img src="images/bear-carpet-care-home.png" alt="Bear Carpet Care website">
+        </div>
+        <div class="showcase-info">
+          <h3>Bear Carpet Care</h3>
+          <div class="client-tag"><i class="fas fa-broom"></i> Local Service Business</div>
+          <p>A carpet cleaning company needed a site that builds trust and turns visitors into paying customers. We built them a clean, professional site with services, contact, and a gallery.</p>
+          <div class="feat-pills">
+            <span class="feat-pill"><i class="fas fa-check"></i> Mobile responsive</span>
+            <span class="feat-pill"><i class="fas fa-check"></i> Service showcase</span>
+            <span class="feat-pill"><i class="fas fa-check"></i> Contact form</span>
+            <span class="feat-pill"><i class="fas fa-check"></i> SEO optimized</span>
+          </div>
+          <div class="showcase-btns">
+            <a href="https://bearcarpetcare.com" target="_blank" rel="noopener" class="btn-gold" style="padding:11px 20px;font-size:.85rem;">View Live <i class="fas fa-external-link-alt"></i></a>
+            <a href="samples.html" class="btn-ghost" style="padding:10px 18px;font-size:.85rem;">More Work</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section class="section">
+    <div class="container container-narrow">
+      <div class="section-header reveal">
+        <h2>How it works</h2>
+        <p>Three steps to a website that works for you.</p>
+      </div>
+      <div class="steps-grid">
+        <div class="step-item reveal">
+          <div class="step-num">1</div>
+          <h3>Book a free call</h3>
+          <p>Tell us about your business. We will show you what your website could look like.</p>
+        </div>
+        <div class="step-item reveal d1">
+          <div class="step-num">2</div>
+          <h3>Review your mockup</h3>
+          <p>We design a custom mockup for free. Love it and we build it. Not convinced and there is no charge.</p>
+        </div>
+        <div class="step-item reveal d2">
+          <div class="step-num">3</div>
+          <h3>Launch and relax</h3>
+          <p>Your site goes live. We handle everything from here. You focus on your customers.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section class="section section-alt">
+    <div class="container container-narrow">
+      <div class="section-header reveal">
+        <div class="eyebrow"><i class="fas fa-dollar-sign"></i> Subscription Plans</div>
+        <h2>Simple, predictable pricing</h2>
+        <p>No hourly rates. No surprise invoices. One monthly price covers everything.</p>
+      </div>
+      <div class="pricing-row">
+        <div class="price-card reveal">
+          <h3>Essential</h3>
+          <div class="price-num">$169<span style="font-size:1rem;font-weight:600;-webkit-text-fill-color:var(--muted);background:none;">/mo</span></div>
+          <p class="note">Custom site, hosting, unlimited updates, and support</p>
+        </div>
+        <div class="price-card pop reveal d1">
+          <div class="pop-badge">Most Popular</div>
+          <h3>Growth</h3>
+          <div class="price-num">$249<span style="font-size:1rem;font-weight:600;-webkit-text-fill-color:var(--muted);background:none;">/mo</span></div>
+          <p class="note">Everything in Essential plus SEO tools, monthly reports, and priority support</p>
+        </div>
+      </div>
+      <div class="pricing-footer reveal">
+        <a href="pricing.html">Compare all plans <i class="fas fa-arrow-right"></i></a>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /tab-new -->
+
+
+<!-- ════════════════════════════════════════════════
+     TAB 2  |  MANAGE MY SITE
+═════════════════════════════════════════════════ -->
+<div class="tab-panel" id="tab-manage">
+
+  <!-- Intro -->
+  <div class="panel-intro">
+    <div class="container container-narrow">
+      <div class="intro-grid">
+        <div class="reveal">
+          <div class="intro-eyebrow"><i class="fas fa-tools"></i> Existing Website Support</div>
+          <h2 class="intro-headline">Already have a site? <span class="gold">We will take it from here.</span></h2>
+          <p class="intro-sub">Stop logging in, Googling fixes, and worrying about your site. Hand it to us and get back to running your business.</p>
+          <div class="trust-row">
+            <div class="trust-pill"><i class="fas fa-check-circle"></i> WordPress, Wix and more</div>
+            <div class="trust-pill"><i class="fas fa-check-circle"></i> Same-day updates</div>
+            <div class="trust-pill"><i class="fas fa-check-circle"></i> Cancel anytime</div>
+          </div>
+        </div>
+        <div class="intro-cta reveal d1">
+          <a href="consultation.html" class="btn-gold"><i class="fas fa-calendar-check"></i> Request a Call</a>
+          <a href="#manage-steps" class="btn-ghost"><i class="fas fa-play-circle"></i> See How It Works</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- What we do -->
+  <section class="section section-alt">
+    <div class="container container-narrow">
+      <div class="section-header reveal">
+        <div class="eyebrow"><i class="fas fa-wrench"></i> What We Handle</div>
+        <h2>We actively manage your website</h2>
+        <p>Not just fixing things when they break. We keep your site running, updated, and looking great every single month.</p>
+      </div>
+      <div class="feature-grid">
+        <div class="feat-card reveal">
+          <div class="feat-icon"><i class="fas fa-edit"></i></div>
+          <h3>Content updates</h3>
+          <p>New photos, changed hours, updated pricing, announcements. Tell us what you need and it is done.</p>
+        </div>
+        <div class="feat-card reveal d1">
+          <div class="feat-icon"><i class="fas fa-wrench"></i></div>
+          <h3>Fixes and improvements</h3>
+          <p>Broken links, spacing issues, slow pages, mobile bugs. We fix problems before your customers notice them.</p>
+        </div>
+        <div class="feat-card reveal d2">
+          <div class="feat-icon"><i class="fas fa-shield-alt"></i></div>
+          <h3>Security and backups</h3>
+          <p>Your site stays secure, up to date, and backed up. If anything goes wrong, we restore it fast.</p>
+        </div>
+        <div class="feat-card reveal d3">
+          <div class="feat-icon"><i class="fas fa-server"></i></div>
+          <h3>Hosting management</h3>
+          <p>We can migrate to faster servers or manage your existing hosting. No technical headaches for you.</p>
+        </div>
+        <div class="feat-card reveal d4">
+          <div class="feat-icon"><i class="fas fa-paint-brush"></i></div>
+          <h3>Design refreshes</h3>
+          <p>Site looking outdated? We modernize layouts, improve visuals, and make your site feel fresh again.</p>
+        </div>
+        <div class="feat-card reveal d5">
+          <div class="feat-icon"><i class="fas fa-chart-line"></i></div>
+          <h3>Performance monitoring</h3>
+          <p>We watch speed, uptime, and user experience so your site stays fast and reliable at all times.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Value -->
+  <section class="section">
+    <div class="container container-narrow">
+      <div class="split">
+        <div class="split-text reveal">
+          <div class="eyebrow" style="margin-bottom:16px;"><i class="fas fa-heart"></i> Why It Matters</div>
+          <h2>Your website should work for you, not the other way around</h2>
+          <p>Most business owners did not start their company to become webmasters. But somehow you end up spending hours trying to update a photo or figure out why your contact form stopped working.</p>
+          <ul class="check-list">
+            <li><i class="fas fa-check"></i> Send updates however works for you: form, text, email, or call</li>
+            <li><i class="fas fa-check"></i> Changes go live same-day, usually within hours</li>
+            <li><i class="fas fa-check"></i> No extra charges, no surprise invoices, ever</li>
+            <li><i class="fas fa-check"></i> We learn your business so every update is accurate</li>
+          </ul>
+          <a href="pricing.html" class="btn-ghost"><i class="fas fa-dollar-sign"></i> See Pricing</a>
+        </div>
+        <div class="reveal d1">
+          <img src="images/men-small-business.jpg" alt="Small business owner" style="width:100%; border-radius:22px; box-shadow:0 28px 64px rgba(0,0,0,.5);">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Real story -->
+  <section class="section section-alt">
+    <div class="container container-narrow">
+      <div class="section-header reveal">
+        <div class="eyebrow green"><i class="fas fa-star"></i> Client Story</div>
+        <h2>See it in practice</h2>
+      </div>
+      <div class="split">
+        <div class="split-text reveal">
+          <h2 style="font-size:1.7rem;">Bake 350 Degrees</h2>
+          <p>Bake 350 had an existing bakery website that was a pain to update. Seasonal specials, new treats, charity announcements, they needed changes constantly but dreaded dealing with their site.</p>
+          <p>Now they just send us a message. "New cookie flavor Friday" or "Update the donation section" and it is live within hours. We learned their menu, their mission, and their voice.</p>
+          <a href="https://bake350degrees.com" target="_blank" rel="noopener" class="btn-gold" style="margin-top:8px;display:inline-flex;">
+            <i class="fas fa-external-link-alt"></i> Visit Bake 350 Degrees
+          </a>
+        </div>
+        <div class="reveal d1 bake-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+          <img src="images/samples/bake350.png" alt="Bake 350 website" style="width:100%;border-radius:14px;box-shadow:0 16px 40px rgba(0,0,0,.4);">
+          <img src="images/samples/bake350-2.png" alt="Bake 350 website detail" style="width:100%;border-radius:14px;box-shadow:0 16px 40px rgba(0,0,0,.4);">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section class="section" id="manage-steps">
+    <div class="container container-narrow">
+      <div class="section-header reveal">
+        <h2>Getting started is simple</h2>
+        <p>No complicated onboarding or tech knowledge required.</p>
+      </div>
+      <div class="steps-grid">
+        <div class="step-item reveal">
+          <div class="step-num">1</div>
+          <h3>We review your site</h3>
+          <p>We look at what is working and what needs attention. Honest feedback, no pressure.</p>
+        </div>
+        <div class="step-item reveal d1">
+          <div class="step-num">2</div>
+          <h3>You send updates</h3>
+          <p>Form, text, email, or call. Whatever is easiest for you. Just tell us what you need.</p>
+        </div>
+        <div class="step-item reveal d2">
+          <div class="step-num">3</div>
+          <h3>We keep it running</h3>
+          <p>Your site stays current, fast, and accurate as your business grows.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section section-alt">
+    <div class="container container-narrow">
+      <div class="section-header reveal">
+        <h2>Common questions</h2>
+      </div>
+      <div class="faq-wrap">
+        <details class="faq-item reveal">
+          <summary>What platforms do you support?</summary>
+          <p>WordPress, Wix, Squarespace, Shopify, custom HTML, and most other platforms. Check our <a href="providers.html">supported platforms page</a> for details.</p>
+        </details>
+        <details class="faq-item reveal">
+          <summary>Can you improve my existing design?</summary>
+          <p>Yes. If your site looks outdated or is not performing well, we can refresh layouts, improve visuals, and modernize the overall feel. Sometimes we offer a full rebuild at no extra cost when you join a plan.</p>
+        </details>
+        <details class="faq-item reveal">
+          <summary>Is it really unlimited updates?</summary>
+          <p>Yes. Text changes, new photos, layout tweaks, adding pages. Send requests whenever you need them. Everything is included in your monthly plan with no per-change fees.</p>
+        </details>
+        <details class="faq-item reveal">
+          <summary>Can you migrate my hosting?</summary>
+          <p>Yes. If you want faster, more reliable hosting, we handle the entire migration. Your site stays live the whole time with zero downtime on your end.</p>
+        </details>
+        <details class="faq-item reveal">
+          <summary>What if I need something urgent?</summary>
+          <p>We prioritize urgent requests. If your site is down or something critical needs fixing, let us know and we will handle it immediately.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /tab-manage -->
+
+
+<!-- ════════════════════════════════════════════════
+     TAB 3  |  ONE-TIME PROJECT
+═════════════════════════════════════════════════ -->
+<div class="tab-panel" id="tab-onetime">
+
+  <!-- Intro -->
+  <div class="panel-intro">
+    <div class="container container-narrow">
+      <div class="intro-grid">
+        <div class="reveal">
+          <div class="intro-eyebrow"><i class="fas fa-bolt"></i> No Subscription Needed</div>
+          <h2 class="intro-headline">One project, <span class="gold">one flat price.</span></h2>
+          <p class="intro-sub">Need something built, fixed, or refreshed? We complete one-time projects quickly and cleanly with no ongoing commitment required.</p>
+          <div class="trust-row">
+            <div class="trust-pill"><i class="fas fa-check-circle"></i> Flat rate pricing</div>
+            <div class="trust-pill"><i class="fas fa-check-circle"></i> No monthly fees</div>
+            <div class="trust-pill"><i class="fas fa-check-circle"></i> Quick delivery</div>
+          </div>
+        </div>
+        <div class="intro-cta reveal d1">
+          <a href="consultation.html" class="btn-gold"><i class="fas fa-comment-dots"></i> Get a Free Quote</a>
+          <a href="pricing.html" class="btn-ghost"><i class="fas fa-list"></i> See All Pricing</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tiers -->
+  <section class="section section-alt">
+    <div class="container container-narrow">
+      <div class="section-header reveal">
+        <div class="eyebrow"><i class="fas fa-layer-group"></i> Choose Your Scope</div>
+        <h2>Pick the project tier that fits</h2>
+        <p>Each tier is a flat one-time payment. No hidden fees, no ongoing charges.</p>
+      </div>
+      <div class="tier-grid">
+
+        <div class="tier-card reveal">
+          <h3>Basic</h3>
+          <div class="tier-price">$149</div>
+          <p class="tier-label">Small updates and quick fixes</p>
+          <ul class="tier-list">
+            <li><i class="fas fa-check"></i> Content updates and text changes</li>
+            <li><i class="fas fa-check"></i> Image swaps and media uploads</li>
+            <li><i class="fas fa-check"></i> Minor layout fixes</li>
+            <li><i class="fas fa-check"></i> Contact form setup or repair</li>
+            <li><i class="fas fa-check"></i> Speed and mobile fixes</li>
+          </ul>
+          <a href="consultation.html" class="btn-ghost" style="justify-content:center;">Get a Quote</a>
+        </div>
+
+        <div class="tier-card pop-tier reveal d1">
+          <span class="tier-badge">Most Popular</span>
+          <h3>Standard</h3>
+          <div class="tier-price">$299</div>
+          <p class="tier-label">Pages, redesigns and integrations</p>
+          <ul class="tier-list">
+            <li><i class="fas fa-check"></i> Everything in Basic</li>
+            <li><i class="fas fa-check"></i> New page or section design</li>
+            <li><i class="fas fa-check"></i> Partial site redesign</li>
+            <li><i class="fas fa-check"></i> Third-party integrations</li>
+            <li><i class="fas fa-check"></i> Booking or e-commerce setup</li>
+          </ul>
+          <a href="consultation.html" class="btn-gold" style="justify-content:center;">Get a Quote</a>
+        </div>
+
+        <div class="tier-card reveal d2">
+          <h3>Full Build</h3>
+          <div class="tier-price">$449</div>
+          <p class="tier-label">Complete new website</p>
+          <ul class="tier-list">
+            <li><i class="fas fa-check"></i> Custom design from scratch</li>
+            <li><i class="fas fa-check"></i> Up to 5 pages</li>
+            <li><i class="fas fa-check"></i> Mobile-responsive and SEO-ready</li>
+            <li><i class="fas fa-check"></i> Contact and lead capture forms</li>
+            <li><i class="fas fa-check"></i> You own all files and code</li>
+          </ul>
+          <a href="consultation.html" class="btn-ghost" style="justify-content:center;">Get a Quote</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section class="section">
+    <div class="container container-narrow">
+      <div class="section-header reveal">
+        <h2>How a project works</h2>
+        <p>Simple process, clear expectations, fast delivery.</p>
+      </div>
+      <div class="steps-grid">
+        <div class="step-item reveal">
+          <div class="step-num">1</div>
+          <h3>Tell us what you need</h3>
+          <p>Fill out the form or send us a message. The more detail you give us, the better.</p>
+        </div>
+        <div class="step-item reveal d1">
+          <div class="step-num">2</div>
+          <h3>We scope and confirm</h3>
+          <p>We confirm the price and timeline upfront. No hidden fees, no scope creep.</p>
+        </div>
+        <div class="step-item reveal d2">
+          <div class="step-num">3</div>
+          <h3>Delivered and done</h3>
+          <p>We complete the work, deliver it for your review, and you are all set. No strings attached.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Upsell to subscription -->
+  <section class="section section-alt">
+    <div class="container container-narrow">
+      <div class="upsell-box reveal">
+        <div class="split">
+          <div class="split-text">
+            <div class="eyebrow purple" style="margin-bottom:16px;"><i class="fas fa-arrow-up"></i> Want Ongoing Support?</div>
+            <h2>Many of our one-time clients stick around</h2>
+            <p>Once you see how easy website management can be, it is hard to go back to doing it yourself. Our monthly subscribers get unlimited updates, hosting, backups, and real support every month.</p>
+            <ul class="check-list">
+              <li><i class="fas fa-check"></i> Unlimited updates included every month</li>
+              <li><i class="fas fa-check"></i> Hosting, backups, and security taken care of</li>
+              <li><i class="fas fa-check"></i> Same-day turnaround on most requests</li>
+              <li><i class="fas fa-check"></i> No contracts, cancel anytime</li>
+            </ul>
+            <a href="pricing.html" class="btn-gold" style="margin-top:4px;display:inline-flex;">
+              <i class="fas fa-arrow-right"></i> View Monthly Plans
+            </a>
+          </div>
+          <div>
+            <div class="value-bar" style="margin-top:0;">
+              <div>
+                <h3>Starting at $169/mo</h3>
+                <p>Everything included. No surprise bills.</p>
+                <div class="value-bar-pills">
+                  <span class="vpill"><i class="fas fa-check"></i> Custom website</span>
+                  <span class="vpill"><i class="fas fa-check"></i> Hosting</span>
+                  <span class="vpill"><i class="fas fa-check"></i> Unlimited updates</span>
+                  <span class="vpill"><i class="fas fa-check"></i> Real support</span>
+                  <span class="vpill"><i class="fas fa-check"></i> Cancel anytime</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /tab-onetime -->
+
+
+<!-- ── FINAL CTA ───────────────────────────────────── -->
+<section class="final-cta">
+  <div class="container container-narrow">
+    <h2 class="reveal">Ready to get started?</h2>
+    <p class="reveal d1">Tell us what you need. We will put together a plan that fits your goals and budget.</p>
+    <div class="btn-group reveal d2">
+      <a href="consultation.html" class="btn-gold">Get a Free Consultation <i class="fas fa-arrow-right"></i></a>
+      <a href="pricing.html" class="btn-ghost">View Pricing</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ── FOOTER ─────────────────────────────────────── -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-about">
+      <div class="footer-brand">
+        <img src="images/webeaze-transparent copy.png" alt="WebEaze">
+        <span>WebEaze</span>
+      </div>
+      <p class="footer-tagline">Professional websites for small businesses. We build, host, and manage your site so you can focus on what matters.</p>
+      <div class="footer-social">
+        <a href="https://facebook.com/61568824951084" target="_blank" rel="noopener" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://www.linkedin.com/company/webeaze" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+        <a href="https://instagram.com/webeaze.io" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h5>Services</h5>
+      <ul>
+        <li><a href="services.html">Our Services</a></li>
+        <li><a href="pricing.html">Pricing</a></li>
+        <li><a href="plan-guide.html">Plan Guide</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Company</h5>
+      <ul>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="samples.html">Our Work</a></li>
+        <li><a href="referral.html">Referral Program</a></li>
+        <li><a href="contact-us.html">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Support</h5>
+      <ul>
+        <li><a href="help.html">Help Center</a></li>
+        <li><a href="faq.html">FAQ</a></li>
+        <li><a href="consultation.html">Request Mockup</a></li>
+        <li><a href="accessibility.html">Accessibility</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p style="color:#fff">&copy; <span id="yr"></span> WebEaze. Made in Delaware, USA &#127482;&#127480;</p>
+    <div class="footer-legal">
+      <a href="terms.html#privacy">Privacy Policy</a>
+      <a href="terms.html">Terms of Service</a>
+      <a href="site-map.html">Site Map</a>
+    </div>
+  </div>
+</footer>
+
+
+<!-- ── SCRIPTS ────────────────────────────────────── -->
+<script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+(function () {
+  var tabs    = document.querySelectorAll('.tab-btn');
+  var panels  = document.querySelectorAll('.tab-panel');
+  var current = 'new';
+
+  function goTab(id) {
+    if (id === current) return;
+    current = id;
+    tabs.forEach(function(b)  { b.classList.toggle('active', b.dataset.tab === id); });
+    panels.forEach(function(p){ p.classList.toggle('active', p.id === 'tab-' + id); });
+    // Trigger reveals for the newly shown panel
+    window.scrollTo({ top: document.querySelector('.tab-nav-wrap').offsetTop - 62, behavior: 'smooth' });
+    setTimeout(runReveals, 50);
+  }
+
+  tabs.forEach(function(btn) {
+    btn.addEventListener('click', function() { goTab(btn.dataset.tab); });
+  });
+
+  // Deep link: services.html#manage or ?tab=manage
+  var hash = location.hash.replace('#', '');
+  var param = new URLSearchParams(location.search).get('tab');
+  var target = hash || param;
+  if (['new', 'manage', 'onetime'].includes(target)) {
+    current = target;
+    tabs.forEach(function(b)  { b.classList.toggle('active', b.dataset.tab === target); });
+    panels.forEach(function(p){ p.classList.toggle('active', p.id === 'tab-' + target); });
+  }
+
+  // Reveal on scroll
+  function runReveals() {
+    if (!('IntersectionObserver' in window)) {
+      document.querySelectorAll('.reveal').forEach(function(e){ e.classList.add('in'); });
+      return;
+    }
+    var io = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -36px 0px' });
+
+    document.querySelectorAll('.reveal:not(.in)').forEach(function(el){ io.observe(el); });
+  }
+
+  runReveals();
+
+  // Smooth scroll for on-page anchors
+  document.querySelectorAll('a[href^="#"]').forEach(function(a) {
+    a.addEventListener('click', function(e) {
+      var t = document.querySelector(a.getAttribute('href'));
+      if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+    });
+  });
+})();
+</script>
+</body>
+</html>
