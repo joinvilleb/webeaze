@@ -4,8 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Google Business Management | WebEaze</title>
-  <meta name="description" content="Show up on Google Search & Maps. Setup, optimization, posts, photos, and reviews—managed for you. Included in Growth & Elite; add‑on for Essential." />
-
+  <meta name="description" content="Show up on Google Search & Maps. Setup, optimization, posts, photos, and reviews—managed for you. Included in Growth & Elite; add-on for Essential." />
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
@@ -15,15 +14,19 @@
 
   <style>
     :root {
-      --gold: #ffd700;
-      --brand: #7851a9;
-      --dark: #0a0a0f;
-      --darker: #050508;
-      --surface: #111118;
+      --gold:      #ffd700;
+      --brand:     #7851a9;
+      --dark:      #0a0a0f;
+      --darker:    #050508;
+      --surface:   #111118;
       --surface-2: #1a1a24;
-      --line: #2a2a35;
-      --ink: #f5f6fa;
-      --muted: #9ca3af;
+      --line:      rgba(255,255,255,.08);
+      --ink:       #f5f6fa;
+      --muted:     #9ca3af;
+      --g-blue:    #4285f4;
+      --g-red:     #ea4335;
+      --g-yellow:  #fbbc05;
+      --g-green:   #34a853;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -36,619 +39,421 @@
     }
 
     a { text-decoration: none; color: inherit; }
-
     .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
 
-    /* NAV */
+    /* ── NAV ── */
     .nav-wrap {
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      background: rgba(10, 10, 15, 0.95);
+      position: sticky; top: 0; z-index: 1000;
+      background: rgba(10,10,15,.95);
       backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(255,255,255,.08);
+      border-bottom: 1px solid var(--line);
     }
-
     .nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 16px 0;
+      display: flex; justify-content: space-between;
+      align-items: center; padding: 16px 0;
     }
-
-    .nav-brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
+    .nav-brand { display: flex; align-items: center; gap: 10px; }
     .nav-brand img { height: 36px; }
-    .nav-brand span { font-weight: 700; font-size: 1.1rem; }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
+    .nav-brand span { font-weight: 700; font-size: 1.05rem; }
+    .nav-links { display: flex; align-items: center; gap: 6px; }
     .nav-links a {
-      padding: 10px 14px;
-      font-size: 14px;
-      font-weight: 500;
-      color: rgba(255,255,255,.85);
-      border-radius: 8px;
-      transition: .2s;
+      padding: 9px 13px; font-size: 14px; font-weight: 500;
+      color: rgba(255,255,255,.8); border-radius: 8px; transition: .2s;
     }
-
-    .nav-links a:hover {
-      background: rgba(255,255,255,.08);
-      color: #fff;
-    }
-
+    .nav-links a:hover { color: #fff; background: rgba(255,255,255,.07); }
     .btn-nav {
-      background: var(--gold) !important;
-      color: #1a1a1a !important;
-      font-weight: 700 !important;
-      padding: 10px 18px !important;
-      border-radius: 10px !important;
+      background: var(--gold); color: #1a1200 !important;
+      border-radius: 10px; font-weight: 700 !important;
+      padding: 9px 16px !important;
     }
-
+    .btn-nav:hover { background: #ffe033 !important; }
     .menu-toggle {
-      display: none;
-      font-size: 24px;
-      cursor: pointer;
-      color: #fff;
+      display: none; font-size: 20px;
+      cursor: pointer; color: #fff; padding: 6px;
     }
-
-    /* HERO */
-    .hero {
-      position: relative;
-      padding: 100px 0 80px;
-      overflow: hidden;
-    }
-
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 200%;
-      height: 100%;
-      background: radial-gradient(ellipse at center, rgba(120,81,169,.15) 0%, transparent 60%);
-      pointer-events: none;
-    }
-
-    .hero-content {
-      position: relative;
-      text-align: center;
-      max-width: 800px;
-      margin: 0 auto;
-    }
-
-    .hero-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(255,215,0,.1);
-      border: 1px solid rgba(255,215,0,.25);
-      padding: 8px 16px;
-      border-radius: 999px;
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--gold);
-      margin-bottom: 24px;
-    }
-
-    .hero h1 {
-      font-size: clamp(40px, 7vw, 72px);
-      font-weight: 600;
-      line-height: 1.05;
-      letter-spacing: -0.03em;
-      margin-bottom: 24px;
-    }
-
-    .hero h1 span {
-      background: linear-gradient(135deg, var(--gold), #fff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .hero p {
-      font-size: 18px;
-      color: var(--muted);
-      max-width: 600px;
-      margin: 0 auto 32px;
-      line-height: 1.6;
-    }
-
-    .hero-btns {
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .btn-primary {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: var(--gold);
-      color: #1a1a1a;
-      padding: 16px 28px;
-      border-radius: 12px;
-      font-weight: 700;
-      font-size: 15px;
-      transition: .2s;
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 32px rgba(255,215,0,.25);
-      color: #1a1a1a;
-    }
-
-    .btn-secondary {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: var(--surface);
-      border: 1px solid var(--line);
-      color: #fff;
-      padding: 16px 28px;
-      border-radius: 12px;
-      font-weight: 700;
-      font-size: 15px;
-      transition: .2s;
-    }
-
-    .btn-secondary:hover {
-      background: var(--surface-2);
-      border-color: rgba(255,255,255,.15);
-    }
-
-    /* WHAT WE DO */
-    .what-we-do {
-      padding: 80px 0;
-    }
-
-    .section-header {
-      text-align: center;
-      margin-bottom: 48px;
-    }
-
-    .section-header h2 {
-      font-size: clamp(28px, 4vw, 40px);
-      font-weight: 800;
-      margin-bottom: 12px;
-    }
-
-    .section-header p {
-      color: var(--muted);
-      font-size: 16px;
-      max-width: 500px;
-      margin: 0 auto;
-    }
-
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-    }
-
-    .feature-card {
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: 20px;
-      padding: 32px 28px;
-      transition: .3s;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .feature-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 3px;
-      background: linear-gradient(90deg, var(--brand), var(--gold));
-      opacity: 0;
-      transition: .3s;
-    }
-
-    .feature-card:hover {
-      transform: translateY(-4px);
-      border-color: rgba(255,215,0,.2);
-    }
-
-    .feature-card:hover::before {
-      opacity: 1;
-    }
-
-    .feature-icon {
-      width: 56px;
-      height: 56px;
-      border-radius: 14px;
-      background: linear-gradient(135deg, rgba(120,81,169,.2), rgba(255,215,0,.1));
-      border: 1px solid rgba(255,255,255,.08);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 24px;
-      margin-bottom: 20px;
-    }
-
-    .feature-card h3 {
-      font-size: 18px;
-      font-weight: 700;
-      margin-bottom: 10px;
-    }
-
-    .feature-card p {
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.6;
-    }
-
-    /* SIMPLE PROCESS */
-    .process {
-      padding: 80px 0;
-      background: var(--darker);
-    }
-
-    .process-steps {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 24px;
-      margin-top: 48px;
-    }
-
-    .step {
-      text-align: center;
-      position: relative;
-    }
-
-    .step::after {
-      content: '';
-      position: absolute;
-      top: 32px;
-      right: -12px;
-      width: calc(100% - 64px);
-      height: 2px;
-      background: linear-gradient(90deg, var(--line), transparent);
-    }
-
-    .step:last-child::after {
-      display: none;
-    }
-
-    .step-num {
-      width: 64px;
-      height: 64px;
-      border-radius: 16px;
-      background: linear-gradient(135deg, var(--brand), rgba(120,81,169,.5));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 24px;
-      font-weight: 800;
-      margin: 0 auto 20px;
-    }
-
-    .step h3 {
-      font-size: 16px;
-      font-weight: 700;
-      margin-bottom: 8px;
-    }
-
-    .step p {
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    /* PRICING */
-    .pricing {
-      padding: 80px 0;
-    }
-
-    .pricing-box {
-      background: linear-gradient(135deg, var(--surface), var(--surface-2));
-      border: 1px solid var(--line);
-      border-radius: 24px;
-      padding: 48px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 48px;
-      align-items: center;
-    }
-
-    .pricing-info h2 {
-      font-size: 32px;
-      font-weight: 800;
-      margin-bottom: 16px;
-    }
-
-    .pricing-info p {
-      color: var(--muted);
-      font-size: 16px;
-      line-height: 1.7;
-      margin-bottom: 24px;
-    }
-
-    .pricing-tiers {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    .tier {
-      background: rgba(255,255,255,.03);
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      padding: 20px 24px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .tier.featured {
-      background: rgba(255,215,0,.08);
-      border-color: rgba(255,215,0,.25);
-    }
-
-    .tier-name {
-      font-weight: 700;
-      font-size: 15px;
-    }
-
-    .tier-price {
-      font-weight: 800;
-      font-size: 18px;
-      color: var(--gold);
-    }
-
-    .tier-price span {
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--muted);
-    }
-
-    /* FAQ */
-    .faq {
-      padding: 80px 0;
-      background: var(--darker);
-    }
-
-    .faq-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      margin-top: 48px;
-    }
-
-    .faq-item {
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      overflow: hidden;
-    }
-
-    .faq-item summary {
-      padding: 20px 24px;
-      cursor: pointer;
-      list-style: none;
-      font-weight: 600;
-      font-size: 15px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .faq-item summary::-webkit-details-marker { display: none; }
-
-    .faq-item summary::after {
-      content: '+';
-      font-size: 20px;
-      color: var(--muted);
-      transition: .2s;
-    }
-
-    .faq-item[open] summary::after {
-      transform: rotate(45deg);
-    }
-
-    .faq-answer {
-      padding: 0 24px 20px;
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.7;
-    }
-
-    .faq-answer a {
-      color: var(--gold);
-      text-decoration: underline;
-    }
-
-    /* CTA */
-    .cta {
-      padding: 80px 0;
-    }
-
-    .cta-box {
-      background: linear-gradient(135deg, rgba(120,81,169,.15), rgba(255,215,0,.08));
-      border: 1px solid rgba(255,215,0,.2);
-      border-radius: 24px;
-      padding: 64px;
-      text-align: center;
-    }
-
-    .cta-box h2 {
-      font-size: clamp(28px, 4vw, 40px);
-      font-weight: 800;
-      margin-bottom: 16px;
-    }
-
-    .cta-box p {
-      color: var(--muted);
-      font-size: 16px;
-      margin-bottom: 32px;
-    }
-
-    /* FOOTER */
-    footer {
-      background: #000;
-      padding: 60px 24px 40px;
+    .mobile-menu {
+      display: none; flex-direction: column;
+      padding: 12px 24px 16px; gap: 4px;
       border-top: 1px solid var(--line);
     }
-
-    .footer-disclaimer {
-      max-width: 1100px;
-      margin: 0 auto 32px;
-      padding: 16px;
-      color: #6b7280;
-      font-size: 12px;
-      line-height: 1.6;
+    .mobile-menu.active { display: flex; }
+    .mobile-menu a {
+      padding: 10px 12px; font-size: 15px; font-weight: 500;
+      border-radius: 8px; color: rgba(255,255,255,.85); transition: .2s;
     }
-
-    .footer-grid {
-      display: grid;
-      grid-template-columns: 2fr 1fr 1fr 1fr;
-      gap: 48px;
-      max-width: 1100px;
-      margin: 0 auto 48px;
-    }
-
-    .footer-brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 16px;
-    }
-
-    .footer-brand img { height: 32px; }
-    .footer-brand span { font-weight: 700; font-size: 1.1rem; }
-
-    .footer-tagline {
-      color: #a0a6c0;
-      font-size: 14px;
-      line-height: 1.6;
-      margin-bottom: 20px;
-      max-width: 280px;
-    }
-
-    .footer-social {
-      display: flex;
-      gap: 12px;
-    }
-
-    .footer-social a {
-      width: 36px;
-      height: 36px;
-      background: rgba(255,255,255,.06);
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #a0a6c0;
-      transition: .2s;
-    }
-
-    .footer-social a:hover {
-      background: var(--gold);
-      color: #1a1a1a;
-    }
-
-    .footer-col h5 {
-      font-size: 12px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      margin-bottom: 16px;
-    }
-
-    .footer-col ul { list-style: none; }
-    .footer-col li { margin-bottom: 10px; }
-    .footer-col a {
-      color: #a0a6c0;
-      font-size: 14px;
-      transition: .2s;
-    }
-    .footer-col a:hover { color: var(--gold); }
-
-    .footer-bottom {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding-top: 24px;
-      border-top: 1px solid var(--line);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 16px;
-    }
-
-    .footer-bottom p {
-      color: #6b7280;
-      font-size: 13px;
-    }
-
-    .footer-legal {
-      display: flex;
-      gap: 24px;
-    }
-
-    .footer-legal a {
-      color: #6b7280;
-      font-size: 13px;
-      transition: .2s;
-    }
-
-    .footer-legal a:hover { color: var(--gold); }
-
-    /* RESPONSIVE */
+    .mobile-menu a:hover { background: rgba(255,255,255,.07); }
     @media (max-width: 900px) {
       .nav-links { display: none; }
       .menu-toggle { display: block; }
-
-      .features-grid { grid-template-columns: 1fr; }
-      .process-steps { grid-template-columns: repeat(2, 1fr); }
-      .step::after { display: none; }
-      .pricing-box { grid-template-columns: 1fr; }
-      .faq-grid { grid-template-columns: 1fr; }
-      .footer-grid { grid-template-columns: 1fr 1fr; }
     }
 
+    /* ── BUTTONS ── */
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 14px 26px; border-radius: 12px;
+      background: var(--gold); color: #1a1200;
+      font-weight: 700; font-size: 15px; transition: .2s;
+    }
+    .btn-primary:hover { background: #ffe033; transform: translateY(-1px); }
+    .btn-ghost {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 14px 26px; border-radius: 12px;
+      border: 1px solid rgba(255,255,255,.2); color: var(--ink);
+      font-weight: 600; font-size: 15px; transition: .2s;
+    }
+    .btn-ghost:hover { border-color: rgba(255,255,255,.4); background: rgba(255,255,255,.05); }
+
+    /* ── SECTION HELPERS ── */
+    .section-label {
+      display: inline-flex; align-items: center; gap: 7px;
+      font-size: 12px; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--gold);
+      margin-bottom: 14px;
+    }
+    .section-label::before, .section-label::after {
+      content: ''; flex: 1; height: 1px; background: rgba(255,215,0,.3);
+    }
+    .section-label.centered { display: flex; }
+    h2.section-title {
+      font-size: clamp(26px, 4vw, 38px); font-weight: 800;
+      line-height: 1.2; letter-spacing: -.02em; margin-bottom: 12px;
+    }
+    .section-sub {
+      font-size: 17px; color: var(--muted); max-width: 560px; line-height: 1.7;
+    }
+    .section-sub.centered { margin: 0 auto; text-align: center; }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative; overflow: hidden;
+      padding: 90px 0 80px;
+    }
+    .hero-glow {
+      position: absolute; inset: 0; pointer-events: none;
+      background:
+        radial-gradient(ellipse 60% 80% at 100% 0%,   rgba(66,133,244,.15), transparent 55%),
+        radial-gradient(ellipse 50% 60% at 0%  100%,  rgba(120,81,169,.18),  transparent 50%),
+        radial-gradient(ellipse 40% 40% at 50%  50%,  rgba(255,215,0,.04),   transparent 60%);
+    }
+    .hero-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 60px; align-items: center; position: relative; z-index: 1;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 7px 16px; border-radius: 999px;
+      border: 1px solid rgba(66,133,244,.35);
+      background: rgba(66,133,244,.08);
+      font-size: 13px; font-weight: 600; color: #7fb3ff;
+      margin-bottom: 22px;
+    }
+    .hero-badge .g-dot { display: flex; gap: 3px; align-items: center; }
+    .hero-badge .g-dot span {
+      width: 6px; height: 6px; border-radius: 50%;
+    }
+    .hero h1 {
+      font-size: clamp(34px, 5vw, 52px); font-weight: 900;
+      line-height: 1.1; letter-spacing: -.03em; margin-bottom: 18px;
+    }
+    .hero h1 .google-text {
+      background: linear-gradient(90deg, var(--g-blue), var(--g-red) 33%, var(--g-yellow) 66%, var(--g-green));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-sub {
+      font-size: 17px; color: var(--muted); line-height: 1.75;
+      max-width: 480px; margin-bottom: 32px;
+    }
+    .hero-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+    .hero-pills {
+      display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px;
+    }
+    .hero-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 13px; color: var(--muted); font-weight: 500;
+    }
+    .hero-pill i { color: var(--g-green); font-size: 11px; }
+
+    /* GBP mock card */
+    .gbp-card {
+      background: #1c1c28; border: 1px solid rgba(255,255,255,.1);
+      border-radius: 20px; padding: 22px;
+      box-shadow: 0 24px 80px rgba(0,0,0,.5);
+    }
+    .gbp-top {
+      display: flex; align-items: flex-start; gap: 14px; margin-bottom: 18px;
+    }
+    .gbp-avatar {
+      width: 52px; height: 52px; border-radius: 12px;
+      background: linear-gradient(135deg, var(--brand), #a87fd4);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; font-weight: 800; color: #fff; flex-shrink: 0;
+    }
+    .gbp-name { font-weight: 700; font-size: 15px; margin-bottom: 3px; }
+    .gbp-category { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+    .gbp-stars { display: flex; align-items: center; gap: 5px; }
+    .gbp-stars .stars { color: #fbbc05; font-size: 13px; letter-spacing: 1px; }
+    .gbp-stars .rating { font-size: 13px; font-weight: 700; }
+    .gbp-stars .count { font-size: 12px; color: var(--muted); }
+    .gbp-status {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 12px; color: #34d278; font-weight: 600;
+      margin-bottom: 14px;
+    }
+    .gbp-status::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: #34d278; }
+    .gbp-actions {
+      display: grid; grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px; margin-bottom: 18px;
+    }
+    .gbp-action {
+      background: rgba(66,133,244,.1); border: 1px solid rgba(66,133,244,.2);
+      border-radius: 10px; padding: 10px 6px;
+      text-align: center; font-size: 11px; font-weight: 600;
+      color: #7fb3ff;
+    }
+    .gbp-action i { display: block; font-size: 16px; margin-bottom: 5px; }
+    .gbp-divider { height: 1px; background: var(--line); margin-bottom: 14px; }
+    .gbp-post {
+      background: rgba(255,255,255,.04); border-radius: 12px;
+      padding: 12px 14px; font-size: 13px; color: var(--muted); line-height: 1.6;
+    }
+    .gbp-post-label {
+      font-size: 11px; font-weight: 700; letter-spacing: .07em;
+      text-transform: uppercase; color: rgba(255,255,255,.3); margin-bottom: 6px;
+    }
+    .gbp-badge-managed {
+      display: inline-flex; align-items: center; gap: 5px;
+      margin-top: 14px; padding: 6px 12px; border-radius: 999px;
+      background: rgba(52,168,83,.1); border: 1px solid rgba(52,168,83,.25);
+      font-size: 11px; font-weight: 700; color: #5fcf85; letter-spacing: .05em;
+    }
+
+    /* ── STATS STRIP ── */
+    .stats-strip {
+      border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+      background: rgba(255,255,255,.02); padding: 36px 0;
+    }
+    .stats-inner {
+      display: flex; justify-content: space-around;
+      flex-wrap: wrap; gap: 28px; text-align: center;
+    }
+    .stat-num {
+      font-size: 32px; font-weight: 900; letter-spacing: -.02em;
+      background: linear-gradient(135deg, #fff, rgba(255,255,255,.6));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .stat-desc { font-size: 13px; color: var(--muted); margin-top: 4px; max-width: 160px; }
+
+    /* ── FEATURES ── */
+    .features { padding: 90px 0; }
+    .features-header { margin-bottom: 56px; }
+    .features-list { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .feat {
+      display: flex; gap: 18px; align-items: flex-start;
+      background: var(--surface); border: 1px solid var(--line);
+      border-radius: 16px; padding: 24px; transition: .2s;
+    }
+    .feat:hover { border-color: rgba(255,215,0,.2); background: var(--surface-2); }
+    .feat-icon {
+      width: 46px; height: 46px; flex-shrink: 0; border-radius: 12px;
+      background: rgba(255,215,0,.08); border: 1px solid rgba(255,215,0,.15);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; color: var(--gold);
+    }
+    .feat-body h3 { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
+    .feat-body p { font-size: 14px; color: var(--muted); line-height: 1.65; }
+
+    /* ── PROCESS ── */
+    .process { padding: 90px 0; background: var(--surface); }
+    .process-header { text-align: center; margin-bottom: 60px; }
+    .steps {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 0; position: relative;
+    }
+    .steps::before {
+      content: '';
+      position: absolute; top: 28px; left: calc(12.5%); right: calc(12.5%);
+      height: 1px; background: linear-gradient(90deg, transparent, var(--line) 20%, var(--line) 80%, transparent);
+    }
+    .step { text-align: center; padding: 0 16px; position: relative; }
+    .step-num {
+      width: 56px; height: 56px; border-radius: 50%; margin: 0 auto 20px;
+      background: var(--surface-2); border: 2px solid var(--line);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; font-weight: 800; color: var(--gold);
+      position: relative; z-index: 1;
+      transition: .2s;
+    }
+    .step:hover .step-num {
+      border-color: var(--gold); background: rgba(255,215,0,.08);
+      box-shadow: 0 0 20px rgba(255,215,0,.15);
+    }
+    .step h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+    .step p { font-size: 13.5px; color: var(--muted); line-height: 1.65; }
+
+    /* ── PRICING ── */
+    .pricing { padding: 90px 0; }
+    .pricing-header { text-align: center; margin-bottom: 56px; }
+    .pricing-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 16px; margin-bottom: 32px;
+    }
+    .price-card {
+      background: var(--surface); border: 1px solid var(--line);
+      border-radius: 20px; padding: 28px; transition: .2s;
+    }
+    .price-card.featured {
+      border-color: rgba(255,215,0,.4);
+      background: linear-gradient(160deg, rgba(255,215,0,.06) 0%, rgba(120,81,169,.06) 100%);
+      position: relative;
+    }
+    .featured-chip {
+      position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+      background: var(--gold); color: #1a1200;
+      font-size: 11px; font-weight: 800; letter-spacing: .06em;
+      text-transform: uppercase; padding: 4px 14px; border-radius: 999px;
+    }
+    .price-card-icon {
+      width: 44px; height: 44px; border-radius: 12px; margin-bottom: 16px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+    }
+    .price-card.featured .price-card-icon { background: rgba(255,215,0,.1); color: var(--gold); }
+    .price-card:not(.featured) .price-card-icon { background: rgba(255,255,255,.06); color: var(--muted); }
+    .price-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
+    .price-card .desc { font-size: 13px; color: var(--muted); margin-bottom: 20px; line-height: 1.6; }
+    .price-val {
+      font-size: 36px; font-weight: 900; letter-spacing: -.02em;
+      color: var(--gold); margin-bottom: 4px;
+    }
+    .price-card.featured .price-val { font-size: 28px; }
+    .price-val span { font-size: 15px; font-weight: 500; color: var(--muted); }
+    .price-note { font-size: 12px; color: var(--muted); }
+    .price-divider { height: 1px; background: var(--line); margin: 18px 0; }
+    .price-perks { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .price-perks li {
+      display: flex; align-items: center; gap: 9px;
+      font-size: 13px; color: rgba(255,255,255,.75);
+    }
+    .price-perks li i { color: var(--g-green); font-size: 11px; flex-shrink: 0; }
+    .pricing-note {
+      text-align: center; font-size: 13px; color: var(--muted);
+      background: var(--surface); border: 1px solid var(--line);
+      border-radius: 12px; padding: 14px 20px;
+    }
+    .pricing-note i { color: var(--gold); margin-right: 6px; }
+
+    /* ── FAQ ── */
+    .faq { padding: 90px 0; background: var(--surface); }
+    .faq-header { text-align: center; margin-bottom: 48px; }
+    .faq-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .faq-item {
+      background: var(--surface-2); border: 1px solid var(--line);
+      border-radius: 14px; overflow: hidden; transition: border-color .2s;
+    }
+    .faq-item[open] { border-color: rgba(255,215,0,.2); }
+    .faq-item summary {
+      cursor: pointer; padding: 18px 20px;
+      font-size: 15px; font-weight: 600; line-height: 1.45;
+      display: flex; justify-content: space-between; align-items: center;
+      gap: 12px; list-style: none; user-select: none;
+    }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item summary::after {
+      content: '\f078'; font-family: 'Font Awesome 6 Free'; font-weight: 900;
+      font-size: 11px; color: var(--muted); flex-shrink: 0;
+      transition: transform .25s;
+    }
+    .faq-item[open] summary::after { transform: rotate(180deg); color: var(--gold); }
+    .faq-answer {
+      padding: 0 20px 18px; font-size: 14px; color: var(--muted); line-height: 1.7;
+    }
+    .faq-answer a { color: var(--gold); text-decoration: underline; }
+
+    /* ── CTA ── */
+    .cta { padding: 90px 0; }
+    .cta-box {
+      background: linear-gradient(135deg, rgba(120,81,169,.2) 0%, rgba(66,133,244,.15) 50%, rgba(255,215,0,.06) 100%);
+      border: 1px solid rgba(255,255,255,.1); border-radius: 24px;
+      padding: 60px 48px; text-align: center; position: relative; overflow: hidden;
+    }
+    .cta-box::before {
+      content: '';
+      position: absolute; inset: 0; border-radius: 24px;
+      background:
+        radial-gradient(ellipse 50% 80% at 80% 20%, rgba(66,133,244,.1), transparent 55%),
+        radial-gradient(ellipse 40% 60% at 20% 80%, rgba(120,81,169,.12), transparent 50%);
+      pointer-events: none;
+    }
+    .cta-box h2 {
+      font-size: clamp(26px, 4vw, 40px); font-weight: 900;
+      letter-spacing: -.02em; margin-bottom: 14px; position: relative;
+    }
+    .cta-box p {
+      font-size: 17px; color: var(--muted); margin-bottom: 32px;
+      max-width: 480px; margin-left: auto; margin-right: auto;
+      position: relative;
+    }
+    .cta-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; position: relative; }
+
+    /* ── FOOTER ── */
+    footer { background: #000; padding: 48px 24px 32px; }
+    .footer-disclaimer {
+      max-width: 1100px; margin: 0 auto 40px;
+      font-size: 11.5px; color: rgba(255,255,255,.3);
+      border: 1px solid rgba(255,255,255,.06); border-radius: 10px;
+      padding: 12px 16px; line-height: 1.6;
+    }
+    .footer-grid {
+      max-width: 1100px; margin: 0 auto;
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 40px; margin-bottom: 40px;
+    }
+    .footer-brand { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+    .footer-brand img { height: 30px; }
+    .footer-brand span { font-weight: 700; font-size: 1rem; }
+    .footer-tagline { color: #a0a6c0; font-size: .85rem; line-height: 1.6; margin-bottom: 16px; max-width: 260px; }
+    .footer-social { display: flex; gap: 10px; }
+    .footer-social a {
+      display: flex; align-items: center; justify-content: center;
+      width: 34px; height: 34px;
+      background: rgba(255,255,255,.06); border-radius: 9px;
+      color: #a0a6c0; font-size: .9rem; transition: .2s;
+    }
+    .footer-social a:hover { background: var(--gold); color: #1a1a2e; }
+    .footer-col h5 { font-size: .8rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: #fff; margin-bottom: 12px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: #a0a6c0; font-size: .85rem; transition: color .2s; }
+    .footer-col a:hover { color: var(--gold); }
+    .footer-bottom {
+      max-width: 1100px; margin: 0 auto; padding-top: 20px;
+      border-top: 1px solid rgba(255,255,255,.07);
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
+    }
+    .footer-bottom p { color: #6b7280; font-size: .8rem; }
+    .footer-legal { display: flex; gap: 20px; }
+    .footer-legal a { color: #6b7280; font-size: .8rem; transition: color .2s; }
+    .footer-legal a:hover { color: var(--gold); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+      .gbp-card { max-width: 380px; }
+      .features-list { grid-template-columns: 1fr; }
+      .steps { grid-template-columns: 1fr 1fr; gap: 32px; }
+      .steps::before { display: none; }
+      .pricing-grid { grid-template-columns: 1fr; max-width: 420px; margin-left: auto; margin-right: auto; }
+      .faq-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 28px; }
+      .cta-box { padding: 40px 28px; }
+    }
     @media (max-width: 600px) {
-      .process-steps { grid-template-columns: 1fr; }
+      .stats-inner { gap: 20px; }
+      .steps { grid-template-columns: 1fr; }
       .footer-grid { grid-template-columns: 1fr; }
       .footer-bottom { flex-direction: column; text-align: center; }
-      .cta-box { padding: 40px 24px; }
-      .pricing-box { padding: 32px 24px; }
-    }
-
-    /* Mobile menu */
-    .mobile-menu {
-      display: none;
-      flex-direction: column;
-      background: var(--surface);
-      border-top: 1px solid var(--line);
-      padding: 16px;
-    }
-
-    .mobile-menu.active { display: flex; }
-
-    .mobile-menu a {
-      padding: 14px 16px;
-      border-radius: 10px;
-      font-weight: 500;
-      color: #fff;
-    }
-
-    .mobile-menu a:hover {
-      background: rgba(255,255,255,.05);
     }
   </style>
 </head>
@@ -662,7 +467,6 @@
         <img src="images/webeaze-transparent copy.png" alt="WebEaze">
         <span>WebEaze</span>
       </a>
-
       <div class="nav-links">
         <a href="services.html">Our Services</a>
         <a href="pricing.html">Pricing</a>
@@ -671,13 +475,11 @@
         <a href="contact-us.html">Contact</a>
         <a href="consultation.html" class="btn-nav">Free Consultation</a>
       </div>
-
       <div class="menu-toggle" onclick="toggleMenu()">
         <i class="fas fa-bars"></i>
       </div>
     </div>
   </div>
-
   <div class="mobile-menu" id="mobileMenu">
     <a href="services.html">Our Services</a>
     <a href="pricing.html">Pricing</a>
@@ -690,85 +492,172 @@
 
 <!-- HERO -->
 <section class="hero">
+  <div class="hero-glow"></div>
   <div class="container">
-    <div class="hero-content">
-      <div class="hero-badge">
-        <i class="fab fa-google"></i>
-        Included with Growth & Elite Plans
+    <div class="hero-grid">
+
+      <!-- Left -->
+      <div class="hero-left">
+        <div class="hero-badge">
+          <span class="g-dot">
+            <span style="background:var(--g-blue)"></span>
+            <span style="background:var(--g-red)"></span>
+            <span style="background:var(--g-yellow)"></span>
+            <span style="background:var(--g-green)"></span>
+          </span>
+          Included with Growth &amp; Elite Plans
+        </div>
+
+        <h1>Get Found on<br><span class="google-text">Google.</span></h1>
+
+        <p class="hero-sub">We set up, optimize, and manage your Google Business Profile so customers find you first — in Search and Maps. You own it. We handle it.</p>
+
+        <div class="hero-btns">
+          <a href="website-request.html" class="btn-primary">
+            <i class="fas fa-bolt"></i> Activate Now
+          </a>
+          <a href="pricing.html" class="btn-ghost">
+            <i class="fas fa-tag"></i> View Pricing
+          </a>
+        </div>
+
+        <div class="hero-pills">
+          <span class="hero-pill"><i class="fas fa-check-circle"></i> You keep ownership</span>
+          <span class="hero-pill"><i class="fas fa-check-circle"></i> No lock-in</span>
+          <span class="hero-pill"><i class="fas fa-check-circle"></i> Monthly updates</span>
+        </div>
       </div>
 
-      <h1>Get Found on <span>Google</span></h1>
+      <!-- Right: GBP mock card -->
+      <div>
+        <div class="gbp-card">
+          <div class="gbp-top">
+            <div class="gbp-avatar">W</div>
+            <div>
+              <div class="gbp-name">Your Business Name</div>
+              <div class="gbp-category">Local Business · Delaware, USA</div>
+              <div class="gbp-stars">
+                <span class="stars">★★★★★</span>
+                <span class="rating">4.9</span>
+                <span class="count">(84 reviews)</span>
+              </div>
+            </div>
+          </div>
 
-      <p>We set up, optimize, and manage your Google Business Profile so you show up when customers search. You own it. We handle it.</p>
+          <div class="gbp-status">Open now · Closes 5:00 PM</div>
 
-      <div class="hero-btns">
-        <a href="website-request.html" class="btn-primary">
-          <i class="fas fa-bolt"></i> Activate Now
-        </a>
-        <a href="pricing.html" class="btn-secondary">
-          <i class="fas fa-tag"></i> View Pricing
-        </a>
+          <div class="gbp-actions">
+            <div class="gbp-action">
+              <i class="fas fa-phone"></i>Call
+            </div>
+            <div class="gbp-action">
+              <i class="fas fa-directions"></i>Directions
+            </div>
+            <div class="gbp-action">
+              <i class="fas fa-globe"></i>Website
+            </div>
+          </div>
+
+          <div class="gbp-divider"></div>
+
+          <div class="gbp-post">
+            <div class="gbp-post-label">Latest Update</div>
+            Now accepting new clients! Check out our latest packages and reach out today for a free consultation.
+          </div>
+
+          <div class="gbp-badge-managed">
+            <i class="fas fa-shield-check"></i> Managed by WebEaze
+          </div>
+        </div>
       </div>
+
     </div>
   </div>
 </section>
 
-<!-- WHAT WE DO -->
-<section class="what-we-do">
+<!-- STATS STRIP -->
+<div class="stats-strip">
   <div class="container">
-    <div class="section-header">
-      <h2>Everything We Handle</h2>
-      <p>From setup to ongoing optimization, we take care of it all.</p>
+    <div class="stats-inner">
+      <div class="stat-item">
+        <div class="stat-num">46%</div>
+        <div class="stat-desc">of all Google searches are looking for local information</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">2.7×</div>
+        <div class="stat-desc">more likely to be considered reputable with a complete profile</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">92%</div>
+        <div class="stat-desc">of people read online reviews before making a purchase decision</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">76%</div>
+        <div class="stat-desc">of local mobile searches result in a store visit within 24 hours</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section class="features">
+  <div class="container">
+    <div class="features-header">
+      <div class="section-label"><span>What We Handle</span></div>
+      <h2 class="section-title">Everything Your Profile Needs</h2>
+      <p class="section-sub">From first-time setup to ongoing management, we cover it all so your profile stays accurate, active, and competitive.</p>
     </div>
 
-    <div class="features-grid">
-      <div class="feature-card">
-        <div class="feature-icon">
-          <i class="fas fa-map-marker-alt" style="color: var(--gold);"></i>
+    <div class="features-list">
+
+      <div class="feat">
+        <div class="feat-icon"><i class="fas fa-map-marker-alt"></i></div>
+        <div class="feat-body">
+          <h3>Setup &amp; Verification</h3>
+          <p>We create or claim your profile, handle postcard or video verification, and make sure every detail is accurate from day one.</p>
         </div>
-        <h3>Setup & Verification</h3>
-        <p>We create or claim your profile, complete verification (postcard or video), and ensure your business info is accurate across Google.</p>
       </div>
 
-      <div class="feature-card">
-        <div class="feature-icon">
-          <i class="fas fa-sliders-h" style="color: var(--gold);"></i>
+      <div class="feat">
+        <div class="feat-icon"><i class="fas fa-sliders-h"></i></div>
+        <div class="feat-body">
+          <h3>Profile Optimization</h3>
+          <p>Categories, services, hours, attributes, business description, and links — all dialed in to help you rank higher in local search.</p>
         </div>
-        <h3>Profile Optimization</h3>
-        <p>Categories, services, business description, hours, attributes, and links—all optimized to help you rank higher in local search.</p>
       </div>
 
-      <div class="feature-card">
-        <div class="feature-icon">
-          <i class="fas fa-images" style="color: var(--gold);"></i>
+      <div class="feat">
+        <div class="feat-icon"><i class="fas fa-images"></i></div>
+        <div class="feat-body">
+          <h3>Posts &amp; Photos</h3>
+          <p>Fresh content monthly. We publish updates, promotions, and photos to keep your profile active and engaging for visitors.</p>
         </div>
-        <h3>Posts & Photos</h3>
-        <p>Fresh content every month. We publish updates, promotions, and photos to keep your profile active and engaging.</p>
       </div>
 
-      <div class="feature-card">
-        <div class="feature-icon">
-          <i class="fas fa-star" style="color: var(--gold);"></i>
+      <div class="feat">
+        <div class="feat-icon"><i class="fas fa-star"></i></div>
+        <div class="feat-body">
+          <h3>Review Management</h3>
+          <p>We monitor new reviews and craft tone-matched reply suggestions. Full reply management on Growth &amp; Elite plans.</p>
         </div>
-        <h3>Review Management</h3>
-        <p>We monitor new reviews and provide tone-matched reply suggestions. Full reply management available on Growth & Elite plans.</p>
       </div>
 
-      <div class="feature-card">
-        <div class="feature-icon">
-          <i class="fas fa-chart-line" style="color: var(--gold);"></i>
+      <div class="feat">
+        <div class="feat-icon"><i class="fas fa-chart-line"></i></div>
+        <div class="feat-body">
+          <h3>Monthly Insights</h3>
+          <p>Simple reports covering searches, profile views, calls, direction requests, and website clicks. Know exactly what's working.</p>
         </div>
-        <h3>Monthly Insights</h3>
-        <p>Simple reports showing searches, profile views, calls, direction requests, and website clicks. Know what's working.</p>
       </div>
 
-      <div class="feature-card">
-        <div class="feature-icon">
-          <i class="fas fa-store" style="color: var(--gold);"></i>
+      <div class="feat">
+        <div class="feat-icon"><i class="fas fa-store"></i></div>
+        <div class="feat-body">
+          <h3>Multi-Location Support</h3>
+          <p>Multiple locations? No problem. We manage each one under your brand with transparent, per-location pricing.</p>
         </div>
-        <h3>Multi-Location Support</h3>
-        <p>Multiple locations? No problem. We manage each one under your brand with clear, per-location pricing.</p>
       </div>
+
     </div>
   </div>
 </section>
@@ -776,34 +665,32 @@
 <!-- PROCESS -->
 <section class="process">
   <div class="container">
-    <div class="section-header">
-      <h2>How It Works</h2>
-      <p>Four simple steps. Zero hassle.</p>
+    <div class="process-header">
+      <div class="section-label centered"><span>How It Works</span></div>
+      <h2 class="section-title" style="text-align:center">Four Steps. Zero Hassle.</h2>
+      <p class="section-sub centered" style="margin-top:10px">We handle the complexity so you don't have to.</p>
     </div>
 
-    <div class="process-steps">
+    <div class="steps">
       <div class="step">
         <div class="step-num">1</div>
         <h3>Invite</h3>
-        <p>We send a manager invite to your Google account. You approve it.</p>
+        <p>We send a manager invite to your Google account. One click to approve — that's it.</p>
       </div>
-
       <div class="step">
         <div class="step-num">2</div>
         <h3>Verify</h3>
-        <p>If needed, we handle postcard or video verification for you.</p>
+        <p>Need verification? We guide you through postcard or video verification from start to finish.</p>
       </div>
-
       <div class="step">
         <div class="step-num">3</div>
         <h3>Optimize</h3>
-        <p>We complete your profile with categories, services, hours, and links.</p>
+        <p>We fill out every field — categories, services, hours, photos, and links — for maximum visibility.</p>
       </div>
-
       <div class="step">
         <div class="step-num">4</div>
         <h3>Maintain</h3>
-        <p>Monthly posts, photos, and review monitoring to keep you visible.</p>
+        <p>Monthly posts, photos, and review monitoring keep your profile active and your ranking strong.</p>
       </div>
     </div>
   </div>
@@ -812,44 +699,75 @@
 <!-- PRICING -->
 <section class="pricing">
   <div class="container">
-    <div class="pricing-box">
-      <div class="pricing-info">
-        <h2>Simple Pricing</h2>
-        <p>Google Business Management is included at no extra cost on our Growth and Elite plans. On Essential? Add it for a low monthly fee.</p>
-        <p><strong>You keep ownership.</strong> We're added as managers and can be removed anytime. Your profile, your control.</p>
-      </div>
-
-      <div class="pricing-tiers">
-        <div class="tier featured">
-          <div>
-            <div class="tier-name">Growth & Elite Plans</div>
-          </div>
-          <div class="tier-price">Included</div>
-        </div>
-
-        <div class="tier">
-          <div>
-            <div class="tier-name">Essential Plan Add-On</div>
-          </div>
-          <div class="tier-price">$79<span>/mo</span></div>
-        </div>
-
-        <div class="tier">
-          <div>
-            <div class="tier-name">Additional Locations</div>
-          </div>
-          <div class="tier-price">$79<span>/each</span></div>
-        </div>
-      </div>
+    <div class="pricing-header">
+      <div class="section-label centered"><span>Pricing</span></div>
+      <h2 class="section-title">Simple, Transparent Pricing</h2>
+      <p class="section-sub centered" style="margin-top:10px">Included free with Growth &amp; Elite. Available as an add-on for Essential clients.</p>
     </div>
+
+    <div class="pricing-grid">
+
+      <div class="price-card featured">
+        <div class="featured-chip">Most Popular</div>
+        <div class="price-card-icon"><i class="fas fa-crown"></i></div>
+        <h3>Growth &amp; Elite Plans</h3>
+        <p class="desc">Full Google Business Management included at no extra charge with your website plan.</p>
+        <div class="price-val">Included</div>
+        <div class="price-note">with your monthly plan</div>
+        <div class="price-divider"></div>
+        <ul class="price-perks">
+          <li><i class="fas fa-check-circle"></i> Profile setup &amp; optimization</li>
+          <li><i class="fas fa-check-circle"></i> Monthly posts &amp; photos</li>
+          <li><i class="fas fa-check-circle"></i> Review reply management</li>
+          <li><i class="fas fa-check-circle"></i> Monthly insights report</li>
+        </ul>
+      </div>
+
+      <div class="price-card">
+        <div class="price-card-icon"><i class="fas fa-plus-circle"></i></div>
+        <h3>Essential Add-On</h3>
+        <p class="desc">Already on our Essential plan? Add Google Business Management for a flat monthly fee.</p>
+        <div class="price-val">$79<span>/mo</span></div>
+        <div class="price-note">added to your plan</div>
+        <div class="price-divider"></div>
+        <ul class="price-perks">
+          <li><i class="fas fa-check-circle"></i> Profile setup &amp; optimization</li>
+          <li><i class="fas fa-check-circle"></i> Monthly posts &amp; photos</li>
+          <li><i class="fas fa-check-circle"></i> Review suggestions</li>
+          <li><i class="fas fa-check-circle"></i> Monthly insights report</li>
+        </ul>
+      </div>
+
+      <div class="price-card">
+        <div class="price-card-icon"><i class="fas fa-location-dot"></i></div>
+        <h3>Additional Locations</h3>
+        <p class="desc">Managing more than one location? Each extra profile is billed separately.</p>
+        <div class="price-val">$79<span>/each</span></div>
+        <div class="price-note">per additional location</div>
+        <div class="price-divider"></div>
+        <ul class="price-perks">
+          <li><i class="fas fa-check-circle"></i> Same full service</li>
+          <li><i class="fas fa-check-circle"></i> Each profile managed separately</li>
+          <li><i class="fas fa-check-circle"></i> Consistent branding</li>
+          <li><i class="fas fa-check-circle"></i> Clear per-location reporting</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <p class="pricing-note">
+      <i class="fas fa-shield-halved"></i>
+      <strong>You always keep ownership.</strong> We're added as managers and can be removed at any time. Your profile, your control.
+    </p>
   </div>
 </section>
 
 <!-- FAQ -->
 <section class="faq">
   <div class="container">
-    <div class="section-header">
-      <h2>Questions? Answered.</h2>
+    <div class="faq-header">
+      <div class="section-label centered"><span>FAQ</span></div>
+      <h2 class="section-title">Questions? Answered.</h2>
     </div>
 
     <div class="faq-grid">
@@ -860,27 +778,27 @@
 
       <details class="faq-item">
         <summary>How often do you update my profile?</summary>
-        <div class="faq-answer">We review and update your profile monthly, publishing posts and photos tied to your promotions. Need an urgent update? Submit a <a href="website-request.html">support request</a>.</div>
+        <div class="faq-answer">We review and update your profile monthly, publishing posts and photos tied to your promotions. Need an urgent update? <a href="website-request.html">Submit a support request</a> and we'll handle it.</div>
       </details>
 
       <details class="faq-item">
         <summary>Do you support multiple locations?</summary>
-        <div class="faq-answer">Yes. We manage each location under your brand. First location is included with Growth & Elite plans; additional locations are $79/month each.</div>
+        <div class="faq-answer">Yes. We manage each location under your brand. The first location is included with Growth &amp; Elite plans; additional locations are $79/month each.</div>
       </details>
 
       <details class="faq-item">
         <summary>Will you respond to my reviews?</summary>
-        <div class="faq-answer">We provide suggested replies written in your tone. Full reply management is available on Growth and Elite plans—just <a href="website-request.html">submit a request</a> when you get a new review.</div>
+        <div class="faq-answer">We provide suggested replies written in your tone. Full reply management is available on Growth and Elite plans — just <a href="website-request.html">submit a request</a> when you receive a new review.</div>
       </details>
 
       <details class="faq-item">
         <summary>What if I already have a Google Business Profile?</summary>
-        <div class="faq-answer">Perfect. We'll send a manager invite to your existing profile. Once you approve, we'll audit it and optimize everything.</div>
+        <div class="faq-answer">Perfect. We'll send a manager invite to your existing profile. Once you approve, we'll audit it and optimize everything that needs attention.</div>
       </details>
 
       <details class="faq-item">
         <summary>How do I get started?</summary>
-        <div class="faq-answer">If you're on Growth or Elite, just <a href="website-request.html">submit a request</a> to activate. On Essential? Add the feature through your <a href="https://billing.stripe.com/p/login/7sI3gfaO14CEdlm144">billing portal</a> or contact us.</div>
+        <div class="faq-answer">If you're on Growth or Elite, <a href="website-request.html">submit a request</a> to activate. On Essential? Add it through your <a href="https://billing.stripe.com/p/login/7sI3gfaO14CEdlm144">billing portal</a> or contact us directly.</div>
       </details>
     </div>
   </div>
@@ -890,13 +808,13 @@
 <section class="cta">
   <div class="container">
     <div class="cta-box">
-      <h2>Ready to Get Found?</h2>
-      <p>Turn Google searches into calls and visits. Let's set up your profile.</p>
-      <div class="hero-btns">
+      <h2>Ready to Show Up on Google?</h2>
+      <p>Turn local searches into calls, visits, and customers. Let's get your profile working for you.</p>
+      <div class="cta-btns">
         <a href="website-request.html" class="btn-primary">
           <i class="fas fa-bolt"></i> Activate Now
         </a>
-        <a href="consultation.html" class="btn-secondary">
+        <a href="consultation.html" class="btn-ghost">
           <i class="fas fa-comments"></i> Talk to Us
         </a>
       </div>
@@ -955,7 +873,7 @@
   </div>
 
   <div class="footer-bottom">
-    <p style="color:#fff">&copy; <span id="yr"></span> WebEaze. Made in Delaware, USA 🇺🇸</p>
+    <p>&copy; <span id="yr"></span> WebEaze. Made in Delaware, USA 🇺🇸</p>
     <div class="footer-legal">
       <a href="terms.html#privacy">Privacy Policy</a>
       <a href="terms.html">Terms of Service</a>
@@ -972,16 +890,16 @@
   }
 </script>
 
-<!-- Schema -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "Service",
-  "name": "Google Business Management",
-  "provider": {"@type": "Organization", "name": "WebEaze", "url": "https://www.webeaze.io"},
-  "serviceType": "Local SEO & Google Business Profile Management",
-  "description": "Setup, optimization, posts, photos, reviews, and monthly insights for your Google Business Profile."
+  "name": "Google Business Profile Management",
+  "provider": { "@type": "Organization", "name": "WebEaze", "url": "https://www.webeaze.io" },
+  "serviceType": "Google Business Profile Management",
+  "description": "Setup, optimization, posts, photos, and review management for Google Business Profiles."
 }
 </script>
+
 </body>
 </html>
