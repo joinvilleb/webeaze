@@ -1391,6 +1391,47 @@
   /* Page + body */
   html, body { background: #ffffff !important; color: #1a1a2e !important; }
   body * { color: #1a1a2e !important; }
+  /* ── Chat widget: fully dark regardless of page light theme ── */
+  .ai-chat-button { background: linear-gradient(135deg, #7851a9, #a87fd4) !important; }
+  .ai-chat-button i, .ai-chat-button.active i { color: #fff !important; }
+  .ai-chat-window {
+    background: #1a1a24 !important;
+    border-color: rgba(255,255,255,.08) !important;
+  }
+  .ai-chat-window * { color: #f5f6fa !important; }
+  .ai-chat-header { background: linear-gradient(135deg, #7851a9, #a87fd4) !important; }
+  .ai-chat-header, .ai-chat-header * { color: #fff !important; }
+  .ai-chat-messages { background: #1a1a24 !important; }
+  .ai-message.assistant .ai-message-content {
+    background: #13131c !important;
+    border-color: rgba(255,255,255,.1) !important;
+    color: #f5f6fa !important;
+  }
+  .ai-message.assistant .ai-message-content p { color: #f5f6fa !important; }
+  .ai-message.assistant .ai-message-content a { color: #ffd700 !important; }
+  .ai-message.user .ai-message-content {
+    background: #7851a9 !important;
+    border-color: #a87fd4 !important;
+  }
+  .ai-message.user .ai-message-content,
+  .ai-message.user .ai-message-content p { color: #fff !important; }
+  .ai-message.user .ai-message-avatar { color: #ffd700 !important; background: #13131c !important; }
+  .ai-chat-input-wrapper { background: #13131c !important; border-color: rgba(255,255,255,.08) !important; }
+  .ai-chat-input {
+    background: #0d0d14 !important;
+    border-color: rgba(255,255,255,.1) !important;
+    color: #f5f6fa !important;
+  }
+  .ai-chat-input::placeholder { color: #9ca3af !important; }
+  .ai-chat-send { background: #7851a9 !important; }
+  .ai-chat-send i { color: #fff !important; }
+  .ai-suggestion {
+    background: #13131c !important;
+    border-color: rgba(255,255,255,.1) !important;
+    color: rgba(255,255,255,.8) !important;
+  }
+  .ai-suggestion:hover { background: #7851a9 !important; color: #fff !important; }
+  .ai-chat-close { color: #fff !important; }
 
   /* Nav */
   .nav-wrap {
@@ -4212,21 +4253,78 @@ function renderTopicResults(topicId) {
     return context;
   }
 
+  // ── AI CONFIG ────────────────────────────────────────────────
+  // Set your Anthropic API key here (or inject it via your deploy pipeline).
+  // WARNING: visible in page source — suitable for low-traffic internal tools.
+  // For production, proxy through a Cloudflare Worker / serverless function instead.
+  const ANTHROPIC_KEY = '';   // e.g. 'sk-ant-...'
+  // ─────────────────────────────────────────────────────────────
+
+  function buildDetailedContext() {
+    if (typeof HELP_DATA === 'undefined') return '';
+    let ctx = '';
+    HELP_DATA.topics.forEach(topic => {
+      topic.articles.slice(0, 6).forEach(art => {
+        ctx += `Q: ${art.title}\n`;
+        if (art.meta) ctx += `A: ${art.meta}\n`;
+        const body = extractTextFromHTML(art.body || '').substring(0, 220);
+        if (body) ctx += body + '\n';
+        ctx += '\n';
+      });
+    });
+    return ctx.substring(0, 5000);
+  }
+
   async function getAIResponse(userMessage) {
-    // NOTE: For production, you should NEVER expose your API key in client-side code.
-    // This should be handled by a backend server/API endpoint.
-    // For demonstration purposes, this uses a mock response.
+    if (!ANTHROPIC_KEY) {
+      return generateSmartResponse(userMessage);
+    }
 
-    // In production, you would make a call to your backend:
-    // const response = await fetch('/api/chat', {
-    //   method: 'POST',
-    //   headers: { 'Content-Type': 'application/json' },
-    //   body: JSON.stringify({ message: userMessage, history: conversationHistory })
-    // });
-    // return await response.json();
+    const systemPrompt = `You are the support assistant for WebEaze, a web design agency for small businesses based in Delaware, USA. You help clients with questions about plans, services, billing, website requests, and anything related to WebEaze.
 
-    // For now, use intelligent rule-based responses based on the help content
-    return generateSmartResponse(userMessage);
+Be warm, concise, and helpful. Respond in plain conversational English — no bullet walls. Bold key terms with **word**. Include helpful links as [label](url) when relevant. Keep replies under 120 words unless the question truly needs more detail.
+
+Key facts:
+- Plans: Essential ($29/mo), Growth ($79/mo), Elite ($149/mo) — all include unlimited update requests
+- Support email: support@webeaze.io
+- Submit requests: website-request.html
+- Contact page: contact-us.html
+- Billing portal: Stripe (accessible from account)
+- Based in Delaware, USA — remote-first, serving businesses nationwide
+
+Help center knowledge base:
+${buildDetailedContext()}
+
+If a question is outside WebEaze's scope, politely say so and offer to connect them with the team.`;
+
+    const messages = conversationHistory.slice(-10).map(m => ({
+      role: m.role,
+      content: m.content
+    }));
+
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': ANTHROPIC_KEY,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 350,
+        system: systemPrompt,
+        messages
+      })
+    });
+
+    if (!res.ok) {
+      console.warn('Anthropic API error', res.status, '— falling back to rule-based');
+      return generateSmartResponse(userMessage);
+    }
+
+    const data = await res.json();
+    return data.content[0].text;
   }
 
   // Helper function to extract clean text from HTML
