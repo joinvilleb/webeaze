@@ -174,6 +174,52 @@
     .section-header h2 { font-size: 22px; font-weight: 700; margin: 0; }
 
     /* HOURS */
+    .today-banner {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 18px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 500;
+      margin-bottom: 20px;
+      border: 1px solid transparent;
+    }
+    .today-banner i { font-size: 15px; }
+    .today-banner.today-open {
+      background: rgba(34,197,94,.08);
+      border-color: rgba(34,197,94,.2);
+      color: #22c55e;
+    }
+    .today-banner.today-closed {
+      background: rgba(239,68,68,.07);
+      border-color: rgba(239,68,68,.18);
+      color: #ef4444;
+    }
+    .today-banner.today-away {
+      background: rgba(245,158,11,.07);
+      border-color: rgba(245,158,11,.18);
+      color: #f59e0b;
+    }
+    .today-banner .banner-date {
+      margin-left: auto;
+      font-size: 13px;
+      opacity: .7;
+      white-space: nowrap;
+    }
+    @media (max-width: 540px) {
+      .today-banner {
+        flex-wrap: wrap;
+        font-size: 14px;
+        padding: 12px 14px;
+        gap: 6px;
+      }
+      .today-banner .banner-date {
+        width: 100%;
+        margin-left: 0;
+        padding-left: 21px;
+      }
+    }
     .hours-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -455,13 +501,19 @@
   .badge-degraded, .status-degraded, [class*="degraded"] { color: #d97706 !important; }
   .badge-outage, .status-outage, [class*="outage"] { color: #dc2626 !important; }
 
+  /* Today banner — keep semantic colors, override body* text */
+  .today-banner.today-open  { color: #15803d !important; background: rgba(34,197,94,.08) !important; border-color: rgba(34,197,94,.2) !important; }
+  .today-banner.today-closed { color: #dc2626 !important; background: rgba(239,68,68,.07) !important; border-color: rgba(239,68,68,.18) !important; }
+  .today-banner.today-away  { color: #d97706 !important; background: rgba(245,158,11,.07) !important; border-color: rgba(245,158,11,.18) !important; }
+  .today-banner .banner-date { color: inherit !important; }
+
   /* Footer stays dark */
   footer, .site-footer { background: #07070f !important; }
   footer *, .site-footer * { color: rgba(255,255,255,.75) !important; }
   footer h5, .site-footer h5, .footer-col h5 { color: #fff !important; }
   footer a, .site-footer a, .footer-col a { color: rgba(255,255,255,.65) !important; }
   footer a:hover { color: #f97316 !important; }
-  .footer-bottom { background: #030308 !important; border-top-color: rgba(255,255,255,.1) !important; }
+  .footer-bottom { background: #07070f !important; border-top-color: rgba(255,255,255,.1) !important; }
   .footer-bottom p, .footer-bottom a, .footer-legal a { color: #6b7280 !important; }
   .footer-tagline { color: rgba(255,255,255,.5) !important; }
   </style>
@@ -499,10 +551,6 @@
   <div class="container container-narrow">
     <h1>Support Hours & Updates</h1>
     <p class="subtitle">Hours, holiday closures, and service announcements from WebEaze.</p>
-    <div class="status-indicator" id="status-indicator">
-      <span class="status-dot"></span>
-      <span class="status-text">Checking status...</span>
-    </div>
   </div>
 </header>
 
@@ -525,6 +573,8 @@
       <i class="fas fa-clock"></i>
       <h2>Support Hours</h2>
     </div>
+
+    <div class="today-banner" id="today-banner"></div>
 
     <div class="hours-grid">
 
@@ -847,7 +897,6 @@
       <a href="terms.html#privacy">Privacy Policy</a>
       <a href="terms.html">Terms of Service</a>
       <a href="site-map.html">Site Map</a>
-      <button type="button" id="hs_show_banner_button" style="background:none;border:none;padding:0;color:#6b7280;font-size:.85rem;cursor:pointer;font-family:inherit;transition:color .2s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='#6b7280'" onClick="(function(){var _hsp=window._hsp=window._hsp||[];_hsp.push(['showBanner']);})()">Cookie Settings</button>
     </div>
   </div>
 </footer>
@@ -879,23 +928,7 @@
   }
 
   function updateStatus() {
-    const indicator = document.getElementById('status-indicator');
-    const now = getET();
-    const day = now.getDay(), hour = now.getHours();
-    const closures = getClosures();
-    const onHoliday = closures.some(c => now >= c.start && now <= c.end);
-
-    let cls = 'online', txt = "We're online!";
-    if (onHoliday) {
-      cls = 'offline'; txt = "We're closed for a holiday";
-    } else if (day === 0 || day === 6) {
-      cls = 'away'; txt = "We're away for the weekend";
-    } else if (hour < 9 || hour >= 17) {
-      cls = 'away'; txt = "We're offline now";
-    }
-
-    indicator.className = 'status-indicator ' + cls;
-    indicator.querySelector('.status-text').textContent = txt;
+    // indicator element removed — function kept for setInterval compatibility
   }
 
   function updateClosureBanner() {
@@ -920,6 +953,38 @@
       title.textContent   = 'Upcoming Closure — ' + upcoming.name;
       message.textContent = 'We\'ll be closed ' + s + '–' + e + ' for ' + upcoming.name + '. Submit any urgent requests before then.';
       banner.classList.add('visible');
+    }
+  }
+
+  function updateTodayBanner() {
+    const banner = document.getElementById('today-banner');
+    if (!banner) return;
+    const now = getET();
+    const day = now.getDay(), hour = now.getHours();
+    const DAYS   = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    const dateStr = DAYS[day] + ', ' + MONTHS[now.getMonth()] + ' ' + now.getDate();
+    const isWeekend = day === 0 || day === 6;
+    const isOpen    = !isWeekend && hour >= 9 && hour < 17;
+    const closures  = getClosures();
+    const currentHoliday = closures.find(c => now >= c.start && now <= c.end);
+    const onHoliday = !!currentHoliday;
+
+    if (onHoliday) {
+      const ret = new Date(currentHoliday.end); ret.setDate(ret.getDate() + 1);
+      const retStr = ret.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+      banner.className = 'today-banner today-closed';
+      banner.innerHTML = '<i class="fas fa-moon"></i> <strong>Closed — ' + currentHoliday.name + '</strong> · Resumes ' + retStr + ' <span class="banner-date">' + dateStr + '</span>';
+    } else if (isWeekend) {
+      banner.className = 'today-banner today-closed';
+      banner.innerHTML = '<i class="fas fa-moon"></i> <strong>Closed today</strong> — support resumes Monday 9:00am ET <span class="banner-date">' + dateStr + '</span>';
+    } else if (isOpen) {
+      banner.className = 'today-banner today-open';
+      banner.innerHTML = '<i class="fas fa-circle-check"></i> <strong>Open now</strong> · 9:00am – 5:00pm ET <span class="banner-date">' + dateStr + '</span>';
+    } else {
+      const opensNext = hour < 9 ? 'today' : (day === 5 ? 'Monday' : 'tomorrow');
+      banner.className = 'today-banner today-away';
+      banner.innerHTML = '<i class="fas fa-clock"></i> <strong>Closed now</strong> · Opens ' + opensNext + ' at 9:00am ET <span class="banner-date">' + dateStr + '</span>';
     }
   }
 
@@ -964,8 +1029,10 @@
 
   updateStatus();
   updateClosureBanner();
+  updateTodayBanner();
   initPageNav();
   setInterval(updateStatus, 60000);
+  setInterval(updateTodayBanner, 60000);
 </script>
 
 </body>
