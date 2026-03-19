@@ -1,0 +1,651 @@
+
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --pg-green: #3B6D11;
+    --pg-green-light: #EAF3DE;
+    --pg-green-mid: #639922;
+    --pg-amber: #BA7517;
+    --pg-amber-light: #FAEEDA;
+  }
+  body { font-family: var(--font-sans, system-ui); }
+  .app-shell {
+    max-width: 390px;
+    margin: 0 auto;
+    background: var(--color-background-tertiary);
+    min-height: 780px;
+    border-radius: var(--border-radius-xl);
+    border: 0.5px solid var(--color-border-tertiary);
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+  .status-bar {
+    background: #3B6D11;
+    padding: 10px 20px 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    font-size: 12px;
+    font-weight: 500;
+  }
+  .nav-header {
+    background: #3B6D11;
+    padding: 8px 16px 14px;
+    color: white;
+  }
+  .nav-header h1 { font-size: 22px; font-weight: 500; }
+  .nav-header p { font-size: 13px; opacity: 0.8; margin-top: 2px; }
+  .tab-bar {
+    background: var(--color-background-primary);
+    border-top: 0.5px solid var(--color-border-tertiary);
+    display: flex;
+    padding: 6px 0 10px;
+    position: sticky;
+    bottom: 0;
+    z-index: 10;
+  }
+  .tab-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    cursor: pointer;
+    padding: 4px 0;
+    border: none;
+    background: none;
+    font-family: var(--font-sans);
+  }
+  .tab-icon { font-size: 20px; line-height: 1; }
+  .tab-label { font-size: 10px; color: var(--color-text-secondary); }
+  .tab-item.active .tab-label { color: #3B6D11; font-weight: 500; }
+  .tab-item.active .tab-icon { filter: none; }
+  .screen { flex: 1; overflow-y: auto; padding-bottom: 4px; display: none; }
+  .screen.active { display: block; }
+  .section-title { font-size: 16px; font-weight: 500; color: var(--color-text-primary); padding: 14px 16px 8px; }
+  .card {
+    background: var(--color-background-primary);
+    border-radius: var(--border-radius-lg);
+    border: 0.5px solid var(--color-border-tertiary);
+    margin: 0 12px 10px;
+    padding: 14px;
+    overflow: hidden;
+  }
+  .rewards-hero {
+    background: #3B6D11;
+    margin: 12px;
+    border-radius: var(--border-radius-lg);
+    padding: 18px;
+    color: white;
+  }
+  .points-ring {
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    border: 4px solid rgba(255,255,255,0.3);
+    border-top-color: #FAC775;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    float: right; margin-left: 12px;
+  }
+  .points-ring .pts { font-size: 22px; font-weight: 500; }
+  .points-ring .lbl { font-size: 9px; opacity: 0.8; }
+  .coupon-card {
+    background: #EAF3DE;
+    border: 1.5px dashed #639922;
+    border-radius: var(--border-radius-lg);
+    padding: 12px 14px;
+    margin: 0 12px 10px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+  }
+  .coupon-badge {
+    background: #3B6D11;
+    color: white;
+    border-radius: var(--border-radius-md);
+    padding: 8px 10px;
+    text-align: center;
+    min-width: 56px;
+  }
+  .coupon-badge .pct { font-size: 22px; font-weight: 500; line-height: 1; }
+  .coupon-badge .off { font-size: 9px; }
+  .item-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 0.5px solid var(--color-border-tertiary);
+  }
+  .item-row:last-child { border-bottom: none; }
+  .item-thumb {
+    width: 46px; height: 46px;
+    border-radius: var(--border-radius-md);
+    background: var(--color-background-secondary);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+    border: 0.5px solid var(--color-border-tertiary);
+  }
+  .item-info { flex: 1; }
+  .item-name { font-size: 14px; font-weight: 500; color: var(--color-text-primary); }
+  .item-meta { font-size: 12px; color: var(--color-text-secondary); margin-top: 2px; }
+  .item-price { font-size: 15px; font-weight: 500; color: #3B6D11; }
+  .badge-pill {
+    font-size: 11px;
+    padding: 3px 9px;
+    border-radius: 20px;
+    font-weight: 500;
+  }
+  .badge-green { background: #EAF3DE; color: #27500A; }
+  .badge-amber { background: #FAEEDA; color: #633806; }
+  .badge-blue { background: #E6F1FB; color: #0C447C; }
+  .tax-card {
+    background: linear-gradient(135deg, #3B6D11 0%, #27500A 100%);
+    margin: 0 12px 10px;
+    border-radius: var(--border-radius-lg);
+    padding: 18px;
+    color: white;
+  }
+  .tax-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 12px;
+  }
+  .tax-stat {
+    background: rgba(255,255,255,0.12);
+    border-radius: var(--border-radius-md);
+    padding: 10px;
+  }
+  .tax-stat .val { font-size: 20px; font-weight: 500; }
+  .tax-stat .lbl { font-size: 11px; opacity: 0.75; margin-top: 2px; }
+  .search-bar {
+    display: flex;
+    gap: 8px;
+    margin: 10px 12px 4px;
+    align-items: center;
+  }
+  .search-bar input {
+    flex: 1;
+    padding: 9px 12px;
+    border-radius: var(--border-radius-md);
+    border: 0.5px solid var(--color-border-secondary);
+    background: var(--color-background-primary);
+    font-size: 14px;
+    color: var(--color-text-primary);
+    font-family: var(--font-sans);
+  }
+  .btn-green {
+    background: #3B6D11;
+    color: white;
+    border: none;
+    border-radius: var(--border-radius-md);
+    padding: 9px 14px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: var(--font-sans);
+    white-space: nowrap;
+  }
+  .btn-outline {
+    background: none;
+    color: #3B6D11;
+    border: 0.5px solid #639922;
+    border-radius: var(--border-radius-md);
+    padding: 7px 12px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: var(--font-sans);
+  }
+  .donate-upload {
+    border: 2px dashed var(--color-border-secondary);
+    border-radius: var(--border-radius-lg);
+    padding: 24px;
+    text-align: center;
+    margin: 10px 12px;
+    cursor: pointer;
+    background: var(--color-background-secondary);
+  }
+  .donate-upload .icon { font-size: 32px; margin-bottom: 8px; }
+  .donate-upload p { font-size: 14px; color: var(--color-text-secondary); }
+  .donate-upload strong { color: #3B6D11; }
+  .profile-avatar {
+    width: 64px; height: 64px;
+    border-radius: 50%;
+    background: #3B6D11;
+    color: white;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px; font-weight: 500;
+  }
+  .timeline-row {
+    display: flex; gap: 10px; align-items: flex-start;
+    padding: 6px 0; border-bottom: 0.5px solid var(--color-border-tertiary);
+  }
+  .timeline-row:last-child { border-bottom: none; }
+  .timeline-dot {
+    width: 28px; height: 28px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; flex-shrink: 0; margin-top: 2px;
+  }
+  .ai-response {
+    background: #EAF3DE;
+    border-radius: var(--border-radius-md);
+    padding: 10px 12px;
+    margin-top: 8px;
+    font-size: 13px;
+    color: #27500A;
+    border-left: 3px solid #639922;
+    display: none;
+  }
+  .donate-item-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+    padding: 4px 12px 10px;
+  }
+  .donate-item-cell {
+    background: var(--color-background-primary);
+    border-radius: var(--border-radius-md);
+    border: 0.5px solid var(--color-border-tertiary);
+    aspect-ratio: 1;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    font-size: 24px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .donate-item-cell .d-lbl {
+    font-size: 10px; color: var(--color-text-secondary); margin-top: 3px;
+  }
+  .donate-item-cell .d-pts {
+    position: absolute; top: 4px; right: 4px;
+    background: #EAF3DE; color: #27500A;
+    font-size: 9px; padding: 2px 5px; border-radius: 8px; font-weight: 500;
+  }
+  .progress-bar-bg {
+    background: var(--color-background-secondary);
+    border-radius: 20px;
+    height: 8px;
+    overflow: hidden;
+    margin-top: 8px;
+  }
+  .progress-bar-fill {
+    background: #FAC775;
+    height: 100%;
+    border-radius: 20px;
+    transition: width 0.6s ease;
+  }
+  .store-row {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 0; border-bottom: 0.5px solid var(--color-border-tertiary);
+    cursor: pointer;
+  }
+  .store-row:last-child { border-bottom: none; }
+  .store-icon {
+    width: 36px; height: 36px; border-radius: var(--border-radius-md);
+    background: #EAF3DE; display: flex; align-items: center; justify-content: center; font-size: 18px;
+    flex-shrink: 0;
+  }
+</style>
+
+<div class="app-shell" id="app">
+  <div class="status-bar">
+    <span>9:41</span>
+    <span style="opacity:0.9;">●●●●</span>
+  </div>
+
+  <div class="nav-header" id="nav-header">
+    <h1 id="screen-title">Shop</h1>
+    <p id="screen-sub">Palmetto Goodwill</p>
+  </div>
+
+  <!-- SHOP SCREEN -->
+  <div class="screen active" id="screen-shop">
+    <div class="search-bar">
+      <input type="text" placeholder="Search items..." id="shop-search" />
+      <button class="btn-green">Search</button>
+    </div>
+    <div style="display:flex; gap:6px; padding: 6px 12px; overflow-x:auto; white-space:nowrap;">
+      <span class="badge-pill badge-green" style="cursor:pointer;">All</span>
+      <span class="badge-pill badge-green" style="cursor:pointer; background:var(--color-background-secondary); color:var(--color-text-secondary);">Clothing</span>
+      <span class="badge-pill badge-green" style="cursor:pointer; background:var(--color-background-secondary); color:var(--color-text-secondary);">Furniture</span>
+      <span class="badge-pill badge-green" style="cursor:pointer; background:var(--color-background-secondary); color:var(--color-text-secondary);">Books</span>
+      <span class="badge-pill badge-green" style="cursor:pointer; background:var(--color-background-secondary); color:var(--color-text-secondary);">Electronics</span>
+    </div>
+    <p class="section-title">Recently donated near you</p>
+    <div class="card">
+      <div class="item-row">
+        <div class="item-thumb">👗</div>
+        <div class="item-info">
+          <div class="item-name">Women's Blazer — Navy</div>
+          <div class="item-meta">North Charleston · Size M · Good</div>
+        </div>
+        <div style="text-align:right;">
+          <div class="item-price">$8.99</div>
+          <span class="badge-pill badge-green" style="font-size:10px;">+9 pts</span>
+        </div>
+      </div>
+      <div class="item-row">
+        <div class="item-thumb">📚</div>
+        <div class="item-info">
+          <div class="item-name">Hardcover Novel Set (3)</div>
+          <div class="item-meta">West Ashley · Like New</div>
+        </div>
+        <div style="text-align:right;">
+          <div class="item-price">$4.99</div>
+          <span class="badge-pill badge-green" style="font-size:10px;">+5 pts</span>
+        </div>
+      </div>
+      <div class="item-row">
+        <div class="item-thumb">🪑</div>
+        <div class="item-info">
+          <div class="item-name">Wooden Side Chair</div>
+          <div class="item-meta">Summerville · Good condition</div>
+        </div>
+        <div style="text-align:right;">
+          <div class="item-price">$19.99</div>
+          <span class="badge-pill badge-green" style="font-size:10px;">+20 pts</span>
+        </div>
+      </div>
+      <div class="item-row">
+        <div class="item-thumb">🖥️</div>
+        <div class="item-info">
+          <div class="item-name">Dell Monitor 24"</div>
+          <div class="item-meta">Goose Creek · Tested working</div>
+        </div>
+        <div style="text-align:right;">
+          <div class="item-price">$34.99</div>
+          <span class="badge-pill badge-amber" style="font-size:10px;">+35 pts</span>
+        </div>
+      </div>
+    </div>
+    <p class="section-title">Nearby stores</p>
+    <div class="card">
+      <div class="store-row">
+        <div class="store-icon">🏪</div>
+        <div style="flex:1;">
+          <div style="font-size:14px; font-weight:500;">North Charleston</div>
+          <div style="font-size:12px; color:var(--color-text-secondary);">0.8 mi · Open until 8pm</div>
+        </div>
+        <span class="badge-pill badge-green">Open</span>
+      </div>
+      <div class="store-row">
+        <div class="store-icon">🏪</div>
+        <div style="flex:1;">
+          <div style="font-size:14px; font-weight:500;">West Ashley</div>
+          <div style="font-size:12px; color:var(--color-text-secondary);">2.1 mi · Open until 7pm</div>
+        </div>
+        <span class="badge-pill badge-green">Open</span>
+      </div>
+      <div class="store-row">
+        <div class="store-icon">🏪</div>
+        <div style="flex:1;">
+          <div style="font-size:14px; font-weight:500;">Summerville</div>
+          <div style="font-size:12px; color:var(--color-text-secondary);">5.4 mi · Open until 8pm</div>
+        </div>
+        <span class="badge-pill badge-green">Open</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- DONATE SCREEN -->
+  <div class="screen" id="screen-donate">
+    <div class="donate-upload" id="upload-zone" onclick="triggerAI()">
+      <div class="icon">📷</div>
+      <p><strong>Upload a photo to donate</strong></p>
+      <p style="font-size:12px; margin-top:4px;">AI will identify item, estimate value & tax savings</p>
+    </div>
+    <div id="ai-analyzing" style="display:none;" class="card">
+      <div style="display:flex; align-items:center; gap:10px;">
+        <div style="font-size:20px;">🤖</div>
+        <div>
+          <div style="font-size:14px; font-weight:500;">Analyzing item...</div>
+          <div style="font-size:12px; color:var(--color-text-secondary);" id="ai-status">Identifying category</div>
+        </div>
+      </div>
+    </div>
+    <div id="ai-result" style="display:none;">
+      <div class="card">
+        <div style="display:flex; gap:10px; align-items:center; margin-bottom:10px;">
+          <div class="item-thumb" style="width:56px;height:56px;font-size:28px;">👟</div>
+          <div style="flex:1;">
+            <div style="font-size:15px; font-weight:500;">Athletic Sneakers</div>
+            <div style="font-size:12px; color:var(--color-text-secondary);">Footwear · Good condition</div>
+          </div>
+          <span class="badge-pill badge-green">+25 pts</span>
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+          <div style="background:var(--color-background-secondary); border-radius:var(--border-radius-md); padding:10px;">
+            <div style="font-size:12px; color:var(--color-text-secondary);">Est. FMV</div>
+            <div style="font-size:18px; font-weight:500; color:#3B6D11;">$22.00</div>
+          </div>
+          <div style="background:#FAEEDA; border-radius:var(--border-radius-md); padding:10px;">
+            <div style="font-size:12px; color:#633806;">Tax deduction</div>
+            <div style="font-size:18px; font-weight:500; color:#BA7517;">$22.00</div>
+          </div>
+        </div>
+        <div style="margin-top:10px; padding-top:10px; border-top:0.5px solid var(--color-border-tertiary);">
+          <div style="font-size:12px; color:var(--color-text-secondary); margin-bottom:6px;">IRS Publication 526 basis</div>
+          <button class="btn-green" style="width:100%;">Confirm donation · Add to my log</button>
+        </div>
+      </div>
+    </div>
+
+    <p class="section-title">Image search — donated bank</p>
+    <div class="search-bar" style="margin-top:0;">
+      <input type="text" placeholder="Search by text..." />
+      <button class="btn-green">📷 Image</button>
+    </div>
+    <div class="donate-item-grid">
+      <div class="donate-item-cell"><div>👗</div><div class="d-lbl">Jacket</div><div class="d-pts">$12</div></div>
+      <div class="donate-item-cell"><div>📺</div><div class="d-lbl">TV</div><div class="d-pts">$45</div></div>
+      <div class="donate-item-cell"><div>🪑</div><div class="d-lbl">Chair</div><div class="d-pts">$20</div></div>
+      <div class="donate-item-cell"><div>📚</div><div class="d-lbl">Books</div><div class="d-pts">$5</div></div>
+      <div class="donate-item-cell"><div>🎮</div><div class="d-lbl">Console</div><div class="d-pts">$55</div></div>
+      <div class="donate-item-cell"><div>👟</div><div class="d-lbl">Shoes</div><div class="d-pts">$18</div></div>
+    </div>
+  </div>
+
+  <!-- REWARDS SCREEN -->
+  <div class="screen" id="screen-rewards">
+    <div class="rewards-hero">
+      <div class="points-ring">
+        <span class="pts">840</span>
+        <span class="lbl">pts</span>
+      </div>
+      <div style="font-size:13px; opacity:0.8;">Gold Member · Billy</div>
+      <div style="font-size:20px; font-weight:500; margin-top:4px;">840 points</div>
+      <div style="font-size:12px; opacity:0.75; margin-top:4px;">160 pts to Platinum</div>
+      <div class="progress-bar-bg">
+        <div class="progress-bar-fill" style="width:84%;"></div>
+      </div>
+    </div>
+
+    <p class="section-title">Available coupons</p>
+    <div class="coupon-card">
+      <div class="coupon-badge"><div class="pct">20%</div><div class="off">OFF</div></div>
+      <div style="flex:1;">
+        <div style="font-size:14px; font-weight:500;">20% off any clothing</div>
+        <div style="font-size:12px; color:var(--color-text-secondary);">Expires Apr 30 · Any store</div>
+      </div>
+      <button class="btn-outline">Use</button>
+    </div>
+    <div class="coupon-card">
+      <div class="coupon-badge" style="background:#BA7517;"><div class="pct">$5</div><div class="off">OFF</div></div>
+      <div style="flex:1;">
+        <div style="font-size:14px; font-weight:500;">$5 off $25+ purchase</div>
+        <div style="font-size:12px; color:var(--color-text-secondary);">Expires May 15 · Any store</div>
+      </div>
+      <button class="btn-outline">Use</button>
+    </div>
+
+    <p class="section-title">How you earn points</p>
+    <div class="card">
+      <div class="item-row">
+        <div class="item-thumb" style="font-size:18px;">🛍️</div>
+        <div class="item-info"><div class="item-name">Spending</div><div class="item-meta">1 pt per $1 spent in-store</div></div>
+        <span class="badge-pill badge-green">Active</span>
+      </div>
+      <div class="item-row">
+        <div class="item-thumb" style="font-size:18px;">📦</div>
+        <div class="item-info"><div class="item-name">Donating items</div><div class="item-meta">5–50 pts per item donated</div></div>
+        <span class="badge-pill badge-green">Active</span>
+      </div>
+      <div class="item-row">
+        <div class="item-thumb" style="font-size:18px;">⭐</div>
+        <div class="item-info"><div class="item-name">Bonus events</div><div class="item-meta">2x pts weekends, special sales</div></div>
+        <span class="badge-pill badge-amber">2x this Sat</span>
+      </div>
+    </div>
+
+    <p class="section-title">Points history</p>
+    <div class="card">
+      <div class="timeline-row">
+        <div class="timeline-dot" style="background:#EAF3DE; color:#27500A;">+</div>
+        <div style="flex:1;"><div style="font-size:13px; font-weight:500;">Donated — sneakers & jacket</div><div style="font-size:11px; color:var(--color-text-secondary);">Mar 14 · North Charleston</div></div>
+        <span style="color:#3B6D11; font-size:14px; font-weight:500;">+50</span>
+      </div>
+      <div class="timeline-row">
+        <div class="timeline-dot" style="background:#EAF3DE; color:#27500A;">+</div>
+        <div style="flex:1;"><div style="font-size:13px; font-weight:500;">Purchase $34.50</div><div style="font-size:11px; color:var(--color-text-secondary);">Mar 10 · West Ashley</div></div>
+        <span style="color:#3B6D11; font-size:14px; font-weight:500;">+35</span>
+      </div>
+      <div class="timeline-row">
+        <div class="timeline-dot" style="background:#FAEEDA; color:#633806;">−</div>
+        <div style="flex:1;"><div style="font-size:13px; font-weight:500;">Redeemed 20% coupon</div><div style="font-size:11px; color:var(--color-text-secondary);">Feb 28 · Summerville</div></div>
+        <span style="color:#BA7517; font-size:14px; font-weight:500;">−100</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROFILE/TAX SCREEN -->
+  <div class="screen" id="screen-profile">
+    <div class="card" style="display:flex; align-items:center; gap:14px; margin-top:12px;">
+      <div class="profile-avatar">BJ</div>
+      <div style="flex:1;">
+        <div style="font-size:17px; font-weight:500;">Billy J.</div>
+        <div style="font-size:13px; color:var(--color-text-secondary);">Member since 2024 · Gold tier</div>
+        <span class="badge-pill badge-green" style="margin-top:4px; display:inline-block;">840 pts</span>
+      </div>
+    </div>
+
+    <div class="tax-card">
+      <div style="font-size:13px; opacity:0.8;">2025 tax year · estimated</div>
+      <div style="font-size:20px; font-weight:500; margin-top:4px;">Tax savings summary</div>
+      <div class="tax-grid">
+        <div class="tax-stat">
+          <div class="val">$347</div>
+          <div class="lbl">Total FMV donated</div>
+        </div>
+        <div class="tax-stat">
+          <div class="val">$76</div>
+          <div class="lbl">Est. tax saved*</div>
+        </div>
+        <div class="tax-stat">
+          <div class="val">18</div>
+          <div class="lbl">Items donated</div>
+        </div>
+        <div class="tax-stat">
+          <div class="val">$83</div>
+          <div class="lbl">Total purchases</div>
+        </div>
+      </div>
+      <div style="font-size:10px; opacity:0.6; margin-top:10px;">*Estimate based on 22% federal bracket. Consult a tax professional.</div>
+      <button style="margin-top:12px; background:rgba(255,255,255,0.15); border:none; color:white; padding:9px 0; width:100%; border-radius:var(--border-radius-md); font-size:13px; cursor:pointer; font-family:var(--font-sans);">Export donation receipt (PDF)</button>
+    </div>
+
+    <p class="section-title">Donation log</p>
+    <div class="card">
+      <div class="item-row">
+        <div class="item-thumb">👟</div>
+        <div class="item-info"><div class="item-name">Athletic Sneakers</div><div class="item-meta">Mar 14 · FMV $22</div></div>
+        <span class="badge-pill badge-amber">$22</span>
+      </div>
+      <div class="item-row">
+        <div class="item-thumb">👗</div>
+        <div class="item-info"><div class="item-name">Winter Jacket</div><div class="item-meta">Mar 14 · FMV $45</div></div>
+        <span class="badge-pill badge-amber">$45</span>
+      </div>
+      <div class="item-row">
+        <div class="item-thumb">📚</div>
+        <div class="item-info"><div class="item-name">Textbooks (4)</div><div class="item-meta">Feb 20 · FMV $28</div></div>
+        <span class="badge-pill badge-amber">$28</span>
+      </div>
+      <div style="padding-top:8px; text-align:center;">
+        <button class="btn-outline" style="width:100%;">View all 18 donations</button>
+      </div>
+    </div>
+
+    <p class="section-title">Settings</p>
+    <div class="card">
+      <div class="item-row" style="cursor:pointer;">
+        <div class="item-thumb" style="font-size:18px;">🔔</div>
+        <div class="item-info"><div class="item-name">Notifications</div></div>
+        <span style="color:var(--color-text-secondary); font-size:18px;">›</span>
+      </div>
+      <div class="item-row" style="cursor:pointer;">
+        <div class="item-thumb" style="font-size:18px;">🏪</div>
+        <div class="item-info"><div class="item-name">Preferred store</div><div class="item-meta">North Charleston</div></div>
+        <span style="color:var(--color-text-secondary); font-size:18px;">›</span>
+      </div>
+      <div class="item-row" style="cursor:pointer;">
+        <div class="item-thumb" style="font-size:18px;">💳</div>
+        <div class="item-info"><div class="item-name">Linked card</div><div class="item-meta">Visa ···· 4281</div></div>
+        <span style="color:var(--color-text-secondary); font-size:18px;">›</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB BAR -->
+  <div class="tab-bar">
+    <button class="tab-item active" onclick="switchTab('shop',this,'🛍️','Shop','Palmetto Goodwill')">
+      <span class="tab-icon">🛍️</span><span class="tab-label">Shop</span>
+    </button>
+    <button class="tab-item" onclick="switchTab('donate',this,'📦','Donate','Upload & identify items')">
+      <span class="tab-icon">📦</span><span class="tab-label">Donate</span>
+    </button>
+    <button class="tab-item" onclick="switchTab('rewards',this,'⭐','Rewards','840 pts · Gold tier')">
+      <span class="tab-icon">⭐</span><span class="tab-label">Rewards</span>
+    </button>
+    <button class="tab-item" onclick="switchTab('profile',this,'👤','Profile','Tax savings & history')">
+      <span class="tab-icon">👤</span><span class="tab-label">Profile</span>
+    </button>
+  </div>
+</div>
+
+<script>
+function switchTab(name, el, icon, title, sub) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
+  document.getElementById('screen-' + name).classList.add('active');
+  el.classList.add('active');
+  document.getElementById('screen-title').textContent = title;
+  document.getElementById('screen-sub').textContent = sub;
+}
+
+function triggerAI() {
+  const zone = document.getElementById('upload-zone');
+  const analyzing = document.getElementById('ai-analyzing');
+  const result = document.getElementById('ai-result');
+  zone.style.display = 'none';
+  analyzing.style.display = 'block';
+  const steps = ['Identifying category...', 'Estimating fair market value...', 'Checking IRS guidelines...', 'Calculating tax deduction...'];
+  let i = 0;
+  const iv = setInterval(() => {
+    document.getElementById('ai-status').textContent = steps[i++];
+    if (i >= steps.length) {
+      clearInterval(iv);
+      setTimeout(() => {
+        analyzing.style.display = 'none';
+        result.style.display = 'block';
+      }, 500);
+    }
+  }, 600);
+}
+</script>
