@@ -4437,22 +4437,21 @@ If a question is outside WebEaze's scope, politely say so and offer to connect t
     return new Promise((resolve) => {
       setTimeout(() => {
         const msg = message.toLowerCase().trim();
-
-        // Helper: check if message matches any keyword/phrase in the list
-        function has(...terms) {
-          return terms.some(t => msg.includes(t));
-        }
-
-        // Helper: check if message matches a regex
-        function matches(regex) {
-          return regex.test(msg);
-        }
+        const pick = arr => arr[Math.floor(Math.random() * arr.length)];
 
         // ── Greetings ──
-        if (matches(/^(hi|hello|hey|yo|sup|what'?s up|howdy|hola|good\s?(morning|afternoon|evening|day)|greetings|what up)\b/)) {
-          resolve(`Hey there! Welcome to WebEaze. I can help with plans, pricing, support, domains, and more. What's on your mind?`);
+        if (/^(hi|hello|hey|yo|sup|what'?s up|howdy|hola|good\s?(morning|afternoon|evening|day)|greetings)\b/.test(msg)) {
+          resolve(pick([
+            "Hey there! What can I help you with today?",
+            "Hi! I'm here to help with anything WebEaze — plans, pricing, support, you name it.",
+            "Hello! What's on your mind?",
+            "Hey! Good to hear from you. What can I help you figure out?"
+          ]));
           return;
         }
+
+        // ── Placeholder to prevent old code running ──
+        if (false) {
 
         // ── Thanks / appreciation ──
         if (matches(/^(thanks|thank you|thx|ty|appreciate|cheers|much appreciated|that helps|helpful|you rock)\b/) || has('thank you so much', 'thanks a lot', 'thanks so much')) {
@@ -5145,7 +5144,75 @@ The speed depends on how quickly you provide content and feedback.
 
 You can also [browse our Help Center](help.html) or [contact our team](contact-us.html) directly!`);
         }
-      }, 800 + Math.random() * 800);
+        } // end if(false) — old canned responses hidden above
+
+        // ── Thanks ──
+        if (/^(thanks|thank you|thx|ty|appreciate|cheers|much appreciated|that helps)\b/.test(msg) || msg.includes('thank you so much')) {
+          resolve(pick([
+            "You're welcome! Let me know if anything else comes up.",
+            "Happy to help! Feel free to ask if you have more questions.",
+            "Anytime! Is there anything else I can clarify?",
+            "Of course! Don't hesitate if something else comes up."
+          ]));
+          return;
+        }
+
+        // ── Goodbye ──
+        if (/^(bye|goodbye|see ya|later|take care|that'?s (all|it)|nothing else|no more|i'?m good|all good)\b/.test(msg)) {
+          resolve(pick([
+            "Take care! I'm here if you need anything else.",
+            "No problem! Have a great day — come back anytime.",
+            "Sounds good! Reach out whenever you need help.",
+            "Bye for now! Feel free to come back with any questions."
+          ]));
+          return;
+        }
+
+        // ── Positive reactions ──
+        if (/^(awesome|great|perfect|cool|nice|ok|okay|got it|sounds good|wonderful|sweet|amazing|fantastic|brilliant|excellent)\b/.test(msg)) {
+          resolve(pick([
+            "Glad to hear it! Let me know if there's anything else.",
+            "Great! Feel free to ask if anything else comes up.",
+            "Perfect! I'm here if you need more help.",
+            "Awesome! Don't hesitate to ask if you have more questions."
+          ]));
+          return;
+        }
+
+        // ── All substantive questions: compose from real article content ──
+        const intros = ["Sure! ", "Great question. ", "Happy to help with that. ", "Absolutely! ", "Good question — ", ""];
+        const articles = findRelevantArticles(message);
+
+        if (articles.length > 0 && articles[0].score >= 30) {
+          const top = articles[0];
+          const intro = pick(intros);
+          let response = '';
+
+          if (top.excerpt && top.excerpt.length > 60) {
+            response = intro + top.excerpt;
+          } else if (top.meta && top.meta.length > 30) {
+            response = intro + top.meta;
+          } else {
+            response = intro + `Here's what I found on **${top.title}**.`;
+          }
+
+          response += `\n\n[${top.title}](help.html#/${top.slug})`;
+
+          const related = articles.slice(1, 3).filter(a => a.score >= 20);
+          if (related.length > 0) {
+            response += '\n\nAlso potentially helpful:';
+            related.forEach(a => { response += `\n• [${a.title}](help.html#/${a.slug})`; });
+          }
+
+          resolve(response);
+        } else {
+          resolve(pick([
+            `I didn't quite catch that — can you try rephrasing?\n\n• [Pricing & plans](pricing.html)\n• [How updates work](help.html#/turnarounds-and-common-requests)\n• [Getting started](help.html#/getting-started)\n• [Contact our team](contact-us.html)`,
+            `Hmm, I'm not sure I followed that. Try asking differently, or check:\n\n• [See all plans](pricing.html)\n• [Request a change](website-request.html)\n• [Help Center](help.html)\n• [Talk to a real person](contact-us.html)`,
+            `That one stumped me! Try the Help Center or reach out to our team.\n\n[Help Center](help.html) | [Contact us](contact-us.html)`
+          ]));
+        }
+      }, 600 + Math.random() * 600);
     });
   }
 })();

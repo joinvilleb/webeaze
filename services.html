@@ -1393,7 +1393,9 @@ footer { background: #000; padding: 60px 20px 40px; border-top: 1px solid rgba(2
 
   var hash  = location.hash.replace('#', '');
   var param = new URLSearchParams(location.search).get('tab');
-  var target = hash || param;
+  var aliases = { 'newsite': 'new', 'management': 'manage', 'one-time-build': 'onetime' };
+  var raw = hash || param;
+  var target = aliases[raw] || raw;
   if (['new', 'manage', 'onetime'].includes(target)) {
     current = target;
     tabs.forEach(function(b)  { b.classList.toggle('active', b.dataset.tab === target); });
