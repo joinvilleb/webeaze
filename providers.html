@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Supported Providers | WebEaze</title>
-<meta name="description" content="Discover the trusted hosting providers WebEaze works with, including WordPress, Squarespace, Wix, Shopify, GitHub Pages, Netlify, Cloudflare Pages, and more." />
+<meta name="description" content="Discover the hosting providers WebEaze works with, how hosting is included in your plan, and what happens if you have an existing platform." />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -15,456 +15,327 @@
 
 <style>
 :root {
-  --brand: #7851a9;
+  --bg: #ffffff;
+  --bg-2: #f5f6fa;
+  --bg-3: #eceef8;
   --gold: #ffd700;
-  --dark: #0a0a0f;
-  --dark-2: #121218;
-  --dark-3: #1a1a22;
-  --line: rgba(255,255,255,.1);
-  --muted: rgba(255,255,255,.55);
-  --success: #22c55e;
+  --brand: #7851a9;
+  --text: #000000;
+  --text-muted: #1f2937;
+  --text-dim: #6b7280;
+  --line: rgba(0,0,0,.09);
+  --green: #16a34a;
 }
 
-* { box-sizing: border-box; }
+*,*::before,*::after { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 body {
   margin: 0;
   font-family: 'Poppins', sans-serif;
-  background: var(--dark);
-  color: #fff;
-  line-height: 1.6;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.7;
 }
-a { text-decoration: none; color: inherit; transition: .2s; }
+a { text-decoration: none; color: inherit; }
 
-.container-narrow { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+.container-narrow { max-width: 1000px; margin: 0 auto; padding: 0 20px; }
 
 /* NAV */
 .nav-wrap {
-  position: sticky;
-  top: 0;
-  z-index: 9999;
-  background: rgba(0,0,0,.85);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--line);
+  position: sticky; top: 0; z-index: 9999;
+  background: rgba(10,10,15,.95);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255,255,255,.08);
 }
 .navbar { padding: .6rem 0; }
 .navbar-dark .nav-link { color: #fff !important; opacity: .85; padding: .45rem .7rem; border-radius: 10px; }
 .navbar-dark .nav-link:hover { opacity: 1; background: rgba(255,255,255,.08); }
 .logo { height: 36px; }
-.brand-word {
-  background: linear-gradient(90deg, #e8e7ea, #a8a5a0);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-size: 1.1rem;
-}
-.btn-nav {
-  background: var(--gold);
-  color: #2f1e66;
-  border: none;
-  border-radius: 10px;
-  padding: .55rem .9rem;
-  font-weight: 700;
-  font-size: 14px;
-}
+.brand-word { font-weight: 700; color: #fff; letter-spacing: -.3px; }
+.btn-nav { background: var(--gold); color: #2f1e66; border: none; border-radius: 10px; padding: .55rem .9rem; font-weight: 700; font-size: 14px; }
 
-/* HERO */
-.hero {
-  padding: 80px 0 60px;
+/* PAGE HEADER */
+.page-header {
+  background: var(--bg-2);
+  border-bottom: 1px solid var(--line);
+  padding: 56px 20px 40px;
   text-align: center;
-  background:
-    radial-gradient(ellipse 60% 50% at 50% 0%, rgba(120,81,169,.25), transparent),
-    linear-gradient(180deg, var(--dark-2), var(--dark));
-  position: relative;
 }
-.hero h1 {
-  font-size: clamp(32px, 6vw, 48px);
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  margin-bottom: 16px;
-}
-.hero .subtitle {
-  font-size: 18px;
-  color: var(--muted);
-  max-width: 620px;
-  margin: 0 auto;
-}
+.page-label { font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .18em; color: var(--text-dim); margin-bottom: 10px; }
+.page-header h1 { font-size: clamp(26px,4vw,38px); font-weight: 800; letter-spacing: -.02em; margin: 0 0 10px; color: var(--text); }
+.page-header p { font-size: .97rem; color: var(--text-dim); max-width: 560px; margin: 0 auto; }
 
-/* SECTIONS */
-.section {
-  padding: 60px 0;
+/* TOC */
+.toc-bar {
+  background: var(--bg);
+  border-bottom: 1px solid var(--line);
+  padding: 12px 20px;
+  position: sticky; top: 60px; z-index: 100;
 }
-.section-header {
-  text-align: center;
-  margin-bottom: 40px;
-}
-.section-header h2 {
-  font-size: 28px;
-  font-weight: 700;
-  margin-bottom: 12px;
-}
-.section-header p {
-  color: var(--muted);
-  font-size: 16px;
-  max-width: 560px;
-  margin: 0 auto;
-}
+.toc-inner { max-width: 1000px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 20px; }
+.toc-label { font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--text-dim); }
+.toc-bar a { font-size: .87rem; color: var(--text-muted); transition: color .15s; }
+.toc-bar a:hover { color: var(--brand); }
 
-/* KICKER BADGE */
-.kicker {
-  display: inline-block;
-  padding: 6px 14px;
-  border-radius: 999px;
-  background: rgba(120, 81, 169, .15);
-  border: 1px solid rgba(120, 81, 169, .3);
-  color: #c4a8ff;
-  font-size: .8rem;
-  font-weight: 600;
-  letter-spacing: .03em;
-  text-transform: uppercase;
-  margin-bottom: 16px;
-}
+/* HOW HOSTING WORKS */
+.hosting-section { padding: 56px 0 0; }
+.section-title { font-size: 1.1rem; font-weight: 700; color: var(--text); margin: 0 0 4px; }
+.section-sub { font-size: .88rem; color: var(--text-dim); margin: 0 0 24px; }
 
-/* SURFACE CARDS */
-.surface {
-  background: var(--dark-2);
-  border: 1px solid var(--line);
-  border-radius: 20px;
-  padding: 32px;
-}
-
-/* DEFAULT SETUP SECTION */
-.default-setup {
-  background: var(--dark-2);
-  border-top: 1px solid var(--line);
-}
-.default-card {
-  background: var(--dark-3);
-  border: 1px solid var(--line);
-  border-radius: 20px;
-  padding: 40px;
+.hosting-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 40px;
-  align-items: center;
+  gap: 16px;
 }
-@media (max-width: 768px) {
-  .default-card { grid-template-columns: 1fr; text-align: center; }
-}
-.default-card h3 {
-  font-size: 24px;
-  font-weight: 700;
-  margin-bottom: 12px;
-}
-.default-card p {
-  color: var(--muted);
-  margin-bottom: 20px;
-}
+@media (max-width: 620px) { .hosting-grid { grid-template-columns: 1fr; } }
 
-/* CHECK LIST */
-.check-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+.hosting-card {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 24px;
+  position: relative;
 }
+.hosting-card.featured {
+  background: var(--bg-2);
+  border-color: var(--green);
+}
+.featured-badge {
+  position: absolute;
+  top: -11px;
+  left: 20px;
+  background: var(--green);
+  color: #fff;
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  padding: 3px 12px;
+  border-radius: 20px;
+}
+.hosting-card h3 {
+  font-size: .97rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.hosting-card h3 i { font-size: .9rem; }
+.hosting-card p { font-size: .88rem; color: var(--text-muted); margin: 0 0 16px; }
+.check-list { list-style: none; padding: 0; margin: 0; }
 .check-list li {
+  display: flex; align-items: center; gap: 10px;
+  padding: 5px 0;
+  font-size: .88rem; color: var(--text-muted);
+  border-bottom: 1px solid var(--line);
+}
+.check-list li:last-child { border-bottom: none; }
+.check-list li i { font-size: .75rem; width: 14px; text-align: center; flex-shrink: 0; }
+.check-list.green li i { color: var(--green); }
+.check-list.purple li i { color: var(--brand); }
+
+/* DEFAULT SETUP HIGHLIGHT */
+.default-highlight {
+  margin-top: 16px;
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.default-highlight .label {
+  font-size: .72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  color: var(--text-dim);
+  margin-bottom: 4px;
+}
+.default-highlight .value {
+  font-size: .92rem;
+  font-weight: 600;
+  color: var(--text);
+}
+.default-logos {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 8px 0;
-  font-size: 15px;
-  color: rgba(255,255,255,.85);
+  margin-left: auto;
 }
-.check-list li i {
-  color: var(--gold);
-  font-size: 14px;
+.default-logos img {
+  height: 32px;
+  width: auto;
+  object-fit: contain;
+  border-radius: 6px;
+  background: #fff;
+  padding: 4px 8px;
+  border: 1px solid var(--line);
 }
+@media (max-width: 560px) { .default-logos { margin-left: 0; } }
 
-/* PROVIDER LOGOS */
-.provider-logos {
+/* PROVIDERS SECTION */
+.providers-section { padding: 56px 0 0; }
+.providers-separator { margin-bottom: 20px; }
+
+/* PROVIDER TABS */
+.tab-row {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 24px;
+  gap: 8px;
   flex-wrap: wrap;
+  margin-bottom: 20px;
 }
-.provider-logos img {
-  width: 100px;
-  height: auto;
-  filter: brightness(0) invert(1);
-  opacity: .8;
-  transition: .2s;
-  
+.tab-btn {
+  padding: 7px 16px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--bg-2);
+  color: var(--text-muted);
+  font-size: .82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .15s;
+  font-family: inherit;
 }
-.provider-logos img:hover {
-  opacity: 1;
+.tab-btn:hover, .tab-btn.active {
+  background: var(--brand);
+  color: #fff;
+  border-color: var(--brand);
 }
 
 /* PROVIDERS GRID */
 .providers-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 14px;
 }
 .provider-card {
-  background: var(--dark-2);
+  background: var(--bg-2);
   border: 1px solid var(--line);
-  border-radius: 16px;
-  padding: 28px 20px;
+  border-radius: 12px;
+  padding: 20px 16px;
   text-align: center;
-  transition: .3s ease;
+  transition: border-color .2s, box-shadow .2s;
 }
 .provider-card:hover {
-  transform: translateY(-4px);
-  border-color: rgba(255,255,255,.2);
-  box-shadow: 0 12px 32px rgba(0,0,0,.3);
+  border-color: rgba(120,81,169,.3);
+  box-shadow: 0 4px 16px rgba(0,0,0,.06);
 }
 .provider-card img {
-  width: 80px;
-  height: 80px;
+  width: 56px; height: 56px;
   object-fit: contain;
-  margin-bottom: 16px;
-  border-radius: 12px;
-  background: rgb(255, 255, 255);
-  padding: 12px;
-}
-.provider-card h5 {
-  font-size: 16px;
-  font-weight: 700;
-  margin-bottom: 4px;
-}
-.provider-card span {
-  font-size: 13px;
-  color: var(--muted);
-}
-
-/* PRICING COMPARISON */
-.pricing-section {
-  background: var(--dark-2);
-  border-top: 1px solid var(--line);
-}
-.pricing-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 24px;
-}
-@media (max-width: 768px) {
-  .pricing-grid { grid-template-columns: 1fr; }
-}
-.pricing-card {
-  background: var(--dark-3);
+  border-radius: 8px;
+  background: #fff;
+  padding: 8px;
   border: 1px solid var(--line);
-  border-radius: 16px;
-  padding: 32px;
-  position: relative;
+  margin-bottom: 10px;
 }
-.pricing-card.included {
-  border-color: var(--success);
-}
-.pricing-card.included::before {
-  content: 'Included';
-  position: absolute;
-  top: -12px;
-  left: 24px;
-  background: var(--success);
-  color: #fff;
-  padding: 4px 14px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 700;
-}
-.pricing-card h4 {
-  font-size: 20px;
-  font-weight: 700;
-  margin-bottom: 12px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.pricing-card h4 i {
-  font-size: 18px;
-}
-.pricing-card p {
-  color: var(--muted);
-  font-size: 14px;
-  margin-bottom: 20px;
-}
-
-/* MIGRATION CTA */
-.cta-section {
-  padding: 80px 0;
-  text-align: center;
-  background:
-    radial-gradient(ellipse 60% 50% at 50% 100%, rgba(120,81,169,.15), transparent),
-    var(--dark);
-  border-top: 1px solid var(--line);
-}
-.cta-section h2 {
-  font-size: 28px;
-  font-weight: 700;
-  margin-bottom: 12px;
-}
-.cta-section p {
-  color: var(--muted);
-  font-size: 16px;
-  max-width: 500px;
-  margin: 0 auto 28px;
-}
-.btn-primary {
+.provider-card h5 { font-size: .88rem; font-weight: 700; color: var(--text); margin: 0 0 2px; }
+.provider-card span { font-size: .78rem; color: var(--text-dim); }
+.provider-card .supported-badge {
   display: inline-block;
-  background: var(--gold);
-  color: #1a1a22;
-  border: none;
-  border-radius: 12px;
-  padding: 16px 32px;
-  font-size: 15px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: .2s;
-}
-.btn-primary:hover {
-  background: #e6c200;
-  transform: translateY(-2px);
-  box-shadow: 0 12px 28px rgba(255, 215, 0, .25);
-}
-
-/* DISCLAIMER */
-.disclaimer {
-  padding: 40px 0;
-  text-align: center;
-  border-top: 1px solid var(--line);
-}
-.disclaimer p {
-  font-size: 13px;
-  color: var(--muted);
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-/* FOOTER */
-footer {
-  background: #000;
-  padding: 60px 20px 40px;
-  border-top: 1px solid var(--line);
-}
-.footer-grid {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr;
-  gap: 48px;
-  max-width: 1100px;
-  margin: 0 auto 48px;
-  text-align: left;
-}
-@media (max-width: 768px) {
-  .footer-grid {
-    grid-template-columns: 1fr 1fr;
-    gap: 32px;
-  }
-}
-@media (max-width: 480px) {
-  .footer-grid {
-    grid-template-columns: 1fr;
-    gap: 28px;
-  }
-}
-.footer-brand {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 16px;
-}
-.footer-brand img { height: 32px; }
-.footer-brand span { font-weight: 700; font-size: 1.1rem; }
-.footer-tagline {
-  color: #a0a6c0;
-  font-size: 0.9rem;
-  line-height: 1.6;
-  margin-bottom: 20px;
-  max-width: 280px;
-}
-.footer-social {
-  display: flex;
-  gap: 12px;
-}
-.footer-social a {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  background: rgba(255, 255, 255, 0.06);
-  border-radius: 10px;
-  color: #a0a6c0;
-  font-size: 1rem;
-  transition: all 0.2s ease;
-}
-.footer-social a:hover {
-  background: var(--gold);
-  color: #1a1a2e;
-}
-.footer-col h5 {
-  font-size: 0.85rem;
+  margin-top: 6px;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: .68rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: #fff;
-  margin: 0 0 16px;
+  letter-spacing: .05em;
 }
-.footer-col ul { list-style: none; padding: 0; margin: 0; }
-.footer-col li { margin-bottom: 10px; }
-.footer-col a {
-  color: #a0a6c0;
-  font-size: 0.9rem;
-  transition: color 0.2s ease;
-}
-.footer-col a:hover { color: var(--gold); }
-.footer-bottom {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding-top: 24px;
-  border-top: 1px solid var(--line);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 16px;
-}
-.footer-bottom p { color: #6b7280; font-size: 0.85rem; margin: 0; }
-.footer-legal { display: flex; gap: 24px; }
-.footer-legal a {
-  color: #6b7280;
-  font-size: 0.85rem;
-  transition: color 0.2s ease;
-}
-.footer-legal a:hover { color: var(--gold); }
-@media (max-width: 600px) {
-  .footer-bottom {
-    flex-direction: column;
-    text-align: center;
-  }
-}
+.badge-default { background: rgba(22,163,74,.12); color: var(--green); }
+.badge-supported { background: rgba(120,81,169,.1); color: var(--brand); }
 
-.highlight {
-  background: linear-gradient(90deg, #e6c200, #fed906);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+/* HOW IT WORKS ACCORDION */
+.how-section { padding: 56px 0 0; }
+.faq-list { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+.faq-item { border-bottom: 1px solid var(--line); }
+.faq-item:last-child { border-bottom: none; }
+.faq-btn {
+  width: 100%; background: var(--bg); border: none; padding: 16px 20px;
+  display: flex; justify-content: space-between; align-items: center; gap: 16px;
+  font-family: inherit; font-size: .9rem; font-weight: 600; color: var(--text);
+  text-align: left; cursor: pointer; transition: background .15s;
 }
+.faq-btn:hover { background: var(--bg-2); }
+.faq-btn[aria-expanded="true"] { background: var(--bg-2); }
+.faq-btn .faq-icon { flex-shrink: 0; color: var(--brand); font-size: .75rem; transition: transform .2s; }
+.faq-btn[aria-expanded="true"] .faq-icon { transform: rotate(180deg); }
+.faq-panel { display: none; }
+.faq-panel.open { display: block; }
+.faq-body { font-size: .88rem; color: var(--text-muted); line-height: 1.7; padding: 0 20px 16px; }
+
+/* DISCLAIMER */
+.disclaimer-box {
+  margin-top: 40px;
+  padding: 16px 20px;
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  font-size: .82rem;
+  color: var(--text-dim);
+  line-height: 1.65;
+}
+.disclaimer-box strong { color: var(--text-muted); }
+
+/* CTA */
+.cta-box { max-width: 1000px; margin: 48px auto 0; padding: 0 20px 56px; }
+.cta-inner {
+  background: var(--bg-2); border: 1px solid var(--line); border-radius: 12px;
+  padding: 28px 32px; display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 16px;
+}
+.cta-text h3 { font-size: .97rem; font-weight: 700; margin: 0 0 3px; color: var(--text); }
+.cta-text p { font-size: .86rem; color: var(--text-dim); margin: 0; }
+.cta-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+.btn-gold { display: inline-flex; align-items: center; gap: 7px; padding: 10px 20px; background: var(--gold); color: #1a1a2e; border-radius: 10px; font-weight: 700; font-size: .87rem; transition: transform .2s; }
+.btn-gold:hover { transform: translateY(-1px); color: #1a1a2e; }
+.btn-outline { display: inline-flex; align-items: center; gap: 7px; padding: 10px 20px; background: transparent; color: var(--text); border: 1px solid var(--line); border-radius: 10px; font-weight: 600; font-size: .87rem; transition: border-color .2s; }
+.btn-outline:hover { border-color: rgba(0,0,0,.25); color: var(--text); }
+
+/* FOOTER */
+footer { background: #0a0a0f; padding: 60px 20px 40px; border-top: 1px solid rgba(255,255,255,.08); }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; max-width: 1100px; margin: 0 auto 48px; }
+@media (max-width: 768px) { .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; } }
+@media (max-width: 480px) { .footer-grid { grid-template-columns: 1fr; gap: 28px; } }
+.footer-brand { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+.footer-brand img { height: 32px; }
+.footer-brand span { font-weight: 700; font-size: 1.1rem; color: #fff; }
+.footer-tagline { color: #a0a6c0; font-size: .9rem; line-height: 1.6; margin-bottom: 18px; max-width: 280px; }
+.footer-social { display: flex; gap: 10px; }
+.footer-social a { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; background: rgba(255,255,255,.06); border-radius: 10px; color: #a0a6c0; font-size: .95rem; transition: all .2s; }
+.footer-social a:hover { background: var(--gold); color: #1a1a2e; }
+.footer-col h5 { font-size: .83rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: #fff; margin: 0 0 14px; }
+.footer-col ul { list-style: none; padding: 0; margin: 0; }
+.footer-col li { margin-bottom: 9px; }
+.footer-col a { color: #a0a6c0; font-size: .88rem; transition: color .2s; }
+.footer-col a:hover { color: var(--gold); }
+.footer-bottom { max-width: 1100px; margin: 0 auto; padding-top: 22px; border-top: 1px solid rgba(255,255,255,.08); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; }
+.footer-bottom p { color: #6b7280; font-size: .83rem; margin: 0; }
+.footer-legal { display: flex; gap: 22px; }
+.footer-legal a { color: #6b7280; font-size: .83rem; transition: color .2s; }
+.footer-legal a:hover { color: var(--gold); }
+@media (max-width: 600px) { .footer-bottom { flex-direction: column; text-align: center; } }
 </style>
 </head>
 <body>
 
 <!-- NAV -->
 <div class="nav-wrap">
-  <div class="container container-narrow">
-    <nav class="navbar navbar-expand-lg navbar-dark">
+  <div class="container-narrow" style="max-width:1100px">
+    <nav class="navbar navbar-expand-lg navbar-dark" role="navigation" aria-label="Primary">
       <a class="navbar-brand d-flex align-items-center" href="index.html">
         <img src="images/webeaze-transparent copy.png" class="logo" alt="WebEaze">
         <strong class="ml-2 brand-word">WebEaze</strong>
       </a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav" aria-controls="nav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div id="nav" class="collapse navbar-collapse">
-        <ul class="navbar-nav ml-auto main-nav">
+        <ul class="navbar-nav ml-auto">
           <li class="nav-item"><a class="nav-link" href="services.html">Our Services</a></li>
           <li class="nav-item"><a class="nav-link" href="pricing.html">Pricing</a></li>
           <li class="nav-item"><a class="nav-link" href="faq.html">FAQ</a></li>
@@ -477,35 +348,62 @@ footer {
   </div>
 </div>
 
-<!-- HERO -->
-<header class="hero">
-  <div class="container container-narrow">
-    <h1 style="font-weight: 600;">All About <span class="highlight">Hosting</span>.</h1>
-    <p class="subtitle">
-      We partner with trusted hosting providers to ensure your website is fast, secure, and reliable.
-    </p>
-  </div>
+<!-- PAGE HEADER -->
+<header class="page-header">
+  <div class="page-label">Infrastructure</div>
+  <h1>Hosting &amp; Supported Providers</h1>
+  <p>How we host your site, what's included in your plan, and which platforms we support.</p>
 </header>
 
-<!-- DEFAULT SETUP -->
-<section class="section default-setup">
-  <div class="container container-narrow">
-    <div class="default-card">
-      <div>
-        <span class="kicker">Our Default Setup</span>
-        <h3>Fast, Scalable & Fully Managed</h3>
-        <p>
-          We deploy most sites on GitHub Pages and manage domains through Namecheap. This setup delivers outstanding reliability and performance while keeping costs low for small businesses.
-        </p>
-        <ul class="check-list">
-          <li><i class="fas fa-check"></i> Hosting costs included </li>
-          <li><i class="fas fa-check"></i> 99.9% uptime guarantee</li>
-          <li><i class="fas fa-check"></i> Automatic SSL certificates</li>
-          <li><i class="fas fa-check"></i> Global CDN for fast load times</li>
-          <li><i class="fas fa-check"></i> Zero maintenance on your end</li>
+<!-- TOC -->
+<nav class="toc-bar" aria-label="Jump to section">
+  <div class="toc-inner">
+    <span class="toc-label">Jump to:</span>
+    <a href="#how-hosting-works">How Hosting Works</a>
+    <a href="#supported-providers">Supported Providers</a>
+    <a href="#faq">Common Questions</a>
+  </div>
+</nav>
+
+<!-- HOW HOSTING WORKS -->
+<section id="how-hosting-works" class="hosting-section">
+  <div class="container-narrow">
+    <h2 class="section-title">How Hosting Works</h2>
+    <p class="section-sub">Your plan includes hosting. Here's what that means.</p>
+
+    <div class="hosting-grid">
+      <div class="hosting-card featured">
+        <span class="featured-badge">Default Setup</span>
+        <h3><i class="fas fa-server" style="color:var(--green)"></i> Hosting Included</h3>
+        <p>For most clients, hosting is completely covered in your monthly plan. We deploy your site on GitHub Pages and manage your domain through Namecheap. No separate hosting bill.</p>
+        <ul class="check-list green">
+          <li><i class="fas fa-check"></i> $0 in hosting costs to you</li>
+          <li><i class="fas fa-check"></i> 99.9% uptime</li>
+          <li><i class="fas fa-check"></i> SSL certificate included</li>
+          <li><i class="fas fa-check"></i> Global CDN, fast load times</li>
+          <li><i class="fas fa-check"></i> Fully managed, zero work on your end</li>
         </ul>
       </div>
-      <div class="provider-logos">
+
+      <div class="hosting-card">
+        <h3><i class="fas fa-cloud" style="color:var(--brand)"></i> Premium Platforms</h3>
+        <p>If you need WordPress, e-commerce, or already have a preferred platform, we'll work with it. You pay the host directly at their published rate.</p>
+        <ul class="check-list purple">
+          <li><i class="fas fa-check"></i> No markup on hosting fees</li>
+          <li><i class="fas fa-check"></i> You pay the host directly</li>
+          <li><i class="fas fa-check"></i> We handle setup and management</li>
+          <li><i class="fas fa-check"></i> Same plan pricing regardless of host</li>
+          <li><i class="fas fa-check"></i> Migration assistance available</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="default-highlight">
+      <div>
+        <div class="label">Our default stack</div>
+        <div class="value">GitHub Pages (hosting) + Namecheap (domains)</div>
+      </div>
+      <div class="default-logos">
         <img src="images/providers/github.jpg" alt="GitHub Pages">
         <img src="images/providers/namecheap.png" alt="Namecheap">
       </div>
@@ -513,132 +411,170 @@ footer {
   </div>
 </section>
 
-<!-- OTHER PROVIDERS -->
-<section class="section">
-  <div class="container container-narrow">
-    <div class="section-header">
-      <h2>Other Platforms We Support</h2>
-      <p>
-        Already have a preferred platform? We adapt to your needs. We have agency accounts and extensive experience with these providers.
-      </p>
-    </div>
+<!-- SUPPORTED PROVIDERS -->
+<section id="supported-providers" class="providers-section">
+  <div class="container-narrow">
+    <h2 class="section-title">Supported Providers</h2>
+    <p class="section-sub">Platforms we have agency accounts and hands-on experience with.</p>
 
     <div class="providers-grid">
       <div class="provider-card">
-        <img src="images/providers/bluehost.png" alt="Bluehost">
-        <h5>Bluehost</h5>
-        <span>Shared & WordPress Hosting</span>
+        <img src="images/providers/github.jpg" alt="GitHub Pages">
+        <h5>GitHub Pages</h5>
+        <span>Static Hosting</span>
+        <div><span class="supported-badge badge-default">Our Default</span></div>
       </div>
       <div class="provider-card">
-        <img src="images/providers/godaddy.png" alt="GoDaddy">
-        <h5>GoDaddy</h5>
-        <span>Domains & Hosting</span>
-      </div>
-      <div class="provider-card">
-        <img src="images/providers/siteground.png" alt="SiteGround">
-        <h5>SiteGround</h5>
-        <span>Managed WordPress</span>
-      </div>
-      <div class="provider-card">
-        <img src="images/providers/hostinger .png" alt="Hostinger">
-        <h5>Hostinger</h5>
-        <span>Budget-Friendly Hosting</span>
+        <img src="images/providers/namecheap.png" alt="Namecheap">
+        <h5>Namecheap</h5>
+        <span>Domain Registrar</span>
+        <div><span class="supported-badge badge-default">Our Default</span></div>
       </div>
       <div class="provider-card">
         <img src="images/providers/wordpress.png" alt="WordPress.com">
         <h5>WordPress.com</h5>
-        <span>Hosted WordPress Solution</span>
+        <span>Hosted CMS</span>
+        <div><span class="supported-badge badge-supported">Supported</span></div>
       </div>
       <div class="provider-card">
         <img src="images/providers/wix.png" alt="Wix">
         <h5>Wix</h5>
         <span>All-in-One Builder</span>
+        <div><span class="supported-badge badge-supported">Supported</span></div>
       </div>
       <div class="provider-card">
         <img src="images/providers/squarespace.png" alt="Squarespace">
         <h5>Squarespace</h5>
-        <span>Creative Portfolio Sites</span>
+        <span>Portfolio &amp; Business Sites</span>
+        <div><span class="supported-badge badge-supported">Supported</span></div>
       </div>
       <div class="provider-card">
         <img src="images/providers/webflow.png" alt="Webflow">
         <h5>Webflow</h5>
         <span>Visual Designer CMS</span>
+        <div><span class="supported-badge badge-supported">Supported</span></div>
       </div>
+      <div class="provider-card">
+        <img src="images/providers/bluehost.png" alt="Bluehost">
+        <h5>Bluehost</h5>
+        <span>Shared &amp; WordPress Hosting</span>
+        <div><span class="supported-badge badge-supported">Supported</span></div>
+      </div>
+      <div class="provider-card">
+        <img src="images/providers/siteground.png" alt="SiteGround">
+        <h5>SiteGround</h5>
+        <span>Managed WordPress</span>
+        <div><span class="supported-badge badge-supported">Supported</span></div>
+      </div>
+      <div class="provider-card">
+        <img src="images/providers/godaddy.png" alt="GoDaddy">
+        <h5>GoDaddy</h5>
+        <span>Domains &amp; Hosting</span>
+        <div><span class="supported-badge badge-supported">Supported</span></div>
+      </div>
+      <div class="provider-card">
+        <img src="images/providers/hostinger .png" alt="Hostinger">
+        <h5>Hostinger</h5>
+        <span>Budget-Friendly Hosting</span>
+        <div><span class="supported-badge badge-supported">Supported</span></div>
+      </div>
+    </div>
+
+    <div class="disclaimer-box" style="margin-top:20px">
+      Don't see your provider? <strong>Most platforms are compatible.</strong> If you're on something not listed, reach out and we'll confirm before you sign up. Third-party providers are not owned or endorsed by WebEaze. All trademarks belong to their respective owners. You pay the host directly with no markup.
     </div>
   </div>
 </section>
 
-<!-- PRICING COMPARISON -->
-<section class="section pricing-section">
-  <div class="container container-narrow">
-    <div class="section-header">
-      <h2>How Hosting Works With Us</h2>
-      <p>
-        Transparent pricing with no hidden fees or markups.
-      </p>
-    </div>
+<!-- FAQ / HOW IT WORKS -->
+<section id="faq" class="how-section">
+  <div class="container-narrow">
+    <h2 class="section-title">Common Questions</h2>
+    <p class="section-sub">Quick answers about hosting and providers.</p>
+    <div class="faq-list">
 
-    <div class="pricing-grid">
-      <div class="pricing-card included">
-        <h4><i class="fas fa-server" style="color: var(--success);"></i> GitHub Pages</h4>
-        <p>
-          For most small business websites, we recommend our default GitHub Pages setup. Hosting is completely free and included in your plan.
-        </p>
-        <ul class="check-list">
-          <li><i class="fas fa-check"></i> $0 in hosting fees</li>
-          <li><i class="fas fa-check"></i> Included in all packages</li>
-          <li><i class="fas fa-check"></i> Perfect for static sites</li>
-          <li><i class="fas fa-check"></i> Lightning-fast performance</li>
-        </ul>
+      <div class="faq-item">
+        <button class="faq-btn" data-target="#faq1" aria-expanded="false" aria-controls="faq1">
+          Do I need to pay for hosting separately?
+          <i class="fas fa-chevron-down faq-icon"></i>
+        </button>
+        <div id="faq1" class="faq-panel">
+          <div class="faq-body">No. For most clients on the default GitHub Pages setup, hosting is covered in your monthly plan. No separate bill.</div>
+        </div>
       </div>
 
-      <div class="pricing-card">
-        <h4><i class="fas fa-cloud" style="color: var(--brand);"></i> Premium Providers</h4>
-        <p>
-          If you need WordPress, e-commerce, or advanced features, we work with premium providers. You pay their hosting fees directly.
-        </p>
-        <ul class="check-list">
-          <li><i class="fas fa-check"></i> Transparent pricing from hosts</li>
-          <li><i class="fas fa-check"></i> No markup or hidden fees</li>
-          <li><i class="fas fa-check"></i> We handle setup & migration</li>
-          <li><i class="fas fa-check"></i> Full ongoing management</li>
-        </ul>
+      <div class="faq-item">
+        <button class="faq-btn" data-target="#faq2" aria-expanded="false" aria-controls="faq2">
+          I already have a host. Do I have to switch?
+          <i class="fas fa-chevron-down faq-icon"></i>
+        </button>
+        <div id="faq2" class="faq-panel">
+          <div class="faq-body">No. If you're on Wix, Squarespace, WordPress, or another supported platform, we'll work with what you have. Your hosting cost stays with that provider.</div>
+        </div>
       </div>
+
+      <div class="faq-item">
+        <button class="faq-btn" data-target="#faq3" aria-expanded="false" aria-controls="faq3">
+          Can you migrate my existing site?
+          <i class="fas fa-chevron-down faq-icon"></i>
+        </button>
+        <div id="faq3" class="faq-panel">
+          <div class="faq-body">Yes. We handle migrations with minimal downtime. Submit a request and we'll walk you through the process.</div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-btn" data-target="#faq4" aria-expanded="false" aria-controls="faq4">
+          What happens to hosting if I cancel?
+          <i class="fas fa-chevron-down faq-icon"></i>
+        </button>
+        <div id="faq4" class="faq-panel">
+          <div class="faq-body">If your site is on our GitHub Pages setup, hosting is removed when your plan ends. If you're on your own platform, your hosting continues independently.</div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-btn" data-target="#faq5" aria-expanded="false" aria-controls="faq5">
+          Do you mark up hosting fees?
+          <i class="fas fa-chevron-down faq-icon"></i>
+        </button>
+        <div id="faq5" class="faq-panel">
+          <div class="faq-body">No. If you use a premium host, you pay them directly at their published rate. We don't add any markup.</div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-btn" data-target="#faq6" aria-expanded="false" aria-controls="faq6">
+          What about domains?
+          <i class="fas fa-chevron-down faq-icon"></i>
+        </button>
+        <div id="faq6" class="faq-panel">
+          <div class="faq-body">Most plans include a domain credit. You can also bring your own domain from any registrar. See our <a href="help.html#/domain-and-hosting-credit" style="color:var(--brand)">domain and hosting credit</a> help article for details.</div>
+        </div>
+      </div>
+
     </div>
-
-    
-  </div>
-
-  
-</section>
-
-<!-- MIGRATION CTA -->
-<section class="cta-section">
-  <div class="container container-narrow">
-    <h2>Migrating From Another Host?</h2>
-    <p>
-      We handle migrations seamlessly with zero downtime, ensuring your visitors experience a smooth transition.
-    </p>
-    <a href="website-request.html" class="btn-primary">
-      <i class="fas fa-arrow-right" style="margin-right: 8px;"></i> Request Migration Help
-    </a>
   </div>
 </section>
 
-<!-- DISCLAIMER -->
-<div class="disclaimer">
-  <div class="container container-narrow">
-    <p>
-      <strong>Disclaimer:</strong> If your preferred provider isn't listed, our team can still integrate or migrate your website after a compatibility review. The third-party providers mentioned are not owned, operated, or endorsed by WebEaze. All trademarks and pricing references belong to their respective owners. Our web design and management costs remain the same regardless of hosting provider. You pay the host directly with no markups.
-    </p>
-    </p>
+<!-- CTA -->
+<div class="cta-box">
+  <div class="cta-inner">
+    <div class="cta-text">
+      <h3>Need help with your existing platform?</h3>
+      <p>Submit a request and we'll take it from there.</p>
+    </div>
+    <div class="cta-actions">
+      <a href="website-request.html" class="btn-gold"><i class="fas fa-paper-plane"></i> Submit a Request</a>
+      <a href="pricing.html" class="btn-outline"><i class="fas fa-tag"></i> View Plans</a>
+    </div>
   </div>
 </div>
 
 <!-- FOOTER -->
 <footer>
   <div class="footer-grid">
-    <div class="footer-about">
+    <div>
       <div class="footer-brand">
         <img src="images/webeaze-transparent copy.png" alt="WebEaze">
         <span>WebEaze</span>
@@ -650,7 +586,6 @@ footer {
         <a href="https://instagram.com/webeaze.io" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
       </div>
     </div>
-
     <div class="footer-col">
       <h5>Services</h5>
       <ul>
@@ -659,7 +594,6 @@ footer {
         <li><a href="plan-guide.html">Plan Guide</a></li>
       </ul>
     </div>
-
     <div class="footer-col">
       <h5>Company</h5>
       <ul>
@@ -669,7 +603,6 @@ footer {
         <li><a href="contact-us.html">Contact</a></li>
       </ul>
     </div>
-
     <div class="footer-col">
       <h5>Support</h5>
       <ul>
@@ -680,7 +613,6 @@ footer {
       </ul>
     </div>
   </div>
-
   <div class="footer-bottom">
     <p style="color:#fff">&copy; <span id="yr"></span> WebEaze. Made in Delaware, USA 🇺🇸</p>
     <div class="footer-legal">
@@ -693,7 +625,24 @@ footer {
 
 <script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+document.querySelectorAll('a[href^="#"]').forEach(function(a) {
+  a.addEventListener('click', function(e) {
+    e.preventDefault();
+    var target = document.querySelector(this.getAttribute('href'));
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+
+document.querySelectorAll('.faq-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    var panel = document.querySelector(btn.getAttribute('data-target'));
+    var isOpen = btn.getAttribute('aria-expanded') === 'true';
+    btn.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
+    panel.classList.toggle('open', !isOpen);
+  });
+});
+</script>
 </body>
 </html>
