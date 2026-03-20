@@ -8,7 +8,6 @@
 <link rel="canonical" href="https://www.webeaze.io/fee-schedule.html" />
 <link rel="shortcut icon" href="images/webeaze-transparent copy.png" type="image/png" />
 
-<!-- Fonts & CSS -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -17,18 +16,17 @@
 
 <style>
 :root {
-  --bg: #0a0a0f;
-  --bg-surface: #0f0f16;
+  --bg: #ffffff;
+  --bg-2: #f5f6fa;
+  --bg-3: #eceef8;
   --gold: #ffd700;
-  --gold-dim: rgba(255,215,0,.08);
   --brand: #7851a9;
-  --text: #e8e8ed;
-  --text-muted: #c0c4d8;
-  --text-dim: #9499b8;
-  --line: rgba(255,255,255,.1);
-  --line-strong: rgba(255,255,255,.18);
-  --success: #22c55e;
-  --purple-light: #b794f6;
+  --text: #1a1a2e;
+  --text-muted: #374151;
+  --text-dim: #6b7280;
+  --line: rgba(0,0,0,.09);
+  --success: #16a34a;
+  --purple: #7851a9;
 }
 
 *,*::before,*::after { box-sizing: border-box; }
@@ -41,111 +39,154 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 a { color: inherit; text-decoration: none; }
-.container-narrow { max-width: 900px; }
-.logo { height: 36px; }
 
 /* NAV */
 .nav-wrap {
   position: sticky;
   top: 0;
   z-index: 9999;
-  background: rgba(10,10,15,.92);
+  background: rgba(10,10,15,.95);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid rgba(255,255,255,.08);
 }
 .webeaze-nav { background: transparent !important; box-shadow: none !important; padding: .6rem 0; }
 .brand-word { letter-spacing: -.3px; font-weight: 700; color: #fff; }
+.logo { height: 36px; }
 .navbar-dark .nav-link { color: #fff !important; opacity: .85; border-radius: 10px; padding: .45rem .7rem; }
 .navbar-dark .nav-link:hover { opacity: 1; background: rgba(255,255,255,.08); }
 .btn-nav { background: var(--gold); color: #2f1e66; border: none; border-radius: 12px; padding: .55rem .85rem; font-weight: 700; font-size: .9rem; }
 
-/* ─── DOCUMENT HEADER ─── */
-.doc-header {
-  padding: 100px 20px 48px;
-  border-bottom: 2px solid var(--line-strong);
+/* PAGE HEADER */
+.page-header {
+  background: var(--bg-2);
+  border-bottom: 1px solid var(--line);
+  padding: 56px 20px 40px;
 }
-.doc-header-inner {
-  max-width: 900px;
-  margin: 0 auto;
-}
-.doc-label {
-  font-size: .7rem;
+.page-header-inner { max-width: 860px; margin: 0 auto; }
+.page-label {
+  font-size: .72rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: .2em;
+  letter-spacing: .18em;
   color: var(--text-dim);
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
-.doc-header h1 {
-  font-size: clamp(28px,4vw,40px);
+.page-header h1 {
+  font-size: clamp(26px,4vw,38px);
   font-weight: 800;
   letter-spacing: -.02em;
-  margin: 0 0 12px;
+  margin: 0 0 10px;
+  color: var(--text);
 }
-.doc-meta {
+.page-meta {
   display: flex;
   flex-wrap: wrap;
-  gap: 24px;
-  font-size: .85rem;
-  color: var(--text-muted);
+  gap: 20px;
+  font-size: .83rem;
+  color: var(--text-dim);
 }
-.doc-meta span { display: flex; align-items: center; gap: 6px; }
-.doc-meta i { font-size: .7rem; color: var(--text-dim); }
+.page-meta span { display: flex; align-items: center; gap: 6px; }
 
-/* ─── TABLE OF CONTENTS ─── */
-.toc {
-  padding: 28px 20px;
+/* TOC */
+.toc-bar {
+  background: var(--bg);
   border-bottom: 1px solid var(--line);
+  padding: 14px 20px;
+  position: sticky;
+  top: 60px;
+  z-index: 100;
 }
 .toc-inner {
-  max-width: 900px;
+  max-width: 860px;
   margin: 0 auto;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 8px 24px;
+  gap: 6px 20px;
 }
 .toc-label {
-  font-size: .75rem;
-  font-weight: 600;
+  font-size: .72rem;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: .1em;
   color: var(--text-dim);
-  margin-right: 8px;
 }
-.toc a {
-  font-size: .92rem;
+.toc-bar a {
+  font-size: .88rem;
   color: var(--text-muted);
-  transition: color .2s;
+  transition: color .15s;
 }
-.toc a:hover { color: var(--gold); }
+.toc-bar a:hover { color: var(--brand); }
 
-/* ─── SECTION STRUCTURE ─── */
+/* SECTIONS */
 .fee-section {
-  max-width: 900px;
+  max-width: 860px;
   margin: 0 auto;
-  padding: 56px 20px 0;
+  padding: 48px 20px 0;
 }
 .fee-section + .fee-section {
   border-top: 1px solid var(--line);
-  margin-top: 48px;
+  margin-top: 40px;
 }
-.fee-section-header {
-  margin-bottom: 28px;
-}
-.fee-section-header h2 {
-  font-size: 1.25rem;
+.section-title {
+  font-size: 1.1rem;
   font-weight: 700;
+  color: var(--text);
   margin: 0 0 4px;
 }
-.fee-section-header p {
-  font-size: .93rem;
-  color: var(--text-muted);
-  margin: 0;
+.section-sub {
+  font-size: .88rem;
+  color: var(--text-dim);
+  margin: 0 0 24px;
 }
 
-/* ─── FEE TABLE ─── */
+/* OVERVIEW CARDS */
+.overview-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+@media (max-width: 560px) { .overview-grid { grid-template-columns: 1fr; } }
+.overview-card {
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 22px 24px;
+}
+.overview-card h3 {
+  font-size: .88rem;
+  font-weight: 700;
+  margin: 0 0 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text);
+}
+.dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; flex-shrink: 0; }
+.dot-green { background: var(--success); }
+.dot-gold { background: #b8860b; }
+.overview-card ul { list-style: none; padding: 0; margin: 0; }
+.overview-card li {
+  font-size: .88rem;
+  color: var(--text-muted);
+  padding: 5px 0 5px 14px;
+  position: relative;
+  border-bottom: 1px solid var(--line);
+}
+.overview-card li:last-child { border-bottom: none; }
+.overview-card li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 12px;
+  width: 5px; height: 5px;
+  border-radius: 50%;
+}
+.included-card li::before { background: var(--success); }
+.extra-card li::before { background: #b8860b; }
+
+/* FEE TABLE */
 .fee-table {
   width: 100%;
   border-collapse: collapse;
@@ -156,238 +197,120 @@ a { color: inherit; text-decoration: none; }
   text-transform: uppercase;
   letter-spacing: .1em;
   color: var(--text-dim);
-  padding: 0 0 12px;
-  border-bottom: 2px solid var(--line-strong);
+  padding: 0 0 10px;
+  border-bottom: 2px solid var(--line);
   text-align: left;
 }
-.fee-table thead th:last-child {
-  text-align: right;
-}
+.fee-table thead th:last-child { text-align: right; }
 .fee-table tbody td {
-  padding: 16px 0;
+  padding: 14px 0;
   border-bottom: 1px solid var(--line);
   vertical-align: top;
-  font-size: .95rem;
+  font-size: .9rem;
+  color: var(--text);
 }
-.fee-table tbody tr:last-child td {
-  border-bottom: none;
-}
-.fee-table .col-service { width: 30%; font-weight: 600; color: #fff; }
-.fee-table .col-desc { width: 45%; color: var(--text-muted); font-size: .92rem; line-height: 1.65; padding-right: 24px; }
-.fee-table .col-price {
-  width: 25%;
-  text-align: right;
-  font-weight: 700;
-  font-size: .95rem;
-  white-space: nowrap;
-  color: #fff;
-}
-.fee-table .recurring { color: var(--purple-light); }
-.fee-table .note {
-  display: block;
-  font-size: .75rem;
-  font-weight: 500;
-  color: var(--text-dim);
-  margin-top: 4px;
-}
+.fee-table tbody tr:last-child td { border-bottom: none; }
+.fee-table tbody tr:hover td { background: var(--bg-2); }
+.fee-table .col-service { width: 32%; font-weight: 600; padding-right: 16px; }
+.fee-table .col-desc { width: 45%; font-size: .87rem; color: var(--text-muted); line-height: 1.6; padding-right: 20px; }
+.fee-table .col-desc a { color: var(--brand); text-decoration: underline; }
+.fee-table .col-price { width: 23%; text-align: right; font-weight: 700; white-space: nowrap; }
+.recurring { color: var(--purple); }
+.note { display: block; font-size: .75rem; color: var(--text-dim); margin-top: 3px; font-weight: 400; }
 
-/* Mobile table cards */
-@media (max-width: 700px) {
-  .fee-table, .fee-table thead, .fee-table tbody, .fee-table tr, .fee-table th, .fee-table td {
-    display: block;
-  }
+@media (max-width: 640px) {
+  .fee-table, .fee-table thead, .fee-table tbody, .fee-table tr, .fee-table th, .fee-table td { display: block; }
   .fee-table thead { display: none; }
-  .fee-table tbody tr {
-    padding: 20px 0;
-    border-bottom: 1px solid var(--line);
-  }
+  .fee-table tbody tr { padding: 16px 0; border-bottom: 1px solid var(--line); }
   .fee-table tbody tr:last-child { border-bottom: none; }
-  .fee-table tbody td {
-    padding: 2px 0;
-    border: none;
-  }
-  .fee-table .col-service { width: 100%; font-size: 1rem; }
-  .fee-table .col-price {
-    width: 100%;
-    text-align: left;
-    margin-top: 4px;
-    color: var(--gold);
-  }
-  .fee-table .col-desc { width: 100%; padding-right: 0; margin-top: 6px; }
+  .fee-table tbody td { padding: 2px 0; border: none; width: 100% !important; padding-right: 0; }
+  .fee-table .col-price { text-align: left; margin-top: 4px; color: var(--brand); }
 }
 
-/* ─── OVERVIEW SPLIT ─── */
-.overview-split {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1px;
-  background: var(--line);
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  overflow: hidden;
-}
-@media (max-width: 600px) {
-  .overview-split { grid-template-columns: 1fr; }
-}
-.overview-col {
-  background: var(--bg-surface);
-  padding: 28px;
-}
-.overview-col h3 {
-  font-size: .95rem;
-  font-weight: 700;
-  margin: 0 0 16px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.overview-col h3 .dot {
-  width: 8px; height: 8px;
-  border-radius: 50%;
-  display: inline-block;
-}
-.overview-col h3 .dot.green { background: var(--success); }
-.overview-col h3 .dot.gold { background: var(--gold); }
-.overview-col ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-.overview-col li {
-  font-size: .93rem;
-  color: var(--text-muted);
-  padding: 7px 0;
-  padding-left: 16px;
-  position: relative;
-}
-.overview-col li::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 13px;
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-}
-.included-col li::before { background: var(--success); }
-.extra-col li::before { background: var(--gold); }
-
-/* ─── POLICIES ─── */
-.policies-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 0;
+/* POLICIES */
+.policies-list {
   border: 1px solid var(--line);
   border-radius: 12px;
   overflow: hidden;
 }
 .policy-row {
   display: grid;
-  grid-template-columns: 220px 1fr;
+  grid-template-columns: 200px 1fr;
   border-bottom: 1px solid var(--line);
-  background: var(--bg-surface);
 }
 .policy-row:last-child { border-bottom: none; }
-@media (max-width: 600px) {
-  .policy-row { grid-template-columns: 1fr; }
-}
+@media (max-width: 560px) { .policy-row { grid-template-columns: 1fr; } }
 .policy-label {
-  padding: 20px 24px;
-  font-size: .88rem;
+  padding: 18px 20px;
+  font-size: .85rem;
   font-weight: 600;
-  color: #fff;
+  color: var(--text);
+  background: var(--bg-2);
   border-right: 1px solid var(--line);
   display: flex;
   align-items: flex-start;
-  gap: 10px;
+  gap: 8px;
 }
-@media (max-width: 600px) {
-  .policy-label { border-right: none; border-bottom: 1px solid var(--line); padding: 16px 20px; }
-}
-.policy-label i { color: var(--text-dim); margin-top: 2px; }
+.policy-label i { color: var(--text-dim); margin-top: 2px; font-size: .8rem; }
+@media (max-width: 560px) { .policy-label { border-right: none; border-bottom: 1px solid var(--line); } }
 .policy-content {
-  padding: 20px 24px;
+  padding: 18px 20px;
+  background: var(--bg);
 }
-.policy-content ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
+.policy-content ul { list-style: none; padding: 0; margin: 0; }
 .policy-content li {
-  font-size: .93rem;
+  font-size: .87rem;
   color: var(--text-muted);
-  line-height: 1.7;
-  padding: 5px 0;
+  padding: 4px 0;
+  line-height: 1.65;
 }
-.policy-content li + li { border-top: 1px dashed rgba(255,255,255,.05); }
+.policy-content li + li { border-top: 1px dashed var(--line); }
+.policy-content a { color: var(--brand); text-decoration: underline; }
 
-/* ─── CTA ─── */
-.cta-bar {
-  max-width: 900px;
-  margin: 56px auto 0;
-  padding: 36px 32px;
-  background: var(--bg-surface);
+/* CTA */
+.cta-box {
+  max-width: 860px;
+  margin: 48px auto 0;
+  padding: 0 20px 56px;
+}
+.cta-inner {
+  background: var(--bg-2);
   border: 1px solid var(--line);
   border-radius: 12px;
+  padding: 32px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 20px;
 }
-.cta-bar-text h3 {
-  font-size: 1.1rem;
-  font-weight: 700;
-  margin: 0 0 4px;
-}
-.cta-bar-text p {
-  font-size: .88rem;
-  color: var(--text-muted);
-  margin: 0;
-}
-.cta-bar-actions {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-}
+.cta-text h3 { font-size: 1rem; font-weight: 700; margin: 0 0 4px; color: var(--text); }
+.cta-text p { font-size: .87rem; color: var(--text-dim); margin: 0; }
+.cta-actions { display: flex; gap: 10px; flex-wrap: wrap; }
 .btn-gold {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 12px 24px;
-  background: var(--gold);
-  color: #1a1a2e;
-  border-radius: 10px;
-  font-weight: 700;
-  font-size: .9rem;
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 11px 22px;
+  background: var(--gold); color: #1a1a2e;
+  border-radius: 10px; font-weight: 700; font-size: .88rem;
   transition: transform .2s, box-shadow .2s;
 }
-.btn-gold:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 8px 24px rgba(255,215,0,.2);
-  color: #1a1a2e;
-}
+.btn-gold:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(255,215,0,.25); color: #1a1a2e; }
 .btn-outline {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 12px 24px;
-  background: transparent;
-  color: var(--text);
-  border: 1px solid var(--line-strong);
-  border-radius: 10px;
-  font-weight: 600;
-  font-size: .9rem;
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 11px 22px;
+  background: transparent; color: var(--text);
+  border: 1px solid var(--line); border-radius: 10px;
+  font-weight: 600; font-size: .88rem;
   transition: border-color .2s;
 }
-.btn-outline:hover { border-color: rgba(255,255,255,.35); color: #fff; }
+.btn-outline:hover { border-color: rgba(0,0,0,.25); color: var(--text); }
 
-/* ─── FOOTER ─── */
+/* FOOTER */
 footer {
-  background: #000;
+  background: #0a0a0f;
   padding: 60px 20px 40px;
-  border-top: 1px solid var(--line);
-  margin-top: 56px;
+  border-top: 1px solid rgba(255,255,255,.08);
+  margin-top: 0;
 }
 .footer-grid {
   display: grid;
@@ -396,95 +319,41 @@ footer {
   max-width: 1100px;
   margin: 0 auto 48px;
 }
-@media (max-width: 768px) {
-  .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
-}
-@media (max-width: 480px) {
-  .footer-grid { grid-template-columns: 1fr; gap: 28px; }
-}
-.footer-brand {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 16px;
-}
+@media (max-width: 768px) { .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; } }
+@media (max-width: 480px) { .footer-grid { grid-template-columns: 1fr; gap: 28px; } }
+.footer-brand { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
 .footer-brand img { height: 32px; }
-.footer-brand span { font-weight: 700; font-size: 1.1rem; }
-.footer-tagline {
-  color: #a0a6c0;
-  font-size: 0.9rem;
-  line-height: 1.6;
-  margin-bottom: 20px;
-  max-width: 280px;
-}
-.footer-social {
-  display: flex;
-  gap: 12px;
-}
+.footer-brand span { font-weight: 700; font-size: 1.1rem; color: #fff; }
+.footer-tagline { color: #a0a6c0; font-size: .9rem; line-height: 1.6; margin-bottom: 18px; max-width: 280px; }
+.footer-social { display: flex; gap: 10px; }
 .footer-social a {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  background: rgba(255, 255, 255, 0.06);
-  border-radius: 10px;
-  color: #a0a6c0;
-  font-size: 1rem;
-  transition: all 0.2s ease;
+  display: flex; align-items: center; justify-content: center;
+  width: 36px; height: 36px;
+  background: rgba(255,255,255,.06); border-radius: 10px;
+  color: #a0a6c0; font-size: .95rem; transition: all .2s;
 }
-.footer-social a:hover {
-  background: var(--gold);
-  color: #1a1a2e;
-}
-.footer-col h5 {
-  font-size: 0.85rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: #fff;
-  margin: 0 0 16px;
-}
+.footer-social a:hover { background: var(--gold); color: #1a1a2e; }
+.footer-col h5 { font-size: .83rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: #fff; margin: 0 0 14px; }
 .footer-col ul { list-style: none; padding: 0; margin: 0; }
-.footer-col li { margin-bottom: 10px; }
-.footer-col a {
-  color: #a0a6c0;
-  font-size: 0.9rem;
-  transition: color 0.2s ease;
-}
+.footer-col li { margin-bottom: 9px; }
+.footer-col a { color: #a0a6c0; font-size: .88rem; transition: color .2s; }
 .footer-col a:hover { color: var(--gold); }
 .footer-bottom {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding-top: 24px;
-  border-top: 1px solid var(--line);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 16px;
+  max-width: 1100px; margin: 0 auto; padding-top: 22px;
+  border-top: 1px solid rgba(255,255,255,.08);
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 14px;
 }
-.footer-bottom p { color: #6b7280; font-size: 0.85rem; margin: 0; }
-.footer-legal { display: flex; gap: 24px; }
-.footer-legal a {
-  color: #6b7280;
-  font-size: 0.85rem;
-  transition: color 0.2s ease;
-}
+.footer-bottom p { color: #6b7280; font-size: .83rem; margin: 0; }
+.footer-legal { display: flex; gap: 22px; }
+.footer-legal a { color: #6b7280; font-size: .83rem; transition: color .2s; }
 .footer-legal a:hover { color: var(--gold); }
-@media (max-width: 600px) {
-  .footer-bottom { flex-direction: column; text-align: center; }
-}
+@media (max-width: 600px) { .footer-bottom { flex-direction: column; text-align: center; } }
 
-/* PRINT */
 @media print {
-  .nav-wrap, .cta-bar, footer, .toc { display: none !important; }
+  .nav-wrap, .toc-bar, .cta-box, footer { display: none !important; }
   body { background: #fff; color: #000; }
-  .doc-header { padding-top: 20px; }
-  .fee-table thead th { color: #666; border-color: #ccc; }
-  .fee-table tbody td { border-color: #eee; color: #333; }
-  .fee-table .col-service, .fee-table .col-price { color: #000; }
-  .overview-col, .policy-row { background: #fff; border-color: #ddd; }
+  .page-header { background: #fff; }
 }
 </style>
 </head>
@@ -492,7 +361,7 @@ footer {
 
 <!-- NAV -->
 <div class="nav-wrap">
-  <div class="container container-narrow" style="max-width:1100px">
+  <div class="container" style="max-width:1100px">
     <nav class="navbar navbar-expand-lg navbar-dark webeaze-nav" role="navigation" aria-label="Primary">
       <a class="navbar-brand d-flex align-items-center" href="index.html">
         <img class="logo" src="images/webeaze-transparent copy.png" alt="WebEaze" />
@@ -503,7 +372,7 @@ footer {
         <span class="navbar-toggler-icon"></span>
       </button>
       <div id="mobileNav" class="collapse navbar-collapse">
-        <ul class="navbar-nav ml-auto main-nav">
+        <ul class="navbar-nav ml-auto">
           <li class="nav-item"><a class="nav-link" href="services.html">Our Services</a></li>
           <li class="nav-item"><a class="nav-link" href="pricing.html">Pricing</a></li>
           <li class="nav-item"><a class="nav-link" href="faq.html">FAQ</a></li>
@@ -516,283 +385,263 @@ footer {
   </div>
 </div>
 
-<!-- DOCUMENT HEADER -->
-<header class="doc-header">
-  <div class="doc-header-inner">
-    <div class="doc-label">Official Document</div>
+<!-- PAGE HEADER -->
+<header class="page-header">
+  <div class="page-header-inner">
+    <div class="page-label">Official Document</div>
     <h1>Fee Schedule</h1>
-    <div class="doc-meta">
-      <span><i class="fas fa-calendar"></i> Effective Oct 2024</span>
-      <span><i class="fas fa-sync-alt"></i> Last updated Feb 2026</span>
-      <span style="cursor:pointer" onclick="window.print()"><i class="fas fa-print"></i> Print this page</span>
+    <div class="page-meta">
+      <span><i class="fas fa-calendar-alt"></i> Effective Oct 2024</span>
+      <span><i class="fas fa-sync-alt"></i> Updated Feb 2026</span>
+      <span style="cursor:pointer" onclick="window.print()"><i class="fas fa-print"></i> Print</span>
     </div>
   </div>
 </header>
 
-<!-- TABLE OF CONTENTS -->
-<nav class="toc">
+<!-- TOC -->
+<nav class="toc-bar" aria-label="Jump to section">
   <div class="toc-inner">
     <span class="toc-label">Jump to:</span>
     <a href="#overview">Overview</a>
     <a href="#one-time">One-Time Fees</a>
-    <a href="#add-ons">Add-On Services</a>
-    <a href="#custom-dev">Custom Development</a>
-    <a href="#rush">Rush Requests</a>
+    <a href="#add-ons">Add-Ons</a>
+    <a href="#custom-dev">Custom Dev</a>
+    <a href="#rush">Rush</a>
     <a href="#policies">Policies</a>
   </div>
 </nav>
 
 <!-- OVERVIEW -->
-<div id="overview" class="fee-section">
-  <div class="fee-section-header">
-    <h2>What's Included vs. What Costs Extra</h2>
-    <p>Your monthly plan covers most day-to-day needs. Below is a quick reference.</p>
-  </div>
-
-  <div class="overview-split">
-    <div class="overview-col included-col">
-      <h3><span class="dot green"></span> Included in Your Plan</h3>
+<section id="overview" class="fee-section">
+  <h2 class="section-title">What's Included vs. Extra</h2>
+  <p class="section-sub">Your monthly plan covers day-to-day needs. Here's a quick reference.</p>
+  <div class="overview-grid">
+    <div class="overview-card included-card">
+      <h3><span class="dot dot-green"></span> Included in Your Plan</h3>
       <ul>
         <li>Unlimited content updates</li>
-        <li>Basic image resizing &amp; optimization</li>
-        <li>Text changes, link updates</li>
-        <li>Layout tweaks within existing pages</li>
+        <li>Text, link &amp; image changes</li>
+        <li>Layout tweaks on existing pages</li>
         <li>Security updates &amp; backups</li>
         <li>SSL certificate &amp; hosting</li>
         <li>Standard domain (with credit)</li>
       </ul>
     </div>
-    <div class="overview-col extra-col">
-      <h3><span class="dot gold"></span> Costs Extra</h3>
+    <div class="overview-card extra-card">
+      <h3><span class="dot dot-gold"></span> Costs Extra</h3>
       <ul>
         <li>Additional website pages</li>
         <li>E-commerce functionality</li>
         <li>Custom integrations &amp; forms</li>
         <li>Booking system setup</li>
         <li>Rush or after-hours requests</li>
-        <li>Heavy image editing batches</li>
         <li>Additional domains</li>
       </ul>
     </div>
   </div>
-</div>
+</section>
 
 <!-- ONE-TIME FEES -->
-<div id="one-time" class="fee-section">
-  <div class="fee-section-header">
-    <h2>One-Time Fees</h2>
-    <p>Setup, reactivation, and transfer fees billed separately from your subscription.</p>
-  </div>
-
+<section id="one-time" class="fee-section">
+  <h2 class="section-title">One-Time Fees</h2>
+  <p class="section-sub">Billed separately from your subscription.</p>
   <table class="fee-table">
     <thead>
       <tr>
-        <th>Service</th>
-        <th>Description</th>
-        <th>Fee</th>
+        <th class="col-service">Service</th>
+        <th class="col-desc">Description</th>
+        <th class="col-price">Fee</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td class="col-service">One-Time Web Project — Basic</td>
-        <td class="col-desc">Small, focused changes to an existing website. Includes tasks like text edits, image swaps, layout tweaks, or minor bug fixes. Best for single-page updates or quick fixes. Does not include ongoing maintenance, hosting, or support. <a href="https://buy.stripe.com/3cI7sK2Yu227cg0e51c3m0i" target="_blank"><u>Get started here</u></a>.</td>
+        <td class="col-service">Web Project — Basic</td>
+        <td class="col-desc">Small, focused updates to an existing site (text, images, minor fixes). Single-page scope. <a href="https://buy.stripe.com/3cI7sK2Yu227cg0e51c3m0i" target="_blank">Purchase</a></td>
         <td class="col-price">$149</td>
       </tr>
       <tr>
-        <td class="col-service">One-Time Web Project — Standard</td>
-        <td class="col-desc">Updates across multiple existing pages. Includes content changes, layout adjustments, and section redesigns on pages you already have. Does not include adding new pages, full site redesigns, ongoing maintenance, hosting, or support. <a href="https://buy.stripe.com/bJe8wO9mSbCH4Nye51c3m0j" target="_blank"><u>Get started here</u></a>.</td>
+        <td class="col-service">Web Project — Standard</td>
+        <td class="col-desc">Updates across multiple existing pages — content, layout adjustments, section redesigns. <a href="https://buy.stripe.com/bJe8wO9mSbCH4Nye51c3m0j" target="_blank">Purchase</a></td>
         <td class="col-price">$299</td>
       </tr>
       <tr>
-        <td class="col-service">One-Time Web Project</td>
-        <td class="col-desc">A complete new website designed and developed from scratch. Includes up to 3 pages plus a contact page, custom design, development, and mobile optimization. Does not include ongoing maintenance, updates, hosting, backups, or other plan features. Domain registration is not covered and will be added to the invoice separately. <a href="https://buy.stripe.com/3cIdR80QmdKPbbW5yvc3m0h" target="_blank"><u>Get started here</u></a>.</td>
+        <td class="col-service">New Website Build</td>
+        <td class="col-desc">Complete site designed &amp; built from scratch. Up to 3 pages + contact. Domain registration billed separately. <a href="https://buy.stripe.com/3cIdR80QmdKPbbW5yvc3m0h" target="_blank">Purchase</a></td>
         <td class="col-price">$449</td>
       </tr>
       <tr>
         <td class="col-service">Website Setup</td>
-        <td class="col-desc">Required one-time fee to start any new monthly plan. Covers initial design, development, and launch.</td>
+        <td class="col-desc">One-time fee to start any new monthly plan. Covers design, development, and launch.</td>
         <td class="col-price">$199</td>
       </tr>
       <tr>
         <td class="col-service">Site Reactivation</td>
-        <td class="col-desc">Reactivate a previously canceled site. Fee may vary based on time inactive and setup complexity.</td>
+        <td class="col-desc">Reactivate a previously canceled site. Fee may vary based on time inactive.</td>
         <td class="col-price">$199</td>
       </tr>
       <tr>
         <td class="col-service">Footer Credit Removal</td>
-        <td class="col-desc">Remove the "Built by WebEaze" credit from your website footer.</td>
+        <td class="col-desc">Remove the "Built by WebEaze" credit from your footer.</td>
         <td class="col-price">$149</td>
       </tr>
       <tr>
         <td class="col-service">Site Transfer</td>
-        <td class="col-desc">Transfer your site contents to another provider after canceling a plan under 12 months old.</td>
+        <td class="col-desc">Transfer your site to another provider after canceling a plan under 12 months old.</td>
         <td class="col-price">$99</td>
       </tr>
       <tr>
         <td class="col-service">Domain Retrieval</td>
-        <td class="col-desc">Retrieve a domain that WebEaze registered or paid for on your behalf if switching providers.</td>
+        <td class="col-desc">Retrieve a domain WebEaze registered on your behalf when switching providers.</td>
         <td class="col-price">$99</td>
       </tr>
       <tr>
         <td class="col-service">Additional Domain</td>
-        <td class="col-desc">Register an additional domain name. Includes first year of registration fees.</td>
+        <td class="col-desc">Register an additional domain name. Includes first year of registration.</td>
         <td class="col-price">$89</td>
       </tr>
     </tbody>
   </table>
-</div>
+</section>
 
 <!-- ADD-ON SERVICES -->
-<div id="add-ons" class="fee-section">
-  <div class="fee-section-header">
-    <h2>Add-On Services</h2>
-    <p>Enhance your site with additional features. Monthly add-ons are billed alongside your subscription.</p>
-  </div>
-
+<section id="add-ons" class="fee-section">
+  <h2 class="section-title">Add-On Services</h2>
+  <p class="section-sub">Monthly add-ons are billed alongside your subscription.</p>
   <table class="fee-table">
     <thead>
       <tr>
-        <th>Service</th>
-        <th>Description</th>
-        <th>Fee</th>
+        <th class="col-service">Service</th>
+        <th class="col-desc">Description</th>
+        <th class="col-price">Fee</th>
       </tr>
     </thead>
     <tbody>
       <tr>
         <td class="col-service">Additional Pages</td>
-        <td class="col-desc">New pages beyond your plan's included pages. Includes layout design and content setup.</td>
+        <td class="col-desc">New pages beyond your plan's included count. Includes layout design and content setup.</td>
         <td class="col-price">$199 / page</td>
       </tr>
       <tr>
         <td class="col-service">E-commerce Setup</td>
-        <td class="col-desc">Full e-commerce functionality with product listings, cart, and checkout. Includes 12 months of platform fees. <span class="note">Requires Growth Plan or above.</span></td>
+        <td class="col-desc">Product listings, cart &amp; checkout. Includes 12 months of platform fees. <span class="note">Requires Growth Plan or above.</span></td>
         <td class="col-price">$659</td>
       </tr>
       <tr>
         <td class="col-service">Live Chat Integration</td>
-        <td class="col-desc">Setup Tawk.to, Meta Messenger, or similar chat widget. Excludes ongoing provider fees if any.</td>
+        <td class="col-desc">Setup Tawk.to, Meta Messenger, or similar widget. Excludes ongoing provider fees.</td>
         <td class="col-price">$229</td>
       </tr>
       <tr>
-        <td class="col-service">Google Business Management</td>
-        <td class="col-desc">We manage your Google Business Profile, post updates, and respond to reviews on your behalf.</td>
+        <td class="col-service">Google Business Mgmt</td>
+        <td class="col-desc">We manage your Google Business Profile — posts, updates, review responses.</td>
         <td class="col-price recurring">$79 / mo</td>
       </tr>
       <tr>
         <td class="col-service">Email Newsletter</td>
-        <td class="col-desc">Monthly email newsletter design and distribution to your subscriber list.</td>
+        <td class="col-desc">Monthly newsletter design and delivery to your subscriber list.</td>
         <td class="col-price recurring">$99 / mo</td>
       </tr>
       <tr>
         <td class="col-service">AI Chatbot</td>
-        <td class="col-desc">Custom AI assistant trained on your business. Answers visitor questions 24/7, captures leads, and matches your website design. We set up and maintain it. <a href="ai.html"><u>Learn more</u></a>.</td>
+        <td class="col-desc">Custom AI assistant trained on your business — answers visitors 24/7, captures leads. <a href="ai.html">Learn more</a></td>
         <td class="col-price recurring">$79 / mo</td>
       </tr>
       <tr>
         <td class="col-service">Ad Management</td>
-        <td class="col-desc">We create, manage, and optimize Google and Facebook/Instagram ads for your business. Includes strategy, creative, targeting, monthly optimization, and performance reports. Ad budget paid separately to Google/Meta. <a href="ads.html"><u>Learn more</u></a>.</td>
+        <td class="col-desc">Google &amp; Facebook/Instagram ad strategy, creative, targeting, and monthly optimization. Ad budget paid separately. <a href="ads.html">Learn more</a></td>
         <td class="col-price recurring">$149 / mo</td>
       </tr>
     </tbody>
   </table>
-</div>
+</section>
 
 <!-- CUSTOM DEVELOPMENT -->
-<div id="custom-dev" class="fee-section">
-  <div class="fee-section-header">
-    <h2>Custom Development</h2>
-    <p>Forms, integrations, and specialized features quoted based on complexity.</p>
-  </div>
-
+<section id="custom-dev" class="fee-section">
+  <h2 class="section-title">Custom Development</h2>
+  <p class="section-sub">Forms, integrations, and specialized features quoted by complexity.</p>
   <table class="fee-table">
     <thead>
       <tr>
-        <th>Service</th>
-        <th>Description</th>
-        <th>Fee</th>
+        <th class="col-service">Service</th>
+        <th class="col-desc">Description</th>
+        <th class="col-price">Fee</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td class="col-service">Custom Form / API Integration</td>
-        <td class="col-desc">Job applications, lead capture forms, CRM connections, or other custom integrations. Complexity may affect pricing.</td>
+        <td class="col-service">Custom Form / Integration</td>
+        <td class="col-desc">Job applications, lead capture, CRM connections, or other custom integrations.</td>
         <td class="col-price">$299</td>
       </tr>
       <tr>
         <td class="col-service">Booking System Setup</td>
-        <td class="col-desc">Integrate Calendly, Square Appointments, or similar. You manage the booking platform subscription.</td>
+        <td class="col-desc">Integrate Calendly, Square Appointments, or similar. You manage the platform subscription.</td>
         <td class="col-price">$329</td>
       </tr>
       <tr>
         <td class="col-service">Campaign Landing Page</td>
-        <td class="col-desc">Standalone landing page for ads, promotions, or marketing campaigns with conversion tracking.</td>
+        <td class="col-desc">Standalone landing page for ads or promotions with conversion tracking.</td>
         <td class="col-price">$329</td>
       </tr>
       <tr>
         <td class="col-service">Heavy Image Editing</td>
-        <td class="col-desc">For batches exceeding 8 advanced edits. May be waived for occasional or minor overages at our discretion.</td>
+        <td class="col-desc">Batches exceeding 8 advanced edits. May be waived for minor overages at our discretion.</td>
         <td class="col-price">$40 / batch</td>
       </tr>
     </tbody>
   </table>
-</div>
+</section>
 
-<!-- RUSH REQUESTS -->
-<div id="rush" class="fee-section">
-  <div class="fee-section-header">
-    <h2>Rush &amp; Special Requests</h2>
-    <p>Expedited turnaround outside standard business hours. Subject to staff availability.</p>
-  </div>
-
+<!-- RUSH -->
+<section id="rush" class="fee-section">
+  <h2 class="section-title">Rush &amp; Special Requests</h2>
+  <p class="section-sub">Expedited turnaround outside standard hours. Subject to availability.</p>
   <table class="fee-table">
     <thead>
       <tr>
-        <th>Service</th>
-        <th>Description</th>
-        <th>Fee</th>
+        <th class="col-service">Service</th>
+        <th class="col-desc">Description</th>
+        <th class="col-price">Fee</th>
       </tr>
     </thead>
     <tbody>
       <tr>
         <td class="col-service">Same-Day Turnaround</td>
-        <td class="col-desc">Get your request completed the same business day. Subject to staff availability.</td>
+        <td class="col-desc">Request completed the same business day.</td>
         <td class="col-price">$69</td>
       </tr>
       <tr>
         <td class="col-service">Weekend / After-Hours</td>
-        <td class="col-desc">Requests handled outside Monday&ndash;Friday, 9 AM&ndash;5 PM ET business hours.</td>
+        <td class="col-desc">Requests handled outside Mon–Fri, 9 AM–5 PM ET.</td>
         <td class="col-price">$89</td>
       </tr>
     </tbody>
   </table>
-</div>
+</section>
 
 <!-- POLICIES -->
-<div id="policies" class="fee-section" style="padding-bottom:0">
-  <div class="fee-section-header">
-    <h2>Billing &amp; Policies</h2>
-    <p>Important information about how fees are applied and billed.</p>
-  </div>
-
-  <div class="policies-grid">
+<section id="policies" class="fee-section" style="padding-bottom:0">
+  <h2 class="section-title">Billing &amp; Policies</h2>
+  <p class="section-sub">How fees are applied and billed.</p>
+  <div class="policies-list">
     <div class="policy-row">
       <div class="policy-label"><i class="fas fa-credit-card"></i> How Billing Works</div>
       <div class="policy-content">
         <ul>
           <li>All fees require your approval before we bill.</li>
-          <li>One-time fees are billed separately from your monthly subscription.</li>
-          <li>Monthly add-ons are added to your regular subscription amount.</li>
-          <li>Invoices are sent to your email with secure payment links.</li>
+          <li>One-time fees are billed separately from your subscription.</li>
+          <li>Monthly add-ons are added to your regular billing amount.</li>
+          <li>Invoices are sent by email with secure payment links.</li>
         </ul>
       </div>
     </div>
     <div class="policy-row">
-      <div class="policy-label"><i class="fas fa-scale-balanced"></i> Fair Use Policy</div>
+      <div class="policy-label"><i class="fas fa-scale-balanced"></i> Fair Use</div>
       <div class="policy-content">
         <ul>
-          <li>Fair-use limits only apply in cases of excessive usage that impacts our ability to serve other clients.</li>
-          <li>Heavy Edit fees may be waived for occasional or minor overages at our discretion.</li>
-          <li>We will always communicate before applying any usage-based fees.</li>
+          <li>Fair-use limits only apply when usage impacts other clients.</li>
+          <li>Heavy Edit fees may be waived for minor or occasional overages.</li>
+          <li>We will always notify you before applying any usage-based fees.</li>
         </ul>
       </div>
     </div>
@@ -800,24 +649,23 @@ footer {
       <div class="policy-label"><i class="fas fa-info-circle"></i> Good to Know</div>
       <div class="policy-content">
         <ul>
-          <li>Custom requests not listed here are quoted based on complexity.</li>
-          <li>Fees are subject to change. We will notify you of any updates in advance.</li>
-          <li>We reserve the right to decline requests that do not align with our services.</li>
-          <li>All fees are subject to our <a href="refund-policy.html" style="color:var(--gold)">Refund Policy</a>.</li>
+          <li>Unlisted requests are quoted based on complexity.</li>
+          <li>Fees may change — we will notify you in advance.</li>
+          <li>All fees are subject to our <a href="refund-policy.html">Refund Policy</a>.</li>
         </ul>
       </div>
     </div>
   </div>
-</div>
+</section>
 
 <!-- CTA -->
-<div style="max-width:900px;margin:0 auto;padding:0 20px 56px">
-  <div class="cta-bar">
-    <div class="cta-bar-text">
-      <h3>Have a question or ready to request something?</h3>
-      <p>Submit a website request and we'll confirm pricing before starting any work.</p>
+<div class="cta-box">
+  <div class="cta-inner">
+    <div class="cta-text">
+      <h3>Ready to request something?</h3>
+      <p>Submit a request and we'll confirm pricing before starting any work.</p>
     </div>
-    <div class="cta-bar-actions">
+    <div class="cta-actions">
       <a href="website-request.html" class="btn-gold"><i class="fas fa-paper-plane"></i> Submit Request</a>
       <a href="pricing.html" class="btn-outline"><i class="fas fa-tag"></i> View Plans</a>
     </div>
@@ -827,7 +675,7 @@ footer {
 <!-- FOOTER -->
 <footer>
   <div class="footer-grid">
-    <div class="footer-about">
+    <div>
       <div class="footer-brand">
         <img src="images/webeaze-transparent copy.png" alt="WebEaze">
         <span>WebEaze</span>
@@ -839,7 +687,6 @@ footer {
         <a href="https://instagram.com/webeaze.io" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
       </div>
     </div>
-
     <div class="footer-col">
       <h5>Services</h5>
       <ul>
@@ -848,7 +695,6 @@ footer {
         <li><a href="plan-guide.html">Plan Guide</a></li>
       </ul>
     </div>
-
     <div class="footer-col">
       <h5>Company</h5>
       <ul>
@@ -858,42 +704,36 @@ footer {
         <li><a href="contact-us.html">Contact</a></li>
       </ul>
     </div>
-
     <div class="footer-col">
-      <h5>Support</h5>
+      <h5>Legal</h5>
       <ul>
-        <li><a href="help.html">Help Center</a></li>
-        <li><a href="faq.html">FAQ</a></li>
-        <li><a href="consultation.html">Request Mockup</a></li>
-        <li><a href="accessibility.html">Accessibility</a></li>
+        <li><a href="terms.html">Terms of Service</a></li>
+        <li><a href="terms.html#privacy">Privacy Policy</a></li>
+        <li><a href="refund-policy.html">Refund Policy</a></li>
+        <li><a href="cancellation-policy.html">Cancellation Policy</a></li>
+        <li><a href="acceptable-use-policy.html">Acceptable Use</a></li>
       </ul>
     </div>
   </div>
-
   <div class="footer-bottom">
     <p style="color:#fff">&copy; <span id="yr"></span> WebEaze. Made in Delaware, USA 🇺🇸</p>
     <div class="footer-legal">
       <a href="terms.html#privacy">Privacy Policy</a>
       <a href="terms.html">Terms of Service</a>
-      <a href="site-map.html">Site Map</a>
+      <a href="sitemap.xml">Site Map</a>
     </div>
   </div>
 </footer>
 
-<!-- JS -->
 <script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
-
 <script>
-// Smooth scroll for anchor links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-  anchor.addEventListener('click', function(e) {
+document.querySelectorAll('a[href^="#"]').forEach(function(a) {
+  a.addEventListener('click', function(e) {
     e.preventDefault();
-    const target = document.querySelector(this.getAttribute('href'));
-    if (target) {
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+    var target = document.querySelector(this.getAttribute('href'));
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
 });
 </script>
