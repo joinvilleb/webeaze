@@ -65,17 +65,17 @@ a { text-decoration: none; color: inherit; }
   display: flex; width: 100%;
 }
 .step-tab {
-  flex: 1; background: transparent; border: none; cursor: pointer;
-  padding: 14px 8px 10px; font-family: 'Poppins', sans-serif;
-  font-size: .75rem; font-weight: 600; color: #c4c9d4;
-  text-transform: uppercase; letter-spacing: .06em;
-  transition: color .2s;
+  flex: 1; background: transparent; border: none;
+  border-bottom: 3px solid transparent;
+  cursor: pointer; padding: 16px 8px 14px; font-family: 'Poppins', sans-serif;
+  font-size: .85rem; font-weight: 600; color: #b0b8c8;
+  transition: color .2s, border-color .2s;
 }
 .step-tab:focus { outline: none; }
 .step-tab:hover { color: var(--muted); }
-.step-tab.active { color: var(--brand); }
-.step-tab.completed { color: var(--muted); }
-.step-progress-track { height: 3px; background: #e5e7eb; width: 100%; margin-top: 6px; }
+.step-tab.active { color: var(--brand); border-bottom-color: var(--brand); }
+.step-tab.completed { color: var(--muted); border-bottom-color: #d1d5db; }
+.step-progress-track { height: 4px; background: #e5e7eb; width: 100%; }
 .step-progress-fill {
   height: 100%; background: var(--brand); width: 25%;
   transition: width .35s cubic-bezier(.4,0,.2,1);
@@ -133,8 +133,11 @@ a { text-decoration: none; color: inherit; }
   .carousel-foot-inner { gap: 8px; }
   .nav-btn { padding: 8px 12px; font-size: 12px; gap: 5px; border-radius: 10px; }
 }
-@media (max-width: 400px) {
-  .step-tab { font-size: .65rem; padding: 12px 4px; letter-spacing: .03em; }
+@media (max-width: 480px) {
+  .step-tab { font-size: .76rem; padding: 13px 6px 11px; }
+}
+@media (max-width: 360px) {
+  .step-tab { font-size: .68rem; padding: 11px 4px 9px; }
 }
 
 /* ── SLIDE CONTENT ────────────────────────────── */
@@ -166,7 +169,10 @@ a { text-decoration: none; color: inherit; }
   display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 24px;
 }
 @media (max-width: 860px) { .feature-tiles { max-width: 420px; margin: 0 auto 24px; } }
-@media (max-width: 480px) { .feature-tiles { grid-template-columns: 1fr 1fr; max-width: none; } }
+@media (max-width: 480px) {
+  .feature-tiles { grid-template-columns: 1fr 1fr; max-width: none; }
+  .feature-tile:last-child:nth-child(3) { grid-column: 1 / -1; max-width: calc(50% - 6px); margin: 0 auto; }
+}
 .feature-tile {
   background: var(--bg-2); border: 1px solid var(--line);
   border-radius: 14px; padding: 16px 12px;
@@ -450,7 +456,7 @@ footer {
               <span class="price-big"><span class="cur">$</span>169</span>
               <span class="price-per">/month</span>
             </div>
-            <div class="summary-setup">+ $199 one-time setup fee &nbsp;·&nbsp; Included with yearly plans</div>
+            <div class="summary-setup">+ $199 one-time setup fee</div>
             <ul class="summary-features">
               <li><i class="fas fa-check"></i> Up to 3 pages, professionally designed</li>
               <li><i class="fas fa-check"></i> Unlimited content updates</li>
