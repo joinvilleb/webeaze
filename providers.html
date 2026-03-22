@@ -635,6 +635,15 @@ document.querySelectorAll('a[href^="#"]').forEach(function(a) {
   });
 });
 
+var navToggler = document.getElementById('navToggler');
+var navMenu = document.getElementById('nav');
+if (navToggler && navMenu) {
+  navToggler.addEventListener('click', function() {
+    var open = navMenu.classList.toggle('show');
+    navToggler.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+}
+
 document.querySelectorAll('.faq-btn').forEach(function(btn) {
   btn.addEventListener('click', function() {
     var panel = document.querySelector(btn.getAttribute('data-target'));
