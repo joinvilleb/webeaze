@@ -53,40 +53,33 @@ a { text-decoration: none; color: inherit; }
 .btn-nav { background: var(--gold); color: #2f1e66; border: none; border-radius: 10px; padding: .55rem .85rem; font-weight: 700; font-size: .9rem; }
 
 /* ── CAROUSEL SHELL ───────────────────────────── */
-.carousel-wrap { padding-top: 57px; }
+.carousel-wrap { padding-top: 57px; min-height: calc(100dvh - 57px); }
 
 /* Step Bar */
 .step-bar {
   position: sticky; top: 57px; z-index: 500;
   background: #fff;
   border-bottom: 1px solid var(--line);
-  padding: 14px 20px;
 }
-.step-bar-inner {
-  display: flex; align-items: center; justify-content: center;
-  max-width: 520px; margin: 0 auto; gap: 0;
+.step-tabs {
+  display: flex; width: 100%;
 }
-.step-pill {
-  display: flex; flex-direction: column; align-items: center; gap: 5px;
-  background: transparent; border: none; cursor: pointer;
-  color: #d1d5db; padding: 0 10px; transition: color .25s; flex-shrink: 0;
+.step-tab {
+  flex: 1; background: transparent; border: none; cursor: pointer;
+  padding: 14px 8px 10px; font-family: 'Poppins', sans-serif;
+  font-size: .75rem; font-weight: 600; color: #c4c9d4;
+  text-transform: uppercase; letter-spacing: .06em;
+  transition: color .2s;
 }
-.step-pill:focus { outline: none; }
-.step-pill:hover { color: var(--muted); }
-.step-pill.active { color: var(--brand); }
-.step-pill.completed { color: var(--muted); cursor: pointer; }
-.step-num {
-  width: 30px; height: 30px; border-radius: 50%;
-  border: 2px solid currentColor;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 12px; font-weight: 700;
-  transition: background .25s, border-color .25s, color .25s;
+.step-tab:focus { outline: none; }
+.step-tab:hover { color: var(--muted); }
+.step-tab.active { color: var(--brand); }
+.step-tab.completed { color: var(--muted); }
+.step-progress-track { height: 3px; background: #e5e7eb; width: 100%; margin-top: 6px; }
+.step-progress-fill {
+  height: 100%; background: var(--brand); width: 25%;
+  transition: width .35s cubic-bezier(.4,0,.2,1);
 }
-.step-pill.active .step-num { background: var(--brand); border-color: var(--brand); color: #fff; }
-.step-pill.completed .step-num { background: var(--bg-2); border-color: #d1d5db; color: var(--muted); }
-.step-label { font-size: 10px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; white-space: nowrap; }
-.step-connector { flex: 1; height: 2px; background: #e5e7eb; margin: 0 4px 16px; transition: background .25s; }
-.step-connector.done { background: var(--brand); }
 
 /* Slides */
 .slides-viewport { position: relative; }
@@ -141,8 +134,7 @@ a { text-decoration: none; color: inherit; }
   .nav-btn { padding: 8px 12px; font-size: 12px; gap: 5px; border-radius: 10px; }
 }
 @media (max-width: 400px) {
-  .step-label { display: none; }
-  .step-pill { padding: 0 6px; }
+  .step-tab { font-size: .65rem; padding: 12px 4px; letter-spacing: .03em; }
 }
 
 /* ── SLIDE CONTENT ────────────────────────────── */
@@ -404,26 +396,14 @@ footer {
 
   <!-- Step Bar -->
   <div class="step-bar">
-    <div class="step-bar-inner">
-      <button class="step-pill active" data-go="0">
-        <span class="step-num">1</span>
-        <span class="step-label">Overview</span>
-      </button>
-      <span class="step-connector" id="conn-0"></span>
-      <button class="step-pill" data-go="1">
-        <span class="step-num">2</span>
-        <span class="step-label">Our Work</span>
-      </button>
-      <span class="step-connector" id="conn-1"></span>
-      <button class="step-pill" data-go="2">
-        <span class="step-num">3</span>
-        <span class="step-label">Included</span>
-      </button>
-      <span class="step-connector" id="conn-2"></span>
-      <button class="step-pill" data-go="3">
-        <span class="step-num">4</span>
-        <span class="step-label">Book</span>
-      </button>
+    <div class="step-tabs">
+      <button class="step-tab active" data-go="0">Overview</button>
+      <button class="step-tab" data-go="1">Our Work</button>
+      <button class="step-tab" data-go="2">Included</button>
+      <button class="step-tab" data-go="3">Book</button>
+    </div>
+    <div class="step-progress-track">
+      <div class="step-progress-fill" id="progressFill"></div>
     </div>
   </div>
 
@@ -662,14 +642,14 @@ footer {
 document.getElementById('yr').textContent = new Date().getFullYear();
 
 (function() {
-  const slides     = document.querySelectorAll('.slide');
-  const pills      = document.querySelectorAll('.step-pill');
-  const connectors = document.querySelectorAll('.step-connector');
-  const dots       = document.querySelectorAll('.nav-dot');
-  const prevBtn    = document.getElementById('prevBtn');
-  const nextBtn    = document.getElementById('nextBtn');
-  const viewport   = document.getElementById('slidesViewport');
-  const carousel   = document.getElementById('carousel');
+  const slides       = document.querySelectorAll('.slide');
+  const tabs         = document.querySelectorAll('.step-tab');
+  const dots         = document.querySelectorAll('.nav-dot');
+  const prevBtn      = document.getElementById('prevBtn');
+  const nextBtn      = document.getElementById('nextBtn');
+  const viewport     = document.getElementById('slidesViewport');
+  const carousel     = document.getElementById('carousel');
+  const progressFill = document.getElementById('progressFill');
 
   const nextLabels = ['See Our Work', "What's Included", 'Book My Mockup'];
   let current = 0;
@@ -683,12 +663,12 @@ document.getElementById('yr').textContent = new Date().getFullYear();
     viewport.setAttribute('data-dir', direction);
     slides.forEach((s, i) => s.classList.toggle('active', i === current));
 
-    pills.forEach((p, i) => {
-      p.classList.remove('active', 'completed');
-      if (i === current) p.classList.add('active');
-      else if (i < current) p.classList.add('completed');
+    tabs.forEach((t, i) => {
+      t.classList.remove('active', 'completed');
+      if (i === current) t.classList.add('active');
+      else if (i < current) t.classList.add('completed');
     });
-    connectors.forEach((c, i) => c.classList.toggle('done', i < current));
+    progressFill.style.width = ((current + 1) / total * 100) + '%';
     dots.forEach((d, i) => d.classList.toggle('active', i === current));
 
     prevBtn.disabled = current === 0;
@@ -706,7 +686,7 @@ document.getElementById('yr').textContent = new Date().getFullYear();
   prevBtn.addEventListener('click', () => goTo(current - 1));
   nextBtn.addEventListener('click', () => goTo(current + 1));
   dots.forEach(d => d.addEventListener('click', () => goTo(+d.dataset.go)));
-  pills.forEach(p => p.addEventListener('click', () => goTo(+p.dataset.go)));
+  tabs.forEach(t => t.addEventListener('click', () => goTo(+t.dataset.go)));
 })();
 </script>
 
