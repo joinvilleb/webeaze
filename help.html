@@ -477,6 +477,47 @@
       border-radius: 4px;
       font-size: 13px;
     }
+    .article-body details {
+      border: 1.5px solid rgba(120,81,169,.35);
+      border-radius: 14px;
+      margin: 24px 0;
+      overflow: hidden;
+      background: rgba(120,81,169,.07);
+    }
+    .article-body summary {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 15px 20px;
+      font-size: 14.5px; font-weight: 700;
+      cursor: pointer; list-style: none;
+      color: #c4a7e7;
+      user-select: none;
+      gap: 10px;
+      transition: background .15s;
+    }
+    .article-body summary:hover { background: rgba(120,81,169,.1); }
+    .article-body summary::-webkit-details-marker { display: none; }
+    .article-body summary .summary-label { display: flex; align-items: center; gap: 10px; flex: 1; }
+    .article-body summary .summary-label i { font-size: 13px; color: #a07dd0; }
+    .article-body summary::after {
+      content: '\f078';
+      font-family: 'Font Awesome 6 Free'; font-weight: 900;
+      font-size: 11px; color: #a07dd0;
+      transition: transform .25s;
+      flex-shrink: 0;
+    }
+    .article-body details[open] summary::after { transform: rotate(180deg); }
+    .article-body details[open] summary {
+      border-bottom: 1.5px solid rgba(120,81,169,.25);
+      background: rgba(120,81,169,.1);
+    }
+    .article-body .details-body {
+      padding: 20px 22px;
+      font-size: 14.5px; line-height: 1.8;
+      color: rgba(255,255,255,.82);
+    }
+    .article-body .details-body ol,
+    .article-body .details-body ul { padding-left: 1.4rem; }
+    .article-body .details-body li { margin-bottom: 12px; }
     .article-body .alert {
       padding: 16px 20px;
       border-radius: 12px;
@@ -1526,6 +1567,15 @@
   }
   .notice-referral strong, .notice-referral i { color: #7851a9 !important; }
   .notice-referral a { color: #7851a9 !important; text-decoration: underline !important; }
+
+  /* Spoiler / details */
+  .article-body details { background: rgba(120,81,169,.06) !important; border-color: rgba(120,81,169,.3) !important; }
+  .article-body summary { color: #5b2e91 !important; }
+  .article-body summary .summary-label i,
+  .article-body summary::after { color: #7851a9 !important; }
+  .article-body summary:hover { background: rgba(120,81,169,.1) !important; }
+  .article-body details[open] summary { background: rgba(120,81,169,.1) !important; border-bottom-color: rgba(120,81,169,.2) !important; }
+  .article-body .details-body { color: #2a1a4a !important; }
 
   /* Borders and dividers */
   hr, .divider { border-color: rgba(0,0,0,.08) !important; }
@@ -3359,19 +3409,29 @@
                 </ul>
                 </p>
 
-          <h2>The legal stuff </h2>
-
-          <ol style="font-size: 10px;">
-            <li>
-          Tax Responsibility: All referral earnings are considered taxable income. You're solely responsible for reporting any earnings to your tax authority. WebEaze does not withhold taxes or provide tax documents unless legally required. </li>
-          <li>Payout Eligibility: Payouts are issued only after the referred client successfully completes payment and remains an active client for at least 7 days from the start of the subscription. We reserve the right to cancel payouts for refunded or disputed transactions. </li>
-          <li>No Referral Limits: There is no limit to how many qualified referrals you can make or how many payouts you can earn. However, WebEaze reserves the right to review and deny payouts if referrals appear to be fraudulent, self-referred, or violate the intent of the program.</li>
-          <li>Verification: You must utilize the contact form to inform WebEaze of a referral. Referrals from both parties must mention the name or business at the time of signup to qualify. We're not responsible for untracked or unverifiable referrals.</li>
-          <li>Payment Methods: Payouts are issued via Venmo, PayPal, Cash App, or Zelle only. You must provide accurate payment details to receive your payout, and all communication regarding payment will be done via secure email communication. We won't ask for information beyond your account username or your phone number.</li>
-          <li>Program Changes: WebEaze reserves the right to modify, pause, or cancel this program at any time without prior notice.</li>
-          <li>No Employment Relationship: Participating in this referral program does not establish an employee, contractor, or partnership relationship with WebEaze.</li>
-          <li>Subject to Terms and Privacy: Participating in this referral program means that you have read and agree to our full Terms and Privacy Policy that you are bound to with any engagement with WebEaze or its affiliates. </li>
-          </ol>
+          <details>
+            <summary><span class="summary-label"><i class="fas fa-file-contract"></i> View Referral Terms</span></summary>
+            <div class="details-body">
+              <ol>
+                <li><strong>Tax Responsibility:</strong> All referral earnings are considered taxable income. You're solely responsible for reporting any earnings to your tax authority. WebEaze does not withhold taxes or provide tax documents unless legally required.</li>
+                <li><strong>Eligibility:</strong> You must be at least 18 years of age to participate. By submitting a referral, you confirm you meet this requirement and are legally able to receive payments in your jurisdiction.</li>
+                <li><strong>Self-Referral Prohibited:</strong> Referring yourself, a business you own, a family member, or any account you control is strictly prohibited. Referrals that appear to be self-generated, coordinated, or otherwise abusive will be disqualified and may result in removal from the program.</li>
+                <li><strong>One Referrer Per Client:</strong> Each referred business may only be credited to one referrer. In the event of a dispute, the referral will be credited to the first verified form submission on record. WebEaze's determination is final.</li>
+                <li><strong>Referral Window:</strong> A referred business must sign up for a paid plan within 90 days of your referral form submission. Referrals submitted more than 90 days before signup will not qualify.</li>
+                <li><strong>Payout Eligibility:</strong> Payouts are issued only after the referred client successfully completes their first payment and remains an active client for at least 7 days. We reserve the right to cancel or reverse payouts for refunded, disputed, or charged-back transactions.</li>
+                <li><strong>Clawback:</strong> If a referred client cancels, requests a refund, or initiates a chargeback within 30 days of their first payment, WebEaze reserves the right to reclaim the referral payout. If payment has already been sent, you agree to return the funds upon request.</li>
+                <li><strong>Unclaimed Payouts:</strong> If we are unable to reach you or process your payout due to inaccurate payment details, the payout will expire after 60 days and will not be reissued.</li>
+                <li><strong>Prohibited Promotion:</strong> You may not promote WebEaze using spam, misleading claims, paid advertising, fake reviews, or by misrepresenting our services, pricing, or guarantees in any way. Violations will result in disqualification and forfeiture of any pending payouts.</li>
+                <li><strong>No Referral Limits:</strong> There is no limit to how many qualified referrals you can make. However, WebEaze reserves the right to review and deny payouts if referrals appear fraudulent or violate the intent of the program.</li>
+                <li><strong>Verification:</strong> You must use the referral form to notify WebEaze of a referral. Both parties must mention the referring name or business at the time of signup to qualify. We are not responsible for untracked or unverifiable referrals.</li>
+                <li><strong>Payment Methods:</strong> Payouts are issued via Venmo, PayPal, Cash App, or Zelle only. You must provide accurate payment details. All payment communication will be done via secure email. We will not ask for information beyond your account username or phone number.</li>
+                <li><strong>Program Changes &amp; Termination:</strong> WebEaze reserves the right to modify, pause, or cancel this program at any time without prior notice. If the program is terminated, referrals already verified and earned but not yet paid will still be honored. Referrals submitted but not yet verified at the time of termination will not qualify.</li>
+                <li><strong>No Employment Relationship:</strong> Participating in this referral program does not establish an employee, contractor, or partnership relationship with WebEaze.</li>
+                <li><strong>Governing Law:</strong> This referral program is governed by the laws of the State of Delaware, USA. Any disputes arising from this program shall be resolved in the courts of Delaware.</li>
+                <li><strong>Subject to Terms &amp; Privacy:</strong> Participating means you have read and agreed to our full <a href="terms.html">Terms and Privacy Policy</a>.</li>
+              </ol>
+            </div>
+          </details>
 
         ` },
 
