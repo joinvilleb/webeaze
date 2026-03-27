@@ -95,7 +95,8 @@
       word-break: break-all;
     }
     td.url a:hover { color: #ffe97a; }
-    td.path { color: rgba(255,255,255,.45); font-size: .8rem; }
+    td.path { color: rgba(255,255,255,.5); font-size: .85rem; }
+    td.path a { color: rgba(255,255,255,.5); }
 
     /* Footer */
     .sitemap-footer {
@@ -110,8 +111,17 @@
       .site-header { padding: 14px 20px; }
       .hero-strip { padding: 36px 20px 30px; }
       .table-wrap { padding: 28px 12px 48px; }
-      td { padding: 11px 10px; }
-      td.path { display: none; }
+      td { padding: 12px 8px; font-size: .9rem; }
+      td.num { width: 32px; font-size: .8rem; }
+      /* On mobile: hide full URL, show short path only */
+      td.url { display: none; }
+      th.col-url { display: none; }
+      td.path {
+        display: table-cell;
+        font-size: .88rem; color: #ffd700;
+        word-break: break-all;
+      }
+      td.path a { color: #ffd700; }
     }
   </style>
 </head>
@@ -137,7 +147,7 @@
       <thead>
         <tr>
           <th class="num">#</th>
-          <th>URL</th>
+          <th class="col-url">URL</th>
           <th>Path</th>
         </tr>
       </thead>
@@ -150,7 +160,9 @@
               <a href="{sm:loc}"><xsl:value-of select="sm:loc"/></a>
             </td>
             <td class="path">
-              <xsl:value-of select="substring-after(sm:loc, 'webeaze.io')"/>
+              <a href="{sm:loc}">
+                <xsl:value-of select="substring-after(sm:loc, 'webeaze.io')"/>
+              </a>
             </td>
           </tr>
         </xsl:for-each>
