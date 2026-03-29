@@ -105,48 +105,149 @@ a { color: inherit; text-decoration: none; }
 .btn-outlined:hover { background: rgba(120,81,169,.06); border-color: var(--brand); color: var(--brand); }
 
 /* WHAT WE ARE */
-.what-section { padding: 80px 0; }
-.what-inner { max-width: 720px; margin: 0 auto; text-align: center; }
+.what-section { padding: 88px 0; border-bottom: 1px solid var(--line); }
 .section-kicker {
   display: inline-flex; align-items: center; gap: 7px;
   font-size: .73rem; font-weight: 700; text-transform: uppercase;
   letter-spacing: .1em; color: var(--brand); margin-bottom: 14px;
 }
-.what-inner h2 {
-  font-size: clamp(1.6rem, 3.5vw, 2.2rem); font-weight: 800;
-  letter-spacing: -.02em; margin-bottom: 18px; color: var(--text);
+.what-split {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 64px; align-items: center; max-width: 1020px; margin: 0 auto;
 }
-.what-inner p {
-  font-size: 1.05rem; color: #1f2937; line-height: 1.8; margin-bottom: 14px;
+@media (max-width: 720px) {
+  .what-split { grid-template-columns: 1fr; gap: 32px; }
 }
-.what-inner p:last-child { margin-bottom: 0; }
+.what-left h2 {
+  font-size: clamp(2rem, 4vw, 3rem); font-weight: 800;
+  letter-spacing: -.03em; line-height: 1.15; color: var(--text); margin: 0;
+}
+.what-right p {
+  font-size: 1.07rem; color: #1f2937; line-height: 1.85; margin: 0;
+}
 
-/* WHY DIFFERENT */
-.diff-section { padding: 72px 0; background: var(--bg-2); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-.section-header { text-align: center; margin-bottom: 48px; }
-.section-header h2 {
+/* MISSION / VISION */
+.mv-section {
+  padding: 80px 0;
+  border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+}
+.mv-header { text-align: center; margin-bottom: 52px; }
+.mv-header h2 {
   font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 800;
-  letter-spacing: -.02em; color: var(--text); margin-bottom: 10px;
+  letter-spacing: -.02em; color: var(--text); margin: 0 0 10px;
 }
-.section-header p { font-size: 1rem; color: #1f2937; max-width: 480px; margin: 0 auto; line-height: 1.7; }
-.diff-grid {
-  display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;
+.mv-header p { font-size: 1rem; color: #4b5563; max-width: 460px; margin: 0 auto; line-height: 1.7; }
+.mv-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+  max-width: 900px; margin: 0 auto 64px;
 }
-@media (max-width: 640px) { .diff-grid { grid-template-columns: 1fr; } }
-.diff-card {
-  background: #fff; border: 1px solid #e5e7eb; border-radius: 18px;
-  padding: 28px 26px; display: flex; gap: 18px; align-items: flex-start;
-  box-shadow: 0 1px 6px rgba(0,0,0,.04); transition: box-shadow .2s, border-color .2s;
+@media (max-width: 640px) { .mv-grid { grid-template-columns: 1fr; } }
+.mv-card {
+  background: var(--bg-2); border: 1px solid #e5e7eb;
+  border-radius: 20px; padding: 36px 32px;
 }
-.diff-card:hover { border-color: #d1c4e9; box-shadow: 0 4px 18px rgba(120,81,169,.09); }
-.diff-icon {
-  width: 48px; height: 48px; min-width: 48px; border-radius: 13px;
-  background: rgba(120,81,169,.1);
+.mv-icon {
+  width: 54px; height: 54px; border-radius: 15px;
+  background: rgba(120,81,169,.1); border: 1px solid rgba(120,81,169,.18);
   display: flex; align-items: center; justify-content: center;
-  font-size: 1.1rem; color: var(--brand);
+  font-size: 1.3rem; color: var(--brand); margin-bottom: 20px;
 }
-.diff-card h4 { font-size: .97rem; font-weight: 700; margin-bottom: 6px; color: var(--text); }
-.diff-card p { font-size: .93rem; color: #1f2937; line-height: 1.65; margin: 0; }
+.mv-label {
+  font-size: .7rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .14em; color: var(--brand); margin-bottom: 8px;
+}
+.mv-card h3 {
+  font-size: 1.15rem; font-weight: 800; letter-spacing: -.015em;
+  color: var(--text); margin: 0 0 12px;
+}
+.mv-card p { font-size: 1rem; color: #1f2937; line-height: 1.82; margin: 0; }
+
+/* STATS STRIP */
+.stats-strip {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  max-width: 720px; margin: 0 auto;
+  border: 1px solid var(--line); border-radius: 18px;
+  overflow: hidden; background: #fff;
+}
+@media (max-width: 500px) { .stats-strip { grid-template-columns: 1fr; } }
+.stat-item {
+  text-align: center; padding: 32px 20px;
+  border-right: 1px solid var(--line);
+}
+.stat-item:last-child { border-right: none; }
+@media (max-width: 500px) {
+  .stat-item { border-right: none; border-bottom: 1px solid var(--line); }
+  .stat-item:last-child { border-bottom: none; }
+}
+.stat-num {
+  font-size: 2.6rem; font-weight: 800; letter-spacing: -.04em;
+  color: var(--brand); line-height: 1; margin-bottom: 6px;
+}
+.stat-label { font-size: .88rem; color: #4b5563; font-weight: 500; }
+
+/* PILLARS (simplified diff) */
+.pillars-section { padding: 80px 0; border-bottom: 1px solid var(--line); }
+.pillars-header { text-align: center; margin-bottom: 52px; }
+.pillars-header h2 {
+  font-size: clamp(1.4rem, 2.8vw, 1.9rem); font-weight: 800;
+  letter-spacing: -.02em; color: var(--text); margin: 0;
+}
+.pillars-row {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 0; max-width: 860px; margin: 0 auto;
+}
+@media (max-width: 640px) { .pillars-row { grid-template-columns: 1fr; } }
+.pillar {
+  text-align: center; padding: 0 36px;
+  border-right: 1px solid var(--line);
+}
+.pillar:last-child { border-right: none; }
+@media (max-width: 640px) {
+  .pillar { border-right: none; border-bottom: 1px solid var(--line); padding: 28px 0; }
+  .pillar:last-child { border-bottom: none; }
+}
+.pillar-icon {
+  width: 60px; height: 60px; border-radius: 18px;
+  background: rgba(120,81,169,.1); border: 1px solid rgba(120,81,169,.15);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.4rem; color: var(--brand);
+  margin: 0 auto 18px;
+}
+.pillar h4 { font-size: 1rem; font-weight: 700; color: var(--text); margin: 0 0 8px; }
+.pillar p { font-size: .95rem; color: #4b5563; line-height: 1.65; margin: 0; }
+
+/* QUOTE BANNER */
+.quote-banner {
+  position: relative;
+  background: url('images/billy-usertesting.jpg') center top / cover no-repeat;
+  padding: 110px 24px;
+  text-align: center;
+  overflow: hidden;
+}
+.quote-banner::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: rgba(12, 8, 22, 0.68);
+}
+.quote-banner-inner {
+  position: relative; z-index: 1;
+  max-width: 680px; margin: 0 auto;
+}
+.quote-banner blockquote {
+  font-size: clamp(1.35rem, 3vw, 2rem);
+  font-weight: 700; color: #fff;
+  line-height: 1.45; letter-spacing: -.02em;
+  margin: 0 0 20px; font-style: normal;
+}
+.quote-banner blockquote span {
+  background: linear-gradient(135deg, #c4a7e7, #7851a9);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.quote-banner cite {
+  font-size: .88rem; font-style: normal;
+  color: rgba(255,255,255,.55); letter-spacing: .04em;
+}
 
 /* FOUNDER */
 .founder-section { padding: 80px 0; }
@@ -330,54 +431,89 @@ footer { background: #000; padding: 60px 20px 40px; border-top: 1px solid rgba(2
 <!-- WHAT WE ARE -->
 <section class="what-section" id="what-we-do">
   <div class="container">
-    <div class="what-inner reveal">
-      <div class="section-kicker"><i class="fas fa-bolt"></i> What We Do</div>
-      <h2>We're not just a web design&nbsp;agency.</h2>
-      <p>WebEaze is a small, dedicated team that builds and manages websites for local service&nbsp;businesses. We don't just hand you a finished site and&nbsp;disappear. We stay with you, making updates, keeping everything running, and treating your site like it's our&nbsp;own.</p>
+    <div class="what-split reveal">
+      <div class="what-left">
+        <div class="section-kicker"><i class="fas fa-bolt"></i> What We Do</div>
+        <h2>We're not just a web design&nbsp;agency.</h2>
+      </div>
+      <div class="what-right">
+        <p>WebEaze is a web design company dedicated to helping tutors, travel professionals, and trade businesses build clean, mobile-ready websites backed by real&nbsp;support. Our approach eliminates the typical stress of web development by offering a relationship-first experience with predictable subscription&nbsp;pricing. We aim to become the go-to provider for service-based professionals who want a modern, results-driven online presence without the&nbsp;complexity.</p>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- WHY DIFFERENT -->
-<section class="diff-section">
+<!-- MISSION & VISION -->
+<section class="mv-section">
   <div class="container">
-    <div class="section-header reveal">
-      <div class="section-kicker"><i class="fas fa-star"></i> Why WebEaze</div>
-      <h2>What actually makes us different</h2>
-      <p>Not just bullet points. Real reasons small businesses choose to stay with us.</p>
+
+    <div class="mv-header reveal">
+      <div class="section-kicker" style="justify-content:center;margin-bottom:12px"><i class="fas fa-compass"></i> Our Purpose</div>
+      <h2>Built with intention.</h2>
+      <p>We're not just building websites. We're building long-term digital homes for small businesses who deserve better.</p>
     </div>
-    <div class="diff-grid">
-      <div class="diff-card reveal">
-        <div class="diff-icon"><i class="fas fa-handshake"></i></div>
-        <div>
-          <h4>Someone who knows your business</h4>
-          <p>You work with the same person from day one, not a ticket system.</p>
-        </div>
+
+    <div class="mv-grid">
+      <div class="mv-card reveal">
+        <div class="mv-icon"><i class="fas fa-bullseye"></i></div>
+        <div class="mv-label">Mission</div>
+        <h3>Why we exist</h3>
+        <p>To empower small service providers with high-quality, user-friendly websites that grow their business. All without the tech&nbsp;headaches.</p>
       </div>
-      <div class="diff-card reveal">
-        <div class="diff-icon"><i class="fas fa-users"></i></div>
-        <div>
-          <h4>Small client base by choice</h4>
-          <p>We don't scale to hundreds of clients. Staying small means every client actually matters.</p>
-        </div>
+      <div class="mv-card reveal">
+        <div class="mv-icon"><i class="fas fa-binoculars"></i></div>
+        <div class="mv-label">Vision</div>
+        <h3>Where we're going</h3>
+        <p>To be the trusted web design partner for niche service businesses across the United States. One plan. One price. One powerful online&nbsp;presence.</p>
       </div>
-      <div class="diff-card reveal">
-        <div class="diff-icon"><i class="fas fa-dollar-sign"></i></div>
-        <div>
-          <h4>Fair pricing, not hourly surprises</h4>
-          <p>One flat rate covers updates, fixes, and support. No $150/hr for a text change.</p>
-        </div>
+    </div>
+
+    <div class="stats-strip reveal">
+      <div class="stat-item">
+        <div class="stat-num">70+</div>
+        <div class="stat-label">Websites built</div>
       </div>
-      <div class="diff-card reveal">
-        <div class="diff-icon"><i class="fas fa-chart-line"></i></div>
-        <div>
-          <h4>SEO and real check-ins</h4>
-          <p>We look at how your site is performing and improve it over time. Because we care if it's working.</p>
-        </div>
+      <div class="stat-item">
+        <div class="stat-num">9+</div>
+        <div class="stat-label">States served</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">$0</div>
+        <div class="stat-label">Surprise fees</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- PILLARS -->
+<section class="pillars-section">
+  <div class="container">
+    <div class="pillars-header reveal">
+      <div class="section-kicker" style="justify-content:center;margin-bottom:12px"><i class="fas fa-star"></i> Why WebEaze</div>
+      <h2>What you actually get</h2>
+    </div>
+    <div class="pillars-row">
+      <div class="pillar reveal">
+        <div class="pillar-icon"><i class="fas fa-handshake"></i></div>
+        <h4>A real person, not a portal</h4>
+        <p>Same person from day one. No ticket queues, no rotating agents.</p>
+      </div>
+      <div class="pillar reveal">
+        <div class="pillar-icon"><i class="fas fa-dollar-sign"></i></div>
+        <h4>One flat price</h4>
+        <p>Updates, fixes, and support included. No hourly billing surprises.</p>
+      </div>
+      <div class="pillar reveal">
+        <div class="pillar-icon"><i class="fas fa-chart-line"></i></div>
+        <h4>We stay invested</h4>
+        <p>Monthly check-ins and SEO reviews. We care if your site is actually working.</p>
       </div>
     </div>
   </div>
 </section>
+
+
 
 <!-- FOUNDER -->
 <section class="founder-section">
@@ -393,11 +529,18 @@ footer { background: #000; padding: 60px 20px 40px; border-top: 1px solid rgba(2
         <p class="founder-text">I'm a Computer Science student at the University of Miami. I started WebEaze because I kept seeing the same problem: small businesses were paying thousands upfront to agencies, getting a site built, and then left on their own — no updates, no support, nothing.</p>
         <p class="founder-text">I specialize in frontend development, UI design, analytics, and automation. Through WebEaze I've shipped 40+ production websites, working directly with business owners to build something they're genuinely proud of. We now serve clients across Delaware, Maryland, Pennsylvania, New Jersey, and beyond.</p>
         <p class="founder-text">WebEaze stays small by choice. I'd rather know every client's business and deliver real support than scale up and become just another agency.</p>
-        <div class="founder-quote">
-          <p>"Every small business deserves a website that makes them proud, backed by someone who actually cares about their success."</p>
-        </div>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- QUOTE BANNER -->
+<section class="quote-banner">
+  <div class="quote-banner-inner">
+    <blockquote>
+      "Every small business deserves a website that makes them&nbsp;proud, backed by someone who actually <span>cares about their&nbsp;success.</span>"
+    </blockquote>
+    <cite>Billy Joinville &nbsp;·&nbsp; Founder, WebEaze</cite>
   </div>
 </section>
 
