@@ -255,38 +255,96 @@
     /* SHORTCUTS */
     .shortcuts {
       border-top: 1px solid var(--line);
-      padding: 28px 0 52px;
+      padding: 36px 0 56px;
     }
     .shortcuts-label {
+      font-size: 18px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+    .shortcuts-sub {
+      font-size: 15px;
+      color: var(--soft);
+      margin-bottom: 22px;
+    }
+
+    /* Category tiles */
+    .intent-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 0;
+    }
+    @media (max-width: 700px) { .intent-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 400px) { .intent-grid { grid-template-columns: 1fr; } }
+    .intent-tile {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 24px 22px;
+      border-radius: 14px;
+      background: var(--dark-2);
+      border: 1px solid var(--line);
+      cursor: pointer;
+      transition: .15s;
+      text-align: left;
+      font-family: 'Poppins', sans-serif;
+      color: #fff;
+      width: 100%;
+    }
+    .intent-tile:hover { border-color: rgba(255,215,0,.25); background: var(--dark-3); }
+    .intent-tile.active { border-color: var(--gold); background: var(--dark-3); }
+    .intent-tile i { font-size: 22px; color: var(--gold); }
+    .intent-tile strong { font-size: 15px; font-weight: 700; display: block; }
+    .intent-tile span { font-size: 13px; color: var(--soft); line-height: 1.4; }
+
+    /* Answer panel */
+    .intent-panel {
+      display: none;
+      margin-top: 12px;
+      background: var(--dark-2);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 20px 22px;
+      animation: fadeSlide .15s ease;
+    }
+    .intent-panel.visible { display: block; }
+    @keyframes fadeSlide {
+      from { opacity: 0; transform: translateY(-4px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .panel-title {
       font-size: 13px;
       font-weight: 700;
-      letter-spacing: .08em;
       text-transform: uppercase;
+      letter-spacing: .08em;
       color: var(--soft);
       margin-bottom: 16px;
     }
-    .shortcut-row {
+    .panel-actions {
       display: flex;
       flex-wrap: wrap;
-      gap: 10px;
+      gap: 8px;
     }
     .sc-btn {
       display: inline-flex;
       align-items: center;
       gap: 9px;
-      padding: 12px 18px;
-      border-radius: 11px;
-      background: var(--dark-2);
+      padding: 13px 20px;
+      border-radius: 10px;
+      background: var(--dark-3);
       border: 1px solid var(--line);
-      font-size: 14px;
+      font-size: 15px;
       font-weight: 600;
       color: #fff;
       transition: .15s;
       white-space: nowrap;
+      text-decoration: none;
     }
-    .sc-btn i { font-size: 14px; color: var(--gold); opacity: .85; }
-    .sc-btn:hover { border-color: rgba(255,215,0,.3); background: var(--dark-3); }
-    .sc-btn:hover i { opacity: 1; }
+    .sc-btn i { font-size: 14px; color: var(--gold); }
+    .sc-btn:hover { border-color: rgba(255,215,0,.3); color: #fff; text-decoration: none; }
     .badge-growth {
       font-size: 9px;
       font-weight: 700;
@@ -527,7 +585,7 @@
     <div class="header-inner">
       <div>
         <div class="header-title">Website Request</div>
-        <div class="header-sub">Unlimited updates, included with your plan</div>
+        <div class="header-sub">Unlimited maintenance, included in your plan. </div>
         <button class="help-link" onclick="openHelpModal()">
           <i class="fas fa-circle-question"></i> How do I submit a request?
         </button>
@@ -555,24 +613,76 @@
 <!-- SHORTCUTS -->
 <div class="shortcuts">
   <div class="wrap">
-    <div class="shortcuts-label">Need something else?</div>
-    <div class="shortcut-row">
-      <a href="https://billing.stripe.com/p/login/7sI3gfaO14CEdlm144" target="_blank" class="sc-btn">
-        <i class="fas fa-credit-card"></i> Billing Portal
-      </a>
-      <a href="https://meetings-na2.hubspot.com/webeaze/live-zoom-support" target="_blank" class="sc-btn">
-        <i class="fas fa-video"></i> Video Call <span class="badge-growth">Growth+</span>
-      </a>
-      <a href="https://meetings-na2.hubspot.com/webeaze/phone-support" target="_blank" class="sc-btn">
-        <i class="fas fa-phone"></i> Phone Support <span class="badge-growth">Growth+</span>
-      </a>
-      <a href="portal.html" class="sc-btn">
-        <i class="fas fa-comments"></i> Live Chat <span class="badge-growth">Growth+</span>
-      </a>
-      <a href="help.html" class="sc-btn">
-        <i class="fas fa-book-open"></i> Help Center
-      </a>
+    <div class="shortcuts-label">Not what you were looking for?</div>
+    <div class="shortcuts-sub">Tell us what you need and we'll point you in the right direction.</div>
+
+    <div class="intent-grid">
+      <button class="intent-tile" onclick="showPanel('contact')">
+        <i class="fas fa-headset"></i>
+        <strong>Talk to someone</strong>
+        <span>Reach the team directly</span>
+      </button>
+      <button class="intent-tile" onclick="showPanel('billing')">
+        <i class="fas fa-credit-card"></i>
+        <strong>Billing or invoices</strong>
+        <span>Manage your plan or payments</span>
+      </button>
+      <button class="intent-tile" onclick="showPanel('broken')">
+        <i class="fas fa-triangle-exclamation"></i>
+        <strong>Something is broken</strong>
+        <span>My site has an issue right now</span>
+      </button>
+      <button class="intent-tile" onclick="showPanel('question')">
+        <i class="fas fa-circle-question"></i>
+        <strong>I have a question</strong>
+        <span>About my plan, features, or policies</span>
+      </button>
     </div>
+
+    <!-- Panel: Talk to someone -->
+    <div class="intent-panel" id="panel-contact">
+      <div class="panel-title">How would you like to reach us?</div>
+      <div class="panel-actions">
+        <a href="mailto:support@webeaze.io" class="sc-btn"><i class="fas fa-envelope"></i> Email Support</a>
+        <a href="portal.html" class="sc-btn"><i class="fas fa-comments"></i> Live Chat <span class="badge-growth">Growth+</span></a>
+        <a href="https://meetings-na2.hubspot.com/webeaze/phone-support" target="_blank" class="sc-btn"><i class="fas fa-phone"></i> Phone Call <span class="badge-growth">Growth+</span></a>
+        <a href="https://meetings-na2.hubspot.com/webeaze/live-zoom-support" target="_blank" class="sc-btn"><i class="fas fa-video"></i> Video Call <span class="badge-growth">Growth+</span></a>
+      </div>
+    </div>
+
+    <!-- Panel: Billing -->
+    <div class="intent-panel" id="panel-billing">
+      <div class="panel-title">What do you need help with?</div>
+      <div class="panel-actions">
+        <a href="https://billing.stripe.com/p/login/7sI3gfaO14CEdlm144" target="_blank" class="sc-btn"><i class="fas fa-credit-card"></i> Manage My Plan</a>
+        <a href="https://billing.stripe.com/p/login/7sI3gfaO14CEdlm144" target="_blank" class="sc-btn"><i class="fas fa-file-invoice"></i> View Invoices</a>
+        <a href="help.html#/manage-your-plan" class="sc-btn"><i class="fas fa-circle-question"></i> Manage My Plan</a>
+        <a href="fee-schedule.html" class="sc-btn"><i class="fas fa-receipt"></i> Fee Schedule</a>
+      </div>
+    </div>
+
+    <!-- Panel: Something is broken -->
+    <div class="intent-panel" id="panel-broken">
+      <div class="panel-title">What kind of issue?</div>
+      <div class="panel-actions">
+        <a href="emergency.html" class="sc-btn"><i class="fas fa-bolt"></i> Site Is Down / Emergency</a>
+        <a href="troubleshoot.html" class="sc-btn"><i class="fas fa-wrench"></i> Troubleshooting Guide</a>
+        <a href="help.html#/my-site-isnt-updating" class="sc-btn"><i class="fas fa-rotate"></i> Site Not Updating</a>
+        <a href="mailto:support@webeaze.io" class="sc-btn"><i class="fas fa-envelope"></i> Email Support</a>
+      </div>
+    </div>
+
+    <!-- Panel: I have a question -->
+    <div class="intent-panel" id="panel-question">
+      <div class="panel-title">What are you looking for?</div>
+      <div class="panel-actions">
+        <a href="help.html" class="sc-btn"><i class="fas fa-book-open"></i> Help Center</a>
+        <a href="faq.html" class="sc-btn"><i class="fas fa-circle-question"></i> FAQ</a>
+        <a href="my-plan.html" class="sc-btn"><i class="fas fa-id-card"></i> My Plan Benefits</a>
+        <a href="plan-features.html" class="sc-btn"><i class="fas fa-file-contract"></i> Plans &amp; Policies</a>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -634,6 +744,23 @@
 
 <script>
   document.getElementById('yr').textContent = new Date().getFullYear();
+
+  function showPanel(id) {
+    const panels = document.querySelectorAll('.intent-panel');
+    const tiles  = document.querySelectorAll('.intent-tile');
+    const target = document.getElementById('panel-' + id);
+    const tile   = document.querySelector('[onclick="showPanel(\'' + id + '\')"]');
+    const alreadyOpen = target.classList.contains('visible');
+
+    panels.forEach(p => p.classList.remove('visible'));
+    tiles.forEach(t  => t.classList.remove('active'));
+
+    if (!alreadyOpen) {
+      target.classList.add('visible');
+      tile.classList.add('active');
+      target.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  }
 
   function getET() {
     return new Date(new Date().toLocaleString('en-US', { timeZone: 'America/New_York' }));
