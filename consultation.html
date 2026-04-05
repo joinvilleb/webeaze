@@ -5,40 +5,34 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Free Website Mockup | WebEaze</title>
 <meta name="description" content="Request a free website mockup. See your new site before committing. No pressure, no obligation." />
+<link rel="canonical" href="https://www.webeaze.io/consultation.html" />
+<link rel="shortcut icon" href="images/webeaze-transparent copy.png" type="image/png" />
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-<link rel="shortcut icon" href="images/webeaze-transparent copy.png" type="image/png" />
 
 <style>
 :root {
-  --brand:  #7851a9;
-  --gold:   #ffd700;
-  --text:   #111827;
-  --muted:  #4b5563;
-  --bg:     #ffffff;
-  --bg-2:   #f5f6fa;
-  --line:   rgba(0,0,0,.09);
-  --green:  #16a34a;
+  --brand: #7851a9;
+  --gold:  #ffd700;
+  --text:  #111827;
+  --muted: #4b5563;
+  --bg:    #ffffff;
+  --bg-2:  #f5f6fa;
+  --line:  rgba(0,0,0,.09);
+  --green: #16a34a;
 }
-
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
-body {
-  font-family: 'Poppins', sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
-}
+body { font-family: 'Poppins', sans-serif; background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; }
 a { text-decoration: none; color: inherit; }
 .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+.container-mid { max-width: 680px; margin: 0 auto; padding: 0 20px; }
 
-/* ── NAV (stays dark) ─────────────────────────── */
-.container-narrow { max-width: 1100px; }
+/* NAV */
 .logo { height: 36px; }
 .nav-wrap {
   position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
@@ -52,293 +46,195 @@ a { text-decoration: none; color: inherit; }
 .navbar-dark .nav-link:hover { opacity: 1; background: rgba(255,255,255,.08); }
 .btn-nav { background: var(--gold); color: #2f1e66; border: none; border-radius: 10px; padding: .55rem .85rem; font-weight: 700; font-size: .9rem; }
 
-/* ── CAROUSEL SHELL ───────────────────────────── */
-.carousel-wrap { padding-top: 57px; min-height: calc(100dvh - 57px); }
-
-/* Step Bar */
-.step-bar {
-  position: sticky; top: 57px; z-index: 500;
-  background: #fff;
-  border-bottom: 1px solid var(--line);
+/* TOP SECTION - quiz + booking */
+.top-wrap {
+  padding-top: 80px;
+  background: var(--bg-2);
+  min-height: 100vh;
 }
-.step-tabs {
-  display: flex; width: 100%;
+.top-inner {
+  max-width: 680px; margin: 0 auto; padding: 56px 20px 80px;
 }
-.step-tab {
-  flex: 1; background: transparent; border: none;
-  border-bottom: 3px solid transparent;
-  cursor: pointer; padding: 16px 8px 14px; font-family: 'Poppins', sans-serif;
-  font-size: .85rem; font-weight: 600; color: #b0b8c8;
-  transition: color .2s, border-color .2s;
-}
-.step-tab:focus { outline: none; }
-.step-tab:hover { color: var(--muted); }
-.step-tab.active { color: var(--brand); border-bottom-color: var(--brand); }
-.step-tab.completed { color: var(--muted); border-bottom-color: #d1d5db; }
-.step-progress-track { height: 4px; background: #e5e7eb; width: 100%; }
-.step-progress-fill {
-  height: 100%; background: var(--brand); width: 25%;
-  transition: width .35s cubic-bezier(.4,0,.2,1);
-}
-
-/* Slides */
-.slides-viewport { position: relative; }
-.slide { display: none; width: 100%; padding: 56px 0 120px; }
-.slide.active { display: block; }
-@media (max-width: 900px) { .slide { padding: 32px 0 100px; } }
-
-.slides-viewport[data-dir="forward"] .slide.active {
-  animation: slideInFwd .35s cubic-bezier(.4,0,.2,1) both;
-}
-.slides-viewport[data-dir="back"] .slide.active {
-  animation: slideInBck .35s cubic-bezier(.4,0,.2,1) both;
-}
-@keyframes slideInFwd { from { opacity: 0; transform: translateX(24px); } to { opacity: 1; transform: translateX(0); } }
-@keyframes slideInBck { from { opacity: 0; transform: translateX(-24px); } to { opacity: 1; transform: translateX(0); } }
-
-/* Sticky bottom nav */
-.carousel-foot {
-  position: sticky; bottom: 0; z-index: 500;
-  background: #fff; border-top: 1px solid var(--line);
-  padding: 14px 20px;
-}
-.carousel-foot-inner {
-  display: flex; align-items: center; justify-content: space-between;
-  max-width: 1100px; margin: 0 auto; gap: 16px;
-}
-.nav-dots { display: flex; gap: 8px; align-items: center; }
-.nav-dot {
-  width: 7px; height: 7px; border-radius: 50%;
-  background: #d1d5db; transition: all .25s ease; cursor: pointer; border: none;
-}
-.nav-dot.active { background: var(--brand); width: 22px; border-radius: 4px; }
-.nav-btn {
-  display: inline-flex; align-items: center; gap: 8px;
-  padding: 10px 22px; border-radius: 12px;
-  font-size: 14px; font-weight: 600; cursor: pointer;
-  transition: all .2s ease; font-family: 'Poppins', sans-serif; white-space: nowrap;
-}
-.nav-btn-prev {
-  background: transparent; color: var(--muted);
-  border: 1px solid var(--line);
-}
-.nav-btn-prev:hover:not(:disabled) { color: var(--text); border-color: #9ca3af; background: var(--bg-2); }
-.nav-btn-prev:disabled { opacity: .3; cursor: default; }
-.nav-btn-next { background: var(--brand); color: #fff; border: none; box-shadow: 0 4px 16px rgba(120,81,169,.25); }
-.nav-btn-next:hover { background: #6a45a0; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(120,81,169,.3); }
-.nav-btn-next.hidden { visibility: hidden; }
-
-@media (max-width: 600px) {
-  .carousel-foot { padding: 10px 12px; }
-  .carousel-foot-inner { gap: 8px; }
-  .nav-btn { padding: 8px 12px; font-size: 12px; gap: 5px; border-radius: 10px; }
-}
-@media (max-width: 480px) {
-  .step-tab { font-size: .76rem; padding: 13px 6px 11px; }
-}
-@media (max-width: 360px) {
-  .step-tab { font-size: .68rem; padding: 11px 4px 9px; }
-}
-
-/* ── SLIDE CONTENT ────────────────────────────── */
-
-/* Slide 1 layout */
-.slide-1-grid {
-  display: grid; grid-template-columns: 1fr 1fr;
-  gap: 56px; align-items: start;
-}
-@media (max-width: 860px) {
-  .slide-1-grid { grid-template-columns: 1fr; gap: 32px; text-align: center; }
-}
-
-.slide-kicker {
+.top-eyebrow {
   display: inline-flex; align-items: center; gap: 7px;
-  font-size: .75rem; font-weight: 700; text-transform: uppercase;
-  letter-spacing: .1em; color: var(--brand); margin-bottom: 16px;
+  font-size: 12px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .1em; color: var(--brand); margin-bottom: 14px;
 }
-.slide-h1 {
-  font-size: clamp(1.9rem, 4vw, 2.8rem); font-weight: 800;
-  letter-spacing: -.03em; line-height: 1.15; margin-bottom: 14px; color: var(--text);
+.top-inner h1 {
+  font-size: clamp(1.7rem, 4vw, 2.4rem);
+  font-weight: 800; color: var(--text);
+  line-height: 1.2; margin-bottom: 10px;
 }
-.slide-sub {
-  font-size: 1rem; color: var(--muted); line-height: 1.7; margin-bottom: 28px;
+.top-inner p {
+  font-size: 1rem; color: var(--muted); line-height: 1.6; margin-bottom: 36px;
 }
 
-/* Feature tiles */
-.feature-tiles {
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 24px;
+/* QUIZ CARD */
+.quiz-card {
+  background: #fff; border: 1.5px solid var(--line);
+  border-radius: 20px; overflow: hidden;
+  box-shadow: 0 4px 24px rgba(120,81,169,.08);
+  position: relative;
 }
-@media (max-width: 860px) { .feature-tiles { max-width: 420px; margin: 0 auto 24px; } }
-@media (max-width: 480px) {
-  .feature-tiles { grid-template-columns: 1fr 1fr; max-width: none; }
-  .feature-tile:last-child:nth-child(3) { grid-column: 1 / -1; max-width: calc(50% - 6px); margin: 0 auto; }
-}
-.feature-tile {
-  background: var(--bg-2); border: 1px solid var(--line);
-  border-radius: 14px; padding: 16px 12px;
-}
-.feature-tile-icon {
-  width: 36px; height: 36px; background: rgba(120,81,169,.1);
-  border-radius: 9px; display: flex; align-items: center; justify-content: center;
-  color: var(--brand); font-size: .9rem; margin-bottom: 10px;
-}
-@media (max-width: 860px) { .feature-tile-icon { margin: 0 auto 10px; } }
-.feature-tile h4 { font-size: .85rem; font-weight: 700; margin-bottom: 4px; color: var(--text); }
-.feature-tile p { font-size: .78rem; color: var(--muted); margin: 0; line-height: 1.5; }
-
-.skip-link {
-  font-size: .85rem; color: var(--muted);
-  display: flex; align-items: center; gap: 6px;
-}
-.skip-link a { color: var(--brand); font-weight: 600; }
-.skip-link a:hover { text-decoration: underline; }
-@media (max-width: 860px) { .skip-link { justify-content: center; } }
-
-/* Pricing summary card */
-.summary-card {
-  background: #fff; border: 1.5px solid #e5e7eb;
-  border-radius: 20px; padding: 28px;
-  box-shadow: 0 4px 24px rgba(120,81,169,.1);
-  position: relative; overflow: hidden;
-}
-.summary-card::before {
+.quiz-card::before {
   content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
   background: linear-gradient(90deg, var(--brand), #a07dd0);
 }
-.summary-plan-label {
-  font-size: .72rem; font-weight: 700; text-transform: uppercase;
-  letter-spacing: .1em; color: var(--brand); margin-bottom: 12px;
+.quiz-progress-track {
+  height: 4px; background: #e5e7eb;
 }
-.summary-price {
-  display: flex; align-items: baseline; gap: 4px; margin-bottom: 16px;
+.quiz-progress-fill {
+  height: 100%; background: var(--brand);
+  width: 0%; transition: width .35s ease;
 }
-.price-big { font-size: 3rem; font-weight: 800; color: var(--text); line-height: 1; }
-.price-big .cur { font-size: 1.4rem; font-weight: 600; vertical-align: top; margin-top: 8px; display: inline-block; }
-.price-per { font-size: .95rem; color: var(--muted); }
-.summary-setup {
-  font-size: .82rem; color: var(--muted);
-  padding-bottom: 16px; margin-bottom: 16px; border-bottom: 1px solid var(--line);
+.quiz-body { padding: 28px 32px 32px; }
+@media (max-width: 520px) { .quiz-body { padding: 20px 20px 24px; } }
+
+.quiz-step { display: none; }
+.quiz-step.active { display: block; }
+.quiz-q {
+  font-size: 1.1rem; font-weight: 700; color: var(--text);
+  margin-bottom: 18px; line-height: 1.4;
 }
-.summary-features {
-  list-style: none; padding: 0; margin: 0 0 20px;
-  display: flex; flex-direction: column; gap: 9px;
+.quiz-options { display: flex; flex-direction: column; gap: 10px; }
+.quiz-opt {
+  display: flex; align-items: center; gap: 14px;
+  padding: 14px 18px; border: 1.5px solid var(--line);
+  border-radius: 12px; cursor: pointer;
+  background: transparent; font-family: 'Poppins', sans-serif;
+  font-size: .95rem; color: var(--text); font-weight: 500;
+  transition: all .15s; text-align: left; width: 100%;
 }
-.summary-features li { display: flex; align-items: center; gap: 9px; font-size: .88rem; color: var(--text); }
-.summary-features li i { color: var(--green); font-size: .78rem; flex-shrink: 0; }
-.btn-book {
-  display: flex; align-items: center; justify-content: center; gap: 8px;
-  width: 100%; padding: 14px 20px;
+.quiz-opt i { color: var(--brand); font-size: .95rem; flex-shrink: 0; width: 18px; text-align: center; }
+.quiz-opt:hover { border-color: var(--brand); background: rgba(120,81,169,.04); }
+.quiz-opt.selected { border-color: var(--brand); background: rgba(120,81,169,.06); }
+
+/* RESULT */
+.quiz-result { display: none; }
+.quiz-result.active { display: block; }
+.result-box {
+  background: var(--bg-2); border: 1px solid var(--line);
+  border-radius: 12px; padding: 18px 20px; margin-bottom: 18px;
+}
+.result-label {
+  font-size: 11px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .1em; color: var(--brand); margin-bottom: 7px;
+}
+.result-msg { font-size: .97rem; color: var(--text); line-height: 1.6; }
+.book-btn {
+  display: flex; align-items: center; justify-content: center; gap: 9px;
+  width: 100%; padding: 15px 20px;
   background: var(--brand); color: #fff; border: none; border-radius: 12px;
-  font-family: 'Poppins', sans-serif; font-weight: 700; font-size: .95rem;
-  cursor: pointer; margin-bottom: 12px; transition: background .2s;
+  font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 1rem;
+  cursor: pointer; transition: background .2s;
 }
-.btn-book:hover { background: #6a45a0; }
-.summary-trust { text-align: center; font-size: .78rem; color: var(--muted); }
-.summary-trust i { color: var(--green); margin-right: 4px; }
+.book-btn:hover { background: #6a45a0; }
+.book-note {
+  text-align: center; font-size: .82rem; color: var(--muted); margin-top: 10px;
+}
+.book-note i { color: var(--green); margin-right: 3px; }
 
-/* Section header */
-.section-header { text-align: center; margin-bottom: 40px; }
-.section-kicker {
-  display: inline-flex; align-items: center; gap: 7px;
-  font-size: .75rem; font-weight: 700; text-transform: uppercase;
-  letter-spacing: .1em; color: var(--brand); margin-bottom: 12px;
-}
-.section-header h2 { font-size: clamp(1.6rem, 3.5vw, 2.2rem); font-weight: 800; margin-bottom: 8px; color: var(--text); }
-.section-header p { color: var(--muted); font-size: .97rem; max-width: 460px; margin: 0 auto; }
-
-/* Slide 2 — showcase */
-.showcase-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-@media (max-width: 860px) { .showcase-grid { grid-template-columns: 1fr; max-width: 440px; margin: 0 auto; } }
-.showcase-card {
-  background: #fff; border: 1px solid #e5e7eb; border-radius: 16px;
-  overflow: hidden; transition: all .25s ease; display: block; color: inherit;
-  box-shadow: 0 2px 10px rgba(0,0,0,.04);
-}
-.showcase-card:hover { transform: translateY(-5px); box-shadow: 0 12px 32px rgba(0,0,0,.1); border-color: rgba(120,81,169,.3); }
-.showcase-card .badge {
-  position: absolute; top: 12px; right: 12px;
-  background: var(--brand); color: #fff;
-  padding: 4px 10px; border-radius: 6px;
-  font-size: .72rem; font-weight: 600;
-}
-.showcase-card { position: relative; }
-.showcase-card img { width: 100%; display: block; border-bottom: 1px solid #e5e7eb; }
-.showcase-content { padding: 18px; }
-.showcase-content h3 { font-size: .95rem; font-weight: 700; margin-bottom: 5px; color: var(--text); }
-.showcase-content p { color: var(--muted); font-size: .82rem; line-height: 1.5; margin-bottom: 12px; }
-.showcase-link { display: inline-flex; align-items: center; gap: 6px; color: var(--brand); font-weight: 600; font-size: .82rem; }
-.showcase-link:hover { gap: 10px; }
-
-/* Slide 3 — included */
-.included-card {
-  max-width: 680px; margin: 0 auto;
-  background: #fff; border: 1.5px solid #e5e7eb;
-  border-radius: 20px; padding: 36px 40px;
-  box-shadow: 0 4px 20px rgba(120,81,169,.08);
-  position: relative; overflow: hidden;
-}
-.included-card::before {
-  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-  background: linear-gradient(90deg, var(--brand), #a07dd0);
-}
-.included-list {
-  display: grid; grid-template-columns: 1fr 1fr;
-  gap: 14px 32px; list-style: none; padding: 0; margin: 0 0 24px;
-}
-.included-list li { display: flex; align-items: center; gap: 10px; font-size: .95rem; font-weight: 500; color: var(--text); }
-.included-list li i { color: var(--green); font-size: .8rem; flex-shrink: 0; }
-.included-note {
-  border-top: 1px solid var(--line); padding-top: 18px;
-  font-size: .85rem; color: var(--muted); text-align: center;
-}
-.included-note strong { color: var(--brand); }
-@media (max-width: 560px) {
-  .included-card { padding: 24px 20px; }
-  .included-list { grid-template-columns: 1fr; gap: 12px; }
-}
-
-/* Slide 4 — book */
-.promise-pills {
-  display: flex; justify-content: center; flex-wrap: wrap;
-  gap: 10px; margin-bottom: 36px;
-}
-.promise-pill {
-  display: inline-flex; align-items: center; gap: 8px;
-  background: var(--bg-2); border: 1px solid var(--line);
-  border-radius: 40px; padding: 9px 16px;
-  font-size: .85rem; font-weight: 500; color: var(--muted);
-}
-.promise-pill i { color: var(--green); font-size: .78rem; }
-
-.scheduler-card {
-  background: #fff; border: 1.5px solid #e5e7eb;
+/* BOOKING EMBED */
+.booking-wrap {
+  display: none; margin-top: 28px;
+  background: #fff; border: 1.5px solid var(--line);
   border-radius: 20px; overflow: hidden;
   box-shadow: 0 4px 24px rgba(0,0,0,.06);
-  max-width: 860px; margin: 0 auto; position: relative;
+  position: relative;
+  animation: fadeUp .4s ease both;
 }
-.scheduler-card::before {
+.booking-wrap::before {
   content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
   background: linear-gradient(90deg, var(--brand), #a07dd0);
 }
-.scheduler-header { padding: 20px 28px; border-bottom: 1px solid var(--line); text-align: center; }
-.scheduler-header h3 { font-size: 1rem; font-weight: 700; margin-bottom: 4px; color: var(--text); }
-.scheduler-header p { font-size: .85rem; color: var(--muted); }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+.booking-wrap.visible { display: block; }
+.booking-header { padding: 20px 28px; border-bottom: 1px solid var(--line); text-align: center; }
+.booking-header h3 { font-size: 1rem; font-weight: 700; margin-bottom: 3px; }
+.booking-header p { font-size: .87rem; color: var(--muted); margin: 0; }
 .meetings-iframe-container { height: 700px; }
 @media (max-width: 600px) {
-  .scheduler-card { overflow: visible; }
+  .booking-wrap { overflow: visible; }
   .meetings-iframe-container { height: 950px !important; }
   .meetings-iframe-container iframe { height: 950px !important; min-height: 950px !important; }
 }
 
-/* ── FOOTER (stays dark) ──────────────────────── */
-footer {
-  background: #000; padding: 60px 20px 40px;
-  border-top: 1px solid rgba(255,255,255,.08);
+/* BELOW SECTIONS */
+.section { padding: 72px 20px; }
+.section-alt { background: var(--bg-2); }
+.sec-label {
+  text-align: center; font-size: 11px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .12em;
+  color: var(--brand); margin-bottom: 10px;
 }
-.footer-grid {
-  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
-  gap: 48px; max-width: 1100px; margin: 0 auto 48px; text-align: left;
+.sec-h2 {
+  text-align: center; font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 800; margin-bottom: 8px; color: var(--text);
 }
+.sec-sub {
+  text-align: center; color: var(--muted); font-size: .97rem;
+  max-width: 440px; margin: 0 auto 40px; line-height: 1.6;
+}
+
+/* Steps */
+.steps-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+  max-width: 820px; margin: 0 auto;
+}
+@media (max-width: 640px) { .steps-grid { grid-template-columns: 1fr; max-width: 380px; } }
+.step-card {
+  background: #fff; border: 1px solid var(--line);
+  border-radius: 16px; padding: 26px 22px; text-align: center;
+}
+.step-num {
+  width: 38px; height: 38px; border-radius: 50%;
+  background: rgba(120,81,169,.1); color: var(--brand);
+  font-size: .85rem; font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 14px;
+}
+.step-card h3 { font-size: .97rem; font-weight: 700; margin-bottom: 7px; }
+.step-card p { font-size: .87rem; color: var(--muted); line-height: 1.6; margin: 0; }
+
+/* Included */
+.included-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr);
+  gap: 10px; max-width: 620px; margin: 0 auto;
+}
+@media (max-width: 480px) { .included-grid { grid-template-columns: 1fr; } }
+.included-item {
+  display: flex; align-items: center; gap: 11px;
+  background: #fff; border: 1px solid var(--line);
+  border-radius: 10px; padding: 13px 16px;
+  font-size: .93rem; font-weight: 500; color: var(--text);
+}
+.included-item i { color: var(--green); font-size: .82rem; flex-shrink: 0; }
+.included-note {
+  text-align: center; margin-top: 18px;
+  font-size: .88rem; color: var(--muted);
+}
+.included-note a { color: var(--brand); font-weight: 600; }
+
+/* Samples */
+.samples-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px;
+  max-width: 860px; margin: 0 auto;
+}
+@media (max-width: 680px) { .samples-grid { grid-template-columns: 1fr; max-width: 340px; } }
+.sample-card {
+  border: 1px solid var(--line); border-radius: 14px;
+  overflow: hidden; transition: all .2s; display: block; color: inherit;
+  background: #fff;
+}
+.sample-card:hover { transform: translateY(-4px); box-shadow: 0 10px 28px rgba(0,0,0,.08); border-color: rgba(120,81,169,.3); }
+.sample-card img { width: 100%; display: block; border-bottom: 1px solid var(--line); }
+.sample-info { padding: 15px; }
+.sample-info h4 { font-size: .93rem; font-weight: 700; margin-bottom: 3px; }
+.sample-info p { font-size: .8rem; color: var(--muted); margin: 0; }
+
+/* FOOTER */
+footer { background: #000; padding: 60px 20px 40px; border-top: 1px solid rgba(255,255,255,.08); }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; max-width: 1100px; margin: 0 auto 48px; }
 @media (max-width: 768px) { .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; } }
 @media (max-width: 480px) { .footer-grid { grid-template-columns: 1fr; gap: 28px; } }
 .footer-brand { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
@@ -346,22 +242,14 @@ footer {
 .footer-brand span { font-weight: 700; font-size: 1.1rem; color: #fff; }
 .footer-tagline { color: #a0a6c0; font-size: .9rem; line-height: 1.6; margin-bottom: 20px; max-width: 280px; }
 .footer-social { display: flex; gap: 12px; }
-.footer-social a {
-  display: flex; align-items: center; justify-content: center;
-  width: 36px; height: 36px; background: rgba(255,255,255,.06);
-  border-radius: 10px; color: #a0a6c0; font-size: 1rem; transition: all .2s;
-}
+.footer-social a { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; background: rgba(255,255,255,.06); border-radius: 10px; color: #a0a6c0; transition: all .2s; }
 .footer-social a:hover { background: #ffd700; color: #1a1a2e; }
 .footer-col h5 { font-size: .85rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: #fff; margin: 0 0 16px; }
 .footer-col ul { list-style: none; padding: 0; margin: 0; }
 .footer-col li { margin-bottom: 10px; }
 .footer-col a { color: #a0a6c0; font-size: .9rem; transition: color .2s; }
 .footer-col a:hover { color: #ffd700; }
-.footer-bottom {
-  max-width: 1100px; margin: 0 auto; padding-top: 24px;
-  border-top: 1px solid rgba(255,255,255,.08);
-  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;
-}
+.footer-bottom { max-width: 1100px; margin: 0 auto; padding-top: 24px; border-top: 1px solid rgba(255,255,255,.08); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
 .footer-bottom p { color: #6b7280; font-size: .85rem; margin: 0; }
 .footer-legal { display: flex; gap: 24px; }
 .footer-legal a { color: #6b7280; font-size: .85rem; transition: color .2s; }
@@ -369,12 +257,11 @@ footer {
 @media (max-width: 600px) { .footer-bottom { flex-direction: column; text-align: center; } }
 </style>
 </head>
-
 <body>
 
 <!-- NAV -->
 <div class="nav-wrap">
-  <div class="container container-narrow">
+  <div class="container">
     <nav class="navbar navbar-expand-lg navbar-dark webeaze-nav" aria-label="Primary">
       <a class="navbar-brand d-flex align-items-center" href="index.html">
         <img class="logo" src="images/webeaze-transparent copy.png" alt="WebEaze" />
@@ -390,207 +277,184 @@ footer {
           <li class="nav-item"><a class="nav-link" href="faq.html">FAQ</a></li>
           <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
           <li class="nav-item"><a class="nav-link" href="contact-us.html">Contact</a></li>
-          <li class="nav-item ml-1"><a class="btn btn-sm btn-nav" href="referral.html">Refer & Earn</a></li>
+          <li class="nav-item ml-1"><a class="btn btn-sm btn-nav" href="referral.html">Refer &amp; Earn</a></li>
         </ul>
       </div>
     </nav>
   </div>
 </div>
 
-<!-- CAROUSEL -->
-<div class="carousel-wrap" id="carousel">
+<!-- TOP: QUIZ + BOOKING -->
+<div class="top-wrap">
+  <div class="top-inner">
+    <div class="top-eyebrow"><i class="fas fa-gift"></i> Free, no obligation</div>
+    <h1>Get a free mockup of your new website.</h1>
+    <p>Answer three quick questions, then pick a time for your free 15-minute call. No commitment required.</p>
 
-  <!-- Step Bar -->
-  <div class="step-bar">
-    <div class="step-tabs">
-      <button class="step-tab active" data-go="0">Overview</button>
-      <button class="step-tab" data-go="1">Our Work</button>
-      <button class="step-tab" data-go="2">Included</button>
-      <button class="step-tab" data-go="3">Book</button>
-    </div>
-    <div class="step-progress-track">
-      <div class="step-progress-fill" id="progressFill"></div>
-    </div>
-  </div>
+    <!-- QUIZ -->
+    <div class="quiz-card" id="quizCard">
+      <div class="quiz-progress-track">
+        <div class="quiz-progress-fill" id="quizProgress"></div>
+      </div>
+      <div class="quiz-body">
 
-  <!-- Slides -->
-  <div class="slides-viewport" id="slidesViewport" data-dir="forward">
-
-    <!-- SLIDE 1 — OVERVIEW -->
-    <div class="slide active" id="slide-0">
-      <div class="container">
-        <div class="slide-1-grid">
-
-          <div>
-            <div class="slide-kicker"><i class="fas fa-bolt"></i> Free — No Obligation</div>
-            <h1 class="slide-h1">See your website before you commit.</h1>
-            <p class="slide-sub">We'll build you a free custom mockup so you can see exactly what your site will look like. If you love it, we move forward. If not, no hard feelings.</p>
-
-            <div class="feature-tiles">
-              <div class="feature-tile">
-                <div class="feature-tile-icon"><i class="fas fa-hammer"></i></div>
-                <h4>We Build It</h4>
-                <p>Custom design, live in days.</p>
-              </div>
-              <div class="feature-tile">
-                <div class="feature-tile-icon"><i class="fas fa-server"></i></div>
-                <h4>We Host It</h4>
-                <p>Hosting and domain covered.</p>
-              </div>
-              <div class="feature-tile">
-                <div class="feature-tile-icon"><i class="fas fa-sliders"></i></div>
-                <h4>We Manage It</h4>
-                <p>Updates, SEO, and support.</p>
-              </div>
-            </div>
-
-            <div class="skip-link">
-              <i class="fas fa-calendar-check" style="color:var(--green)"></i>
-              Already decided? <a href="#" onclick="goTo(3);return false;">Skip to booking →</a>
-            </div>
-          </div>
-
-          <div class="summary-card">
-            <div class="summary-plan-label">Starting at</div>
-            <div class="summary-price">
-              <span class="price-big"><span class="cur">$</span>169</span>
-              <span class="price-per">/month</span>
-            </div>
-            <div class="summary-setup">+ $199 one-time setup fee</div>
-            <ul class="summary-features">
-              <li><i class="fas fa-check"></i> Up to 3 pages, professionally designed</li>
-              <li><i class="fas fa-check"></i> Unlimited content updates</li>
-              <li><i class="fas fa-check"></i> Hosting & SSL included</li>
-              <li><i class="fas fa-check"></i> Basic SEO setup</li>
-              <li><i class="fas fa-check"></i> Email support</li>
-            </ul>
-            <button class="btn-book" onclick="goTo(3)">
-              <i class="fas fa-calendar-check"></i> Get My Free Mockup
+        <div class="quiz-step active" id="q1">
+          <div class="quiz-q">Do you currently have a website?</div>
+          <div class="quiz-options">
+            <button class="quiz-opt" onclick="answer(1,'new',this)">
+              <i class="fas fa-rocket"></i> No, starting from scratch
             </button>
-            <div class="summary-trust">
-              <i class="fas fa-shield-alt"></i> No contract &nbsp;·&nbsp; Cancel anytime
-            </div>
+            <button class="quiz-opt" onclick="answer(1,'redesign',this)">
+              <i class="fas fa-rotate"></i> Yes, I want to improve or replace it
+            </button>
+            <button class="quiz-opt" onclick="answer(1,'existing',this)">
+              <i class="fas fa-wrench"></i> Yes, I just need someone to manage it
+            </button>
           </div>
-
-        </div>
-      </div>
-    </div>
-
-    <!-- SLIDE 2 — OUR WORK -->
-    <div class="slide" id="slide-1">
-      <div class="container">
-        <div class="section-header">
-          <div class="section-kicker"><i class="fas fa-star"></i> Real Results</div>
-          <h2>Websites We've Built</h2>
-          <p>See what we've created for businesses like yours</p>
-        </div>
-        <div class="showcase-grid">
-          <a href="https://bearcarpetcare.com" target="_blank" class="showcase-card">
-            <span class="badge">Service Business</span>
-            <img src="images/samples/bear-carpet-care.png" alt="Bear Carpet Care">
-            <div class="showcase-content">
-              <h3>Bear Carpet Care</h3>
-              <p>Professional service site with easy booking and trust signals.</p>
-              <span class="showcase-link">View Live <i class="fas fa-arrow-right"></i></span>
-            </div>
-          </a>
-          <a href="https://ibisprep.com" target="_blank" class="showcase-card">
-            <span class="badge">Education</span>
-            <img src="images/samples/ibis-prep.png" alt="Ibis Prep">
-            <div class="showcase-content">
-              <h3>Ibis Prep</h3>
-              <p>Clean, credibility-focused design for tutoring services.</p>
-              <span class="showcase-link">View Live <i class="fas fa-arrow-right"></i></span>
-            </div>
-          </a>
-          <a href="https://pembertoncoffeehouse.com" target="_blank" class="showcase-card">
-            <span class="badge">Local Business</span>
-            <img src="images/samples/pemberton-coffeehouse.png" alt="Pemberton Coffeehouse">
-            <div class="showcase-content">
-              <h3>Pemberton Coffeehouse</h3>
-              <p>Warm, inviting design with clear menus and local info.</p>
-              <span class="showcase-link">View Live <i class="fas fa-arrow-right"></i></span>
-            </div>
-          </a>
-        </div>
-      </div>
-    </div>
-
-    <!-- SLIDE 3 — WHAT'S INCLUDED -->
-    <div class="slide" id="slide-2">
-      <div class="container">
-        <div class="section-header">
-          <div class="section-kicker"><i class="fas fa-box-open"></i> What's Included</div>
-          <h2>Everything for one flat price.</h2>
-          <p>No hidden fees. No surprise charges. Ever.</p>
-        </div>
-        <div class="included-card">
-          <ul class="included-list">
-            <li><i class="fas fa-check-circle"></i> Custom website design</li>
-            <li><i class="fas fa-check-circle"></i> Unlimited updates</li>
-            <li><i class="fas fa-check-circle"></i> Hosting included</li>
-            <li><i class="fas fa-check-circle"></i> SEO setup</li>
-            <li><i class="fas fa-check-circle"></i> Domain covered</li>
-            <li><i class="fas fa-check-circle"></i> Mobile-responsive</li>
-            <li><i class="fas fa-check-circle"></i> Ongoing support</li>
-            <li><i class="fas fa-check-circle"></i> No long-term contract</li>
-          </ul>
-          <div class="included-note">All of this for <strong>one flat monthly fee</strong>. No extra invoices, ever.</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- SLIDE 4 — BOOK -->
-    <div class="slide" id="slide-3">
-      <div class="container">
-        <div class="section-header">
-          <div class="section-kicker"><i class="fas fa-handshake"></i> Zero Pressure</div>
-          <h2>Book Your Free Mockup.</h2>
-          <p>Pick a time that works for you. We'll show you what your site could look like — no obligation to move forward.</p>
         </div>
 
-        <div class="promise-pills">
-          <div class="promise-pill"><i class="fas fa-check"></i> Free, no commitment</div>
-          <div class="promise-pill"><i class="fas fa-check"></i> 15-minute call</div>
-          <div class="promise-pill"><i class="fas fa-check"></i> Mockup in 48 hours</div>
-          <div class="promise-pill"><i class="fas fa-check"></i> Cancel anytime</div>
-        </div>
-
-        <div class="scheduler-card">
-          <div class="scheduler-header">
-            <h3>Schedule Your Free Call</h3>
-            <p>Choose a date and time below — we'll confirm via email</p>
+        <div class="quiz-step" id="q2">
+          <div class="quiz-q">What best describes your business?</div>
+          <div class="quiz-options">
+            <button class="quiz-opt" onclick="answer(2,'service',this)">
+              <i class="fas fa-briefcase"></i> Service business (contractor, cleaner, consultant, etc.)
+            </button>
+            <button class="quiz-opt" onclick="answer(2,'food',this)">
+              <i class="fas fa-utensils"></i> Restaurant, cafe, or food business
+            </button>
+            <button class="quiz-opt" onclick="answer(2,'retail',this)">
+              <i class="fas fa-store"></i> Retail, shop, or product-based
+            </button>
+            <button class="quiz-opt" onclick="answer(2,'other',this)">
+              <i class="fas fa-ellipsis"></i> Something else
+            </button>
           </div>
-          <div class="meetings-iframe-container"
-               data-src="https://meetings-na2.hubspot.com/webeaze/free-consultation?embed=true">
+        </div>
+
+        <div class="quiz-step" id="q3">
+          <div class="quiz-q">What matters most to you right now?</div>
+          <div class="quiz-options">
+            <button class="quiz-opt" onclick="answer(3,'leads',this)">
+              <i class="fas fa-bullseye"></i> Getting more customers and leads online
+            </button>
+            <button class="quiz-opt" onclick="answer(3,'credibility',this)">
+              <i class="fas fa-star"></i> Looking more professional and credible
+            </button>
+            <button class="quiz-opt" onclick="answer(3,'simple',this)">
+              <i class="fas fa-hand-holding-heart"></i> Having someone handle it so I don't have to
+            </button>
+            <button class="quiz-opt" onclick="answer(3,'fast',this)">
+              <i class="fas fa-bolt"></i> Just getting something up quickly
+            </button>
           </div>
-          <script src="https://static.hsappstatic.net/MeetingsEmbed/ex/MeetingsEmbedCode.js"></script>
+        </div>
+
+        <div class="quiz-result" id="quizResult">
+          <div class="result-box">
+            <div class="result-label"><i class="fas fa-check-circle" style="margin-right:4px;"></i> Based on your answers</div>
+            <div class="result-msg" id="resultMsg"></div>
+          </div>
+          <button class="book-btn" onclick="showBooking()">
+            <i class="fas fa-calendar-check"></i> Book My Free Mockup Call
+          </button>
+          <p class="book-note"><i class="fas fa-shield-alt"></i> Free, no commitment &nbsp;&#183;&nbsp; 15-minute call &nbsp;&#183;&nbsp; Cancel anytime</p>
         </div>
 
       </div>
     </div>
 
-  </div><!-- end slides-viewport -->
-
-  <!-- Bottom nav -->
-  <div class="carousel-foot">
-    <div class="carousel-foot-inner">
-      <button class="nav-btn nav-btn-prev" id="prevBtn" disabled>
-        <i class="fas fa-arrow-left"></i> Back
-      </button>
-      <div class="nav-dots">
-        <button class="nav-dot active" data-go="0"></button>
-        <button class="nav-dot" data-go="1"></button>
-        <button class="nav-dot" data-go="2"></button>
-        <button class="nav-dot" data-go="3"></button>
+    <!-- BOOKING (revealed after quiz) -->
+    <div class="booking-wrap" id="bookingWrap">
+      <div class="booking-header">
+        <h3>Schedule Your Free 15-Minute Call</h3>
+        <p>Pick a date and time below. We'll confirm via email.</p>
       </div>
-      <button class="nav-btn nav-btn-next" id="nextBtn">
-        See Our Work <i class="fas fa-arrow-right"></i>
-      </button>
+      <div class="meetings-iframe-container"
+           data-src="https://meetings-na2.hubspot.com/webeaze/free-consultation?embed=true">
+      </div>
+      <script src="https://static.hsappstatic.net/MeetingsEmbed/ex/MeetingsEmbedCode.js"></script>
+    </div>
+
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<section class="section">
+  <div class="container">
+    <div class="sec-label">Simple Process</div>
+    <h2 class="sec-h2">How it works</h2>
+    <p class="sec-sub">Three steps from "I need a website" to "my site is live."</p>
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-num">1</div>
+        <h3>Quick call</h3>
+        <p>We spend 15 minutes learning about your business. You see examples of our work and a rough idea of your site. Totally free.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">2</div>
+        <h3>We build it</h3>
+        <p>You send us your content: logo, text, photos. We design and build the site. First draft is usually ready in 7 to 14 days.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">3</div>
+        <h3>We keep it running</h3>
+        <p>After launch we're still here. Need to update something? Just send us a message and we'll handle it, usually same or next day.</p>
+      </div>
     </div>
   </div>
+</section>
 
-</div><!-- end carousel-wrap -->
+<!-- WHAT'S INCLUDED -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="sec-label">What You Get</div>
+    <h2 class="sec-h2">Everything, one flat price.</h2>
+    <p class="sec-sub">No hourly billing. No surprise invoices. No tech headaches.</p>
+    <div class="included-grid">
+      <div class="included-item"><i class="fas fa-check-circle"></i> Custom website design</div>
+      <div class="included-item"><i class="fas fa-check-circle"></i> Unlimited content updates</div>
+      <div class="included-item"><i class="fas fa-check-circle"></i> Hosting and SSL included</div>
+      <div class="included-item"><i class="fas fa-check-circle"></i> SEO setup</div>
+      <div class="included-item"><i class="fas fa-check-circle"></i> Domain covered</div>
+      <div class="included-item"><i class="fas fa-check-circle"></i> Mobile-responsive</div>
+      <div class="included-item"><i class="fas fa-check-circle"></i> Ongoing support</div>
+      <div class="included-item"><i class="fas fa-check-circle"></i> No long-term contract</div>
+    </div>
+    <p class="included-note">All of this for one flat monthly fee. <a href="pricing.html">See pricing &rarr;</a></p>
+  </div>
+</section>
+
+<!-- OUR WORK -->
+<section class="section">
+  <div class="container">
+    <div class="sec-label">Real Results</div>
+    <h2 class="sec-h2">Websites we've built</h2>
+    <p class="sec-sub">See what we've created for businesses like yours.</p>
+    <div class="samples-grid">
+      <a href="https://bearcarpetcare.com" target="_blank" class="sample-card">
+        <img src="images/samples/bear-carpet-care.png" alt="Bear Carpet Care">
+        <div class="sample-info">
+          <h4>Bear Carpet Care</h4>
+          <p>Professional service site with booking and trust signals.</p>
+        </div>
+      </a>
+      <a href="https://ibisprep.com" target="_blank" class="sample-card">
+        <img src="images/samples/ibis-prep.png" alt="Ibis Prep">
+        <div class="sample-info">
+          <h4>Ibis Prep</h4>
+          <p>Clean, credibility-focused design for tutoring services.</p>
+        </div>
+      </a>
+      <a href="https://pembertoncoffeehouse.com" target="_blank" class="sample-card">
+        <img src="images/samples/pemberton-coffeehouse.png" alt="Pemberton Coffeehouse">
+        <div class="sample-info">
+          <h4>Pemberton Coffeehouse</h4>
+          <p>Warm, inviting design with menus and local info.</p>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
 
 <!-- FOOTER -->
 <footer>
@@ -635,7 +499,7 @@ footer {
     </div>
   </div>
   <div class="footer-bottom">
-    <p style="color:#fff">&copy; <span id="yr"></span> WebEaze. Made in Delaware, USA 🇺🇸</p>
+    <p style="color:#fff">&copy; <span id="yr"></span> WebEaze. Made in Delaware, USA &#127482;&#127480;</p>
     <div class="footer-legal">
       <a href="terms.html#privacy">Privacy Policy</a>
       <a href="terms.html">Terms of Service</a>
@@ -644,61 +508,67 @@ footer {
   </div>
 </footer>
 
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>
 document.getElementById('yr').textContent = new Date().getFullYear();
 
-(function() {
-  const slides       = document.querySelectorAll('.slide');
-  const tabs         = document.querySelectorAll('.step-tab');
-  const dots         = document.querySelectorAll('.nav-dot');
-  const prevBtn      = document.getElementById('prevBtn');
-  const nextBtn      = document.getElementById('nextBtn');
-  const viewport     = document.getElementById('slidesViewport');
-  const carousel     = document.getElementById('carousel');
-  const progressFill = document.getElementById('progressFill');
+const answers = {};
 
-  const nextLabels = ['See Our Work', "What's Included", 'Book My Mockup'];
-  let current = 0;
-  const total = slides.length;
-
-  window.goTo = function(n, dir) {
-    if (n === current) return;
-    const direction = dir ?? (n > current ? 'forward' : 'back');
-    current = Math.max(0, Math.min(total - 1, n));
-
-    viewport.setAttribute('data-dir', direction);
-    slides.forEach((s, i) => s.classList.toggle('active', i === current));
-
-    tabs.forEach((t, i) => {
-      t.classList.remove('active', 'completed');
-      if (i === current) t.classList.add('active');
-      else if (i < current) t.classList.add('completed');
-    });
-    progressFill.style.width = ((current + 1) / total * 100) + '%';
-    dots.forEach((d, i) => d.classList.toggle('active', i === current));
-
-    prevBtn.disabled = current === 0;
-    if (current === total - 1) {
-      nextBtn.classList.add('hidden');
+function answer(q, val, btn) {
+  answers[q] = val;
+  btn.classList.add('selected');
+  setTimeout(function() {
+    if (q < 3) {
+      showQ(q + 1);
     } else {
-      nextBtn.classList.remove('hidden');
-      nextBtn.innerHTML = nextLabels[current] + ' <i class="fas fa-arrow-right"></i>';
+      showResult();
     }
+  }, 260);
+}
 
-    const barTop = carousel.getBoundingClientRect().top + window.scrollY;
-    window.scrollTo({ top: barTop - 57, behavior: 'smooth' });
-  };
+function showQ(n) {
+  document.querySelectorAll('.quiz-step').forEach(function(s) { s.classList.remove('active'); });
+  document.getElementById('q' + n).classList.add('active');
+  document.getElementById('quizProgress').style.width = (n / 3 * 100) + '%';
+}
 
-  prevBtn.addEventListener('click', () => goTo(current - 1));
-  nextBtn.addEventListener('click', () => goTo(current + 1));
-  dots.forEach(d => d.addEventListener('click', () => goTo(+d.dataset.go)));
-  tabs.forEach(t => t.addEventListener('click', () => goTo(+t.dataset.go)));
-})();
+function showResult() {
+  document.getElementById('quizProgress').style.width = '100%';
+  document.querySelectorAll('.quiz-step').forEach(function(s) { s.classList.remove('active'); });
+
+  var a1 = answers[1], a3 = answers[3];
+  var msg = '';
+
+  if (a1 === 'new') {
+    msg += "You're starting fresh. We'll build your site from scratch and handle everything. ";
+  } else if (a1 === 'redesign') {
+    msg += "We can take your existing site and give it a full refresh while keeping what's working. ";
+  } else {
+    msg += "If you already have a site that just needs someone to take care of it, that's exactly what we do. ";
+  }
+
+  if (a3 === 'leads') {
+    msg += "Since getting more customers is the priority, we'll focus the call on how your site can convert visitors into inquiries.";
+  } else if (a3 === 'credibility') {
+    msg += "We'll show you examples of how we've helped similar businesses look more professional online.";
+  } else if (a3 === 'simple') {
+    msg += "After launch, you won't have to touch a thing. Just send us a message when something needs updating.";
+  } else {
+    msg += "We can move quickly. Most sites are live within two weeks of the first call.";
+  }
+
+  document.getElementById('resultMsg').textContent = msg;
+  document.getElementById('quizResult').classList.add('active');
+}
+
+function showBooking() {
+  var wrap = document.getElementById('bookingWrap');
+  wrap.classList.add('visible');
+  setTimeout(function() {
+    wrap.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 100);
+}
 </script>
-
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
 </body>
 </html>
