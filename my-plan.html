@@ -63,59 +63,92 @@
 
     /* ── HERO ── */
     .hero {
-      background: linear-gradient(135deg, #0f1228 0%, #1e1040 60%, #2a1060 100%);
-      padding: 72px 20px 60px;
+      background: #f5f6fa;
+      border-bottom: 1px solid #e4e7f1;
+      padding: 56px 20px 40px;
       text-align: center;
     }
-    .eyebrow {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: rgba(120,81,169,.2); border: 1px solid rgba(120,81,169,.35);
-      color: #c4a8f5; border-radius: 100px;
-      padding: 6px 16px; font-size: 13px; font-weight: 600;
-      letter-spacing: .04em; margin-bottom: 20px;
+    .page-label {
+      font-size: .85rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .18em; color: #6b7280; margin-bottom: 10px;
     }
-    .hero h1 { color: #fff; font-size: clamp(28px,5vw,52px); font-weight: 600; margin: 0 0 14px; }
-    .hero p { color: #b0b8d4; font-size: 17px; max-width: 520px; margin: 0 auto 40px; }
+    .hero h1 { color: #0f1228; font-size: clamp(26px,4vw,40px); font-weight: 800; letter-spacing: -.02em; margin: 0 0 10px; }
+    .hero p { color: #6b7280; font-size: 1.05rem; max-width: 520px; margin: 0 auto 36px; }
 
     /* ── PLAN PICKER ── */
     .plan-picker {
-      display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
+      display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;
     }
     .pick-btn {
-      display: flex; align-items: center; gap: 10px;
-      padding: 14px 28px; border-radius: 14px;
-      border: 2px solid rgba(255,255,255,.15);
-      background: rgba(255,255,255,.06);
-      color: #fff; font-family: 'Poppins', sans-serif;
-      font-size: 16px; font-weight: 600; cursor: pointer;
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      padding: 20px 32px; border-radius: 16px;
+      border: 2px solid #e4e7f1;
+      background: #fff;
+      color: #4a4f6a; font-family: 'Poppins', sans-serif;
+      font-size: 15px; font-weight: 700; cursor: pointer;
       transition: all .2s ease;
+      box-shadow: 0 2px 8px rgba(0,0,0,.06);
+      min-width: 140px;
     }
-    .pick-btn:hover { border-color: rgba(255,255,255,.35); background: rgba(255,255,255,.12); }
-    .pick-btn.active {
-      border-color: var(--gold);
-      background: rgba(255,215,0,.12);
-      color: var(--gold);
-      box-shadow: 0 0 0 3px rgba(255,215,0,.15);
+    .pick-btn i { font-size: 22px; }
+    .pick-btn .plan-label { font-size: 15px; font-weight: 700; }
+
+    /* Essential */
+    .pick-btn[data-plan="essential"] i { color: #16a34a; }
+    .pick-btn[data-plan="essential"]:hover { border-color: #16a34a; background: #f0fdf4; }
+    .pick-btn[data-plan="essential"].active {
+      border-color: #16a34a; background: #f0fdf4; color: #15803d;
+      box-shadow: 0 0 0 3px rgba(22,163,74,.15), 0 4px 16px rgba(22,163,74,.12);
     }
-    .pick-btn i { font-size: 18px; }
+    .pick-btn[data-plan="essential"].active i { color: #15803d; }
+
+    /* Growth */
+    .pick-btn[data-plan="growth"] i { color: var(--brand); }
+    .pick-btn[data-plan="growth"]:hover { border-color: var(--brand); background: #f8f5ff; }
+    .pick-btn[data-plan="growth"].active {
+      border-color: var(--brand);
+      background: linear-gradient(135deg, #7851a9 0%, #5b3d8a 100%);
+      color: #fff;
+      box-shadow: 0 0 0 3px rgba(120,81,169,.2), 0 6px 20px rgba(120,81,169,.25);
+    }
+    .pick-btn[data-plan="growth"].active i { color: #ffd700; }
+
+    /* One-Time */
+    .pick-btn[data-plan="onetime"] i { color: #2563eb; }
+    .pick-btn[data-plan="onetime"]:hover { border-color: #2563eb; background: #eff6ff; }
+    .pick-btn[data-plan="onetime"].active {
+      border-color: #2563eb; background: #eff6ff; color: #1d4ed8;
+      box-shadow: 0 0 0 3px rgba(37,99,235,.15), 0 4px 16px rgba(37,99,235,.12);
+    }
+    .pick-btn[data-plan="onetime"].active i { color: #1d4ed8; }
 
     /* ── CONTENT AREA ── */
     .content-wrap { padding: 56px 20px 80px; }
 
     /* Plan badge at top of results */
     .plan-badge {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: var(--brand); color: #fff;
-      border-radius: 100px; padding: 6px 18px;
-      font-size: 13px; font-weight: 700; letter-spacing: .04em;
-      margin-bottom: 28px;
+      display: flex; align-items: center; gap: 16px;
+      background: linear-gradient(135deg, #7851a9 0%, #5b3d8a 100%);
+      color: #fff; border-radius: 16px;
+      padding: 22px 28px; margin-bottom: 32px;
+      box-shadow: 0 6px 24px rgba(120,81,169,.22);
     }
-    .plan-badge.growth { background: linear-gradient(90deg, #7851a9, #5b3d8a); }
-    .plan-badge.onetime { background: linear-gradient(90deg, #2563eb, #1d4ed8); }
+    .plan-badge .badge-icon {
+      width: 52px; height: 52px; border-radius: 12px;
+      background: rgba(255,255,255,.15);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; flex-shrink: 0;
+    }
+    .plan-badge .badge-text { display: flex; flex-direction: column; gap: 2px; }
+    .plan-badge .badge-name { font-size: 1.3rem; font-weight: 800; letter-spacing: -.01em; }
+    .plan-badge .badge-sub { font-size: .85rem; opacity: .75; font-weight: 500; }
+    .plan-badge.growth { background: linear-gradient(135deg, #7851a9 0%, #3d2070 100%); box-shadow: 0 6px 24px rgba(120,81,169,.3); }
+    .plan-badge.onetime { background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); box-shadow: 0 6px 24px rgba(37,99,235,.22); }
+    .plan-badge.essential { background: linear-gradient(135deg, #16a34a 0%, #15803d 100%); box-shadow: 0 6px 24px rgba(22,163,74,.22); }
 
     /* ── SECTION HEADING ── */
     .section-label {
-      font-size: 12px; font-weight: 700; text-transform: uppercase;
+      font-size: 13px; font-weight: 700; text-transform: uppercase;
       letter-spacing: .1em; color: var(--ink-3);
       margin: 36px 0 14px;
     }
@@ -129,10 +162,10 @@
       display: flex; align-items: flex-start; gap: 12px;
       background: var(--white); border: 1px solid var(--line);
       border-radius: 12px; padding: 14px 18px;
-      font-size: 15px; color: var(--ink-2); line-height: 1.5;
+      font-size: 1rem; color: var(--ink-2); line-height: 1.5;
     }
     .feature-list li .fi { flex-shrink: 0; margin-top: 2px; }
-    .feature-list li .fi i { color: var(--brand); font-size: 15px; }
+    .feature-list li .fi i { color: var(--brand); font-size: 1rem; }
     .feature-list li strong { color: var(--ink); }
 
     /* ── NOT INCLUDED ── */
@@ -145,10 +178,10 @@
       border-radius: 16px; padding: 24px 28px; margin: 10px 0;
     }
     .info-card h4 {
-      font-size: 16px; font-weight: 700; margin: 0 0 10px; color: var(--ink);
+      font-size: 1.05rem; font-weight: 700; margin: 0 0 10px; color: var(--ink);
     }
     .info-card p {
-      font-size: 15px; color: var(--ink-2); margin: 0;
+      font-size: 1rem; color: var(--ink-2); margin: 0;
     }
 
     /* ── SUPPORT CHANNELS ── */
@@ -160,9 +193,9 @@
       display: flex; align-items: center; gap: 10px;
       background: var(--white); border: 1px solid var(--line);
       border-radius: 12px; padding: 14px 16px;
-      font-size: 14px; font-weight: 600; color: var(--ink-2);
+      font-size: 1rem; font-weight: 600; color: var(--ink-2);
     }
-    .support-chip i { color: var(--brand); font-size: 16px; flex-shrink: 0; }
+    .support-chip i { color: var(--brand); font-size: 1.05rem; flex-shrink: 0; }
     .support-chip.muted { color: #c0c4d6; border-color: #edf0f7; }
     .support-chip.muted i { color: #d1d5e0; }
 
@@ -172,12 +205,12 @@
       border-radius: 20px; padding: 40px 36px;
       text-align: center; margin-top: 48px;
     }
-    .cta-strip h3 { color: #fff; font-size: 22px; font-weight: 700; margin: 0 0 10px; }
-    .cta-strip p { color: #b0b8d4; font-size: 15px; margin: 0 0 24px; }
+    .cta-strip h3 { color: #fff; font-size: 1.35rem; font-weight: 700; margin: 0 0 10px; }
+    .cta-strip p { color: #b0b8d4; font-size: 1rem; margin: 0 0 24px; }
     .cta-strip a {
       display: inline-block; background: var(--gold); color: #2f1e66;
       border-radius: 12px; padding: 13px 30px; font-weight: 700;
-      font-size: 15px; text-decoration: none;
+      font-size: 1rem; text-decoration: none;
       box-shadow: 0 6px 20px rgba(255,215,0,.25);
       transition: opacity .15s;
     }
@@ -190,8 +223,8 @@
     }
     .empty-state.visible { display: block; }
     .empty-state i { font-size: 48px; color: var(--line); margin-bottom: 20px; }
-    .empty-state h3 { font-size: 20px; font-weight: 700; margin-bottom: 10px; }
-    .empty-state p { color: var(--ink-3); font-size: 16px; }
+    .empty-state h3 { font-size: 1.25rem; font-weight: 700; margin-bottom: 10px; }
+    .empty-state p { color: var(--ink-3); font-size: 1rem; }
 
     /* ── RESULTS ── */
     .plan-results { display: none; }
@@ -265,19 +298,21 @@
 <!-- HERO -->
 <header class="hero">
   <div class="container-narrow">
-    
     <h1>What's Included in My Plan?</h1>
     <p>Select your plan below to see every feature and benefit you have access to.</p>
 
     <div class="plan-picker">
       <button class="pick-btn" data-plan="essential" onclick="selectPlan('essential')">
-        <i class="fas fa-seedling"></i> Essential
+        <i class="fas fa-seedling"></i>
+        <span class="plan-label">Essential</span>
       </button>
       <button class="pick-btn" data-plan="growth" onclick="selectPlan('growth')">
-        <i class="fas fa-chart-line"></i> Growth
+        <i class="fas fa-chart-line"></i>
+        <span class="plan-label">Growth</span>
       </button>
       <button class="pick-btn" data-plan="onetime" onclick="selectPlan('onetime')">
-        <i class="fas fa-file-invoice"></i> One-Time Project
+        <i class="fas fa-file-invoice"></i>
+        <span class="plan-label">One-Time Project</span>
       </button>
     </div>
   </div>
@@ -296,7 +331,13 @@
 
     <!-- ESSENTIAL RESULTS -->
     <div class="plan-results" id="results-essential">
-      <div class="plan-badge"><i class="fas fa-seedling"></i> Essential Plan</div>
+      <div class="plan-badge essential">
+        <div class="badge-icon"><i class="fas fa-seedling"></i></div>
+        <div class="badge-text">
+          <span class="badge-name">Essential Plan</span>
+          <span class="badge-sub">Your current features and benefits</span>
+        </div>
+      </div>
 
       <div class="section-label">What's Included</div>
       <ul class="feature-list">
@@ -350,7 +391,13 @@
 
     <!-- GROWTH RESULTS -->
     <div class="plan-results" id="results-growth">
-      <div class="plan-badge growth"><i class="fas fa-chart-line"></i> Growth Plan</div>
+      <div class="plan-badge growth">
+        <div class="badge-icon"><i class="fas fa-chart-line"></i></div>
+        <div class="badge-text">
+          <span class="badge-name">Growth Plan</span>
+          <span class="badge-sub">Your current features and benefits</span>
+        </div>
+      </div>
 
       <div class="section-label">What's Included</div>
       <ul class="feature-list">
@@ -404,7 +451,13 @@
 
     <!-- ONE-TIME RESULTS -->
     <div class="plan-results" id="results-onetime">
-      <div class="plan-badge onetime"><i class="fas fa-file-invoice"></i> One-Time Project</div>
+      <div class="plan-badge onetime">
+        <div class="badge-icon"><i class="fas fa-file-invoice"></i></div>
+        <div class="badge-text">
+          <span class="badge-name">One-Time Project</span>
+          <span class="badge-sub">Your current features and benefits</span>
+        </div>
+      </div>
 
       <div class="section-label">What's Included in Every Tier</div>
       <ul class="feature-list">
