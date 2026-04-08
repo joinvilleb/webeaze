@@ -899,10 +899,10 @@ fee-tooltip {
 /* ===== NEW HERO STYLES ===== */
 .hero-section {
   position: relative;
-  min-height: 100vh;
+  min-height: calc(100vh - 60px);
   display: flex;
   align-items: center;
-  padding: 70px 0 80px;
+  padding: 32px 0 48px;
   overflow: hidden;
 }
 
@@ -937,7 +937,7 @@ fee-tooltip {
     text-align: center;
   }
   .hero-section {
-    padding: 70px 0 60px;
+    padding: 52px 0 80px;
     min-height: auto;
   }
 }
@@ -946,6 +946,48 @@ fee-tooltip {
   opacity: 0;
   transform: translateY(30px);
   animation: heroFadeUp 0.8s ease forwards 0.2s;
+}
+
+/* Scroll indicator */
+.scroll-down-btn {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  background: rgba(255,255,255,.07);
+  border: 1px solid rgba(255,255,255,.15);
+  color: rgba(255,255,255,.6);
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  font-size: 14px;
+  opacity: 0;
+  animation: scrollBobIn 1s ease forwards 2.2s, scrollBob 2s ease-in-out 3.2s infinite;
+  transition: opacity .35s ease, background .2s, color .2s;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.scroll-down-btn:hover,
+.scroll-down-btn:active {
+  background: rgba(255,255,255,.14);
+  color: #fff;
+}
+.scroll-down-btn.hidden {
+  opacity: 0 !important;
+  pointer-events: none;
+  animation: none;
+}
+@keyframes scrollBobIn {
+  to { opacity: 1; }
+}
+@keyframes scrollBob {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50%       { transform: translateX(-50%) translateY(6px); }
+}
+@media (max-width: 992px) {
+  .scroll-down-btn { display: none; }
 }
 
 @keyframes heroFadeUp {
@@ -1274,24 +1316,10 @@ fee-tooltip {
 .pricing-parallax-section {
   position: relative;
   padding: 100px 0 120px;
-  overflow: hidden;
+  background: #000;
 }
 
-.pricing-parallax-bg {
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(180deg, rgba(5, 5, 9, 0.564) 0%, rgba(5,5,9,0.85) 50%, rgba(5, 5, 9, 0.338) 100%),
-    url('images/monitoring-website.png') center/cover no-repeat;
-  background-attachment: fixed;
-  z-index: 0;
-}
-
-@media (max-width: 768px) {
-  .pricing-parallax-bg {
-    background-attachment: scroll;
-  }
-}
+.pricing-parallax-bg { display: none; }
 
 .pricing-parallax-section .container {
   position: relative;
@@ -2135,64 +2163,120 @@ fee-tooltip {
 
       </div>
     </div>
+
+    <!-- Scroll indicator -->
+    <button class="scroll-down-btn" id="scrollDownBtn" aria-label="Scroll down" onclick="scrollDownDismiss()">
+      <i class="fas fa-chevron-down"></i>
+    </button>
+
   </section>
 
 
 
-
-
-
   
   
   
   
 
-  <section style="padding:16px 0 120px; position:relative; overflow:hidden;">
-    <div style="position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 50% 40%, rgba(120,81,169,.1), transparent 65%);pointer-events:none;"></div>
-    <div class="container container-narrow" style="position:relative;z-index:1;">
+  <section class="why-section">
+    <div class="container container-narrow">
 
       <div class="why-header reveal">
         <div class="why-kicker"><i class="fas fa-bolt"></i> Why WebEaze?</div>
-        <h2>One plan. <span class="gold-sweep">Everything handled.</span></h2>
-       
+        <h2>One flat rate. <span class="why-gold">No surprises.</span></h2>
       </div>
 
-      <div class="compare-wrap reveal reveal-delay-1">
-        <div class="compare-header-row">
-          <div class="compare-hcell">Feature</div>
-          <div class="compare-hcell h-we"><i class="fas fa-bolt" style="margin-right:6px;font-size:11px;"></i>WebEaze</div>
-          <div class="compare-hcell h-other">Everyone Else</div>
+      <div class="why-tabs reveal reveal-delay-1">
+
+        <div class="why-tab-bar" role="tablist">
+          <button class="why-tab active" role="tab" onclick="whyTab(this,'wt-design')"><i class="fas fa-paintbrush"></i> Design</button>
+          <button class="why-tab" role="tab" onclick="whyTab(this,'wt-updates')"><i class="fas fa-rotate"></i> Updates</button>
+          <button class="why-tab" role="tab" onclick="whyTab(this,'wt-hosting')"><i class="fas fa-server"></i> Hosting</button>
+          <button class="why-tab" role="tab" onclick="whyTab(this,'wt-seo')"><i class="fas fa-magnifying-glass-chart"></i> SEO</button>
+          <button class="why-tab" role="tab" onclick="whyTab(this,'wt-security')"><i class="fas fa-shield-halved"></i> Security</button>
+          <button class="why-tab why-tab-gold" role="tab" onclick="whyTab(this,'wt-total')"><i class="fas fa-tags"></i> Total</button>
         </div>
-        <div class="compare-row">
-          <div class="compare-cell">Custom website design</div>
-          <div class="compare-cell c-we"><i class="fas fa-check-circle"></i> Included</div>
-          <div class="compare-cell c-other">$2,000–$5,000 </div>
-        </div>
-        <div class="compare-row">
-          <div class="compare-cell">Hosting &amp; domain</div>
-          <div class="compare-cell c-we"><i class="fas fa-check-circle"></i> Included</div>
-          <div class="compare-cell c-other">$30–$50/mo</div>
-        </div>
-        <div class="compare-row">
-          <div class="compare-cell">Unlimited updates</div>
-          <div class="compare-cell c-we"><i class="fas fa-check-circle"></i> Included</div>
-          <div class="compare-cell c-other">$75–$150/hr</div>
-        </div>
-        <div class="compare-row">
-          <div class="compare-cell">SEO optimization</div>
-          <div class="compare-cell c-we"><i class="fas fa-check-circle"></i> Ongoing</div>
-          <div class="compare-cell c-other">$99+/mo</div>
-        </div>
-        
-        <div class="compare-row">
-          <div class="compare-cell">Contract required</div>
-          <div class="compare-cell c-we"><i class="fas fa-check-circle"></i> No contracts</div>
-          <div class="compare-cell c-other">Usually required</div>
-        </div>
-        <div class="compare-row">
-          <div class="compare-cell">Monthly total</div>
-          <div class="compare-cell c-we" style="font-size:18px;color:#fff;font-weight:800;letter-spacing:-.01em;">$169/mo</div>
-          <div class="compare-cell c-other" style="font-size:18px;color:#ff6b6b;font-weight:800;">$300–$500+/mo</div>
+
+        <div class="why-tab-body">
+
+          <div class="why-panel active" id="wt-design">
+            <div class="wp-left">
+              <p class="wp-label">The problem</p>
+              <h3>Agencies charge thousands before your site even goes live</h3>
+              <p>Most service businesses get quoted $3,000 to $8,000 just to build a website. That's before hosting, before updates, before anything. Many small businesses either overpay or end up with a cheap template that doesn't represent them properly.</p>
+            </div>
+            <div class="wp-right">
+              <div class="wp-we"><span><i class="fas fa-check-circle"></i> With WebEaze</span><strong>Included</strong><small>Custom design, built for your business</small></div>
+              <div class="wp-vs">vs.</div>
+              <div class="wp-other"><span>Typical agency</span><strong>$3,000 – $8,000</strong><small>upfront, before a single update</small></div>
+            </div>
+          </div>
+
+          <div class="why-panel" id="wt-updates">
+            <div class="wp-left">
+              <p class="wp-label">The problem</p>
+              <h3>Every small change turns into an invoice</h3>
+              <p>You need to update your hours, swap a photo, or add a new service. A freelancer or agency charges by the hour for every request. A simple text change shouldn't cost you $150 and a two-day wait. It adds up fast and creates friction every time your business changes.</p>
+            </div>
+            <div class="wp-right">
+              <div class="wp-we"><span><i class="fas fa-check-circle"></i> With WebEaze</span><strong>Included</strong><small>Unlimited updates, no hourly billing</small></div>
+              <div class="wp-vs">vs.</div>
+              <div class="wp-other"><span>Freelancer or agency</span><strong>$75 – $150/hr</strong><small>per edit, per request, every time</small></div>
+            </div>
+          </div>
+
+          <div class="why-panel" id="wt-hosting">
+            <div class="wp-left">
+              <p class="wp-label">The problem</p>
+              <h3>Hosting, domain, and SSL become three separate bills you have to manage</h3>
+              <p>After a site is built, most business owners are handed logins to a hosting provider, a domain registrar, and an SSL service they didn't ask for. When something breaks or a renewal lapses, there's no one to call. The site just goes down.</p>
+            </div>
+            <div class="wp-right">
+              <div class="wp-we"><span><i class="fas fa-check-circle"></i> With WebEaze</span><strong>Included</strong><small>Hosting, domain, SSL all managed for you</small></div>
+              <div class="wp-vs">vs.</div>
+              <div class="wp-other"><span>DIY hosting setup</span><strong>$30 – $50/mo</strong><small>across multiple unmanaged providers</small></div>
+            </div>
+          </div>
+
+          <div class="why-panel" id="wt-seo">
+            <div class="wp-left">
+              <p class="wp-label">The problem</p>
+              <h3>A new website that nobody can find is the same as no website</h3>
+              <p>Service businesses rely on local search. Plumbers, cleaners, landscapers, contractors — your customers are searching Google right now. If your site isn't optimized, you're invisible. Most web designers deliver the site and leave SEO as someone else's problem.</p>
+            </div>
+            <div class="wp-right">
+              <div class="wp-we"><span><i class="fas fa-check-circle"></i> With WebEaze</span><strong>Included</strong><small>On-page SEO built in from day one</small></div>
+              <div class="wp-vs">vs.</div>
+              <div class="wp-other"><span>Separate SEO service</span><strong>$99 – $300+/mo</strong><small>billed on top of your existing site costs</small></div>
+            </div>
+          </div>
+
+          <div class="why-panel" id="wt-security">
+            <div class="wp-left">
+              <p class="wp-label">The problem</p>
+              <h3>Unmanaged sites get hacked, go down, or expire with no warning</h3>
+              <p>A site with no active maintenance is a liability. SSL certificates expire, plugins go unpatched, and domains lapse. For a small business, a hacked or offline website directly costs you customers and credibility. Most builders hand you the site and walk away.</p>
+            </div>
+            <div class="wp-right">
+              <div class="wp-we"><span><i class="fas fa-check-circle"></i> With WebEaze</span><strong>Included</strong><small>Monitoring, backups, HTTPS always active</small></div>
+              <div class="wp-vs">vs.</div>
+              <div class="wp-other"><span>Managed security add-on</span><strong>$20 – $60/mo</strong><small>sold separately, if offered at all</small></div>
+            </div>
+          </div>
+
+          <div class="why-panel" id="wt-total">
+            <div class="wp-left">
+              <p class="wp-label">The bottom line</p>
+              <h3>Running a professional website should not require five vendors and a monthly headache</h3>
+              <p>Design, updates, hosting, SEO, security, and support. Most small businesses end up paying for all of these separately or going without. WebEaze bundles everything into one flat rate with no contracts and no surprises.</p>
+            </div>
+            <div class="wp-right">
+              <div class="wp-we wp-we-gold"><span><i class="fas fa-check-circle"></i> WebEaze starts at</span><strong>$169/mo</strong><small>Everything included, cancel anytime</small></div>
+              <div class="wp-vs">vs.</div>
+              <div class="wp-other"><span>Pieced together elsewhere</span><strong>$300 – $500+/mo</strong><small>and that's before the hourly update fees</small></div>
+            </div>
+          </div>
+
         </div>
       </div>
 
@@ -2201,7 +2285,6 @@ fee-tooltip {
 
       <!-- PREMIUM PRICING SECTION -->
     <section class="pricing-parallax-section">
-      <div class="pricing-parallax-bg"></div>
       <div class="container container-narrow">
 
         <div class="pricing-header reveal">
@@ -2273,36 +2356,6 @@ fee-tooltip {
       </div>
     </section>
 
-  <!-- ONE-TIME / ADD-ON ROW -->
-  <section class="onetime-banner">
-    <div class="container container-narrow">
-      <div class="onetime-row">
-
-        <div class="onetime-inner reveal">
-          <div class="onetime-text">
-            <span class="onetime-tag"><i class="fas fa-globe"></i> No subscription needed</span>
-            <h3>One-Time Web Projects</h3>
-            <p>Need a new site or updates without a monthly plan? Starting at $149.</p>
-          </div>
-          <a href="services.html#onetime" class="onetime-cta">
-            See Options <i class="fas fa-arrow-right"></i>
-          </a>
-        </div>
-
-        <div class="onetime-inner reveal" style="background: linear-gradient(135deg, rgba(120,81,169,.1), rgba(255,215,0,.04));">
-          <div class="onetime-text">
-            <span class="onetime-tag"><i class="fas fa-robot"></i> Add-On</span>
-            <h3>AI Chatbot</h3>
-            <p>A custom AI assistant trained on your business. Answers questions 24/7 and captures leads.</p>
-          </div>
-          <a href="ai.html" class="onetime-cta">
-            Learn More <i class="fas fa-arrow-right"></i>
-          </a>
-        </div>
-
-      </div>
-    </div>
-  </section>
 
   <!-- TESTIMONIALS ACCORDION -->
 <section class="testimonials-section">
@@ -2778,58 +2831,122 @@ fee-tooltip {
       transform: translateX(4px);
     }
 
-    /* WHY WEBEAZE COMPARISON TABLE */
+    /* WHY WEBEAZE — TABS */
+    .why-section { background: #000; padding: 90px 20px 100px; }
     .why-header { text-align: center; margin-bottom: 44px; }
     .why-kicker {
       display: inline-flex; align-items: center; gap: 7px;
       font-size: 12px; font-weight: 700; text-transform: uppercase;
       letter-spacing: .1em; color: #ffd700; margin-bottom: 14px;
     }
-    .why-header h2 { font-size: clamp(30px, 5vw, 42px); font-weight: 600; margin: 0 0 14px; line-height: 1.15; }
-    .why-header p { color: rgba(255,255,255,.65); font-size: 16.5px; max-width: 540px; margin: 0 auto; line-height: 1.75; }
-    .compare-wrap {
-      max-width: 820px; margin: 0 auto;
-      background: rgba(12,10,22,.7);
-      border: 1px solid rgba(140,90,220,.55);
-      border-radius: 22px; overflow: hidden;
-      box-shadow: 0 0 100px rgba(140,90,220,.35), 0 24px 70px rgba(0,0,0,.5);
+    .why-header h2 {
+      font-size: clamp(28px, 4.5vw, 40px); font-weight: 800;
+      color: #fff; margin: 0; line-height: 1.15;
     }
-    .compare-header-row {
-      display: grid; grid-template-columns: 1.4fr 1fr 1fr;
-      background: rgba(255,255,255,.06);
-      border-bottom: 1px solid rgba(255,255,255,.1);
+    .why-gold {
+      background: linear-gradient(135deg, #ffd700, #b389ff);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     }
-    .compare-hcell { padding: 20px 28px; font-size: 15px; font-weight: 700; }
-    .compare-hcell:first-child { color: rgba(255,255,255,.55); font-size: 12px; text-transform: uppercase; letter-spacing: .09em; display: flex; align-items: center; }
-    .compare-hcell.h-we {
-      text-align: center; color: #e0c2ff; font-size: 17px; font-weight: 800;
-      border-left: 3px solid rgba(160,90,255,.85); border-right: 1px solid rgba(255,255,255,.08);
-      background: rgba(120,60,200,.38);
-      text-shadow: 0 0 28px rgba(210,160,255,.7);
+
+    .why-tabs {
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 20px;
+      overflow: hidden;
     }
-    .compare-hcell.h-other { text-align: center; color: #fff; font-size: 16px; }
-    .compare-row {
-      display: grid; grid-template-columns: 1.4fr 1fr 1fr;
-      border-bottom: 1px solid rgba(255,255,255,.06);
-      align-items: center; transition: background .15s;
+    .why-tab-bar {
+      display: flex; overflow-x: auto; scrollbar-width: none;
+      background: rgba(255,255,255,.04);
+      border-bottom: 1px solid rgba(255,255,255,.08);
     }
-    .compare-row:last-child { border-bottom: none; }
-    .compare-row:hover { background: rgba(255,255,255,.03); }
-    .compare-cell { padding: 18px 28px; font-size: 16px; }
-    .compare-cell:first-child { font-weight: 600; color: #fff; font-size: 16px; }
-    .compare-cell.c-we {
-      text-align: center;
-      border-left: 3px solid rgba(160,90,255,.8); border-right: 1px solid rgba(255,255,255,.06);
-      background: rgba(120,60,200,.28);
-      color: #4ade80; font-weight: 800; font-size: 17px;
-      text-shadow: 0 0 14px rgba(74,222,128,.4);
-      letter-spacing: .01em;
+    .why-tab-bar::-webkit-scrollbar { display: none; }
+    .why-tab {
+      flex: 1; min-width: 100px;
+      display: flex; align-items: center; justify-content: center; gap: 7px;
+      padding: 16px 14px;
+      background: none; border: none; border-bottom: 2px solid transparent;
+      color: rgba(255,255,255,.45); font-family: 'Poppins', sans-serif;
+      font-size: 13px; font-weight: 600; cursor: pointer;
+      transition: color .15s, border-color .15s, background .15s;
+      white-space: nowrap; outline: none;
     }
-    .compare-cell.c-we i { font-size: 16px; margin-right: 5px; filter: drop-shadow(0 0 5px rgba(74,222,128,.55)); }
-    .compare-cell.c-other { text-align: center; color: #ff8c8c; font-weight: 600; font-size: 15px; }
-    @media (max-width: 580px) {
-      .compare-header-row, .compare-row { grid-template-columns: 1.4fr 1fr; }
-      .compare-hcell.h-other, .compare-cell.c-other { display: none; }
+    .why-tab:focus-visible {
+      outline: 2px solid rgba(120,81,169,.7);
+      outline-offset: -2px;
+      border-radius: 4px;
+    }
+    .why-tab:hover { color: rgba(255,255,255,.8); background: rgba(255,255,255,.04); }
+    .why-tab.active { color: #fff; border-bottom-color: #7851a9; background: rgba(120,81,169,.1); }
+    .why-tab-gold.active { border-bottom-color: #ffd700; color: #ffd700; background: rgba(255,215,0,.07); }
+    .why-tab i { font-size: 13px; }
+
+    .why-tab-body { padding: 0; }
+    .why-panel {
+      display: none;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+    }
+    .why-panel.active { display: grid; }
+    @media (max-width: 640px) {
+      .why-panel.active { grid-template-columns: 1fr; }
+    }
+
+    .wp-left {
+      padding: 48px 44px;
+      border-right: 1px solid rgba(255,255,255,.07);
+    }
+    @media (max-width: 640px) { .wp-left { border-right: none; border-bottom: 1px solid rgba(255,255,255,.07); padding: 32px 24px; } }
+    .wp-label {
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .1em; color: rgba(255,255,255,.35); margin: 0 0 12px;
+    }
+    .wp-left h3 { font-size: clamp(18px, 2.5vw, 24px); font-weight: 800; color: #fff; margin: 0 0 18px; line-height: 1.25; }
+    .wp-left p { font-size: 17px; color: rgba(255,255,255,.62); margin: 0; line-height: 1.75; }
+
+    .wp-right {
+      padding: 48px 44px;
+      display: flex; flex-direction: column; justify-content: center;
+      gap: 24px;
+    }
+    @media (max-width: 640px) { .wp-right { padding: 32px 24px; gap: 20px; } }
+
+    .wp-we, .wp-other {
+      display: flex; flex-direction: column; gap: 5px;
+    }
+    .wp-we {
+      background: rgba(74,222,128,.07);
+      border: 1px solid rgba(74,222,128,.2);
+      border-radius: 14px;
+      padding: 20px 22px;
+    }
+    .wp-we span {
+      font-size: 12px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .09em; color: #4ade80; display: flex; align-items: center; gap: 6px;
+    }
+    .wp-we span i { font-size: 12px; }
+    .wp-we strong {
+      font-size: 32px; font-weight: 800; color: #4ade80;
+      letter-spacing: -.02em; line-height: 1;
+    }
+    .wp-we small { font-size: 13px; color: rgba(255,255,255,.4); }
+    .wp-we-gold {
+      background: rgba(255,215,0,.07);
+      border-color: rgba(255,215,0,.25);
+    }
+    .wp-we-gold span { color: #ffd700; }
+    .wp-we-gold strong { color: #ffd700; }
+
+    .wp-other span {
+      font-size: 12px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .09em; color: rgba(255,255,255,.3);
+    }
+    .wp-other strong {
+      font-size: 26px; font-weight: 800; color: rgba(255,120,120,.8);
+      letter-spacing: -.02em; line-height: 1;
+    }
+    .wp-other small { font-size: 13px; color: rgba(255,255,255,.3); }
+    .wp-vs {
+      font-size: 11px; font-weight: 700; color: rgba(255,255,255,.18);
+      text-transform: uppercase; letter-spacing: .12em;
     }
 
     /* SIMPLIFIED PRICING (homepage) */
@@ -3284,6 +3401,20 @@ fee-tooltip {
 </script>
 
 <script>
+function scrollDownDismiss() {
+  var btn = document.getElementById('scrollDownBtn');
+  btn.classList.add('hidden');
+  var target = document.querySelector('.why-section');
+  if (target) target.scrollIntoView({ behavior: 'smooth' });
+}
+
+function whyTab(btn, panelId) {
+  document.querySelectorAll('.why-tab').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.why-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(panelId).classList.add('active');
+}
+
 (function() {
   var isMobile  = window.innerWidth <= 480;
   var plain     = isMobile ? 'Websites that work\nas hard as ' : 'Websites that work as hard as ';
