@@ -357,6 +357,118 @@
       text-transform: uppercase;
     }
 
+    /* MILESTONE CARD */
+    .milestone-card {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: linear-gradient(135deg, rgba(120,81,169,.14) 0%, rgba(255,215,0,.07) 100%);
+      border: 1px solid rgba(120,81,169,.28);
+      border-radius: 14px;
+      padding: 18px 20px;
+      margin-bottom: 24px;
+    }
+    .milestone-icon {
+      width: 44px; height: 44px; border-radius: 12px; flex-shrink: 0;
+      background: rgba(120,81,169,.18);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; color: #c4a7e7;
+    }
+    .milestone-body { flex: 1; min-width: 0; }
+    .milestone-title {
+      font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 3px;
+    }
+    .milestone-sub {
+      font-size: 13px; color: rgba(255,255,255,.55); line-height: 1.4;
+    }
+    .milestone-sub strong { color: rgba(255,215,0,.85); font-weight: 700; }
+    .milestone-savings {
+      text-align: right; flex-shrink: 0;
+    }
+    .savings-amount {
+      font-size: 22px; font-weight: 800;
+      color: rgba(255,215,0,.9);
+      letter-spacing: -.02em;
+      line-height: 1;
+    }
+    .savings-label {
+      font-size: 10px; font-weight: 600; text-transform: uppercase;
+      letter-spacing: .08em; color: rgba(255,255,255,.35);
+      margin-top: 3px;
+    }
+    @media (max-width: 480px) {
+      .milestone-savings { display: none; }
+    }
+
+    /* GREETING */
+    .header-greeting {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: rgba(255,255,255,.35);
+      margin-bottom: 6px;
+    }
+    .header-greeting:empty { display: none; }
+
+    /* FORM TIP */
+    .form-tip {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      background: rgba(120,81,169,.1);
+      border: 1px solid rgba(120,81,169,.22);
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-size: 13.5px;
+      color: rgba(255,255,255,.75);
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+    .form-tip i { color: rgba(120,81,169,.9); font-size: 13px; margin-top: 2px; flex-shrink: 0; }
+
+    /* CLOSING NUDGE */
+    .closing-nudge {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      background: rgba(245,158,11,.1);
+      border: 1px solid rgba(245,158,11,.25);
+      border-radius: 10px;
+      padding: 11px 16px;
+      font-size: 13.5px;
+      font-weight: 500;
+      color: rgba(255,255,255,.85);
+      margin-bottom: 16px;
+    }
+    .closing-nudge i { color: #f59e0b; font-size: 13px; flex-shrink: 0; }
+
+    /* PERSONALIZATION */
+    .intent-tile.last-used {
+      border-color: rgba(120,81,169,.4);
+    }
+    .last-used-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .07em;
+      color: rgba(120,81,169,.8);
+      margin-top: -4px;
+    }
+    .last-used-badge i { font-size: 9px; }
+    .header-return {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 6px;
+      font-size: 13px;
+      color: rgba(255,255,255,.4);
+    }
+    .header-return i { font-size: 11px; color: rgba(120,81,169,.7); }
+
     /* FOOTER */
     footer { background: #000; padding: 50px 20px 36px; border-top: 1px solid var(--line); }
     .footer-grid {
@@ -518,6 +630,21 @@
   .footer-bottom { background: #07070f !important; border-top-color: rgba(255,255,255,.1) !important; }
   .footer-bottom p, .footer-bottom a, .footer-legal a { color: #6b7280 !important; }
   .footer-tagline { color: rgba(255,255,255,.5) !important; }
+  .intent-tile.last-used { border-color: rgba(120,81,169,.35) !important; background: rgba(120,81,169,.04) !important; }
+  .last-used-badge { color: #7851a9 !important; }
+  .header-return { color: rgba(0,0,0,.38) !important; }
+  .header-greeting { color: rgba(0,0,0,.35) !important; }
+  .milestone-card { background: linear-gradient(135deg, rgba(120,81,169,.07) 0%, rgba(255,215,0,.04) 100%) !important; border-color: rgba(120,81,169,.2) !important; }
+  .milestone-icon { background: rgba(120,81,169,.1) !important; color: #7851a9 !important; }
+  .milestone-title { color: #1a1a2e !important; }
+  .milestone-sub { color: #4b5563 !important; }
+  .milestone-sub strong { color: #b45309 !important; }
+  .savings-amount { color: #b45309 !important; }
+  .savings-label { color: rgba(0,0,0,.35) !important; }
+  .form-tip { background: rgba(120,81,169,.06) !important; border-color: rgba(120,81,169,.18) !important; color: #374151 !important; }
+  .form-tip i { color: #7851a9 !important; }
+  .closing-nudge { background: rgba(245,158,11,.07) !important; border-color: rgba(245,158,11,.22) !important; color: #78350f !important; }
+  .closing-nudge i { color: #d97706 !important; }
   </style>
 
 </head>
@@ -541,16 +668,10 @@
 </div>
 
 <!-- IMPORTANT NOTICES BANNER -->
-<div class="notice">
+<div id="smartNotice" class="notice">
   <i class="fas fa-file-invoice-dollar"></i>
   Tax season is here. <a href="https://webeaze.io/help#/view-invoices">Need your invoices?</a>
 </div>
-
-<!-- REFERRAL BANNER
-<div class="notice-referral">
-  <i class="fas fa-gift"></i>
-  <strong>Earn $50</strong> per referral & get <strong>$20 off</strong> your plan for 1 month.<a href="help.html#/referral-program">Learn more</a>.
-</div> -->
 
 
 
@@ -584,8 +705,9 @@
   <div class="wrap">
     <div class="header-inner">
       <div>
-        <div class="header-title">What can we update for you?</div>
-        <div class="header-sub">Unlimited updates, included in your plan.</div>
+        <div class="header-greeting" id="headerGreeting"></div>
+        <div class="header-title" id="headerTitle">What can we update for you?</div>
+        <div class="header-sub" id="headerSub">Unlimited updates, included in your plan.</div>
       </div>
       <a href="status.html" class="status-badge" id="status-badge">
         <span class="status-dot"></span>
@@ -598,6 +720,9 @@
 <!-- FORM -->
 <div class="form-section">
   <div class="wrap">
+    <div id="milestoneCard" class="milestone-card" hidden></div>
+    <div id="formTip" class="form-tip" hidden></div>
+    <div id="closingNudge" class="closing-nudge" hidden></div>
     <script src="https://js-na2.hsforms.net/forms/embed/242171361.js" defer></script>
     <div class="hs-form-frame" data-region="na2" data-form-id="1bd7643f-da22-4812-a77f-8fe06fb55990" data-portal-id="242171361"></div>
     <p class="form-note">
@@ -792,6 +917,256 @@
   }
   updateStatus();
   setInterval(updateStatus, 60000);
+
+  // ── PERSONALIZATION ──────────────────────────────────────
+  (function() {
+    const LS_VISITED    = 'wz_req_visited';
+    const LS_LAST_PANEL = 'wz_req_last_panel';
+    const LS_COUNT      = 'wz_req_count';
+
+    function lsGet(k) { try { return JSON.parse(localStorage.getItem(k)); } catch(e) { return null; } }
+    function lsSet(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch(e) {} }
+
+    // ── Helpers ──
+    function getET() {
+      return new Date(new Date().toLocaleString('en-US', { timeZone: 'America/New_York' }));
+    }
+
+    // ── Visit tracking ──
+    const count = (lsGet(LS_COUNT) || 0) + 1;
+    lsSet(LS_COUNT, count);
+    const returning = lsGet(LS_VISITED);
+    lsSet(LS_VISITED, true);
+
+    const now  = getET();
+    const hour = now.getHours();
+    const day  = now.getDay();
+
+    // ── 1. Time-of-day greeting ──
+    const $greeting = document.getElementById('headerGreeting');
+    if ($greeting) {
+      $greeting.textContent = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
+    }
+
+    // ── 2. Personalized title ──
+    const $title = document.getElementById('headerTitle');
+    if ($title && returning) {
+      $title.textContent = count >= 6
+        ? 'Good to have you back.'
+        : count >= 3
+          ? 'What are we working on?'
+          : 'Welcome back — what do you need?';
+    }
+
+    // ── 3. Personalized subtitle ──
+    const $sub = document.getElementById('headerSub');
+    if ($sub && returning) {
+      $sub.textContent = 'Drop your request below and we\'ll handle it.';
+      $sub.insertAdjacentHTML('afterend',
+        '<div class="header-return"><i class="fas fa-history"></i> Your last shortcut is highlighted below.</div>'
+      );
+    }
+
+    // ── 4. Last panel memory ──
+    const lastPanel = lsGet(LS_LAST_PANEL);
+
+    function applyLastUsedBadge(id) {
+      document.querySelectorAll('.intent-tile').forEach(t => {
+        t.classList.remove('last-used');
+        const b = t.querySelector('.last-used-badge');
+        if (b) b.remove();
+      });
+      const tile = document.querySelector('[onclick="showPanel(\'' + id + '\')"]');
+      if (tile) {
+        tile.classList.add('last-used');
+        tile.insertAdjacentHTML('beforeend',
+          '<div class="last-used-badge"><i class="fas fa-clock-rotate-left"></i> Last used</div>'
+        );
+      }
+    }
+
+    if (lastPanel) {
+      applyLastUsedBadge(lastPanel);
+      if (returning) setTimeout(() => showPanel(lastPanel), 200);
+    }
+
+    // Intercept showPanel to save + refresh badge + tip
+    const _orig = window.showPanel;
+    window.showPanel = function(id) {
+      _orig(id);
+      lsSet(LS_LAST_PANEL, id);
+      applyLastUsedBadge(id);
+      updateFormTip(id);
+    };
+
+    // ── 5. Contextual form tip ──
+    const TIPS = {
+      broken:   { icon: 'fa-camera',    text: 'If you can, include a screenshot and the exact page URL. It helps us find and fix it faster.' },
+      billing:  { icon: 'fa-envelope',  text: 'Include the email address on your account so we can locate your billing details quickly.' },
+      question: { icon: 'fa-lightbulb', text: 'Not sure if something is covered? Submit it anyway. We\'ll let you know.' },
+    };
+
+    function updateFormTip(panelId) {
+      const $tip = document.getElementById('formTip');
+      if (!$tip) return;
+      const tip = TIPS[panelId];
+      if (!tip) { $tip.hidden = true; return; }
+      $tip.innerHTML = '<i class="fas ' + tip.icon + '"></i> ' + tip.text;
+      $tip.hidden = false;
+    }
+
+    if (lastPanel) updateFormTip(lastPanel);
+
+    // ── 6. Closing-time nudge (4–5 PM ET, weekdays only) ──
+    const $nudge = document.getElementById('closingNudge');
+    if ($nudge && day >= 1 && day <= 5 && hour === 16) {
+      $nudge.innerHTML = '<i class="fas fa-clock"></i> We close at 5 PM ET today — submit your request now to get it in today\'s queue.';
+      $nudge.hidden = false;
+    }
+
+    // ── 7. Referrer pre-selection ──
+    try {
+      const ref = document.referrer;
+      if (ref && !lastPanel) {
+        const url  = new URL(ref);
+        const path = url.pathname.split('/').pop() || '';
+        const hash = url.hash || '';
+        const billingHashes = ['manage-your-plan','annual-vs-monthly','change-billing-date','reactivate-plan','view-invoices','billing'];
+        const brokenHashes  = ['site-is-down','website-error-troubleshooting','my-site-isnt-updating','contact-form-not-sending'];
+        if (path === 'pricing.html') {
+          setTimeout(() => showPanel('billing'), 300);
+        } else if (path === 'help.html' && billingHashes.some(s => hash.includes(s))) {
+          setTimeout(() => showPanel('billing'), 300);
+        } else if (path === 'help.html' && brokenHashes.some(s => hash.includes(s))) {
+          setTimeout(() => showPanel('broken'), 300);
+        }
+      }
+    } catch(e) {}
+
+    // ── 8. Smart notice banner (rotates by month + pre-holiday) ──
+    (function() {
+      const $notice = document.getElementById('smartNotice');
+      if (!$notice) return;
+
+      // Pre-holiday: show warning the day before any closure
+      const closures = [
+        { name: 'Memorial Day',      start: '2026-05-25' },
+        { name: 'Independence Day',  start: '2026-07-03' },
+        { name: 'Labor Day',         start: '2026-09-07' },
+        { name: 'Thanksgiving',      start: '2026-11-25' },
+        { name: 'the holidays',      start: '2026-12-24' }
+      ];
+      const tomorrow = new Date(now);
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      const tomorrowStr = tomorrow.toISOString().slice(0, 10);
+      const upcomingClosure = closures.find(c => c.start === tomorrowStr);
+
+      if (upcomingClosure) {
+        $notice.className = 'notice-busy';
+        $notice.innerHTML = '<i class="fas fa-triangle-exclamation"></i> Heads up -- we are closed tomorrow for ' + upcomingClosure.name + '. Submit your request today to avoid any delays.';
+        return;
+      }
+
+      // Monthly smart banners
+      const month = now.getMonth(); // 0-indexed
+      const banners = [
+        // Jan
+        { icon: 'fa-star', cls: 'notice', html: 'New year, fresh site. Now is a great time to update your content and pricing.' },
+        // Feb
+        { icon: 'fa-file-invoice-dollar', cls: 'notice', html: 'Tax prep season is starting. <a href="help.html#/view-invoices">Grab your invoices here</a> before you meet with your accountant.' },
+        // Mar
+        { icon: 'fa-file-invoice-dollar', cls: 'notice', html: 'Tax season is here. <a href="help.html#/view-invoices">Need your invoices?</a>' },
+        // Apr
+        { icon: 'fa-file-invoice-dollar', cls: 'notice', html: 'Last stretch of tax season. <a href="help.html#/view-invoices">Your invoices are ready if you need them.</a>' },
+        // May
+        { icon: 'fa-sun', cls: 'notice', html: 'Summer is close -- a great time to refresh your photos, hours, or seasonal promotions.' },
+        // Jun
+        { icon: 'fa-sun', cls: 'notice', html: 'Summer season is here. Keep your site current -- update hours, promotions, or photos anytime.' },
+        // Jul
+        { icon: 'fa-gift', cls: 'notice-referral', html: '<strong>Know someone who needs a website?</strong> Refer them and earn $50. <a href="referral.html">Learn more</a>.' },
+        // Aug
+        { icon: 'fa-gift', cls: 'notice-referral', html: '<strong>Earn $50 per referral.</strong> If someone you know needs a website, send them our way. <a href="referral.html">See how it works</a>.' },
+        // Sep
+        { icon: 'fa-rotate', cls: 'notice', html: 'Fall is a good time to review your site. Update seasonal hours, services, or anything that has changed.' },
+        // Oct
+        { icon: 'fa-rotate', cls: 'notice', html: 'End of year is approaching. Get any updates in now before the holiday rush.' },
+        // Nov
+        { icon: 'fa-triangle-exclamation', cls: 'notice-busy', html: 'Holiday closures are coming up. Submit requests early to avoid delays over Thanksgiving and December.' },
+        // Dec
+        { icon: 'fa-triangle-exclamation', cls: 'notice-busy', html: 'We close for the holidays on Dec 24. Get your requests in early -- anything submitted after Dec 22 will be handled in January.' },
+      ];
+
+      const b = banners[month];
+      if (b) {
+        $notice.className = b.cls;
+        $notice.innerHTML = '<i class="fas ' + b.icon + '"></i> ' + b.html;
+      }
+    })();
+
+    // ── 9. Time-of-year seasonal header copy ──
+    (function() {
+      if (returning) return; // only on first visit, returning visitors already have personalized copy
+      const $sub = document.getElementById('headerSub');
+      if (!$sub) return;
+      const month = now.getMonth();
+      const seasonal = [
+        null, // Jan -- default
+        'Tax season coming up? Get your site in order while you are at it.',  // Feb
+        'Tax season on your mind? Update your site pricing or hours while you are at it.', // Mar
+        null, // Apr
+        'Summer is around the corner -- a good time to refresh your photos or promotions.', // May
+        'Summer is here. Keep your site current with your latest hours and services.', // Jun
+        null, // Jul
+        null, // Aug
+        'Fall is a great time to review and refresh anything that has changed.', // Sep
+        'Year end is approaching. Get your updates in now before things get busy.', // Oct
+        'Holiday rush is coming. Submit updates now to avoid delays.', // Nov
+        'Last chance before the holidays. We close Dec 24 -- get requests in early.', // Dec
+      ];
+      if (seasonal[month]) $sub.textContent = seasonal[month];
+    })();
+
+    // ── 10. Milestone card: visits + estimated savings ──
+    (function() {
+      const $card = document.getElementById('milestoneCard');
+      if (!$card || count < 3) return;
+
+      // Estimated savings: a freelance developer charges ~$150/hr avg
+      // Assume each visit = ~1 update request = ~2 hrs of dev work saved
+      // WebEaze plan cost avg ~$99/mo -- we credit value of having unlimited updates
+      // Simple: show count * $150 as "value delivered"
+      const hoursPerRequest = 2;
+      const devRate = 150;
+      const savedRaw = count * hoursPerRequest * devRate;
+      const saved = savedRaw >= 1000
+        ? '$' + (savedRaw / 1000).toFixed(1).replace(/\.0$/, '') + 'k'
+        : '$' + savedRaw;
+
+      const milestones = [
+        { min: 3,   icon: 'fa-seedling',  title: 'You are getting the hang of it.' },
+        { min: 6,   icon: 'fa-bolt',      title: 'You are a regular.' },
+        { min: 10,  icon: 'fa-star',      title: 'Double digits -- you know what you are doing.' },
+        { min: 20,  icon: 'fa-trophy',    title: 'Power client. Seriously.' },
+        { min: 50,  icon: 'fa-crown',     title: 'You are basically part of the team.' },
+      ];
+
+      const milestone = [...milestones].reverse().find(m => count >= m.min) || milestones[0];
+
+      $card.innerHTML =
+        '<div class="milestone-icon"><i class="fas ' + milestone.icon + '"></i></div>' +
+        '<div class="milestone-body">' +
+          '<div class="milestone-title">' + milestone.title + '</div>' +
+          '<div class="milestone-sub">This is visit <strong>#' + count + '</strong> to this page. Compared to hiring a developer at $150/hr, your unlimited updates plan has delivered an estimated <strong>' + saved + ' in value</strong>.</div>' +
+        '</div>' +
+        '<div class="milestone-savings">' +
+          '<div class="savings-amount">' + saved + '</div>' +
+          '<div class="savings-label">Est. savings</div>' +
+        '</div>';
+      $card.hidden = false;
+    })();
+
+  })();
+  // ─────────────────────────────────────────────────────────
 
   function openHelpModal() {
     document.getElementById('helpModal').classList.add('open');
