@@ -452,6 +452,23 @@
     .topic-link.read.active { color: var(--gold) !important; opacity: 1; }
     .topic-link.read.active::after { display: none; }
 
+    /* NEW BADGE */
+    .new-badge {
+      display: inline-block;
+      background: #22c55e;
+      color: #fff;
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      padding: 2px 5px;
+      border-radius: 4px;
+      margin-left: 6px;
+      vertical-align: middle;
+      flex-shrink: 0;
+      line-height: 1.4;
+    }
+
     /* READING TIME */
     .read-time {
       display: inline-flex; align-items: center; gap: 4px;
@@ -4532,6 +4549,13 @@
     { key: 'addons', label: 'Add-Ons & Projects' },
   ];
   const TOPIC_ORDER = ['before', 'build', 'launch', 'after', 'domains-hosting', 'billing', 'policies', 'troubleshooting', 'add-ons', 'one-time-services'];
+  let lastVisitTs = 0; // set in boot() before renderTopics() runs
+
+  function parseArticleDate(str) {
+    if (!str) return 0;
+    const p = str.split('-');
+    return p.length === 3 ? new Date(p[2], p[0] - 1, p[1]).getTime() : 0;
+  }
 
   function renderTopics() {
     const sorted = [...HELP_DATA.topics].sort((a, b) => TOPIC_ORDER.indexOf(a.id) - TOPIC_ORDER.indexOf(b.id));
@@ -4559,7 +4583,10 @@
           <i class="fas fa-chevron-down chevron"></i>
         </div>
         <div class="topic-links">
-          ${t.articles.map(a => `<a class="topic-link" href="#/${a.slug}">${a.title}</a>`).join('')}
+          ${t.articles.map(a => {
+            const isNew = lastVisitTs > 0 && parseArticleDate(a.updated) > lastVisitTs;
+            return `<a class="topic-link" href="#/${a.slug}">${a.title}${isNew ? '<span class="new-badge">New</span>' : ''}</a>`;
+          }).join('')}
         </div>
       </div>`;
     });
@@ -5001,6 +5028,8 @@
 
   function boot() {
     if (!lsGet('wz_first_visit')) lsSet('wz_first_visit', Date.now());
+    lastVisitTs = lsGet('wz_help_last_visit') || 0;
+    lsSet('wz_help_last_visit', Date.now());
     renderTopics();
     renderCategories();
     renderRecommended();
@@ -5014,6 +5043,42 @@
   }
 
   document.addEventListener('DOMContentLoaded', boot);
+
+  // ── Cross-page: Back link + Nav plan badge ─────────────
+  (function() {
+    function _ls(k) { try { return JSON.parse(localStorage.getItem(k)); } catch(e) { return null; } }
+    const PAGE_MAP = { '': 'Home', 'index.html': 'Home', 'pricing.html': 'Pricing', 'help.html': 'Help Center', 'website-request.html': 'Submit Request', 'my-plan.html': 'My Plan', 'portal.html': 'Live Chat' };
+    const path = window.location.pathname.split('/').pop() || '';
+    const name = PAGE_MAP[path];
+    const last = _ls('wz_last_page');
+    if (name) try { localStorage.setItem('wz_last_page', JSON.stringify({ path: path || 'index.html', name })); } catch(e) {}
+    if (!document.getElementById('wz-shared-css')) {
+      const s = document.createElement('style');
+      s.id = 'wz-shared-css';
+      s.textContent = '.back-link-bar{background:rgba(10,10,15,.93);border-bottom:1px solid rgba(255,255,255,.06);padding:7px 20px;}.back-link-bar a{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:500;color:rgba(255,255,255,.42);text-decoration:none;transition:color .15s;}.back-link-bar a:hover{color:rgba(255,255,255,.82);}.back-link-bar i{font-size:10px;}.nav-plan-badge{font-size:10px;font-weight:600;color:rgba(120,81,169,.85);letter-spacing:.01em;}';
+      document.head.appendChild(s);
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+      if (last && last.name && last.path !== (path || 'index.html')) {
+        const bar = document.createElement('div');
+        bar.className = 'back-link-bar';
+        bar.innerHTML = '<a href="' + last.path + '"><i class="fas fa-arrow-left"></i> Back to ' + last.name + '</a>';
+        const nav = document.querySelector('.nav-wrap');
+        if (nav) nav.insertAdjacentElement('afterend', bar);
+      }
+      const plan = _ls('wz_myplan_last');
+      if (plan) {
+        const labels = { essential: 'Essential', growth: 'Growth', onetime: 'One-Time' };
+        const label = labels[plan];
+        if (label) {
+          const link = document.querySelector('a[href="pricing.html"].nav-link');
+          if (link && !link.querySelector('.nav-plan-badge')) {
+            link.insertAdjacentHTML('beforeend', '<span class="nav-plan-badge"> (' + label + ')</span>');
+          }
+        }
+      }
+    });
+  })();
 </script>
 
 <script>

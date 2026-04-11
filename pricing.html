@@ -793,7 +793,74 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal()
       }
     }
   }
+
+  // ── Client detection: swap CTA for existing clients ──
+  (function() {
+    const submitted = lsGet('wz_req_submitted') || 0;
+    const myPlan    = lsGet('wz_myplan_last');
+    const isClient  = submitted > 0 || !!myPlan;
+    if (!isClient) return;
+
+    const cta = document.querySelector('.cta-section');
+    if (!cta) return;
+
+    const h2 = cta.querySelector('h2');
+    const p  = cta.querySelector('p');
+    const btnFill    = cta.querySelector('.cta-btn-fill');
+    const btnOutline = cta.querySelector('.cta-btn-outline');
+    const sub        = cta.querySelector('.cta-sub');
+
+    if (h2)        h2.textContent = 'Good to have you back.';
+    if (p)         p.textContent  = 'Submit a request, view your plan benefits, or reach out anytime.';
+    if (btnFill) {
+      btnFill.href      = 'my-plan.html';
+      btnFill.innerHTML = '<i class="fas fa-id-card"></i> View Your Plan';
+    }
+    if (btnOutline) {
+      btnOutline.href        = 'website-request.html';
+      btnOutline.textContent = 'Submit a Request';
+    }
+    if (sub) {
+      sub.innerHTML = '<i class="fas fa-circle-check" style="margin-right:5px;color:#22c55e;"></i> Need a change? Your plan includes unlimited updates.';
+    }
+  })();
 })();
+
+  // ── Cross-page: Back link + Nav plan badge ─────────────
+  (function() {
+    function _ls(k) { try { return JSON.parse(localStorage.getItem(k)); } catch(e) { return null; } }
+    const PAGE_MAP = { '': 'Home', 'index.html': 'Home', 'pricing.html': 'Pricing', 'help.html': 'Help Center', 'website-request.html': 'Submit Request', 'my-plan.html': 'My Plan', 'portal.html': 'Live Chat' };
+    const path = window.location.pathname.split('/').pop() || '';
+    const name = PAGE_MAP[path];
+    const last = _ls('wz_last_page');
+    if (name) try { localStorage.setItem('wz_last_page', JSON.stringify({ path: path || 'index.html', name })); } catch(e) {}
+    if (!document.getElementById('wz-shared-css')) {
+      const s = document.createElement('style');
+      s.id = 'wz-shared-css';
+      s.textContent = '.back-link-bar{background:rgba(10,10,15,.93);border-bottom:1px solid rgba(255,255,255,.06);padding:7px 20px;}.back-link-bar a{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:500;color:rgba(255,255,255,.42);text-decoration:none;transition:color .15s;}.back-link-bar a:hover{color:rgba(255,255,255,.82);}.back-link-bar i{font-size:10px;}.nav-plan-badge{font-size:10px;font-weight:600;color:rgba(120,81,169,.85);letter-spacing:.01em;}';
+      document.head.appendChild(s);
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+      if (last && last.name && last.path !== (path || 'index.html')) {
+        const bar = document.createElement('div');
+        bar.className = 'back-link-bar';
+        bar.innerHTML = '<a href="' + last.path + '"><i class="fas fa-arrow-left"></i> Back to ' + last.name + '</a>';
+        const nav = document.querySelector('.nav-wrap');
+        if (nav) nav.insertAdjacentElement('afterend', bar);
+      }
+      const plan = _ls('wz_myplan_last');
+      if (plan) {
+        const labels = { essential: 'Essential', growth: 'Growth', onetime: 'One-Time' };
+        const label = labels[plan];
+        if (label) {
+          const link = document.querySelector('a[href="pricing.html"].nav-link');
+          if (link && !link.querySelector('.nav-plan-badge')) {
+            link.insertAdjacentHTML('beforeend', '<span class="nav-plan-badge"> (' + label + ')</span>');
+          }
+        }
+      }
+    });
+  })();
 </script>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
