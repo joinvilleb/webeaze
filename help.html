@@ -4491,7 +4491,8 @@
     data.topics.forEach(t => {
       t.articles.forEach(a => {
         const bodyText = a.body.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
-        const readTime = Math.max(1, Math.round(bodyText.split(' ').filter(Boolean).length / 200));
+        const wordCount = bodyText.split(' ').filter(Boolean).length;
+        const readTime = wordCount < 50 ? 1 : Math.ceil(wordCount / 150);
         const text = [a.title, a.meta, bodyText].join(' ');
         idx.push({ slug: a.slug, title: a.title, topicId: t.id, topicTitle: t.title, topicIcon: t.icon, updated: a.updated, meta: a.meta, readTime, text: normalize(text) });
       });

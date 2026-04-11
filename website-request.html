@@ -1111,7 +1111,7 @@
       if (!$tip) return;
       const tip = TIPS[panelId];
       if (!tip) { $tip.hidden = true; return; }
-      $tip.innerHTML = '<i class="fas ' + tip.icon + '"></i> ' + tip.text;
+      $tip.innerHTML = '<i class="fas ' + tip.icon + '"></i><span>' + tip.text + '</span>';
       $tip.hidden = false;
     }
 
@@ -1276,7 +1276,7 @@
         const $note = document.getElementById('savedArticlesNote');
         if (!$note) return;
         const n = helpSaved.length;
-        $note.innerHTML = '<i class="fas fa-bookmark"></i> You have ' + n + ' saved article' + (n === 1 ? '' : 's') + ' in the <a href="help.html" style="color:inherit;font-weight:700;text-decoration:underline;">Help Center</a> that might answer your question first.';
+        $note.innerHTML = '<i class="fas fa-bookmark"></i><span>You have ' + n + ' saved article' + (n === 1 ? '' : 's') + ' in the <a href="help.html" style="color:inherit;font-weight:700;text-decoration:underline;">Help Center</a> that might answer your question first.</span>';
         $note.hidden = false;
 
         // Auto-open panel based on what they saved
@@ -1300,7 +1300,7 @@
         const $tip = document.getElementById('formTip');
         if (!$tip || !$tip.hidden) return; // don't overwrite an existing panel tip
         if (!lastPanel) {
-          $tip.innerHTML = '<i class="fas fa-book-open"></i> Last time you were reading <a href="help.html#/' + helpLast.slug + '" style="color:inherit;font-weight:700;text-decoration:underline;">' + helpLast.title + '</a> in the Help Center. If that is related, mention it in your request.';
+          $tip.innerHTML = '<i class="fas fa-book-open"></i><span>Last time you were reading <a href="help.html#/' + helpLast.slug + '" style="color:inherit;font-weight:700;text-decoration:underline;">' + helpLast.title + '</a> in the Help Center. If that is related, mention it in your request.</span>';
           $tip.hidden = false;
         }
       } catch(e) {}
@@ -1370,7 +1370,7 @@
       if (!$note) return;
       const submitted = lsGet('wz_req_submitted') || 0;
       if (submitted < 1) return;
-      $note.innerHTML = '<i class="fas fa-circle-check"></i> You have submitted <strong>' + submitted + ' request' + (submitted === 1 ? '' : 's') + '</strong> with us before. We have got your history on file.';
+      $note.innerHTML = '<i class="fas fa-circle-check"></i><span>You have submitted <strong>' + submitted + ' request' + (submitted === 1 ? '' : 's') + '</strong> with us before. We have got your history on file.</span>';
       $note.hidden = false;
     })();
 
