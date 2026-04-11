@@ -24,7 +24,7 @@
   <style>
     :root {
       --brand: #7851a9;
-      --brand-mid: rgba(120,81,169,.12);
+      --brand-mid: rgba(120,81,169,.1);
       --brand-border: rgba(120,81,169,.22);
       --gold: #ffd700;
       --text: #0f0c1a;
@@ -42,7 +42,6 @@
     }
 
     *, *::before, *::after { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
     body {
       margin: 0;
       font-family: 'Poppins', sans-serif;
@@ -50,10 +49,13 @@
       color: var(--text);
       line-height: 1.65;
       -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
     a { text-decoration: none; }
 
-    /* ── NAV ── */
+    /* NAV */
     .nav-wrap {
       position: sticky; top: 0; z-index: 9999;
       background: rgba(10,10,15,.97);
@@ -67,214 +69,144 @@
     .navbar-dark .nav-link:hover { opacity: 1; background: rgba(255,255,255,.08); }
     .btn-nav { background: var(--gold); color: #2f1e66; border: none; border-radius: 10px; padding: .55rem 1rem; font-weight: 700; font-size: 14px; }
 
-    /* ── HERO ── */
-    .hero {
-      background: var(--card);
-      border-bottom: 1px solid var(--line);
-      padding: 64px 24px 56px;
-      text-align: center;
-    }
-    .plan-badge {
-      display: inline-flex; align-items: center; gap: 7px;
-      background: var(--brand-mid); border: 1px solid var(--brand-border);
-      border-radius: 50px; padding: 6px 16px;
-      font-size: .72rem; font-weight: 700; text-transform: uppercase;
-      letter-spacing: .1em; color: var(--brand); margin-bottom: 28px;
+    /* PAGE */
+    .page {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 48px 20px 64px;
     }
 
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 48px 40px;
+      width: 100%;
+      max-width: 480px;
+      text-align: center;
+      box-shadow: 0 8px 40px rgba(0,0,0,.07);
+    }
+    @media (max-width: 520px) {
+      .card { padding: 36px 24px; }
+    }
+
+    /* Icon */
     .chat-icon-wrap {
-      position: relative; display: inline-block; margin-bottom: 24px;
+      position: relative;
+      display: inline-block;
+      margin-bottom: 28px;
     }
     .chat-icon-wrap img {
-      width: 80px; height: 80px;
-      border-radius: 22px;
-      box-shadow: 0 8px 32px rgba(120,81,169,.18), 0 2px 8px rgba(0,0,0,.08);
+      width: 72px; height: 72px;
+      border-radius: 20px;
+      box-shadow: 0 6px 24px rgba(120,81,169,.16);
     }
-    .chat-icon-wrap .status-dot-ring {
+    .status-dot-ring {
       position: absolute; bottom: -4px; right: -4px;
-      width: 22px; height: 22px; border-radius: 50%;
+      width: 20px; height: 20px; border-radius: 50%;
       background: var(--card);
       display: flex; align-items: center; justify-content: center;
-      box-shadow: 0 1px 4px rgba(0,0,0,.15);
+      box-shadow: 0 1px 4px rgba(0,0,0,.12);
     }
     .status-dot-inner {
-      width: 13px; height: 13px; border-radius: 50%;
+      width: 12px; height: 12px; border-radius: 50%;
       transition: background .4s;
     }
-    .status-dot-inner.online { background: var(--green); animation: pulse-dot 2s ease-in-out infinite; }
+    .status-dot-inner.online  { background: var(--green); animation: pulse 2s ease-in-out infinite; }
     .status-dot-inner.offline { background: #d1d5db; }
-    @keyframes pulse-dot {
+    @keyframes pulse {
       0%,100% { opacity: 1; transform: scale(1); }
       50%      { opacity: .6; transform: scale(1.2); }
     }
 
-    .hero h1 {
-      font-size: clamp(26px, 4vw, 40px);
-      font-weight: 800; letter-spacing: -.025em;
-      color: var(--text); margin: 0 0 12px;
+    /* Headings */
+    .card h1 {
+      font-size: clamp(22px, 4vw, 28px);
+      font-weight: 800; letter-spacing: -.02em;
+      margin: 0 0 10px;
     }
-    .hero p {
-      font-size: 17px; color: var(--muted);
-      max-width: 420px; margin: 0 auto 32px; line-height: 1.7;
-    }
-
-    /* Status row */
-    .status-row {
-      display: inline-flex; align-items: center; gap: 10px;
-      border-radius: 50px; padding: 10px 22px;
-      font-size: 15px; font-weight: 600;
-      margin-bottom: 8px; transition: .3s;
-    }
-    .status-row.online  { background: var(--green-bg);  border: 1px solid var(--green-border); color: var(--green); }
-    .status-row.offline { background: var(--red-bg);    border: 1px solid var(--red-border);   color: var(--red); }
-    .status-row.checking{ background: rgba(0,0,0,.04); border: 1px solid var(--line);         color: var(--dim); }
-    .status-time { display: block; font-size: 12.5px; color: var(--dim); margin-bottom: 32px; }
-
-    /* Chat tip */
-    .chat-tip {
-      display: inline-flex; align-items: center; gap: 9px;
-      background: var(--brand-mid); border: 1px solid var(--brand-border);
-      border-radius: 12px; padding: 13px 22px;
-      font-size: 15px; color: var(--muted); margin-bottom: 32px;
-    }
-    .chat-tip i { color: var(--brand); }
-    .chat-tip strong { color: var(--brand); }
-
-    /* Nav buttons */
-    .hero-nav { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
-    .btn-ghost {
-      display: inline-flex; align-items: center; gap: 7px;
-      padding: 10px 20px; background: transparent;
-      border: 1px solid var(--line); border-radius: 10px;
-      font-weight: 600; font-size: 14px; color: var(--muted);
-      transition: border-color .2s, color .2s;
-    }
-    .btn-ghost:hover { border-color: var(--brand); color: var(--brand); text-decoration: none; }
-
-    /* ── CONTENT ── */
-    .content { max-width: 820px; margin: 0 auto; padding: 52px 24px 72px; }
-
-    .section-eyebrow {
-      font-size: .7rem; font-weight: 700; text-transform: uppercase;
-      letter-spacing: .15em; color: var(--dim); margin-bottom: 18px;
+    .card .sub {
+      font-size: 15px; color: var(--muted);
+      margin: 0 0 28px; line-height: 1.6;
     }
 
-    /* Guide cards */
-    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 36px; }
-    @media (max-width: 620px) { .two-col { grid-template-columns: 1fr; } }
-
-    .guide-card {
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: 18px; padding: 28px;
+    /* Status pill */
+    .status-pill {
+      display: inline-flex; align-items: center; gap: 8px;
+      border-radius: 50px; padding: 9px 20px;
+      font-size: 14px; font-weight: 600;
+      margin-bottom: 6px;
     }
-    .guide-card.do   { border-top: 3px solid var(--green); }
-    .guide-card.dont { border-top: 3px solid var(--red); }
-
-    .guide-label {
-      display: flex; align-items: center; gap: 10px;
-      font-size: 15px; font-weight: 700; margin-bottom: 20px;
+    .status-pill.online  { background: var(--green-bg);  border: 1px solid var(--green-border); color: var(--green); }
+    .status-pill.offline { background: var(--red-bg);    border: 1px solid var(--red-border);   color: var(--red); }
+    .status-pill.checking{ background: rgba(0,0,0,.04);  border: 1px solid var(--line);          color: var(--dim); }
+    .status-time {
+      display: block; font-size: 12px; color: var(--dim); margin-bottom: 28px;
     }
-    .guide-card.do   .guide-label { color: var(--green); }
-    .guide-card.dont .guide-label { color: var(--red); }
-    .guide-label .ic {
-      width: 30px; height: 30px; border-radius: 8px; flex-shrink: 0;
-      display: flex; align-items: center; justify-content: center; font-size: 12px;
-    }
-    .guide-card.do   .ic { background: var(--green-bg); color: var(--green); }
-    .guide-card.dont .ic { background: var(--red-bg);   color: var(--red); }
-
-    .guide-list { list-style: none; padding: 0; margin: 0; }
-    .guide-list li {
-      display: flex; align-items: flex-start; gap: 10px;
-      padding: 10px 0; font-size: 15px; color: var(--muted);
-      border-bottom: 1px solid var(--line); line-height: 1.5;
-    }
-    .guide-list li:last-child { border-bottom: none; }
-    .guide-list li i { font-size: 11px; margin-top: 4px; flex-shrink: 0; }
-    .guide-card.do   .guide-list li i { color: var(--green); }
-    .guide-card.dont .guide-list li i { color: var(--red); }
 
     /* Hours */
-    .hours-card {
-      background: var(--card); border: 1px solid var(--line);
-      border-radius: 18px; padding: 32px; margin-bottom: 36px;
+    .hours {
+      display: flex; justify-content: center; gap: 10px;
+      flex-wrap: wrap; margin-bottom: 32px;
     }
-    .hours-card h3 {
-      font-size: 17px; font-weight: 700; color: var(--text);
-      margin: 0 0 22px; display: flex; align-items: center; gap: 10px;
-    }
-    .hours-card h3 i { color: var(--brand); }
-    .hours-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; max-width: 440px; }
-    @media (max-width: 480px) { .hours-grid { grid-template-columns: 1fr; } }
-    .hours-item {
+    .hours-chip {
       background: var(--bg); border: 1px solid var(--line);
-      border-radius: 12px; padding: 18px 20px;
+      border-radius: 10px; padding: 10px 16px;
+      font-size: 13px; text-align: left;
     }
-    .hours-item .day {
-      font-size: 11.5px; font-weight: 700; text-transform: uppercase;
-      letter-spacing: .07em; color: var(--dim); margin-bottom: 6px;
-    }
-    .hours-item .time { font-size: 16px; font-weight: 700; color: var(--text); }
+    .hours-chip .day { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--dim); margin-bottom: 3px; }
+    .hours-chip .time { font-weight: 700; color: var(--text); }
 
-    /* Alt options */
-    .alt-card {
-      background: var(--card); border: 1px solid var(--line);
-      border-radius: 18px; padding: 32px;
+    /* Divider */
+    .divider {
+      border: none; border-top: 1px solid var(--line);
+      margin: 0 0 28px;
     }
-    .alt-card h3 { font-size: 17px; font-weight: 700; color: var(--text); margin: 0 0 6px; }
-    .alt-card > p { font-size: 15px; color: var(--muted); margin: 0 0 22px; line-height: 1.6; }
-    .alt-row { display: flex; flex-wrap: wrap; gap: 12px; }
+
+    /* Alt links */
+    .alt-label {
+      font-size: 12px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .08em; color: var(--dim); margin-bottom: 14px;
+    }
+    .alt-row { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
     .alt-btn {
-      display: flex; align-items: center; gap: 13px;
+      display: flex; align-items: center; gap: 10px;
       background: var(--bg); border: 1px solid var(--line);
-      border-radius: 14px; padding: 16px 20px;
+      border-radius: 12px; padding: 13px 18px;
+      font-size: 14px; font-weight: 600; color: var(--text);
       transition: border-color .2s, box-shadow .2s;
+      flex: 1; min-width: 160px;
     }
-    .alt-btn:hover { border-color: var(--brand); box-shadow: 0 4px 18px rgba(120,81,169,.1); text-decoration: none; }
-    .alt-btn .alt-ic {
-      width: 42px; height: 42px; border-radius: 11px; flex-shrink: 0;
-      background: var(--brand-mid); border: 1px solid var(--brand-border);
-      display: flex; align-items: center; justify-content: center;
-      color: var(--brand); font-size: 17px;
-    }
-    .alt-btn .alt-label span { display: block; font-size: 15px; font-weight: 600; color: var(--text); }
-    .alt-btn .alt-label small { font-size: 12.5px; color: var(--dim); }
+    .alt-btn i { color: var(--brand); font-size: 15px; }
+    .alt-btn:hover { border-color: var(--brand); box-shadow: 0 4px 16px rgba(120,81,169,.1); color: var(--text); }
 
     /* Plan notice */
     .plan-notice {
-      display: flex; align-items: flex-start; gap: 13px;
-      background: var(--brand-mid); border: 1px solid var(--brand-border);
-      border-radius: 13px; padding: 18px 20px; margin-top: 24px;
+      margin-top: 20px;
+      font-size: 13px; color: var(--dim);
+      line-height: 1.6;
     }
-    .plan-notice i { color: var(--brand); margin-top: 2px; flex-shrink: 0; font-size: 16px; }
-    .plan-notice p { margin: 0; font-size: 14.5px; color: var(--muted); line-height: 1.65; }
     .plan-notice a { color: var(--brand); font-weight: 600; }
     .plan-notice a:hover { text-decoration: underline; }
 
-    /* ── FOOTER ── */
-    footer { background: #000; padding: 60px 20px 40px; border-top: 1px solid rgba(255,255,255,.08); }
-    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; max-width: 1100px; margin: 0 auto 48px; text-align: left; }
-    @media (max-width: 768px) { .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; } }
-    @media (max-width: 480px) { .footer-grid { grid-template-columns: 1fr; gap: 28px; } }
-    .footer-brand { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
-    .footer-brand img { height: 32px; }
-    .footer-brand span { font-weight: 700; font-size: 1.1rem; color: #fff; }
-    .footer-tagline { color: #a0a6c0; font-size: .9rem; line-height: 1.6; margin-bottom: 20px; max-width: 280px; }
-    .footer-social { display: flex; gap: 12px; }
-    .footer-social a { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; background: rgba(255,255,255,.06); border-radius: 10px; color: #a0a6c0; font-size: 1rem; transition: all .2s; text-decoration: none; }
-    .footer-social a:hover { background: var(--gold); color: #1a1a2e; }
-    .footer-col h5 { font-size: .85rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: #fff; margin: 0 0 16px; }
-    .footer-col ul { list-style: none; padding: 0; margin: 0; }
-    .footer-col li { margin-bottom: 10px; }
-    .footer-col a { color: #a0a6c0; font-size: .9rem; transition: color .2s; text-decoration: none; }
-    .footer-col a:hover { color: var(--gold); }
-    .footer-bottom { max-width: 1100px; margin: 0 auto; padding-top: 24px; border-top: 1px solid rgba(255,255,255,.08); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
-    .footer-bottom p { color: #6b7280; font-size: .85rem; margin: 0; }
-    .footer-legal { display: flex; gap: 24px; }
-    .footer-legal a { color: #6b7280; font-size: .85rem; transition: color .2s; text-decoration: none; }
-    .footer-legal a:hover { color: var(--gold); }
-    @media (max-width: 600px) { .footer-bottom { flex-direction: column; text-align: center; } }
+    /* Footer bar */
+    .footer-bar {
+      background: #000;
+      border-top: 1px solid rgba(255,255,255,.07);
+      padding: 20px 24px;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 12px;
+    }
+    .footer-bar p { margin: 0; font-size: 13px; color: #6b7280; }
+    .footer-bar-links { display: flex; gap: 20px; }
+    .footer-bar-links a { font-size: 13px; color: #6b7280; transition: color .2s; }
+    .footer-bar-links a:hover { color: var(--gold); }
+    @media (max-width: 500px) {
+      .footer-bar { justify-content: center; text-align: center; }
+      .footer-bar-links { justify-content: center; }
+    }
   </style>
 </head>
 <body>
@@ -302,172 +234,63 @@
   </div>
 </div>
 
-<!-- HERO -->
-<div class="hero">
-  <div>
-    <div class="plan-badge">
-      <i class="fas fa-star"></i> Growth &amp; Elite Plan Feature
-    </div>
-  </div>
+<!-- PAGE -->
+<div class="page">
+  <div class="card">
 
-  <div>
     <div class="chat-icon-wrap">
-      <img src="images/live-chat-icon.png" alt="Live chat" style="border-radius:22px" />
+      <img src="images/live-chat-icon.png" alt="Live chat" />
       <div class="status-dot-ring">
         <div class="status-dot-inner" id="hero-dot"></div>
       </div>
     </div>
-  </div>
 
-  <h1>Live Chat Support</h1>
-  <p>Connect directly with our team. Fast answers, no ticket queue.</p>
+    <h1>Live Chat Support</h1>
+    <p class="sub">Fast answers from our team. Best for quick questions — for website changes, please submit a request.</p>
 
-  <div id="status-row" class="status-row checking">
-    <span id="status-text">Checking availability…</span>
-  </div>
-  <span id="status-time" class="status-time"></span>
-  <div class="chat-tip">
-    <i class="fas fa-lightbulb"></i>
-    <span><strong>Pro tip:</strong> Chat is best for quick questions or minor requests. For larger changes, please submit a request.</span>
-  </div>
-
-  <div class="hero-nav">
-    <a href="website-request.html" class="btn-ghost"><i class="fas fa-arrow-left"></i> Back to Requests</a>
-    <a href="help.html" class="btn-ghost"><i class="fas fa-book-open"></i> Help Center</a>
-  </div>
-</div>
-
-<!-- CONTENT -->
-<div class="content">
-
-  <!-- Guidelines -->
-  <p class="section-eyebrow">Chat guidelines</p>
-  <div class="two-col">
-    <div class="guide-card do">
-      <div class="guide-label">
-        <div class="ic"><i class="fas fa-check"></i></div>
-        What chat is for
-      </div>
-      <ul class="guide-list">
-        <li><i class="fas fa-check"></i> Quick questions about your website or account</li>
-        <li><i class="fas fa-check"></i> Checking the status of a pending request</li>
-        <li><i class="fas fa-check"></i> Help clarifying timelines or next steps</li>
-        <li><i class="fas fa-check"></i> Minor edits or simple changes</li>
-        <li><i class="fas fa-check"></i> General billing questions</li>
-      </ul>
+    <div id="status-row" class="status-pill checking">
+      <span id="status-text">Checking availability…</span>
     </div>
-    <div class="guide-card dont">
-      <div class="guide-label">
-        <div class="ic"><i class="fas fa-xmark"></i></div>
-        Not the right place for
-      </div>
-      <ul class="guide-list">
-        <li><i class="fas fa-xmark"></i> Submitting new website change requests</li>
-        <li><i class="fas fa-xmark"></i> Rush work or urgent deadlines</li>
-        <li><i class="fas fa-xmark"></i> Complex design or layout changes</li>
-        <li><i class="fas fa-xmark"></i> Automation or integration setup</li>
-        <li><i class="fas fa-xmark"></i> Work outside of business hours</li>
-      </ul>
-    </div>
-  </div>
+    <span id="status-time" class="status-time"></span>
 
-  <!-- Hours -->
-  <div class="hours-card">
-    <h3><i class="fas fa-clock"></i> Chat Hours</h3>
-    <div class="hours-grid">
-      <div class="hours-item">
-        <div class="day">Monday – Friday</div>
-        <div class="time">9:00 AM – 5:00 PM ET</div>
+    <div class="hours">
+      <div class="hours-chip">
+        <div class="day">Mon – Fri</div>
+        <div class="time">9 AM – 5 PM ET</div>
       </div>
-      <div class="hours-item">
+      <div class="hours-chip">
         <div class="day">Weekends &amp; Holidays</div>
         <div class="time">Closed</div>
       </div>
     </div>
-  </div>
 
-  <!-- Alternatives -->
-  <div class="alt-card">
-    <h3>Need something else?</h3>
-    <p>For requests, detailed questions, or when chat is offline — these options are always available.</p>
+    <hr class="divider" />
+
+    <p class="alt-label">Other ways to reach us</p>
     <div class="alt-row">
       <a href="website-request.html" class="alt-btn">
-        <div class="alt-ic"><i class="fas fa-paper-plane"></i></div>
-        <div class="alt-label">
-          <span>Submit a Request</span>
-          <small>Website changes &amp; updates</small>
-        </div>
+        <i class="fas fa-paper-plane"></i> Submit a Request
       </a>
       <a href="help.html" class="alt-btn">
-        <div class="alt-ic"><i class="fas fa-book-open"></i></div>
-        <div class="alt-label">
-          <span>Help Center</span>
-          <small>Guides &amp; answers</small>
-        </div>
+        <i class="fas fa-book-open"></i> Help Center
       </a>
-    
     </div>
-    <div class="plan-notice">
-      <i class="fas fa-circle-info"></i>
-      <p>
-        <strong>Live chat is a Growth and Elite plan feature.</strong>
-        Essential plan clients can reach us anytime via the website request form.
-        <a href="pricing.html">Compare plans →</a>
-      </p>
-    </div>
-  </div>
 
+    <p class="plan-notice">
+      Live chat is available on Growth and Elite plans.<br>
+      <a href="pricing.html">Compare plans →</a>
+    </p>
+
+  </div>
 </div>
 
-<!-- FOOTER -->
-<footer>
-  <div class="footer-grid">
-    <div>
-      <div class="footer-brand">
-        <img src="images/webeaze-transparent copy.png" alt="WebEaze">
-        <span>WebEaze</span>
-      </div>
-      <p class="footer-tagline">Professional websites for small businesses. We build, host, and manage your site so you can focus on what matters.</p>
-      <div class="footer-social">
-        <a href="https://facebook.com/61568824951084" target="_blank" rel="noopener" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-        <a href="https://www.linkedin.com/company/webeaze" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-        <a href="https://instagram.com/webeaze.io" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-      </div>
-    </div>
-    <div class="footer-col">
-      <h5>Services</h5>
-      <ul>
-        <li><a href="services.html">Our Services</a></li>
-        <li><a href="pricing.html">Pricing</a></li>
-        <li><a href="plan-guide.html">Plan Guide</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h5>Company</h5>
-      <ul>
-        <li><a href="about.html">About Us</a></li>
-        <li><a href="samples.html">Our Work</a></li>
-        <li><a href="referral.html">Referral Program</a></li>
-        <li><a href="contact-us.html">Contact</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h5>Support</h5>
-      <ul>
-        <li><a href="help.html">Help Center</a></li>
-        <li><a href="faq.html">FAQ</a></li>
-        <li><a href="consultation.html">Request Mockup</a></li>
-        <li><a href="accessibility.html">Accessibility</a></li>
-      </ul>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <p style="color:#fff">&copy; <span id="yr"></span> WebEaze. Made in Delaware, USA 🇺🇸</p>
-    <div class="footer-legal">
-      <a href="terms.html#privacy">Privacy Policy</a>
-      <a href="terms.html">Terms of Service</a>
-      <a href="sitemap.xml">Site Map</a>
-    </div>
+<!-- FOOTER BAR -->
+<footer class="footer-bar">
+  <p>&copy; <span id="yr"></span> WebEaze</p>
+  <div class="footer-bar-links">
+    <a href="terms.html#privacy">Privacy</a>
+    <a href="terms.html">Terms</a>
+    <a href="help.html">Help</a>
   </div>
 </footer>
 
@@ -498,13 +321,13 @@
   }
 
   function updateStatus() {
-    const row   = document.getElementById('status-row');
-    const text  = document.getElementById('status-text');
-    const time  = document.getElementById('status-time');
-    const dot   = document.getElementById('hero-dot');
-    const now   = getEasternTime();
-    const day   = now.getDay();
-    const hour  = now.getHours();
+    const row  = document.getElementById('status-row');
+    const text = document.getElementById('status-text');
+    const time = document.getElementById('status-time');
+    const dot  = document.getElementById('hero-dot');
+    const now  = getEasternTime();
+    const day  = now.getDay();
+    const hour = now.getHours();
     const closed = isWebEazeClosed(now);
 
     let label = '';
@@ -513,23 +336,20 @@
     if (closed) {
       label = 'Closed for holiday. Back next working day.';
     } else if (day === 0 || day === 6) {
-      label = 'Offline. Back Monday at 9am ET.';
+      label = 'Offline. Back Monday at 9 AM ET.';
     } else if (hour >= 9 && hour < 17) {
       label = 'Online now. We\'re available.';
       online = true;
     } else if (hour >= 17) {
-      label = day === 5 ? 'Offline. Back Monday at 9am ET.' : 'Offline. Back tomorrow at 9am ET.';
+      label = day === 5 ? 'Offline. Back Monday at 9 AM ET.' : 'Offline. Back tomorrow at 9 AM ET.';
     } else {
-      label = 'Offline. Back today at 9am ET.';
+      label = 'Offline. Back today at 9 AM ET.';
     }
 
-    row.className = 'status-row ' + (online ? 'online' : 'offline');
+    row.className = 'status-pill ' + (online ? 'online' : 'offline');
     text.textContent = label;
-    time.textContent = 'Last checked: ' + now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }) + ' ET';
-
-    if (dot) {
-      dot.className = 'status-dot-inner ' + (online ? 'online' : 'offline');
-    }
+    time.textContent = 'Checked at ' + now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }) + ' ET';
+    if (dot) dot.className = 'status-dot-inner ' + (online ? 'online' : 'offline');
   }
 
   document.addEventListener('DOMContentLoaded', () => {
