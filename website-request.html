@@ -927,7 +927,7 @@
 <script>
   document.getElementById('yr').textContent = new Date().getFullYear();
 
-  function showPanel(id) {
+  function showPanel(id, autoScroll) {
     const panels = document.querySelectorAll('.intent-panel');
     const tiles  = document.querySelectorAll('.intent-tile');
     const target = document.getElementById('panel-' + id);
@@ -940,9 +940,21 @@
     if (!alreadyOpen) {
       target.classList.add('visible');
       tile.classList.add('active');
-      target.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      if (!autoScroll) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
     }
   }
+
+  // Scroll to form section on load so visitors land at the notices + form, not the top header
+  document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(function() {
+      const formSection = document.querySelector('.form-section');
+      if (formSection) {
+        formSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 120);
+  });
 
   function getET() {
     return new Date(new Date().toLocaleString('en-US', { timeZone: 'America/New_York' }));
@@ -1087,13 +1099,13 @@
 
     if (lastPanel) {
       applyLastUsedBadge(lastPanel);
-      if (returning) setTimeout(() => showPanel(lastPanel), 200);
+      if (returning) setTimeout(() => showPanel(lastPanel, true), 200);
     }
 
     // Intercept showPanel to save + refresh badge + tip
     const _orig = window.showPanel;
-    window.showPanel = function(id) {
-      _orig(id);
+    window.showPanel = function(id, autoScroll) {
+      _orig(id, autoScroll);
       lsSet(LS_LAST_PANEL, id);
       applyLastUsedBadge(id);
       updateFormTip(id);
@@ -1134,11 +1146,11 @@
         const billingHashes = ['manage-your-plan','annual-vs-monthly','change-billing-date','reactivate-plan','view-invoices','billing'];
         const brokenHashes  = ['site-is-down','website-error-troubleshooting','my-site-isnt-updating','contact-form-not-sending'];
         if (path === 'pricing.html') {
-          setTimeout(() => showPanel('billing'), 300);
+          setTimeout(() => showPanel('billing', true), 300);
         } else if (path === 'help.html' && billingHashes.some(s => hash.includes(s))) {
-          setTimeout(() => showPanel('billing'), 300);
+          setTimeout(() => showPanel('billing', true), 300);
         } else if (path === 'help.html' && brokenHashes.some(s => hash.includes(s))) {
-          setTimeout(() => showPanel('broken'), 300);
+          setTimeout(() => showPanel('broken', true), 300);
         }
       }
     } catch(e) {}
@@ -1283,9 +1295,9 @@
           const billingSlags = ['manage-your-plan','annual-vs-monthly','change-billing-date','view-invoices','reactivate-plan'];
           const brokenSlugs  = ['site-is-down','website-error-troubleshooting','contact-form-not-sending'];
           if (helpSaved.some(s => billingSlags.includes(s.slug))) {
-            setTimeout(() => showPanel('billing'), 300);
+            setTimeout(() => showPanel('billing', true), 300);
           } else if (helpSaved.some(s => brokenSlugs.includes(s.slug))) {
-            setTimeout(() => showPanel('broken'), 300);
+            setTimeout(() => showPanel('broken', true), 300);
           }
         }
       } catch(e) {}
