@@ -452,6 +452,45 @@
     .topic-link.read.active { color: var(--gold) !important; opacity: 1; }
     .topic-link.read.active::after { display: none; }
 
+    /* READING TIME */
+    .read-time {
+      display: inline-flex; align-items: center; gap: 4px;
+      font-size: 12px; color: var(--muted);
+    }
+    .read-time i { font-size: 10px; }
+
+    /* TOPIC PROGRESS */
+    .topic-progress {
+      margin-left: auto; margin-right: 6px; flex-shrink: 0;
+      font-size: 10px; font-weight: 700;
+      color: rgba(255,255,255,.28);
+      display: inline-flex; align-items: center; gap: 3px;
+    }
+    .topic-group.complete .topic-progress { color: #4ade80; }
+    .topic-group.complete .topic-header > i:first-child { color: #4ade80 !important; }
+    .topic-group.complete > .topic-header > span { opacity: .6; }
+
+    /* HELPFUL ROW */
+    .helpful-row {
+      margin-top: 32px; padding-top: 24px;
+      border-top: 1px solid var(--line);
+      display: flex; flex-direction: column; align-items: center;
+      gap: 12px; text-align: center;
+    }
+    .helpful-label { font-size: 14px; font-weight: 600; color: var(--muted); }
+    .helpful-btns { display: flex; gap: 10px; }
+    .helpful-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 20px; border-radius: 10px;
+      background: var(--dark-3); border: 1px solid var(--line);
+      font-size: 14px; font-weight: 600; color: #fff;
+      cursor: pointer; transition: background .2s, border-color .2s, transform .2s;
+    }
+    .helpful-btn:hover { transform: translateY(-2px); }
+    .helpful-btn.voted-yes { background: rgba(34,197,94,.1); border-color: rgba(34,197,94,.35); color: #4ade80; }
+    .helpful-btn.voted-no  { background: rgba(239,68,68,.07); border-color: rgba(239,68,68,.28); color: #f87171; }
+    .helpful-thanks { font-size: 13px; color: var(--muted); }
+
     /* RETURN VISITOR HERO */
     .hero-return-msg {
       display: inline-flex;
@@ -1744,6 +1783,11 @@
     border-color: rgba(0,0,0,.09) !important;
     box-shadow: 0 2px 8px rgba(0,0,0,.05) !important;
   }
+  .helpful-btn { background: #f5f6fa !important; border-color: rgba(0,0,0,.09) !important; color: #1a1a2e !important; }
+  .helpful-btn.voted-yes { background: rgba(22,163,74,.07) !important; border-color: rgba(22,163,74,.22) !important; color: #15803d !important; }
+  .helpful-btn.voted-no  { background: rgba(220,38,38,.05) !important; border-color: rgba(220,38,38,.18) !important; color: #b91c1c !important; }
+  .topic-group.complete .topic-header > i:first-child { color: #16a34a !important; }
+  .topic-group.complete > .topic-header > span { opacity: .5; }
   .rec-pill { background: rgba(120,81,169,.07) !important; border-color: rgba(120,81,169,.2) !important; }
   .rec-pill:hover { background: rgba(120,81,169,.13) !important; border-color: rgba(120,81,169,.35) !important; }
   .recommended-row { border-bottom-color: rgba(0,0,0,.08) !important; }
@@ -4446,8 +4490,10 @@
     const idx = [];
     data.topics.forEach(t => {
       t.articles.forEach(a => {
-        const text = [a.title, a.meta, a.body.replace(/<[^>]+>/g, ' ')].join(' ');
-        idx.push({ slug: a.slug, title: a.title, topicId: t.id, topicTitle: t.title, topicIcon: t.icon, updated: a.updated, meta: a.meta, text: normalize(text) });
+        const bodyText = a.body.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+        const readTime = Math.max(1, Math.round(bodyText.split(' ').filter(Boolean).length / 200));
+        const text = [a.title, a.meta, bodyText].join(' ');
+        idx.push({ slug: a.slug, title: a.title, topicId: t.id, topicTitle: t.title, topicIcon: t.icon, updated: a.updated, meta: a.meta, readTime, text: normalize(text) });
       });
     });
     return idx;
@@ -4490,17 +4536,25 @@
     const sorted = [...HELP_DATA.topics].sort((a, b) => TOPIC_ORDER.indexOf(a.id) - TOPIC_ORDER.indexOf(b.id));
     let html = '';
     let lastGroup = null;
+    const read = typeof getRead === 'function' ? getRead() : [];
     sorted.forEach(t => {
       if (t.group !== lastGroup) {
         const gm = GROUP_META.find(g => g.key === t.group);
         html += `<div class="topic-section-label">${gm ? gm.label : ''}</div>`;
         lastGroup = t.group;
       }
+      const readCount = t.articles.filter(a => read.includes(a.slug)).length;
+      const total = t.articles.length;
+      const complete = readCount === total && total > 0;
+      const progressHtml = readCount > 0
+        ? `<span class="topic-progress">${complete ? '<i class="fas fa-check"></i>' : readCount + '/' + total}</span>`
+        : '';
       html += `
-      <div class="topic-group" data-topic="${t.id}">
+      <div class="topic-group${complete ? ' complete' : ''}" data-topic="${t.id}">
         <div class="topic-header" onclick="this.parentElement.classList.toggle('open')">
           <i class="fas ${t.icon}"></i>
           <span>${t.title}</span>
+          ${progressHtml}
           <i class="fas fa-chevron-down chevron"></i>
         </div>
         <div class="topic-links">
@@ -4638,7 +4692,7 @@
               <i class="fas fa-arrow-right"></i>
             </div>
             <div class="meta">
-              <span class="topic">${d.topicTitle}</span> · Updated ${d.updated}
+              <span class="topic">${d.topicTitle}</span> · Updated ${d.updated} · <span class="read-time"><i class="fas fa-book-open"></i> ${d.readTime} min</span>
             </div>
             <div class="excerpt">${d.meta}</div>
           </a>
@@ -4683,7 +4737,10 @@
         </nav>
         <header class="article-header">
           <h1>${article.title}</h1>
-          <div class="meta"><i class="fas fa-clock"></i> Last updated: ${article.updated}</div>
+          <div class="meta">
+            <i class="fas fa-clock"></i> Last updated: ${article.updated}
+            &nbsp;&nbsp;<span class="read-time"><i class="fas fa-book-open"></i> ${INDEX.find(x => x.slug === slug)?.readTime || 1} min read</span>
+          </div>
         </header>
         <section class="article-body">${article.body}</section>
         <div class="article-footer">
@@ -4773,6 +4830,7 @@
   const LS_LAST    = 'wz_help_last';
   const LS_READ    = 'wz_help_read';
   const LS_SAVED   = 'wz_help_saved';
+  const LS_HELPFUL = 'wz_help_helpful';
   const SAVE_TTL   = 30 * 24 * 60 * 60 * 1000; // 30 days
 
   function lsGet(key) { try { return JSON.parse(localStorage.getItem(key)); } catch(e) { return null; } }
@@ -4801,6 +4859,28 @@
       const s = a.getAttribute('href').slice(2);
       if (read.includes(s)) a.classList.add('read');
       else a.classList.remove('read');
+    });
+    // Refresh topic progress badges
+    document.querySelectorAll('.topic-group').forEach(group => {
+      const topicId = group.dataset.topic;
+      const topic = HELP_DATA.topics.find(t => t.id === topicId);
+      if (!topic) return;
+      const readCount = topic.articles.filter(a => read.includes(a.slug)).length;
+      const total = topic.articles.length;
+      const complete = readCount === total && total > 0;
+      group.classList.toggle('complete', complete);
+      let $prog = group.querySelector('.topic-progress');
+      if (readCount > 0) {
+        if (!$prog) {
+          $prog = document.createElement('span');
+          $prog.className = 'topic-progress';
+          const chevron = group.querySelector('.chevron');
+          group.querySelector('.topic-header').insertBefore($prog, chevron);
+        }
+        $prog.innerHTML = complete ? '<i class="fas fa-check"></i>' : readCount + '/' + total;
+      } else if ($prog) {
+        $prog.remove();
+      }
     });
   }
 
@@ -4876,6 +4956,36 @@
     $footer.insertBefore($btn, $footer.firstChild);
   }
 
+  // ---- Was this helpful? ----
+  function injectHelpfulRow(slug) {
+    const $view = document.querySelector('.article-view');
+    if (!$view || $view.querySelector('.helpful-row')) return;
+    const ratings = lsGet(LS_HELPFUL) || {};
+    const voted = ratings[slug];
+    const row = document.createElement('div');
+    row.className = 'helpful-row';
+    if (voted) {
+      row.innerHTML = `<p class="helpful-thanks">${voted === 'yes' ? 'Glad it helped.' : 'Thanks for the feedback -- we will use it to improve.'}</p>`;
+    } else {
+      row.innerHTML = `
+        <p class="helpful-label">Was this helpful?</p>
+        <div class="helpful-btns">
+          <button class="helpful-btn yes" data-vote="yes"><i class="fas fa-thumbs-up"></i> Yes</button>
+          <button class="helpful-btn no" data-vote="no"><i class="fas fa-thumbs-down"></i> Not really</button>
+        </div>`;
+      row.querySelectorAll('.helpful-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const vote = btn.dataset.vote;
+          const r = lsGet(LS_HELPFUL) || {};
+          r[slug] = vote;
+          lsSet(LS_HELPFUL, r);
+          row.innerHTML = `<p class="helpful-thanks">${vote === 'yes' ? 'Glad it helped.' : 'Thanks for the feedback -- we will use it to improve.'}</p>`;
+        });
+      });
+    }
+    $view.appendChild(row);
+  }
+
   // ---- Called by renderArticle after article renders ----
   function onArticleRendered(slug) {
     const found = findArticleBySlug(slug);
@@ -4885,9 +4995,11 @@
     applyReadIndicators();
     saveLastRead(slug, article.title);
     injectBookmarkBtn(slug, article.title);
+    injectHelpfulRow(slug);
   }
 
   function boot() {
+    if (!lsGet('wz_first_visit')) lsSet('wz_first_visit', Date.now());
     renderTopics();
     renderCategories();
     renderRecommended();

@@ -397,7 +397,7 @@ footer {
 <header class="hero">
   <div class="container-narrow">
     <h1>Simple, honest pricing.</h1>
-    <p>One monthly price for your entire web presence. No hourly billing. No surprise fees.</p>
+    <p id="pricingHeroSub">One monthly price for your entire web presence. No hourly billing. No surprise fees.</p>
 
     <div class="value-strip">
       <div class="value-item"><i class="fas fa-check-circle"></i> Custom design</div>
@@ -770,6 +770,30 @@ tY.onclick = () => { tY.classList.add('active'); tM.classList.remove('active'); 
 function openModal() { document.getElementById('supportModal').classList.add('active'); document.body.style.overflow = 'hidden'; }
 function closeModal(e) { if (!e || e.target.classList.contains('modal-overlay')) { document.getElementById('supportModal').classList.remove('active'); document.body.style.overflow = ''; } }
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+// Personalization
+(function() {
+  function lsGet(k) { try { return JSON.parse(localStorage.getItem(k)); } catch(e) { return null; } }
+  function lsSet(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch(e) {} }
+
+  if (!lsGet('wz_first_visit')) lsSet('wz_first_visit', Date.now());
+
+  const count = (lsGet('wz_pricing_count') || 0) + 1;
+  lsSet('wz_pricing_count', count);
+  const returning = lsGet('wz_pricing_visited');
+  lsSet('wz_pricing_visited', true);
+
+  if (returning && count >= 2) {
+    const $sub = document.getElementById('pricingHeroSub');
+    if ($sub) {
+      if (count >= 4) {
+        $sub.textContent = 'Still weighing your options? Most clients find the Essential plan is the right starting point.';
+      } else {
+        $sub.textContent = 'Welcome back. Take a closer look -- no contracts and you can start or stop anytime.';
+      }
+    }
+  }
+})();
 </script>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

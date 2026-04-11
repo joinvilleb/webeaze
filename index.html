@@ -2111,7 +2111,7 @@ fee-tooltip {
             <span id="hero-plain"></span><span class="highlight" id="hero-highlight"></span><span class="hero-cursor" id="hero-cursor">|</span>
           </h1>
 
-          <p class="hero-subtitle-new">
+          <p class="hero-subtitle-new" id="indexHeroSub">
             We design, build, and manage your site. You run your business.
           </p>
 
@@ -3531,6 +3531,30 @@ function whyTabScroll(dir) {
       }, 180);
     }
   }, 300);
+})();
+
+// Personalization
+(function() {
+  function lsGet(k) { try { return JSON.parse(localStorage.getItem(k)); } catch(e) { return null; } }
+  function lsSet(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch(e) {} }
+
+  if (!lsGet('wz_first_visit')) lsSet('wz_first_visit', Date.now());
+
+  const count = (lsGet('wz_index_count') || 0) + 1;
+  lsSet('wz_index_count', count);
+  const returning = lsGet('wz_index_visited');
+  lsSet('wz_index_visited', true);
+
+  if (returning) {
+    const $sub = document.getElementById('indexHeroSub');
+    if ($sub) {
+      if (count >= 5) {
+        $sub.textContent = 'Welcome back. Ready when you are.';
+      } else {
+        $sub.textContent = 'Welcome back. We design, build, and manage your site -- you run your business.';
+      }
+    }
+  }
 })();
 </script>
 

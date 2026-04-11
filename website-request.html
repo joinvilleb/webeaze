@@ -443,6 +443,58 @@
     }
     .closing-nudge i { color: #f59e0b; font-size: 13px; flex-shrink: 0; }
 
+    /* AFTER-HOURS NOTE */
+    .after-hours-note {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      background: rgba(99,102,241,.1);
+      border: 1px solid rgba(99,102,241,.25);
+      border-radius: 10px;
+      padding: 11px 16px;
+      font-size: 13.5px;
+      font-weight: 500;
+      color: rgba(255,255,255,.8);
+      margin-bottom: 16px;
+    }
+    .after-hours-note i { color: #818cf8; font-size: 13px; flex-shrink: 0; }
+
+    /* SUBMITTED NOTE */
+    .submitted-note {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      background: rgba(34,197,94,.08);
+      border: 1px solid rgba(34,197,94,.22);
+      border-radius: 10px;
+      padding: 11px 16px;
+      font-size: 13.5px;
+      font-weight: 500;
+      color: rgba(255,255,255,.8);
+      margin-bottom: 16px;
+    }
+    .submitted-note i { color: #4ade80; font-size: 13px; flex-shrink: 0; }
+    .submitted-note strong { color: #86efac; }
+
+    /* CONFETTI */
+    #confetti-canvas {
+      position: fixed; top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none; z-index: 99999;
+      display: none;
+    }
+
+    /* MEMBER SINCE */
+    .member-since {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: rgba(255,255,255,.35);
+      margin-top: 3px;
+    }
+    .member-since i { font-size: 10px; }
+
     /* PERSONALIZATION */
     .intent-tile.last-used {
       border-color: rgba(120,81,169,.4);
@@ -645,6 +697,12 @@
   .form-tip i { color: #7851a9 !important; }
   .closing-nudge { background: rgba(245,158,11,.07) !important; border-color: rgba(245,158,11,.22) !important; color: #78350f !important; }
   .closing-nudge i { color: #d97706 !important; }
+  .after-hours-note { background: rgba(99,102,241,.06) !important; border-color: rgba(99,102,241,.18) !important; color: #374151 !important; }
+  .after-hours-note i { color: #6366f1 !important; }
+  .submitted-note { background: rgba(34,197,94,.06) !important; border-color: rgba(34,197,94,.18) !important; color: #14532d !important; }
+  .submitted-note i { color: #16a34a !important; }
+  .submitted-note strong { color: #15803d !important; }
+  .member-since { color: rgba(0,0,0,.3) !important; }
   </style>
 
 </head>
@@ -721,8 +779,11 @@
 <div class="form-section">
   <div class="wrap">
     <div id="milestoneCard" class="milestone-card" hidden></div>
+    <div id="savedArticlesNote" class="form-tip" hidden></div>
     <div id="formTip" class="form-tip" hidden></div>
     <div id="closingNudge" class="closing-nudge" hidden></div>
+    <div id="afterHoursNote" class="after-hours-note" hidden></div>
+    <div id="submittedNote" class="submitted-note" hidden></div>
     <script src="https://js-na2.hsforms.net/forms/embed/242171361.js" defer></script>
     <div class="hs-form-frame" data-region="na2" data-form-id="1bd7643f-da22-4812-a77f-8fe06fb55990" data-portal-id="242171361"></div>
     <p class="form-note">
@@ -918,6 +979,48 @@
   updateStatus();
   setInterval(updateStatus, 60000);
 
+  // ── CONFETTI ─────────────────────────────────────────────
+  function launchConfetti() {
+    const canvas = document.getElementById('confetti-canvas');
+    if (!canvas) return;
+    canvas.style.display = 'block';
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+    const ctx = canvas.getContext('2d');
+    const colors = ['#7851a9','#f97316','#ffd700','#22c55e','#3b82f6','#ec4899','#06b6d4'];
+    const particles = Array.from({ length: 130 }, () => ({
+      x: Math.random() * canvas.width,
+      y: Math.random() * -canvas.height * 0.5,
+      r: 5 + Math.random() * 6,
+      dy: 1.4 + Math.random() * 2,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      tiltAngle: Math.random() * Math.PI * 2,
+      tiltSpeed: 0.08 + Math.random() * 0.15,
+      opacity: 1
+    }));
+    const start = Date.now();
+    const duration = 3200;
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const progress = Math.min((Date.now() - start) / duration, 1);
+      particles.forEach(p => {
+        p.tiltAngle += p.tiltSpeed;
+        p.y += p.dy + Math.abs(Math.sin(p.tiltAngle)) * 0.6;
+        p.opacity = progress > 0.55 ? 1 - (progress - 0.55) / 0.45 : 1;
+        ctx.save();
+        ctx.globalAlpha = Math.max(0, p.opacity);
+        ctx.fillStyle = p.color;
+        ctx.translate(p.x + Math.sin(p.tiltAngle) * 8, p.y);
+        ctx.rotate(p.tiltAngle);
+        ctx.fillRect(-p.r / 2, -p.r * 0.3, p.r, p.r * 0.55);
+        ctx.restore();
+      });
+      if (progress < 1) requestAnimationFrame(draw);
+      else { canvas.style.display = 'none'; ctx.clearRect(0, 0, canvas.width, canvas.height); }
+    }
+    requestAnimationFrame(draw);
+  }
+
   // ── PERSONALIZATION ──────────────────────────────────────
   (function() {
     const LS_VISITED    = 'wz_req_visited';
@@ -955,16 +1058,13 @@
         ? 'Good to have you back.'
         : count >= 3
           ? 'What are we working on?'
-          : 'Welcome back — what do you need?';
+          : 'Welcome back!';
     }
 
     // ── 3. Personalized subtitle ──
     const $sub = document.getElementById('headerSub');
     if ($sub && returning) {
       $sub.textContent = 'Drop your request below and we\'ll handle it.';
-      $sub.insertAdjacentHTML('afterend',
-        '<div class="header-return"><i class="fas fa-history"></i> Your last shortcut is highlighted below.</div>'
-      );
     }
 
     // ── 4. Last panel memory ──
@@ -1020,7 +1120,7 @@
     // ── 6. Closing-time nudge (4–5 PM ET, weekdays only) ──
     const $nudge = document.getElementById('closingNudge');
     if ($nudge && day >= 1 && day <= 5 && hour === 16) {
-      $nudge.innerHTML = '<i class="fas fa-clock"></i> We close at 5 PM ET today — submit your request now to get it in today\'s queue.';
+      $nudge.innerHTML = '<i class="fas fa-clock"></i> We close at 5 PM ET today. Submit your request now to get it in today\'s queue.';
       $nudge.hidden = false;
     }
 
@@ -1165,6 +1265,157 @@
       $card.hidden = false;
     })();
 
+    // ── 11. Global first-visit timestamp ──
+    if (!lsGet('wz_first_visit')) lsSet('wz_first_visit', Date.now());
+
+    // ── 12. Cross-page: Help Center saved articles ──
+    (function() {
+      try {
+        const helpSaved = lsGet('wz_help_saved') || [];
+        if (!helpSaved.length) return;
+        const $note = document.getElementById('savedArticlesNote');
+        if (!$note) return;
+        const n = helpSaved.length;
+        $note.innerHTML = '<i class="fas fa-bookmark"></i> You have ' + n + ' saved article' + (n === 1 ? '' : 's') + ' in the <a href="help.html" style="color:inherit;font-weight:700;text-decoration:underline;">Help Center</a> that might answer your question first.';
+        $note.hidden = false;
+
+        // Auto-open panel based on what they saved
+        if (!lastPanel) {
+          const billingSlags = ['manage-your-plan','annual-vs-monthly','change-billing-date','view-invoices','reactivate-plan'];
+          const brokenSlugs  = ['site-is-down','website-error-troubleshooting','contact-form-not-sending'];
+          if (helpSaved.some(s => billingSlags.includes(s.slug))) {
+            setTimeout(() => showPanel('billing'), 300);
+          } else if (helpSaved.some(s => brokenSlugs.includes(s.slug))) {
+            setTimeout(() => showPanel('broken'), 300);
+          }
+        }
+      } catch(e) {}
+    })();
+
+    // ── 13. Cross-page: Last-read help article context ──
+    (function() {
+      try {
+        const helpLast = lsGet('wz_help_last');
+        if (!helpLast || !helpLast.title) return;
+        const $tip = document.getElementById('formTip');
+        if (!$tip || !$tip.hidden) return; // don't overwrite an existing panel tip
+        if (!lastPanel) {
+          $tip.innerHTML = '<i class="fas fa-book-open"></i> Last time you were reading <a href="help.html#/' + helpLast.slug + '" style="color:inherit;font-weight:700;text-decoration:underline;">' + helpLast.title + '</a> in the Help Center. If that is related, mention it in your request.';
+          $tip.hidden = false;
+        }
+      } catch(e) {}
+    })();
+
+    // ── 14. Day-of-week copy variation ──
+    (function() {
+      const $title = document.getElementById('headerTitle');
+      const $sub   = document.getElementById('headerSub');
+      if (!returning) {
+        // First visit: gentle day-specific prompt
+        if (day === 1 && $title) $title.textContent = 'Start the week right.';
+        if (day === 5 && $sub)   $sub.textContent   = "Friday is a great time to get requests in before the weekend.";
+      } else {
+        // Returning: vary the title for Mon/Fri if it hasn't been overridden to a visit-count title
+        if (day === 1 && $title && count < 3) $title.textContent = 'Good way to start a Monday.';
+        if (day === 5 && $sub)   $sub.textContent   = "Let's close out the week with something good.";
+      }
+    })();
+
+    // ── 15. After-hours warm message ──
+    (function() {
+      const $note = document.getElementById('afterHoursNote');
+      if (!$note) return;
+      const isWeekend = day === 0 || day === 6;
+      const isAfterHours = !isWeekend && (hour < 9 || hour >= 17);
+      const isHoliday = (function() {
+        try {
+          const closures = getClosures();
+          const nowDate = getET();
+          return closures.some(c => nowDate >= c.start && nowDate <= c.end);
+        } catch(e) { return false; }
+      })();
+      if (isHoliday) {
+        $note.innerHTML = '<i class="fas fa-mug-hot"></i> We are closed today for a holiday. Submit your request here and we will pick it up first thing on the next business day.';
+        $note.hidden = false;
+      } else if (isWeekend) {
+        $note.innerHTML = '<i class="fas fa-mug-hot"></i> We are closed on weekends. Go ahead and drop your request below and we will have it first thing Monday morning.';
+        $note.hidden = false;
+      } else if (isAfterHours) {
+        const nextOpenMsg = (day === 5 && hour >= 17)
+          ? 'Monday morning'
+          : 'tomorrow morning';
+        $note.innerHTML = '<i class="fas fa-moon"></i> We are closed for the night. Submit your request now and we will get on it ' + nextOpenMsg + '.';
+        $note.hidden = false;
+      }
+    })();
+
+    // ── 16. Member since display ──
+    (function() {
+      if (!returning) return;
+      const firstVisit = lsGet('wz_first_visit');
+      if (!firstVisit) return;
+      const since = new Date(firstVisit);
+      const sinceStr = since.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+      const $sub = document.getElementById('headerSub');
+      if ($sub) {
+        $sub.insertAdjacentHTML('afterend',
+          '<div class="member-since"><i class="fas fa-calendar-check"></i> With us since ' + sinceStr + '</div>'
+        );
+      }
+    })();
+
+    // ── 17. Previous submission note ──
+    (function() {
+      const $note = document.getElementById('submittedNote');
+      if (!$note) return;
+      const submitted = lsGet('wz_req_submitted') || 0;
+      if (submitted < 1) return;
+      $note.innerHTML = '<i class="fas fa-circle-check"></i> You have submitted <strong>' + submitted + ' request' + (submitted === 1 ? '' : 's') + '</strong> with us before. We have got your history on file.';
+      $note.hidden = false;
+    })();
+
+    // ── 18. Confetti burst on milestone visits ──
+    (function() {
+      const MILESTONES = [5, 10, 25, 50];
+      const seen = lsGet('wz_req_confetti_seen') || [];
+      const milestone = MILESTONES.find(m => count === m && !seen.includes(m));
+      if (!milestone) return;
+      lsSet('wz_req_confetti_seen', [...seen, milestone]);
+      setTimeout(launchConfetti, 600);
+    })();
+
+    // ── 19. Form submission counter (MutationObserver) ──
+    (function() {
+      try {
+        const formFrame = document.querySelector('.hs-form-frame');
+        if (!formFrame) return;
+        const obs = new MutationObserver(function(mutations) {
+          for (const m of mutations) {
+            for (const node of m.addedNodes) {
+              if (node.nodeType !== 1) continue;
+              const isSuccess =
+                node.classList && (
+                  node.classList.contains('submitted-message') ||
+                  node.classList.contains('hs-form__thank-you')
+                ) ||
+                node.querySelector && (
+                  node.querySelector('.submitted-message') ||
+                  node.querySelector('.hs-form__thank-you')
+                ) ||
+                (node.textContent && /thank you|submitted|got it|on it/i.test(node.textContent.trim().slice(0, 80)));
+              if (isSuccess) {
+                const n = (lsGet('wz_req_submitted') || 0) + 1;
+                lsSet('wz_req_submitted', n);
+                lsSet('wz_req_last_submit', Date.now());
+                obs.disconnect();
+              }
+            }
+          }
+        });
+        obs.observe(formFrame, { childList: true, subtree: true });
+      } catch(e) {}
+    })();
+
   })();
   // ─────────────────────────────────────────────────────────
 
@@ -1182,5 +1433,6 @@
   });
 </script>
 
+<canvas id="confetti-canvas"></canvas>
 </body>
 </html>
