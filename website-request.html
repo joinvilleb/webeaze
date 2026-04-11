@@ -484,6 +484,21 @@
       display: none;
     }
 
+    /* BACK LINK (inline in page header) */
+    .back-link-inline {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 500;
+      color: rgba(255,255,255,.5);
+      text-decoration: none;
+      margin-bottom: 10px;
+      transition: color .15s;
+    }
+    .back-link-inline:hover { color: rgba(255,255,255,.85); }
+    .back-link-inline i { font-size: 10px; }
+
     /* MEMBER SINCE */
     .member-since {
       display: inline-flex;
@@ -1460,20 +1475,21 @@
     }
     document.addEventListener('DOMContentLoaded', function() {
       if (last && last.name && last.path !== (path || 'index.html')) {
-        const bar = document.createElement('div');
-        bar.className = 'back-link-bar';
-        bar.innerHTML = '<a href="' + last.path + '"><i class="fas fa-arrow-left"></i> Back to ' + last.name + '</a>';
-        const nav = document.querySelector('.nav-wrap');
-        if (nav) nav.insertAdjacentElement('afterend', bar);
+        const link = document.createElement('a');
+        link.href = last.path;
+        link.className = 'back-link-inline';
+        link.innerHTML = '<i class="fas fa-arrow-left"></i> Back to ' + last.name;
+        const ph = document.querySelector('.page-header .wrap');
+        if (ph) ph.insertAdjacentElement('afterbegin', link);
       }
       const plan = _ls('wz_myplan_last');
       if (plan) {
         const labels = { essential: 'Essential', growth: 'Growth', onetime: 'One-Time' };
         const label = labels[plan];
         if (label) {
-          const link = document.querySelector('a[href="pricing.html"].nav-link');
-          if (link && !link.querySelector('.nav-plan-badge')) {
-            link.insertAdjacentHTML('beforeend', '<span class="nav-plan-badge"> (' + label + ')</span>');
+          const navLink = document.querySelector('a[href="pricing.html"].nav-link');
+          if (navLink && !navLink.querySelector('.nav-plan-badge')) {
+            navLink.insertAdjacentHTML('beforeend', '<span class="nav-plan-badge"> (' + label + ')</span>');
           }
         }
       }
