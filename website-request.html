@@ -1066,9 +1066,25 @@
 
     // ── 1. Time-of-day greeting ──
     const $greeting = document.getElementById('headerGreeting');
-    if ($greeting) {
-      $greeting.textContent = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
+    function buildGreeting() {
+      const base = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
+      const name = lsGet('wz_user_name');
+      return name ? base + ', ' + name : base;
     }
+    if ($greeting) { $greeting.textContent = buildGreeting(); }
+    // Watch HubSpot form for first name pre-fill
+    (function() {
+      const obs = new MutationObserver(() => {
+        const input = document.querySelector('input[name="firstname"]');
+        if (input && input.value.trim()) {
+          const first = input.value.trim().split(' ')[0];
+          lsSet('wz_user_name', first);
+          if ($greeting) $greeting.textContent = buildGreeting();
+          obs.disconnect();
+        }
+      });
+      obs.observe(document.body, { childList: true, subtree: true });
+    })();
 
     // ── 2. Personalized title ──
     const $title = document.getElementById('headerTitle');
@@ -1083,7 +1099,7 @@
     // ── 3. Personalized subtitle ──
     const $sub = document.getElementById('headerSub');
     if ($sub && returning) {
-      $sub.textContent = 'Drop your request below and we\'ll handle it.';
+      $sub.textContent = 'Drop your request and we\'ll handle it.';
     }
 
     // ── 4. Last panel memory ──
@@ -1198,9 +1214,9 @@
         // Apr
         { icon: 'fa-file-invoice-dollar', cls: 'notice', html: 'Last stretch of tax season. <a href="help.html#/view-invoices">Your invoices are ready if you need them.</a>' },
         // May
-        { icon: 'fa-sun', cls: 'notice', html: 'Summer is close -- a great time to refresh your photos, hours, or seasonal promotions.' },
+        { icon: 'fa-sun', cls: 'notice', html: 'Summer is close. A great time to refresh your photos, hours, or seasonal promotions.' },
         // Jun
-        { icon: 'fa-sun', cls: 'notice', html: 'Summer season is here. Keep your site current -- update hours, promotions, or photos anytime.' },
+        { icon: 'fa-sun', cls: 'notice', html: 'Summer season is here. Keep your site current. Update hours, promotions, or photos anytime.' },
         // Jul
         { icon: 'fa-gift', cls: 'notice-referral', html: '<strong>Know someone who needs a website?</strong> Refer them and earn $50. <a href="referral.html">Learn more</a>.' },
         // Aug
@@ -1212,7 +1228,7 @@
         // Nov
         { icon: 'fa-triangle-exclamation', cls: 'notice-busy', html: 'Holiday closures are coming up. Submit requests early to avoid delays over Thanksgiving and December.' },
         // Dec
-        { icon: 'fa-triangle-exclamation', cls: 'notice-busy', html: 'We close for the holidays on Dec 24. Get your requests in early -- anything submitted after Dec 22 will be handled in January.' },
+        { icon: 'fa-triangle-exclamation', cls: 'notice-busy', html: 'We close for the holidays on Dec 24. Anything submitted after Dec 22 will be handled in January.' },
       ];
 
       const b = banners[month];

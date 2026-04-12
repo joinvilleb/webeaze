@@ -433,24 +433,6 @@
     .btn-bookmark.saved { border-color: rgba(120,81,169,.5); color: var(--brand-light); }
     .btn-bookmark.saved i { color: var(--brand-light); }
 
-    /* READ INDICATORS */
-    .topic-link.read {
-      position: relative;
-    }
-    .topic-link.read::after {
-      content: '';
-      position: absolute;
-      right: 12px;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: rgba(120,81,169,.5);
-    }
-    .topic-link.read { color: rgba(255,255,255,.35); }
-    .topic-link.read.active { color: var(--gold) !important; opacity: 1; }
-    .topic-link.read.active::after { display: none; }
 
     /* NEW BADGE */
     .new-badge {
@@ -469,6 +451,37 @@
       line-height: 1.4;
     }
 
+    /* SEARCH HISTORY */
+    .search-history-row {
+      margin-top: 16px; padding-top: 16px;
+      border-top: 1px solid var(--line);
+    }
+    .history-label {
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .1em; color: var(--muted); margin-bottom: 10px;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .history-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+    .history-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--dark-3); border: 1px solid var(--line);
+      border-radius: 20px; padding: 5px 12px;
+      font-size: 12.5px; cursor: pointer; color: var(--muted);
+      transition: border-color .15s, color .15s; text-decoration: none;
+    }
+    .history-pill:hover { border-color: var(--brand-light); color: var(--brand-light); }
+    .history-pill i { font-size: 10px; }
+
+    /* TOPIC AFFINITY */
+    .topic-affinity-row {
+      margin-top: 14px; padding-top: 14px;
+      border-top: 1px solid var(--line);
+      font-size: 12.5px; color: var(--muted);
+      display: flex; align-items: center; gap: 6px;
+    }
+    .topic-affinity-row i { color: #f97316; font-size: 12px; }
+    .affinity-name { font-weight: 600; color: var(--brand-light); }
+
     /* READING TIME */
     .read-time {
       display: inline-flex; align-items: center; gap: 4px;
@@ -476,16 +489,6 @@
     }
     .read-time i { font-size: 10px; }
 
-    /* TOPIC PROGRESS */
-    .topic-progress {
-      margin-left: auto; margin-right: 6px; flex-shrink: 0;
-      font-size: 10px; font-weight: 700;
-      color: rgba(255,255,255,.28);
-      display: inline-flex; align-items: center; gap: 3px;
-    }
-    .topic-group.complete .topic-progress { color: #4ade80; }
-    .topic-group.complete .topic-header > i:first-child { color: #4ade80 !important; }
-    .topic-group.complete > .topic-header > span { opacity: .6; }
 
     /* HELPFUL ROW */
     .helpful-row {
@@ -1803,8 +1806,6 @@
   .helpful-btn { background: #f5f6fa !important; border-color: rgba(0,0,0,.09) !important; color: #1a1a2e !important; }
   .helpful-btn.voted-yes { background: rgba(22,163,74,.07) !important; border-color: rgba(22,163,74,.22) !important; color: #15803d !important; }
   .helpful-btn.voted-no  { background: rgba(220,38,38,.05) !important; border-color: rgba(220,38,38,.18) !important; color: #b91c1c !important; }
-  .topic-group.complete .topic-header > i:first-child { color: #16a34a !important; }
-  .topic-group.complete > .topic-header > span { opacity: .5; }
   .rec-pill { background: rgba(120,81,169,.07) !important; border-color: rgba(120,81,169,.2) !important; }
   .rec-pill:hover { background: rgba(120,81,169,.13) !important; border-color: rgba(120,81,169,.35) !important; }
   .recommended-row { border-bottom-color: rgba(0,0,0,.08) !important; }
@@ -1816,8 +1817,6 @@
   .saved-link:hover { background: #eceef8 !important; color: #1a1a2e !important; }
   .btn-bookmark { background: #f5f6fa !important; border-color: rgba(0,0,0,.09) !important; color: #1a1a2e !important; }
   .btn-bookmark:hover { background: #eceef8 !important; }
-  .topic-link.read { color: rgba(0,0,0,.3) !important; }
-  .topic-link.read.active { color: #7851a9 !important; }
   .result-card:hover { background: #eceef8 !important; box-shadow: 0 6px 20px rgba(0,0,0,.08) !important; }
   .category-card:hover, .info-btn:hover, .quick-link:hover, .sc-btn:hover { background: #eceef8 !important; border-color: rgba(0,0,0,.14) !important; }
   .help-modal { background: #f5f6fa !important; border-color: rgba(0,0,0,.1) !important; }
@@ -1848,6 +1847,11 @@
   .topic-link.active { color: #7851a9 !important; }
   .page-nav-link.active { color: #7851a9 !important; }
   .btn-nav, .btn-brand { background: #7851a9 !important; color: #fff !important; }
+  .search-history-row { border-top-color: rgba(0,0,0,.08) !important; }
+  .history-pill { background: #f5f6fa !important; border-color: rgba(0,0,0,.09) !important; color: #6b7280 !important; }
+  .history-pill:hover { border-color: #7851a9 !important; color: #7851a9 !important; }
+  .topic-affinity-row { border-top-color: rgba(0,0,0,.08) !important; color: #6b7280 !important; }
+  .affinity-name { color: #7851a9 !important; }
 
   /* Sections */
   section:not(.hero) { background: transparent !important; }
@@ -1980,6 +1984,15 @@
     <div id="recommendedRow" class="recommended-row" hidden>
       <div class="rec-label"><i class="fas fa-star"></i> Recommended for you</div>
       <div class="rec-pills" id="recPills"></div>
+    </div>
+
+    <div id="searchHistoryRow" class="search-history-row" hidden>
+      <div class="history-label"><i class="fas fa-clock-rotate-left"></i> Recently searched</div>
+      <div class="history-pills" id="historyPills"></div>
+    </div>
+
+    <div id="topicAffinityRow" class="topic-affinity-row" hidden>
+      <i class="fas fa-fire-flame-curved"></i> You read a lot about <span id="topicAffinityName" class="affinity-name"></span>
     </div>
 
     <div class="quick-links-label">Popular topics</div>
@@ -4564,25 +4577,17 @@
     const sorted = [...HELP_DATA.topics].sort((a, b) => TOPIC_ORDER.indexOf(a.id) - TOPIC_ORDER.indexOf(b.id));
     let html = '';
     let lastGroup = null;
-    const read = typeof getRead === 'function' ? getRead() : [];
     sorted.forEach(t => {
       if (t.group !== lastGroup) {
         const gm = GROUP_META.find(g => g.key === t.group);
         html += `<div class="topic-section-label">${gm ? gm.label : ''}</div>`;
         lastGroup = t.group;
       }
-      const readCount = t.articles.filter(a => read.includes(a.slug)).length;
-      const total = t.articles.length;
-      const complete = readCount === total && total > 0;
-      const progressHtml = readCount > 0
-        ? `<span class="topic-progress">${complete ? '<i class="fas fa-check"></i>' : readCount + '/' + total}</span>`
-        : '';
       html += `
-      <div class="topic-group${complete ? ' complete' : ''}" data-topic="${t.id}">
+      <div class="topic-group" data-topic="${t.id}">
         <div class="topic-header" onclick="this.parentElement.classList.toggle('open')">
           <i class="fas ${t.icon}"></i>
           <span>${t.title}</span>
-          ${progressHtml}
           <i class="fas fa-chevron-down chevron"></i>
         </div>
         <div class="topic-links">
@@ -4594,7 +4599,6 @@
       </div>`;
     });
     $browseBody.innerHTML = html;
-    if (typeof applyReadIndicators === 'function') applyReadIndicators();
   }
 
   const TOPIC_DESC = {
@@ -4842,10 +4846,20 @@
     $search.addEventListener('input', onSearch);
     $clearBtn.addEventListener('click', () => { $search.value = ''; $search.focus(); onSearch(); });
 
+    let _searchSaveTimer;
     function onSearch() {
       const q = $search.value.trim();
       if (currentSlug()) { go('', true); }
       renderList(searchArticles(q), q);
+      clearTimeout(_searchSaveTimer);
+      if (q.length >= 3) {
+        _searchSaveTimer = setTimeout(() => {
+          const searches = lsGet(LS_SEARCHES) || [];
+          const filtered = searches.filter(s => s !== q);
+          filtered.unshift(q);
+          lsSet(LS_SEARCHES, filtered.slice(0, 3));
+        }, 1500);
+      }
     }
   }
 
@@ -4857,12 +4871,13 @@
   // =============================================
   // PERSONALIZATION (localStorage)
   // =============================================
-  const LS_VISIT   = 'wz_help_visited';
-  const LS_LAST    = 'wz_help_last';
-  const LS_READ    = 'wz_help_read';
-  const LS_SAVED   = 'wz_help_saved';
-  const LS_HELPFUL = 'wz_help_helpful';
-  const SAVE_TTL   = 30 * 24 * 60 * 60 * 1000; // 30 days
+  const LS_VISIT    = 'wz_help_visited';
+  const LS_LAST     = 'wz_help_last';
+  const LS_SAVED    = 'wz_help_saved';
+  const LS_HELPFUL  = 'wz_help_helpful';
+  const LS_SEARCHES = 'wz_help_searches';
+  const LS_TOPICS   = 'wz_help_topic_counts';
+  const SAVE_TTL    = 30 * 24 * 60 * 60 * 1000; // 30 days
 
   function lsGet(key) { try { return JSON.parse(localStorage.getItem(key)); } catch(e) { return null; } }
   function lsSet(key, val) { try { localStorage.setItem(key, JSON.stringify(val)); } catch(e) {} }
@@ -4876,43 +4891,6 @@
       $sub.insertAdjacentHTML('afterend', '<div class="hero-return-msg"><i class="fas fa-history"></i> Your saved articles and reading history are below.</div>');
     }
     lsSet(LS_VISIT, true);
-  }
-
-  // ---- 2. Read indicators ----
-  function getRead() { return lsGet(LS_READ) || []; }
-  function markRead(slug) {
-    const read = getRead();
-    if (!read.includes(slug)) { read.push(slug); lsSet(LS_READ, read); }
-  }
-  function applyReadIndicators() {
-    const read = getRead();
-    document.querySelectorAll('.topic-link').forEach(a => {
-      const s = a.getAttribute('href').slice(2);
-      if (read.includes(s)) a.classList.add('read');
-      else a.classList.remove('read');
-    });
-    // Refresh topic progress badges
-    document.querySelectorAll('.topic-group').forEach(group => {
-      const topicId = group.dataset.topic;
-      const topic = HELP_DATA.topics.find(t => t.id === topicId);
-      if (!topic) return;
-      const readCount = topic.articles.filter(a => read.includes(a.slug)).length;
-      const total = topic.articles.length;
-      const complete = readCount === total && total > 0;
-      group.classList.toggle('complete', complete);
-      let $prog = group.querySelector('.topic-progress');
-      if (readCount > 0) {
-        if (!$prog) {
-          $prog = document.createElement('span');
-          $prog.className = 'topic-progress';
-          const chevron = group.querySelector('.chevron');
-          group.querySelector('.topic-header').insertBefore($prog, chevron);
-        }
-        $prog.innerHTML = complete ? '<i class="fas fa-check"></i>' : readCount + '/' + total;
-      } else if ($prog) {
-        $prog.remove();
-      }
-    });
   }
 
   // ---- 1. Resume card ----
@@ -5021,12 +4999,45 @@
   function onArticleRendered(slug) {
     const found = findArticleBySlug(slug);
     if (!found) return;
-    const { article } = found;
-    markRead(slug);
-    applyReadIndicators();
+    const { article, topic } = found;
     saveLastRead(slug, article.title);
     injectBookmarkBtn(slug, article.title);
     injectHelpfulRow(slug);
+    // Track topic reads
+    if (topic && topic.id) {
+      const counts = lsGet(LS_TOPICS) || {};
+      counts[topic.id] = (counts[topic.id] || 0) + 1;
+      lsSet(LS_TOPICS, counts);
+    }
+  }
+
+  // ---- Search history ----
+  function initSearchHistory() {
+    const searches = lsGet(LS_SEARCHES) || [];
+    if (!searches.length) return;
+    const $row   = document.getElementById('searchHistoryRow');
+    const $pills = document.getElementById('historyPills');
+    if (!$row || !$pills) return;
+    $pills.innerHTML = searches.map(s =>
+      `<a class="history-pill" href="#" onclick="event.preventDefault();document.getElementById('search').value=${JSON.stringify(s)};document.getElementById('search').dispatchEvent(new Event('input'));document.getElementById('search').focus();">` +
+      `<i class="fas fa-clock-rotate-left"></i>${s}</a>`
+    ).join('');
+    $row.hidden = false;
+  }
+
+  // ---- Topic affinity ----
+  function initTopicAffinity() {
+    const counts = lsGet(LS_TOPICS) || {};
+    const entries = Object.entries(counts).sort((a, b) => b[1] - a[1]);
+    if (!entries.length || entries[0][1] < 2) return;
+    const topTopic = HELP_DATA.topics.find(t => t.id === entries[0][0]);
+    if (!topTopic) return;
+    const $row  = document.getElementById('topicAffinityRow');
+    const $name = document.getElementById('topicAffinityName');
+    if ($row && $name) {
+      $name.textContent = topTopic.title;
+      $row.hidden = false;
+    }
   }
 
   function boot() {
@@ -5038,6 +5049,8 @@
     renderRecommended();
     initReturnVisitor();
     initResume();
+    initSearchHistory();
+    initTopicAffinity();
     renderSavedSidebar();
     bindInternalLinks();
     initSearch();

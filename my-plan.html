@@ -266,6 +266,16 @@
     .footer-legal a:hover { color: #ffd700; text-decoration: none; }
     @media (max-width: 600px) { .footer-bottom { flex-direction: column; text-align: center; } }
 
+    /* Greeting */
+    .plan-greeting {
+      font-size: 11.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: #9ca3af;
+      margin-bottom: 10px;
+    }
+
     /* Member since */
     .member-since-line {
       margin-top: 14px;
@@ -318,6 +328,7 @@
 <!-- HERO -->
 <header class="hero">
   <div class="container-narrow">
+    <div id="myPlanGreeting" class="plan-greeting" hidden></div>
     <h1>What's Included in My Plan?</h1>
     <p>Select your plan below to see every feature and benefit you have access to.</p>
 
@@ -652,14 +663,16 @@
     const returning = lsGet('wz_myplan_visited');
     lsSet('wz_myplan_visited', true);
 
-    // Member since
+    // Member since + duration
     const firstVisit = lsGet('wz_first_visit');
     if (returning && firstVisit) {
       const since = new Date(firstVisit);
       const sinceStr = since.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+      const months = Math.floor((Date.now() - firstVisit) / (30.44 * 24 * 60 * 60 * 1000));
+      const durStr = months < 1 ? 'less than a month' : months < 12 ? months + (months === 1 ? ' month' : ' months') : Math.floor(months / 12) + (Math.floor(months / 12) === 1 ? ' year' : ' years') + (months % 12 ? ', ' + (months % 12) + (months % 12 === 1 ? ' month' : ' months') : '');
       const $line = document.getElementById('memberSinceLine');
       if ($line) {
-        $line.innerHTML = '<i class="fas fa-calendar-check"></i> With us since ' + sinceStr;
+        $line.innerHTML = '<i class="fas fa-calendar-check"></i> With us since ' + sinceStr + ' &middot; ' + durStr;
         $line.style.display = 'flex';
       }
     }
@@ -712,6 +725,13 @@
       lsSet('wz_myplan_confetti_seen', [...seen, milestone]);
       setTimeout(launchConfetti, 800);
     }
+
+    // Time-of-day greeting + first name
+    const h = new Date().getHours();
+    const greetBase = h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
+    const userName = lsGet('wz_user_name');
+    const $g = document.getElementById('myPlanGreeting');
+    if ($g) { $g.textContent = userName ? greetBase + ', ' + userName : greetBase; $g.hidden = false; }
   })();
 </script>
 <canvas id="confetti-canvas"></canvas>

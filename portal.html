@@ -191,6 +191,16 @@
     .plan-notice a { color: var(--brand); font-weight: 600; }
     .plan-notice a:hover { text-decoration: underline; }
 
+    /* Greeting */
+    .portal-greeting {
+      font-size: 11.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: var(--dim);
+      margin-bottom: 8px;
+    }
+
     /* Member since */
     .member-since-line {
       margin-top: 16px;
@@ -265,6 +275,7 @@
       </div>
     </div>
 
+    <div id="portalGreeting" class="portal-greeting" hidden></div>
     <h1>Live Chat Support</h1>
     <p class="sub">Fast answers from our team. Best for quick questions — for website changes, please submit a request.</p>
 
@@ -354,18 +365,21 @@
 
     let label = '';
     let online = false;
+    const isReturning = (function() { try { return !!JSON.parse(localStorage.getItem('wz_portal_visited')); } catch(e) { return false; } })();
 
     if (closed) {
-      label = 'Closed for holiday. Back next working day.';
+      label = isReturning ? 'Closed for the holiday — good to see you. Back next working day.' : 'Closed for holiday. Back next working day.';
     } else if (day === 0 || day === 6) {
-      label = 'Offline. Back Monday at 9 AM ET.';
+      label = isReturning ? 'Hey, we\'re offline for the weekend. Back Monday at 9 AM ET — or submit a request anytime.' : 'Offline. Back Monday at 9 AM ET.';
     } else if (hour >= 9 && hour < 17) {
-      label = 'Online now. We\'re available.';
+      label = isReturning ? 'We\'re here. Good to hear from you.' : 'Online now. We\'re available.';
       online = true;
     } else if (hour >= 17) {
-      label = day === 5 ? 'Offline. Back Monday at 9 AM ET.' : 'Offline. Back tomorrow at 9 AM ET.';
+      label = isReturning
+        ? (day === 5 ? 'Wrapped up for the week — back Monday at 9 AM ET. Submit a request and we\'ll pick it up.' : 'Done for the day — back tomorrow at 9 AM ET. Submit a request anytime.')
+        : (day === 5 ? 'Offline. Back Monday at 9 AM ET.' : 'Offline. Back tomorrow at 9 AM ET.');
     } else {
-      label = 'Offline. Back today at 9 AM ET.';
+      label = isReturning ? 'Not in yet — back today at 9 AM ET. Submit a request and we\'ll get to it.' : 'Offline. Back today at 9 AM ET.';
     }
 
     row.className = 'status-pill ' + (online ? 'online' : 'offline');
@@ -422,14 +436,16 @@
     const returning = lsGet('wz_portal_visited');
     lsSet('wz_portal_visited', true);
 
-    // Member since
+    // Member since + duration
     const firstVisit = lsGet('wz_first_visit');
     if (returning && firstVisit) {
       const since = new Date(firstVisit);
       const sinceStr = since.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+      const months = Math.floor((Date.now() - firstVisit) / (30.44 * 24 * 60 * 60 * 1000));
+      const durStr = months < 1 ? 'less than a month' : months < 12 ? months + (months === 1 ? ' month' : ' months') : Math.floor(months / 12) + (Math.floor(months / 12) === 1 ? ' year' : ' years') + (months % 12 ? ', ' + (months % 12) + (months % 12 === 1 ? ' month' : ' months') : '');
       const $line = document.getElementById('memberSinceLine');
       if ($line) {
-        $line.innerHTML = '<i class="fas fa-calendar-check"></i> With us since ' + sinceStr;
+        $line.innerHTML = '<i class="fas fa-calendar-check"></i> With us since ' + sinceStr + ' &middot; ' + durStr;
         $line.style.display = 'flex';
       }
     }
@@ -482,6 +498,13 @@
       lsSet('wz_portal_confetti_seen', [...seen, milestone]);
       setTimeout(launchConfetti, 800);
     }
+
+    // Time-of-day greeting + first name
+    const h = new Date().getHours();
+    const greetBase = h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
+    const userName = lsGet('wz_user_name');
+    const $g = document.getElementById('portalGreeting');
+    if ($g) { $g.textContent = userName ? greetBase + ', ' + userName : greetBase; $g.hidden = false; }
   })();
 </script>
 
