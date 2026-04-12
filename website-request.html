@@ -962,15 +962,6 @@
     }
   }
 
-  // Scroll to form section on load so visitors land at the notices + form, not the top header
-  document.addEventListener('DOMContentLoaded', function() {
-    setTimeout(function() {
-      const formSection = document.querySelector('.form-section');
-      if (formSection) {
-        formSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    }, 120);
-  });
 
   function getET() {
     return new Date(new Date().toLocaleString('en-US', { timeZone: 'America/New_York' }));
@@ -1353,7 +1344,7 @@
       const $note = document.getElementById('afterHoursNote');
       if (!$note) return;
       const isWeekend = day === 0 || day === 6;
-      const isAfterHours = !isWeekend && (hour < 9 || hour >= 17);
+      const isAfterHours = hour < 9 || hour >= 17;
       const isHoliday = (function() {
         try {
           const closures = getClosures();
@@ -1364,10 +1355,7 @@
       if (isHoliday) {
         $note.innerHTML = '<i class="fas fa-mug-hot"></i> We are closed today for a holiday. Submit your request here and we will pick it up first thing on the next business day.';
         $note.hidden = false;
-      } else if (isWeekend) {
-        $note.innerHTML = '<i class="fas fa-mug-hot"></i> We are closed on weekends. Go ahead and drop your request below and we will have it first thing Monday morning.';
-        $note.hidden = false;
-      } else if (isAfterHours) {
+      } else if (!isWeekend && isAfterHours) {
         const nextOpenMsg = (day === 5 && hour >= 17)
           ? 'Monday morning'
           : 'tomorrow morning';
@@ -1470,7 +1458,7 @@
     if (!document.getElementById('wz-shared-css')) {
       const s = document.createElement('style');
       s.id = 'wz-shared-css';
-      s.textContent = '.back-link-bar{background:rgba(10,10,15,.93);border-bottom:1px solid rgba(255,255,255,.06);padding:7px 20px;}.back-link-bar a{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:500;color:rgba(255,255,255,.85);text-decoration:none;transition:color .15s;}.back-link-bar a:hover{color:#fff;}.back-link-bar i{font-size:10px;}.nav-plan-badge{font-size:10px;font-weight:600;color:rgba(196,168,230,.9);letter-spacing:.01em;}';
+      s.textContent = '.back-link-bar{background:rgba(10,10,15,.93);border-bottom:1px solid rgba(255,255,255,.06);padding:7px 20px;}.back-link-bar a{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:500;color:rgba(255,255,255,.85);text-decoration:none;transition:color .15s;}.back-link-bar a:hover{color:#fff;}.back-link-bar i{font-size:10px;}';
       document.head.appendChild(s);
     }
     document.addEventListener('DOMContentLoaded', function() {
@@ -1481,17 +1469,6 @@
         link.innerHTML = '<i class="fas fa-arrow-left"></i> Back to ' + last.name;
         const ph = document.querySelector('.page-header .wrap');
         if (ph) ph.insertAdjacentElement('afterbegin', link);
-      }
-      const plan = _ls('wz_myplan_last');
-      if (plan) {
-        const labels = { essential: 'Essential', growth: 'Growth', onetime: 'One-Time' };
-        const label = labels[plan];
-        if (label) {
-          const navLink = document.querySelector('a[href="pricing.html"].nav-link');
-          if (navLink && !navLink.querySelector('.nav-plan-badge')) {
-            navLink.insertAdjacentHTML('beforeend', '<span class="nav-plan-badge"> (' + label + ')</span>');
-          }
-        }
       }
     });
   })();

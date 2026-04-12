@@ -3544,7 +3544,7 @@ function whyTabScroll(dir) {
   if (!document.getElementById('wz-shared-css')) {
     const s = document.createElement('style');
     s.id = 'wz-shared-css';
-    s.textContent = '.back-link-bar{background:rgba(10,10,15,.93);border-bottom:1px solid rgba(255,255,255,.06);padding:7px 20px;}.back-link-bar a{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:500;color:rgba(255,255,255,.85) !important;text-decoration:none;transition:color .15s;}.back-link-bar a:hover{color:#fff !important;}.back-link-bar i{font-size:10px;color:inherit !important;}.nav-plan-badge{font-size:10px;font-weight:600;color:rgba(196,168,230,.9);letter-spacing:.01em;}';
+    s.textContent = '.back-link-bar{background:rgba(10,10,15,.93);border-bottom:1px solid rgba(255,255,255,.06);padding:7px 20px;}.back-link-bar a{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:500;color:rgba(255,255,255,.85) !important;text-decoration:none;transition:color .15s;}.back-link-bar a:hover{color:#fff !important;}.back-link-bar i{font-size:10px;color:inherit !important;}';
     document.head.appendChild(s);
   }
   document.addEventListener('DOMContentLoaded', function() {
@@ -3554,17 +3554,6 @@ function whyTabScroll(dir) {
       bar.innerHTML = '<a href="' + last.path + '"><i class="fas fa-arrow-left"></i> Back to ' + last.name + '</a>';
       const nav = document.querySelector('.nav-wrap');
       if (nav) nav.insertAdjacentElement('afterend', bar);
-    }
-    const plan = _ls('wz_myplan_last');
-    if (plan) {
-      const labels = { essential: 'Essential', growth: 'Growth', onetime: 'One-Time' };
-      const label = labels[plan];
-      if (label) {
-        const link = document.querySelector('a[href="pricing.html"].nav-link');
-        if (link && !link.querySelector('.nav-plan-badge')) {
-          link.insertAdjacentHTML('beforeend', '<span class="nav-plan-badge"> (' + label + ')</span>');
-        }
-      }
     }
   });
 })();
