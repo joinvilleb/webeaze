@@ -1360,7 +1360,9 @@
       const $note = document.getElementById('afterHoursNote');
       if (!$note) return;
       const isWeekend = day === 0 || day === 6;
-      const isAfterHours = hour < 9 || hour >= 17;
+      const isEvening = hour >= 17;
+      const isEarlyMorning = hour >= 0 && hour < 9;
+      const isAfterHours = isEvening || isEarlyMorning;
       const isHoliday = (function() {
         try {
           const closures = getClosures();
@@ -1371,11 +1373,12 @@
       if (isHoliday) {
         $note.innerHTML = '<i class="fas fa-mug-hot"></i> We are closed today for a holiday. Submit your request here and we will pick it up first thing on the next business day.';
         $note.hidden = false;
-      } else if (!isWeekend && isAfterHours) {
-        const nextOpenMsg = (day === 5 && hour >= 17)
-          ? 'Monday morning'
-          : 'tomorrow morning';
-        $note.innerHTML = '<i class="fas fa-moon"></i> We are closed for the night. Submit your request now and we will get on it ' + nextOpenMsg + '.';
+      } else if (!isWeekend && isEvening) {
+        const nextOpenMsg = day === 5 ? 'Monday morning' : 'tomorrow morning';
+        $note.innerHTML = '<i class="fas fa-moon"></i> We are closed for the night. Submit your request and we will get on it ' + nextOpenMsg + '.';
+        $note.hidden = false;
+      } else if (!isWeekend && isEarlyMorning) {
+        $note.innerHTML = '<i class="fas fa-sun"></i> We are open at 9 AM ET. Submit your request and we will pick it up shortly.';
         $note.hidden = false;
       }
     })();
@@ -1445,6 +1448,29 @@
         : daysSince + ' day' + (daysSince === 1 ? '' : 's') + ' ago';
       $note.innerHTML = '<i class="fas fa-rotate-right"></i><span>Your last request was <strong>' + daysLabel + '</strong>. Anything else you have been meaning to update?</span>';
       $note.hidden = false;
+    })();
+
+    // ── 21. Show only the most relevant card (hide the rest) ──
+    (function() {
+      const priority = [
+        'afterHoursNote',   // most urgent — time-sensitive
+        'closingNudge',     // time-sensitive
+        'milestoneCard',    // celebratory, high engagement
+        'savedArticlesNote',// cross-page context
+        'sinceLastNote',    // gentle re-engagement
+        'submittedNote',    // informational
+        'formTip',          // lowest priority
+      ];
+      let shown = false;
+      priority.forEach(function(id) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        if (!el.hidden && !shown) {
+          shown = true; // keep this one
+        } else if (!el.hidden && shown) {
+          el.hidden = true; // hide lower-priority ones
+        }
+      });
     })();
 
   })();
