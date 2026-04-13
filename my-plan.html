@@ -155,12 +155,22 @@
 
     /* ── FEATURE CHIP GRID ── */
     .feature-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      display: flex;
+      flex-wrap: wrap;
       gap: 9px;
+      justify-content: center;
     }
-    @media (max-width: 640px) { .feature-grid { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 360px) { .feature-grid { grid-template-columns: 1fr; } }
+    .feat-chip {
+      flex: 0 0 calc(33.333% - 6px);
+      max-width: calc(33.333% - 6px);
+      box-sizing: border-box;
+    }
+    @media (max-width: 640px) {
+      .feat-chip { flex: 0 0 calc(50% - 4.5px); max-width: calc(50% - 4.5px); }
+    }
+    @media (max-width: 360px) {
+      .feat-chip { flex: 0 0 100%; max-width: 100%; }
+    }
 
     .feat-chip {
       display: flex; align-items: center; gap: 10px;
@@ -168,7 +178,7 @@
       border-radius: 12px; padding: 13px 14px;
       font-family: 'Poppins', sans-serif;
       font-size: 13px; font-weight: 600; color: var(--ink-2);
-      text-align: left; cursor: pointer; width: 100%;
+      text-align: left; cursor: pointer;
       transition: border-color .15s, background .15s, color .15s;
     }
     .feat-chip .fc-icon { font-size: 13px; color: var(--brand); flex-shrink: 0; width: 16px; text-align: center; }
@@ -179,7 +189,7 @@
     .feat-chip.active .fc-arrow { transform: rotate(180deg); color: var(--brand); }
 
     .feat-detail-inline {
-      grid-column: 1 / -1;
+      flex: 0 0 100%;
       background: #f8f5ff; border: 1.5px solid rgba(120,81,169,.22);
       border-radius: 14px; padding: 16px 20px;
       font-size: 14px; color: var(--ink-2); line-height: 1.65;
@@ -626,11 +636,11 @@
         btn.classList.add('active');
 
         // Find last chip in the same visual row, then insert detail after it
-        var clickedRow = parseInt(getComputedStyle(btn).gridRowStart);
+        var clickedTop = btn.offsetTop;
         var chips = Array.from(grid.querySelectorAll('.feat-chip'));
         var lastInRow = btn;
         chips.forEach(function(c) {
-          if (parseInt(getComputedStyle(c).gridRowStart) === clickedRow) lastInRow = c;
+          if (c.offsetTop === clickedTop) lastInRow = c;
         });
 
         var detail = document.createElement('div');
