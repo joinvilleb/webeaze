@@ -63,64 +63,91 @@
 
     /* ── HERO ── */
     .hero {
-      background: #f5f6fa;
-      border-bottom: 1px solid #e4e7f1;
-      padding: 56px 20px 40px;
+      background: #000;
+      padding: 36px 20px 40px;
       text-align: center;
+      border-bottom: 1px solid rgba(255,255,255,.08);
     }
-    .page-label {
-      font-size: .85rem; font-weight: 700; text-transform: uppercase;
-      letter-spacing: .18em; color: #6b7280; margin-bottom: 10px;
+    .hero h1 {
+      color: #fff;
+      font-size: clamp(20px, 3.5vw, 30px);
+      font-weight: 800; letter-spacing: -.025em;
+      margin: 0 0 6px;
     }
-    .hero h1 { color: #0f1228; font-size: clamp(26px,4vw,40px); font-weight: 800; letter-spacing: -.02em; margin: 0 0 10px; }
-    .hero p { color: #6b7280; font-size: 1.05rem; max-width: 520px; margin: 0 auto 36px; }
+    .hero p {
+      color: rgba(255,255,255,.45);
+      font-size: .92rem; max-width: 420px;
+      margin: 0 auto 28px;
+    }
 
     /* ── PLAN PICKER ── */
     .plan-picker {
       display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;
+      position: relative;
     }
     .pick-btn {
-      display: flex; flex-direction: column; align-items: center; gap: 8px;
-      padding: 20px 32px; border-radius: 16px;
-      border: 2px solid #e4e7f1;
-      background: #fff;
-      color: #4a4f6a; font-family: 'Poppins', sans-serif;
-      font-size: 15px; font-weight: 700; cursor: pointer;
+      display: flex; flex-direction: column; align-items: center; gap: 10px;
+      padding: 24px 28px 22px;
+      border-radius: 18px;
+      border: 1.5px solid rgba(255,255,255,.1);
+      background: rgba(255,255,255,.06);
+      color: rgba(255,255,255,.6);
+      font-family: 'Poppins', sans-serif;
+      cursor: pointer;
       transition: all .2s ease;
-      box-shadow: 0 2px 8px rgba(0,0,0,.06);
-      min-width: 140px;
+      min-width: 148px;
+      position: relative;
+      overflow: hidden;
     }
-    .pick-btn i { font-size: 22px; }
-    .pick-btn .plan-label { font-size: 15px; font-weight: 700; }
+    .pick-btn::after {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 3px; border-radius: 18px 18px 0 0;
+      opacity: 0; transition: opacity .2s;
+    }
+    .pick-btn[data-plan="essential"]::after { background: #22c55e; }
+    .pick-btn[data-plan="growth"]::after    { background: linear-gradient(90deg, #a855f7, #ffd700); }
+    .pick-btn[data-plan="onetime"]::after   { background: #3b82f6; }
 
-    /* Essential */
-    .pick-btn[data-plan="essential"] i { color: #16a34a; }
-    .pick-btn[data-plan="essential"]:hover { border-color: #16a34a; background: #f0fdf4; }
+    .pick-btn:hover {
+      border-color: rgba(255,255,255,.22);
+      background: rgba(255,255,255,.1);
+      color: rgba(255,255,255,.85);
+      transform: translateY(-2px);
+    }
+    .pick-btn .pick-icon { font-size: 24px; line-height: 1; }
+    .pick-btn .plan-label { font-size: 14px; font-weight: 700; letter-spacing: -.01em; line-height: 1.2; }
+    .pick-btn .plan-sub { font-size: 11px; font-weight: 500; opacity: .55; letter-spacing: .01em; }
+
+    /* Essential active */
     .pick-btn[data-plan="essential"].active {
-      border-color: #16a34a; background: #f0fdf4; color: #15803d;
-      box-shadow: 0 0 0 3px rgba(22,163,74,.15), 0 4px 16px rgba(22,163,74,.12);
+      border-color: #22c55e;
+      background: rgba(34,197,94,.12);
+      color: #86efac;
+      box-shadow: 0 0 0 3px rgba(34,197,94,.15), 0 8px 24px rgba(0,0,0,.3);
     }
-    .pick-btn[data-plan="essential"].active i { color: #15803d; }
+    .pick-btn[data-plan="essential"].active::after { opacity: 1; }
+    .pick-btn[data-plan="essential"].active .pick-icon { color: #4ade80; }
 
-    /* Growth */
-    .pick-btn[data-plan="growth"] i { color: var(--brand); }
-    .pick-btn[data-plan="growth"]:hover { border-color: var(--brand); background: #f8f5ff; }
+    /* Growth active */
     .pick-btn[data-plan="growth"].active {
-      border-color: var(--brand);
-      background: linear-gradient(135deg, #7851a9 0%, #5b3d8a 100%);
-      color: #fff;
-      box-shadow: 0 0 0 3px rgba(120,81,169,.2), 0 6px 20px rgba(120,81,169,.25);
+      border-color: #7851a9;
+      background: rgba(120,81,169,.2);
+      color: #d8b4fe;
+      box-shadow: 0 0 0 3px rgba(120,81,169,.2), 0 8px 24px rgba(0,0,0,.3);
     }
-    .pick-btn[data-plan="growth"].active i { color: #ffd700; }
+    .pick-btn[data-plan="growth"].active::after { opacity: 1; }
+    .pick-btn[data-plan="growth"].active .pick-icon { color: #ffd700; }
 
-    /* One-Time */
-    .pick-btn[data-plan="onetime"] i { color: #2563eb; }
-    .pick-btn[data-plan="onetime"]:hover { border-color: #2563eb; background: #eff6ff; }
+    /* One-Time active */
     .pick-btn[data-plan="onetime"].active {
-      border-color: #2563eb; background: #eff6ff; color: #1d4ed8;
-      box-shadow: 0 0 0 3px rgba(37,99,235,.15), 0 4px 16px rgba(37,99,235,.12);
+      border-color: #3b82f6;
+      background: rgba(59,130,246,.12);
+      color: #93c5fd;
+      box-shadow: 0 0 0 3px rgba(59,130,246,.15), 0 8px 24px rgba(0,0,0,.3);
     }
-    .pick-btn[data-plan="onetime"].active i { color: #1d4ed8; }
+    .pick-btn[data-plan="onetime"].active::after { opacity: 1; }
+    .pick-btn[data-plan="onetime"].active .pick-icon { color: #60a5fa; }
 
     /* ── CONTENT AREA ── */
     .content-wrap { padding: 56px 20px 80px; }
@@ -304,20 +331,22 @@
       font-size: 11.5px;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: .1em;
-      color: #9ca3af;
+      letter-spacing: .12em;
+      color: rgba(255,255,255,.4);
       margin-bottom: 10px;
+      position: relative;
     }
 
     /* Member since */
     .member-since-line {
-      margin-top: 14px;
+      margin-top: 16px;
       font-size: 12px;
-      color: #9ca3af;
+      color: rgba(255,255,255,.35);
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 5px;
+      position: relative;
     }
     .member-since-line i { font-size: 10px; }
 
@@ -360,16 +389,19 @@
 
     <div class="plan-picker">
       <button class="pick-btn" data-plan="essential" onclick="selectPlan('essential')">
-        <i class="fas fa-seedling"></i>
+        <i class="fas fa-seedling pick-icon"></i>
         <span class="plan-label">Essential</span>
+        <span class="plan-sub">Monthly plan</span>
       </button>
       <button class="pick-btn" data-plan="growth" onclick="selectPlan('growth')">
-        <i class="fas fa-chart-line"></i>
+        <i class="fas fa-chart-line pick-icon"></i>
         <span class="plan-label">Growth</span>
+        <span class="plan-sub">Full service</span>
       </button>
       <button class="pick-btn" data-plan="onetime" onclick="selectPlan('onetime')">
-        <i class="fas fa-file-invoice"></i>
+        <i class="fas fa-file-invoice pick-icon"></i>
         <span class="plan-label">One-Time Project</span>
+        <span class="plan-sub">Single build</span>
       </button>
     </div>
     <div id="memberSinceLine" class="member-since-line" style="display:none"></div>
