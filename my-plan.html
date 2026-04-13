@@ -153,36 +153,58 @@
       margin: 36px 0 14px;
     }
 
-    /* ── FEATURE LIST ── */
-    .feature-list {
-      list-style: none; padding: 0; margin: 0;
-      display: grid; gap: 10px;
+    /* ── FEATURE CHIP GRID ── */
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 9px;
     }
-    .feature-list li {
-      display: flex; align-items: flex-start; gap: 12px;
-      background: var(--white); border: 1px solid var(--line);
-      border-radius: 12px; padding: 14px 18px;
-      font-size: 1rem; color: var(--ink-2); line-height: 1.5;
+    @media (max-width: 640px) { .feature-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 360px) { .feature-grid { grid-template-columns: 1fr; } }
+
+    .feat-chip {
+      display: flex; align-items: center; gap: 10px;
+      background: var(--white); border: 1.5px solid var(--line);
+      border-radius: 12px; padding: 13px 14px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 13px; font-weight: 600; color: var(--ink-2);
+      text-align: left; cursor: pointer; width: 100%;
+      transition: border-color .15s, background .15s, color .15s;
     }
-    .feature-list li .fi { flex-shrink: 0; margin-top: 2px; }
-    .feature-list li .fi i { color: var(--brand); font-size: 1rem; }
-    .feature-list li strong { color: var(--ink); }
+    .feat-chip .fc-icon { font-size: 13px; color: var(--brand); flex-shrink: 0; width: 16px; text-align: center; }
+    .feat-chip .fc-name { flex: 1; line-height: 1.3; }
+    .feat-chip .fc-arrow { font-size: 9px; color: #d1d5e0; flex-shrink: 0; transition: transform .2s, color .15s; }
+    .feat-chip:hover { border-color: rgba(120,81,169,.4); color: var(--ink); }
+    .feat-chip.active { border-color: var(--brand); background: #f8f5ff; color: var(--ink); }
+    .feat-chip.active .fc-arrow { transform: rotate(180deg); color: var(--brand); }
+
+    .feat-detail {
+      background: #f8f5ff; border: 1.5px solid rgba(120,81,169,.22);
+      border-radius: 14px; padding: 16px 20px; margin-top: 10px;
+      font-size: 14px; color: var(--ink-2); line-height: 1.65;
+      display: none;
+    }
+    .feat-detail.visible { display: block; }
+    .feat-detail .fd-title { font-size: 13px; font-weight: 700; color: var(--brand); margin-bottom: 6px; display: flex; align-items: center; gap: 7px; }
 
     /* ── NOT INCLUDED ── */
-    .not-list li .fi i { color: #d1d5e0; }
-    .not-list li { color: var(--ink-3); }
+    .not-pills { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; }
+    .not-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: #f5f6fa; border: 1px solid #edf0f7;
+      border-radius: 20px; padding: 6px 14px;
+      font-size: 12.5px; color: var(--ink-3);
+    }
+    .not-pill i { font-size: 10px; color: #d1d5e0; }
 
-    /* ── INFO CARD ── */
-    .info-card {
+    /* ── INFO NOTE ── */
+    .info-note {
       background: var(--white); border: 1px solid var(--line);
-      border-radius: 16px; padding: 24px 28px; margin: 10px 0;
+      border-left: 3px solid var(--brand);
+      border-radius: 0 12px 12px 0; padding: 14px 18px; margin: 8px 0;
+      font-size: 13.5px; color: var(--ink-2); line-height: 1.6;
     }
-    .info-card h4 {
-      font-size: 1.05rem; font-weight: 700; margin: 0 0 10px; color: var(--ink);
-    }
-    .info-card p {
-      font-size: 1rem; color: var(--ink-2); margin: 0;
-    }
+    .info-note strong { color: var(--ink); }
 
     /* ── SUPPORT CHANNELS ── */
     .support-grid {
@@ -288,13 +310,6 @@
     }
     .member-since-line i { font-size: 10px; }
 
-    /* Confetti */
-    #confetti-canvas {
-      position: fixed; top: 0; left: 0;
-      width: 100%; height: 100%;
-      pointer-events: none; z-index: 99999;
-      display: none;
-    }
   </style>
 </head>
 <body>
@@ -367,22 +382,13 @@
         <div class="badge-icon"><i class="fas fa-seedling"></i></div>
         <div class="badge-text">
           <span class="badge-name">Essential Plan</span>
-          <span class="badge-sub">Your current features and benefits</span>
+          <span class="badge-sub">Click any feature to learn more</span>
         </div>
       </div>
 
       <div class="section-label">What's Included</div>
-      <ul class="feature-list">
-        <li><span class="fi"><i class="fas fa-check"></i></span><div><strong>Up to 3 professionally designed pages</strong>: Home and dedicated service pages, as a starting foundation.</div></li>
-        <li><span class="fi"><i class="fas fa-check"></i></span><div><strong>Contact page</strong>: A working contact page on your site.</div></li>
-        <li><span class="fi"><i class="fas fa-check"></i></span><div><strong>Unlimited content updates</strong>: Text, images, links, hours, prices.</div></li>
-        <li><span class="fi"><i class="fas fa-check"></i></span><div><strong>Mobile-responsive design</strong>: Your site looks and works great on phones, tablets, and desktops.</div></li>
-        <li><span class="fi"><i class="fas fa-check"></i></span><div><strong>SSL certificate</strong>: Secure HTTPS included. No setup needed on your end.</div></li>
-        <li><span class="fi"><i class="fas fa-check"></i></span><div><strong>Hosting & DNS management</strong>: We handle your hosting setup and domain configuration.</div></li>
-        <li><span class="fi"><i class="fas fa-check"></i></span><div><strong>Security monitoring & backups</strong>: Your site is monitored and backed up on an ongoing basis.</div></li>
-        <li><span class="fi"><i class="fas fa-check"></i></span><div><strong>Standard SEO setup</strong>: Page titles, meta descriptions, and basic on-page optimization included.</div></li>
-        <li><span class="fi"><i class="fas fa-check"></i></span><div><strong>Existing site support</strong>: Already have a site? We can manage and update it instead of building from scratch.</div></li>
-      </ul>
+      <div class="feature-grid" id="grid-essential"></div>
+      <div class="feat-detail" id="detail-essential"></div>
 
       <div class="section-label">Support Access</div>
       <div class="support-grid">
@@ -392,27 +398,21 @@
         <div class="support-chip muted"><i class="fas fa-video"></i> Video Calls</div>
         <div class="support-chip muted"><i class="fas fa-comments"></i> Live Chat</div>
       </div>
-      <p style="font-size:13px; color:var(--ink-3); margin-top:10px;"><i class="fas fa-info-circle" style="margin-right:5px;"></i>Grayed-out channels are available on the Growth plan.</p>
+      <p style="font-size:12.5px;color:var(--ink-3);margin-top:10px;"><i class="fas fa-info-circle" style="margin-right:5px;"></i>Grayed-out channels are available on the Growth plan.</p>
 
       <div class="section-label">Not Included</div>
-      <ul class="feature-list not-list">
-        <li><span class="fi"><i class="fas fa-minus"></i></span><div>Phone and video call support</div></li>
-        <li><span class="fi"><i class="fas fa-minus"></i></span><div>Google Business Profile setup or management</div></li>
-        <li><span class="fi"><i class="fas fa-minus"></i></span><div>Advanced SEO tools and tracking</div></li>
-        <li><span class="fi"><i class="fas fa-minus"></i></span><div>Performance checks</div></li>
-        <li><span class="fi"><i class="fas fa-minus"></i></span><div>Hosting or domain credit</div></li>
-        <li><span class="fi"><i class="fas fa-minus"></i></span><div>Online review management</div></li>
-      </ul>
+      <div class="not-pills">
+        <span class="not-pill"><i class="fas fa-minus"></i>Phone &amp; video support</span>
+        <span class="not-pill"><i class="fas fa-minus"></i>Google Business Profile</span>
+        <span class="not-pill"><i class="fas fa-minus"></i>Advanced SEO &amp; tracking</span>
+        <span class="not-pill"><i class="fas fa-minus"></i>Performance checks</span>
+        <span class="not-pill"><i class="fas fa-minus"></i>Hosting credit</span>
+        <span class="not-pill"><i class="fas fa-minus"></i>Review management</span>
+      </div>
 
       <div class="section-label">Good to Know</div>
-      <div class="info-card">
-        <h4><i class="fas fa-circle-plus" style="color:var(--brand); margin-right:8px;"></i>Add-Ons Available</h4>
-        <p>You can add optional services — AI Chatbot, Ad Management, Newsletter Management, Google Business Profile — without upgrading your plan. See the <a href="plan-features.html#available-addons">Available Add-Ons</a> section.</p>
-      </div>
-      <div class="info-card">
-        <h4><i class="fas fa-arrow-up" style="color:var(--brand); margin-right:8px;"></i>Want More?</h4>
-        <p>Upgrading to Growth adds phone & video support, Google Business Profile management, advanced SEO, performance checks, and a hosting credit. Upgrades take effect immediately. Manage your plan in the <a href="https://billing.stripe.com/p/login/7sI3gfaO14CEdlm144" target="_blank" rel="noopener">Stripe portal</a>.</p>
-      </div>
+      <div class="info-note"><strong>Add-ons available</strong> — AI Chatbot, Ad Management, Newsletter Management, and Google Business Profile can be added without upgrading. See <a href="plan-features.html#available-addons">Available Add-Ons</a>.</div>
+      <div class="info-note"><strong>Want more?</strong> Growth adds phone &amp; video support, Google Business Profile, advanced SEO, and a hosting credit. Manage your plan in the <a href="https://billing.stripe.com/p/login/7sI3gfaO14CEdlm144" target="_blank" rel="noopener">Stripe portal</a>.</div>
 
       <div class="cta-strip">
         <h3>Need to submit an update?</h3>
@@ -427,29 +427,13 @@
         <div class="badge-icon"><i class="fas fa-chart-line"></i></div>
         <div class="badge-text">
           <span class="badge-name">Growth Plan</span>
-          <span class="badge-sub">Your current features and benefits</span>
+          <span class="badge-sub">Click any feature to learn more</span>
         </div>
       </div>
 
       <div class="section-label">What's Included</div>
-      <ul class="feature-list">
-        <li><span class="fi"><i class="fas fa-check"></i></span><div><strong>Up to 6 professionally designed pages</strong>: More room to cover your services, team, testimonials, and more.</div></li>
-        <li><span class="fi"><i class="fas fa-check"></i></span><div><strong>Contact page</strong>: A working contact page on your site.</div></li>
-        <li><span class="fi"><i class="fas fa-check"></i></span><div><strong>Unlimited content updates</strong>: Submit via form, email, chat, phone, or video call.</div></li>
-        <li><span class="fi"><i class="fas fa-check"></i></span><div><strong>Priority turnaround</strong>: Your requests move to the front of the queue ahead of Essential plan clients.</div></li>
-        <li><span class="fi"><i class="fas fa-check"></i></span><div><strong>Total Access Support</strong>: Email, live chat, phone, and Google Meet video calls all included.</div></li>
-        <li><span class="fi"><i class="fas fa-check"></i></span><div><strong>Mobile-responsive design</strong>: Looks and works great on every device.</div></li>
-        <li><span class="fi"><i class="fas fa-check"></i></span><div><strong>SSL certificate</strong>: Secure HTTPS included automatically.</div></li>
-        <li><span class="fi"><i class="fas fa-check"></i></span><div><strong>Hosting & DNS management</strong>: Full hosting and domain configuration handled for you.</div></li>
-        <li><span class="fi"><i class="fas fa-check"></i></span><div><strong>Hosting & domain credit</strong>: A credit toward your hosting or domain costs. See the <a href="fee-schedule.html">Fee Schedule</a> for the amount.</div></li>
-        <li><span class="fi"><i class="fas fa-check"></i></span><div><strong>Security monitoring & backups</strong>: Continuous monitoring and regular backups included.</div></li>
-        <li><span class="fi"><i class="fas fa-check"></i></span><div><strong>Advanced SEO</strong>: Enhanced on-page optimization with tracking and reporting tools.</div></li>
-        <li><span class="fi"><i class="fas fa-check"></i></span><div><strong>Google Business Profile management</strong>: We manage your profile, post updates, and respond to reviews on your behalf.</div></li>
-        <li><span class="fi"><i class="fas fa-check"></i></span><div><strong>Online review management</strong>: We help monitor and respond to your online reviews.</div></li>
-        <li><span class="fi"><i class="fas fa-check"></i></span><div><strong>Bi-monthly performance checks</strong>: Regular checks on your site's traffic, visibility, and performance.</div></li>
-        
-        <li><span class="fi"><i class="fas fa-check"></i></span><div><strong>Existing site support</strong>: Already have a site? We manage and update it.</div></li>
-      </ul>
+      <div class="feature-grid" id="grid-growth"></div>
+      <div class="feat-detail" id="detail-growth"></div>
 
       <div class="section-label">Support Access</div>
       <div class="support-grid">
@@ -461,18 +445,9 @@
       </div>
 
       <div class="section-label">Good to Know</div>
-      <div class="info-card">
-        <h4><i class="fas fa-circle-plus" style="color:var(--brand); margin-right:8px;"></i>Add-Ons Available</h4>
-        <p>You can stack optional services on top of your Growth plan — AI Chatbot, Ad Management, Newsletter Management, and more. See the <a href="plan-features.html#available-addons">Available Add-Ons</a> section.</p>
-      </div>
-      <div class="info-card">
-        <h4><i class="fas fa-coins" style="color:var(--brand); margin-right:8px;"></i>Your Hosting Credit</h4>
-        <p>The hosting credit applies to domains and hosting costs managed through us. It doesn't carry over between billing periods or convert to cash. For the current credit amount, see the <a href="fee-schedule.html">Fee Schedule</a>.</p>
-      </div>
-      <div class="info-card">
-        <h4><i class="fas fa-calendar-check" style="color:var(--brand); margin-right:8px;"></i>Support Hours</h4>
-        <p>Our team is available Monday–Friday, 9 AM–5 PM Eastern Time, excluding major holidays. See our <a href="status.html">status page</a> for current availability.</p>
-      </div>
+      <div class="info-note"><strong>Add-ons available</strong> — Stack optional services on top of your Growth plan. <a href="plan-features.html#available-addons">See all add-ons</a>.</div>
+      <div class="info-note"><strong>Hosting credit</strong> — Applies to domains and hosting managed through us. Doesn't carry over between billing periods. See the <a href="fee-schedule.html">Fee Schedule</a> for the current amount.</div>
+      <div class="info-note"><strong>Support hours</strong> — Monday–Friday, 9 AM–5 PM ET, excluding major holidays. <a href="status.html">Check current availability</a>.</div>
 
       <div class="cta-strip">
         <h3>Need to submit an update?</h3>
@@ -487,45 +462,31 @@
         <div class="badge-icon"><i class="fas fa-file-invoice"></i></div>
         <div class="badge-text">
           <span class="badge-name">One-Time Project</span>
-          <span class="badge-sub">Your current features and benefits</span>
+          <span class="badge-sub">Click any feature to learn more</span>
         </div>
       </div>
 
-      <div class="section-label">What's Included in Every Tier</div>
-      <ul class="feature-list">
-        <li><span class="fi"><i class="fas fa-check"></i></span><div><strong>Professional design &amp; development work</strong>: Custom work built to your brand and brief.</div></li>
-        <li><span class="fi"><i class="fas fa-check"></i></span><div><strong>Mobile-responsive implementation</strong>: Your project works correctly on all screen sizes.</div></li>
-        <li><span class="fi"><i class="fas fa-check"></i></span><div><strong>Quality assurance testing before delivery</strong>: We review everything before handing it over.</div></li>
-        <li><span class="fi"><i class="fas fa-check"></i></span><div><strong>Up to 3 minor revisions within 14 days of delivery</strong>: Small text, image, or layout tweaks at no extra charge.</div></li>
-      </ul>
+      <div class="section-label">Included in Every Tier</div>
+      <div class="feature-grid" id="grid-onetime"></div>
+      <div class="feat-detail" id="detail-onetime"></div>
 
       <div class="section-label">Project Tiers</div>
-      <ul class="feature-list">
-        <li><span class="fi"><i class="fas fa-layer-group"></i></span><div><strong>Basic</strong>: Single-page scope. Text edits, image swaps, minor fixes on one existing page. Typically delivered in 3–5 business days.</div></li>
-        <li><span class="fi"><i class="fas fa-layer-group"></i></span><div><strong>Standard</strong>: Up to two pages. Content changes, layout adjustments, and section redesigns across existing pages. Typically 5–7 business days.</div></li>
-        <li><span class="fi"><i class="fas fa-layer-group"></i></span><div><strong>Full Build</strong>: Complete new website, up to 3 pages plus a contact page, designed from scratch. First draft typically within 7–14 business days.</div></li>
-      </ul>
-      <p style="font-size:13px; color:var(--ink-3);"><i class="fas fa-info-circle" style="margin-right:5px;"></i>For pricing on each tier, see the <a href="fee-schedule.html">Fee Schedule</a>.</p>
+      <div class="feature-grid" id="grid-tiers"></div>
+      <div class="feat-detail" id="detail-tiers"></div>
 
       <div class="section-label">Not Included</div>
-      <ul class="feature-list not-list">
-        <li><span class="fi"><i class="fas fa-minus"></i></span><div>Ongoing maintenance or future updates after delivery</div></li>
-        <li><span class="fi"><i class="fas fa-minus"></i></span><div>Hosting, backups, or security monitoring</div></li>
-        <li><span class="fi"><i class="fas fa-minus"></i></span><div>Priority support, performance checks, or strategy sessions</div></li>
-        <li><span class="fi"><i class="fas fa-minus"></i></span><div>Google Business Profile setup or management</div></li>
-        <li><span class="fi"><i class="fas fa-minus"></i></span><div>Domain registration (invoiced separately if required)</div></li>
-        <li><span class="fi"><i class="fas fa-minus"></i></span><div>Content creation or copywriting</div></li>
-      </ul>
+      <div class="not-pills">
+        <span class="not-pill"><i class="fas fa-minus"></i>Ongoing maintenance</span>
+        <span class="not-pill"><i class="fas fa-minus"></i>Hosting &amp; backups</span>
+        <span class="not-pill"><i class="fas fa-minus"></i>Priority support</span>
+        <span class="not-pill"><i class="fas fa-minus"></i>Google Business Profile</span>
+        <span class="not-pill"><i class="fas fa-minus"></i>Domain registration</span>
+        <span class="not-pill"><i class="fas fa-minus"></i>Content writing</span>
+      </div>
 
       <div class="section-label">After Your Project</div>
-      <div class="info-card">
-        <h4><i class="fas fa-arrow-right-to-bracket" style="color:var(--brand); margin-right:8px;"></i>Subscribe Within 14 Days</h4>
-        <p>If you subscribe to any monthly plan within 14 days of your project delivery, the one-time setup fee and your first month's payment are both waived as a courtesy. Contact us before completing checkout to redeem. It can't be applied after a subscription is active.</p>
-      </div>
-      <div class="info-card">
-        <h4><i class="fas fa-puzzle-piece" style="color:var(--brand); margin-right:8px;"></i>Add-Ons Without a Subscription</h4>
-        <p>One-time project clients can subscribe to add-on services independently, without enrolling in a monthly plan. Includes AI Chatbot, Ad Management, Newsletter Management, Google Business Profile, and more. </p>
-      </div>
+      <div class="info-note"><strong>Subscribe within 14 days</strong> — Setup fee and first month waived if you join any monthly plan within 14 days of delivery. Contact us before checkout to redeem.</div>
+      <div class="info-note"><strong>Add-ons without a subscription</strong> — One-time clients can add AI Chatbot, Ad Management, Newsletter Management, Google Business Profile, and more independently.</div>
 
       <div class="cta-strip">
         <h3>Want ongoing support after your project?</h3>
@@ -536,7 +497,6 @@
 
   </div>
 </div>
-
 <!-- FOOTER -->
 <footer>
   <div class="footer-grid">
@@ -600,6 +560,74 @@
 
   if (!lsGet('wz_first_visit')) lsSet('wz_first_visit', Date.now());
 
+  // ── Feature chip data ──────────────────────────────────────
+  var FEATURES = {
+    essential: [
+      { icon:'fa-file-lines',      name:'Up to 3 pages',          detail:'Home, service pages, and a contact page. Professionally designed to match your brand and built to convert visitors.' },
+      { icon:'fa-envelope-open-text', name:'Contact page',         detail:'A fully working contact form so visitors can reach you directly from your site, included on every build.' },
+      { icon:'fa-pen-to-square',   name:'Unlimited updates',       detail:'Text, images, links, hours, prices — submit updates anytime through the request form and we handle them, no limit.' },
+      { icon:'fa-mobile-screen',   name:'Mobile-responsive',       detail:'Your site is built to look and work perfectly on phones, tablets, and desktops. No extra work needed from you.' },
+      { icon:'fa-lock',            name:'SSL certificate',         detail:'Secure HTTPS is set up automatically on every site. No configuration, no renewals, nothing to manage on your end.' },
+      { icon:'fa-server',          name:'Hosting &amp; DNS',       detail:'We manage your hosting environment and domain configuration end-to-end so you never deal with the technical side.' },
+      { icon:'fa-shield-halved',   name:'Security &amp; backups',  detail:'Your site is continuously monitored for threats and backed up on a regular schedule. Your content is always protected.' },
+      { icon:'fa-magnifying-glass',name:'Standard SEO',            detail:'Page titles, meta descriptions, and on-page optimization are built into every page from day one.' },
+      { icon:'fa-rotate',          name:'Existing site support',   detail:'Already have a website? We can take over management and handle updates without building from scratch.' },
+    ],
+    growth: [
+      { icon:'fa-file-lines',      name:'Up to 6 pages',           detail:'More room for services, team bios, testimonials, case studies, or any other pages your business needs.' },
+      { icon:'fa-envelope-open-text', name:'Contact page',          detail:'A fully working contact form included on every site. In addition to your 6 pages.' },
+      { icon:'fa-pen-to-square',   name:'Unlimited updates',        detail:'Submit updates via form, email, phone, or video call.' },
+      { icon:'fa-bolt',            name:'Priority turnaround',      detail:'Your requests move to the front of the queue ahead of Essential plan clients, so you get faster results.' },
+      { icon:'fa-headset',         name:'Total Access Support',     detail:'Every support channel included. Email, live chat, phone calls, and Google Meet video calls, all in one plan.' },
+      { icon:'fa-mobile-screen',   name:'Mobile-responsive',        detail:'Built to look and perform perfectly on every device and screen size.' },
+      { icon:'fa-lock',            name:'SSL certificate',          detail:'Secure HTTPS set up and maintained automatically at no extra charge.' },
+      { icon:'fa-server',          name:'Hosting &amp; DNS',        detail:'Full hosting and domain configuration handled for you, start to finish.' },
+      { icon:'fa-coins',           name:'Hosting credit',           detail:'A monthly credit applied toward your hosting or domain costs managed through us. See the Fee Schedule for the current amount.' },
+      { icon:'fa-shield-halved',   name:'Security &amp; backups',   detail:'Continuous monitoring and regular backups keep your site protected and recoverable.' },
+      { icon:'fa-chart-bar',       name:'Advanced SEO',             detail:'Enhanced on-page optimization with keyword tracking, reporting tools, and ongoing search performance monitoring.' },
+      { icon:'fa-map-location-dot',name:'Google Business Profile',  detail:'We manage your Google Business Profile — post updates, add photos, and respond to reviews on your behalf.' },
+      { icon:'fa-star',            name:'Review management',        detail:'We monitor your online reviews across platforms and respond professionally so your reputation stays strong.' },
+      { icon:'fa-chart-line',      name:'Performance checks',       detail:'Bi-monthly checks on your site\'s traffic, visibility, and load performance with a brief summary sent to you.' },
+    ],
+    onetime: [
+      { icon:'fa-paintbrush',      name:'Professional design',      detail:'Custom design work built to your brand brief, not from generic templates. Everything is made for your business.' },
+      { icon:'fa-mobile-screen',   name:'Mobile-responsive',        detail:'Fully responsive implementation that displays and functions correctly on all screen sizes and devices.' },
+      { icon:'fa-clipboard-check', name:'QA before delivery',       detail:'We review and test everything before handing over the finished work so you receive something polished and ready.' },
+      { icon:'fa-rotate-left',     name:'Up to 3 revisions',        detail:'Minor text, image, or layout tweaks within 14 days of delivery at no extra charge. Larger scope changes are quoted separately.' },
+    ],
+    tiers: [
+      { icon:'fa-layer-group',     name:'Basic',                    detail:'Single-page scope. Text edits, image swaps, or minor fixes on one existing page. Typically delivered in 3–5 business days.' },
+      { icon:'fa-layer-group',     name:'Standard',                 detail:'Up to two pages. Content changes, layout adjustments, and section redesigns across existing pages. Typically 5–7 business days.' },
+      { icon:'fa-layer-group',     name:'Full Build',               detail:'Complete new website, up to 3 pages plus a contact page, designed from scratch. First draft typically within 7–14 business days.' },
+    ],
+  };
+
+  function buildGrid(gridId, detailId, items, planKey) {
+    var grid = document.getElementById(gridId);
+    var panel = document.getElementById(detailId);
+    if (!grid || !panel) return;
+    grid.innerHTML = items.map(function(f, i) {
+      return '<button class="feat-chip" data-plan="' + planKey + '" data-idx="' + i + '">' +
+        '<i class="fas ' + f.icon + ' fc-icon"></i>' +
+        '<span class="fc-name">' + f.name + '</span>' +
+        '<i class="fas fa-chevron-down fc-arrow"></i>' +
+        '</button>';
+    }).join('');
+    grid.querySelectorAll('.feat-chip').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var i   = parseInt(btn.dataset.idx);
+        var key = btn.dataset.plan;
+        var f   = FEATURES[key][i];
+        var wasActive = btn.classList.contains('active');
+        grid.querySelectorAll('.feat-chip').forEach(function(c) { c.classList.remove('active'); });
+        if (wasActive) { panel.className = 'feat-detail'; return; }
+        btn.classList.add('active');
+        panel.innerHTML = '<div class="fd-title"><i class="fas ' + f.icon + '"></i> ' + f.name + '</div>' + f.detail;
+        panel.className = 'feat-detail visible';
+      });
+    });
+  }
+
   function selectPlan(plan) {
     // Update buttons
     document.querySelectorAll('.pick-btn').forEach(b => b.classList.remove('active'));
@@ -611,6 +639,14 @@
 
     // Show selected
     document.getElementById('results-' + plan).classList.add('visible');
+
+    // Build feature grids for this plan
+    if (plan === 'essential') buildGrid('grid-essential', 'detail-essential', FEATURES.essential, 'essential');
+    if (plan === 'growth')    buildGrid('grid-growth',    'detail-growth',    FEATURES.growth,    'growth');
+    if (plan === 'onetime') {
+      buildGrid('grid-onetime', 'detail-onetime', FEATURES.onetime, 'onetime');
+      buildGrid('grid-tiers',   'detail-tiers',   FEATURES.tiers,   'tiers');
+    }
 
     // Update URL param and remember last plan
     const url = new URL(window.location);
@@ -677,63 +713,7 @@
       }
     }
 
-    // Confetti on milestone visits
-    function launchConfetti() {
-      const canvas = document.getElementById('confetti-canvas');
-      if (!canvas) return;
-      canvas.style.display = 'block';
-      canvas.width  = window.innerWidth;
-      canvas.height = window.innerHeight;
-      const ctx = canvas.getContext('2d');
-      const colors = ['#7851a9','#ffd700','#22c55e','#3b82f6','#ec4899','#06b6d4','#f97316'];
-      const particles = Array.from({ length: 130 }, () => ({
-        x: Math.random() * canvas.width,
-        y: Math.random() * -canvas.height * 0.5,
-        r: 5 + Math.random() * 6,
-        dy: 1.4 + Math.random() * 2,
-        color: colors[Math.floor(Math.random() * colors.length)],
-        tiltAngle: Math.random() * Math.PI * 2,
-        tiltSpeed: 0.08 + Math.random() * 0.15,
-        opacity: 1
-      }));
-      const start = Date.now(), duration = 3200;
-      function draw() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        const progress = Math.min((Date.now() - start) / duration, 1);
-        particles.forEach(p => {
-          p.tiltAngle += p.tiltSpeed;
-          p.y += p.dy + Math.abs(Math.sin(p.tiltAngle)) * 0.6;
-          p.opacity = progress > 0.55 ? 1 - (progress - 0.55) / 0.45 : 1;
-          ctx.save();
-          ctx.globalAlpha = Math.max(0, p.opacity);
-          ctx.fillStyle = p.color;
-          ctx.translate(p.x + Math.sin(p.tiltAngle) * 8, p.y);
-          ctx.rotate(p.tiltAngle);
-          ctx.fillRect(-p.r / 2, -p.r * 0.3, p.r, p.r * 0.55);
-          ctx.restore();
-        });
-        if (progress < 1) requestAnimationFrame(draw);
-        else { canvas.style.display = 'none'; ctx.clearRect(0, 0, canvas.width, canvas.height); }
-      }
-      requestAnimationFrame(draw);
-    }
-
-    const MILESTONES = [5, 10, 25, 50];
-    const seen = lsGet('wz_myplan_confetti_seen') || [];
-    const milestone = MILESTONES.find(m => count === m && !seen.includes(m));
-    if (milestone) {
-      lsSet('wz_myplan_confetti_seen', [...seen, milestone]);
-      setTimeout(launchConfetti, 800);
-    }
-
-    // Time-of-day greeting + first name
-    const h = new Date().getHours();
-    const greetBase = h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
-    const userName = lsGet('wz_user_name');
-    const $g = document.getElementById('myPlanGreeting');
-    if ($g) { $g.textContent = userName ? greetBase + ', ' + userName : greetBase; $g.hidden = false; }
   })();
 </script>
-<canvas id="confetti-canvas"></canvas>
 </body>
 </html>
