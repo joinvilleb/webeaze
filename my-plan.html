@@ -178,14 +178,15 @@
     .feat-chip.active { border-color: var(--brand); background: #f8f5ff; color: var(--ink); }
     .feat-chip.active .fc-arrow { transform: rotate(180deg); color: var(--brand); }
 
-    .feat-detail {
+    .feat-detail-inline {
+      grid-column: 1 / -1;
       background: #f8f5ff; border: 1.5px solid rgba(120,81,169,.22);
-      border-radius: 14px; padding: 16px 20px; margin-top: 10px;
+      border-radius: 14px; padding: 16px 20px;
       font-size: 14px; color: var(--ink-2); line-height: 1.65;
-      display: none;
+      animation: fdIn .15s ease;
     }
-    .feat-detail.visible { display: block; }
-    .feat-detail .fd-title { font-size: 13px; font-weight: 700; color: var(--brand); margin-bottom: 6px; display: flex; align-items: center; gap: 7px; }
+    @keyframes fdIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+    .feat-detail-inline .fd-title { font-size: 13px; font-weight: 700; color: var(--brand); margin-bottom: 6px; display: flex; align-items: center; gap: 7px; }
 
     /* ── NOT INCLUDED ── */
     .not-pills { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; }
@@ -388,7 +389,6 @@
 
       <div class="section-label">What's Included</div>
       <div class="feature-grid" id="grid-essential"></div>
-      <div class="feat-detail" id="detail-essential"></div>
 
       <div class="section-label">Support Access</div>
       <div class="support-grid">
@@ -433,7 +433,6 @@
 
       <div class="section-label">What's Included</div>
       <div class="feature-grid" id="grid-growth"></div>
-      <div class="feat-detail" id="detail-growth"></div>
 
       <div class="section-label">Support Access</div>
       <div class="support-grid">
@@ -468,11 +467,9 @@
 
       <div class="section-label">Included in Every Tier</div>
       <div class="feature-grid" id="grid-onetime"></div>
-      <div class="feat-detail" id="detail-onetime"></div>
 
       <div class="section-label">Project Tiers</div>
       <div class="feature-grid" id="grid-tiers"></div>
-      <div class="feat-detail" id="detail-tiers"></div>
 
       <div class="section-label">Not Included</div>
       <div class="not-pills">
@@ -602,10 +599,9 @@
     ],
   };
 
-  function buildGrid(gridId, detailId, items, planKey) {
+  function buildGrid(gridId, _detailId, items, planKey) {
     var grid = document.getElementById(gridId);
-    var panel = document.getElementById(detailId);
-    if (!grid || !panel) return;
+    if (!grid) return;
     grid.innerHTML = items.map(function(f, i) {
       return '<button class="feat-chip" data-plan="' + planKey + '" data-idx="' + i + '">' +
         '<i class="fas ' + f.icon + ' fc-icon"></i>' +
@@ -619,11 +615,28 @@
         var key = btn.dataset.plan;
         var f   = FEATURES[key][i];
         var wasActive = btn.classList.contains('active');
+
+        // Remove any existing inline detail and clear active states
+        var existing = grid.querySelector('.feat-detail-inline');
+        if (existing) existing.remove();
         grid.querySelectorAll('.feat-chip').forEach(function(c) { c.classList.remove('active'); });
-        if (wasActive) { panel.className = 'feat-detail'; return; }
+
+        if (wasActive) return;
+
         btn.classList.add('active');
-        panel.innerHTML = '<div class="fd-title"><i class="fas ' + f.icon + '"></i> ' + f.name + '</div>' + f.detail;
-        panel.className = 'feat-detail visible';
+
+        // Find last chip in the same visual row, then insert detail after it
+        var clickedRow = parseInt(getComputedStyle(btn).gridRowStart);
+        var chips = Array.from(grid.querySelectorAll('.feat-chip'));
+        var lastInRow = btn;
+        chips.forEach(function(c) {
+          if (parseInt(getComputedStyle(c).gridRowStart) === clickedRow) lastInRow = c;
+        });
+
+        var detail = document.createElement('div');
+        detail.className = 'feat-detail-inline';
+        detail.innerHTML = '<div class="fd-title"><i class="fas ' + f.icon + '"></i> ' + f.name + '</div>' + f.detail;
+        lastInRow.insertAdjacentElement('afterend', detail);
       });
     });
   }
