@@ -1078,7 +1078,7 @@
     const $title = document.getElementById('headerTitle');
     if ($title && returning) {
       $title.textContent = count >= 6
-        ? 'Good to have you back.'
+        ? 'Welcome back!'
         : count >= 3
           ? 'What are we working on?'
           : 'Welcome back!';
@@ -1219,6 +1219,9 @@
         // Dec
         { icon: 'fa-triangle-exclamation', cls: 'notice-busy', html: 'We close for the holidays on Dec 24. Anything submitted after Dec 22 will be handled in January.' },
       ];
+
+      // April tax banner only runs through Tax Day (Apr 15)
+      if (month === 3 && now.getDate() > 15) banners[3] = null;
 
       const b = banners[month];
       if (b) {
