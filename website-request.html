@@ -258,11 +258,24 @@
       padding: 36px 0 56px;
     }
     .shortcuts-label {
-      font-size: 18px;
-      font-weight: 700;
-      color: #fff;
-      margin-bottom: 6px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 15px;
+      font-weight: 600;
+      color: rgba(255,255,255,.5);
+      cursor: pointer;
+      user-select: none;
+      transition: color .15s;
+      background: none;
+      border: none;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
     }
+    .shortcuts-label:hover { color: rgba(255,255,255,.85); }
+    .shortcuts-label .chevron { font-size: 11px; transition: transform .2s; }
+    .shortcuts-label.open .chevron { transform: rotate(180deg); }
+    .shortcuts-body { margin-top: 20px; animation: fadeSlide .15s ease; }
     .shortcuts-sub {
       font-size: 15px;
       color: var(--soft);
@@ -710,6 +723,8 @@
   .submitted-note i { color: #16a34a !important; }
   .submitted-note strong { color: #15803d !important; }
   .member-since { color: rgba(0,0,0,.3) !important; }
+  .shortcuts-label { color: rgba(0,0,0,.42) !important; }
+  .shortcuts-label:hover { color: rgba(0,0,0,.75) !important; }
   </style>
 
 </head>
@@ -802,9 +817,15 @@
 </div>
 
 <!-- SHORTCUTS -->
-<div class="shortcuts">
+<div class="shortcuts" id="shortcuts">
   <div class="wrap">
-    <div class="shortcuts-label">Not what you were looking for?</div>
+    <button class="shortcuts-label" id="shortcutsToggle" onclick="toggleShortcuts()">
+      <i class="fas fa-compass"></i>
+      Not what you were looking for?
+      <i class="fas fa-chevron-down chevron"></i>
+    </button>
+
+    <div class="shortcuts-body" id="shortcutsBody" hidden>
     <div class="shortcuts-sub">Tell us what you need and we'll point you in the right direction.</div>
 
     <div class="intent-grid">
@@ -874,6 +895,7 @@
 
     </div>
 
+    </div><!-- /shortcuts-body -->
   </div>
 </div>
 
@@ -935,6 +957,21 @@
 
 <script>
   document.getElementById('yr').textContent = new Date().getFullYear();
+
+  function expandShortcuts() {
+    var body = document.getElementById('shortcutsBody');
+    var btn  = document.getElementById('shortcutsToggle');
+    if (body) body.hidden = false;
+    if (btn)  btn.classList.add('open');
+  }
+  function toggleShortcuts() {
+    var body = document.getElementById('shortcutsBody');
+    var btn  = document.getElementById('shortcutsToggle');
+    if (!body) return;
+    var isHidden = body.hidden;
+    body.hidden = !isHidden;
+    if (btn) btn.classList.toggle('open', isHidden);
+  }
 
   function showPanel(id, autoScroll) {
     const panels = document.querySelectorAll('.intent-panel');
@@ -1079,6 +1116,7 @@
     // Intercept showPanel to save + refresh badge + tip
     const _orig = window.showPanel;
     window.showPanel = function(id, autoScroll) {
+      expandShortcuts();
       _orig(id, autoScroll);
       lsSet(LS_LAST_PANEL, id);
       applyLastUsedBadge(id);
@@ -1088,7 +1126,7 @@
     // ── 5. Contextual form tip ──
     const TIPS = {
       broken:   { icon: 'fa-camera',    text: 'If you can, include a screenshot and the exact page URL. It helps us find and fix it faster.' },
-      billing:  { icon: 'fa-envelope',  text: 'Include the email address on your account so we can locate your billing details quickly.' },
+      billing:  { icon: 'fa-envelope',  text: 'Include the email address on your account so we can locate your account details quickly.' },
       question: { icon: 'fa-lightbulb', text: 'Not sure if something is covered? Submit it anyway. We\'ll let you know.' },
     };
 
@@ -1106,7 +1144,7 @@
     // ── 6. Closing-time nudge (4–5 PM ET, weekdays only) ──
     const $nudge = document.getElementById('closingNudge');
     if ($nudge && day >= 1 && day <= 5 && hour === 16) {
-      $nudge.innerHTML = '<i class="fas fa-clock"></i> We close at 5 PM ET today. Submit your request now to get it in today\'s queue.';
+      $nudge.innerHTML = '<i class="fas fa-clock"></i> We close at 5pm ET today. Submit your request now to get it in today\'s queue.';
       $nudge.hidden = false;
     }
 
@@ -1269,8 +1307,10 @@
           const billingSlags = ['manage-your-plan','annual-vs-monthly','change-billing-date','view-invoices','reactivate-plan'];
           const brokenSlugs  = ['site-is-down','website-error-troubleshooting','contact-form-not-sending'];
           if (helpSaved.some(s => billingSlags.includes(s.slug))) {
+            expandShortcuts();
             setTimeout(() => showPanel('billing', true), 300);
           } else if (helpSaved.some(s => brokenSlugs.includes(s.slug))) {
+            expandShortcuts();
             setTimeout(() => showPanel('broken', true), 300);
           }
         }
@@ -1282,10 +1322,33 @@
       try {
         const helpLast = lsGet('wz_help_last');
         if (!helpLast || !helpLast.title) return;
+
+        // Map article slugs to intent panels + contextual subtitle copy
+        const articlePanelMap = {
+          'manage-your-plan':             { panel: 'billing',  sub: 'Billing question? Describe what you need and we\'ll sort it out.' },
+          'annual-vs-monthly':            { panel: 'billing',  sub: 'Billing question? Describe what you need and we\'ll sort it out.' },
+          'change-billing-date':          { panel: 'billing',  sub: 'Billing question? Describe what you need and we\'ll sort it out.' },
+          'view-invoices':                { panel: 'billing',  sub: 'Need an invoice? Mention the billing period in your request.' },
+          'reactivate-plan':              { panel: 'billing',  sub: 'Looking to reactivate? Just drop us a note and we\'ll take care of it.' },
+          'site-is-down':                 { panel: 'broken',   sub: 'Reporting a site issue? Be as specific as you can and we\'ll get on it fast.' },
+          'website-error-troubleshooting':{ panel: 'broken',   sub: 'Reporting an error? Include the page URL and what you see.' },
+          'my-site-isnt-updating':        { panel: 'broken',   sub: 'Site not updating? Describe what you changed and what you expected.' },
+          'contact-form-not-sending':     { panel: 'broken',   sub: 'Form issue? Tell us which form and we\'ll check it right away.' },
+        };
+
+        const ctx = articlePanelMap[helpLast.slug];
+
+        // Update header subtitle to be article-aware
+        const $sub = document.getElementById('headerSub');
+        if ($sub && ctx && ctx.sub) $sub.textContent = ctx.sub;
+
         const $tip = document.getElementById('formTip');
-        if (!$tip || !$tip.hidden) return; // don't overwrite an existing panel tip
+        if (!$tip || !$tip.hidden) return; // don't overwrite a higher-priority tip
         if (!lastPanel) {
-          $tip.innerHTML = '<i class="fas fa-book-open"></i><span>Last time you were reading <a href="help.html#/' + helpLast.slug + '" style="color:inherit;font-weight:700;text-decoration:underline;">' + helpLast.title + '</a> in the Help Center. If that is related, mention it in your request.</span>';
+          const panelNote = ctx
+            ? ' <a href="#shortcuts" onclick="event.preventDefault();expandShortcuts();setTimeout(function(){showPanel(\'' + ctx.panel + '\')},50);" style="color:inherit;font-weight:700;text-decoration:underline;">See quick options below.</a>'
+            : '';
+          $tip.innerHTML = '<i class="fas fa-book-open"></i><span>You were just reading <a href="help.html#/' + helpLast.slug + '" style="color:inherit;font-weight:700;text-decoration:underline;">' + helpLast.title + '</a>. If that\'s what brought you here, mention it in your request.' + panelNote + '</span>';
           $tip.hidden = false;
         }
       } catch(e) {}
@@ -1329,7 +1392,7 @@
         $note.innerHTML = '<i class="fas fa-moon"></i> We are closed for the night. Submit your request and we will get on it ' + nextOpenMsg + '.';
         $note.hidden = false;
       } else if (!isWeekend && isEarlyMorning) {
-        $note.innerHTML = '<i class="fas fa-sun"></i> We are open at 9 AM ET. Submit your request and we will pick it up shortly.';
+        $note.innerHTML = '<i class="fas fa-sun"></i> We are open at 9am ET. Submit your request and we will pick it up shortly.';
         $note.hidden = false;
       }
     })();
@@ -1430,6 +1493,24 @@
   document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') closeHelpModal();
   });
+
+  // ── 22. Article-aware textarea placeholder hint ─────────
+  (function() {
+    try {
+      function _ls(k) { try { return JSON.parse(localStorage.getItem(k)); } catch(e) { return null; } }
+      const helpLast = _ls('wz_help_last');
+      if (!helpLast || !helpLast.title) return;
+      const obs = new MutationObserver(function() {
+        const ta = document.querySelector('.hs-form-frame textarea, .hs-form-frame input[name="message"]');
+        if (ta && !ta.dataset.wzHint) {
+          ta.dataset.wzHint = '1';
+          ta.placeholder = 'I was reading about "' + helpLast.title + '" and need help with...';
+          obs.disconnect();
+        }
+      });
+      obs.observe(document.body, { childList: true, subtree: true });
+    } catch(e) {}
+  })();
 
   // ── Cross-page: Back link + Nav plan badge ─────────────
   (function() {
