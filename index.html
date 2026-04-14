@@ -313,12 +313,28 @@
   .btn-nav{
     background:var(--dark);
     color:#d0cdd8;
-    border:1px solid rgba(255,255,255,.12)
-    ;
+    border:1px solid rgba(255,255,255,.12);
     border-radius:12px;
     padding:.6rem .9rem;
     font-weight:700;
-
+  }
+  .btn-nav-client{
+    display:inline-flex;align-items:center;gap:7px;
+    background:#000;
+    color:#fff;
+    border:1.5px solid rgba(255,255,255,.28);
+    border-radius:12px;
+    padding:.55rem .9rem;
+    font-weight:700;
+    font-size:.88rem;
+    transition:border-color .2s,color .2s,background .2s;
+    white-space:nowrap;
+  }
+  .btn-nav-client:hover{
+    border-color:var(--gold);
+    color:var(--gold);
+    background:#0a0a0a;
+    text-decoration:none;
   }
 
   /* Promo */
@@ -2255,8 +2271,8 @@ fee-tooltip {
           <li class="nav-item"><a class="nav-link" href="contact-us.html">Contact</a></li>
      
           <li class="nav-item ml-1">
-            <a class="btn btn-sm btn-nav" href="https://billing.stripe.com/p/login/7sI3gfaO14CEdlm144">
-              <i class="fas fa-user"> </i> Client Portal
+            <a id="client-portal-btn" class="btn btn-sm btn-nav-client" href="client-start.html">
+              <i class="fas fa-user"></i> <span id="client-portal-label">Existing Client?</span>
             </a>
           </li>
         </ul>
@@ -3436,7 +3452,21 @@ fee-tooltip {
 </footer>
 
 <!-- JS -->
-<script>document.getElementById('yr').textContent=new Date().getFullYear();</script>
+<script>
+document.getElementById('yr').textContent = new Date().getFullYear();
+// Client portal button: first visit = "Existing Client?", return visits = "Submit Request"
+(function () {
+  try {
+    var label = document.getElementById('client-portal-label');
+    if (!label) return;
+    if (localStorage.getItem('wz_been_here')) {
+      label.textContent = 'Submit Request';
+    } else {
+      localStorage.setItem('wz_been_here', '1');
+    }
+  } catch(e) {}
+})();
+</script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

@@ -476,14 +476,6 @@
     .submitted-note i { color: #4ade80; font-size: 13px; flex-shrink: 0; }
     .submitted-note strong { color: #86efac; }
 
-    /* CONFETTI */
-    #confetti-canvas {
-      position: fixed; top: 0; left: 0;
-      width: 100%; height: 100%;
-      pointer-events: none; z-index: 99999;
-      display: none;
-    }
-
     /* BACK LINK (inline in page header) */
     .back-link-inline {
       display: inline-flex;
@@ -999,48 +991,6 @@
   updateStatus();
   setInterval(updateStatus, 60000);
 
-  // ── CONFETTI ─────────────────────────────────────────────
-  function launchConfetti() {
-    const canvas = document.getElementById('confetti-canvas');
-    if (!canvas) return;
-    canvas.style.display = 'block';
-    canvas.width  = window.innerWidth;
-    canvas.height = window.innerHeight;
-    const ctx = canvas.getContext('2d');
-    const colors = ['#7851a9','#f97316','#ffd700','#22c55e','#3b82f6','#ec4899','#06b6d4'];
-    const particles = Array.from({ length: 130 }, () => ({
-      x: Math.random() * canvas.width,
-      y: Math.random() * -canvas.height * 0.5,
-      r: 5 + Math.random() * 6,
-      dy: 1.4 + Math.random() * 2,
-      color: colors[Math.floor(Math.random() * colors.length)],
-      tiltAngle: Math.random() * Math.PI * 2,
-      tiltSpeed: 0.08 + Math.random() * 0.15,
-      opacity: 1
-    }));
-    const start = Date.now();
-    const duration = 3200;
-    function draw() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      const progress = Math.min((Date.now() - start) / duration, 1);
-      particles.forEach(p => {
-        p.tiltAngle += p.tiltSpeed;
-        p.y += p.dy + Math.abs(Math.sin(p.tiltAngle)) * 0.6;
-        p.opacity = progress > 0.55 ? 1 - (progress - 0.55) / 0.45 : 1;
-        ctx.save();
-        ctx.globalAlpha = Math.max(0, p.opacity);
-        ctx.fillStyle = p.color;
-        ctx.translate(p.x + Math.sin(p.tiltAngle) * 8, p.y);
-        ctx.rotate(p.tiltAngle);
-        ctx.fillRect(-p.r / 2, -p.r * 0.3, p.r, p.r * 0.55);
-        ctx.restore();
-      });
-      if (progress < 1) requestAnimationFrame(draw);
-      else { canvas.style.display = 'none'; ctx.clearRect(0, 0, canvas.width, canvas.height); }
-    }
-    requestAnimationFrame(draw);
-  }
-
   // ── PERSONALIZATION ──────────────────────────────────────
   (function() {
     const LS_VISITED    = 'wz_req_visited';
@@ -1394,15 +1344,6 @@
       $note.hidden = false;
     })();
 
-    // ── 18. Confetti burst on milestone visits ──
-    (function() {
-      const MILESTONES = [5, 10, 25, 50];
-      const seen = lsGet('wz_req_confetti_seen') || [];
-      const milestone = MILESTONES.find(m => count === m && !seen.includes(m));
-      if (!milestone) return;
-      lsSet('wz_req_confetti_seen', [...seen, milestone]);
-      setTimeout(launchConfetti, 600);
-    })();
 
     // ── 19. Form submission counter (MutationObserver) ──
     (function() {
@@ -1517,6 +1458,5 @@
   })();
 </script>
 
-<canvas id="confetti-canvas"></canvas>
 </body>
 </html>

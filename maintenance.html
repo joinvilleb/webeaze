@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Unlimited Website Maintenance & Updates | WebEaze - No Per-Change Fees</title>
+<title>Unlimited Website Maintenance & Updates | WebEaze</title>
 <meta name="description" content="Truly unlimited website maintenance and updates for one flat monthly fee. No hourly rates, no per-change fees. Content updates, fixes, performance optimization, and real human support included." />
 <meta name="keywords" content="unlimited website maintenance, website updates service, flat rate web maintenance, no hourly web developer, website support, content updates" />
 
@@ -31,7 +31,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 <link rel="shortcut icon" href="images/webeaze-transparent copy.png" type="image/png" />
 
-<!-- Schema.org Structured Data -->
+<!-- Schema -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -42,7 +42,7 @@
   "description": "Truly unlimited website maintenance and updates for one flat monthly fee. No hourly rates, no per-change fees. Content updates, fixes, performance optimization, and real human support included.",
   "isPartOf": {"@id": "https://www.webeaze.io/#website"},
   "about": {"@id": "https://www.webeaze.io/#organization"},
-  "speakable": {"@type": "SpeakableSpecification", "cssSelector": ["h1", ".hero p"]}
+  "speakable": {"@type": "SpeakableSpecification", "cssSelector": ["h1", ".hero-sub"]}
 }
 </script>
 <script type="application/ld+json">
@@ -50,40 +50,17 @@
   "@context": "https://schema.org",
   "@type": "Service",
   "name": "Unlimited Website Maintenance",
-  "description": "Flat-rate website maintenance service with truly unlimited updates, same-day turnaround, and no per-change fees. Includes content updates, performance optimization, security monitoring, and real human support.",
-  "provider": {
-    "@type": "Organization",
-    "name": "WebEaze",
-    "url": "https://webeaze.io",
-    "logo": "https://webeaze.io/images/webeaze-transparent copy.png"
-  },
+  "description": "Flat-rate website maintenance with truly unlimited updates, 24–48hr turnaround, and no per-change fees. Includes content updates, performance optimization, security monitoring, and real human support.",
+  "provider": {"@id": "https://www.webeaze.io/#organization"},
   "serviceType": "Website Maintenance",
-  "areaServed": "United States",
+  "areaServed": {"@type": "Country", "name": "United States"},
   "hasOfferCatalog": {
     "@type": "OfferCatalog",
     "name": "Website Maintenance Services",
     "itemListElement": [
-      {
-        "@type": "Offer",
-        "itemOffered": {
-          "@type": "Service",
-          "name": "Unlimited Content Updates"
-        }
-      },
-      {
-        "@type": "Offer",
-        "itemOffered": {
-          "@type": "Service",
-          "name": "Performance Optimization"
-        }
-      },
-      {
-        "@type": "Offer",
-        "itemOffered": {
-          "@type": "Service",
-          "name": "Security & Backups"
-        }
-      }
+      {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Unlimited Content Updates"}},
+      {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Performance Optimization"}},
+      {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Security Monitoring & Backups"}}
     ]
   }
 }
@@ -91,748 +68,407 @@
 
 <style>
 :root {
+  --brand: #7851a9;
+  --brand-soft: rgba(120,81,169,0.08);
+  --brand-border: rgba(120,81,169,0.2);
   --gold: #ffd700;
-  --gold-dim: rgba(255,215,0,0.12);
-  --gold-glow: rgba(255,215,0,0.4);
-  --purple: #7851a9;
-  --bg: #050509;
-  --bg-card: #0c0c14;
-  --bg-elevated: #12141f;
-  --ink: #ffffff;
-  --ink-muted: #a0a6c0;
-  --line: rgba(255,255,255,0.08);
-  --line-gold: rgba(255,215,0,0.25);
-  --success: #22c55e;
-  --danger: #ef4444;
+  --gold-soft: rgba(255,215,0,0.12);
+  --text: #0f1228;
+  --text-2: #374151;
+  --muted: #6b7280;
+  --bg: #f7f8fc;
+  --bg-card: #ffffff;
+  --bg-alt: #f0f1f8;
+  --line: #e5e7eb;
+  --green: #16a34a;
+  --green-soft: rgba(22,163,74,0.1);
+  --red: #dc2626;
+  --red-soft: rgba(220,38,38,0.08);
+  --radius: 16px;
+  --radius-lg: 24px;
+  --shadow: 0 4px 24px rgba(15,18,40,0.07);
+  --shadow-hover: 0 12px 40px rgba(15,18,40,0.12);
 }
 
-html, body { height: 100%; overflow-x: hidden; }
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
 body {
   margin: 0;
   font-family: 'Poppins', sans-serif;
   background: var(--bg);
-  color: var(--ink);
+  color: var(--text);
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
 }
 a { color: inherit; text-decoration: none; }
 .container-narrow { max-width: 1100px; }
 
-/* NAV */
+/* ── NAV ─────────────────────────────────── */
 .nav-wrap {
-  position: sticky;
-  top: 0;
-  z-index: 9999;
-  background: rgba(5,5,9,0.92);
+  position: sticky; top: 0; z-index: 9999;
+  background: rgba(10,10,15,0.96);
   backdrop-filter: saturate(130%) blur(12px);
   -webkit-backdrop-filter: saturate(130%) blur(12px);
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
 }
 .webeaze-nav { background: transparent !important; box-shadow: none !important; padding: .6rem 0; }
 .logo { height: 36px; }
 .brand-word { font-weight: 700; color: #fff; }
-.navbar-dark .nav-link { color: #fff !important; opacity: .85; padding: .45rem .7rem; border-radius: 10px; }
+.navbar-dark .nav-link { color: #fff !important; opacity: .85; padding: .45rem .7rem; border-radius: 10px; transition: all .2s; }
 .navbar-dark .nav-link:hover { opacity: 1; background: rgba(255,255,255,.08); }
-.btn-nav { background: var(--gold); color: #2f1e66; border: none; border-radius: 12px; padding: .6rem .9rem; font-weight: 700; }
+.btn-nav { background: var(--gold); color: #2f1e66; border: none; border-radius: 12px; padding: .6rem .9rem; font-weight: 700; font-size: .88rem; transition: background .2s; }
+.btn-nav:hover { background: #f2c600; color: #2f1e66; text-decoration: none; }
 
-/* HERO */
+/* ── HERO ────────────────────────────────── */
 .hero {
+  padding: clamp(72px,10vh,108px) 0 clamp(64px,8vh,96px);
+  background: linear-gradient(160deg, #fff 0%, var(--bg) 60%, #ede9f6 100%);
+  border-bottom: 1px solid var(--line);
   position: relative;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  padding: 100px 0 80px;
   overflow: hidden;
 }
 .hero::before {
   content: '';
   position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(180deg, rgba(5,5,9,0.3) 0%, rgba(5,5,9,0.8) 60%, rgba(5,5,9,1) 100%),
-    url('images/painter.png') center/cover no-repeat;
+  top: -120px; right: -180px;
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(120,81,169,0.1) 0%, transparent 65%);
+  pointer-events: none;
 }
 .hero::after {
   content: '';
   position: absolute;
-  top: -150px;
-  right: -250px;
-  width: 700px;
-  height: 700px;
-  background: radial-gradient(circle, rgba(255,215,0,0.18) 0%, transparent 55%);
+  bottom: -80px; left: -120px;
+  width: 360px; height: 360px;
+  background: radial-gradient(circle, rgba(255,215,0,0.08) 0%, transparent 65%);
   pointer-events: none;
 }
-.hero-content { position: relative; z-index: 2; max-width: 700px; }
-
-.unlimited-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 0.9rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--gold);
+.hero-inner { position: relative; z-index: 2; max-width: 760px; }
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: .8rem; font-weight: 700; letter-spacing: .09em; text-transform: uppercase;
+  color: var(--brand); background: var(--brand-soft); border: 1px solid var(--brand-border);
+  border-radius: 999px; padding: 9px 18px; margin-bottom: 24px;
+}
+.hero h1 {
+  font-size: clamp(2.4rem,5.5vw,3.8rem);
+  font-weight: 800;
+  letter-spacing: -.03em;
+  line-height: 1.12;
   margin-bottom: 24px;
-  padding: 12px 20px;
-  background: linear-gradient(135deg, rgba(255,215,0,0.15) 0%, rgba(255,215,0,0.05) 100%);
-  border-radius: 999px;
-  border: 2px solid var(--gold);
-  box-shadow: 0 0 30px var(--gold-glow);
-  animation: pulse-glow 2s ease-in-out infinite;
+  color: var(--text);
 }
-@keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 30px var(--gold-glow); }
-  50% { box-shadow: 0 0 50px var(--gold-glow), 0 0 80px rgba(255,215,0,0.2); }
-}
-
-.headline {
-  font-size: clamp(2.8rem, 7vw, 4.5rem);
-  font-weight: 600;
-  letter-spacing: -0.04em;
-  line-height: 1.25;
-  margin-bottom: 28px;
-}
-.headline .highlight {
-  display: block;
-  background: linear-gradient(135deg, var(--gold) 0%, #ffea80 50%, var(--gold) 100%);
+.hero h1 .accent {
+  background: linear-gradient(135deg, var(--brand) 0%, #a06dd8 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
-
 .hero-sub {
-  font-size: 1.25rem;
-  color: var(--ink-muted);
-  max-width: 580px;
-  line-height: 1.7;
+  font-size: 1.15rem;
+  color: var(--muted);
+  max-width: 620px;
+  line-height: 1.75;
   margin-bottom: 36px;
 }
-.hero-sub strong { color: #fff; }
-
-.hero-value-props {
-  display: flex;
-  gap: 32px;
+.hero-sub strong { color: var(--text); }
+.hero-props {
+  display: flex; flex-wrap: wrap; gap: 12px 28px;
   margin-bottom: 40px;
-  flex-wrap: wrap;
 }
-.hero-value-prop {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 1rem;
-  font-weight: 600;
+.hero-prop {
+  display: flex; align-items: center; gap: 8px;
+  font-size: .95rem; font-weight: 600; color: var(--text-2);
 }
-.hero-value-prop i {
-  color: var(--success);
-  font-size: 1.1rem;
-}
-
-/* Buttons */
+.hero-prop i { color: var(--green); font-size: .95rem; }
+.cta-row { display: flex; flex-wrap: wrap; gap: 12px; }
 .btn-primary {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  background: var(--gold);
-  color: #1a1a2e;
-  border: none;
-  border-radius: 14px;
-  padding: 18px 32px;
-  font-weight: 700;
-  font-size: 1.05rem;
-  box-shadow: 0 12px 32px rgba(255,215,0,0.25);
-  transition: all 0.2s ease;
+  display: inline-flex; align-items: center; gap: 9px;
+  background: var(--brand); color: #fff; border: none;
+  border-radius: var(--radius); padding: 15px 28px;
+  font-weight: 700; font-size: 1rem;
+  box-shadow: 0 8px 28px rgba(120,81,169,0.28);
+  transition: all .2s ease;
 }
-.btn-primary:hover {
-  background: #ffea80;
-  transform: translateY(-2px);
-  box-shadow: 0 16px 40px rgba(255,215,0,0.35);
-  color: #1a1a2e;
-  text-decoration: none;
+.btn-primary:hover { background: #6841a0; color: #fff; transform: translateY(-2px); box-shadow: 0 14px 36px rgba(120,81,169,0.36); text-decoration: none; }
+.btn-ghost {
+  display: inline-flex; align-items: center; gap: 9px;
+  background: #fff; color: var(--text); border: 1.5px solid var(--line);
+  border-radius: var(--radius); padding: 14px 26px;
+  font-weight: 600; font-size: 1rem;
+  transition: all .2s ease;
 }
-.btn-secondary {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: transparent;
-  color: #fff;
-  border: 2px solid rgba(255,255,255,0.2);
-  border-radius: 14px;
-  padding: 16px 28px;
-  font-weight: 600;
-  transition: all 0.2s ease;
-}
-.btn-secondary:hover {
-  border-color: var(--gold);
-  color: var(--gold);
-  text-decoration: none;
-}
-.cta-group { display: flex; gap: 16px; flex-wrap: wrap; }
+.btn-ghost:hover { border-color: var(--brand); color: var(--brand); transform: translateY(-2px); box-shadow: var(--shadow); text-decoration: none; }
 
-/* MEGA STATS */
-.mega-stats {
-  background: linear-gradient(180deg, var(--bg) 0%, var(--bg-card) 100%);
-  padding: 80px 0;
-  border-bottom: 1px solid var(--line);
-}
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 40px;
-}
-@media (max-width: 992px) {
-  .stats-grid { grid-template-columns: repeat(2, 1fr); }
-}
-@media (max-width: 500px) {
-  .stats-grid { grid-template-columns: 1fr; }
-}
-.stat-card {
-  text-align: center;
-  padding: 32px 20px;
-  background: var(--bg-elevated);
-  border: 1px solid var(--line);
-  border-radius: 20px;
-  transition: all 0.3s ease;
-}
-.stat-card:hover {
-  border-color: var(--line-gold);
-  transform: translateY(-4px);
-}
-.stat-value {
-  font-size: clamp(2.5rem, 5vw, 3.5rem);
-  font-weight: 900;
-  color: var(--gold);
-  line-height: 1;
-  margin-bottom: 8px;
-}
-.stat-label {
-  font-size: 1rem;
-  color: var(--ink-muted);
-  font-weight: 500;
-}
-
-/* Section Styles */
-.section { padding: clamp(80px, 12vh, 120px) 0; }
-.section-dark { background: var(--bg-card); }
-.section-header {
-  text-align: center;
-  margin-bottom: 64px;
-}
-.section-header .kicker {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--gold);
-  margin-bottom: 16px;
+/* ── SECTION BASE ────────────────────────── */
+section { padding: clamp(72px,10vh,110px) 20px; }
+.section-alt { background: #fff; }
+.section-dark-strip { background: var(--brand); color: #fff; }
+.section-header { text-align: center; margin-bottom: 56px; }
+.kicker {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-size: .78rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--brand); background: var(--brand-soft); border: 1px solid var(--brand-border);
+  border-radius: 999px; padding: 7px 16px; margin-bottom: 16px;
 }
 .section-header h2 {
-  font-size: clamp(2rem, 5vw, 3rem);
-  font-weight: 600;
-  margin: 0 0 20px;
-  line-height: 1.15;
+  font-size: clamp(1.8rem,4vw,2.7rem); font-weight: 800;
+  letter-spacing: -.025em; line-height: 1.2; margin: 0 0 16px; color: var(--text);
 }
-.section-header p {
-  font-size: 1.15rem;
-  color: var(--ink-muted);
-  max-width: 620px;
-  margin: 0 auto;
-  line-height: 1.7;
-}
+.section-header p { font-size: 1.05rem; color: var(--muted); max-width: 580px; margin: 0 auto; line-height: 1.7; }
 
-/* COMPARISON SECTION */
-.comparison-section {
-  background: linear-gradient(180deg, var(--bg-card) 0%, var(--bg) 100%);
-}
+/* ── COMPARISON ──────────────────────────── */
 .comparison-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 32px;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 28px;
 }
-@media (max-width: 768px) {
-  .comparison-grid { grid-template-columns: 1fr; }
+@media(max-width:768px) { .comparison-grid { grid-template-columns: 1fr; } }
+.comp-card {
+  background: var(--bg-card); border-radius: var(--radius-lg);
+  padding: 40px 36px; border: 1.5px solid var(--line);
+  box-shadow: var(--shadow); transition: box-shadow .3s;
 }
-.comparison-card {
-  padding: 40px;
-  border-radius: 24px;
-  position: relative;
-  overflow: hidden;
+.comp-card:hover { box-shadow: var(--shadow-hover); }
+.comp-card.webeaze { border-color: var(--brand); box-shadow: 0 8px 40px rgba(120,81,169,0.14); }
+.comp-card.webeaze:hover { box-shadow: 0 16px 56px rgba(120,81,169,0.2); }
+.comp-header {
+  display: flex; align-items: center; gap: 12px;
+  font-size: 1.2rem; font-weight: 800; margin-bottom: 6px;
 }
-.comparison-card.others {
-  background: var(--bg-elevated);
-  border: 1px solid var(--line);
+.comp-card.others .comp-header { color: var(--muted); }
+.comp-card.webeaze .comp-header { color: var(--brand); }
+.comp-tag {
+  display: inline-block; font-size: .78rem; font-weight: 600;
+  padding: 4px 12px; border-radius: 999px; margin-bottom: 24px;
 }
-.comparison-card.webeaze {
-  background: linear-gradient(135deg, rgba(255,215,0,0.08) 0%, rgba(120,81,169,0.08) 100%);
-  border: 2px solid var(--gold);
-  box-shadow: 0 20px 60px rgba(255,215,0,0.15);
-}
-
-.comparison-title {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-size: 1.4rem;
-  font-weight: 700;
-  margin-bottom: 8px;
-}
-.comparison-card.others .comparison-title { color: var(--ink-muted); }
-.comparison-card.webeaze .comparison-title { color: var(--gold); }
-.comparison-subtitle {
-  font-size: 0.95rem;
-  color: var(--ink-muted);
-  margin-bottom: 28px;
-  padding-bottom: 20px;
+.comp-card.others .comp-tag { background: var(--red-soft); color: var(--red); }
+.comp-card.webeaze .comp-tag { background: var(--green-soft); color: var(--green); }
+.comp-divider { border: none; border-top: 1px solid var(--line); margin-bottom: 24px; }
+.comp-list { list-style: none; padding: 0; margin: 0; }
+.comp-list li {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 11px 0; font-size: .97rem; line-height: 1.5; color: var(--text-2);
   border-bottom: 1px solid var(--line);
 }
-.comparison-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-.comparison-list li {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  padding: 12px 0;
-  font-size: 1rem;
-  line-height: 1.5;
-}
-.comparison-list li i {
-  margin-top: 4px;
-  font-size: 0.9rem;
-}
-.comparison-card.others .comparison-list li i { color: var(--danger); }
-.comparison-card.webeaze .comparison-list li i { color: var(--success); }
+.comp-list li:last-child { border-bottom: none; }
+.comp-list li i { margin-top: 3px; font-size: .9rem; flex-shrink: 0; }
+.comp-card.others .comp-list li i { color: var(--red); }
+.comp-card.webeaze .comp-list li i { color: var(--green); }
 
-/* UNLIMITED EXAMPLES */
-.examples-section {
-  background: var(--bg-elevated);
-}
-.examples-intro {
-  text-align: center;
-  max-width: 700px;
-  margin: 0 auto 60px;
-}
-.examples-intro h2 {
-  font-size: clamp(1.8rem, 4vw, 2.5rem);
-  font-weight: 600;
-  margin-bottom: 16px;
-}
-.examples-intro p {
-  font-size: 1.1rem;
-  color: var(--ink-muted);
-  line-height: 1.7;
-}
+/* ── EXAMPLES GRID ───────────────────────── */
 .examples-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
 }
-@media (max-width: 992px) {
-  .examples-grid { grid-template-columns: repeat(2, 1fr); }
+@media(max-width:992px) { .examples-grid { grid-template-columns: repeat(2,1fr); } }
+@media(max-width:600px) { .examples-grid { grid-template-columns: 1fr; } }
+.ex-card {
+  background: var(--bg-card); border: 1.5px solid var(--line);
+  border-radius: var(--radius); padding: 28px 24px;
+  box-shadow: var(--shadow); transition: all .25s ease;
 }
-@media (max-width: 600px) {
-  .examples-grid { grid-template-columns: 1fr; }
+.ex-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); border-color: var(--brand-border); }
+.ex-icon {
+  width: 48px; height: 48px; border-radius: 13px;
+  background: var(--brand-soft); display: flex; align-items: center; justify-content: center;
+  margin-bottom: 18px;
 }
-.example-card {
-  background: var(--bg-card);
-  border: 1px solid var(--line);
-  border-radius: 20px;
-  padding: 28px;
-  transition: all 0.3s ease;
-}
-.example-card:hover {
-  border-color: var(--line-gold);
-  transform: translateY(-4px);
-}
-.example-icon {
-  width: 52px;
-  height: 52px;
-  background: var(--gold-dim);
-  border-radius: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 20px;
-}
-.example-icon i { font-size: 1.3rem; color: var(--gold); }
-.example-card h3 {
-  font-size: 1.1rem;
-  font-weight: 700;
-  margin: 0 0 10px;
-}
-.example-card p {
-  font-size: 0.9rem;
-  color: var(--ink-muted);
-  margin: 0 0 16px;
-  line-height: 1.6;
-}
-.example-freq {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--success);
-  background: rgba(34, 197, 94, 0.1);
-  padding: 6px 12px;
-  border-radius: 999px;
+.ex-icon i { font-size: 1.2rem; color: var(--brand); }
+.ex-card h3 { font-size: 1rem; font-weight: 700; margin: 0 0 8px; color: var(--text); }
+.ex-card p { font-size: .88rem; color: var(--muted); margin: 0 0 14px; line-height: 1.6; font-style: italic; }
+.ex-speed {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: .78rem; font-weight: 700; color: var(--green);
+  background: var(--green-soft); padding: 5px 11px; border-radius: 999px;
 }
 
-/* SERVICES GRID */
+/* ── INCLUDED SERVICES ───────────────────── */
 .services-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
+  display: grid; grid-template-columns: repeat(3,1fr); gap: 20px;
 }
-@media (max-width: 992px) {
-  .services-grid { grid-template-columns: repeat(2, 1fr); }
+@media(max-width:992px) { .services-grid { grid-template-columns: repeat(2,1fr); } }
+@media(max-width:600px) { .services-grid { grid-template-columns: 1fr; } }
+.svc-card {
+  background: var(--bg-card); border: 1.5px solid var(--line);
+  border-radius: var(--radius); padding: 32px 28px;
+  box-shadow: var(--shadow); transition: all .25s ease;
+  position: relative; overflow: hidden;
 }
-@media (max-width: 600px) {
-  .services-grid { grid-template-columns: 1fr; }
+.svc-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--brand), #a06dd8);
+  transform: scaleX(0); transform-origin: left; transition: transform .3s ease;
 }
-
-.service-card {
-  background: var(--bg-elevated);
-  border: 1px solid var(--line);
-  border-radius: 20px;
-  padding: 32px 28px;
-  transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
-}
-.service-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, var(--gold), transparent);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-.service-card:hover {
-  border-color: var(--line-gold);
-  transform: translateY(-4px);
-  box-shadow: 0 20px 50px rgba(0,0,0,0.4);
-}
-.service-card:hover::before { opacity: 1; }
-
-.service-icon {
-  width: 56px;
-  height: 56px;
-  background: var(--gold-dim);
-  border-radius: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.svc-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); }
+.svc-card:hover::before { transform: scaleX(1); }
+.svc-icon {
+  width: 52px; height: 52px; border-radius: 14px;
+  background: var(--brand-soft); display: flex; align-items: center; justify-content: center;
   margin-bottom: 20px;
 }
-.service-icon i { font-size: 1.4rem; color: var(--gold); }
-
-.service-card h3 {
-  font-size: 1.2rem;
-  font-weight: 700;
-  margin: 0 0 12px;
-}
-.service-card p {
-  font-size: 0.95rem;
-  color: var(--ink-muted);
-  margin: 0;
-  line-height: 1.6;
+.svc-icon i { font-size: 1.3rem; color: var(--brand); }
+.svc-card h3 { font-size: 1.05rem; font-weight: 700; margin: 0 0 10px; color: var(--text); }
+.svc-card p { font-size: .9rem; color: var(--muted); margin: 0; line-height: 1.65; }
+.svc-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+.svc-tag {
+  font-size: .75rem; font-weight: 600; color: var(--brand);
+  background: var(--brand-soft); border-radius: 999px; padding: 4px 10px;
 }
 
-/* TESTIMONIAL */
-.testimonial-section {
-  background: linear-gradient(135deg, rgba(120,81,169,0.1) 0%, rgba(255,215,0,0.05) 100%);
-  padding: clamp(80px, 12vh, 120px) 0;
-}
-.testimonial-content {
-  max-width: 800px;
-  margin: 0 auto;
-  text-align: center;
-}
-.testimonial-quote {
-  font-size: clamp(1.4rem, 3vw, 2rem);
-  font-weight: 500;
-  line-height: 1.6;
-  margin-bottom: 32px;
+/* ── HOW IT WORKS ────────────────────────── */
+.steps-wrap {
+  display: grid; grid-template-columns: repeat(3,1fr); gap: 0;
   position: relative;
 }
-.testimonial-quote::before {
-  content: '';
-  position: absolute;
-  top: -20px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 6rem;
-  color: var(--gold);
-  opacity: 0.2;
-  font-family: Georgia, serif;
-  line-height: 1;
+.steps-connector {
+  position: absolute; top: 32px; left: calc(16.7% + 16px); right: calc(16.7% + 16px);
+  height: 2px; background: linear-gradient(90deg, var(--brand), rgba(120,81,169,.3));
+  z-index: 0;
 }
-.testimonial-author {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
+@media(max-width:768px) { .steps-wrap { grid-template-columns: 1fr; gap: 24px; } .steps-connector { display: none; } }
+.step {
+  text-align: center; padding: 40px 28px;
+  background: var(--bg-card); border: 1.5px solid var(--line);
+  border-radius: var(--radius); position: relative; z-index: 1;
+  margin: 0 10px; box-shadow: var(--shadow); transition: all .25s;
 }
-.testimonial-avatar {
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  background: var(--gold-dim);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.5rem;
-  color: var(--gold);
+.step:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); }
+.step-num {
+  width: 56px; height: 56px; border-radius: 50%;
+  background: var(--brand); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.3rem; font-weight: 800; margin: 0 auto 20px;
+  box-shadow: 0 6px 20px rgba(120,81,169,0.3);
 }
-.testimonial-info { text-align: left; }
-.testimonial-name { font-weight: 700; font-size: 1.1rem; }
-.testimonial-business { color: var(--ink-muted); font-size: 0.9rem; }
-
-/* HOW IT WORKS */
-.steps-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 32px;
-  position: relative;
-}
-.steps-grid::before {
-  content: '';
-  position: absolute;
-  top: 24px;
-  left: 15%;
-  right: 15%;
-  height: 2px;
-  background: linear-gradient(90deg, var(--gold), var(--purple), var(--gold));
-  opacity: 0.3;
-}
-@media (max-width: 768px) {
-  .steps-grid { grid-template-columns: 1fr; }
-  .steps-grid::before { display: none; }
+.step h3 { font-size: 1.1rem; font-weight: 700; margin: 0 0 10px; color: var(--text); }
+.step p { font-size: .9rem; color: var(--muted); margin: 0; line-height: 1.65; }
+.step-note {
+  display: inline-block; margin-top: 12px;
+  font-size: .78rem; font-weight: 600; color: var(--green);
+  background: var(--green-soft); border-radius: 999px; padding: 4px 12px;
 }
 
-.step-card {
-  text-align: center;
-  padding: 40px 28px;
-  background: var(--bg-elevated);
-  border: 1px solid var(--line);
-  border-radius: 20px;
-  position: relative;
-}
-.step-number {
-  width: 52px;
-  height: 52px;
-  background: var(--gold);
-  color: #1a1a2e;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.4rem;
-  font-weight: 800;
-  margin: 0 auto 20px;
-  position: relative;
-  z-index: 2;
-}
-.step-card h3 {
-  font-size: 1.15rem;
-  font-weight: 700;
-  margin: 0 0 12px;
-}
-.step-card p {
-  font-size: 0.95rem;
-  color: var(--ink-muted);
-  margin: 0;
-  line-height: 1.6;
-}
-
-/* FAQ */
-.faq-grid {
-  max-width: 800px;
-  margin: 0 auto;
-}
+/* ── FAQ ─────────────────────────────────── */
+.faq-wrap { max-width: 760px; margin: 0 auto; }
 .faq-item {
-  background: var(--bg-elevated);
-  border: 1px solid var(--line);
-  border-radius: 16px;
-  margin-bottom: 16px;
+  background: var(--bg-card); border: 1.5px solid var(--line);
+  border-radius: var(--radius); margin-bottom: 12px;
+  box-shadow: var(--shadow); transition: border-color .2s;
   overflow: hidden;
 }
+.faq-item:hover { border-color: var(--brand-border); }
 .faq-item summary {
-  padding: 20px 24px;
-  font-weight: 600;
-  font-size: 1rem;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  list-style: none;
+  padding: 20px 24px; font-weight: 700; font-size: .97rem;
+  cursor: pointer; display: flex; align-items: center; justify-content: space-between;
+  list-style: none; color: var(--text);
 }
 .faq-item summary::-webkit-details-marker { display: none; }
-.faq-item summary::after {
-  content: '+';
-  font-size: 1.5rem;
-  color: var(--gold);
-  transition: transform 0.2s ease;
+.faq-toggle {
+  width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
+  background: var(--brand-soft); color: var(--brand);
+  display: flex; align-items: center; justify-content: center;
+  font-size: .9rem; transition: transform .25s, background .2s;
 }
-.faq-item[open] summary::after {
-  transform: rotate(45deg);
+details[open] .faq-toggle { transform: rotate(45deg); background: var(--brand); color: #fff; }
+.faq-item .faq-body {
+  padding: 0 24px 20px; color: var(--muted); font-size: .92rem; line-height: 1.7; margin: 0;
 }
-.faq-item p {
-  padding: 0 24px 20px;
-  margin: 0;
-  color: var(--ink-muted);
-  line-height: 1.6;
-}
-.faq-item a { color: var(--gold); text-decoration: underline; }
+.faq-item .faq-body a { color: var(--brand); text-decoration: underline; }
 
-/* Final CTA */
-.final-cta {
-  background:
-    linear-gradient(135deg, rgba(120,81,169,0.15) 0%, rgba(255,215,0,0.1) 100%),
-    var(--bg);
-  padding: clamp(100px, 15vh, 10vh) 0;
-  text-align: center;
+/* ── CTA STRIP ───────────────────────────── */
+.cta-strip {
+  background: var(--brand); padding: clamp(64px,9vh,96px) 20px;
+  text-align: center; position: relative; overflow: hidden;
 }
-.final-cta h2 {
-  font-size: clamp(2.2rem, 5vw, 3.5rem);
-  font-weight: 600;
-  margin: 0 0 20px;
+.cta-strip::before {
+  content: ''; position: absolute; top: -100px; right: -100px;
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 60%);
+  pointer-events: none;
 }
-.final-cta p {
-  font-size: 1.2rem;
-  color: var(--ink-muted);
-  max-width: 550px;
-  margin: 0 auto 36px;
-  line-height: 1.6;
+.cta-strip h2 {
+  font-size: clamp(1.8rem,4vw,2.8rem); font-weight: 800;
+  letter-spacing: -.025em; color: #fff; margin-bottom: 16px;
 }
-.final-cta-guarantee {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 0.95rem;
-  color: var(--ink-muted);
-  margin-top: 24px;
+.cta-strip p { font-size: 1.1rem; color: rgba(255,255,255,.78); max-width: 520px; margin: 0 auto 36px; line-height: 1.65; }
+.cta-strip .btn-white {
+  display: inline-flex; align-items: center; gap: 9px;
+  background: #fff; color: var(--brand); border: none;
+  border-radius: var(--radius); padding: 15px 30px;
+  font-weight: 700; font-size: 1rem;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.15); transition: all .2s;
 }
-.final-cta-guarantee i { color: var(--success); }
+.cta-strip .btn-white:hover { transform: translateY(-2px); box-shadow: 0 14px 40px rgba(0,0,0,0.2); color: var(--brand); text-decoration: none; }
+.cta-strip .btn-outline-white {
+  display: inline-flex; align-items: center; gap: 9px;
+  background: transparent; color: #fff; border: 2px solid rgba(255,255,255,.5);
+  border-radius: var(--radius); padding: 13px 28px;
+  font-weight: 600; font-size: 1rem; transition: all .2s;
+}
+.cta-strip .btn-outline-white:hover { border-color: #fff; color: #fff; text-decoration: none; }
+.cta-btns { display: flex; justify-content: center; flex-wrap: wrap; gap: 14px; }
+.guarantee-note {
+  margin-top: 24px; font-size: .9rem; color: rgba(255,255,255,.7);
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.guarantee-note i { color: rgba(255,255,255,.9); }
 
-/* Footer */
+/* ── FOOTER ──────────────────────────────── */
 footer {
-  background: #000;
-  padding: 60px 20px 40px;
+  background: #000; padding: 60px 20px 40px;
   border-top: 1px solid rgba(255,255,255,0.08);
 }
 .footer-grid {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr;
-  gap: 48px;
-  max-width: 1100px;
-  margin: 0 auto 48px;
-  text-align: left;
+  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 48px; max-width: 1100px; margin: 0 auto 48px; text-align: left;
 }
-@media (max-width: 768px) {
-  .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
-}
-@media (max-width: 480px) {
-  .footer-grid { grid-template-columns: 1fr; gap: 28px; }
-}
-.footer-brand {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 16px;
-}
+@media(max-width:768px) { .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; } }
+@media(max-width:480px) { .footer-grid { grid-template-columns: 1fr; gap: 28px; } }
+.footer-brand { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
 .footer-brand img { height: 32px; }
 .footer-brand span { font-weight: 700; font-size: 1.1rem; color: #fff; }
-.footer-tagline {
-  color: #a0a6c0;
-  font-size: 0.9rem;
-  line-height: 1.6;
-  margin-bottom: 20px;
-  max-width: 280px;
-}
-.footer-social {
-  display: flex;
-  gap: 12px;
-}
+.footer-tagline { color: #a0a6c0; font-size: .9rem; line-height: 1.6; margin-bottom: 20px; max-width: 280px; }
+.footer-social { display: flex; gap: 12px; }
 .footer-social a {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  background: rgba(255, 255, 255, 0.06);
-  border-radius: 10px;
-  color: #a0a6c0;
-  font-size: 1rem;
-  transition: all 0.2s ease;
+  display: flex; align-items: center; justify-content: center;
+  width: 36px; height: 36px; background: rgba(255,255,255,.06);
+  border-radius: 10px; color: #a0a6c0; font-size: 1rem; transition: all .2s;
 }
-.footer-social a:hover {
-  background: var(--gold);
-  color: #1a1a2e;
-}
-.footer-col h5 {
-  font-size: 0.85rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: #fff;
-  margin: 0 0 16px;
-}
+.footer-social a:hover { background: var(--gold); color: #1a1a2e; }
+.footer-col h5 { font-size: .85rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: #fff; margin: 0 0 16px; }
 .footer-col ul { list-style: none; padding: 0; margin: 0; }
 .footer-col li { margin-bottom: 10px; }
-.footer-col a {
-  color: #a0a6c0;
-  font-size: 0.9rem;
-  transition: color 0.2s ease;
-}
+.footer-col a { color: #a0a6c0; font-size: .9rem; transition: color .2s; }
 .footer-col a:hover { color: var(--gold); }
 .footer-bottom {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding-top: 24px;
+  max-width: 1100px; margin: 0 auto; padding-top: 24px;
   border-top: 1px solid rgba(255,255,255,.08);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 16px;
+  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;
 }
-.footer-bottom p { color: #6b7280; font-size: 0.85rem; margin: 0; }
+.footer-bottom p { color: #6b7280; font-size: .85rem; margin: 0; }
 .footer-legal { display: flex; gap: 24px; }
-.footer-legal a { color: #6b7280; font-size: 0.85rem; transition: color 0.2s ease; }
+.footer-legal a { color: #6b7280; font-size: .85rem; transition: color .2s; }
 .footer-legal a:hover { color: var(--gold); }
-@media (max-width: 600px) {
-  .footer-bottom { flex-direction: column; text-align: center; }
-}
+@media(max-width:600px) { .footer-bottom { flex-direction: column; text-align: center; } }
 
-/* Animations */
-.reveal {
-  opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
+/* ── ANIMATIONS ──────────────────────────── */
+[data-anim] {
+  opacity: 0; transition: opacity .65s ease, transform .65s ease;
 }
-.reveal.in-view {
-  opacity: 1;
-  transform: translateY(0);
-}
-.reveal-delay-1 { transition-delay: 0.1s; }
-.reveal-delay-2 { transition-delay: 0.2s; }
-.reveal-delay-3 { transition-delay: 0.3s; }
-
-@media (max-width: 768px) {
-  .hero-value-props { flex-direction: column; gap: 12px; }
-}
+[data-anim="fade-up"]    { transform: translateY(32px); }
+[data-anim="fade-left"]  { transform: translateX(-28px); }
+[data-anim="fade-right"] { transform: translateX(28px); }
+[data-anim="scale-in"]   { transform: scale(0.92); }
+[data-anim].anim-in      { opacity: 1; transform: none; }
+[data-delay="1"] { transition-delay: .1s; }
+[data-delay="2"] { transition-delay: .18s; }
+[data-delay="3"] { transition-delay: .28s; }
+[data-delay="4"] { transition-delay: .38s; }
+[data-delay="5"] { transition-delay: .48s; }
+[data-delay="6"] { transition-delay: .58s; }
+[data-delay="7"] { transition-delay: .68s; }
+[data-delay="8"] { transition-delay: .78s; }
+[data-delay="9"] { transition-delay: .88s; }
 </style>
 </head>
-
 <body>
 
 <!-- NAV -->
@@ -864,43 +500,33 @@ footer {
 <!-- HERO -->
 <header class="hero">
   <div class="container container-narrow">
-    <div class="hero-content">
+    <div class="hero-inner">
 
-      <div class="unlimited-badge reveal">
-        <i class="fas fa-infinity"></i>
-        Truly Unlimited Maintenance
+      <div class="hero-badge" data-anim="fade-up">
+        <i class="fas fa-infinity"></i> Unlimited Maintenance
       </div>
 
-      <h1 class="headline reveal reveal-delay-1">
-        Your website, always current.
-        <span class="highlight">Zero per-change fees.</span>
+      <h1 data-anim="fade-up" data-delay="1">
+        Your website stays <span class="accent">current and healthy</span> — we handle everything.
       </h1>
 
-      <p class="hero-sub reveal reveal-delay-2">
-        Traditional agencies charge <strong>$50-150 per update</strong>. We include unlimited maintenance<a href="#fair-use-note" style="text-decoration:none;color:var(--gold);"><sup>1</sup></a> in your plan. Content updates, performance fixes, security monitoring. All handled by us, with a <strong>24-48hr turnaround</strong>.
+      <p class="hero-sub" data-anim="fade-up" data-delay="2">
+        Traditional agencies charge <strong>$50–$150 per update</strong> and make you wait days for a simple text change. With WebEaze, you send a request and it's done — <strong>no invoices, no tickets, no waiting</strong>. Unlimited changes are included in your plan.
       </p>
 
-      <div class="hero-value-props reveal reveal-delay-2">
-        <div class="hero-value-prop">
-          <i class="fas fa-check-circle"></i>
-          <span>Unlimited updates<a href="#fair-use-note" style="text-decoration:none;color:var(--gold);"><sup>1</sup></a></span>
-        </div>
-        <div class="hero-value-prop">
-          <i class="fas fa-check-circle"></i>
-          <span>24-48hr turnaround</span>
-        </div>
-        <div class="hero-value-prop">
-          <i class="fas fa-check-circle"></i>
-          <span>Real human support</span>
-        </div>
+      <div class="hero-props" data-anim="fade-up" data-delay="3">
+        <span class="hero-prop"><i class="fas fa-check-circle"></i> Unlimited updates<sup style="font-size:.65rem;color:var(--brand);margin-left:2px">1</sup></span>
+        <span class="hero-prop"><i class="fas fa-check-circle"></i> 24–48hr turnaround</span>
+        <span class="hero-prop"><i class="fas fa-check-circle"></i> No extra fees, ever</span>
+        <span class="hero-prop"><i class="fas fa-check-circle"></i> Same team, every time</span>
       </div>
 
-      <div class="cta-group reveal reveal-delay-3">
+      <div class="cta-row" data-anim="fade-up" data-delay="4">
         <a href="consultation.html" class="btn-primary">
-          <i class="fas fa-calendar-check"></i> Get Started Today
+          <i class="fas fa-calendar-check"></i> Get Started — Free Mockup
         </a>
-        <a href="#comparison" class="btn-secondary">
-          <i class="fas fa-balance-scale"></i> See the Difference
+        <a href="#comparison" class="btn-ghost">
+          <i class="fas fa-balance-scale"></i> See How We're Different
         </a>
       </div>
 
@@ -909,346 +535,353 @@ footer {
 </header>
 
 
-<!-- MEGA STATS -->
-<section class="mega-stats">
-  <div class="container container-narrow">
-    <div class="stats-grid">
-
-      <div class="stat-card reveal">
-        <div class="stat-value">$0</div>
-        <div class="stat-label">Per-change fees</div>
-      </div>
-
-      <div class="stat-card reveal reveal-delay-1">
-        <div class="stat-value">24hr</div>
-        <div class="stat-label">Typical turnaround</div>
-      </div>
-
-      <div class="stat-card reveal reveal-delay-2">
-        <div class="stat-value">∞</div>
-        <div class="stat-label">Updates included</div>
-      </div>
-
-      <div class="stat-card reveal reveal-delay-3">
-        <div class="stat-value">100%</div>
-        <div class="stat-label">Human-powered</div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-
-<!-- WHY WE'RE DIFFERENT -->
-<section class="section comparison-section" id="comparison">
+<!-- COMPARISON -->
+<section id="comparison" class="section-alt" style="padding: clamp(72px,10vh,110px) 20px;">
   <div class="container container-narrow">
 
-    <div class="section-header reveal">
-      <div class="kicker"><i class="fas fa-star"></i> Why We're Different</div>
-      <h2>Traditional maintenance vs. WebEaze</h2>
-      <p>Most agencies profit from keeping you dependent. We profit from keeping you happy.</p>
+    <div class="section-header" data-anim="fade-up">
+      <div class="kicker"><i class="fas fa-star"></i> Why WebEaze</div>
+      <h2>Stop paying per change.</h2>
+      <p>Most web agencies profit from keeping you dependent. Every update becomes a billable event. WebEaze works differently — one monthly plan covers everything, forever.</p>
     </div>
 
     <div class="comparison-grid">
 
-      <div class="comparison-card others reveal">
-        <div class="comparison-title">
-          <i class="fas fa-building"></i>
-          Traditional Agencies
+      <div class="comp-card others" data-anim="fade-left">
+        <div class="comp-header">
+          <i class="fas fa-building"></i> Traditional Agencies
         </div>
-        <div class="comparison-subtitle">The expensive, slow way</div>
-        <ul class="comparison-list">
-          <li><i class="fas fa-times"></i> $50-150 per small change</li>
-          <li><i class="fas fa-times"></i> 3-5 day wait times (or more)</li>
-          <li><i class="fas fa-times"></i> Complicated ticketing systems</li>
-          <li><i class="fas fa-times"></i> Extra charges for "rush" work</li>
-          <li><i class="fas fa-times"></i> Different person each time</li>
-          <li><i class="fas fa-times"></i> Surprise invoices monthly</li>
+        <div class="comp-tag">The expensive way</div>
+        <hr class="comp-divider">
+        <ul class="comp-list">
+          <li><i class="fas fa-times-circle"></i> $50–$150 charged per small change</li>
+          <li><i class="fas fa-times-circle"></i> 3–7 day wait times on routine updates</li>
+          <li><i class="fas fa-times-circle"></i> Submit a ticket, wait for approval, wait more</li>
+          <li><i class="fas fa-times-circle"></i> "Rush" fees if you need it fast</li>
+          <li><i class="fas fa-times-circle"></i> New freelancer every time — re-explain everything</li>
+          <li><i class="fas fa-times-circle"></i> Surprise invoices each month</li>
+          <li><i class="fas fa-times-circle"></i> You're responsible for remembering updates</li>
         </ul>
       </div>
 
-      <div class="comparison-card webeaze reveal reveal-delay-1">
-        <div class="comparison-title">
-          <i class="fas fa-rocket"></i>
-          WebEaze
+      <div class="comp-card webeaze" data-anim="fade-right">
+        <div class="comp-header">
+          <i class="fas fa-rocket"></i> WebEaze
         </div>
-        <div class="comparison-subtitle">Simple, unlimited, predictable</div>
-        <ul class="comparison-list">
-          <li><i class="fas fa-check"></i> Unlimited updates, one flat fee</li>
-          <li><i class="fas fa-check"></i> 24-48hr turnaround; usually faster</li>
-          <li><i class="fas fa-check"></i> Just contact us</li>
-          <li><i class="fas fa-check"></i> Urgent requests prioritized free</li>
-          <li><i class="fas fa-check"></i> Same team who knows your site</li>
-          <li><i class="fas fa-check"></i> Predictable monthly cost always</li>
+        <div class="comp-tag">Simple and predictable</div>
+        <hr class="comp-divider">
+        <ul class="comp-list">
+          <li><i class="fas fa-check-circle"></i> Unlimited updates — one flat monthly fee</li>
+          <li><i class="fas fa-check-circle"></i> 24–48hr turnaround; often same day</li>
+          <li><i class="fas fa-check-circle"></i> Just send us a message — that's the whole process</li>
+          <li><i class="fas fa-check-circle"></i> Urgent requests prioritized at no extra cost</li>
+          <li><i class="fas fa-check-circle"></i> Same team who already knows your site</li>
+          <li><i class="fas fa-check-circle"></i> One predictable bill, always</li>
+          <li><i class="fas fa-check-circle"></i> We proactively catch issues before you notice</li>
         </ul>
       </div>
 
     </div>
-
   </div>
 </section>
 
 
-<!-- WHAT UNLIMITED REALLY MEANS -->
-<section class="section examples-section">
+<!-- WHAT UNLIMITED MEANS -->
+<section style="padding: clamp(72px,10vh,110px) 20px; background: var(--bg);">
   <div class="container container-narrow">
 
-    <div class="examples-intro reveal">
-      <h2>What "unlimited"<a href="#fair-use-note" style="text-decoration:none;color:var(--gold);"><sup>1</sup></a> really means</h2>
-      <p>Send as many requests as you need, whenever you need them. Here's what clients request, and we deliver every time.</p>
+    <div class="section-header" data-anim="fade-up">
+      <div class="kicker"><i class="fas fa-infinity"></i> What Unlimited Looks Like</div>
+      <h2>Real requests. Handled daily.</h2>
+      <p>These are actual types of requests WebEaze clients send — and we complete them as part of your plan. No extra charge, no back-and-forth about cost.</p>
     </div>
 
     <div class="examples-grid">
 
-      <article class="example-card reveal">
-        <div class="example-icon"><i class="fas fa-image"></i></div>
-        <h3>Swap photos</h3>
-        <p>"Replace the hero image and add these new product shots to the gallery."</p>
-        <div class="example-freq"><i class="fas fa-bolt"></i> Done in hours</div>
+      <article class="ex-card" data-anim="fade-up" data-delay="1">
+        <div class="ex-icon"><i class="fas fa-image"></i></div>
+        <h3>Swap photos & images</h3>
+        <p>"Replace the hero with these new shots and add 4 photos to the gallery."</p>
+        <span class="ex-speed"><i class="fas fa-bolt"></i> Done in hours</span>
       </article>
 
-      <article class="example-card reveal reveal-delay-1">
-        <div class="example-icon"><i class="fas fa-clock"></i></div>
-        <h3>Update hours</h3>
-        <p>"We're closed Monday for the holiday. Update the site please."</p>
-        <div class="example-freq"><i class="fas fa-bolt"></i> Done in hours</div>
+      <article class="ex-card" data-anim="fade-up" data-delay="2">
+        <div class="ex-icon"><i class="fas fa-clock"></i></div>
+        <h3>Update hours or info</h3>
+        <p>"We're closed Monday for the holiday — update the site."</p>
+        <span class="ex-speed"><i class="fas fa-bolt"></i> Done same day</span>
       </article>
 
-      <article class="example-card reveal reveal-delay-2">
-        <div class="example-icon"><i class="fas fa-bullhorn"></i></div>
+      <article class="ex-card" data-anim="fade-up" data-delay="3">
+        <div class="ex-icon"><i class="fas fa-bullhorn"></i></div>
         <h3>Add promotions</h3>
-        <p>"Running a 20% off sale this weekend. Add a homepage banner."</p>
-        <div class="example-freq"><i class="fas fa-bolt"></i> Done in hours</div>
+        <p>"Running 20% off this weekend. Add a banner to the homepage."</p>
+        <span class="ex-speed"><i class="fas fa-bolt"></i> Done in hours</span>
       </article>
 
-      <article class="example-card reveal">
-        <div class="example-icon"><i class="fas fa-tachometer-alt"></i></div>
-        <h3>Speed optimization</h3>
-        <p>"Site feels slow lately. Can you speed it up?"</p>
-        <div class="example-freq"><i class="fas fa-bolt"></i> Same day</div>
+      <article class="ex-card" data-anim="fade-up" data-delay="4">
+        <div class="ex-icon"><i class="fas fa-file-alt"></i></div>
+        <h3>Add a new service page</h3>
+        <p>"We launched gutter cleaning — build a page for it."</p>
+        <span class="ex-speed"><i class="fas fa-bolt"></i> Done in 1–3 days</span>
       </article>
 
-      <article class="example-card reveal reveal-delay-1">
-        <div class="example-icon"><i class="fas fa-bug"></i></div>
-        <h3>Fix issues</h3>
-        <p>"Contact form stopped working. Can you check it?"</p>
-        <div class="example-freq"><i class="fas fa-bolt"></i> Priority response</div>
+      <article class="ex-card" data-anim="fade-up" data-delay="5">
+        <div class="ex-icon"><i class="fas fa-tachometer-alt"></i></div>
+        <h3>Speed improvements</h3>
+        <p>"Site feels slow lately. Can you look at it?"</p>
+        <span class="ex-speed"><i class="fas fa-bolt"></i> Investigated same day</span>
       </article>
 
-      <article class="example-card reveal reveal-delay-2">
-        <div class="example-icon"><i class="fas fa-search"></i></div>
-        <h3>SEO updates</h3>
-        <p>"Update our meta descriptions and add alt text to images."</p>
-        <div class="example-freq"><i class="fas fa-bolt"></i> Included in plan</div>
+      <article class="ex-card" data-anim="fade-up" data-delay="6">
+        <div class="ex-icon"><i class="fas fa-bug"></i></div>
+        <h3>Fix broken things</h3>
+        <p>"The contact form stopped sending emails. Fix it."</p>
+        <span class="ex-speed"><i class="fas fa-bolt"></i> Priority response</span>
       </article>
 
-      <article class="example-card reveal">
-        <div class="example-icon"><i class="fas fa-file-alt"></i></div>
-        <h3>New pages</h3>
-        <p>"We launched a new service. Add a page for it."</p>
-        <div class="example-freq"><i class="fas fa-bolt"></i> Three days</div>
+      <article class="ex-card" data-anim="fade-up" data-delay="7">
+        <div class="ex-icon"><i class="fas fa-search"></i></div>
+        <h3>SEO tweaks</h3>
+        <p>"Update our meta descriptions and add alt text to new images."</p>
+        <span class="ex-speed"><i class="fas fa-bolt"></i> Done in 24hrs</span>
       </article>
 
-      <article class="example-card reveal reveal-delay-1">
-        <div class="example-icon"><i class="fas fa-shield-alt"></i></div>
-        <h3>Security checks</h3>
-        <p>"Make sure the site is secure and backed up."</p>
-        <div class="example-freq"><i class="fas fa-bolt"></i> Always monitored</div>
-      </article>
-
-      <article class="example-card reveal reveal-delay-2">
-        <div class="example-icon"><i class="fas fa-mobile-alt"></i></div>
+      <article class="ex-card" data-anim="fade-up" data-delay="8">
+        <div class="ex-icon"><i class="fas fa-mobile-alt"></i></div>
         <h3>Mobile fixes</h3>
-        <p>"The menu is hard to tap on phones. Fix it."</p>
-        <div class="example-freq"><i class="fas fa-bolt"></i> Done same day</div>
+        <p>"The menu is hard to tap on phones. Can you fix the spacing?"</p>
+        <span class="ex-speed"><i class="fas fa-bolt"></i> Done same day</span>
       </article>
 
-    </div>
+      <article class="ex-card" data-anim="fade-up" data-delay="9">
+        <div class="ex-icon"><i class="fas fa-palette"></i></div>
+        <h3>Design tweaks</h3>
+        <p>"Can we make the pricing section stand out more on mobile?"</p>
+        <span class="ex-speed"><i class="fas fa-bolt"></i> Done in 1–2 days</span>
+      </article>
 
-  </div>
-</section>
-
-
-<!-- TESTIMONIAL -->
-<section class="testimonial-section">
-  <div class="container container-narrow">
-    <div class="testimonial-content reveal">
-      <blockquote class="testimonial-quote">
-        Before WebEaze, every website change cost me $75 and took a week. Now I text them and it's done by lunch. I've probably saved thousands this year alone.
-      </blockquote>
-      <div class="testimonial-author">
-        <div class="testimonial-avatar">
-          <i class="fas fa-user"></i>
-        </div>
-        <div class="testimonial-info">
-          <div class="testimonial-name">Sarah M.</div>
-          <div class="testimonial-business">Ultopic Solutions</div>
-        </div>
-      </div>
     </div>
   </div>
 </section>
 
 
 <!-- WHAT'S INCLUDED -->
-<section class="section">
+<section class="section-alt" style="padding: clamp(72px,10vh,110px) 20px;">
   <div class="container container-narrow">
 
-    <div class="section-header reveal">
-      <div class="kicker"><i class="fas fa-cogs"></i> Full-Service Maintenance</div>
-      <h2>Everything your website needs</h2>
-      <p>We don't just fix things when they break. We actively maintain, optimize, and improve your site.</p>
+    <div class="section-header" data-anim="fade-up">
+      <div class="kicker"><i class="fas fa-cogs"></i> Full Coverage</div>
+      <h2>Everything your website needs, covered.</h2>
+      <p>We don't just respond to requests — we actively maintain, monitor, and improve your site so you never have to worry about it.</p>
     </div>
 
     <div class="services-grid">
 
-      <article class="service-card reveal">
-        <div class="service-icon"><i class="fas fa-edit"></i></div>
+      <article class="svc-card" data-anim="scale-in" data-delay="1">
+        <div class="svc-icon"><i class="fas fa-edit"></i></div>
         <h3>Content Updates</h3>
-        <p>Text, photos, banners, promotions, pricing changes. Just tell us what you need.</p>
+        <p>Text, photos, banners, seasonal promotions, pricing changes, staff profiles — anything visible on your site. Just tell us what you need and it's handled.</p>
+        <div class="svc-tags">
+          <span class="svc-tag">Text & copy</span>
+          <span class="svc-tag">Images</span>
+          <span class="svc-tag">Banners</span>
+        </div>
       </article>
 
-      <article class="service-card reveal reveal-delay-1">
-        <div class="service-icon"><i class="fas fa-tachometer-alt"></i></div>
+      <article class="svc-card" data-anim="scale-in" data-delay="2">
+        <div class="svc-icon"><i class="fas fa-tachometer-alt"></i></div>
         <h3>Speed & Performance</h3>
-        <p>Optimize images, clean code, improve load times, mobile testing.</p>
+        <p>Slow pages cost you customers. We optimize images, compress code, and improve load times — keeping your site fast on every device.</p>
+        <div class="svc-tags">
+          <span class="svc-tag">Image optimization</span>
+          <span class="svc-tag">Load time</span>
+          <span class="svc-tag">Core Web Vitals</span>
+        </div>
       </article>
 
-      <article class="service-card reveal reveal-delay-2">
-        <div class="service-icon"><i class="fas fa-search"></i></div>
-        <h3>SEO Basics</h3>
-        <p>Titles, descriptions, alt text, indexing checks. Core essentials included.</p>
+      <article class="svc-card" data-anim="scale-in" data-delay="3">
+        <div class="svc-icon"><i class="fas fa-search"></i></div>
+        <h3>SEO Maintenance</h3>
+        <p>Page titles, meta descriptions, alt text, schema markup, and indexing checks — the on-page SEO essentials that keep you visible in search.</p>
+        <div class="svc-tags">
+          <span class="svc-tag">On-page SEO</span>
+          <span class="svc-tag">Meta tags</span>
+          <span class="svc-tag">Alt text</span>
+        </div>
       </article>
 
-      <article class="service-card reveal">
-        <div class="service-icon"><i class="fas fa-wrench"></i></div>
+      <article class="svc-card" data-anim="scale-in" data-delay="4">
+        <div class="svc-icon"><i class="fas fa-wrench"></i></div>
         <h3>Fixes & Troubleshooting</h3>
-        <p>Broken links, layout issues, form errors, display bugs. All handled.</p>
+        <p>Broken links, layout issues, form errors, display bugs on certain devices — if something's wrong, we find it and fix it. No extra charge.</p>
+        <div class="svc-tags">
+          <span class="svc-tag">Bug fixes</span>
+          <span class="svc-tag">Broken links</span>
+          <span class="svc-tag">Form errors</span>
+        </div>
       </article>
 
-      <article class="service-card reveal reveal-delay-1">
-        <div class="service-icon"><i class="fas fa-shield-alt"></i></div>
+      <article class="svc-card" data-anim="scale-in" data-delay="5">
+        <div class="svc-icon"><i class="fas fa-shield-alt"></i></div>
         <h3>Security & Backups</h3>
-        <p>SSL, platform updates, routine monitoring, regular backups.</p>
+        <p>SSL stays active, software gets updated, and your site is backed up regularly. We monitor for threats and act before they become problems.</p>
+        <div class="svc-tags">
+          <span class="svc-tag">SSL monitoring</span>
+          <span class="svc-tag">Backups</span>
+          <span class="svc-tag">Threat detection</span>
+        </div>
       </article>
 
-      <article class="service-card reveal reveal-delay-2">
-        <div class="service-icon"><i class="fas fa-headset"></i></div>
+      <article class="svc-card" data-anim="scale-in" data-delay="6">
+        <div class="svc-icon"><i class="fas fa-headset"></i></div>
         <h3>Real Human Support</h3>
-        <p>Form, video, chat, call. Always someone who actually knows your site.</p>
+        <p>Email, form, video call, or phone — always the same team who knows your site and your business. No hold music, no account numbers, no strangers.</p>
+        <div class="svc-tags">
+          <span class="svc-tag">Email</span>
+          <span class="svc-tag">Video call</span>
+          <span class="svc-tag">Phone</span>
+        </div>
       </article>
 
     </div>
-
   </div>
 </section>
 
 
 <!-- HOW IT WORKS -->
-<section class="section section-dark">
+<section style="padding: clamp(72px,10vh,110px) 20px; background: var(--bg);">
   <div class="container container-narrow">
 
-    <div class="section-header reveal">
-      <div class="kicker"><i class="fas fa-play-circle"></i> How It Works</div>
-      <h2>Simple 3-step process</h2>
-      <p>No complicated systems. Just tell us what you need. </p>
+    <div class="section-header" data-anim="fade-up">
+      <div class="kicker"><i class="fas fa-play-circle"></i> The Process</div>
+      <h2>Send a message. It's done.</h2>
+      <p>That's genuinely how simple it is. No accounts to log into, no project management tools to learn, no back-and-forth negotiating cost.</p>
     </div>
 
-    <div class="steps-grid">
+    <div style="position:relative;">
+      <div class="steps-connector"></div>
+      <div class="steps-wrap">
 
-      <article class="step-card reveal">
-        <div class="step-number">1</div>
-        <h3>Send a request</h3>
-        <p>Form, video, chat, call. Include what you want changed. Screenshots help but aren't required.</p>
-      </article>
+        <article class="step" data-anim="fade-up" data-delay="1">
+          <div class="step-num">1</div>
+          <h3>Tell us what you need</h3>
+          <p>Send a message through our request form, reply to an email, or schedule a quick call. Describe the change in plain English — no technical details required.</p>
+          <span class="step-note">Form, email, or call</span>
+        </article>
 
-      <article class="step-card reveal reveal-delay-1">
-        <div class="step-number">2</div>
-        <h3>We update & test</h3>
-        <p>We make the change, optimize it, and test on mobile + desktop. Quality checked before going live.</p>
-      </article>
+        <article class="step" data-anim="fade-up" data-delay="2">
+          <div class="step-num">2</div>
+          <h3>We handle it</h3>
+          <p>Our team makes the change, optimizes it, and tests it on desktop and mobile. If we have a question, we'll reach out — otherwise you hear back when it's done.</p>
+          <span class="step-note">Quality checked before going live</span>
+        </article>
 
-      <article class="step-card reveal reveal-delay-2">
-        <div class="step-number">3</div>
-        <h3>You approve, it's live</h3>
-        <p>Most updates go live within 24-48 hours. Urgent fixes are prioritized immediately.</p>
-      </article>
+        <article class="step" data-anim="fade-up" data-delay="3">
+          <div class="step-num">3</div>
+          <h3>It's live</h3>
+          <p>Most updates are live within 24–48 hours. Urgent issues like broken forms or downed pages are treated as emergencies and handled immediately.</p>
+          <span class="step-note">Usually same or next day</span>
+        </article>
 
+      </div>
     </div>
-
   </div>
 </section>
 
 
 <!-- FAQ -->
-<section class="section">
+<section class="section-alt" style="padding: clamp(72px,10vh,110px) 20px;">
   <div class="container container-narrow">
 
-    <div class="section-header reveal">
-      <div class="kicker"><i class="fas fa-question-circle"></i> FAQ</div>
-      <h2>Questions about maintenance</h2>
+    <div class="section-header" data-anim="fade-up">
+      <div class="kicker"><i class="fas fa-question-circle"></i> Common Questions</div>
+      <h2>Maintenance questions, answered.</h2>
     </div>
 
-    <div class="faq-grid">
+    <div class="faq-wrap">
 
-      <details class="faq-item reveal">
-        <summary>Is it really unlimited? What's the catch?</summary>
-        <p>Yes, it's truly unlimited<a href="#fair-use-note" style="text-decoration:none;color:var(--gold);"><sup>1</sup></a>. Send as many requests as you need. Includes content changes, photo swaps, new pages, fixes. Our model is built around keeping you happy long-term. See fair use policy below for details.</p>
+      <details class="faq-item" data-anim="fade-up" data-delay="1">
+        <summary>
+          Is it really unlimited? What's the catch?
+          <span class="faq-toggle"><i class="fas fa-plus"></i></span>
+        </summary>
+        <p class="faq-body">Yes — truly unlimited.<sup style="font-size:.65rem;color:var(--brand)">1</sup> Submit as many requests as you need. Content changes, photo swaps, new pages, bug fixes — all included. We do have a fair use policy to protect service quality for all clients (up to 10 requests and 10 hours of work per month), but the vast majority of clients never come close to it.</p>
       </details>
 
-      <details class="faq-item reveal">
-        <summary>What platforms do you support?</summary>
-        <p>WordPress, Wix, Squarespace, Shopify, custom HTML/CSS, and more. See our <a href="providers.html">supported platforms</a> for the full list.</p>
+      <details class="faq-item" data-anim="fade-up" data-delay="2">
+        <summary>
+          How do I actually submit a request?
+          <span class="faq-toggle"><i class="fas fa-plus"></i></span>
+        </summary>
+        <p class="faq-body">You can submit a request through our online request form, reply to any email from our team, schedule a call if it's easier to explain verbally, or record a quick screen video. We accept requests in whatever format is easiest for you — just describe what you want changed.</p>
       </details>
 
-      <details class="faq-item reveal">
-        <summary>How fast are updates completed?</summary>
-        <p>Most updates are done within 24-48 hours, often same-day. Urgent issues (site down, broken forms) are prioritized immediately at no extra cost.</p>
+      <details class="faq-item" data-anim="fade-up" data-delay="3">
+        <summary>
+          How fast are updates completed?
+          <span class="faq-toggle"><i class="fas fa-plus"></i></span>
+        </summary>
+        <p class="faq-body">Most requests are completed within 24–48 hours, and many are done same-day. Urgent issues — like a downed site, broken contact form, or something affecting lead generation — are treated as emergencies and prioritized immediately at no extra cost.</p>
       </details>
 
-      <details class="faq-item reveal">
-        <summary>Can you work on my existing site?</summary>
-        <p>Yes. We improve design, speed, and fix issues on sites you already have. Learn more about our <a href="services.html#manage">existing site management</a>.</p>
+      <details class="faq-item" data-anim="fade-up" data-delay="4">
+        <summary>
+          Can you work on my existing website?
+          <span class="faq-toggle"><i class="fas fa-plus"></i></span>
+        </summary>
+        <p class="faq-body">Yes. WebEaze can take over management of your existing site regardless of platform — WordPress, Wix, Squarespace, Shopify, custom HTML, and more. We'll review your current setup and handle ongoing maintenance from there.</p>
       </details>
 
-      <details class="faq-item reveal">
-        <summary>What if I need something complex?</summary>
-        <p>Custom features like booking systems or e-commerce integrations may have one-time development costs. We're transparent upfront. Regular maintenance is always included.</p>
+      <details class="faq-item" data-anim="fade-up" data-delay="5">
+        <summary>
+          What if I need something more complex, like a booking system?
+          <span class="faq-toggle"><i class="fas fa-plus"></i></span>
+        </summary>
+        <p class="faq-body">Complex new features — booking integrations, e-commerce, custom calculators — may involve a one-time development cost depending on the scope. We'll always give you a clear estimate before doing anything. Routine maintenance, updates, and fixes are always covered in your plan.</p>
+      </details>
+
+      <details class="faq-item" data-anim="fade-up" data-delay="6">
+        <summary>
+          Is there a contract? Can I cancel?
+          <span class="faq-toggle"><i class="fas fa-plus"></i></span>
+        </summary>
+        <p class="faq-body">No contract. WebEaze is month-to-month — cancel anytime with no fees or penalties. We believe in earning your business every month, not locking you in.</p>
       </details>
 
     </div>
-
   </div>
 </section>
 
 
-<!-- FINAL CTA -->
-<section class="final-cta">
-  <div class="container container-narrow">
-    <h2 class="reveal">Ready for stress-free website maintenance?</h2>
-    <p class="reveal reveal-delay-1">Stop paying per change. Get unlimited updates with one predictable monthly fee.</p>
-    <div class="cta-group reveal reveal-delay-2" style="justify-content: center;">
-      <a href="consultation.html" class="btn-primary">
-        <i class="fas fa-calendar-check"></i> Get Started Today
+<!-- CTA -->
+<section class="cta-strip">
+  <div class="container container-narrow" style="position:relative;z-index:2">
+    <h2 data-anim="fade-up">Stop paying per change.</h2>
+    <p data-anim="fade-up" data-delay="1">One monthly plan. Unlimited updates. Real human support. No surprise bills.</p>
+    <div class="cta-btns" data-anim="fade-up" data-delay="2">
+      <a href="consultation.html" class="btn-white">
+        <i class="fas fa-calendar-check"></i> Request Free Mockup
       </a>
-      <a href="pricing.html" class="btn-secondary">
+      <a href="pricing.html" class="btn-outline-white">
         <i class="fas fa-dollar-sign"></i> See Pricing
       </a>
     </div>
-    
+    <div class="guarantee-note" data-anim="fade-up" data-delay="3">
+      <i class="fas fa-shield-alt"></i> Month-to-month — cancel anytime with no fees
+    </div>
   </div>
-
-  
 </section>
 
-<!-- FOOTNOTE -->
-<section id="fair-use-note" style="padding: 60px 20px; background: var(--bg-card); border-top: 1px solid var(--line);">
-  <div class="container container-narrow" style="max-width: 900px;">
-    <p style="font-size: 14px; color: var(--ink-muted); line-height: 1.7; margin: 0;">
-      <strong style="color: var(--gold);"><sup>1</sup> Fair Use Policy:</strong> "Unlimited" means no arbitrary limits on the number of requests you can submit. To keep service quality high for all clients, we enforce a fair use policy: up to 10 support requests per month and up to 10 hours per month for troubleshooting and routine maintenance. Occasional or as-needed overages are welcome and not restricted. Learn more in our <a href="help.html#/fair-use" style="color: var(--gold); text-decoration: underline;">Fair Use Policy</a> or <a href="terms.html#tos-duration" style="color: var(--gold); text-decoration: underline;">Terms of Service</a>.
+
+<!-- FAIR USE FOOTNOTE -->
+<div id="fair-use-note" style="padding:40px 20px;background:#fff;border-top:1px solid var(--line);">
+  <div class="container container-narrow" style="max-width:900px;">
+    <p style="font-size:.85rem;color:var(--muted);line-height:1.7;margin:0;">
+      <strong style="color:var(--text);"><sup>1</sup> Fair Use Policy:</strong> "Unlimited" means no arbitrary caps on request count. To maintain quality for all clients, we apply a fair use policy: up to 10 support requests per month and up to 10 hours of routine maintenance per month. Occasional overages are accommodated without restriction. See our <a href="help.html#/fair-use" style="color:var(--brand);text-decoration:underline;">Fair Use Policy</a> or <a href="terms.html#tos-duration" style="color:var(--brand);text-decoration:underline;">Terms of Service</a>.
     </p>
   </div>
-</section>
+</div>
 
 
 <!-- FOOTER -->
@@ -1266,7 +899,6 @@ footer {
         <a href="https://instagram.com/webeaze.io" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
       </div>
     </div>
-
     <div class="footer-col">
       <h5>Services</h5>
       <ul>
@@ -1275,7 +907,6 @@ footer {
         <li><a href="plan-guide.html">Plan Guide</a></li>
       </ul>
     </div>
-
     <div class="footer-col">
       <h5>Company</h5>
       <ul>
@@ -1285,7 +916,6 @@ footer {
         <li><a href="contact-us.html">Contact</a></li>
       </ul>
     </div>
-
     <div class="footer-col">
       <h5>Support</h5>
       <ul>
@@ -1296,7 +926,6 @@ footer {
       </ul>
     </div>
   </div>
-
   <div class="footer-bottom">
     <p style="color:#fff">&copy; <span id="yr"></span> WebEaze. Made in Delaware, USA 🇺🇸</p>
     <div class="footer-legal">
@@ -1308,32 +937,41 @@ footer {
 </footer>
 
 
-<!-- JS -->
 <script>
 document.getElementById('yr').textContent = new Date().getFullYear();
 
-// Reveal on scroll
-(function() {
-  const els = [...document.querySelectorAll('.reveal')];
+// Scroll-triggered animations
+(function () {
+  var els = document.querySelectorAll('[data-anim]');
   if (!('IntersectionObserver' in window)) {
-    els.forEach(e => e.classList.add('in-view'));
+    els.forEach(function(el) { el.classList.add('anim-in'); });
     return;
   }
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
       if (entry.isIntersecting) {
-        entry.target.classList.add('in-view');
+        entry.target.classList.add('anim-in');
         io.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.12 });
-  els.forEach(e => io.observe(e));
+  }, { threshold: 0.1 });
+  els.forEach(function(el) { io.observe(el); });
 })();
 
-// Smooth scroll
-document.querySelectorAll('a[href^="#"]').forEach(link => {
+// FAQ toggle icon swap
+document.querySelectorAll('.faq-item').forEach(function(item) {
+  item.addEventListener('toggle', function() {
+    var icon = item.querySelector('.faq-toggle i');
+    if (icon) {
+      icon.className = item.open ? 'fas fa-minus' : 'fas fa-plus';
+    }
+  });
+});
+
+// Smooth scroll for anchor links
+document.querySelectorAll('a[href^="#"]').forEach(function(link) {
   link.addEventListener('click', function(e) {
-    const target = document.querySelector(this.getAttribute('href'));
+    var target = document.querySelector(this.getAttribute('href'));
     if (target) {
       e.preventDefault();
       target.scrollIntoView({ behavior: 'smooth', block: 'start' });
