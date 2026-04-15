@@ -17,19 +17,24 @@
 :root {
   --brand: #7851a9;
   --brand-soft: rgba(120,81,169,0.08);
-  --brand-border: rgba(120,81,169,0.2);
+  --brand-border: rgba(120,81,169,0.18);
   --gold: #ffd700;
   --gold-soft: rgba(255,215,0,0.1);
+  --gold-border: rgba(255,215,0,0.22);
+  --red-soft: rgba(239,68,68,0.08);
+  --red-border: rgba(239,68,68,0.2);
+  --red: #ef4444;
+  --green-soft: rgba(34,197,94,0.08);
+  --green-border: rgba(34,197,94,0.2);
+  --green: #16a34a;
   --text: #0f1228;
   --muted: #6b7280;
   --bg: #f7f8fc;
   --card: #ffffff;
   --line: #e5e7eb;
-  --green: #16a34a;
-  --green-soft: rgba(22,163,74,0.09);
-  --shadow: 0 4px 24px rgba(15,18,40,0.08);
-  --shadow-hover: 0 12px 48px rgba(15,18,40,0.14);
-  --radius: 20px;
+  --shadow: 0 4px 24px rgba(15,18,40,0.07);
+  --shadow-hover: 0 12px 40px rgba(15,18,40,0.13);
+  --radius: 18px;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -46,164 +51,193 @@ body {
 }
 a { color: inherit; text-decoration: none; }
 
-/* ── NAV ──────────────────────────────── */
+/* NAV */
 .nav-wrap {
   background: rgba(10,10,15,0.97);
-  border-bottom: 1px solid rgba(255,255,255,0.08);
+  border-bottom: 1px solid rgba(255,255,255,0.07);
   padding: 14px 24px;
   display: flex; align-items: center; justify-content: space-between;
   position: sticky; top: 0; z-index: 999;
 }
 .nav-brand {
   display: flex; align-items: center; gap: 10px;
-  font-weight: 700; font-size: 1.1rem; color: #fff;
+  font-weight: 700; font-size: 1.05rem; color: #fff;
 }
-.nav-brand img { height: 34px; }
+.nav-brand img { height: 32px; }
 .nav-back {
   display: flex; align-items: center; gap: 7px;
-  font-size: .88rem; font-weight: 600; color: rgba(255,255,255,.7);
+  font-size: .85rem; font-weight: 600; color: rgba(255,255,255,.6);
   transition: color .2s;
 }
 .nav-back:hover { color: var(--gold); }
+.nav-back i { font-size: .8rem; }
 
-/* ── MAIN ────────────────────────────── */
+/* MAIN */
 main {
-
   flex: 1;
   display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  padding: clamp(40px,7vh,80px) 20px clamp(48px,8vh,88px);
-
+  align-items: center;
+  padding: clamp(44px,8vh,84px) 20px clamp(52px,9vh,96px);
 }
 
-.portal-greeting {
-  text-align: center; margin-bottom: 52px;
+/* GREETING */
+.greeting {
+  text-align: center;
+  margin-bottom: 44px;
+  max-width: 560px;
 }
 .portal-badge {
-  display: inline-flex; align-items: center; gap: 8px;
-  font-size: .78rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+  display: inline-flex; align-items: center; gap: 7px;
+  font-size: .75rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
   color: var(--brand); background: var(--brand-soft); border: 1px solid var(--brand-border);
-  border-radius: 999px; padding: 8px 18px; margin-bottom: 22px;
+  border-radius: 999px; padding: 7px 16px; margin-bottom: 20px;
 }
-.portal-greeting h1 {
-  font-size: clamp(1.9rem,4.5vw,3rem); font-weight: 800;
-  letter-spacing: -.03em; line-height: 1.15; margin-bottom: 14px;
+.greeting h1 {
+  font-size: clamp(1.75rem,4vw,2.6rem);
+  font-weight: 600;
+  letter-spacing: -.025em;
+  line-height: 1.2;
+  margin-bottom: 10px;
 }
-.portal-greeting p {
-  font-size: 1.05rem; color: var(--muted); max-width: 520px; margin: 0 auto; line-height: 1.7;
+.greeting p {
+  font-size: .98rem;
+  color: var(--muted);
+  margin: 0;
+  line-height: 1.6;
 }
 
-/* ── OPTION CARDS ────────────────────── */
-.options-grid {
+/* QUESTION TILES */
+.tiles-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 24px;
+  gap: 16px;
   width: 100%;
-  max-width: 820px;
+  max-width: 760px;
 }
-@media (max-width: 640px) {
-  .options-grid { grid-template-columns: 1fr; max-width: 440px; }
+@media (max-width: 580px) {
+  .tiles-grid { grid-template-columns: 1fr; max-width: 420px; }
 }
 
-.option-card {
+.tile {
   background: var(--card);
   border: 2px solid var(--line);
   border-radius: var(--radius);
-  padding: 40px 36px;
+  padding: 28px 26px;
   box-shadow: var(--shadow);
-  transition: all .25s ease;
-  display: flex; flex-direction: column; align-items: flex-start;
   cursor: pointer;
+  display: flex; align-items: flex-start; gap: 18px;
+  transition: all .22s ease;
+  text-align: left;
   position: relative;
   overflow: hidden;
 }
-.option-card::after {
+.tile::after {
   content: '';
   position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
-  transform: scaleX(0); transform-origin: left; transition: transform .3s;
+  transform: scaleX(0); transform-origin: left; transition: transform .28s;
 }
-.option-card.request::after { background: linear-gradient(90deg, var(--brand), #a06dd8); }
-.option-card.content::after { background: linear-gradient(90deg, var(--gold), #ffb347); }
-
-.option-card:hover {
-  transform: translateY(-5px);
+.tile:hover, .tile.active {
+  transform: translateY(-3px);
   box-shadow: var(--shadow-hover);
 }
-.option-card.request:hover { border-color: var(--brand-border); }
-.option-card.content:hover { border-color: rgba(255,215,0,0.35); }
-.option-card:hover::after { transform: scaleX(1); }
+.tile:hover::after, .tile.active::after { transform: scaleX(1); }
 
-.option-icon {
-  width: 60px; height: 60px; border-radius: 16px;
+.tile.t-update::after  { background: linear-gradient(90deg, var(--brand), #a06dd8); }
+.tile.t-content::after { background: linear-gradient(90deg, var(--gold), #ffb347); }
+.tile.t-billing::after { background: linear-gradient(90deg, #22c55e, #4ade80); }
+.tile.t-broken::after  { background: linear-gradient(90deg, var(--red), #f87171); }
+
+.tile:hover { border-color: var(--line); }
+.tile.t-update:hover, .tile.t-update.active   { border-color: var(--brand-border); }
+.tile.t-content:hover, .tile.t-content.active  { border-color: var(--gold-border); }
+.tile.t-billing:hover, .tile.t-billing.active  { border-color: var(--green-border); }
+.tile.t-broken:hover, .tile.t-broken.active   { border-color: var(--red-border); }
+
+.tile-icon {
+  width: 48px; height: 48px; border-radius: 12px;
   display: flex; align-items: center; justify-content: center;
-  margin-bottom: 22px; font-size: 1.5rem;
-  transition: transform .25s;
+  font-size: 1.25rem; flex-shrink: 0;
+  transition: transform .22s;
 }
-.option-card:hover .option-icon { transform: scale(1.08); }
-.option-card.request .option-icon { background: var(--brand-soft); color: var(--brand); }
-.option-card.content .option-icon { background: var(--gold-soft); color: #b8860b; }
+.tile:hover .tile-icon, .tile.active .tile-icon { transform: scale(1.07); }
+.tile.t-update .tile-icon  { background: var(--brand-soft); color: var(--brand); }
+.tile.t-content .tile-icon { background: var(--gold-soft); color: #8a6400; }
+.tile.t-billing .tile-icon { background: var(--green-soft); color: var(--green); }
+.tile.t-broken .tile-icon  { background: var(--red-soft); color: var(--red); }
 
-.option-card h2 {
-  font-size: 1.2rem; font-weight: 800; margin: 0 0 10px; line-height: 1.2;
+.tile-body strong {
+  display: block;
+  font-size: 1rem; font-weight: 600; line-height: 1.25; margin-bottom: 4px;
 }
-.option-card p {
-  font-size: .92rem; color: var(--muted); margin: 0 0 24px; line-height: 1.65; flex: 1;
-}
-.option-pills { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 28px; }
-.pill {
-  font-size: .75rem; font-weight: 600; padding: 5px 11px; border-radius: 999px;
-}
-.option-card.request .pill { background: var(--brand-soft); color: var(--brand); }
-.option-card.content .pill { background: var(--gold-soft); color: #7a5800; }
-
-.option-cta {
-  display: inline-flex; align-items: center; gap: 8px;
-  font-size: .95rem; font-weight: 700; padding: 13px 24px;
-  border-radius: 12px; border: none; transition: all .2s; width: 100%;
-  justify-content: center;
-}
-.option-card.request .option-cta {
-  background: var(--brand); color: #fff;
-  box-shadow: 0 6px 22px rgba(120,81,169,0.28);
-}
-.option-card.request .option-cta:hover {
-  background: #6841a0; color: #fff;
-  box-shadow: 0 10px 30px rgba(120,81,169,0.36);
-}
-.option-card.content .option-cta {
-  background: var(--gold); color: #3d2200;
-  box-shadow: 0 6px 22px rgba(255,215,0,0.3);
-}
-.option-card.content .option-cta:hover {
-  background: #f2c600; color: #3d2200;
-  box-shadow: 0 10px 30px rgba(255,215,0,0.4);
+.tile-body span {
+  font-size: .85rem; color: var(--muted); line-height: 1.5;
 }
 
-/* ── DIVIDER ─────────────────────────── */
-.or-divider {
-  display: flex; align-items: center; gap: 12px;
-  width: 100%; max-width: 820px; margin: 32px 0;
-  font-size: .85rem; font-weight: 600; color: var(--muted);
+/* NEXT STEP PANEL */
+.next-panel {
+  width: 100%;
+  max-width: 760px;
+  margin-top: 14px;
+  background: var(--card);
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 28px;
+  display: none;
+  animation: panelIn .22s ease;
 }
-.or-divider::before, .or-divider::after {
-  content: ''; flex: 1; height: 1px; background: var(--line);
+.next-panel.visible { display: block; }
+@keyframes panelIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
+.panel-label {
+  font-size: .73rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .09em; color: var(--muted); margin-bottom: 16px;
+}
+.panel-actions {
+  display: flex; flex-wrap: wrap; gap: 10px;
+}
+.pa-btn {
+  display: inline-flex; align-items: center; gap: 9px;
+  padding: 11px 18px; border-radius: 10px; font-size: .88rem; font-weight: 600;
+  border: 1.5px solid var(--line); background: var(--bg);
+  color: var(--text); transition: all .18s; text-decoration: none;
+}
+.pa-btn i { font-size: .85rem; }
+.pa-btn:hover { border-color: var(--brand-border); color: var(--brand); background: var(--brand-soft); }
+.pa-btn.primary {
+  background: var(--brand); color: #fff; border-color: var(--brand);
+  box-shadow: 0 4px 16px rgba(120,81,169,0.22);
+}
+.pa-btn.primary:hover {
+  background: #6841a0; border-color: #6841a0; color: #fff;
+  box-shadow: 0 6px 22px rgba(120,81,169,0.3);
+}
+.pa-btn.gold {
+  background: var(--gold); color: #3d2200; border-color: var(--gold);
+  box-shadow: 0 4px 16px rgba(255,215,0,0.28);
+}
+.pa-btn.gold:hover { background: #f2c600; border-color: #f2c600; }
 
-/* ── HELP STRIP ──────────────────────── */
+/* HELP STRIP */
 .help-strip {
-  text-align: center; max-width: 820px; width: 100%;
+  margin-top: 40px;
+  text-align: center;
+  max-width: 760px;
+  width: 100%;
 }
-.help-strip p { font-size: .9rem; color: var(--muted); margin: 0; }
+.help-strip p { font-size: .88rem; color: var(--muted); margin: 0; }
 .help-strip a { color: var(--brand); font-weight: 600; }
 .help-strip a:hover { text-decoration: underline; }
 
-/* ── FOOTER ──────────────────────────── */
+/* FOOTER */
 footer {
-  background: #000; padding: 24px 20px;
-  border-top: 1px solid rgba(255,255,255,0.08);
+  background: #000; padding: 22px 20px;
+  border-top: 1px solid rgba(255,255,255,0.07);
   text-align: center;
 }
-footer p { color: #6b7280; font-size: .82rem; margin: 0; }
+footer p { color: #6b7280; font-size: .8rem; margin: 0; }
 footer a { color: #6b7280; margin: 0 10px; transition: color .2s; }
 footer a:hover { color: var(--gold); }
 </style>
@@ -224,57 +258,91 @@ footer a:hover { color: var(--gold); }
 <!-- MAIN -->
 <main>
 
-  <div class="portal-greeting">
+  <div class="greeting">
     <div class="portal-badge">
-      <i class="fas fa-user-check"></i> Existing Client
+      <i class="fas fa-user-check"></i> Client Portal
     </div>
-    <h1>What can we help with?</h1>
+    <h1>What do you need today?</h1>
+    <p>Pick the option that matches why you're here.</p>
   </div>
 
-  <div class="options-grid">
+  <div class="tiles-grid">
 
-    <!-- OPTION 1: Submit a Request -->
-    <a class="option-card request" href="website-request.html">
-      <div class="option-icon">
-        <i class="fas fa-paper-plane"></i>
+    <!-- Update my site -->
+    <a class="tile t-update" href="website-request.html">
+      <div class="tile-icon"><i class="fas fa-pen-to-square"></i></div>
+      <div class="tile-body">
+        <strong>Update my website</strong>
+        <span>Request a change, new page, or fix</span>
       </div>
-      <h2>Submit a Website Request</h2>
-      <p>Need a content update, a fix, a new page, or any change to your existing site? Submit a request and we'll handle it. Typically done within 24 to 48 hours.</p>
-      <div class="option-pills">
-        <span class="pill">Content updates</span>
-        <span class="pill">Bug fixes</span>
-        <span class="pill">New pages</span>
-        <span class="pill">Design changes</span>
-      </div>
-      <span class="option-cta">
-        <i class="fas fa-arrow-right"></i> Submit a Request
-      </span>
     </a>
 
-    <!-- OPTION 2: Content Submission -->
-    <a class="option-card content" href="https://406km9.share-na2.hsforms.com/2BrG2FrkxQX6to17RxtyS5g" target="_blank" rel="noopener">
-      <div class="option-icon">
-        <i class="fas fa-folder-open"></i>
+    <!-- Submit content -->
+    <a class="tile t-content" href="https://406km9.share-na2.hsforms.com/2BrG2FrkxQX6to17RxtyS5g" target="_blank" rel="noopener">
+      <div class="tile-icon"><i class="fas fa-folder-open"></i></div>
+      <div class="tile-body">
+        <strong>Submit content for my new site</strong>
+        <span>We're building your site and need your materials</span>
       </div>
-      <h2>Submit Content for Your New Website</h2>
-      <p>We're building your site and need content from you. Use the Content Submission Form to send over your text, photos, logo, and any other materials in one place.</p>
-      <div class="option-pills">
-        <span class="pill">Photos & images</span>
-        <span class="pill">Copy & text</span>
-        <span class="pill">Logo files</span>
-        <span class="pill">Brand details</span>
-      </div>
-      <span class="option-cta">
-        <i class="fas fa-upload"></i> Send Content
-      </span>
     </a>
+
+    <!-- Billing -->
+    <button class="tile t-billing" onclick="showPanel('billing')">
+      <div class="tile-icon"><i class="fas fa-credit-card"></i></div>
+      <div class="tile-body">
+        <strong>Billing or plan question</strong>
+        <span>Invoices, upgrades, or account changes</span>
+      </div>
+    </button>
+
+    <!-- Something broken -->
+    <button class="tile t-broken" onclick="showPanel('broken')">
+      <div class="tile-icon"><i class="fas fa-triangle-exclamation"></i></div>
+      <div class="tile-body">
+        <strong>Something is broken</strong>
+        <span>My site has an issue right now</span>
+      </div>
+    </button>
 
   </div>
 
-  <div class="or-divider">or</div>
+  <!-- Panel: Billing -->
+  <div class="next-panel" id="panel-billing">
+    <div class="panel-label">Billing options</div>
+    <div class="panel-actions">
+      <a class="pa-btn primary" href="https://billing.stripe.com/p/login/7sI3gfaO14CEdlm144" target="_blank" rel="noopener">
+        <i class="fas fa-credit-card"></i> Stripe Portal
+      </a>
+      <a class="pa-btn" href="https://billing.stripe.com/p/login/7sI3gfaO14CEdlm144" target="_blank" rel="noopener">
+        <i class="fas fa-file-invoice"></i> View Invoices
+      </a>
+      <a class="pa-btn" href="help.html#/manage-your-plan">
+        <i class="fas fa-circle-question"></i> Billing Help Article
+      </a>
+      <a class="pa-btn" href="website-request.html">
+        <i class="fas fa-envelope"></i> Send Us a Message
+      </a>
+    </div>
+  </div>
+
+  <!-- Panel: Broken -->
+  <div class="next-panel" id="panel-broken">
+    <div class="panel-label">Report an issue</div>
+    <div class="panel-actions">
+      <a class="pa-btn primary" href="website-request.html">
+        <i class="fas fa-bolt"></i> Submit Urgent Request
+      </a>
+      <a class="pa-btn" href="help.html#/site-is-down">
+        <i class="fas fa-circle-question"></i> My Site Is Down
+      </a>
+      <a class="pa-btn" href="help.html#/website-error-troubleshooting">
+        <i class="fas fa-wrench"></i> Error on My Site
+      </a>
+    </div>
+  </div>
 
   <div class="help-strip">
-    <p>Can't find what you need? <a href="consultation.html">Book a free consultation</a> and we'll figure it out together.</p>
+    <p>Not sure? <a href="help.html">Browse the Help Center</a> or <a href="consultation.html">book a quick call</a>.</p>
   </div>
 
 </main>
@@ -289,6 +357,33 @@ footer a:hover { color: var(--gold); }
   </p>
 </footer>
 
-<script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
+<script>
+document.getElementById('yr').textContent = new Date().getFullYear();
+
+function showPanel(id) {
+  // Deactivate all tiles
+  document.querySelectorAll('.tile').forEach(t => t.classList.remove('active'));
+  // Hide all panels
+  document.querySelectorAll('.next-panel').forEach(p => p.classList.remove('visible'));
+
+  const panel = document.getElementById('panel-' + id);
+  const tile  = document.querySelector('.t-' + id);
+
+  if (!panel) return;
+
+  // Toggle: clicking the active tile again collapses it
+  if (tile && tile.classList.contains('was-active')) {
+    tile.classList.remove('was-active');
+    return;
+  }
+
+  document.querySelectorAll('.tile').forEach(t => t.classList.remove('was-active'));
+  if (tile) { tile.classList.add('active'); tile.classList.add('was-active'); }
+  panel.classList.add('visible');
+
+  // Scroll panel into view on mobile
+  setTimeout(() => panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 60);
+}
+</script>
 </body>
 </html>
