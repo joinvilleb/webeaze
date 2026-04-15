@@ -4,10 +4,9 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>WebEaze Fee Schedule | Optional & One-Time Service Fees</title>
-<meta name="description" content="WebEaze fee schedule for optional services, one-time requests, and custom development. Clear prices, notes, and billing details for existing clients." />
+<meta name="description" content="WebEaze fee schedule for optional services, one-time requests, and custom development. Clear prices, full descriptions, and billing policies for existing clients." />
 <link rel="canonical" href="https://www.webeaze.io/fee-schedule.html" />
 <link rel="shortcut icon" href="images/webeaze-transparent copy.png" type="image/png" />
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -17,35 +16,44 @@
 <style>
 :root {
   --bg: #ffffff;
-  --bg-2: #f5f6fa;
+  --bg-2: #f7f8fc;
   --bg-3: #eceef8;
   --gold: #ffd700;
   --brand: #7851a9;
-  --text: #1a1a2e;
-  --text-muted: #374151;
-  --text-dim: #6b7280;
+  --brand-soft: rgba(120,81,169,0.08);
+  --brand-border: rgba(120,81,169,0.18);
+  --text: #0f1228;
+  --muted: #374151;
+  --dim: #6b7280;
   --line: rgba(0,0,0,.09);
-  --success: #16a34a;
-  --purple: #7851a9;
+  --green: #16a34a;
+  --green-soft: rgba(22,163,74,0.08);
+  --amber: #b45309;
+  --amber-soft: rgba(180,83,9,0.08);
+  --blue-soft: rgba(59,130,246,0.08);
+  --blue: #2563eb;
+  --radius: 14px;
 }
 
 *,*::before,*::after { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; scroll-padding-top: 120px; }
 body {
   margin: 0;
   font-family: 'Poppins', sans-serif;
   background: var(--bg);
   color: var(--text);
   -webkit-font-smoothing: antialiased;
+  font-size: 1rem;
+  line-height: 1.65;
 }
 a { color: inherit; text-decoration: none; }
+p { margin: 0 0 14px; }
+p:last-child { margin-bottom: 0; }
 
 /* NAV */
 .nav-wrap {
-  position: sticky;
-  top: 0;
-  z-index: 9999;
-  background: rgba(10,10,15,.95);
+  position: sticky; top: 0; z-index: 9999;
+  background: rgba(10,10,15,.96);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid rgba(255,255,255,.08);
@@ -60,264 +68,236 @@ a { color: inherit; text-decoration: none; }
 /* PAGE HEADER */
 .page-header {
   background: var(--bg-2);
-  border-bottom: 1px solid var(--line);
-  padding: 56px 20px 40px;
+  border-bottom: 2px solid var(--line);
+  padding: 56px 20px 44px;
 }
-.page-header-inner { max-width: 860px; margin: 0 auto; }
-.page-label {
-  font-size: .8rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: .18em;
-  color: var(--text-dim);
-  margin-bottom: 10px;
+.page-header-inner { max-width: 900px; margin: 0 auto; }
+.doc-badge {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: var(--brand-soft); border: 1px solid var(--brand-border);
+  color: var(--brand); font-size: .75rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .1em;
+  border-radius: 999px; padding: 6px 14px; margin-bottom: 18px;
 }
 .page-header h1 {
-  font-size: clamp(28px,4vw,42px);
-  font-weight: 800;
-  letter-spacing: -.02em;
-  margin: 0 0 10px;
+  font-size: clamp(1.8rem,4vw,2.8rem);
+  font-weight: 700;
+  letter-spacing: -.03em;
+  margin: 0 0 8px;
   color: var(--text);
 }
-.page-meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  font-size: .93rem;
-  color: var(--text-dim);
+.page-header .doc-sub {
+  font-size: 1.06rem;
+  color: var(--muted);
+  max-width: 600px;
+  margin-bottom: 28px;
+  line-height: 1.65;
 }
-.page-meta span { display: flex; align-items: center; gap: 6px; }
+.doc-meta {
+  display: flex; flex-wrap: wrap; gap: 20px;
+  font-size: .92rem; color: var(--dim);
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+.doc-meta span { display: flex; align-items: center; gap: 7px; }
+.doc-meta i { font-size: .82rem; }
 
 /* TOC */
 .toc-bar {
   background: var(--bg);
   border-bottom: 1px solid var(--line);
-  padding: 14px 20px;
+  padding: 12px 20px;
   position: sticky;
   top: 60px;
   z-index: 100;
+  overflow-x: auto;
 }
 .toc-inner {
-  max-width: 860px;
-  margin: 0 auto;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 6px 20px;
+  max-width: 900px; margin: 0 auto;
+  display: flex; align-items: center; gap: 6px 18px;
+  white-space: nowrap;
 }
 .toc-label {
-  font-size: .82rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: .1em;
-  color: var(--text-dim);
+  font-size: .78rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .1em; color: var(--dim); flex-shrink: 0;
 }
 .toc-bar a {
-  font-size: 1rem;
-  color: var(--text-muted);
-  transition: color .15s;
+  font-size: .92rem; font-weight: 500; color: var(--muted);
+  padding: 4px 10px; border-radius: 8px;
+  transition: color .15s, background .15s;
 }
-.toc-bar a:hover { color: var(--brand); }
+.toc-bar a:hover { color: var(--brand); background: var(--brand-soft); }
 
-/* SECTIONS */
+/* CONTENT */
+.content-wrap { max-width: 900px; margin: 0 auto; padding: 0 20px; }
+
+/* SECTION */
 .fee-section {
-  max-width: 860px;
-  margin: 0 auto;
-  padding: 48px 20px 0;
+  padding: 52px 0 0;
 }
 .fee-section + .fee-section {
   border-top: 1px solid var(--line);
-  margin-top: 40px;
+  margin-top: 52px;
+}
+.section-eyebrow {
+  font-size: .75rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .1em; color: var(--brand); margin-bottom: 8px;
 }
 .section-title {
-  font-size: 1.3rem;
-  font-weight: 700;
-  color: var(--text);
-  margin: 0 0 4px;
+  font-size: 1.5rem; font-weight: 700; color: var(--text);
+  margin: 0 0 8px; letter-spacing: -.02em;
 }
-.section-sub {
-  font-size: 1rem;
-  color: var(--text-dim);
-  margin: 0 0 24px;
+.section-desc {
+  font-size: 1.02rem; color: var(--muted);
+  max-width: 640px; margin: 0 0 32px; line-height: 1.7;
 }
 
 /* OVERVIEW CARDS */
 .overview-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+  margin-bottom: 0;
 }
-@media (max-width: 560px) { .overview-grid { grid-template-columns: 1fr; } }
+@media (max-width: 580px) { .overview-grid { grid-template-columns: 1fr; } }
 .overview-card {
-  background: var(--bg-2);
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  padding: 22px 24px;
+  background: var(--bg-2); border: 1px solid var(--line);
+  border-radius: var(--radius); padding: 24px 26px;
 }
 .overview-card h3 {
-  font-size: 1rem;
-  font-weight: 700;
-  margin: 0 0 14px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: var(--text);
+  font-size: 1rem; font-weight: 700; margin: 0 0 16px;
+  display: flex; align-items: center; gap: 9px; color: var(--text);
 }
-.dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; flex-shrink: 0; }
-.dot-green { background: var(--success); }
-.dot-gold { background: #b8860b; }
+.dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; flex-shrink: 0; }
+.dot-green { background: var(--green); }
+.dot-amber { background: var(--amber); }
 .overview-card ul { list-style: none; padding: 0; margin: 0; }
 .overview-card li {
-  font-size: 1rem;
-  color: var(--text-muted);
-  padding: 5px 0 5px 14px;
-  position: relative;
-  border-bottom: 1px solid var(--line);
+  font-size: 1rem; color: var(--muted);
+  padding: 7px 0 7px 18px; position: relative;
+  border-bottom: 1px solid var(--line); line-height: 1.5;
 }
 .overview-card li:last-child { border-bottom: none; }
 .overview-card li::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 12px;
-  width: 5px; height: 5px;
-  border-radius: 50%;
+  content: ''; position: absolute; left: 0; top: 14px;
+  width: 6px; height: 6px; border-radius: 50%;
 }
-.included-card li::before { background: var(--success); }
-.extra-card li::before { background: #b8860b; }
+.included-card li::before { background: var(--green); }
+.extra-card li::before { background: var(--amber); }
 
-/* FEE TABLE */
-.fee-table {
-  width: 100%;
-  border-collapse: collapse;
+/* FEE ITEM CARDS */
+.fee-cards { display: flex; flex-direction: column; gap: 2px; }
+.fee-card {
+  background: var(--bg); border: 1px solid var(--line);
+  border-radius: var(--radius); padding: 26px 28px;
+  display: grid; grid-template-columns: 1fr auto;
+  gap: 8px 32px; align-items: start;
+  transition: border-color .2s, background .2s;
 }
-.fee-table thead th {
-  font-size: .78rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: .1em;
-  color: var(--text-dim);
-  padding: 0 0 10px;
-  border-bottom: 2px solid var(--line);
-  text-align: left;
+.fee-card:hover { border-color: rgba(120,81,169,0.22); background: var(--bg-2); }
+.fee-name {
+  font-size: 1.08rem; font-weight: 700; color: var(--text);
+  margin: 0 0 8px; line-height: 1.3;
 }
-.fee-table thead th:last-child { text-align: right; }
-.fee-table tbody td {
-  padding: 16px 0;
-  border-bottom: 1px solid var(--line);
-  vertical-align: top;
-  font-size: 1rem;
-  color: var(--text);
+.fee-desc {
+  font-size: .98rem; color: var(--muted);
+  line-height: 1.7; margin: 0 0 10px;
 }
-.fee-table tbody tr:last-child td { border-bottom: none; }
-.fee-table tbody tr:hover td { background: var(--bg-2); }
-.fee-table .col-service { width: 32%; font-weight: 600; padding-right: 16px; }
-.fee-table .col-desc { width: 45%; font-size: 1rem; color: var(--text-muted); line-height: 1.6; padding-right: 20px; }
-.fee-table .col-desc a { color: var(--brand); text-decoration: underline; }
-.fee-table .col-price { width: 23%; text-align: right; font-weight: 700; white-space: nowrap; }
-.recurring { color: var(--purple); }
-.note { display: block; font-size: .88rem; color: var(--text-dim); margin-top: 3px; font-weight: 400; }
-
-@media (max-width: 640px) {
-  .fee-table, .fee-table thead, .fee-table tbody, .fee-table tr, .fee-table th, .fee-table td { display: block; }
-  .fee-table thead { display: none; }
-  .fee-table tbody tr { padding: 16px 0; border-bottom: 1px solid var(--line); }
-  .fee-table tbody tr:last-child { border-bottom: none; }
-  .fee-table tbody td { padding: 2px 0; border: none; width: 100% !important; padding-right: 0; }
-  .fee-table .col-price { text-align: left; margin-top: 4px; color: var(--brand); }
+.fee-note {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: .84rem; color: var(--dim);
+  background: var(--bg-2); border: 1px solid var(--line);
+  border-radius: 8px; padding: 5px 12px; margin-top: 4px;
+}
+.fee-note i { font-size: .78rem; color: var(--brand); }
+.fee-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.tag {
+  font-size: .76rem; font-weight: 600; padding: 3px 10px;
+  border-radius: 999px;
+}
+.tag-plan { background: var(--brand-soft); color: var(--brand); }
+.tag-link { background: var(--blue-soft); color: var(--blue); }
+.fee-price-col {
+  text-align: right; padding-top: 2px; flex-shrink: 0;
+}
+.fee-amount {
+  font-size: 1.4rem; font-weight: 800; color: var(--text);
+  letter-spacing: -.03em; white-space: nowrap; display: block;
+}
+.fee-amount.monthly { color: var(--brand); }
+.fee-period {
+  font-size: .8rem; color: var(--dim); font-weight: 500; display: block;
+  text-align: right; margin-top: 2px;
+}
+.fee-purchase {
+  display: inline-flex; align-items: center; gap: 6px;
+  margin-top: 8px; font-size: .82rem; font-weight: 600;
+  color: var(--brand); text-decoration: underline;
+  transition: color .15s;
+}
+.fee-purchase:hover { color: #5c3d87; }
+@media (max-width: 560px) {
+  .fee-card { grid-template-columns: 1fr; }
+  .fee-price-col { text-align: left; }
+  .fee-period { text-align: left; }
+  .fee-purchase { margin-top: 0; }
 }
 
 /* POLICIES */
-.policies-list {
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  overflow: hidden;
+.policies-stack { display: flex; flex-direction: column; gap: 2px; }
+.policy-card {
+  background: var(--bg-2); border: 1px solid var(--line);
+  border-radius: var(--radius); padding: 26px 28px;
 }
-.policy-row {
-  display: grid;
-  grid-template-columns: 200px 1fr;
-  border-bottom: 1px solid var(--line);
+.policy-card h3 {
+  font-size: 1.06rem; font-weight: 700; margin: 0 0 14px;
+  display: flex; align-items: center; gap: 9px; color: var(--text);
 }
-.policy-row:last-child { border-bottom: none; }
-@media (max-width: 560px) { .policy-row { grid-template-columns: 1fr; } }
-.policy-label {
-  padding: 18px 20px;
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--text);
-  background: var(--bg-2);
-  border-right: 1px solid var(--line);
-  display: flex;
-  align-items: flex-start;
-  gap: 8px;
+.policy-card h3 i { color: var(--brand); font-size: .9rem; }
+.policy-card ul { list-style: none; padding: 0; margin: 0; }
+.policy-card li {
+  font-size: 1rem; color: var(--muted); padding: 8px 0;
+  border-bottom: 1px dashed var(--line); line-height: 1.65;
 }
-.policy-label i { color: var(--text-dim); margin-top: 2px; font-size: .8rem; }
-@media (max-width: 560px) { .policy-label { border-right: none; border-bottom: 1px solid var(--line); } }
-.policy-content {
-  padding: 18px 20px;
-  background: var(--bg);
-}
-.policy-content ul { list-style: none; padding: 0; margin: 0; }
-.policy-content li {
-  font-size: 1rem;
-  color: var(--text-muted);
-  padding: 4px 0;
-  line-height: 1.65;
-}
-.policy-content li + li { border-top: 1px dashed var(--line); }
-.policy-content a { color: var(--brand); text-decoration: underline; }
+.policy-card li:last-child { border-bottom: none; }
+.policy-card a { color: var(--brand); text-decoration: underline; }
 
 /* CTA */
 .cta-box {
-  max-width: 860px;
-  margin: 48px auto 0;
-  padding: 0 20px 56px;
+  padding: 52px 0 64px;
 }
 .cta-inner {
-  background: var(--bg-2);
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  padding: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 20px;
+  background: linear-gradient(135deg, var(--brand-soft) 0%, rgba(255,215,0,.06) 100%);
+  border: 1px solid var(--brand-border);
+  border-radius: 18px; padding: 36px 40px;
+  display: flex; align-items: center;
+  justify-content: space-between; flex-wrap: wrap; gap: 24px;
 }
-.cta-text h3 { font-size: 1rem; font-weight: 700; margin: 0 0 4px; color: var(--text); }
-.cta-text p { font-size: .87rem; color: var(--text-dim); margin: 0; }
+@media (max-width: 600px) { .cta-inner { padding: 28px 24px; } }
+.cta-text h3 { font-size: 1.2rem; font-weight: 700; margin: 0 0 6px; }
+.cta-text p { font-size: 1rem; color: var(--muted); margin: 0; }
 .cta-actions { display: flex; gap: 10px; flex-wrap: wrap; }
 .btn-gold {
-  display: inline-flex; align-items: center; gap: 7px;
-  padding: 11px 22px;
-  background: var(--gold); color: #1a1a2e;
-  border-radius: 10px; font-weight: 700; font-size: .88rem;
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 12px 24px; background: var(--gold); color: #1a1a2e;
+  border-radius: 10px; font-weight: 700; font-size: .94rem;
   transition: transform .2s, box-shadow .2s;
 }
-.btn-gold:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(255,215,0,.25); color: #1a1a2e; }
+.btn-gold:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(255,215,0,.3); color: #1a1a2e; }
 .btn-outline {
-  display: inline-flex; align-items: center; gap: 7px;
-  padding: 11px 22px;
-  background: transparent; color: var(--text);
-  border: 1px solid var(--line); border-radius: 10px;
-  font-weight: 600; font-size: .88rem;
-  transition: border-color .2s;
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 12px 24px; background: transparent; color: var(--text);
+  border: 1.5px solid var(--line); border-radius: 10px;
+  font-weight: 600; font-size: .94rem; transition: border-color .2s;
 }
-.btn-outline:hover { border-color: rgba(0,0,0,.25); color: var(--text); }
+.btn-outline:hover { border-color: var(--brand-border); color: var(--brand); }
 
 /* FOOTER */
 footer {
-  background: #0a0a0f;
-  padding: 60px 20px 40px;
+  background: #0a0a0f; padding: 60px 20px 40px;
   border-top: 1px solid rgba(255,255,255,.08);
-  margin-top: 0;
 }
 .footer-grid {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr;
-  gap: 48px;
-  max-width: 1100px;
-  margin: 0 auto 48px;
+  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 48px; max-width: 1100px; margin: 0 auto 48px;
 }
 @media (max-width: 768px) { .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; } }
 @media (max-width: 480px) { .footer-grid { grid-template-columns: 1fr; gap: 28px; } }
@@ -328,9 +308,8 @@ footer {
 .footer-social { display: flex; gap: 10px; }
 .footer-social a {
   display: flex; align-items: center; justify-content: center;
-  width: 36px; height: 36px;
-  background: rgba(255,255,255,.06); border-radius: 10px;
-  color: #a0a6c0; font-size: .95rem; transition: all .2s;
+  width: 36px; height: 36px; background: rgba(255,255,255,.06);
+  border-radius: 10px; color: #a0a6c0; font-size: .95rem; transition: all .2s;
 }
 .footer-social a:hover { background: var(--gold); color: #1a1a2e; }
 .footer-col h5 { font-size: .83rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: #fff; margin: 0 0 14px; }
@@ -352,7 +331,7 @@ footer {
 
 @media print {
   .nav-wrap, .toc-bar, .cta-box, footer { display: none !important; }
-  body { background: #fff; color: #000; }
+  body { color: #000; }
   .page-header { background: #fff; }
 }
 </style>
@@ -388,12 +367,13 @@ footer {
 <!-- PAGE HEADER -->
 <header class="page-header">
   <div class="page-header-inner">
-    <div class="page-label">Official Document</div>
+    <div class="doc-badge"><i class="fas fa-file-invoice-dollar"></i> Official Document</div>
     <h1>Fee Schedule</h1>
-    <div class="page-meta">
-      <span><i class="fas fa-calendar-alt"></i> Effective Oct 2024</span>
-      <span><i class="fas fa-sync-alt"></i> Updated Feb 2026</span>
-      <span style="cursor:pointer" onclick="window.print()"><i class="fas fa-print"></i> Print</span>
+    <p class="doc-sub">This document lists all fees outside of your monthly plan. Everything here is optional or situational. Your plan covers day-to-day updates, hosting, and support at no extra charge. Fees on this page apply only when you request something beyond that scope.</p>
+    <div class="doc-meta">
+      <span><i class="fas fa-calendar-alt"></i> Effective October 2024</span>
+      <span><i class="fas fa-sync-alt"></i> Last updated April 2026</span>
+      <span style="cursor:pointer" onclick="window.print()"><i class="fas fa-print"></i> Print this page</span>
     </div>
   </div>
 </header>
@@ -402,275 +382,410 @@ footer {
 <nav class="toc-bar" aria-label="Jump to section">
   <div class="toc-inner">
     <span class="toc-label">Jump to:</span>
-    <a href="#overview">Overview</a>
+    <a href="#overview">What's Included</a>
     <a href="#one-time">One-Time Fees</a>
     <a href="#add-ons">Add-Ons</a>
     <a href="#custom-dev">Custom Dev</a>
-    <a href="#rush">Rush</a>
-    <a href="#policies">Policies</a>
+    <a href="#rush">Rush Requests</a>
+    <a href="#policies">Billing Policies</a>
   </div>
 </nav>
 
-<!-- OVERVIEW -->
-<section id="overview" class="fee-section">
-  <h2 class="section-title">What's Included vs. Extra</h2>
-  <p class="section-sub">Your monthly plan covers day-to-day needs. Here's a quick reference.</p>
-  <div class="overview-grid">
-    <div class="overview-card included-card">
-      <h3><span class="dot dot-green"></span> Included in Your Plan</h3>
-      <ul>
-        <li>Unlimited content updates</li>
-        <li>Text, link &amp; image changes</li>
-        <li>Layout tweaks on existing pages</li>
-        <li>Security updates &amp; backups</li>
-        <li>SSL certificate &amp; hosting</li>
-        <li>Standard domain (with credit)</li>
-      </ul>
-    </div>
-    <div class="overview-card extra-card">
-      <h3><span class="dot dot-gold"></span> Costs Extra</h3>
-      <ul>
-        <li>Additional website pages</li>
-        <li>E-commerce functionality</li>
-        <li>Custom integrations &amp; forms</li>
-        <li>Booking system setup</li>
-        <li>Rush or after-hours requests</li>
-        <li>Additional domains</li>
-      </ul>
-    </div>
-  </div>
-</section>
+<div class="content-wrap">
 
-<!-- ONE-TIME FEES -->
-<section id="one-time" class="fee-section">
-  <h2 class="section-title">One-Time Fees</h2>
-  <p class="section-sub">Billed separately from your subscription.</p>
-  <table class="fee-table">
-    <thead>
-      <tr>
-        <th class="col-service">Service</th>
-        <th class="col-desc">Description</th>
-        <th class="col-price">Fee</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td class="col-service">Web Project — Basic</td>
-        <td class="col-desc">Small, focused updates to an existing site (text, images, minor fixes). Single-page scope. <a href="https://buy.stripe.com/3cI7sK2Yu227cg0e51c3m0i" target="_blank">Purchase</a></td>
-        <td class="col-price">$149</td>
-      </tr>
-      <tr>
-        <td class="col-service">Web Project — Standard</td>
-        <td class="col-desc">Updates across multiple existing pages — content, layout adjustments, section redesigns. <a href="https://buy.stripe.com/bJe8wO9mSbCH4Nye51c3m0j" target="_blank">Purchase</a></td>
-        <td class="col-price">$299</td>
-      </tr>
-      <tr>
-        <td class="col-service">New Website Build</td>
-        <td class="col-desc">Complete site designed &amp; built from scratch. Up to 3 pages + contact. Domain registration billed separately. <a href="https://buy.stripe.com/3cIdR80QmdKPbbW5yvc3m0h" target="_blank">Purchase</a></td>
-        <td class="col-price">$449</td>
-      </tr>
-      <tr>
-        <td class="col-service">Website Setup</td>
-        <td class="col-desc">One-time fee to start any new monthly plan. Covers design, development, and launch.</td>
-        <td class="col-price">$199</td>
-      </tr>
-      <tr>
-        <td class="col-service">Site Reactivation</td>
-        <td class="col-desc">Reactivate a previously canceled site. Fee may vary based on time inactive.</td>
-        <td class="col-price">$199</td>
-      </tr>
-      <tr>
-        <td class="col-service">Footer Credit Removal</td>
-        <td class="col-desc">Remove the "Built by WebEaze" credit from your footer.</td>
-        <td class="col-price">$149</td>
-      </tr>
-      <tr>
-        <td class="col-service">Site Transfer</td>
-        <td class="col-desc">Transfer your site to another provider after canceling a plan under 12 months old.</td>
-        <td class="col-price">$99</td>
-      </tr>
-      <tr>
-        <td class="col-service">Domain Retrieval</td>
-        <td class="col-desc">Retrieve a domain WebEaze registered on your behalf when switching providers.</td>
-        <td class="col-price">$99</td>
-      </tr>
-      <tr>
-        <td class="col-service">Additional Domain</td>
-        <td class="col-desc">Register an additional domain name. Includes first year of registration.</td>
-        <td class="col-price">$89</td>
-      </tr>
-    </tbody>
-  </table>
-</section>
-
-<!-- ADD-ON SERVICES -->
-<section id="add-ons" class="fee-section">
-  <h2 class="section-title">Add-On Services</h2>
-  <p class="section-sub">Monthly add-ons are billed alongside your subscription.</p>
-  <table class="fee-table">
-    <thead>
-      <tr>
-        <th class="col-service">Service</th>
-        <th class="col-desc">Description</th>
-        <th class="col-price">Fee</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td class="col-service">Additional Pages</td>
-        <td class="col-desc">New pages beyond your plan's included count. Includes layout design and content setup.</td>
-        <td class="col-price">$199 / page</td>
-      </tr>
-      <tr>
-        <td class="col-service">E-commerce Setup</td>
-        <td class="col-desc">Product listings, cart &amp; checkout. Includes 12 months of platform fees. <span class="note">Requires Growth Plan or above.</span></td>
-        <td class="col-price">$659</td>
-      </tr>
-      <tr>
-        <td class="col-service">Live Chat Integration</td>
-        <td class="col-desc">Setup Tawk.to, Meta Messenger, or similar widget. Excludes ongoing provider fees.</td>
-        <td class="col-price">$229</td>
-      </tr>
-      <tr>
-        <td class="col-service">Google Business Mgmt</td>
-        <td class="col-desc">We manage your Google Business Profile — posts, updates, review responses.</td>
-        <td class="col-price recurring">$79 / mo</td>
-      </tr>
-      <tr>
-        <td class="col-service">Email Newsletter</td>
-        <td class="col-desc">Monthly newsletter design and delivery to your subscriber list.</td>
-        <td class="col-price recurring">$99 / mo</td>
-      </tr>
-      <tr>
-        <td class="col-service">AI Chatbot</td>
-        <td class="col-desc">Custom AI assistant trained on your business — answers visitors 24/7, captures leads. <a href="ai.html">Learn more</a></td>
-        <td class="col-price recurring">$79 / mo</td>
-      </tr>
-      <tr>
-        <td class="col-service">Ad Management</td>
-        <td class="col-desc">Google &amp; Facebook/Instagram ad strategy, creative, targeting, and monthly optimization. Ad budget paid separately. <a href="ads.html">Learn more</a></td>
-        <td class="col-price recurring">$149 / mo</td>
-      </tr>
-    </tbody>
-  </table>
-</section>
-
-<!-- CUSTOM DEVELOPMENT -->
-<section id="custom-dev" class="fee-section">
-  <h2 class="section-title">Custom Development</h2>
-  <p class="section-sub">Forms, integrations, and specialized features quoted by complexity.</p>
-  <table class="fee-table">
-    <thead>
-      <tr>
-        <th class="col-service">Service</th>
-        <th class="col-desc">Description</th>
-        <th class="col-price">Fee</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td class="col-service">Custom Form / Integration</td>
-        <td class="col-desc">Job applications, lead capture, CRM connections, or other custom integrations.</td>
-        <td class="col-price">$299</td>
-      </tr>
-      <tr>
-        <td class="col-service">Booking System Setup</td>
-        <td class="col-desc">Integrate Calendly, Square Appointments, or similar. You manage the platform subscription.</td>
-        <td class="col-price">$329</td>
-      </tr>
-      <tr>
-        <td class="col-service">Campaign Landing Page</td>
-        <td class="col-desc">Standalone landing page for ads or promotions with conversion tracking.</td>
-        <td class="col-price">$329</td>
-      </tr>
-      <tr>
-        <td class="col-service">Heavy Image Editing</td>
-        <td class="col-desc">Batches exceeding 8 advanced edits. May be waived for minor overages at our discretion.</td>
-        <td class="col-price">$40 / batch</td>
-      </tr>
-    </tbody>
-  </table>
-</section>
-
-<!-- RUSH -->
-<section id="rush" class="fee-section">
-  <h2 class="section-title">Rush &amp; Special Requests</h2>
-  <p class="section-sub">Expedited turnaround outside standard hours. Subject to availability.</p>
-  <table class="fee-table">
-    <thead>
-      <tr>
-        <th class="col-service">Service</th>
-        <th class="col-desc">Description</th>
-        <th class="col-price">Fee</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td class="col-service">Same-Day Turnaround</td>
-        <td class="col-desc">Request completed the same business day.</td>
-        <td class="col-price">$69</td>
-      </tr>
-      <tr>
-        <td class="col-service">Weekend / After-Hours</td>
-        <td class="col-desc">Requests handled outside Mon–Fri, 9 AM–5 PM ET.</td>
-        <td class="col-price">$89</td>
-      </tr>
-    </tbody>
-  </table>
-</section>
-
-<!-- POLICIES -->
-<section id="policies" class="fee-section" style="padding-bottom:0">
-  <h2 class="section-title">Billing &amp; Policies</h2>
-  <p class="section-sub">How fees are applied and billed.</p>
-  <div class="policies-list">
-    <div class="policy-row">
-      <div class="policy-label"><i class="fas fa-credit-card"></i> How Billing Works</div>
-      <div class="policy-content">
+  <!-- OVERVIEW -->
+  <section id="overview" class="fee-section">
+    <div class="section-eyebrow">Plan Coverage</div>
+    <h2 class="section-title">What your plan already covers</h2>
+    <p class="section-desc">Before reviewing the fee schedule, it helps to know what's included at no extra cost. The fees below only apply to requests that go beyond your plan's scope. When in doubt, just ask and we'll let you know before doing anything.</p>
+    <div class="overview-grid">
+      <div class="overview-card included-card">
+        <h3><span class="dot dot-green"></span> Included in every plan</h3>
         <ul>
-          <li>All fees require your approval before we bill.</li>
-          <li>One-time fees are billed separately from your subscription.</li>
-          <li>Monthly add-ons are added to your regular billing amount.</li>
-          <li>Invoices are sent by email with secure payment links.</li>
+          <li>Unlimited content updates (text, images, links)</li>
+          <li>Layout adjustments on existing pages</li>
+          <li>Bug fixes and error corrections</li>
+          <li>Security updates and regular backups</li>
+          <li>SSL certificate and hosting</li>
+          <li>Standard domain (with credit on Growth plan)</li>
+          <li>Mobile and browser compatibility checks</li>
+        </ul>
+      </div>
+      <div class="overview-card extra-card">
+        <h3><span class="dot dot-amber"></span> Costs extra</h3>
+        <ul>
+          <li>Additional website pages beyond your plan</li>
+          <li>E-commerce store setup</li>
+          <li>Custom integrations and third-party tools</li>
+          <li>Booking and scheduling system setup</li>
+          <li>Same-day or after-hours turnaround</li>
+          <li>Additional registered domains</li>
+          <li>Footer credit removal</li>
         </ul>
       </div>
     </div>
-    <div class="policy-row">
-      <div class="policy-label"><i class="fas fa-scale-balanced"></i> Fair Use</div>
-      <div class="policy-content">
-        <ul>
-          <li>Fair-use limits only apply when usage impacts other clients.</li>
-          <li>Heavy Edit fees may be waived for minor or occasional overages.</li>
-          <li>We will always notify you before applying any usage-based fees.</li>
-        </ul>
-      </div>
-    </div>
-    <div class="policy-row">
-      <div class="policy-label"><i class="fas fa-info-circle"></i> Good to Know</div>
-      <div class="policy-content">
-        <ul>
-          <li>Unlisted requests are quoted based on complexity.</li>
-          <li>Fees may change — we will notify you in advance.</li>
-          <li>All fees are subject to our <a href="refund-policy.html">Refund Policy</a>.</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
+  </section>
 
-<!-- CTA -->
-<div class="cta-box">
-  <div class="cta-inner">
-    <div class="cta-text">
-      <h3>Ready to request something?</h3>
-      <p>Submit a request and we'll confirm pricing before starting any work.</p>
+  <!-- ONE-TIME FEES -->
+  <section id="one-time" class="fee-section">
+    <div class="section-eyebrow">One-Time Fees</div>
+    <h2 class="section-title">One-time service fees</h2>
+    <p class="section-desc">These are billed as a single charge, separate from your subscription. You'll always receive a confirmation of the fee before we proceed with any work.</p>
+    <div class="fee-cards">
+
+      <div class="fee-card">
+        <div class="fee-card-body">
+          <div class="fee-name">Web Project — Basic</div>
+          <p class="fee-desc">A focused update to a single existing page. This covers minor content changes, image swaps, section edits, or small fixes that go beyond routine maintenance. Ideal when you have a specific, contained request that doesn't require building anything new.</p>
+          <div class="fee-tags">
+            <span class="tag tag-link"><a href="https://buy.stripe.com/3cI7sK2Yu227cg0e51c3m0i" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;"><i class="fas fa-external-link-alt"></i> Purchase online</a></span>
+          </div>
+        </div>
+        <div class="fee-price-col">
+          <span class="fee-amount">$149</span>
+          <span class="fee-period">one-time</span>
+        </div>
+      </div>
+
+      <div class="fee-card">
+        <div class="fee-card-body">
+          <div class="fee-name">Web Project — Standard</div>
+          <p class="fee-desc">Updates across multiple pages of your existing website. This tier handles content refreshes, layout improvements across sections, and design adjustments that span more than one page. Best for a partial site refresh or a set of related changes.</p>
+          <div class="fee-tags">
+            <span class="tag tag-link"><a href="https://buy.stripe.com/bJe8wO9mSbCH4Nye51c3m0j" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;"><i class="fas fa-external-link-alt"></i> Purchase online</a></span>
+          </div>
+        </div>
+        <div class="fee-price-col">
+          <span class="fee-amount">$299</span>
+          <span class="fee-period">one-time</span>
+        </div>
+      </div>
+
+      <div class="fee-card">
+        <div class="fee-card-body">
+          <div class="fee-name">New Website Build</div>
+          <p class="fee-desc">A complete website designed and built from the ground up. Includes up to 3 custom pages plus a contact page. We handle design, development, mobile optimization, and launch. Domain registration is billed separately if needed. No monthly plan required to purchase.</p>
+          <div class="fee-note"><i class="fas fa-circle-info"></i> Domain registration sold separately if needed</div>
+          <div class="fee-tags">
+            <span class="tag tag-link"><a href="https://buy.stripe.com/3cIdR80QmdKPbbW5yvc3m0h" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;"><i class="fas fa-external-link-alt"></i> Purchase online</a></span>
+          </div>
+        </div>
+        <div class="fee-price-col">
+          <span class="fee-amount">$449</span>
+          <span class="fee-period">one-time</span>
+        </div>
+      </div>
+
+      <div class="fee-card">
+        <div class="fee-card-body">
+          <div class="fee-name">Website Setup and Onboarding Fee</div>
+          <p class="fee-desc">A one-time fee charged when you start a new monthly WebEaze subscription. It covers the initial design work, development, and launch of your website. This fee is not charged on annual plans, where it is built into the annual pricing.</p>
+          <div class="fee-note"><i class="fas fa-circle-info"></i> Waived on annual plans</div>
+        </div>
+        <div class="fee-price-col">
+          <span class="fee-amount">$199</span>
+          <span class="fee-period">one-time</span>
+        </div>
+      </div>
+
+      <div class="fee-card">
+        <div class="fee-card-body">
+          <div class="fee-name">Site Reactivation</div>
+          <p class="fee-desc">If you previously canceled your WebEaze plan and want to reactivate service, this fee covers restoring your site, reconnecting hosting, and resuming active management. The exact fee may vary depending on how long the site has been inactive and whether files were retained.</p>
+          <div class="fee-note"><i class="fas fa-circle-info"></i> Fee may vary based on time inactive and file status</div>
+        </div>
+        <div class="fee-price-col">
+          <span class="fee-amount">$199</span>
+          <span class="fee-period">starting at</span>
+        </div>
+      </div>
+
+      <div class="fee-card">
+        <div class="fee-card-body">
+          <div class="fee-name">Footer Credit Removal</div>
+          <p class="fee-desc">By default, WebEaze sites include a small "Built by WebEaze" credit in the footer. This is a one-time fee to remove it permanently. Once paid, the credit won't be reinstated.</p>
+        </div>
+        <div class="fee-price-col">
+          <span class="fee-amount">$149</span>
+          <span class="fee-period">one-time</span>
+        </div>
+      </div>
+
+      <div class="fee-card">
+        <div class="fee-card-body">
+          <div class="fee-name">Site Transfer</div>
+          <p class="fee-desc">If you cancel your plan within the first 12 months and want to take your website files to another provider, this fee covers packaging your site, coordinating with your new host, and transferring the files. Plans active for 12 months or more may transfer at no charge. See our <a href="cancellation-policy.html" style="color:var(--brand);text-decoration:underline;">Cancellation Policy</a> for details.</p>
+          <div class="fee-note"><i class="fas fa-circle-info"></i> Free for plans 12 months or older</div>
+        </div>
+        <div class="fee-price-col">
+          <span class="fee-amount">$99</span>
+          <span class="fee-period">one-time</span>
+        </div>
+      </div>
+
+      <div class="fee-card">
+        <div class="fee-card-body">
+          <div class="fee-name">Domain Retrieval</div>
+          <p class="fee-desc">If WebEaze registered a domain on your behalf during onboarding, and you later cancel or transfer to another provider, this fee covers releasing that domain to you or your new registrar. Without this fee, the domain may lapse and become publicly available after expiration.</p>
+        </div>
+        <div class="fee-price-col">
+          <span class="fee-amount">$99</span>
+          <span class="fee-period">one-time</span>
+        </div>
+      </div>
+
+      <div class="fee-card">
+        <div class="fee-card-body">
+          <div class="fee-name">Additional Domain Registration</div>
+          <p class="fee-desc">Register an additional domain name for your business, such as a second variation of your brand or a domain for a new location or campaign. Includes the first year of registration. Annual renewal is handled separately and at cost.</p>
+        </div>
+        <div class="fee-price-col">
+          <span class="fee-amount">$89</span>
+          <span class="fee-period">includes first year</span>
+        </div>
+      </div>
+
     </div>
-    <div class="cta-actions">
-      <a href="website-request.html" class="btn-gold"><i class="fas fa-paper-plane"></i> Submit Request</a>
-      <a href="pricing.html" class="btn-outline"><i class="fas fa-tag"></i> View Plans</a>
+  </section>
+
+  <!-- ADD-ON SERVICES -->
+  <section id="add-ons" class="fee-section">
+    <div class="section-eyebrow">Add-On Services</div>
+    <h2 class="section-title">Monthly add-on services</h2>
+    <p class="section-desc">These services are billed alongside your monthly subscription. They can be added or removed at any time by contacting us. One-time setup fees within this section are charged once, with the recurring charge starting the following billing cycle.</p>
+    <div class="fee-cards">
+
+      <div class="fee-card">
+        <div class="fee-card-body">
+          <div class="fee-name">Additional Website Pages</div>
+          <p class="fee-desc">Each WebEaze plan includes a set number of pages. If you need pages beyond that limit, each additional page is a one-time fee that covers design, layout, and content setup. There's no additional recurring charge per page after the initial build fee.</p>
+        </div>
+        <div class="fee-price-col">
+          <span class="fee-amount">$199</span>
+          <span class="fee-period">per page, one-time</span>
+        </div>
+      </div>
+
+      <div class="fee-card">
+        <div class="fee-card-body">
+          <div class="fee-name">E-commerce Store Setup</div>
+          <p class="fee-desc">Full setup of an online store on your website, including product listings, shopping cart, and checkout flow. Covers the first 12 months of platform fees for the e-commerce integration. Ongoing platform costs after that period are billed at cost. Best for businesses selling physical products, services, or digital downloads online.</p>
+          <div class="fee-note"><i class="fas fa-circle-info"></i> Requires Growth Plan or above</div>
+        </div>
+        <div class="fee-price-col">
+          <span class="fee-amount">$659</span>
+          <span class="fee-period">setup + 12 mo platform</span>
+        </div>
+      </div>
+
+      <div class="fee-card">
+        <div class="fee-card-body">
+          <div class="fee-name">Live Chat Integration</div>
+          <p class="fee-desc">We set up a live chat widget on your website using a platform of your choice, such as Tawk, Meta Messenger, or a similar tool. This fee covers the integration and configuration. The chat provider itself is usually free or low-cost, and any ongoing provider fees are separate from this charge.</p>
+        </div>
+        <div class="fee-price-col">
+          <span class="fee-amount">$229</span>
+          <span class="fee-period">one-time setup</span>
+        </div>
+      </div>
+
+      <div class="fee-card">
+        <div class="fee-card-body">
+          <div class="fee-name">Google Business Profile Management</div>
+          <p class="fee-desc">We actively manage your Google Business Profile on an ongoing monthly basis. This includes posting updates, keeping your business hours and information current, responding to reviews, and optimizing your listing for local search visibility. Included at no extra cost with the Growth plan.</p>
+          <div class="fee-note"><i class="fas fa-circle-info"></i> Included free with the Growth plan</div>
+        </div>
+        <div class="fee-price-col">
+          <span class="fee-amount monthly">$79</span>
+          <span class="fee-period">per month</span>
+        </div>
+      </div>
+
+      <div class="fee-card">
+        <div class="fee-card-body">
+          <div class="fee-name">Email Newsletter</div>
+          <p class="fee-desc">Monthly design and delivery of an email newsletter to your subscriber list. We handle layout, copywriting assistance, and scheduling. Requires an existing email list and a connected email marketing platform such as Mailchimp or similar.</p>
+        </div>
+        <div class="fee-price-col">
+          <span class="fee-amount monthly">$99</span>
+          <span class="fee-period">per month</span>
+        </div>
+      </div>
+
+      <div class="fee-card">
+        <div class="fee-card-body">
+          <div class="fee-name">AI Chatbot</div>
+          <p class="fee-desc">A custom AI assistant embedded on your website and trained on your business information. It answers visitor questions around the clock, captures contact details, and routes leads to you. Setup includes training the model on your services, hours, pricing, and frequently asked questions.</p>
+          <div class="fee-tags">
+            <span class="tag tag-link"><a href="ai.html" style="color:inherit;text-decoration:none;"><i class="fas fa-arrow-right"></i> Learn more</a></span>
+          </div>
+        </div>
+        <div class="fee-price-col">
+          <span class="fee-amount monthly">$79</span>
+          <span class="fee-period">per month</span>
+        </div>
+      </div>
+
+      <div class="fee-card">
+        <div class="fee-card-body">
+          <div class="fee-name">Ad Management</div>
+          <p class="fee-desc">We manage your paid advertising on Google, Facebook, and Instagram. This covers campaign strategy, ad creative, audience targeting, and monthly performance optimization. Your ad spend budget is paid directly to the platform and is separate from this management fee.</p>
+          <div class="fee-tags">
+            <span class="tag tag-link"><a href="ads.html" style="color:inherit;text-decoration:none;"><i class="fas fa-arrow-right"></i> Learn more</a></span>
+          </div>
+        </div>
+        <div class="fee-price-col">
+          <span class="fee-amount monthly">$149</span>
+          <span class="fee-period">per month</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CUSTOM DEVELOPMENT -->
+  <section id="custom-dev" class="fee-section">
+    <div class="section-eyebrow">Custom Development</div>
+    <h2 class="section-title">Custom development and integrations</h2>
+    <p class="section-desc">These are specialized builds that require development work beyond standard updates. Prices below are starting points. Complex or heavily customized requests may be quoted higher after a brief review. We always confirm the final price before starting.</p>
+    <div class="fee-cards">
+
+      <div class="fee-card">
+        <div class="fee-card-body">
+          <div class="fee-name">Custom Form or CRM Integration</div>
+          <p class="fee-desc">Building a custom form or connecting your website to a third-party system such as a CRM, lead management tool, or job application portal. This covers the development, testing, and connection setup. Examples include multi-step intake forms, HubSpot integrations, and contact-to-CRM pipelines.</p>
+        </div>
+        <div class="fee-price-col">
+          <span class="fee-amount">$299</span>
+          <span class="fee-period">starting at</span>
+        </div>
+      </div>
+
+      <div class="fee-card">
+        <div class="fee-card-body">
+          <div class="fee-name">Booking System Setup</div>
+          <p class="fee-desc">Integration of a scheduling or appointment booking tool into your website. We support Calendly, Square Appointments, Acuity, and similar platforms. This fee covers the embed, configuration, and any styling needed to match your site. Your subscription to the booking platform itself is managed and billed directly by you.</p>
+        </div>
+        <div class="fee-price-col">
+          <span class="fee-amount">$329</span>
+          <span class="fee-period">starting at</span>
+        </div>
+      </div>
+
+      <div class="fee-card">
+        <div class="fee-card-body">
+          <div class="fee-name">Campaign or Landing Page</div>
+          <p class="fee-desc">A standalone page built for a specific marketing campaign, promotion, or ad. Designed to convert visitors into leads or customers, with a focused layout, clear call to action, and optional conversion tracking setup. Ideal for paid ad campaigns or seasonal promotions that need their own destination.</p>
+        </div>
+        <div class="fee-price-col">
+          <span class="fee-amount">$329</span>
+          <span class="fee-period">starting at</span>
+        </div>
+      </div>
+
+      <div class="fee-card">
+        <div class="fee-card-body">
+          <div class="fee-name">Heavy Image Editing</div>
+          <p class="fee-desc">Standard image optimization and resizing is included in your plan. This fee applies to batches that exceed 8 advanced edits, such as background removal, complex compositing, or significant retouching. Minor overages may be waived at our discretion for occasional requests.</p>
+          <div class="fee-note"><i class="fas fa-circle-info"></i> Minor overages may be waived</div>
+        </div>
+        <div class="fee-price-col">
+          <span class="fee-amount">$40</span>
+          <span class="fee-period">per batch over 8 edits</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- RUSH -->
+  <section id="rush" class="fee-section">
+    <div class="section-eyebrow">Rush and Special Requests</div>
+    <h2 class="section-title">Rush and after-hours fees</h2>
+    <p class="section-desc">Standard turnaround is 24 to 48 hours during regular business hours. If you need something faster or outside of normal hours, the fees below apply. Rush requests are subject to availability and are not guaranteed.</p>
+    <div class="fee-cards">
+
+      <div class="fee-card">
+        <div class="fee-card-body">
+          <div class="fee-name">Same-Day Turnaround</div>
+          <p class="fee-desc">Your request is completed within the same business day it is submitted. This applies to requests received during regular business hours that need to be done before end of day. Not available for complex builds or multi-page projects. Subject to team availability at time of request.</p>
+        </div>
+        <div class="fee-price-col">
+          <span class="fee-amount">$69</span>
+          <span class="fee-period">per request</span>
+        </div>
+      </div>
+
+      <div class="fee-card">
+        <div class="fee-card-body">
+          <div class="fee-name">Weekend or After-Hours</div>
+          <p class="fee-desc">Requests submitted or requiring completion outside of standard Monday through Friday business hours. This includes evenings, weekends, and observed holidays. </p>
+          <div class="fee-note"><i class="fas fa-circle-info"></i> Standard hours: Monday to Friday, 9 AM to 5 PM ET</div>
+        </div>
+        <div class="fee-price-col">
+          <span class="fee-amount">$89</span>
+          <span class="fee-period">per request</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- BILLING POLICIES -->
+  <section id="policies" class="fee-section" style="padding-bottom:0">
+    <div class="section-eyebrow">Billing Policies</div>
+    <h2 class="section-title">How fees are applied and billed</h2>
+    <p class="section-desc">We keep billing straightforward. Nothing on this page is ever charged automatically or without your knowledge. Here is how the process works.</p>
+    <div class="policies-stack">
+
+      <div class="policy-card">
+        <h3><i class="fas fa-credit-card"></i> How billing works</h3>
+        <ul>
+          <li>Every fee on this schedule requires your explicit approval before we invoice or start work. We'll always tell you the exact amount first.</li>
+          <li>One-time fees are invoiced separately from your subscription and appear as their own charge on your payment method.</li>
+          <li>Monthly add-ons are added to your regular subscription billing amount starting the next billing cycle after activation.</li>
+          <li>Invoices are sent by email with a secure payment link. We don't store card information.</li>
+          <li>If you purchase directly through a Stripe link, the fee is processed immediately and work begins once payment is confirmed.</li>
+        </ul>
+      </div>
+
+      <div class="policy-card">
+        <h3><i class="fas fa-scale-balanced"></i> Fair use</h3>
+        <ul>
+          <li>Fair-use limits on updates and support hours exist to protect service quality for all clients, not to restrict normal use. Most clients never come close to them.</li>
+          <li>Heavy image editing fees may be waived for minor or occasional overages at our discretion. We'll always tell you before applying one.</li>
+          <li>If your usage consistently approaches limits, we'll reach out to discuss whether a plan upgrade or custom arrangement makes sense before applying any fees.</li>
+        </ul>
+      </div>
+
+      <div class="policy-card">
+        <h3><i class="fas fa-circle-info"></i> Other things to know</h3>
+        <ul>
+          <li>Requests not listed here are quoted based on scope and complexity. We'll always send a written estimate before starting any unlisted work.</li>
+          <li>Fees may be updated periodically. We'll notify you at least 30 days in advance of any change that affects your account.</li>
+          <li>All fees are subject to our <a href="refund-policy.html">Refund Policy</a>. Generally, completed work is non-refundable.</li>
+          <li>Questions about a fee? <a href="website-request.html">Send us a message</a> and we'll clarify before you commit to anything.</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <div class="cta-box">
+    <div class="cta-inner">
+      <div class="cta-text">
+        <h3>Ready to request something?</h3>
+        <p>Submit a request and we'll confirm the exact price before doing any work.</p>
+      </div>
+      <div class="cta-actions">
+        <a href="website-request.html" class="btn-gold"><i class="fas fa-paper-plane"></i> Submit a Request</a>
+        <a href="pricing.html" class="btn-outline"><i class="fas fa-tag"></i> View Plans</a>
+      </div>
     </div>
   </div>
-</div>
+
+</div><!-- /content-wrap -->
 
 <!-- FOOTER -->
 <footer>
