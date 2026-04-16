@@ -754,19 +754,6 @@
     const returning = lsGet('wz_myplan_visited');
     lsSet('wz_myplan_visited', true);
 
-    // Member since + duration
-    const firstVisit = lsGet('wz_first_visit');
-    if (returning && firstVisit) {
-      const since = new Date(firstVisit);
-      const sinceStr = since.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
-      const months = Math.floor((Date.now() - firstVisit) / (30.44 * 24 * 60 * 60 * 1000));
-      const durStr = months < 1 ? 'less than a month' : months < 12 ? months + (months === 1 ? ' month' : ' months') : Math.floor(months / 12) + (Math.floor(months / 12) === 1 ? ' year' : ' years') + (months % 12 ? ', ' + (months % 12) + (months % 12 === 1 ? ' month' : ' months') : '');
-      const $line = document.getElementById('memberSinceLine');
-      if ($line) {
-        $line.innerHTML = '<i class="fas fa-calendar-check"></i> With us since ' + sinceStr + ' &middot; ' + durStr;
-        $line.style.display = 'flex';
-      }
-    }
 
   })();
 </script>
