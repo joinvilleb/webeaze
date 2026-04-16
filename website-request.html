@@ -820,7 +820,7 @@
     </button>
 
     <div class="shortcuts-body" id="shortcutsBody" hidden>
-    <div class="shortcuts-sub">Tell us what you need and we'll point you in the right direction.</div>
+    <div class="shortcuts-sub">Tell us what you need and we'll be on it.</div>
 
     <div class="intent-grid">
       <button class="intent-tile" onclick="showPanel('contact')">
@@ -1068,20 +1068,12 @@
       obs.observe(document.body, { childList: true, subtree: true });
     })();
 
-    // ── 2. Personalized title ──
+    // ── 2 & 3. Header context — unified below in applyHeaderContext() ──
     const $title = document.getElementById('headerTitle');
-    if ($title && returning) {
-      $title.textContent = count >= 6
-        ? 'Welcome back!'
-        : count >= 3
-          ? 'What are we working on?'
-          : 'Welcome back!';
-    }
-
-    // ── 3. Personalized subtitle ──
-    const $sub = document.getElementById('headerSub');
-    if ($sub && returning) {
-      $sub.textContent = 'Drop your request and we\'ll handle it.';
+    const $sub   = document.getElementById('headerSub');
+    function setHeader(title, sub) {
+      if ($title && title) $title.textContent = title;
+      if ($sub   && sub)   $sub.textContent   = sub;
     }
 
     // ── 4. Last panel memory ──
@@ -1142,21 +1134,56 @@
       $nudge.hidden = false;
     }
 
-    // ── 7. Referrer pre-selection ──
+    // ── 7. Referrer → header copy + panel pre-selection ──
+    const REFERRER_MAP = {
+      'pricing.html':               { title: 'Let\'s talk about your plan.',       sub: 'Billing question or want to make a change? Describe what you need and we\'ll sort it out.',  panel: 'billing' },
+      'maintenance.html':           { title: 'What would you like updated?',       sub: 'Send us the details and it\'ll be handled, usually same day or next.' },
+      'services.html':              { title: 'Ready to get started?',              sub: 'Tell us what you need and we\'ll take it from there.' },
+      'about.html':                 { title: 'Ready to work with us?',             sub: 'Tell us what you\'re looking for and we\'ll take it from there.' },
+      'faq.html':                   { title: 'Still have questions?',              sub: 'Ask us directly and we\'ll give you a straight answer.' },
+      'contact-us.html':            { title: 'Something on your mind?',            sub: 'Send us the details and we\'ll be in touch.' },
+      'consultation.html':          { title: 'Let\'s build your website.',         sub: 'Tell us about your business and we\'ll get things started.' },
+      'client-start.html':          { title: 'What can we update for you?',        sub: 'Unlimited updates, included in your plan.' },
+      'fee-schedule.html':          { title: 'Have a specific request?',           sub: 'Describe what you need and we\'ll confirm pricing before we start.' },
+      'website-setup-package.html': { title: 'Questions about your plan?',         sub: 'We\'re here to help you figure out your next step.' },
+      'my-plan.html':               { title: 'Need something changed?',            sub: 'Submit the details and we\'ll handle it.' },
+      'providers.html':             { title: 'Hosting or domain question?',        sub: 'Describe the issue and we\'ll get it sorted.' },
+      'seo.html':                   { title: 'SEO question or request?',           sub: 'Tell us what you\'re trying to improve and we\'ll take a look.' },
+      'help.html':                  { title: 'How can we help?',                   sub: 'Describe what you need and we\'ll point you in the right direction.' },
+    };
+    const BILLING_HASHES = ['manage-your-plan','annual-vs-monthly','change-billing-date','reactivate-plan','view-invoices','change-subscription','billing','failed-payment','refund','pause','cancel'];
+    const BROKEN_HASHES  = ['site-is-down','website-error-troubleshooting','my-site-isnt-updating','contact-form-not-sending','site-not-loading','site-not-updating'];
+
     try {
       const ref = document.referrer;
-      if (ref && !lastPanel) {
+      if (ref) {
         const url  = new URL(ref);
         const path = url.pathname.split('/').pop() || '';
         const hash = url.hash || '';
-        const billingHashes = ['manage-your-plan','annual-vs-monthly','change-billing-date','reactivate-plan','view-invoices','billing'];
-        const brokenHashes  = ['site-is-down','website-error-troubleshooting','my-site-isnt-updating','contact-form-not-sending'];
-        if (path === 'pricing.html') {
-          setTimeout(() => showPanel('billing', true), 300);
-        } else if (path === 'help.html' && billingHashes.some(s => hash.includes(s))) {
-          setTimeout(() => showPanel('billing', true), 300);
-        } else if (path === 'help.html' && brokenHashes.some(s => hash.includes(s))) {
-          setTimeout(() => showPanel('broken', true), 300);
+
+        let ctx = null;
+
+        if (path.startsWith('web-design-')) {
+          // Geo pages — they're about getting a new site
+          const state = path.replace('web-design-','').replace('.html','').replace(/-/g,' ');
+          const label = state.charAt(0).toUpperCase() + state.slice(1);
+          ctx = { title: 'Let\'s build your website.', sub: 'Tell us about your ' + label + ' business and we\'ll get things started.' };
+        } else if (path === 'help.html' && BILLING_HASHES.some(s => hash.includes(s))) {
+          ctx = { title: 'Billing question?', sub: 'Describe what you need and we\'ll sort it out.', panel: 'billing' };
+        } else if (path === 'help.html' && BROKEN_HASHES.some(s => hash.includes(s))) {
+          ctx = { title: 'Something not working?', sub: 'Tell us what\'s going on and we\'ll get on it right away.', panel: 'broken' };
+        } else {
+          ctx = REFERRER_MAP[path] || null;
+        }
+
+        if (ctx) {
+          setHeader(ctx.title, ctx.sub);
+          if (ctx.panel && !lastPanel) {
+            setTimeout(() => showPanel(ctx.panel, true), 300);
+          }
+        } else if (!ref || !new URL(ref).hostname.includes('webeaze')) {
+          // External referrer — they found us themselves
+          setHeader('What can we help with?', 'Tell us what you need and we\'ll get it handled.');
         }
       }
     } catch(e) {}
@@ -1224,27 +1251,40 @@
       }
     })();
 
-    // ── 9. Time-of-year seasonal header copy ──
+    // ── 9. Seasonal subtitle — only if no referrer context was applied ──
     (function() {
-      if (returning) return; // only on first visit, returning visitors already have personalized copy
-      const $sub = document.getElementById('headerSub');
-      if (!$sub) return;
+      // If referrer already set a custom subtitle, don't overwrite it
+      try {
+        const ref = document.referrer;
+        if (ref) {
+          const path = new URL(ref).pathname.split('/').pop() || '';
+          if (path && (REFERRER_MAP[path] || path.startsWith('web-design-'))) return;
+        }
+      } catch(e) {}
+      // Also skip if returning visitor (section 7 already gave them context)
+      if (returning) {
+        setHeader(
+          count >= 10 ? 'Good to see you again.' : count >= 4 ? 'What are we working on?' : 'Welcome back.',
+          'Drop your request and we\'ll handle it.'
+        );
+        return;
+      }
       const month = now.getMonth();
       const seasonal = [
-        null, // Jan -- default
-        'Tax season coming up? Get your site in order while you are at it.',  // Feb
-        'Tax season on your mind? Update your site pricing or hours while you are at it.', // Mar
+        null, // Jan
+        { sub: 'Tax season coming up? Good time to get your site details in order.' },        // Feb
+        { sub: 'Tax season on your mind? Update your pricing or hours while you\'re at it.' }, // Mar
         null, // Apr
-        'Summer is around the corner. A good time to refresh your photos or promotions.', // May
-        'Summer is here. Keep your site current with your latest hours and services.', // Jun
-        null, // Jul
-        null, // Aug
-        'Fall is a great time to review and refresh anything that has changed.', // Sep
-        'Year end is approaching. Get your updates in now before things get busy.', // Oct
-        'Holiday rush is coming. Submit updates now to avoid delays.', // Nov
-        'Last chance before the holidays. We close Dec 24. Get requests in early.', // Dec
+        { sub: 'Summer is around the corner. A good time to refresh photos or promotions.' }, // May
+        { sub: 'Summer is here. Keep your site current with your latest hours and offers.' },  // Jun
+        null, null, // Jul, Aug
+        { sub: 'Fall is a great time to review and refresh anything that has changed.' },      // Sep
+        { sub: 'Year end is approaching. Get your updates in before things get busy.' },       // Oct
+        { sub: 'Holiday rush is coming. Submit updates now to avoid any delays.' },            // Nov
+        { sub: 'Last chance before the holidays. We close Dec 24 — get requests in early.' }, // Dec
       ];
-      if (seasonal[month]) $sub.textContent = seasonal[month];
+      const s = seasonal[month];
+      if (s) setHeader(null, s.sub);
     })();
 
     // ── 10. Milestone card: visits + estimated savings ──
@@ -1322,22 +1362,24 @@
 
         // Map article slugs to intent panels + contextual subtitle copy
         const articlePanelMap = {
-          'manage-your-plan':             { panel: 'billing',  sub: 'Billing question? Describe what you need and we\'ll sort it out.' },
-          'annual-vs-monthly':            { panel: 'billing',  sub: 'Billing question? Describe what you need and we\'ll sort it out.' },
-          'change-billing-date':          { panel: 'billing',  sub: 'Billing question? Describe what you need and we\'ll sort it out.' },
-          'view-invoices':                { panel: 'billing',  sub: 'Need an invoice? Mention the billing period in your request.' },
-          'reactivate-plan':              { panel: 'billing',  sub: 'Looking to reactivate? Just drop us a note and we\'ll take care of it.' },
-          'site-is-down':                 { panel: 'broken',   sub: 'Reporting a site issue? Be as specific as you can and we\'ll get on it fast.' },
-          'website-error-troubleshooting':{ panel: 'broken',   sub: 'Reporting an error? Include the page URL and what you see.' },
-          'my-site-isnt-updating':        { panel: 'broken',   sub: 'Site not updating? Describe what you changed and what you expected.' },
-          'contact-form-not-sending':     { panel: 'broken',   sub: 'Form issue? Tell us which form and we\'ll check it right away.' },
+          'manage-your-plan':             { panel: 'billing', title: 'Billing question?',        sub: 'Describe what you need and we\'ll sort it out.' },
+          'annual-vs-monthly':            { panel: 'billing', title: 'Billing question?',        sub: 'Thinking about switching plans? Tell us what you have in mind.' },
+          'change-billing-date':          { panel: 'billing', title: 'Billing question?',        sub: 'Want to change your billing date? Just let us know.' },
+          'view-invoices':                { panel: 'billing', title: 'Need an invoice?',         sub: 'Mention the billing period and we\'ll pull it for you.' },
+          'reactivate-plan':              { panel: 'billing', title: 'Ready to come back?',      sub: 'Drop us a note and we\'ll get your plan reactivated.' },
+          'website-setup-package':        { panel: 'billing', title: 'Questions about your plan?', sub: 'We\'re here to help you figure out your next step.' },
+          'failed-payment':               { panel: 'billing', title: 'Payment issue?',           sub: 'Tell us what happened and we\'ll get it resolved quickly.' },
+          'cancel-your-plan':             { panel: 'billing', title: 'Thinking about canceling?', sub: 'Let us know what\'s going on — we\'d love to help before you go.' },
+          'site-is-down':                 { panel: 'broken',  title: 'Something not working?',   sub: 'Tell us what\'s going on and we\'ll get on it right away.' },
+          'website-error-troubleshooting':{ panel: 'broken',  title: 'Error on your site?',      sub: 'Include the page URL and what you\'re seeing so we can find it fast.' },
+          'my-site-isnt-updating':        { panel: 'broken',  title: 'Site not updating?',       sub: 'Describe what you changed and what you expected to see.' },
+          'contact-form-not-sending':     { panel: 'broken',  title: 'Form not working?',        sub: 'Tell us which form and what happens when someone submits it.' },
         };
 
         const ctx = articlePanelMap[helpLast.slug];
 
-        // Update header subtitle to be article-aware
-        const $sub = document.getElementById('headerSub');
-        if ($sub && ctx && ctx.sub) $sub.textContent = ctx.sub;
+        // Update header title and subtitle to be article-aware
+        if (ctx) setHeader(ctx.title, ctx.sub);
 
         const $tip = document.getElementById('formTip');
         if (!$tip || !$tip.hidden) return; // don't overwrite a higher-priority tip
