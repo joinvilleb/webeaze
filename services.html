@@ -195,6 +195,124 @@ a { text-decoration: none; color: inherit; }
   to   { opacity: 1; transform: translateY(0); }
 }
 
+/* ── AMBIENT ORBS ─────────────────────────────── */
+.orb {
+  position: absolute; border-radius: 50%;
+  filter: blur(90px); pointer-events: none;
+}
+.orb-1 {
+  width: 520px; height: 520px; top: -100px; right: -60px;
+  background: radial-gradient(circle, rgba(120,81,169,.22) 0%, transparent 70%);
+  animation: orbDrift1 14s ease-in-out infinite;
+}
+.orb-2 {
+  width: 380px; height: 380px; bottom: -80px; left: -80px;
+  background: radial-gradient(circle, rgba(255,215,0,.11) 0%, transparent 70%);
+  animation: orbDrift2 18s ease-in-out infinite;
+}
+.orb-3 {
+  width: 260px; height: 260px; top: 40%; left: 40%;
+  background: radial-gradient(circle, rgba(34,197,94,.07) 0%, transparent 70%);
+  animation: orbDrift3 21s ease-in-out infinite;
+}
+@keyframes orbDrift1 {
+  0%,100%{ transform: translate(0,0) scale(1); }
+  33%    { transform: translate(-45px,35px) scale(1.1); }
+  66%    { transform: translate(30px,-25px) scale(.9); }
+}
+@keyframes orbDrift2 {
+  0%,100%{ transform: translate(0,0) scale(1); }
+  50%    { transform: translate(45px,-50px) scale(1.12); }
+}
+@keyframes orbDrift3 {
+  0%,100%{ transform: translate(0,0) scale(1); }
+  50%    { transform: translate(-30px,30px) scale(.88); }
+}
+
+/* ── HERO SCENE TRANSITIONS ───────────────────── */
+.hero-scene-wrap {
+  position: relative;
+  min-height: 200px;
+  margin-bottom: 4px;
+}
+.hero-scene {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity .55s cubic-bezier(.22,1,.36,1), transform .55s cubic-bezier(.22,1,.36,1);
+}
+.hero-scene.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.hero-scene.exiting {
+  position: absolute; top: 0; left: 0; right: 0;
+  opacity: 0;
+  transform: translateY(-18px);
+  pointer-events: none;
+  transition: opacity .4s ease, transform .4s ease;
+}
+
+/* Scene eyebrow — no auto-fade, scene handles it */
+.hero-scene .hero-eyebrow {
+  opacity: 1; animation: none;
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--gold-soft); border: 1px solid var(--gold-border);
+  border-radius: 50px; padding: 8px 20px;
+  font-size: .8rem; font-weight: 600; color: var(--gold);
+  letter-spacing: .05em; text-transform: uppercase;
+  margin-bottom: 22px;
+}
+.hero-scene h1 {
+  font-size: clamp(2.4rem, 5.5vw, 3.8rem);
+  font-weight: 600; letter-spacing: -.03em; line-height: 1.07;
+  margin: 0 0 18px; opacity: 1; animation: none;
+}
+.hero-scene h1 .gold {
+  background: linear-gradient(135deg, var(--gold) 0%, #ffe97a 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.hero-scene .hero-sub {
+  font-size: 1.1rem; color: rgba(255,255,255,.72); line-height: 1.68;
+  margin: 0; max-width: 440px; opacity: 1; animation: none;
+}
+
+/* Progress dots */
+.hero-dots {
+  display: flex; gap: 7px; margin-bottom: 26px;
+  opacity: 0; animation: fadeUp .5s ease .08s forwards;
+}
+.hero-dot {
+  height: 3px; border-radius: 3px;
+  background: rgba(255,255,255,.16);
+  transition: width .45s cubic-bezier(.22,1,.36,1), background .35s ease;
+  width: 24px;
+}
+.hero-dot.active { width: 42px; background: var(--gold); }
+.hero-dot.done   { background: rgba(255,215,0,.3); }
+
+/* Btns + trust — hidden until after sequence, then revealed */
+.hero-btns, .hero-trust {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity .55s ease, transform .55s ease;
+}
+.hero-btns {
+  margin-top: 32px;
+  gap: 14px;
+}
+.hero-btns.revealed { opacity: 1; transform: translateY(0); }
+.hero-trust.revealed {
+  opacity: 1; transform: translateY(0);
+  transition-delay: .12s;
+}
+
+@media (max-width: 600px) {
+  .orb-1 { width: 300px; height: 300px; }
+  .orb-2 { width: 220px; height: 220px; }
+  .orb-3 { display: none; }
+  .hero-scene-wrap { min-height: 180px; }
+}
+
 /* ── TAB NAV ─────────────────────────────────────── */
 .tab-nav-wrap {
   position: sticky; top: 61px; z-index: 500;
@@ -781,24 +899,45 @@ footer { background: #000; padding: 60px 20px 40px; border-top: 1px solid rgba(2
 
 <!-- HERO: split layout -->
 <header class="hero">
-  <div class="hero-ambient"></div>
+  <div class="hero-ambient">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
   <div class="container container-narrow w-100">
     <div class="hero-grid">
 
-      <!-- Left: copy -->
+      <!-- Left: auto-transitioning scenes -->
       <div class="hero-left">
-        <div class="hero-eyebrow"><i class="fas fa-layer-group"></i> Built for small businesses</div>
-        <h1>Your website,<br><span class="gold">handled.</span></h1>
-        <p class="hero-sub">New sites, ongoing management, or one-time projects. One team, one price, zero stress.</p>
-        <div class="hero-btns">
+
+        <!-- Progress dots -->
+        <div class="hero-dots" id="heroDots">
+          <div class="hero-dot active"></div>
+          <div class="hero-dot"></div>
+          <div class="hero-dot"></div>
+          <div class="hero-dot"></div>
+        </div>
+
+        <!-- Scene wrap (JS swaps content here) -->
+        <div class="hero-scene-wrap" id="heroSceneWrap">
+          <div class="hero-scene visible" id="heroScene">
+            <div class="hero-eyebrow"><i class="fas fa-paint-brush"></i> Website Design</div>
+            <h1>Your website,<br><span class="gold">designed.</span></h1>
+            <p class="hero-sub">Custom-built from scratch. No templates, no builders, no shortcuts.</p>
+          </div>
+        </div>
+
+        <!-- Revealed after all scenes complete -->
+        <div class="hero-btns" id="heroBtns">
           <a href="consultation.html" class="btn-gold"><i class="fas fa-arrow-right"></i> Get Your Free Mockup</a>
           <a href="pricing.html" class="btn-ghost"><i class="fas fa-dollar-sign"></i> View Pricing</a>
         </div>
-        <div class="hero-trust">
+        <div class="hero-trust" id="heroTrust">
           <div class="trust-pill"><i class="fas fa-check-circle"></i> Live in 7 days</div>
           <div class="trust-pill"><i class="fas fa-check-circle"></i> Unlimited updates</div>
           <div class="trust-pill"><i class="fas fa-check-circle"></i> Cancel anytime</div>
         </div>
+
       </div>
 
       <!-- Right: image + floating cards -->
@@ -1532,6 +1671,95 @@ footer { background: #000; padding: 60px 20px 40px; border-top: 1px solid rgba(2
       if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
     });
   });
+})();
+</script>
+<script>
+/* ── HERO AUTO SCENE TRANSITION ─────────────────────────────────── */
+(function () {
+  var scenes = [
+    {
+      icon: 'fa-paint-brush',
+      label: 'Website Design',
+      word: 'designed.',
+      sub: 'Custom-built from scratch. No templates, no builders, no shortcuts.'
+    },
+    {
+      icon: 'fa-rocket',
+      label: 'Fast Launch',
+      word: 'launched.',
+      sub: 'Live in 7 days. Real code, real performance, zero waiting.'
+    },
+    {
+      icon: 'fa-tools',
+      label: 'Ongoing Management',
+      word: 'managed.',
+      sub: 'Updates, security, and hosting handled every single day.'
+    },
+    {
+      icon: 'fa-layer-group',
+      label: 'Built for Small Businesses',
+      word: 'handled.',
+      sub: 'New sites, ongoing management, or one-time projects. One team, one price, zero stress.'
+    }
+  ];
+
+  var wrap  = document.getElementById('heroSceneWrap');
+  var scene = document.getElementById('heroScene');
+  var dots  = document.querySelectorAll('.hero-dot');
+  var btns  = document.getElementById('heroBtns');
+  var trust = document.getElementById('heroTrust');
+  if (!wrap || !scene) return;
+
+  var current  = 0;
+  var HOLD_MS  = 2200;  // how long each scene is fully visible
+  var OUT_MS   = 400;   // exit transition
+  var IN_MS    = 550;   // enter transition
+
+  function buildScene(idx) {
+    var s = scenes[idx];
+    return '<div class="hero-eyebrow"><i class="fas ' + s.icon + '"></i> ' + s.label + '</div>'
+         + '<h1>Your website,<br><span class="gold">' + s.word + '</span></h1>'
+         + '<p class="hero-sub">' + s.sub + '</p>';
+  }
+
+  function updateDots(idx) {
+    dots.forEach(function (d, i) {
+      d.classList.toggle('active', i === idx);
+      d.classList.toggle('done',   i < idx);
+    });
+  }
+
+  function goNext() {
+    var next = current + 1;
+    if (next >= scenes.length) {
+      // Sequence done — reveal CTAs
+      btns  && btns.classList.add('revealed');
+      trust && trust.classList.add('revealed');
+      return;
+    }
+
+    // Exit current scene upward
+    scene.classList.add('exiting');
+    scene.classList.remove('visible');
+
+    setTimeout(function () {
+      // Swap content, reset position to below, then enter
+      scene.classList.remove('exiting');
+      scene.innerHTML = buildScene(next);
+      current = next;
+      updateDots(current);
+
+      // Force reflow before adding visible
+      void scene.offsetWidth;
+      scene.classList.add('visible');
+
+      // Hold then advance
+      setTimeout(goNext, HOLD_MS + IN_MS);
+    }, OUT_MS);
+  }
+
+  // Start after first scene has been visible a beat
+  setTimeout(goNext, HOLD_MS);
 })();
 </script>
 </body>
