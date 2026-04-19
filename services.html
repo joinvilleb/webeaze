@@ -337,10 +337,69 @@ a { text-decoration: none; color: inherit; }
 .tab-btn.active { background: var(--gold-soft); border-color: var(--gold-border); color: var(--gold); }
 @media (max-width: 560px) { .tab-btn { font-size: .78rem; padding: 8px 14px; } }
 
-/* ── PANELS ──────────────────────────────────────── */
-.tab-panel { display: none; }
-.tab-panel.active { display: block; animation: panelFade .35s ease; }
-@keyframes panelFade { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+/* ── JUMP NAV ─────────────────────────────────────── */
+.jump-nav-wrap {
+  position: sticky; top: 61px; z-index: 500;
+  background: rgba(5,5,9,.98);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--line);
+}
+.jump-nav {
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  padding: 12px 20px; max-width: 1100px; margin: 0 auto;
+}
+.jump-btn {
+  display: inline-flex; align-items: center; gap: 9px;
+  background: transparent; border: 1px solid var(--line); border-radius: var(--radius-sm);
+  color: var(--muted); font-family: 'Poppins', sans-serif;
+  font-size: .88rem; font-weight: 600; padding: 9px 20px;
+  text-decoration: none; transition: all .22s ease; white-space: nowrap;
+}
+.jump-btn i { font-size: .8rem; }
+.jump-btn:hover { border-color: rgba(255,215,0,.25); color: rgba(255,255,255,.9); background: rgba(255,255,255,.04); }
+.jump-btn.active { background: var(--gold-soft); border-color: var(--gold-border); color: var(--gold); }
+
+/* ── SERVICE OVERVIEW CARDS ───────────────────────── */
+.overview-section { padding: clamp(64px,10vh,96px) 0; background: var(--card); border-bottom: 1px solid var(--line); }
+.svc-cards-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+@media (max-width: 760px) { .svc-cards-grid { grid-template-columns: 1fr; max-width: 420px; margin: 0 auto; } }
+.svc-card {
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--radius-lg); padding: 36px 28px;
+  display: flex; flex-direction: column;
+  transition: border-color .25s, transform .25s, box-shadow .25s;
+  text-decoration: none; color: inherit;
+  position: relative; overflow: hidden;
+}
+.svc-card::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--gold), var(--purple));
+  transform: scaleX(0); transform-origin: left; transition: transform .3s ease;
+}
+.svc-card:hover { border-color: var(--gold-border); transform: translateY(-5px); box-shadow: 0 20px 48px rgba(0,0,0,.3); }
+.svc-card:hover::after { transform: scaleX(1); }
+.svc-card-icon { width: 52px; height: 52px; background: var(--gold-soft); border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 18px; }
+.svc-card-icon i { font-size: 1.3rem; color: var(--gold); }
+.svc-card h3 { font-size: 1.25rem; font-weight: 600; margin: 0 0 12px; letter-spacing: -.02em; }
+.svc-card > p { font-size: 1.02rem; color: var(--muted); line-height: 1.7; margin: 0 0 22px; flex: 1; }
+.svc-price {
+  font-size: 1.4rem; font-weight: 700;
+  background: linear-gradient(135deg, var(--gold), #ffe97a);
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  margin-bottom: 16px; line-height: 1.2;
+}
+.svc-price span { font-size: .9rem; }
+.svc-cta { display: inline-flex; align-items: center; gap: 7px; font-size: .9rem; font-weight: 600; color: var(--gold); transition: gap .2s; }
+.svc-card:hover .svc-cta { gap: 11px; }
+
+/* ── SERVICE SECTION DIVIDERS ─────────────────────── */
+.service-section { border-top: 1px solid var(--line); }
+.svc-section-label {
+  display: flex; align-items: center; justify-content: center; gap: 14px;
+  padding: clamp(52px,7vh,72px) 0 0;
+  font-size: .78rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--muted);
+}
+.svc-section-label::before, .svc-section-label::after { content: ''; flex: 0 0 40px; height: 1px; background: var(--line); }
 
 /* ── SHARED LAYOUT ───────────────────────────────── */
 .section     { padding: clamp(60px,10vh,96px) 0; }
@@ -355,8 +414,8 @@ a { text-decoration: none; color: inherit; }
 }
 .eyebrow.green  { background: rgba(34,197,94,.1); border-color: rgba(34,197,94,.3); color: var(--green); }
 .eyebrow.purple { background: rgba(120,81,169,.15); border-color: rgba(120,81,169,.35); color: #c4a8ff; }
-.section-header h2 { font-size: clamp(1.8rem,4vw,2.6rem); font-weight: 600; letter-spacing: -.025em; margin: 0 0 14px; }
-.section-header p  { font-size: 1.02rem; color: var(--muted); max-width: 500px; margin: 0 auto; line-height: 1.7; }
+.section-header h2 { font-size: clamp(1.9rem,4vw,2.8rem); font-weight: 600; letter-spacing: -.025em; margin: 0 0 14px; }
+.section-header p  { font-size: 1.1rem; color: var(--muted); max-width: 520px; margin: 0 auto; line-height: 1.75; }
 
 /* ── PANEL INTRO ─────────────────────────────────── */
 .panel-intro {
@@ -457,8 +516,8 @@ a { text-decoration: none; color: inherit; }
 }
 .feat-card:hover .feat-icon { background: rgba(255,215,0,.2); }
 .feat-icon i { font-size: 1.2rem; color: var(--gold); }
-.feat-card h3 { font-size: 1rem; font-weight: 700; margin: 0 0 7px; }
-.feat-card p  { font-size: .88rem; color: var(--muted); margin: 0; line-height: 1.6; }
+.feat-card h3 { font-size: 1.05rem; font-weight: 700; margin: 0 0 8px; }
+.feat-card p  { font-size: 1rem; color: var(--muted); margin: 0; line-height: 1.68; }
 
 /* ── STEPS ───────────────────────────────────────── */
 .steps-wrap { max-width: 860px; margin: 0 auto; }
@@ -489,8 +548,8 @@ a { text-decoration: none; color: inherit; }
   position: relative; z-index: 2; transition: transform .3s;
 }
 .step-item:hover .step-num { transform: scale(1.08); }
-.step-item h3 { font-size: 1rem; font-weight: 600; margin: 0 0 7px; }
-.step-item p  { font-size: .88rem; color: var(--muted); margin: 0; line-height: 1.6; }
+.step-item h3 { font-size: 1.05rem; font-weight: 600; margin: 0 0 8px; }
+.step-item p  { font-size: 1rem; color: var(--muted); margin: 0; line-height: 1.68; }
 
 /* ── SPLIT LAYOUT ────────────────────────────────── */
 .split {
@@ -498,11 +557,11 @@ a { text-decoration: none; color: inherit; }
 }
 @media (max-width: 880px) { .split { grid-template-columns: 1fr; gap: 36px; } }
 .split-text h2 { font-size: clamp(1.7rem,3.8vw,2.3rem); font-weight: 600; letter-spacing: -.025em; margin: 0 0 14px; }
-.split-text p  { font-size: .97rem; color: var(--muted); line-height: 1.75; margin-bottom: 16px; }
+.split-text p  { font-size: 1.05rem; color: var(--muted); line-height: 1.78; margin-bottom: 16px; }
 .check-list { list-style: none; padding: 0; margin: 0 0 26px; }
 .check-list li {
   display: flex; align-items: flex-start; gap: 12px;
-  padding: 9px 0; border-bottom: 1px solid var(--line); font-size: .93rem;
+  padding: 9px 0; border-bottom: 1px solid var(--line); font-size: 1rem;
 }
 .check-list li:last-child { border-bottom: none; }
 .check-list i { color: var(--gold); margin-top: 3px; flex-shrink: 0; }
@@ -644,7 +703,7 @@ a { text-decoration: none; color: inherit; }
 .tier-list li {
   display: flex; align-items: flex-start; gap: 9px;
   padding: 8px 0; border-bottom: 1px solid var(--line);
-  font-size: .88rem; color: rgba(255,255,255,.85);
+  font-size: .97rem; color: rgba(255,255,255,.85);
 }
 .tier-list li:last-child { border-bottom: none; }
 .tier-list i { color: var(--gold); flex-shrink: 0; margin-top: 3px; font-size: .78rem; }
@@ -686,7 +745,7 @@ a { text-decoration: none; color: inherit; }
 .faq-item summary::-webkit-details-marker { display: none; }
 .faq-item summary::after { content: '+'; font-size: 1.3rem; color: var(--gold); transition: transform .2s; flex-shrink: 0; }
 .faq-item[open] summary::after { transform: rotate(45deg); }
-.faq-item p { padding: 0 22px 18px; margin: 0; color: var(--muted); line-height: 1.68; font-size: .92rem; }
+.faq-item p { padding: 0 22px 18px; margin: 0; color: var(--muted); line-height: 1.72; font-size: 1rem; }
 .faq-item a { color: var(--gold); text-decoration: underline; }
 
 /* ── FINAL CTA ───────────────────────────────────── */
@@ -730,10 +789,10 @@ footer { background: #000; padding: 60px 20px 40px; border-top: 1px solid rgba(2
 
 /* ── MOBILE ──────────────────────────────────────── */
 @media (max-width: 600px) {
-  .tab-nav-wrap { top: 56px; }
-  .tab-nav { justify-content: flex-start; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; padding: 10px 16px; }
-  .tab-nav::-webkit-scrollbar { display: none; }
-  .tab-btn { flex-shrink: 0; }
+  .jump-nav-wrap { top: 56px; }
+  .jump-nav { justify-content: flex-start; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; padding: 10px 16px; }
+  .jump-nav::-webkit-scrollbar { display: none; }
+  .jump-btn { flex-shrink: 0; }
   .hero { min-height: auto; padding: 110px 0 60px; }
   .h-float { display: none; }
   .panel-intro { padding: 44px 0 36px; }
@@ -964,18 +1023,54 @@ footer { background: #000; padding: 60px 20px 40px; border-top: 1px solid rgba(2
 </header>
 
 
-<!-- TAB NAV -->
-<div class="tab-nav-wrap">
-  <div class="tab-nav">
-    <button class="tab-btn active" data-tab="new"><i class="fas fa-hammer"></i> New Website</button>
-    <button class="tab-btn" data-tab="manage"><i class="fas fa-tools"></i> Manage My Site</button>
-    <button class="tab-btn" data-tab="onetime"><i class="fas fa-bolt"></i> One-Time Project</button>
+<!-- JUMP NAV -->
+<div class="jump-nav-wrap">
+  <div class="jump-nav">
+    <a class="jump-btn active" href="#new-website"><i class="fas fa-hammer"></i> New Website</a>
+    <a class="jump-btn" href="#manage-site"><i class="fas fa-tools"></i> Manage My Site</a>
+    <a class="jump-btn" href="#one-time"><i class="fas fa-bolt"></i> One-Time Project</a>
   </div>
 </div>
 
 
-<!-- ════ TAB 1: NEW WEBSITE ════ -->
-<div class="tab-panel active" id="tab-new">
+<!-- SERVICES OVERVIEW -->
+<section class="overview-section">
+  <div class="container container-narrow">
+    <div class="section-header reveal">
+      <div class="eyebrow"><i class="fas fa-layer-group"></i> What We Do</div>
+      <h2>Everything your website needs, under one roof.</h2>
+      <p>Whether you need a new site built, your current one managed, or a one-time fix, we've got you covered. Scroll down to explore each service in full.</p>
+    </div>
+    <div class="svc-cards-grid">
+      <a href="#new-website" class="svc-card reveal">
+        <div class="svc-card-icon"><i class="fas fa-hammer"></i></div>
+        <h3>New Website</h3>
+        <p>We design, build, and launch a custom website for your business. No templates, no builders. Just a fast, professional site built around your brand.</p>
+        <div class="svc-price">From $169<span>/mo</span></div>
+        <span class="svc-cta">See what's included <i class="fas fa-arrow-down"></i></span>
+      </a>
+      <a href="#manage-site" class="svc-card reveal d1">
+        <div class="svc-card-icon"><i class="fas fa-tools"></i></div>
+        <h3>Manage My Site</h3>
+        <p>Already have a website? We take over the updates, hosting, security, and day-to-day management so you can focus on running your business.</p>
+        <div class="svc-price">From $169<span>/mo</span></div>
+        <span class="svc-cta">See what's included <i class="fas fa-arrow-down"></i></span>
+      </a>
+      <a href="#one-time" class="svc-card reveal d2">
+        <div class="svc-card-icon"><i class="fas fa-bolt"></i></div>
+        <h3>One-Time Project</h3>
+        <p>Need something built, fixed, or refreshed? We'll scope it, price it flat, and deliver it fast. No subscription required.</p>
+        <div class="svc-price">From $149</div>
+        <span class="svc-cta">See project tiers <i class="fas fa-arrow-down"></i></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════ SERVICE 1: NEW WEBSITE ════ -->
+<div class="service-section" id="new-website">
+<div class="svc-section-label">01 — New Website</div>
 
   <!-- Panel intro -->
   <div class="panel-intro">
@@ -1184,11 +1279,12 @@ footer { background: #000; padding: 60px 20px 40px; border-top: 1px solid rgba(2
     </div>
   </section>
 
-</div><!-- /tab-new -->
+</div><!-- /new-website -->
 
 
-<!-- ════ TAB 2: MANAGE MY SITE ════ -->
-<div class="tab-panel" id="tab-manage">
+<!-- ════ SERVICE 2: MANAGE MY SITE ════ -->
+<div class="service-section" id="manage-site">
+<div class="svc-section-label">02 — Manage My Site</div>
 
   <!-- Panel intro -->
   <div class="panel-intro">
@@ -1299,7 +1395,7 @@ footer { background: #000; padding: 60px 20px 40px; border-top: 1px solid rgba(2
       <div class="split">
         <div class="split-text reveal">
           <h2 style="font-size:1.7rem;">Bake 350 Degrees</h2>
-          <p>Bake 350 had an existing bakery website that was a pain to update. Seasonal specials, new treats, charity announcements — they needed changes constantly but dreaded touching the site.</p>
+          <p>Bake 350 had an existing bakery website that was a pain to update. Seasonal specials, new treats, charity announcements: they needed changes constantly but dreaded touching the site.</p>
           <p>Now they just send us a message. "New cookie flavor Friday" and it's live within hours. We learned their menu, their mission, and their voice.</p>
           <a href="https://bake350degrees.com" target="_blank" rel="noopener" class="btn-gold" style="margin-top:8px;">
             <i class="fas fa-external-link-alt"></i> Visit Bake 350 Degrees
@@ -1371,11 +1467,12 @@ footer { background: #000; padding: 60px 20px 40px; border-top: 1px solid rgba(2
     </div>
   </section>
 
-</div><!-- /tab-manage -->
+</div><!-- /manage-site -->
 
 
-<!-- ════ TAB 3: ONE-TIME PROJECT ════ -->
-<div class="tab-panel" id="tab-onetime">
+<!-- ════ SERVICE 3: ONE-TIME PROJECT ════ -->
+<div class="service-section" id="one-time">
+<div class="svc-section-label">03 — One-Time Project</div>
 
   <!-- Panel intro -->
   <div class="panel-intro">
@@ -1442,9 +1539,9 @@ footer { background: #000; padding: 60px 20px 40px; border-top: 1px solid rgba(2
             <li><i class="fas fa-check"></i> Minor layout fixes</li>
             <li><i class="fas fa-check"></i> Contact form setup or repair</li>
             <li><i class="fas fa-check"></i> Speed and mobile fixes</li>
-            <li><i class="fas fa-check"></i> Covers 1 page — +$149 per extra page</li>
+            <li><i class="fas fa-check"></i> Covers 1 page (+$149 per extra page)</li>
           </ul>
-          <a href="https://buy.stripe.com/3cI7sK2Yu227cg0e51c3m0i" target="_blank" rel="noopener" class="btn-ghost" style="justify-content:center;">Get Started — $149</a>
+          <a href="https://buy.stripe.com/3cI7sK2Yu227cg0e51c3m0i" target="_blank" rel="noopener" class="btn-ghost" style="justify-content:center;">Get Started for $149</a>
         </div>
         <div class="tier-card pop-tier reveal d1">
           <span class="tier-badge">Most Popular</span>
@@ -1457,9 +1554,9 @@ footer { background: #000; padding: 60px 20px 40px; border-top: 1px solid rgba(2
             <li><i class="fas fa-check"></i> Partial site redesign</li>
             <li><i class="fas fa-check"></i> Third-party integrations</li>
             <li><i class="fas fa-check"></i> Booking or e-commerce setup</li>
-            <li><i class="fas fa-check"></i> Covers up to 2 pages — +$299 per extra 2 pages</li>
+            <li><i class="fas fa-check"></i> Covers up to 2 pages (+$299 per extra 2 pages)</li>
           </ul>
-          <a href="https://buy.stripe.com/bJe8wO9mSbCH4Nye51c3m0j" target="_blank" rel="noopener" class="btn-gold" style="justify-content:center;">Get Started — $299</a>
+          <a href="https://buy.stripe.com/bJe8wO9mSbCH4Nye51c3m0j" target="_blank" rel="noopener" class="btn-gold" style="justify-content:center;">Get Started for $299</a>
         </div>
         <div class="tier-card reveal d2">
           <h3>Full Build</h3>
@@ -1473,7 +1570,7 @@ footer { background: #000; padding: 60px 20px 40px; border-top: 1px solid rgba(2
             <li><i class="fas fa-check"></i> You own all files and code</li>
             <li><i class="fas fa-check"></i> +$199 per additional page</li>
           </ul>
-          <a href="https://buy.stripe.com/3cIdR80QmdKPbbW5yvc3m0h" target="_blank" rel="noopener" class="btn-ghost" style="justify-content:center;">Get Started — $449</a>
+          <a href="https://buy.stripe.com/3cIdR80QmdKPbbW5yvc3m0h" target="_blank" rel="noopener" class="btn-ghost" style="justify-content:center;">Get Started for $449</a>
         </div>
       </div>
     </div>
@@ -1547,7 +1644,7 @@ footer { background: #000; padding: 60px 20px 40px; border-top: 1px solid rgba(2
     </div>
   </section>
 
-</div><!-- /tab-onetime -->
+</div><!-- /one-time -->
 
 
 <!-- FINAL CTA -->
@@ -1622,34 +1719,7 @@ footer { background: #000; padding: 60px 20px 40px; border-top: 1px solid rgba(2
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script>
 (function () {
-  var tabs    = document.querySelectorAll('.tab-btn');
-  var panels  = document.querySelectorAll('.tab-panel');
-  var current = 'new';
-
-  function goTab(id) {
-    if (id === current) return;
-    current = id;
-    tabs.forEach(function(b)  { b.classList.toggle('active', b.dataset.tab === id); });
-    panels.forEach(function(p){ p.classList.toggle('active', p.id === 'tab-' + id); });
-    window.scrollTo({ top: document.querySelector('.tab-nav-wrap').offsetTop - 62, behavior: 'smooth' });
-    setTimeout(runReveals, 60);
-  }
-
-  tabs.forEach(function(btn) {
-    btn.addEventListener('click', function() { goTab(btn.dataset.tab); });
-  });
-
-  var hash  = location.hash.replace('#', '');
-  var param = new URLSearchParams(location.search).get('tab');
-  var aliases = { 'newsite': 'new', 'management': 'manage', 'one-time-build': 'onetime' };
-  var raw = hash || param;
-  var target = aliases[raw] || raw;
-  if (['new', 'manage', 'onetime'].includes(target)) {
-    current = target;
-    tabs.forEach(function(b)  { b.classList.toggle('active', b.dataset.tab === target); });
-    panels.forEach(function(p){ p.classList.toggle('active', p.id === 'tab-' + target); });
-  }
-
+  /* ── Reveal on scroll ── */
   function runReveals() {
     if (!('IntersectionObserver' in window)) {
       document.querySelectorAll('.reveal').forEach(function(e){ e.classList.add('in'); });
@@ -1662,9 +1732,28 @@ footer { background: #000; padding: 60px 20px 40px; border-top: 1px solid rgba(2
     }, { threshold: 0.08, rootMargin: '0px 0px -32px 0px' });
     document.querySelectorAll('.reveal:not(.in)').forEach(function(el){ io.observe(el); });
   }
-
   runReveals();
 
+  /* ── Jump-nav scroll-spy ── */
+  var sections = [
+    document.getElementById('new-website'),
+    document.getElementById('manage-site'),
+    document.getElementById('one-time')
+  ];
+  var jumpBtns = document.querySelectorAll('.jump-btn');
+  var spy = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        var id = entry.target.id;
+        jumpBtns.forEach(function(b) {
+          b.classList.toggle('active', b.getAttribute('href') === '#' + id);
+        });
+      }
+    });
+  }, { rootMargin: '-40% 0px -55% 0px' });
+  sections.forEach(function(s) { if (s) spy.observe(s); });
+
+  /* ── Smooth scroll for anchor links ── */
   document.querySelectorAll('a[href^="#"]').forEach(function(a) {
     a.addEventListener('click', function(e) {
       var t = document.querySelector(a.getAttribute('href'));
