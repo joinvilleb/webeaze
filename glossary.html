@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Web Glossary | WebEaze Help Center</title>
+  <meta name="description" content="Plain-English definitions of common web terms. No jargon, no fluff." />
+  <link rel="canonical" href="https://www.webeaze.io/glossary.html" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="shortcut icon" href="images/webeaze-transparent copy.png" type="image/png" />
+  <link rel="stylesheet" href="css/billy-joinville.css" />
+
+  <style>
+    :root {
+      --brand: #7851a9;
+      --brand-light: #9b7bc7;
+      --gold: #f97316;
+      --line: rgba(0,0,0,.08);
+      --muted: #6b7280;
+      --bg: #ffffff;
+      --bg-2: #f5f6fa;
+      --bg-3: #eceef8;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0; font-family: 'Poppins', sans-serif;
+      background: var(--bg); color: #1a1a2e;
+      -webkit-font-smoothing: antialiased; overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    /* NAV */
+    .nav-wrap {
+      position: sticky; top: 0; z-index: 9999;
+      background: rgba(255,255,255,.97);
+      border-bottom: 1px solid rgba(0,0,0,.08);
+      box-shadow: 0 1px 6px rgba(0,0,0,.06);
+    }
+    .navbar { padding: .6rem 0; }
+    .navbar-light .nav-link {
+      color: #1a1a2e !important; opacity: .85;
+      padding: .45rem .7rem; border-radius: 10px;
+      border: 1px solid transparent;
+      transition: border-color .18s, background .18s, opacity .18s;
+    }
+    .navbar-light .nav-link:hover {
+      opacity: 1; background: rgba(120,81,169,.07);
+      border-color: rgba(120,81,169,.3);
+    }
+    .logo { height: 36px; }
+    .brand-word { font-weight: 700; color: #1a1a2e; font-size: 1rem; }
+    .btn-nav {
+      background: #7851a9; color: #fff; border: none;
+      border-radius: 10px; padding: .55rem .9rem;
+      font-weight: 700; font-size: 14px;
+    }
+
+    /* HERO */
+    .gloss-hero {
+      background: linear-gradient(140deg, #faf7ff 0%, #fff8f2 50%, #f0f6ff 100%);
+      border-bottom: 1px solid var(--line);
+      padding: 64px 0 48px;
+    }
+    .gloss-hero h1 { font-size: clamp(28px, 5vw, 44px); font-weight: 800; margin: 0 0 12px; }
+    .gloss-hero p { font-size: 17px; color: var(--muted); max-width: 520px; margin: 0 0 24px; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 7px 14px; background: rgba(120,81,169,.07);
+      border: 1px solid rgba(120,81,169,.2); border-radius: 999px;
+      font-size: 13px; font-weight: 600; color: var(--brand);
+      margin-bottom: 18px;
+    }
+
+    /* FILTER BAR */
+    .filter-bar {
+      display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+      padding: 20px 0 0;
+    }
+    .filter-bar input {
+      flex: 1; min-width: 220px; padding: 10px 16px 10px 42px;
+      background: #fff; border: 1px solid rgba(0,0,0,.12);
+      border-radius: 10px; font-size: 14px; font-family: 'Poppins', sans-serif;
+      color: #1a1a2e; transition: border-color .2s, box-shadow .2s;
+    }
+    .filter-bar input:focus { outline: none; border-color: var(--brand); box-shadow: 0 0 0 3px rgba(120,81,169,.12); }
+    .filter-bar input::placeholder { color: #9ca3af; }
+    .filter-search-wrap { position: relative; flex: 1; min-width: 220px; }
+    .filter-search-wrap i { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: #9ca3af; font-size: 14px; }
+    .alpha-pills { display: flex; flex-wrap: wrap; gap: 6px; }
+    .alpha-pill {
+      width: 32px; height: 32px; border-radius: 8px; border: 1px solid var(--line);
+      background: var(--bg-2); font-size: 13px; font-weight: 700; color: var(--muted);
+      display: flex; align-items: center; justify-content: center; cursor: pointer;
+      transition: background .15s, border-color .15s, color .15s; user-select: none;
+    }
+    .alpha-pill:hover, .alpha-pill.active { background: var(--brand); border-color: var(--brand); color: #fff; }
+    .alpha-pill.dim { opacity: .35; pointer-events: none; }
+
+    /* MAIN */
+    main { padding: 48px 0 80px; }
+    .gloss-layout { display: grid; grid-template-columns: 200px 1fr; gap: 40px; align-items: start; }
+    @media (max-width: 768px) { .gloss-layout { grid-template-columns: 1fr; } }
+
+    /* STICKY ALPHA NAV */
+    .alpha-nav {
+      position: sticky; top: 80px;
+      background: var(--bg-2); border: 1px solid var(--line);
+      border-radius: 14px; padding: 16px; display: flex; flex-direction: column; gap: 4px;
+    }
+    @media (max-width: 768px) { .alpha-nav { display: none; } }
+    .alpha-nav-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-bottom: 8px; }
+    .alpha-nav a {
+      font-size: 13px; font-weight: 600; color: var(--muted);
+      padding: 4px 8px; border-radius: 6px;
+      transition: background .15s, color .15s; text-decoration: none;
+    }
+    .alpha-nav a:hover { background: var(--bg-3); color: var(--brand); }
+    .alpha-nav a.active { color: var(--brand); background: rgba(120,81,169,.08); }
+
+    /* GLOSSARY GROUPS */
+    .gloss-group { margin-bottom: 40px; }
+    .gloss-group-letter {
+      font-size: 28px; font-weight: 800; color: var(--brand);
+      border-bottom: 2px solid rgba(120,81,169,.15);
+      padding-bottom: 8px; margin-bottom: 16px;
+    }
+    .gloss-entries { display: grid; gap: 12px; }
+    .gloss-entry {
+      background: var(--bg-2); border: 1px solid var(--line);
+      border-radius: 14px; padding: 20px 22px;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .gloss-entry:hover { border-color: rgba(120,81,169,.25); box-shadow: 0 4px 16px rgba(120,81,169,.06); }
+    .gloss-term { font-size: 16px; font-weight: 700; color: #1a1a2e; margin-bottom: 6px; }
+    .gloss-def { font-size: 14px; color: #4b5563; line-height: 1.7; margin: 0; }
+    .gloss-def a { color: var(--brand); text-decoration: underline; }
+    .gloss-tag {
+      display: inline-block; font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .06em;
+      padding: 2px 8px; border-radius: 999px; margin-left: 8px;
+      background: rgba(120,81,169,.1); color: var(--brand); vertical-align: middle;
+    }
+    .no-results { text-align: center; padding: 48px 0; color: var(--muted); font-size: 15px; }
+
+    /* BACK LINK */
+    .back-bar {
+      display: flex; align-items: center; gap: 8px;
+      padding: 14px 0 0; font-size: 13px; color: var(--muted);
+    }
+    .back-bar a {
+      display: inline-flex; align-items: center; gap: 6px;
+      color: var(--muted); text-decoration: none; font-weight: 500;
+      transition: color .15s;
+    }
+    .back-bar a:hover { color: var(--brand); }
+
+    /* FOOTER */
+    footer {
+      background: #07070f; padding: 60px 20px 40px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    .footer-grid {
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 48px; max-width: 1100px; margin: 0 auto 48px; text-align: left;
+    }
+    @media (max-width: 768px) { .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; } }
+    @media (max-width: 480px) { .footer-grid { grid-template-columns: 1fr; gap: 28px; } }
+    .footer-brand { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+    .footer-brand img { height: 32px; }
+    .footer-brand span { font-weight: 700; font-size: 1.1rem; color: #fff; }
+    .footer-tagline { color: #a0a6c0; font-size: 0.9rem; line-height: 1.6; margin-bottom: 20px; max-width: 280px; }
+    .footer-social { display: flex; gap: 12px; }
+    .footer-social a {
+      display: flex; align-items: center; justify-content: center;
+      width: 36px; height: 36px; background: rgba(255,255,255,.06);
+      border-radius: 10px; color: #a0a6c0; font-size: 1rem; transition: all .2s;
+    }
+    .footer-social a:hover { background: #7851a9; color: #fff; }
+    .footer-col h5 { font-size: .85rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: #fff; margin: 0 0 16px; }
+    .footer-col ul { list-style: none; padding: 0; margin: 0; }
+    .footer-col li { margin-bottom: 10px; }
+    .footer-col a { color: #a0a6c0; font-size: .9rem; transition: color .2s; }
+    .footer-col a:hover { color: #a07dd0; }
+    .footer-bottom {
+      max-width: 1100px; margin: 0 auto; padding-top: 24px;
+      border-top: 1px solid rgba(255,255,255,.08);
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;
+    }
+    .footer-bottom p { color: #6b7280; font-size: .85rem; margin: 0; }
+    .footer-legal { display: flex; gap: 24px; }
+    .footer-legal a { color: #6b7280; font-size: .85rem; transition: color .2s; }
+    .footer-legal a:hover { color: #a07dd0; }
+    @media (max-width: 600px) { .footer-bottom { flex-direction: column; text-align: center; } }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<div class="nav-wrap">
+  <div class="container" style="max-width:1100px;">
+    <nav class="navbar navbar-expand-lg navbar-light">
+      <a class="navbar-brand d-flex align-items-center" href="index.html">
+        <img src="images/webeaze-transparent copy.png" class="logo" alt="WebEaze">
+        <strong class="ml-2 brand-word">WebEaze</strong>
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div id="nav" class="collapse navbar-collapse">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item"><a class="nav-link" href="services.html">Our Services</a></li>
+          <li class="nav-item"><a class="nav-link" href="pricing.html">Pricing</a></li>
+          <li class="nav-item"><a class="nav-link" href="help.html">Help Center</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+          <li class="nav-item ml-1"><a class="btn btn-sm btn-nav" href="consultation.html">Request Free Mockup</a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+</div>
+
+<!-- HERO -->
+<header class="gloss-hero">
+  <div class="container" style="max-width:1100px;">
+    <div class="back-bar"><a href="help.html"><i class="fas fa-arrow-left"></i> Back to Help Center</a></div>
+    <div class="hero-badge" style="margin-top:16px;"><i class="fas fa-book-open"></i> Web Glossary</div>
+    <h1>Plain-English Definitions</h1>
+    <p>No jargon, no fluff. Just clear explanations of the web terms you might come across.</p>
+    <div class="filter-bar">
+      <div class="filter-search-wrap">
+        <i class="fas fa-search"></i>
+        <input type="search" id="glossSearch" placeholder="Search terms..." autocomplete="off" />
+      </div>
+    </div>
+    <div class="alpha-pills" id="alphaPills" style="margin-top:14px;"></div>
+  </div>
+</header>
+
+<!-- MAIN -->
+<main>
+  <div class="container" style="max-width:1100px;">
+    <div class="gloss-layout">
+      <nav class="alpha-nav" id="alphaSideNav">
+        <div class="alpha-nav-title">Jump to</div>
+      </nav>
+      <div id="glossContent"></div>
+    </div>
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand">
+        <img src="images/webeaze-transparent copy.png" alt="WebEaze">
+        <span>WebEaze</span>
+      </div>
+      <p class="footer-tagline">Professional websites for small businesses. We build, host, and manage your site so you can focus on what matters.</p>
+      <div class="footer-social">
+        <a href="https://facebook.com/61568824951084" target="_blank" rel="noopener" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://www.linkedin.com/company/webeaze" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+        <a href="https://instagram.com/webeaze.io" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h5>Services</h5>
+      <ul>
+        <li><a href="services.html">Our Services</a></li>
+        <li><a href="pricing.html">Pricing</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Company</h5>
+      <ul>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="samples.html">Our Work</a></li>
+        <li><a href="contact-us.html">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Support</h5>
+      <ul>
+        <li><a href="help.html">Help Center</a></li>
+        <li><a href="glossary.html">Glossary</a></li>
+        <li><a href="faq.html">FAQ</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p style="color:#fff;">&copy; <span id="yr"></span> WebEaze. Made in Delaware, USA.</p>
+    <div class="footer-legal">
+      <a href="terms.html#privacy">Privacy Policy</a>
+      <a href="terms.html">Terms of Service</a>
+    </div>
+  </div>
+</footer>
+
+<script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+  var TERMS = [
+    { term: '301 Redirect',       def: 'A permanent redirect from one URL to another. Used when you move a page so visitors (and Google) automatically land in the right place.' },
+    { term: '404 Error',          def: 'The page a visitor sees when a URL does not exist on your site. Can be customized to match your brand and guide visitors back to a working page.' },
+    { term: 'Alt Text',           def: 'A written description of an image. Used by screen readers for accessibility and by Google to understand what an image shows. Good alt text helps both people and search engines.' },
+    { term: 'Backlinks',          def: 'Links from other websites pointing to yours. When reputable sites link to you, Google treats it as a vote of trust, which can improve your search ranking.' },
+    { term: 'Bandwidth',          def: 'The amount of data transferred when people visit your website. Most hosting plans include more than enough bandwidth for small business sites.' },
+    { term: 'Caching',            def: 'Storing copies of files so they load faster on repeat visits. When a page is cached, the browser does not have to download everything from scratch each time.' },
+    { term: 'CDN',                tag: 'Content Delivery Network', def: 'A network of servers around the world that delivers your website files from the location closest to each visitor. Makes your site load faster globally.' },
+    { term: 'CCPA',               tag: 'California Consumer Privacy Act', def: 'A California law that gives residents rights over their personal data. If you collect data from California residents, you may need a compliant privacy policy.' },
+    { term: 'CMS',                tag: 'Content Management System', def: 'Software that lets you manage website content without writing code. WordPress, Wix, and Squarespace are all CMS platforms.' },
+    { term: 'CSS',                tag: 'Cascading Style Sheets', def: 'The code that controls how a website looks: colors, fonts, layout, spacing. HTML defines the structure; CSS makes it look good.' },
+    { term: 'Domain',             def: 'Your website\'s address on the internet, like yourbusiness.com. You register a domain through a registrar (GoDaddy, Namecheap, Google Domains) and point it to your hosting server.' },
+    { term: 'DNS',                tag: 'Domain Name System', def: 'The system that connects your domain name to your hosting server. Think of it like a phone book for the internet. When you type a URL, DNS figures out which server to send you to.' },
+    { term: 'DNS Propagation',    def: 'The 24 to 72-hour window after a DNS change takes effect across the internet. During this time, some visitors may see the old site and others the new one. Completely normal.' },
+    { term: 'Favicon',            def: 'The small icon shown in browser tabs and bookmarks next to your site name. Usually a simplified version of your logo.' },
+    { term: 'GDPR',               tag: 'General Data Protection Regulation', def: 'An EU privacy law that governs how personal data is collected and used. If your site has visitors from Europe, you likely need a GDPR-compliant privacy policy.' },
+    { term: 'Hosting',            def: 'A server that stores your website files and makes them accessible on the internet. WebEaze includes hosting with every plan.' },
+    { term: 'HTML',               tag: 'HyperText Markup Language', def: 'The basic building block of every web page. HTML defines the structure and content: headings, paragraphs, images, links. Browsers read HTML and turn it into what you see on screen.' },
+    { term: 'HTTPS',              def: 'The secure version of HTTP, the protocol used to load web pages. Sites with HTTPS have an SSL certificate, which encrypts data between the visitor and the server. Google ranks HTTPS sites higher.' },
+    { term: 'Landing Page',       def: 'A single page focused on one specific goal, like booking a call or signing up. Designed to remove distractions and get visitors to take one action.' },
+    { term: 'Meta Description',   def: 'A short summary of a page that appears under its title in Google search results. It does not directly affect your ranking but a well-written one improves click-through rates.' },
+    { term: 'Mobile Responsive',  def: 'A website that automatically adjusts its layout and text size to look good on phones, tablets, and desktops. Google primarily ranks the mobile version of your site.' },
+    { term: 'Organic Traffic',    def: 'Visitors who find your site through unpaid search results on Google or Bing. Growing organic traffic is the goal of SEO.' },
+    { term: 'Page Speed',         def: 'How quickly your website loads. Faster sites rank higher on Google and reduce the chance visitors leave before the page finishes loading.' },
+    { term: 'Redirect',           def: 'Automatically sending a visitor from one URL to another. Useful when you rename a page, move content, or want to send traffic to an updated link.' },
+    { term: 'SEO',                tag: 'Search Engine Optimization', def: 'The practice of improving your website so it shows up higher in search results on Google. Includes writing good content, using the right keywords, having fast pages, and earning backlinks.' },
+    { term: 'Sitemap',            def: 'A file that lists all the pages on your website. Submitted to Google Search Console to help Google discover and index your content faster.' },
+    { term: 'SSL Certificate',    tag: 'Secure Sockets Layer', def: 'A security certificate that encrypts data between your site and its visitors, making the connection secure. Shows as the padlock icon in the browser address bar. Included on every WebEaze site.' },
+    { term: 'Subdomain',          def: 'A prefix added before your main domain, like shop.yourbusiness.com or blog.yourbusiness.com. Used to separate different sections of a site.' },
+    { term: 'Title Tag',          def: 'The clickable headline shown in Google search results and in browser tabs. One of the most important on-page SEO elements. Every page should have a unique, descriptive title tag.' },
+    { term: 'Uptime',             def: 'The percentage of time your website is online and accessible. Good hosting aims for 99.9% uptime. Downtime means visitors cannot reach your site.' },
+    { term: 'URL',                tag: 'Uniform Resource Locator', def: 'The full address of a specific page on the internet, like https://yourbusiness.com/about. Clean, readable URLs are better for users and SEO.' },
+    { term: 'Web Fonts',          def: 'Fonts loaded from the internet (like Google Fonts) rather than installed on a device. Let designers use consistent, custom typography across all browsers.' },
+    { term: 'WordPress',          def: 'The most popular CMS in the world. Powers about 40% of all websites. Highly flexible but requires ongoing maintenance, updates, and security patches.' },
+  ];
+
+  // Group by first letter
+  function groupTerms(list) {
+    var groups = {};
+    list.forEach(function(t) {
+      var letter = t.term[0].toUpperCase();
+      if (!groups[letter]) groups[letter] = [];
+      groups[letter].push(t);
+    });
+    return groups;
+  }
+
+  function renderGloss(list) {
+    var $content = document.getElementById('glossContent');
+    var $sideNav = document.getElementById('alphaSideNav');
+    if (!list.length) {
+      $content.innerHTML = '<div class="no-results"><i class="fas fa-search" style="font-size:24px;margin-bottom:12px;display:block;"></i>No terms match your search.</div>';
+      return;
+    }
+    var groups = groupTerms(list);
+    var letters = Object.keys(groups).sort();
+    var html = '';
+    letters.forEach(function(letter) {
+      html += '<div class="gloss-group" id="gl-' + letter + '">';
+      html += '<div class="gloss-group-letter">' + letter + '</div>';
+      html += '<div class="gloss-entries">';
+      groups[letter].forEach(function(t) {
+        html += '<div class="gloss-entry">';
+        html += '<div class="gloss-term">' + t.term + (t.tag ? '<span class="gloss-tag">' + t.tag + '</span>' : '') + '</div>';
+        html += '<p class="gloss-def">' + t.def + '</p>';
+        html += '</div>';
+      });
+      html += '</div></div>';
+    });
+    $content.innerHTML = html;
+
+    // Side nav
+    var navHtml = '<div class="alpha-nav-title">Jump to</div>';
+    letters.forEach(function(letter) {
+      navHtml += '<a href="#gl-' + letter + '">' + letter + '</a>';
+    });
+    $sideNav.innerHTML = navHtml;
+
+    // Alpha pills
+    var allLetters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+    var pills = document.getElementById('alphaPills');
+    if (pills) {
+      pills.innerHTML = allLetters.map(function(l) {
+        var hasTerms = !!groups[l];
+        return '<div class="alpha-pill' + (hasTerms ? '' : ' dim') + '" data-letter="' + l + '">' + l + '</div>';
+      }).join('');
+      pills.querySelectorAll('.alpha-pill:not(.dim)').forEach(function(pill) {
+        pill.addEventListener('click', function() {
+          var target = document.getElementById('gl-' + this.dataset.letter);
+          if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+      });
+    }
+
+    // Highlight active side nav on scroll
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        var letter = entry.target.id.replace('gl-', '');
+        var link = $sideNav.querySelector('a[href="#gl-' + letter + '"]');
+        if (link) link.classList.toggle('active', entry.isIntersecting);
+      });
+    }, { rootMargin: '-20% 0px -70% 0px' });
+    document.querySelectorAll('.gloss-group').forEach(function(g) { observer.observe(g); });
+  }
+
+  // Search filter
+  document.getElementById('glossSearch').addEventListener('input', function() {
+    var q = this.value.trim().toLowerCase();
+    var filtered = q ? TERMS.filter(function(t) {
+      return t.term.toLowerCase().includes(q) || t.def.toLowerCase().includes(q) || (t.tag && t.tag.toLowerCase().includes(q));
+    }) : TERMS;
+    renderGloss(filtered);
+  });
+
+  renderGloss(TERMS);
+</script>
+
+</body>
+</html>
