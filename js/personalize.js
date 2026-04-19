@@ -46,21 +46,21 @@
     );
   } else if (refHost.includes('instagram.com') || utmSrc.includes('instagram') || utmSrc === 'ig') {
     ctx = social(
-      'fab fa-instagram', '#c13584', 'rgba(193,53,132,0.06)', 'rgba(193,53,132,0.16)',
+      'fab fa-instagram', '#c13584', 'rgb(255, 255, 255)', 'rgba(193,53,132,0.16)',
       'Welcome from Instagram.',
       isMobile ? 'We build websites for businesses like yours.' : "We design and manage websites so business owners don't have to think about it.",
       PAGE_CTX.instagram || [{ text: 'View our work', href: 'samples.html' }, { text: 'Request a free mockup', href: 'consultation.html' }]
     );
   } else if (refHost.includes('linkedin.com') || utmSrc.includes('linkedin')) {
     ctx = social(
-      'fab fa-linkedin-in', '#0a66c2', 'rgba(10,102,194,0.06)', 'rgba(10,102,194,0.16)',
+      'fab fa-linkedin-in', '#0a66c2', 'rgb(255, 255, 255)', 'rgba(10,102,194,0.16)',
       'Welcome from LinkedIn.',
       isMobile ? 'We handle everything your website needs.' : "We handle everything your website needs — design, hosting, updates, and support.",
       PAGE_CTX.linkedin || [{ text: 'About WebEaze', href: 'about.html' }, { text: 'View pricing', href: 'pricing.html' }]
     );
   } else if (refHost.includes('google.com') || utmSrc.includes('google') || utmMed === 'cpc' || utmMed === 'organic') {
     ctx = social(
-      'fas fa-magnifying-glass', '#4285f4', 'rgba(66,133,244,0.06)', 'rgba(66,133,244,0.16)',
+      'fas fa-magnifying-glass', '#4285f4', 'rgb(255, 255, 255)', 'rgba(66,133,244,0.16)',
       'Found us on Google?',
       isMobile ? "Here's a quick look at what we do." : "Here's a quick overview of our services and how we help small businesses online.",
       PAGE_CTX.google || [{ text: 'Our services', href: 'services.html' }, { text: 'FAQ', href: 'faq.html' }]
