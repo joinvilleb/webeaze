@@ -53,7 +53,7 @@
     );
   } else if (refHost.includes('linkedin.com') || utmSrc.includes('linkedin')) {
     ctx = social(
-      'fab fa-linkedin-in', '#0a66c2', 'rgba(10,102,194,0.06)', 'rgba(10,102,194,0.16)',
+      'fab fa-linkedin-in', '#0a66c2', 'rgb(255, 255, 255)', 'rgba(10,102,194,0.16)',
       'Welcome from LinkedIn.',
       isMobile ? 'We handle everything your website needs.' : "We handle everything your website needs — design, hosting, updates, and support.",
       PAGE_CTX.linkedin || [{ text: 'About WebEaze', href: 'about.html' }, { text: 'View pricing', href: 'pricing.html' }]
