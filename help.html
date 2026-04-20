@@ -5065,7 +5065,10 @@
           const filtered = searches.filter(s => s !== q);
           filtered.unshift(q);
           lsSet(LS_SEARCHES, filtered.slice(0, 3));
+          initSearchHistory();
         }, 1500);
+      } else if (q.length === 0) {
+        initSearchHistory();
       }
     }
   }
@@ -5079,8 +5082,7 @@
   // PERSONALIZATION (localStorage)
   // =============================================
   const LS_VISIT    = 'wz_help_visited';
-  const LS_LAST     = 'wz_help_last';
-  const LS_SAVED    = 'wz_help_saved';
+const LS_SAVED    = 'wz_help_saved';
   const LS_HELPFUL  = 'wz_help_helpful';
   const LS_SEARCHES = 'wz_help_searches';
   const LS_TOPICS   = 'wz_help_topic_counts';
@@ -5098,28 +5100,6 @@
       $sub.insertAdjacentHTML('afterend', '<div class="hero-return-msg"><i class="fas fa-history"></i> Your saved articles and reading history are below.</div>');
     }
     lsSet(LS_VISIT, true);
-  }
-
-  // ---- 1. Resume card ----
-  function initResume() {
-    const last = lsGet(LS_LAST);
-    if (!last || !last.slug || !last.title) return;
-    if (Date.now() - last.ts > SAVE_TTL) { localStorage.removeItem(LS_LAST); return; }
-    const $row  = document.getElementById('resumeRow');
-    const $btn  = document.getElementById('resumeBtn');
-    const $dis  = document.getElementById('resumeDismiss');
-    const $ttl  = document.getElementById('resumeTitle');
-    if (!$row || !$btn || !$dis || !$ttl) return;
-    $ttl.textContent = last.title;
-    $btn.setAttribute('href', `#/${last.slug}`);
-    $row.hidden = false;
-    $dis.addEventListener('click', () => {
-      $row.hidden = true;
-      localStorage.removeItem(LS_LAST);
-    });
-  }
-  function saveLastRead(slug, title) {
-    lsSet(LS_LAST, { slug, title, ts: Date.now() });
   }
 
   // ---- 4. Bookmarks ----
@@ -5208,7 +5188,6 @@
     const found = findArticleBySlug(slug);
     if (!found) return;
     const { article, topic } = found;
-    saveLastRead(slug, article.title);
     injectBookmarkBtn(slug, article.title);
     injectHelpfulRow(slug);
     injectStuckSection(slug);
@@ -5355,7 +5334,6 @@
     renderCategories();
     renderRecommended();
     initReturnVisitor();
-    initResume();
     initSearchHistory();
     initTopicAffinity();
     renderSavedSidebar();
