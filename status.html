@@ -273,26 +273,6 @@
     }
     .closure-banner p { margin: 0; color: rgba(255,255,255,.85); font-size: 15px; line-height: 1.7; }
 
-    /* HERO HOLIDAY BANNER */
-    .hero-holiday-banner {
-      display: inline-flex; align-items: center; gap: 10px;
-      margin-top: 18px; padding: 10px 20px;
-      border-radius: 999px; font-size: 14px; font-weight: 600;
-      border: 1px solid transparent; transition: none;
-    }
-    .hero-holiday-banner.hb-today {
-      background: rgba(239,68,68,.12); border-color: rgba(239,68,68,.3);
-      color: #ef4444;
-    }
-    .hero-holiday-banner.hb-soon {
-      background: rgba(245,158,11,.1); border-color: rgba(245,158,11,.3);
-      color: #f59e0b;
-    }
-    .hero-holiday-banner.hb-coming {
-      background: rgba(120,81,169,.1); border-color: rgba(120,81,169,.25);
-      color: #b08fe0;
-    }
-
     /* HOLIDAYS */
     .holiday-years {
       display: grid;
@@ -567,10 +547,6 @@
   .holiday-list li.holiday-today { background: rgba(245,158,11,.07) !important; }
   .holiday-list li.holiday-today .holiday-name { color: #b45309 !important; }
   .holiday-list li.holiday-today .holiday-date { color: #b45309 !important; }
-  .hero-holiday-banner.hb-today  { background: rgba(239,68,68,.08)  !important; border-color: rgba(239,68,68,.22) !important; color: #dc2626 !important; }
-  .hero-holiday-banner.hb-soon   { background: rgba(245,158,11,.08) !important; border-color: rgba(245,158,11,.22) !important; color: #d97706 !important; }
-  .hero-holiday-banner.hb-coming { background: rgba(120,81,169,.07) !important; border-color: rgba(120,81,169,.2) !important; color: #7851a9 !important; }
-
   /* CLIENT TOOLS SPOILER */
   .client-tools-wrap {
     max-width: 860px; margin: 0 auto; padding: 0 20px 56px;
@@ -661,7 +637,6 @@
   <div class="container container-narrow">
     <h1>Support Hours & Updates</h1>
     <p class="subtitle">Hours, holiday closures, and service announcements from WebEaze.</p>
-    <div id="hero-holiday-banner"></div>
   </div>
 </header>
 
@@ -1091,8 +1066,20 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <script>
-  // Eastern Time
+  // Eastern Time — supports ?preview= for testing holiday states
+  // ?preview=today   → on Memorial Day (closed)
+  // ?preview=soon    → 4 days before Memorial Day
+  // ?preview=coming  → 18 days before Memorial Day
+  // ?preview=past    → day after Memorial Day (crossed off)
+  var _PREVIEW_DATES = {
+    today:  '2026-05-25T12:00:00',
+    soon:   '2026-05-21T12:00:00',
+    coming: '2026-05-07T12:00:00',
+    past:   '2026-05-26T12:00:00',
+  };
+  var _previewKey = new URLSearchParams(window.location.search).get('preview');
   function getET() {
+    if (_previewKey && _PREVIEW_DATES[_previewKey]) return new Date(_PREVIEW_DATES[_previewKey]);
     return new Date(new Date().toLocaleString('en-US', { timeZone: 'America/New_York' }));
   }
 
@@ -1127,7 +1114,7 @@
 
     if (current) {
       const ret = new Date(current.end); ret.setDate(ret.getDate() + 1);
-      title.textContent   = 'Currently Closed — ' + current.name;
+      title.textContent   = 'Currently Closed: ' + current.name;
       message.textContent = 'We\'re closed for ' + current.name + '. We\'ll be back ' + ret.toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric' }) + '. Requests will be handled when we reopen.';
       banner.classList.add('visible');
     } else if (upcoming) {
@@ -1157,10 +1144,10 @@
       const ret = new Date(currentHoliday.end); ret.setDate(ret.getDate() + 1);
       const retStr = ret.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
       banner.className = 'today-banner today-closed';
-      banner.innerHTML = '<i class="fas fa-moon"></i> <strong>Closed — ' + currentHoliday.name + '</strong> · Resumes ' + retStr + ' <span class="banner-date">' + dateStr + '</span>';
+      banner.innerHTML = '<i class="fas fa-moon"></i> <strong>Closed: ' + currentHoliday.name + '</strong> · Resumes ' + retStr + ' <span class="banner-date">' + dateStr + '</span>';
     } else if (isWeekend) {
       banner.className = 'today-banner today-closed';
-      banner.innerHTML = '<i class="fas fa-moon"></i> <strong>Closed today</strong> — support resumes Monday 9:00am ET <span class="banner-date">' + dateStr + '</span>';
+      banner.innerHTML = '<i class="fas fa-moon"></i> <strong>Closed today.</strong> Support resumes Monday 9:00am ET <span class="banner-date">' + dateStr + '</span>';
     } else if (isOpen) {
       banner.className = 'today-banner today-open';
       banner.innerHTML = '<i class="fas fa-circle-check"></i> <strong>Open now</strong> · 9:00am – 5:00pm ET <span class="banner-date">' + dateStr + '</span>';
@@ -1190,35 +1177,6 @@
         }
       }
     });
-  }
-
-  // Hero personalization banner based on holiday proximity
-  function updateHeroBanner() {
-    var banner = document.getElementById('hero-holiday-banner');
-    if (!banner) return;
-    var now      = getET();
-    var closures = getClosures();
-    var current  = closures.find(function(c) { return now >= c.start && now <= c.end; });
-    var soon7    = new Date(now); soon7.setDate(soon7.getDate() + 7);
-    var soon30   = new Date(now); soon30.setDate(soon30.getDate() + 30);
-    var upcoming7  = closures.find(function(c) { return c.start > now && c.start <= soon7; });
-    var upcoming30 = closures.find(function(c) { return c.start > now && c.start <= soon30; });
-
-    if (current) {
-      var ret    = new Date(current.end); ret.setDate(ret.getDate() + 1);
-      var retStr = ret.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
-      banner.className = 'hero-holiday-banner hb-today';
-      banner.innerHTML = '<i class="fas fa-calendar-xmark"></i> We\'re closed today for ' + current.name + ' &mdash; back ' + retStr;
-    } else if (upcoming7) {
-      var days   = Math.ceil((upcoming7.start - now) / (1000 * 60 * 60 * 24));
-      var dayStr = days === 1 ? 'tomorrow' : 'in ' + days + ' days';
-      banner.className = 'hero-holiday-banner hb-soon';
-      banner.innerHTML = '<i class="fas fa-calendar-day"></i> Upcoming holiday &mdash; ' + upcoming7.name + ' ' + dayStr;
-    } else if (upcoming30) {
-      var dateStr = upcoming30.start.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-      banner.className = 'hero-holiday-banner hb-coming';
-      banner.innerHTML = '<i class="fas fa-calendar"></i> Next closure &mdash; ' + upcoming30.name + ' on ' + dateStr;
-    }
   }
 
   // Sticky in-page nav highlighting
@@ -1264,7 +1222,6 @@
   updateClosureBanner();
   updateTodayBanner();
   markHolidays();
-  updateHeroBanner();
   initPageNav();
   setInterval(updateStatus, 60000);
   setInterval(updateTodayBanner, 60000);
