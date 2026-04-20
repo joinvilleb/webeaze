@@ -273,6 +273,26 @@
     }
     .closure-banner p { margin: 0; color: rgba(255,255,255,.85); font-size: 15px; line-height: 1.7; }
 
+    /* HERO HOLIDAY BANNER */
+    .hero-holiday-banner {
+      display: inline-flex; align-items: center; gap: 10px;
+      margin-top: 18px; padding: 10px 20px;
+      border-radius: 999px; font-size: 14px; font-weight: 600;
+      border: 1px solid transparent; transition: none;
+    }
+    .hero-holiday-banner.hb-today {
+      background: rgba(239,68,68,.12); border-color: rgba(239,68,68,.3);
+      color: #ef4444;
+    }
+    .hero-holiday-banner.hb-soon {
+      background: rgba(245,158,11,.1); border-color: rgba(245,158,11,.3);
+      color: #f59e0b;
+    }
+    .hero-holiday-banner.hb-coming {
+      background: rgba(120,81,169,.1); border-color: rgba(120,81,169,.25);
+      color: #b08fe0;
+    }
+
     /* HOLIDAYS */
     .holiday-years {
       display: grid;
@@ -307,6 +327,32 @@
     .holiday-list li:last-child { border-bottom: none; }
     .holiday-name { color: rgba(255,255,255,.85); }
     .holiday-date { font-weight: 600; }
+
+    /* Holiday row states */
+    .holiday-list li.holiday-past {
+      opacity: .38;
+    }
+    .holiday-list li.holiday-past .holiday-name,
+    .holiday-list li.holiday-past .holiday-date {
+      text-decoration: line-through;
+    }
+    .holiday-list li.holiday-today {
+      background: rgba(245,158,11,.08);
+    }
+    .holiday-list li.holiday-today .holiday-name {
+      color: #f59e0b; font-weight: 700;
+    }
+    .holiday-list li.holiday-today .holiday-date {
+      color: #f59e0b;
+    }
+    .holiday-list li.holiday-today::before {
+      content: '';
+    }
+    .holiday-upcoming-dot {
+      display: inline-block; width: 7px; height: 7px;
+      border-radius: 50%; background: var(--brand);
+      margin-right: 6px; vertical-align: middle; flex-shrink: 0;
+    }
 
     .holiday-note {
       font-size: 14px;
@@ -517,6 +563,14 @@
   .footer-bottom p, .footer-bottom a, .footer-legal a { color: #6b7280 !important; }
   .footer-tagline { color: rgba(255,255,255,.5) !important; }
 
+  /* Holiday row states in light mode */
+  .holiday-list li.holiday-today { background: rgba(245,158,11,.07) !important; }
+  .holiday-list li.holiday-today .holiday-name { color: #b45309 !important; }
+  .holiday-list li.holiday-today .holiday-date { color: #b45309 !important; }
+  .hero-holiday-banner.hb-today  { background: rgba(239,68,68,.08)  !important; border-color: rgba(239,68,68,.22) !important; color: #dc2626 !important; }
+  .hero-holiday-banner.hb-soon   { background: rgba(245,158,11,.08) !important; border-color: rgba(245,158,11,.22) !important; color: #d97706 !important; }
+  .hero-holiday-banner.hb-coming { background: rgba(120,81,169,.07) !important; border-color: rgba(120,81,169,.2) !important; color: #7851a9 !important; }
+
   /* CLIENT TOOLS SPOILER */
   .client-tools-wrap {
     max-width: 860px; margin: 0 auto; padding: 0 20px 56px;
@@ -607,6 +661,7 @@
   <div class="container container-narrow">
     <h1>Support Hours & Updates</h1>
     <p class="subtitle">Hours, holiday closures, and service announcements from WebEaze.</p>
+    <div id="hero-holiday-banner"></div>
   </div>
 </header>
 
@@ -682,24 +737,24 @@
       <div class="holiday-card">
         <div class="holiday-card-header">2026</div>
         <ul class="holiday-list">
-          <li><span class="holiday-name">New Year's Day</span><span class="holiday-date">Jan 1</span></li>
-          <li><span class="holiday-name">Memorial Day</span><span class="holiday-date">May 25</span></li>
-          <li><span class="holiday-name">Independence Day</span><span class="holiday-date">Jul 3</span></li>
-          <li><span class="holiday-name">Labor Day</span><span class="holiday-date">Sep 7</span></li>
-          <li><span class="holiday-name">Thanksgiving</span><span class="holiday-date">Nov 25–29</span></li>
-          <li><span class="holiday-name">December Holidays</span><span class="holiday-date">Dec 24–Jan 3, 2027</span></li>
+          <li data-start="2026-01-01" data-end="2026-01-01"><span class="holiday-name">New Year's Day</span><span class="holiday-date">Jan 1</span></li>
+          <li data-start="2026-05-25" data-end="2026-05-25"><span class="holiday-name">Memorial Day</span><span class="holiday-date">May 25</span></li>
+          <li data-start="2026-07-03" data-end="2026-07-03"><span class="holiday-name">Independence Day</span><span class="holiday-date">Jul 3</span></li>
+          <li data-start="2026-09-07" data-end="2026-09-07"><span class="holiday-name">Labor Day</span><span class="holiday-date">Sep 7</span></li>
+          <li data-start="2026-11-25" data-end="2026-11-29"><span class="holiday-name">Thanksgiving</span><span class="holiday-date">Nov 25–29</span></li>
+          <li data-start="2026-12-24" data-end="2027-01-03"><span class="holiday-name">December Holidays</span><span class="holiday-date">Dec 24–Jan 3, 2027</span></li>
         </ul>
       </div>
 
       <div class="holiday-card">
         <div class="holiday-card-header">2027</div>
         <ul class="holiday-list">
-          <li><span class="holiday-name">New Year's Day</span><span class="holiday-date">Jan 1–3</span></li>
-          <li><span class="holiday-name">Memorial Day</span><span class="holiday-date">May 31</span></li>
-          <li><span class="holiday-name">Independence Day</span><span class="holiday-date">Jul 5</span></li>
-          <li><span class="holiday-name">Labor Day</span><span class="holiday-date">Sep 6</span></li>
-          <li><span class="holiday-name">Thanksgiving</span><span class="holiday-date">Nov 25–29</span></li>
-          <li><span class="holiday-name">December Holidays</span><span class="holiday-date">Dec 24–Jan 2, 2028</span></li>
+          <li data-start="2027-01-01" data-end="2027-01-03"><span class="holiday-name">New Year's Day</span><span class="holiday-date">Jan 1–3</span></li>
+          <li data-start="2027-05-31" data-end="2027-05-31"><span class="holiday-name">Memorial Day</span><span class="holiday-date">May 31</span></li>
+          <li data-start="2027-07-05" data-end="2027-07-05"><span class="holiday-name">Independence Day</span><span class="holiday-date">Jul 5</span></li>
+          <li data-start="2027-09-06" data-end="2027-09-06"><span class="holiday-name">Labor Day</span><span class="holiday-date">Sep 6</span></li>
+          <li data-start="2027-11-25" data-end="2027-11-29"><span class="holiday-name">Thanksgiving</span><span class="holiday-date">Nov 25–29</span></li>
+          <li data-start="2027-12-24" data-end="2028-01-02"><span class="holiday-name">December Holidays</span><span class="holiday-date">Dec 24–Jan 2, 2028</span></li>
         </ul>
       </div>
 
@@ -1078,8 +1133,8 @@
     } else if (upcoming) {
       const s = upcoming.start.toLocaleDateString('en-US', { month:'long', day:'numeric' });
       const e = upcoming.end.toLocaleDateString('en-US',   { month:'long', day:'numeric' });
-      title.textContent   = 'Upcoming Closure — ' + upcoming.name;
-      message.textContent = 'We\'ll be closed ' + s + '–' + e + ' for ' + upcoming.name + '. Submit any urgent requests before then.';
+      title.textContent   = 'Upcoming Closure: ' + upcoming.name;
+      message.textContent = 'We\'ll be closed ' + s + '-' + e + ' for ' + upcoming.name + '. Submit any urgent requests before then.';
       banner.classList.add('visible');
     }
   }
@@ -1113,6 +1168,56 @@
       const opensNext = hour < 9 ? 'today' : (day === 5 ? 'Monday' : 'tomorrow');
       banner.className = 'today-banner today-away';
       banner.innerHTML = '<i class="fas fa-clock"></i> <strong>Closed now</strong> · Opens ' + opensNext + ' at 9:00am ET <span class="banner-date">' + dateStr + '</span>';
+    }
+  }
+
+  // Mark holiday rows as past / today / upcoming
+  function markHolidays() {
+    const now = getET();
+    document.querySelectorAll('.holiday-list li[data-start]').forEach(function(li) {
+      var start = new Date(li.dataset.start + 'T00:00:00');
+      var end   = new Date(li.dataset.end   + 'T23:59:59');
+      if (now > end) {
+        li.classList.add('holiday-past');
+      } else if (now >= start && now <= end) {
+        li.classList.add('holiday-today');
+      } else {
+        var daysAway = Math.ceil((start - now) / (1000 * 60 * 60 * 24));
+        if (daysAway <= 14) {
+          var dot = document.createElement('span');
+          dot.className = 'holiday-upcoming-dot';
+          li.querySelector('.holiday-name').prepend(dot);
+        }
+      }
+    });
+  }
+
+  // Hero personalization banner based on holiday proximity
+  function updateHeroBanner() {
+    var banner = document.getElementById('hero-holiday-banner');
+    if (!banner) return;
+    var now      = getET();
+    var closures = getClosures();
+    var current  = closures.find(function(c) { return now >= c.start && now <= c.end; });
+    var soon7    = new Date(now); soon7.setDate(soon7.getDate() + 7);
+    var soon30   = new Date(now); soon30.setDate(soon30.getDate() + 30);
+    var upcoming7  = closures.find(function(c) { return c.start > now && c.start <= soon7; });
+    var upcoming30 = closures.find(function(c) { return c.start > now && c.start <= soon30; });
+
+    if (current) {
+      var ret    = new Date(current.end); ret.setDate(ret.getDate() + 1);
+      var retStr = ret.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+      banner.className = 'hero-holiday-banner hb-today';
+      banner.innerHTML = '<i class="fas fa-calendar-xmark"></i> We\'re closed today for ' + current.name + ' &mdash; back ' + retStr;
+    } else if (upcoming7) {
+      var days   = Math.ceil((upcoming7.start - now) / (1000 * 60 * 60 * 24));
+      var dayStr = days === 1 ? 'tomorrow' : 'in ' + days + ' days';
+      banner.className = 'hero-holiday-banner hb-soon';
+      banner.innerHTML = '<i class="fas fa-calendar-day"></i> Upcoming holiday &mdash; ' + upcoming7.name + ' ' + dayStr;
+    } else if (upcoming30) {
+      var dateStr = upcoming30.start.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+      banner.className = 'hero-holiday-banner hb-coming';
+      banner.innerHTML = '<i class="fas fa-calendar"></i> Next closure &mdash; ' + upcoming30.name + ' on ' + dateStr;
     }
   }
 
@@ -1158,6 +1263,8 @@
   updateStatus();
   updateClosureBanner();
   updateTodayBanner();
+  markHolidays();
+  updateHeroBanner();
   initPageNav();
   setInterval(updateStatus, 60000);
   setInterval(updateTodayBanner, 60000);
