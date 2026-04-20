@@ -4754,6 +4754,8 @@
   // ---- Search index ----
   function normalize(str) { return (str || '').toLowerCase().replace(/\s+/g, ' ').trim(); }
   function tokenize(str) { return normalize(str).split(/[^a-z0-9]+/).filter(Boolean); }
+  const STOP_WORDS = new Set(['a','an','the','is','are','was','were','be','been','being','have','has','had','do','does','did','will','would','could','should','may','might','can','to','of','in','on','at','by','for','with','about','as','it','its','this','that','these','those','and','or','but','not','what','how','why','when','where','who','which','my','your','our','their','i','we','you','they','he','she','from','up','out','if','so','just','get','use','need','want','make','go']);
+
   function indexArticles(data) {
     const idx = [];
     data.topics.forEach(t => {
@@ -4764,8 +4766,14 @@
         const headings  = (a.body.match(/<h[2-4]/gi) || []).length;
         const adjusted  = wordCount + listItems * 8 + headings * 12;
         const readTime  = Math.max(1, Math.ceil(adjusted / 200));
-        const text = [a.title, a.meta, bodyText].join(' ');
-        idx.push({ slug: a.slug, title: a.title, topicId: t.id, topicTitle: t.title, topicIcon: t.icon, updated: a.updated, meta: a.meta, readTime, text: normalize(text) });
+        idx.push({
+          slug: a.slug, title: a.title, topicId: t.id, topicTitle: t.title,
+          topicIcon: t.icon, updated: a.updated, meta: a.meta, readTime,
+          nTitle:    normalize(a.title),
+          nMeta:     normalize(a.meta || ''),
+          nTopic:    normalize(t.title),
+          nBody:     normalize(bodyText),
+        });
       });
     });
     return idx;
@@ -4773,12 +4781,24 @@
   const INDEX = indexArticles(HELP_DATA);
 
   function searchArticles(q) {
-    const terms = tokenize(q);
+    const allTerms = tokenize(q);
+    if (!allTerms.length) return INDEX.slice(0, 12);
+    const terms = allTerms.filter(t => t.length > 1 && !STOP_WORDS.has(t));
+    const query  = allTerms.filter(t => !STOP_WORDS.has(t)).join(' ');
     if (!terms.length) return INDEX.slice(0, 12);
+
     return INDEX.map(doc => {
-      const score = terms.reduce((s, t) => s + (doc.text.includes(t) ? 1 : 0), 0);
+      let score = 0;
+      // Exact phrase in title — highest priority
+      if (doc.nTitle.includes(query)) score += 40;
+      terms.forEach(t => {
+        if (doc.nTitle.includes(t))  score += 10;
+        if (doc.nMeta.includes(t))   score += 4;
+        if (doc.nTopic.includes(t))  score += 3;
+        if (doc.nBody.includes(t))   score += 1;
+      });
       return { doc, score };
-    }).filter(x => x.score > 0).sort((a, b) => b.score - a.score).map(x => x.doc).slice(0, 24);
+    }).filter(x => x.score > 0).sort((a, b) => b.score - a.score).map(x => x.doc).slice(0, 20);
   }
 
   // ---- Router ----
@@ -5316,9 +5336,17 @@ const LS_SAVED    = 'wz_help_saved';
     const $pills = document.getElementById('historyPills');
     if (!$row || !$pills) return;
     $pills.innerHTML = searches.map(s =>
-      `<a class="history-pill" href="#" onclick="event.preventDefault();document.getElementById('search').value=${JSON.stringify(s)};document.getElementById('search').dispatchEvent(new Event('input'));document.getElementById('search').focus();">` +
+      `<a class="history-pill" href="#" data-q="${s.replace(/&/g,'&amp;').replace(/"/g,'&quot;')}">` +
       `<i class="fas fa-clock-rotate-left"></i>${s}</a>`
     ).join('');
+    $pills.querySelectorAll('.history-pill').forEach(function(pill) {
+      pill.addEventListener('click', function(e) {
+        e.preventDefault();
+        $search.value = this.dataset.q;
+        $search.dispatchEvent(new Event('input'));
+        $search.focus();
+      });
+    });
     $row.hidden = false;
   }
 
