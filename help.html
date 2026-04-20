@@ -524,6 +524,40 @@
       color: rgba(255,255,255,.45);
     }
     .hero-return-msg i { color: var(--brand-light); font-size: 12px; }
+    .hero-greeting { font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--brand-light); opacity: .7; margin-bottom: 10px; }
+
+    /* YOU MIGHT ALSO LIKE */
+    .related-section {
+      margin-top: 32px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+    }
+    .related-section h4 {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: var(--muted);
+      margin: 0 0 14px;
+    }
+    .related-list { display: flex; flex-direction: column; gap: 8px; }
+    .related-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      text-decoration: none;
+      color: var(--text);
+      font-size: 14px;
+      font-weight: 500;
+      transition: border-color .15s, background .15s;
+    }
+    .related-item:hover { border-color: var(--brand); background: rgba(120,81,169,.04); text-decoration: none; color: var(--text); }
+    .related-item i { color: var(--brand); font-size: 12px; flex-shrink: 0; }
+    .related-item .related-meta { font-size: 12px; color: var(--muted); font-weight: 400; }
 
     /* MAIN CONTENT */
     main {
@@ -5094,11 +5128,31 @@ const LS_SAVED    = 'wz_help_saved';
   // ---- 5. Return visitor hero ----
   function initReturnVisitor() {
     const visited = lsGet(LS_VISIT);
+    const searches = lsGet(LS_SEARCHES) || [];
     const $sub = document.getElementById('heroSub');
-    if (visited && $sub) {
-      $sub.textContent = 'Welcome back. What can we help you with today?';
-      $sub.insertAdjacentHTML('afterend', '<div class="hero-return-msg"><i class="fas fa-history"></i> Your saved articles and reading history are below.</div>');
+    const $content = document.querySelector('.hero-content');
+
+    // Time-of-day greeting
+    if ($content && !$content.querySelector('.hero-greeting')) {
+      const h = new Date().getHours();
+      const greet = h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
+      const $g = document.createElement('div');
+      $g.className = 'hero-greeting';
+      $g.textContent = greet;
+      $content.insertBefore($g, $content.firstChild);
     }
+
+    // Adaptive subtext
+    if ($sub) {
+      if (visited && searches.length) {
+        $sub.textContent = 'Welcome back. Pick up your search or browse below.';
+      } else if (visited) {
+        $sub.textContent = 'Welcome back. What can we help you with today?';
+        $sub.insertAdjacentHTML('afterend', '<div class="hero-return-msg"><i class="fas fa-history"></i> Your saved articles and reading history are below.</div>');
+      }
+      // else: first visit, default text unchanged
+    }
+
     lsSet(LS_VISIT, true);
   }
 
@@ -5190,6 +5244,7 @@ const LS_SAVED    = 'wz_help_saved';
     const { article, topic } = found;
     injectBookmarkBtn(slug, article.title);
     injectHelpfulRow(slug);
+    injectRelatedArticles(slug, topic);
     injectStuckSection(slug);
     // Track topic reads
     if (topic && topic.id) {
@@ -5197,6 +5252,34 @@ const LS_SAVED    = 'wz_help_saved';
       counts[topic.id] = (counts[topic.id] || 0) + 1;
       lsSet(LS_TOPICS, counts);
     }
+  }
+
+  // ---- You might also like ----
+  function injectRelatedArticles(slug, topic) {
+    const $view = document.querySelector('.article-view');
+    if (!$view || $view.querySelector('.related-section')) return;
+    const others = topic.articles.filter(a => a.slug !== slug);
+    if (!others.length) return;
+    // Pick up to 3: prioritize unread (no LS_TOPICS tracking at article level, so just take first 3)
+    const picks = others.slice(0, 3);
+    const section = document.createElement('div');
+    section.className = 'related-section';
+    section.innerHTML =
+      '<h4>You might also like</h4>' +
+      '<div class="related-list">' +
+      picks.map(a =>
+        '<a class="related-item" href="#/' + a.slug + '">' +
+          '<i class="fas fa-file-lines"></i>' +
+          '<div><div>' + a.title + '</div>' +
+          (a.meta ? '<div class="related-meta">' + a.meta + '</div>' : '') +
+          '</div>' +
+        '</a>'
+      ).join('') +
+      '</div>';
+    // Insert before the stuck section if present, otherwise append
+    const $stuck = $view.querySelector('.stuck-section');
+    if ($stuck) { $view.insertBefore(section, $stuck); }
+    else { $view.appendChild(section); }
   }
 
   // ---- Still stuck section ----
