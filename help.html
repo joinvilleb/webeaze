@@ -1010,7 +1010,81 @@
       color: var(--brand-light);
       font-weight: 600;
     }
+    .category-card .read-progress {
+      margin-top: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .category-card .progress-bar {
+      flex: 1;
+      height: 4px;
+      background: rgba(255,255,255,.1);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+    .category-card .progress-fill {
+      height: 100%;
+      background: var(--gold);
+      border-radius: 99px;
+      transition: width .4s ease;
+    }
+    .category-card .progress-label {
+      font-size: 11px;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+    .category-card.all-read .count { color: var(--gold); }
 
+    /* Group filter chips */
+    .group-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+    .group-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 99px;
+      border: 1px solid var(--line);
+      background: transparent;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background .15s, border-color .15s, color .15s;
+    }
+    .group-chip:hover, .group-chip.active {
+      background: rgba(120,81,169,.15);
+      border-color: var(--brand);
+      color: var(--brand-light);
+    }
+    .group-chip i { font-size: 11px; }
+
+    /* Back nav in topic results */
+    .topic-breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 18px;
+    }
+    .topic-breadcrumb a {
+      color: var(--brand-light);
+      text-decoration: none;
+    }
+    .topic-breadcrumb a:hover { text-decoration: underline; }
+    .topic-breadcrumb i { font-size: 10px; }
+    .topic-desc-line {
+      font-size: 14px;
+      color: var(--muted);
+      margin: -8px 0 20px;
+      line-height: 1.6;
+    }
 
     .contact-cta {
       padding: 80px 0;
@@ -2076,6 +2150,78 @@
   ]
 }
 </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How do I request a change to my website?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Submit your request at webeaze.com/website-request.html. Describe what you'd like changed, include any new text or images, and we'll take care of the rest. Most updates are completed within 1 to 3 business days."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How long do website updates take?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Most updates are completed within 1 to 3 business days. Simple text and image changes are often done the same day or next day. More complex changes like new page layouts or new functionality may take a bit longer."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I cancel my WebEaze plan?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. You can cancel anytime with no contract or early termination fee. Just contact us and we'll process your cancellation at the end of your current billing period. Your site stays live until then."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the difference between the Essential and Growth plans?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Essential ($169/month) covers up to 3 pages with unlimited content updates, basic SEO, and email support. Growth ($249/month) covers up to 6 pages and adds priority support, phone and video call access, Google Business Profile management, and online review management."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does WebEaze include website hosting?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Hosting is included in every WebEaze plan at no extra cost. This covers your site files, SSL certificate (HTTPS), and uptime monitoring. You do not need to sign up for a separate hosting provider."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I switch from monthly to annual billing?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Contact us and we'll handle the switch. Switching to annual billing saves you the equivalent of two months compared to paying monthly. The change takes effect at your next billing date."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I get started with WebEaze?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Book a free consultation at webeaze.com/consultation.html. We'll walk you through the process, show you a custom mockup within 48 hours, and have your site live within 1 to 2 weeks. There's no obligation and no payment required upfront."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What payment methods does WebEaze accept?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "We accept all major credit and debit cards through Stripe. Billing is automatic on your monthly or annual renewal date. You can update your payment method anytime through the billing portal."
+      }
+    }
+  ]
+}
+</script>
 </head>
 <body>
 
@@ -2140,10 +2286,6 @@
       <div class="history-pills" id="historyPills"></div>
     </div>
 
-    <div id="topicAffinityRow" class="topic-affinity-row" hidden>
-      <i class="fas fa-fire-flame-curved"></i> You read a lot about <span id="topicAffinityName" class="affinity-name"></span>
-    </div>
-
     <div class="quick-links-label">Popular topics</div>
     <div class="quick-links">
       <a href="#/getting-started" class="quick-link"><i class="fas fa-rocket"></i> Getting Started</a>
@@ -2196,6 +2338,7 @@
       <h2>Browse by Category</h2>
       <p>Explore our help articles organized by topic to find exactly what you need.</p>
     </div>
+    <div class="group-chips" id="groupChips"></div>
     <div class="categories-grid" id="categoriesGrid"></div>
   </div>
 </section>
@@ -5434,18 +5577,39 @@
     'one-time-services': 'Need a single project done with no monthly commitment? Learn how one-time builds work.',
   };
 
-  function renderCategories() {
+  const GROUP_ICONS = { journey: 'fa-route', billing: 'fa-credit-card', support: 'fa-wrench', addons: 'fa-puzzle-piece' };
+  let activeCategoryGroup = null;
+
+  function renderCategories(filterGroup) {
+    activeCategoryGroup = filterGroup || null;
+    const readSlugs = new Set((lsGet(LS_READ) || []).map(r => r.slug));
     const sorted = [...HELP_DATA.topics].sort((a, b) => TOPIC_ORDER.indexOf(a.id) - TOPIC_ORDER.indexOf(b.id));
+    const filtered = filterGroup ? sorted.filter(t => t.group === filterGroup) : sorted;
+
+    // Group chips
+    const $chips = document.getElementById('groupChips');
+    if ($chips) {
+      $chips.innerHTML =
+        `<button class="group-chip${!activeCategoryGroup ? ' active' : ''}" onclick="renderCategories(null)"><i class="fas fa-th-large"></i> All</button>` +
+        GROUP_META.map(g =>
+          `<button class="group-chip${activeCategoryGroup === g.key ? ' active' : ''}" onclick="renderCategories('${g.key}')"><i class="fas ${GROUP_ICONS[g.key] || 'fa-folder'}"></i> ${g.label}</button>`
+        ).join('');
+    }
+
     let html = '';
     let lastGroup = null;
-    sorted.forEach(t => {
-      if (t.group !== lastGroup) {
+    filtered.forEach(t => {
+      if (!filterGroup && t.group !== lastGroup) {
         const gm = GROUP_META.find(g => g.key === t.group);
         html += `<div class="category-section-label">${gm ? gm.label : ''}</div>`;
         lastGroup = t.group;
       }
+      const total = t.articles.length;
+      const readCount = t.articles.filter(a => readSlugs.has(a.slug)).length;
+      const pct = total > 0 ? Math.round((readCount / total) * 100) : 0;
+      const allRead = readCount === total && total > 0;
       html += `
-      <div class="category-card" role="button" tabindex="0"
+      <div class="category-card${allRead ? ' all-read' : ''}" role="button" tabindex="0"
         onclick="renderTopicResults('${t.id}')"
         onkeydown="if(event.key==='Enter' || event.key===' ') { event.preventDefault(); renderTopicResults('${t.id}'); }"
       >
@@ -5453,9 +5617,14 @@
         <h3>${t.title}</h3>
         <p>${TOPIC_DESC[t.id] || ''}</p>
         <div class="count">
-          ${t.articles.length} article${t.articles.length === 1 ? '' : 's'}
-          <span style="margin-left:10px; color: rgba(255,255,255,.55); font-weight:500;">• View</span>
+          ${total} article${total === 1 ? '' : 's'}
+          ${readCount > 0 ? `<span style="margin-left:10px; color: rgba(255,255,255,.55); font-weight:500;">• ${allRead ? 'All read' : readCount + ' read'}</span>` : '<span style="margin-left:10px; color: rgba(255,255,255,.55); font-weight:500;">• View</span>'}
         </div>
+        ${readCount > 0 ? `
+        <div class="read-progress">
+          <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+          <span class="progress-label">${pct}%</span>
+        </div>` : ''}
       </div>`;
     });
     $categoriesGrid.innerHTML = html;
@@ -6006,21 +6175,6 @@ const LS_SAVED    = 'wz_help_saved';
     $row.hidden = false;
   }
 
-  // ---- Topic affinity ----
-  function initTopicAffinity() {
-    const counts = lsGet(LS_TOPICS) || {};
-    const entries = Object.entries(counts).sort((a, b) => b[1] - a[1]);
-    if (!entries.length || entries[0][1] < 2) return;
-    const topTopic = HELP_DATA.topics.find(t => t.id === entries[0][0]);
-    if (!topTopic) return;
-    const $row  = document.getElementById('topicAffinityRow');
-    const $name = document.getElementById('topicAffinityName');
-    if ($row && $name) {
-      $name.textContent = topTopic.title;
-      $row.hidden = false;
-    }
-  }
-
   // ---- Phase / new visitor banner ----
   function initPhaseBanner() {
     const params = new URLSearchParams(window.location.search);
@@ -6129,7 +6283,6 @@ const LS_SAVED    = 'wz_help_saved';
     initReturnVisitor();
     initSearchHistory();
     initLastRead();
-    initTopicAffinity();
     renderSavedSidebar();
     initPhaseBanner();
     bindInternalLinks();
@@ -6172,45 +6325,53 @@ function renderTopicResults(topicId) {
   const topic = HELP_DATA.topics.find(t => t.id === topicId);
   if (!topic) return;
 
-  // Clear search so it doesn't feel confusing
   $search.value = '';
-
-  // Show results list
   $article.hidden = true;
   $article.innerHTML = '';
   $categoriesSection.style.display = 'none';
 
+  const readSlugs = new Set((lsGet(LS_READ) || []).map(r => r.slug));
   const items = topic.articles.map(a => INDEX.find(x => x.slug === a.slug)).filter(Boolean);
+  const readCount = items.filter(d => readSlugs.has(d.slug)).length;
+
+  function cardBadge(slug) {
+    return readSlugs.has(slug) ? ' <span class="read-badge"><i class="fas fa-check"></i> Read</span>' : '';
+  }
+  function cardHTMLLocal(d) {
+    return `
+      <a href="#/${d.slug}" class="result-card${readSlugs.has(d.slug) ? ' result-read' : ''}">
+        <div class="title"><span>${d.title}</span><i class="fas fa-arrow-right"></i></div>
+        <div class="meta">
+          <span class="read-time"><i class="fas fa-book-open"></i> ${d.readTime} min</span>${cardBadge(d.slug)}
+        </div>
+        <div class="excerpt">${d.meta}</div>
+      </a>`;
+  }
+
+  const desc = TOPIC_DESC[topicId] || '';
+  const progressLine = readCount > 0
+    ? `<span style="font-size:12px; color:var(--brand-light); font-weight:600; margin-left:12px;"><i class="fas fa-check-circle"></i> ${readCount} of ${items.length} read</span>`
+    : '';
 
   $results.innerHTML = `
+    <div class="topic-breadcrumb">
+      <a href="#" onclick="event.preventDefault(); $categoriesSection.style.display='block'; $results.innerHTML=''; renderCategories(activeCategoryGroup); window.scrollTo({top:$categoriesSection.offsetTop - 80, behavior:'smooth'});"><i class="fas fa-chevron-left"></i> All Categories</a>
+      <i class="fas fa-chevron-right"></i>
+      <span>${topic.title}</span>
+    </div>
     <div class="results-header">
-      <h2>${topic.title}</h2>
+      <h2>${topic.title}${progressLine}</h2>
       <div class="results-count">${items.length} article${items.length === 1 ? '' : 's'}</div>
     </div>
-    <div class="results-grid">
-      ${items.map(d => `
-        <a href="#/${d.slug}" class="result-card">
-          <div class="title">
-            <span>${d.title}</span>
-            <i class="fas fa-arrow-right"></i>
-          </div>
-          <div class="meta">
-            <span class="topic">${d.topicTitle}</span> · Updated ${d.updated}
-          </div>
-          <div class="excerpt">${d.meta}</div>
-        </a>
-      `).join('')}
-    </div>
+    ${desc ? `<p class="topic-desc-line">${desc}</p>` : ''}
+    <div class="results-grid">${items.map(cardHTMLLocal).join('')}</div>
   `;
 
-  // Open & highlight the topic in the sidebar (nice feedback)
   document.querySelectorAll('.topic-group').forEach(g => g.classList.remove('open'));
   const group = document.querySelector(`[data-topic="${topicId}"]`);
   if (group) group.classList.add('open');
 
   $live.textContent = `Browsing: ${topic.title}`;
-
-  // Scroll to results so users see where they went
   $results.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 </script>

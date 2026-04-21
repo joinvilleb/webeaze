@@ -62,6 +62,63 @@
   }
   </script>
 
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What happens if the AI chatbot cannot answer a question?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "When the chatbot encounters a question outside its training, it politely lets the visitor know and collects their name, email, and message so you can follow up. No lead gets lost."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Will the AI chatbot make things up or say something incorrect?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. The chatbot only responds based on the information you provide. It does not make up facts, go off-topic, or say anything you have not approved. You are always in full control of what it knows."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Do I need to be technical to use the AI chatbot?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Not at all. We handle everything: building the chatbot, installing it on your site, and maintaining it. You just tell us about your business and we take care of the rest."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What happens if my business information changes?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Just let us know. Whether you update your hours, add a new service, or change pricing, we update the chatbot to reflect those changes. This is included in your monthly plan."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is there a contract for the AI chatbot?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No contracts, no commitments. It is a simple month-to-month plan at $79 per month. You can cancel anytime with no penalties."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How long does AI chatbot setup take?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Most chatbots are live within a few business days. Once you provide your business details, we move fast. You will review and approve everything before it goes live on your site."
+        }
+      }
+    ]
+  }
+  </script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -1663,6 +1720,37 @@
       statsObserver.observe(statsSection);
     }
   }
+})();
+</script>
+
+<script>
+(function() {
+  try {
+    var key = 'wz_ai_visited';
+    var countKey = 'wz_ai_count';
+    var wasHere = localStorage.getItem(key);
+    var count = parseInt(localStorage.getItem(countKey) || '0', 10) + 1;
+    localStorage.setItem(key, '1');
+    localStorage.setItem(countKey, count);
+
+    if (wasHere) {
+      var badge = document.querySelector('.hero-badge');
+      if (badge) badge.innerHTML = '<i class="fas fa-rotate-right"></i> Welcome back';
+    }
+
+    // High-intent: visited 3+ times, swap CTA
+    if (count >= 3) {
+      var cta = document.querySelector('.hero-cta');
+      if (cta) cta.innerHTML = 'Add the Chatbot to My Site <i class="fas fa-arrow-right"></i>';
+    }
+
+    // If they came from help center (researching), add a nudge
+    var last = JSON.parse(localStorage.getItem('wz_last_page') || 'null');
+    if (last && last.path === 'help.html') {
+      var sub = document.querySelector('.hero-sub');
+      if (sub) sub.insertAdjacentHTML('afterend', '<p style="font-size:13px;color:rgba(255,255,255,.5);margin-top:-12px;">Still have questions? Our chatbot answers them for you 24/7 — no waiting required.</p>');
+    }
+  } catch(e) {}
 })();
 </script>
 

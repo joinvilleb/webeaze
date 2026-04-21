@@ -62,6 +62,63 @@
   }
   </script>
 
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How much should I spend on ads for my small business?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "We recommend starting with at least $200 to $500 per month in ad spend. This budget goes directly to Google or Meta — not to us. We help you determine the right amount based on your industry, goals, and local competition."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How quickly will I see results from Google or Facebook ads?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Most clients see their first leads within the first week of ads going live. The real improvement comes in months 2 and 3 as we gather data and optimize campaigns for better performance."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Do I need a WebEaze website to use ad management?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "This add-on is available to active WebEaze plan subscribers and one-time web project clients. If you are not a client yet, start with a free mockup and we will set you up with a website and effective ads at the same time."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I run ads on both Google and Facebook at the same time?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. The $149 per month management fee covers both platforms. We recommend the best mix based on your business type and goals. Many clients see strong results running both simultaneously."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is there a contract for ad management?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. There are no contracts and no commitments. You can cancel anytime. We earn your business every month by delivering results, not by locking you in."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is included in the monthly ad report?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Your report includes impressions, clicks, click-through rates, conversions, cost per lead, and overall return on ad spend. We also include our analysis of what is working, what we are testing, and our recommendations for the next month."
+        }
+      }
+    ]
+  }
+  </script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -1640,6 +1697,38 @@
       }
     });
   });
+})();
+</script>
+
+<script>
+(function() {
+  try {
+    var key = 'wz_ads_visited';
+    var countKey = 'wz_ads_count';
+    var wasHere = localStorage.getItem(key);
+    var count = parseInt(localStorage.getItem(countKey) || '0', 10) + 1;
+    localStorage.setItem(key, '1');
+    localStorage.setItem(countKey, count);
+
+    if (wasHere) {
+      // Swap badge text on return visits
+      var badge = document.querySelector('.hero-badge');
+      if (badge) badge.innerHTML = '<i class="fas fa-rotate-right"></i> Welcome back';
+
+      // Swap CTA text for high-intent return visitors
+      if (count >= 3) {
+        var cta = document.querySelector('.hero-cta');
+        if (cta) cta.innerHTML = 'Get Your Free Ad Strategy <i class="fas fa-arrow-right"></i>';
+      }
+    }
+
+    // Cross-page: if they came from pricing or services, nudge toward consultation
+    var last = JSON.parse(localStorage.getItem('wz_last_page') || 'null');
+    if (last && (last.path === 'pricing.html' || last.path === 'services.html')) {
+      var p = document.querySelector('.hero-content > p');
+      if (p) p.insertAdjacentHTML('afterend', '<p style="font-size:13px;color:rgba(255,255,255,.55);margin-top:-10px;">Looks like you were checking out our plans. Ad management works best alongside a WebEaze website plan.</p>');
+    }
+  } catch(e) {}
 })();
 </script>
 

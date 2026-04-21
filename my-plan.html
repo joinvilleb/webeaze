@@ -276,6 +276,48 @@
     }
     .cta-strip a:hover { opacity: .88; text-decoration: none; }
 
+    /* ── HELP PANEL ── */
+    .help-panel {
+      background: var(--bg);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 32px 36px;
+      margin-top: 48px;
+    }
+    .help-panel-header {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 18px;
+    }
+    .help-panel-header i { color: var(--brand); font-size: 18px; }
+    .help-panel-header h4 { font-size: 1rem; font-weight: 700; color: var(--ink); margin: 0; }
+    .help-panel-links {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 10px;
+    }
+    .help-panel-link {
+      display: flex; align-items: center; gap: 10px;
+      padding: 12px 16px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: var(--white);
+      color: var(--ink);
+      text-decoration: none;
+      font-size: 13.5px; font-weight: 600;
+      transition: border-color .15s, box-shadow .15s;
+    }
+    .help-panel-link:hover {
+      border-color: var(--brand);
+      box-shadow: 0 2px 12px rgba(120,81,169,.12);
+      text-decoration: none; color: var(--ink);
+    }
+    .help-panel-link i { color: var(--brand); font-size: 14px; flex-shrink: 0; }
+    .help-panel-footer {
+      margin-top: 16px;
+      font-size: 12.5px; color: var(--ink-3);
+    }
+    .help-panel-footer a { color: var(--brand); font-weight: 600; }
+
     /* ── EMPTY STATE ── */
     .empty-state {
       text-align: center; padding: 80px 20px;
@@ -536,6 +578,40 @@
 
   </div>
 </div>
+
+<!-- HELP PANEL -->
+<div style="background: var(--bg); padding: 0 20px 60px;">
+  <div style="max-width: 900px; margin: 0 auto;">
+    <div class="help-panel">
+      <div class="help-panel-header">
+        <i class="fas fa-circle-question"></i>
+        <h4>Common plan questions</h4>
+      </div>
+      <div class="help-panel-links">
+        <a href="help.html#/manage-your-plan" class="help-panel-link">
+          <i class="fas fa-credit-card"></i> Manage your plan
+        </a>
+        <a href="help.html#/annual-vs-monthly" class="help-panel-link">
+          <i class="fas fa-calendar-alt"></i> Annual vs monthly billing
+        </a>
+        <a href="help.html#/which-plan-should-i-choose" class="help-panel-link">
+          <i class="fas fa-tag"></i> Choosing the right plan
+        </a>
+        <a href="help.html#/payment-methods" class="help-panel-link">
+          <i class="fas fa-wallet"></i> Payment methods
+        </a>
+        <a href="help.html#/additional-pages" class="help-panel-link">
+          <i class="fas fa-plus"></i> Adding more pages
+        </a>
+        <a href="help.html#/no-contract" class="help-panel-link">
+          <i class="fas fa-handshake"></i> Contracts and commitments
+        </a>
+      </div>
+      <p class="help-panel-footer">Need something else? <a href="help.html">Browse all help articles</a> or <a href="contact-us.html">contact us</a>.</p>
+    </div>
+  </div>
+</div>
+
 <!-- FOOTER -->
 <footer>
   <div class="footer-grid">
@@ -754,7 +830,25 @@
     const returning = lsGet('wz_myplan_visited');
     lsSet('wz_myplan_visited', true);
 
+    const greeting = document.getElementById('myPlanGreeting');
+    const reqCount = lsGet('wz_req_submitted') || 0;
+    const firstVisit = lsGet('wz_first_visit');
 
+    if (greeting) {
+      let msg = '';
+      if (returning && reqCount >= 5) {
+        msg = '<i class="fas fa-star" style="color:#ffd700;margin-right:6px;"></i> Power user — ' + reqCount + ' requests submitted';
+      } else if (returning && reqCount > 0) {
+        msg = '<i class="fas fa-check-circle" style="color:#4ade80;margin-right:6px;"></i> ' + reqCount + ' update request' + (reqCount === 1 ? '' : 's') + ' submitted';
+      } else if (returning && firstVisit) {
+        const since = new Date(firstVisit);
+        const months = Math.round((Date.now() - since) / (1000 * 60 * 60 * 24 * 30));
+        if (months >= 1) msg = '<i class="fas fa-calendar-check" style="color:rgba(255,255,255,.5);margin-right:6px;"></i> With WebEaze for ' + months + ' month' + (months === 1 ? '' : 's');
+      } else if (returning) {
+        msg = '<i class="fas fa-rotate-right" style="color:rgba(255,255,255,.4);margin-right:6px;"></i> Welcome back';
+      }
+      if (msg) { greeting.innerHTML = msg; greeting.hidden = false; }
+    }
   })();
 </script>
 </body>
