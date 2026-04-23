@@ -1203,7 +1203,7 @@ fee-tooltip {
 .hero-content-left {
   opacity: 0;
   transform: translateY(30px);
-  animation: heroFadeUp 0.8s ease forwards 0.2s;
+  animation: heroFadeUp 0.9s ease forwards 3.0s;
 }
 
 /* Scroll indicator */
@@ -1222,7 +1222,7 @@ fee-tooltip {
   cursor: pointer;
   font-size: 14px;
   opacity: 0;
-  animation: scrollBobIn 1s ease forwards 2.2s, scrollBob 2s ease-in-out 3.2s infinite;
+  animation: scrollBobIn 1s ease forwards 4.8s, scrollBob 2s ease-in-out 5.8s infinite;
   transition: opacity .35s ease, background .2s, color .2s;
   outline: none;
   -webkit-tap-highlight-color: transparent;
@@ -1384,7 +1384,7 @@ fee-tooltip {
   align-items: center;
   gap: 20px;
   opacity: 0;
-  animation: heroFadeUp 0.6s ease forwards 0.8s;
+  animation: heroFadeUp 0.6s ease forwards 3.6s;
 }
 
 @media (max-width: 992px) {
@@ -1443,7 +1443,7 @@ fee-tooltip {
 .hero-showcase {
   position: relative;
   opacity: 0;
-  animation: showcaseSlideIn 0.9s ease forwards 0.5s;
+  animation: showcaseSlideIn 0.9s ease forwards 3.3s;
 }
 
 @keyframes showcaseSlideIn {
@@ -1568,6 +1568,38 @@ fee-tooltip {
   .hero-float-badge {
     display: none;
   }
+}
+
+/* ===== TECH CHAOS OVERLAY ===== */
+#techChaos {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  overflow: hidden;
+  pointer-events: none;
+  background: #0a0a0f;
+}
+.chaos-word {
+  position: absolute;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  white-space: nowrap;
+  transform: translate(-50%, -50%) rotate(var(--rot, 0deg));
+  animation: chaosFloat var(--dur, 3.5s) ease-in-out infinite alternate;
+  will-change: transform, opacity;
+}
+@keyframes chaosFloat {
+  0%   { transform: translate(-50%, calc(-50% - 9px)) rotate(var(--rot, 0deg)); }
+  100% { transform: translate(-50%, calc(-50% + 9px)) rotate(calc(var(--rot, 0deg) + 1.5deg)); }
+}
+#techChaos.scatter .chaos-word {
+  animation: chaosScatter 1s cubic-bezier(0.2, 0, 0.9, 1) forwards;
+  animation-delay: var(--scatter-delay, 0s);
+}
+@keyframes chaosScatter {
+  0%   { transform: translate(-50%, -50%) rotate(var(--rot, 0deg)) scale(1); opacity: var(--start-op, 0.4); }
+  40%  { opacity: calc(var(--start-op, 0.4) * 0.6); }
+  100% { transform: translate(calc(-50% + var(--sx)), calc(-50% + var(--sy))) rotate(calc(var(--rot, 0deg) + 15deg)) scale(0.6); opacity: 0; }
 }
 
 /* ===== PREMIUM PRICING SECTION ===== */
@@ -1939,6 +1971,103 @@ fee-tooltip {
   opacity: 0.5;
   margin-top: 18px;
 }
+
+/* ===== PAIN POINTS ===== */
+.pain-section {
+  background: #0a0a0f;
+  padding: clamp(56px, 8vh, 88px) 0;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+}
+.pain-kicker {
+  font-size: 13px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .14em; color: #ffd700; margin-bottom: 16px;
+}
+.pain-header h2 {
+  font-size: clamp(28px, 4vw, 46px);
+  font-weight: 800; line-height: 1.2;
+  margin-bottom: 44px; max-width: 620px; color: #fff;
+}
+.pain-grid {
+  display: grid; grid-template-columns: repeat(3,1fr); gap: 20px;
+  margin-bottom: 48px;
+}
+@media (max-width: 768px) { .pain-grid { grid-template-columns: 1fr; } }
+.pain-card {
+  background: #14141e; border: 1px solid rgba(255,255,255,.11);
+  border-radius: 18px; padding: 32px 28px;
+  transition: border-color .2s, background .2s;
+}
+.pain-card:hover { border-color: rgba(255,215,0,.35); background: #16161f; }
+.pain-card i { font-size: 26px; color: #ffd700; margin-bottom: 16px; display: block; }
+.pain-card h3 { font-size: 19px; font-weight: 700; margin-bottom: 12px; color: #fff; }
+.pain-card p { font-size: 15.5px; color: rgba(255,255,255,.78); line-height: 1.8; margin: 0; }
+.pain-bridge {
+  text-align: center;
+  border-top: 1px solid rgba(255,255,255,.08);
+  padding-top: 40px;
+}
+.pain-bridge p {
+  font-size: 19px; font-weight: 600; color: #fff; margin: 0; line-height: 1.6;
+}
+.pain-bridge a {
+  color: #ffd700; font-weight: 700;
+  border-bottom: 1px solid rgba(255,215,0,.4);
+  transition: border-color .15s;
+}
+.pain-bridge a:hover { border-color: #ffd700; }
+
+/* ===== HOW IT WORKS ===== */
+.how-section {
+  background: #0d0d14;
+  padding: clamp(56px, 8vh, 88px) 0;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+}
+.how-kicker {
+  font-size: 13px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .14em; color: rgba(255,255,255,.7); margin-bottom: 16px;
+  display: flex; align-items: center; gap: 7px;
+}
+.how-kicker i { color: #ffd700; }
+.how-header h2 {
+  font-size: clamp(28px, 4vw, 46px);
+  font-weight: 800; line-height: 1.2;
+  margin-bottom: 48px; color: #fff;
+}
+.how-steps {
+  display: flex; flex-direction: column;
+  max-width: 700px; margin: 0 auto 48px;
+}
+.how-step {
+  display: flex; gap: 26px; align-items: flex-start;
+}
+.how-connector {
+  width: 2px; height: 32px;
+  background: linear-gradient(to bottom, rgba(255,215,0,.4), rgba(255,215,0,.08));
+  margin-left: 22px;
+}
+.step-num {
+  font-size: 40px; font-weight: 800;
+  color: rgba(255,215,0,.35); line-height: 1;
+  min-width: 48px; letter-spacing: -0.04em; flex-shrink: 0;
+}
+.step-body { padding-top: 2px; }
+.step-body h3 { font-size: 20px; font-weight: 700; margin-bottom: 10px; color: #fff; }
+.step-body p { font-size: 16px; color: rgba(255,255,255,.78); line-height: 1.8; margin: 0; }
+.how-cta-row {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 12px; padding-top: 16px;
+}
+.how-cta-btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: linear-gradient(135deg,#ffd700,#f0c000);
+  color: #1a1a1a; font-weight: 700; font-size: 16px;
+  padding: 15px 32px; border-radius: 12px;
+  transition: opacity .2s, transform .2s;
+}
+.how-cta-btn:hover { opacity: .9; transform: translateY(-2px); color: #1a1a1a; }
+.how-cta-btn i { transition: transform .2s; }
+.how-cta-btn:hover i { transform: translateX(4px); }
+.how-cta-note { font-size: 14px; color: rgba(255,255,255,.55); }
 
 /* ===== TESTIMONIALS ACCORDION ===== */
 .testimonials-section {
@@ -2614,6 +2743,7 @@ fee-tooltip {
 
   <!-- HERO SECTION -->
   <section class="hero-section">
+    <div id="techChaos"></div>
     <div class="hero-glow-new"></div>
     <div class="container container-narrow">
       <div class="hero-grid">
@@ -2626,7 +2756,7 @@ fee-tooltip {
           </h1>
 
           <p class="hero-subtitle-new" id="indexHeroSub">
-            We design, build, and manage your site. You run your business.
+            We build, manage, and optimize your entire web presence — website, SEO, AI, and more. You focus on your business.
           </p>
 
           <div class="hero-ctas">
@@ -2692,13 +2822,47 @@ fee-tooltip {
   
   
 
+  <!-- PAIN POINTS -->
+  <section class="pain-section">
+    <div class="container container-narrow">
+
+      <div class="pain-header reveal">
+        <div class="pain-kicker">Sound familiar?</div>
+        <h2>Most small businesses are losing clients <span class="gold-sweep">they don't even know about.</span></h2>
+      </div>
+
+      <div class="pain-grid reveal reveal-delay-1">
+        <div class="pain-card">
+          <i class="fas fa-eye-slash"></i>
+          <h3>Invisible on Google</h3>
+          <p>Your competitors show up first. Potential clients search for exactly what you offer and never find you.</p>
+        </div>
+        <div class="pain-card">
+          <i class="fas fa-chart-line"></i>
+          <h3>A site that doesn't convert</h3>
+          <p>You have a website, but it isn't bringing in calls or leads. Visitors land and leave without taking action.</p>
+        </div>
+        <div class="pain-card">
+          <i class="fas fa-clock"></i>
+          <h3>No time for the tech</h3>
+          <p>You're running a business. You shouldn't have to think about SSL certificates, page speed, or software updates.</p>
+        </div>
+      </div>
+
+      <div class="pain-bridge reveal reveal-delay-2">
+        <p>WebEaze handles all of it — <a href="services.html">website, SEO, AI tools, and more</a> — so your business shows up, stands out, and grows.</p>
+      </div>
+
+    </div>
+  </section>
+
   <section class="why-section">
     <div class="container container-narrow">
 
       <div class="why-header reveal">
         <div class="why-kicker"><i class="fas fa-bolt"></i> Why WebEaze?</div>
         <h2>One price. <span class="gold-sweep">Everything included.</span></h2>
-        <p class="why-header-sub">We take all parts of building and maintaining a website and bundle them into one plan. With the added touch of a personalized web team, you get a website that works as hard as you do. </p>
+        <p class="why-header-sub">We bundle every part of building, managing, and optimizing your web presence into one plan. You get a personalized team that handles the tech — so your site works, ranks, and brings in clients.</p>
       </div>
 
       <div class="why-tabs reveal reveal-delay-1">
@@ -2821,6 +2985,49 @@ fee-tooltip {
           </div>
 
         </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="how-section">
+    <div class="container container-narrow">
+
+      <div class="how-header reveal">
+        <div class="how-kicker"><i class="fas fa-route"></i> How it works</div>
+        <h2>From first conversation to <span class="gold-sweep">growing business.</span></h2>
+      </div>
+
+      <div class="how-steps reveal reveal-delay-1">
+        <div class="how-step">
+          <div class="step-num">01</div>
+          <div class="step-body">
+            <h3>Tell us about your business</h3>
+            <p>We start with a free mockup — no tech knowledge needed. Share your goals, your brand, and what makes you different. We take it from there.</p>
+          </div>
+        </div>
+        <div class="how-connector"></div>
+        <div class="how-step">
+          <div class="step-num">02</div>
+          <div class="step-body">
+            <h3>We build your entire presence</h3>
+            <p>Custom website, SEO foundation, Google Business setup, hosting, SSL, and every technical detail — configured and launched in days, not months.</p>
+          </div>
+        </div>
+        <div class="how-connector"></div>
+        <div class="how-step">
+          <div class="step-num">03</div>
+          <div class="step-body">
+            <h3>We optimize. You grow.</h3>
+            <p>Ongoing updates, AI-powered tools, lead tracking, and monthly optimization. Your business keeps improving while you focus on doing what you do best.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="how-cta-row reveal reveal-delay-2">
+        <a href="consultation.html" class="how-cta-btn">Get your free mockup <i class="fas fa-arrow-right"></i></a>
+        <span class="how-cta-note">Delivered in 48 hours. No credit card required.</span>
       </div>
 
     </div>
@@ -3149,11 +3356,11 @@ fee-tooltip {
       </div>
 
       <h3 class="cta-title-premium">
-        Your website, <span class="gold-sweep">fully managed.</span>
+        Your business, <span class="gold-sweep">growing online.</span>
       </h3>
 
       <p class="cta-subtitle-premium">
-        Let us show you a mockup of your new website, completely free. If you like it, we build it. Free, no obligation, no credit card needed. 
+        We show you a free mockup of what your business could look like online. If you love it, we build, launch, and optimize everything. You just watch the leads come in.
       </p>
 
     
@@ -4172,7 +4379,79 @@ function whyTabScroll(dir) {
         }
       }, 180);
     }
-  }, 300);
+  }, 3200);
+})();
+
+(function() {
+  var WORDS = [
+    'Machine Learning','Neural Networks','Deep Learning','NLP','GPT-4',
+    'LLM','Transformers','Vector DB','RAG','Fine-tuning','Embeddings',
+    'Computer Vision','API','REST','GraphQL','OAuth 2.0','JWT',
+    'WebSockets','CDN','DNS','SSL/TLS','Docker','Kubernetes','CI/CD',
+    'SEO','CTR','SERP','Backlinks','Schema.org','CRM','LTV','CAC',
+    'A/B Testing','Conversion Rate','Lead Generation','GA4','UTM','Heatmaps',
+    'Bounce Rate','Attribution','Automation','SaaS','Webhook','JSON',
+    'Microservices','Cloud Computing','Data Pipeline','Cache-Control',
+    'Load Balancer','Rate Limiting','SSL Certificate','Meta Tags','Sitemap',
+    'Structured Data','Core Web Vitals','Page Speed','Conversion Funnel'
+  ];
+  var COLORS = [
+    'rgba(120,81,169,OP)','rgba(120,81,169,OP)',
+    'rgba(255,215,0,OP)',
+    'rgba(255,255,255,OP)',
+    'rgba(180,130,255,OP)'
+  ];
+  var overlay = document.getElementById('techChaos');
+  if (!overlay) return;
+  var W = overlay.offsetWidth || window.innerWidth;
+  var H = overlay.offsetHeight || (window.innerHeight - 60);
+  var cx = W / 2, cy = H / 2;
+
+  WORDS.forEach(function(word, idx) {
+    var s = document.createElement('span');
+    s.className = 'chaos-word';
+    s.textContent = word;
+    var x = 4 + Math.random() * 92;
+    var y = 4 + Math.random() * 90;
+    s.style.left = x + '%';
+    s.style.top  = y + '%';
+
+    var r = Math.random();
+    var size = r < 0.10 ? (48 + Math.floor(Math.random() * 20))  // xl: 48-68px
+             : r < 0.28 ? (28 + Math.floor(Math.random() * 16))  // lg: 28-44px
+             : r < 0.62 ? (18 + Math.floor(Math.random() * 10))  // md: 18-28px
+             :             (13 + Math.floor(Math.random() * 5));  // sm: 13-18px
+    s.style.fontSize = size + 'px';
+
+    var op = (0.10 + Math.random() * 0.52).toFixed(2);
+    s.style.setProperty('--start-op', op);
+    s.style.opacity = op;
+    s.style.color = COLORS[Math.floor(Math.random() * COLORS.length)].replace('OP', op);
+
+    var dur = (2.8 + Math.random() * 3.5).toFixed(1);
+    s.style.setProperty('--dur', dur + 's');
+    s.style.animationDelay = (Math.random() * 1.8).toFixed(2) + 's';
+
+    var rot = (-10 + Math.random() * 20).toFixed(1);
+    s.style.setProperty('--rot', rot + 'deg');
+
+    var px = (x / 100) * W, py = (y / 100) * H;
+    var dx = px - cx, dy = py - cy;
+    var dist = Math.sqrt(dx * dx + dy * dy) || 1;
+    var mag = 450 + Math.random() * 350;
+    s.style.setProperty('--sx', (dx / dist * mag).toFixed(0) + 'px');
+    s.style.setProperty('--sy', (dy / dist * mag).toFixed(0) + 'px');
+    s.style.setProperty('--scatter-delay', (Math.random() * 0.3).toFixed(2) + 's');
+
+    overlay.appendChild(s);
+  });
+
+  setTimeout(function() { overlay.classList.add('scatter'); }, 2200);
+  setTimeout(function() {
+    overlay.style.transition = 'opacity 0.7s ease';
+    overlay.style.opacity = '0';
+    setTimeout(function() { if (overlay.parentNode) overlay.parentNode.removeChild(overlay); }, 700);
+  }, 2900);
 })();
 
 // ── Cross-page: Back link + Nav plan badge ─────────────
@@ -4218,7 +4497,7 @@ function whyTabScroll(dir) {
       if (count >= 5) {
         $sub.textContent = 'Welcome back. We are ready when you are. Just $169/month for a professional website. ';
       } else {
-        $sub.textContent = 'Welcome back. We design, build, and manage your site. You run your business.';
+        $sub.textContent = 'Welcome back. We are still handling all the tech. You focus on growing your business.';
       }
     }
   }

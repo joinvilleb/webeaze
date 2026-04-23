@@ -148,35 +148,32 @@
       margin-bottom: 16px;
     }
 
-    /* COOKIE TABLE */
-    .cookie-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 16px 0 28px;
-      font-size: 13.5px;
+    /* COOKIE CARDS */
+    .cookie-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin: 20px 0 32px;
     }
-    .cookie-table th {
-      text-align: left; padding: 10px 14px;
-      font-size: 11px; font-weight: 700;
-      text-transform: uppercase; letter-spacing: .08em;
-      color: var(--muted-2);
-      border-bottom: 1px solid var(--line);
-    }
-    .cookie-table td {
-      padding: 12px 14px;
-      color: var(--muted);
-      border-bottom: 1px solid rgba(255,255,255,.05);
-      vertical-align: top;
-      line-height: 1.6;
-    }
-    .cookie-table td:first-child { color: #fff; font-weight: 600; white-space: nowrap; }
-    .cookie-table tr:last-child td { border-bottom: none; }
-    .cookie-table-wrap {
+    @media (max-width: 560px) { .cookie-cards { grid-template-columns: 1fr; } }
+    .cookie-card {
       background: var(--dark-2);
       border: 1px solid var(--line);
       border-radius: 14px;
-      overflow: hidden;
-      margin: 16px 0 28px;
+      padding: 18px 20px;
+    }
+    .cookie-card-label {
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .1em; color: var(--gold); margin-bottom: 4px;
+    }
+    .cookie-card-provider {
+      font-size: 13px; color: var(--muted-2); margin-bottom: 10px;
+    }
+    .cookie-card p {
+      font-size: 14.5px !important;
+      color: var(--muted);
+      line-height: 1.7;
+      margin: 0 !important;
     }
 
     /* CONTACT CTA */
@@ -280,73 +277,49 @@
 
     <div class="info-card">
       <i class="fas fa-info-circle"></i>
-      <p>Cookies help our site work correctly and allow us to understand how visitors use WebEaze so we can improve it. We do not sell your data. If you have concerns about how your data is used, email us at <a href="mailto:legal@webeaze.io">legal@webeaze.io</a> and we will respond within 3 business days.</p>
+      <p>We use cookies to keep the site working and to understand how it's being used. We do not sell your data. Questions? Email <a href="mailto:legal@webeaze.io">legal@webeaze.io</a>.</p>
     </div>
 
     <div class="section-block">
-      <h2><i class="fas fa-cookie-bite"></i> What Are Cookies?</h2>
-      <p>Cookies are small text files stored on your device when you visit a website. They allow the site to remember information about your visit, such as your preferred language or whether you have already filled out a contact form. Cookies do not give us access to your computer or any personal information beyond what you share with us.</p>
-      <p>We use a mix of first-party cookies (set directly by WebEaze) and third-party cookies (set by services we use, such as Google Analytics and HubSpot).</p>
-    </div>
-
-    <div class="section-block">
-      <h2><i class="fas fa-list"></i> Cookies We Use</h2>
-      <div class="cookie-table-wrap">
-        <table class="cookie-table">
-          <thead>
-            <tr>
-              <th>Type</th>
-              <th>Provider</th>
-              <th>Purpose</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Essential</td>
-              <td>WebEaze / Stripe</td>
-              <td>Required for the site to function. Includes session security and payment processing via Stripe. These cannot be turned off.</td>
-            </tr>
-            <tr>
-              <td>Analytics</td>
-              <td>Google Analytics 4</td>
-              <td>Helps us understand which pages are visited, how long visitors stay, and where traffic comes from. Data is aggregated and anonymized.</td>
-            </tr>
-            <tr>
-              <td>Marketing / CRM</td>
-              <td>HubSpot</td>
-              <td>Tracks form submissions and contact activity so we can follow up on consultation requests. No data is sold or shared with advertisers.</td>
-            </tr>
-            <tr>
-              <td>Preferences</td>
-              <td>WebEaze (localStorage)</td>
-              <td>Stores lightweight preferences in your browser, such as which help articles you have read and your plan interest, so we can personalize your experience. This data never leaves your device.</td>
-            </tr>
-          </tbody>
-        </table>
+      <h2><i class="fas fa-list"></i> What We Use</h2>
+      <div class="cookie-cards">
+        <div class="cookie-card">
+          <div class="cookie-card-label">Essential</div>
+          <div class="cookie-card-provider">WebEaze / Stripe</div>
+          <p>Required for the site to work. Covers security and payment processing. These cannot be turned off.</p>
+        </div>
+        <div class="cookie-card">
+          <div class="cookie-card-label">Analytics</div>
+          <div class="cookie-card-provider">Google Analytics 4</div>
+          <p>Helps us see which pages are visited and where traffic comes from. All data is aggregated and anonymized.</p>
+        </div>
+        <div class="cookie-card">
+          <div class="cookie-card-label">Marketing / CRM</div>
+          <div class="cookie-card-provider">HubSpot</div>
+          <p>Tracks form submissions so we can follow up on consultation requests. Nothing is shared with advertisers.</p>
+        </div>
+        <div class="cookie-card">
+          <div class="cookie-card-label">Preferences</div>
+          <div class="cookie-card-provider">WebEaze (your browser)</div>
+          <p>Saves things like which help articles you have read. This data stays on your device and never leaves it.</p>
+        </div>
       </div>
     </div>
 
     <div class="section-block">
-      <h2><i class="fas fa-sliders-h"></i> How to Manage Cookies</h2>
-      <p>You can control and delete cookies through your browser settings. The steps vary by browser:</p>
-      <p><strong>Chrome:</strong> Settings &gt; Privacy and security &gt; Cookies and other site data<br>
-         <strong>Firefox:</strong> Settings &gt; Privacy and Security &gt; Cookies and Site Data<br>
-         <strong>Safari:</strong> Preferences &gt; Privacy &gt; Manage Website Data<br>
-         <strong>Edge:</strong> Settings &gt; Cookies and site permissions &gt; Cookies and site data</p>
-      <p>Note that disabling cookies may affect how parts of this site work, including contact forms and the Help Center personalization features.</p>
-      <p>To opt out of Google Analytics tracking specifically, you can install the <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener" style="color:var(--gold);font-weight:600;">Google Analytics Opt-out Browser Add-on</a>.</p>
-    </div>
-
-    <div class="section-block">
-      <h2><i class="fas fa-sync-alt"></i> Updates to This Policy</h2>
-      <p>We may update this Cookie Policy from time to time as our services or applicable laws change. The date at the top of this page reflects when it was last revised. Continued use of our site after an update constitutes acceptance of the revised policy.</p>
+      <h2><i class="fas fa-sliders-h"></i> How to Turn Them Off</h2>
+      <p>Go to your browser settings and search for "Cookies" to manage or delete them. Heads up: turning off cookies may break contact forms and some personalization features on this site.</p>
+      <p><strong>Chrome:</strong> Settings &gt; Privacy and security &gt; Cookies<br>
+         <strong>Firefox:</strong> Settings &gt; Privacy and Security<br>
+         <strong>Safari:</strong> Preferences &gt; Privacy<br>
+         <strong>Edge:</strong> Settings &gt; Cookies and site permissions</p>
     </div>
 
     <hr class="divider">
 
     <div class="contact-block">
-      <h3>Questions or Concerns?</h3>
-      <p>If you object to any of the cookies described above or have questions about how your data is handled, reach out to our legal team. We review every request and respond within 3 business days.</p>
+      <h3>Have a concern?</h3>
+      <p>Email our legal team and we will get back to you within 3 business days.</p>
       <a href="mailto:legal@webeaze.io" class="mailto-btn">
         <i class="fas fa-envelope"></i> legal@webeaze.io
       </a>
