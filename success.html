@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>You're Booked! | WebEaze</title>
   <meta name="description" content="Thanks for booking. Your meeting with WebEaze is confirmed. Here's what to expect and how to prepare." />
+  <meta name="robots" content="noindex, nofollow" />
   <link rel="shortcut icon" href="images/webeaze-transparent copy.png" type="image/png" />
 
   <!-- Fonts & CSS -->
@@ -230,6 +231,77 @@
       dd.style.display=(dd.style.display==='block')?'none':'block';
     });
   });
+
+  // Personalization: surface plan context and relevant next-step help articles
+  (function() {
+    try {
+      function lsGet(k) { try { return JSON.parse(localStorage.getItem(k)); } catch(e) { return null; } }
+
+      const lastPlan = lsGet('wz_myplan_last');
+      const reqCount = lsGet('wz_req_submitted') || 0;
+      const helpSaved = lsGet('wz_help_saved') || [];
+      const firstName = lsGet('wz_user_name') || '';
+
+      // Personalize hero greeting
+      const h1 = document.querySelector('header.hero h1');
+      if (h1 && firstName) h1.textContent = "You're Booked, " + firstName + "! 🎉";
+
+      // Show plan context pill if we know what they were looking at
+      const PLAN_LABELS = { essential: 'Essential Plan', growth: 'Growth Plan', onetime: 'One-Time Project' };
+      if (lastPlan && PLAN_LABELS[lastPlan]) {
+        const pill = document.querySelector('.pill');
+        if (pill) {
+          const planPill = document.createElement('span');
+          planPill.className = 'pill';
+          planPill.style.marginLeft = '8px';
+          planPill.textContent = 'You were looking at the ' + PLAN_LABELS[lastPlan];
+          pill.insertAdjacentElement('afterend', planPill);
+        }
+      }
+
+      // Surface relevant help articles based on their plan interest
+      const PLAN_ARTICLES = {
+        essential: [
+          { title: 'What is included in the Essential plan?', href: 'help.html#/which-plan-should-i-choose' },
+          { title: 'How to request updates', href: 'help.html#/how-to-request-updates' },
+          { title: 'How long does launch take?', href: 'help.html#/getting-started' }
+        ],
+        growth: [
+          { title: 'What is included in the Growth plan?', href: 'help.html#/which-plan-should-i-choose' },
+          { title: 'Google Business Profile management', href: 'help.html#/google-business-management' },
+          { title: 'Priority support explained', href: 'help.html#/support-schedules' }
+        ],
+        onetime: [
+          { title: 'How one-time projects work', href: 'help.html#/one-time-web-project' },
+          { title: 'Website Setup Package details', href: 'help.html#/website-setup-package' },
+          { title: 'Upgrading to a monthly plan later', href: 'help.html#/which-plan-should-i-choose' }
+        ]
+      };
+
+      const articles = PLAN_ARTICLES[lastPlan];
+      if (articles) {
+        const helpCard = document.querySelector('section.section-dark .card-dark');
+        if (helpCard) {
+          helpCard.innerHTML = '<h5><strong>Help Center</strong></h5>' +
+            '<p>Based on your interest in the ' + PLAN_LABELS[lastPlan] + ':</p>' +
+            '<ul style="padding-left:0;list-style:none;margin:0;">' +
+            articles.map(a => '<li style="margin-bottom:8px;"><a href="' + a.href + '" style="color:var(--gold);font-size:.88rem;">' + a.title + ' &rarr;</a></li>').join('') +
+            '</ul>';
+        }
+      }
+
+      // If they've already submitted requests, show a note
+      if (reqCount > 0) {
+        const lead = document.querySelector('.hero p.lead');
+        if (lead) {
+          const note = document.createElement('p');
+          note.style.cssText = 'font-size:.85rem;color:rgba(255,255,255,.45);margin-top:8px;';
+          note.textContent = reqCount + ' update request' + (reqCount === 1 ? '' : 's') + ' already on file — you\'re all set.';
+          lead.insertAdjacentElement('afterend', note);
+        }
+      }
+    } catch(e) {}
+  })();
 </script>
 </body>
 </html>

@@ -215,6 +215,33 @@ a { text-decoration: none; color: inherit; transition: .2s; }
 .faq-a-inner a { color: var(--brand); font-weight: 600; text-decoration: underline; }
 .faq-a-inner a:hover { color: #6a45a0; }
 
+/* FAQ READ STATE */
+.faq-item.faq-read { border-color: #e5e7eb; }
+.faq-item.faq-read .faq-q span:first-child { color: var(--muted); }
+.faq-read-badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 10.5px; font-weight: 600;
+  color: #9ca3af; padding: 2px 8px;
+  background: #f3f4f6; border-radius: 99px;
+  margin-left: 10px; vertical-align: middle;
+}
+.faq-progress-bar {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 16px;
+  background: #f9fafb; border: 1px solid var(--line);
+  border-radius: 12px; margin-bottom: 24px;
+  font-size: 13px; color: var(--muted);
+}
+.faq-progress-bar .bar-wrap {
+  flex: 1; height: 6px;
+  background: #e5e7eb; border-radius: 99px; overflow: hidden;
+}
+.faq-progress-bar .bar-fill {
+  height: 100%; background: var(--brand);
+  border-radius: 99px; transition: width .4s ease;
+}
+.faq-progress-bar .bar-label { font-weight: 600; color: var(--brand); white-space: nowrap; }
+
 /* CATEGORY HEADERS */
 .faq-category {
   margin-top: 40px;
@@ -449,6 +476,13 @@ footer {
 <main class="faq-section">
   <div class="container container-narrow">
     <div class="faq-wrap">
+
+      <!-- READ PROGRESS -->
+      <div class="faq-progress-bar" id="faqProgressBar" hidden>
+        <span>Your progress:</span>
+        <div class="bar-wrap"><div class="bar-fill" id="faqBarFill" style="width:0%"></div></div>
+        <span class="bar-label" id="faqBarLabel">0 read</span>
+      </div>
 
       <!-- GENERAL -->
       <div class="faq-category reveal" data-cat-header="general">
@@ -1038,27 +1072,79 @@ footer {
     els.forEach(e => io.observe(e));
   })();
 
-  // FAQ toggle
-  document.querySelectorAll('.faq-q').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const item = btn.closest('.faq-item');
-      const wasOpen = item.classList.contains('open');
+  // FAQ read tracking
+  (function() {
+    var LS_KEY = 'wz_faq_read';
+    function lsGet(k) { try { return JSON.parse(localStorage.getItem(k)); } catch(e) { return null; } }
+    function lsSet(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch(e) {} }
 
-      // Close all other items
-      document.querySelectorAll('.faq-item.open').forEach(openItem => {
-        if (openItem !== item) {
-          openItem.classList.remove('open');
-          openItem.querySelector('.faq-q').setAttribute('aria-expanded', 'false');
-          openItem.querySelector('.faq-a').setAttribute('aria-hidden', 'true');
+    var allItems = document.querySelectorAll('.faq-item');
+    var total = allItems.length;
+    var readSet = new Set(lsGet(LS_KEY) || []);
+
+    function updateProgress() {
+      var bar = document.getElementById('faqProgressBar');
+      var fill = document.getElementById('faqBarFill');
+      var label = document.getElementById('faqBarLabel');
+      if (!bar || !fill || !label) return;
+      var count = readSet.size;
+      if (count === 0) { bar.hidden = true; return; }
+      bar.hidden = false;
+      fill.style.width = Math.round((count / total) * 100) + '%';
+      label.textContent = count + ' of ' + total + ' read';
+    }
+
+    function markRead(item, q) {
+      var key = q.trim().slice(0, 60);
+      if (readSet.has(key)) return;
+      readSet.add(key);
+      lsSet(LS_KEY, Array.from(readSet));
+      item.classList.add('faq-read');
+      var span = item.querySelector('.faq-q span:first-child');
+      if (span && !span.querySelector('.faq-read-badge')) {
+        span.insertAdjacentHTML('beforeend', '<span class="faq-read-badge"><i class="fas fa-check"></i> Read</span>');
+      }
+      updateProgress();
+    }
+
+    // Restore read state on load
+    allItems.forEach(function(item) {
+      var span = item.querySelector('.faq-q span:first-child');
+      if (!span) return;
+      var key = span.textContent.trim().slice(0, 60);
+      if (readSet.has(key)) {
+        item.classList.add('faq-read');
+        span.insertAdjacentHTML('beforeend', '<span class="faq-read-badge"><i class="fas fa-check"></i> Read</span>');
+      }
+    });
+    updateProgress();
+
+    // FAQ toggle
+    document.querySelectorAll('.faq-q').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var item = btn.closest('.faq-item');
+        var wasOpen = item.classList.contains('open');
+
+        document.querySelectorAll('.faq-item.open').forEach(function(openItem) {
+          if (openItem !== item) {
+            openItem.classList.remove('open');
+            openItem.querySelector('.faq-q').setAttribute('aria-expanded', 'false');
+            openItem.querySelector('.faq-a').setAttribute('aria-hidden', 'true');
+          }
+        });
+
+        item.classList.toggle('open');
+        btn.setAttribute('aria-expanded', !wasOpen ? 'true' : 'false');
+        item.querySelector('.faq-a').setAttribute('aria-hidden', !wasOpen ? 'false' : 'true');
+
+        // Mark as read when opened
+        if (!wasOpen) {
+          var span = btn.querySelector('span:first-child');
+          if (span) markRead(item, span.textContent);
         }
       });
-
-      // Toggle current item
-      item.classList.toggle('open');
-      btn.setAttribute('aria-expanded', !wasOpen ? 'true' : 'false');
-      item.querySelector('.faq-a').setAttribute('aria-hidden', !wasOpen ? 'false' : 'true');
     });
-  });
+  })();
 
   // Filter chips
   (function(){
