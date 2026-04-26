@@ -541,6 +541,37 @@
     }
     .header-return i { font-size: 11px; color: rgba(120,81,169,.7); }
 
+    /* PRIORITY TOGGLE */
+    .priority-toggle {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 20px;
+      padding: 14px 18px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: var(--dark-2);
+      cursor: pointer;
+      user-select: none;
+      transition: border-color .15s;
+    }
+    .priority-toggle:hover { border-color: rgba(255,255,255,.18); }
+    .priority-toggle.urgent { border-color: rgba(239,68,68,.4); background: rgba(239,68,68,.06); }
+    .priority-icon { font-size: 18px; color: rgba(255,255,255,.35); transition: color .15s; flex-shrink: 0; }
+    .priority-toggle.urgent .priority-icon { color: var(--danger); }
+    .priority-text { flex: 1; }
+    .priority-label { font-size: 14px; font-weight: 600; }
+    .priority-sub { font-size: 12.5px; color: var(--soft); margin-top: 2px; }
+    .priority-toggle.urgent .priority-sub { color: rgba(239,68,68,.75); }
+    .priority-check {
+      width: 20px; height: 20px; border-radius: 6px;
+      border: 2px solid rgba(255,255,255,.2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; color: transparent;
+      transition: .15s; flex-shrink: 0;
+    }
+    .priority-toggle.urgent .priority-check { background: var(--danger); border-color: var(--danger); color: #fff; }
+
     /* FOOTER */
     footer { background: #000; padding: 50px 20px 36px; border-top: 1px solid var(--line); }
     .footer-grid {
@@ -797,6 +828,15 @@
     <div id="milestoneCard" class="milestone-card" hidden></div>
     <div id="savedArticlesNote" class="form-tip" hidden></div>
     <div id="formTip" class="form-tip" hidden></div>
+
+    <div class="priority-toggle" id="priorityToggle" onclick="togglePriority()" role="checkbox" aria-checked="false" tabindex="0" onkeydown="if(event.key===' '||event.key==='Enter'){event.preventDefault();togglePriority();}" hidden>
+      <i class="fas fa-bolt priority-icon"></i>
+      <div class="priority-text">
+        <div class="priority-label" id="priorityLabel">Mark as urgent</div>
+        <div class="priority-sub" id="prioritySub">My site is down or something critical is broken</div>
+      </div>
+      <div class="priority-check" id="priorityCheck"><i class="fas fa-check"></i></div>
+    </div>
     <div id="closingNudge" class="closing-nudge" hidden></div>
     <div id="afterHoursNote" class="after-hours-note" hidden></div>
     <div id="submittedNote" class="submitted-note" hidden></div>
@@ -1099,7 +1139,14 @@
       if (returning) setTimeout(() => showPanel(lastPanel, true), 200);
     }
 
-    // Intercept showPanel to save + refresh badge + tip
+    // Show/hide priority toggle — only relevant for broken-site issues
+    function syncPriorityToggle(panelId) {
+      const $pt = document.getElementById('priorityToggle');
+      if (!$pt) return;
+      $pt.hidden = (panelId !== 'broken');
+    }
+
+    // Intercept showPanel to save + refresh badge + tip + priority toggle
     const _orig = window.showPanel;
     window.showPanel = function(id, autoScroll) {
       expandShortcuts();
@@ -1107,6 +1154,7 @@
       lsSet(LS_LAST_PANEL, id);
       applyLastUsedBadge(id);
       updateFormTip(id);
+      syncPriorityToggle(id);
     };
 
     // ── 5. Contextual form tip ──
@@ -1151,8 +1199,8 @@
       'seo.html':                   { title: 'SEO question or request?',           sub: 'Tell us what you\'re trying to improve and we\'ll take a look.' },
       'help.html':                  { title: 'How can we help?',                   sub: 'Describe what you need and we\'ll point you in the right direction.' },
     };
-    const BILLING_HASHES = ['manage-your-plan','annual-vs-monthly','change-billing-date','reactivate-plan','view-invoices','change-subscription','billing','failed-payment','refund','pause','cancel'];
-    const BROKEN_HASHES  = ['site-is-down','website-error-troubleshooting','my-site-isnt-updating','contact-form-not-sending','site-not-loading','site-not-updating'];
+    const BILLING_HASHES = ['manage-your-plan','annual-vs-monthly','change-billing-date','reactivate-plan','view-invoices','change-subscription','billing','failed-payment','refund','pause','cancel','money-back-guarantee','discounts-nonprofits-seasonal','what-do-i-own','website-ownership-access'];
+    const BROKEN_HASHES  = ['site-is-down','website-error-troubleshooting','my-site-isnt-updating','contact-form-not-sending','site-not-loading','site-not-updating','contact-form-going-to-spam','social-share-preview-wrong','website-scam-warning'];
 
     try {
       const ref = document.referrer;
@@ -1305,9 +1353,9 @@
 
       const milestones = [
         { min: 3,   icon: 'fa-seedling',  title: 'You are getting the hang of it.' },
-        { min: 6,   icon: 'fa-bolt',      title: 'You are a regular.' },
+        { min: 6,   icon: 'fa-bolt',      title: "You're a regular." },
         { min: 20,  icon: 'fa-trophy',    title: 'Power client. Seriously.' },
-        { min: 50,  icon: 'fa-crown',     title: 'You are basically part of the team.' },
+        { min: 50,  icon: 'fa-crown',     title: 'We love you.' },
       ];
 
       const milestone = [...milestones].reverse().find(m => count >= m.min) || milestones[0];
@@ -1316,7 +1364,7 @@
         '<div class="milestone-icon"><i class="fas ' + milestone.icon + '"></i></div>' +
         '<div class="milestone-body">' +
           '<div class="milestone-title">' + milestone.title + '</div>' +
-          '<div class="milestone-sub">This is visit <strong>#' + count + '</strong> to this page. Compared to hiring a developer at $150/hr, your unlimited updates plan has delivered an estimated <strong>' + saved + ' in value</strong>.</div>' +
+          '<div class="milestone-sub">Compared to hiring a developer at $150/hr, your plan has delivered <strong>' + saved + ' in value</strong>.</div>' +
         '</div>' +
         '<div class="milestone-savings">' +
           '<div class="savings-amount">' + saved + '</div>' +
@@ -1341,8 +1389,8 @@
 
         // Auto-open panel based on what they saved
         if (!lastPanel) {
-          const billingSlags = ['manage-your-plan','annual-vs-monthly','change-billing-date','view-invoices','reactivate-plan'];
-          const brokenSlugs  = ['site-is-down','website-error-troubleshooting','contact-form-not-sending'];
+          const billingSlags = ['manage-your-plan','annual-vs-monthly','change-billing-date','view-invoices','reactivate-plan','money-back-guarantee','discounts-nonprofits-seasonal','what-do-i-own','website-ownership-access','failed-payment'];
+          const brokenSlugs  = ['site-is-down','website-error-troubleshooting','contact-form-not-sending','contact-form-going-to-spam','social-share-preview-wrong','my-site-isnt-updating'];
           if (helpSaved.some(s => billingSlags.includes(s.slug))) {
             expandShortcuts();
             setTimeout(() => showPanel('billing', true), 300);
@@ -1362,18 +1410,25 @@
 
         // Map article slugs to intent panels + contextual subtitle copy
         const articlePanelMap = {
-          'manage-your-plan':             { panel: 'billing', title: 'Billing question?',        sub: 'Describe what you need and we\'ll sort it out.' },
-          'annual-vs-monthly':            { panel: 'billing', title: 'Billing question?',        sub: 'Thinking about switching plans? Tell us what you have in mind.' },
-          'change-billing-date':          { panel: 'billing', title: 'Billing question?',        sub: 'Want to change your billing date? Just let us know.' },
-          'view-invoices':                { panel: 'billing', title: 'Need an invoice?',         sub: 'Mention the billing period and we\'ll pull it for you.' },
-          'reactivate-plan':              { panel: 'billing', title: 'Ready to come back?',      sub: 'Drop us a note and we\'ll get your plan reactivated.' },
+          'manage-your-plan':             { panel: 'billing', title: 'Billing question?',          sub: 'Describe what you need and we\'ll sort it out.' },
+          'annual-vs-monthly':            { panel: 'billing', title: 'Billing question?',          sub: 'Thinking about switching plans? Tell us what you have in mind.' },
+          'change-billing-date':          { panel: 'billing', title: 'Billing question?',          sub: 'Want to change your billing date? Just let us know.' },
+          'view-invoices':                { panel: 'billing', title: 'Need an invoice?',           sub: 'Mention the billing period and we\'ll pull it for you.' },
+          'reactivate-plan':              { panel: 'billing', title: 'Ready to come back?',        sub: 'Drop us a note and we\'ll get your plan reactivated.' },
           'website-setup-package':        { panel: 'billing', title: 'Questions about your plan?', sub: 'We\'re here to help you figure out your next step.' },
-          'failed-payment':               { panel: 'billing', title: 'Payment issue?',           sub: 'Tell us what happened and we\'ll get it resolved quickly.' },
-          'cancel-your-plan':             { panel: 'billing', title: 'Thinking about canceling?', sub: 'Let us know what\'s going on — we\'d love to help before you go.' },
-          'site-is-down':                 { panel: 'broken',  title: 'Something not working?',   sub: 'Tell us what\'s going on and we\'ll get on it right away.' },
-          'website-error-troubleshooting':{ panel: 'broken',  title: 'Error on your site?',      sub: 'Include the page URL and what you\'re seeing so we can find it fast.' },
-          'my-site-isnt-updating':        { panel: 'broken',  title: 'Site not updating?',       sub: 'Describe what you changed and what you expected to see.' },
-          'contact-form-not-sending':     { panel: 'broken',  title: 'Form not working?',        sub: 'Tell us which form and what happens when someone submits it.' },
+          'failed-payment':               { panel: 'billing', title: 'Payment issue?',             sub: 'Tell us what happened and we\'ll get it resolved quickly.' },
+          'cancel-your-plan':             { panel: 'billing', title: 'Thinking about canceling?',  sub: 'Let us know what\'s going on. We\'d love to help before you go.' },
+          'money-back-guarantee':         { panel: 'billing', title: 'Billing question?',          sub: 'We\'re happy to clarify our refund policy. Just ask.' },
+          'discounts-nonprofits-seasonal':{ panel: 'billing', title: 'Questions about pricing?',   sub: 'Tell us about your situation and we\'ll point you in the right direction.' },
+          'what-do-i-own':                { panel: 'billing', title: 'Question about ownership?',  sub: 'Let us know what you need clarified and we\'ll help.' },
+          'website-ownership-access':     { panel: 'billing', title: 'Question about ownership?',  sub: 'Let us know what you need clarified and we\'ll help.' },
+          'site-is-down':                 { panel: 'broken',  title: 'Something not working?',     sub: 'Tell us what\'s going on and we\'ll get on it right away.' },
+          'website-error-troubleshooting':{ panel: 'broken',  title: 'Error on your site?',        sub: 'Include the page URL and what you\'re seeing so we can find it fast.' },
+          'my-site-isnt-updating':        { panel: 'broken',  title: 'Site not updating?',         sub: 'Describe what you changed and what you expected to see.' },
+          'contact-form-not-sending':     { panel: 'broken',  title: 'Form not working?',          sub: 'Tell us which form and what happens when someone submits it.' },
+          'contact-form-going-to-spam':   { panel: 'broken',  title: 'Form going to spam?',        sub: 'Let us know and we\'ll check the form configuration.' },
+          'social-share-preview-wrong':   { panel: 'broken',  title: 'Preview looks wrong?',       sub: 'Share the URL and describe what you\'re seeing and we\'ll fix the tags.' },
+          'website-scam-warning':         { panel: 'broken',  title: 'Got a suspicious message?',  sub: 'Forward it to us and we\'ll let you know if it\'s a scam.' },
         };
 
         const ctx = articlePanelMap[helpLast.slug];
@@ -1519,6 +1574,49 @@
 
   })();
   // ─────────────────────────────────────────────────────────
+
+  // ── Priority toggle ──────────────────────────────────────
+  var _priorityOn = false;
+  function togglePriority() {
+    _priorityOn = !_priorityOn;
+    var el    = document.getElementById('priorityToggle');
+    var label = document.getElementById('priorityLabel');
+    var sub   = document.getElementById('prioritySub');
+    var check = document.getElementById('priorityCheck');
+    if (_priorityOn) {
+      el.classList.add('urgent');
+      el.setAttribute('aria-checked', 'true');
+      label.textContent = 'Marked as urgent';
+      sub.textContent   = 'We will prioritize this over standard requests';
+      // Inject a hidden field into the HubSpot form so the urgency is captured
+      var form = document.querySelector('.hs-form-frame iframe, .hs-form-frame form');
+      var existing = document.getElementById('wz-priority-note');
+      if (!existing) {
+        var note = document.createElement('div');
+        note.id = 'wz-priority-note';
+        note.style.cssText = 'display:none;';
+        note.setAttribute('data-priority', 'urgent');
+        document.querySelector('.hs-form-frame').appendChild(note);
+      }
+      // Prepend URGENT label to the textarea placeholder as a visual cue
+      (function watchTA() {
+        var ta = document.querySelector('.hs-form-frame textarea, .hs-form-frame input[name="message"]');
+        if (ta) {
+          ta.dataset.origPlaceholder = ta.dataset.origPlaceholder || ta.placeholder;
+          ta.placeholder = '[URGENT] ' + (ta.dataset.origPlaceholder || ta.placeholder).replace(/^\[URGENT\] /, '');
+        } else {
+          setTimeout(watchTA, 300);
+        }
+      })();
+    } else {
+      el.classList.remove('urgent');
+      el.setAttribute('aria-checked', 'false');
+      label.textContent = 'Mark as urgent';
+      sub.textContent   = 'My site is down or something critical is broken';
+      var ta = document.querySelector('.hs-form-frame textarea, .hs-form-frame input[name="message"]');
+      if (ta && ta.dataset.origPlaceholder) ta.placeholder = ta.dataset.origPlaceholder;
+    }
+  }
 
   function openHelpModal() {
     document.getElementById('helpModal').classList.add('open');
