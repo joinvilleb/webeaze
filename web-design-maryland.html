@@ -51,6 +51,8 @@ body {
   transition: box-shadow .3s;
 }
 .nav-wrap.scrolled { box-shadow: 0 4px 32px rgba(0,0,0,.45); }
+.nav-wrap { transition: transform .28s ease, box-shadow .3s; }
+.nav-wrap.nav-hidden { transform: translateY(-100%); }
 .webeaze-nav { padding: 10px 0; }
 .navbar-brand .logo { height: 32px; width: auto; }
 .brand-word { font-size: 1.18rem; font-weight: 700; letter-spacing: -.01em; color: #fff; }
@@ -769,11 +771,23 @@ details.faq-item[open] summary::after { content: '−'; }
 <script>
   document.getElementById('yr').textContent = new Date().getFullYear();
 
-  // Sticky nav
   const navWrap = document.getElementById('navWrap');
-  window.addEventListener('scroll', () => {
-    navWrap.classList.toggle('scrolled', window.scrollY > 30);
-  });
+
+  // Sync body padding-top to actual rendered nav height (closes any gap on all devices)
+  function syncNavPadding() { document.body.style.paddingTop = navWrap.offsetHeight + 'px'; }
+  syncNavPadding();
+  window.addEventListener('resize', syncNavPadding, { passive: true });
+
+  // Hide on scroll down, reveal on scroll up
+  var lastScroll = 0;
+  window.addEventListener('scroll', function() {
+    var cur = window.scrollY || window.pageYOffset;
+    navWrap.classList.toggle('scrolled', cur > 30);
+    if (cur < 80) { navWrap.classList.remove('nav-hidden'); lastScroll = cur; return; }
+    if (cur > lastScroll + 4) navWrap.classList.add('nav-hidden');
+    else if (cur < lastScroll - 4) navWrap.classList.remove('nav-hidden');
+    lastScroll = cur <= 0 ? 0 : cur;
+  }, { passive: true });
 
   // Reveal on scroll
   const revealEls = document.querySelectorAll('.reveal');

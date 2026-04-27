@@ -2657,7 +2657,26 @@ fee-tooltip {
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
   "name": "WebEaze",
-  "url": "https://webeaze.com/",
+  "url": "https://www.webeaze.io/",
+  "priceRange": "$169–$249/month",
+  "areaServed": [
+    {"@type": "State", "name": "Delaware"},
+    {"@type": "State", "name": "Maryland"},
+    {"@type": "State", "name": "Pennsylvania"},
+    {"@type": "State", "name": "New Jersey"},
+    {"@type": "State", "name": "Virginia"},
+    {"@type": "AdministrativeArea", "name": "Washington, D.C."},
+    {"@type": "City", "name": "Baltimore", "containedInPlace": {"@type": "State", "name": "Maryland"}},
+    {"@type": "City", "name": "Annapolis", "containedInPlace": {"@type": "State", "name": "Maryland"}},
+    {"@type": "City", "name": "Wilmington", "containedInPlace": {"@type": "State", "name": "Delaware"}},
+    {"@type": "City", "name": "Philadelphia", "containedInPlace": {"@type": "State", "name": "Pennsylvania"}},
+    {"@type": "City", "name": "Pittsburgh", "containedInPlace": {"@type": "State", "name": "Pennsylvania"}},
+    {"@type": "City", "name": "Richmond", "containedInPlace": {"@type": "State", "name": "Virginia"}},
+    {"@type": "City", "name": "Virginia Beach", "containedInPlace": {"@type": "State", "name": "Virginia"}},
+    {"@type": "City", "name": "Arlington", "containedInPlace": {"@type": "State", "name": "Virginia"}},
+    {"@type": "City", "name": "Cherry Hill", "containedInPlace": {"@type": "State", "name": "New Jersey"}},
+    {"@type": "City", "name": "Newark", "containedInPlace": {"@type": "State", "name": "New Jersey"}}
+  ],
   "aggregateRating": {
     "@type": "AggregateRating",
     "ratingValue": "5",
@@ -3121,7 +3140,7 @@ fee-tooltip {
           <a href="pricing.html">View all plan details <i class="fas fa-arrow-right" style="font-size:12px;"></i></a>
         </div>
 
-        <p style="text-align:center;font-size:13.5px;color:rgba(255,255,255,.4);margin-top:18px;">
+        <p style="text-align:center;font-size:13.5px;color:#6b7280;margin-top:18px;">
           Most sites go live within 5 business days. No long-term contract. Cancel anytime.
         </p>
 
@@ -4164,24 +4183,18 @@ document.querySelectorAll('#home-faq details').forEach(function(d) {
     els.forEach(function(e){io.observe(e)});
   })();
 
-  // Nav hide on scroll
+  // Nav hide on scroll (all devices)
   (function() {
     var nav = document.querySelector('.nav-wrap');
     if (!nav) return;
     var lastScroll = 0;
     window.addEventListener('scroll', function() {
-      var currentScroll = window.pageYOffset;
-      if (currentScroll > 60) {
-        nav.classList.add('scrolled');
-      } else {
-        nav.classList.remove('scrolled');
-      }
-      if (currentScroll > lastScroll && currentScroll > 120) {
-        nav.classList.add('nav-hidden');
-      } else {
-        nav.classList.remove('nav-hidden');
-      }
-      lastScroll = currentScroll <= 0 ? 0 : currentScroll;
+      var cur = window.pageYOffset || window.scrollY;
+      nav.classList.toggle('scrolled', cur > 60);
+      if (cur < 80) { nav.classList.remove('nav-hidden'); lastScroll = cur; return; }
+      if (cur > lastScroll + 4) nav.classList.add('nav-hidden');
+      else if (cur < lastScroll - 4) nav.classList.remove('nav-hidden');
+      lastScroll = cur <= 0 ? 0 : cur;
     }, { passive: true });
   })();
 

@@ -148,10 +148,11 @@
   function insert() {
     var nav = document.querySelector('.nav-wrap') || document.querySelector('nav');
     if (nav && nav.parentNode) {
-      nav.parentNode.insertBefore(bar, nav.nextSibling);
-      // Fixed navs are out of flow, push banner down so it isn't hidden underneath
       if (window.getComputedStyle(nav).position === 'fixed') {
-        bar.style.marginTop = nav.offsetHeight + 'px';
+        // Append inside the fixed container so the banner is flush with the nav bottom
+        nav.appendChild(bar);
+      } else {
+        nav.parentNode.insertBefore(bar, nav.nextSibling);
       }
     } else {
       document.body.prepend(bar);
