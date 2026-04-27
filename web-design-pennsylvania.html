@@ -33,7 +33,7 @@
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
-body { font-family: 'Poppins', sans-serif; background: var(--bg); color: var(--ink); padding-top: 72px; line-height: 1.6; }
+body { font-family: 'Poppins', sans-serif; background: var(--bg); color: var(--ink); padding-top: 0; line-height: 1.6; }
 .nav-wrap { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: rgba(5,5,9,0.88); backdrop-filter: saturate(140%) blur(16px); -webkit-backdrop-filter: saturate(140%) blur(16px); border-bottom: 1px solid var(--line); transition: box-shadow .3s; }
 .nav-wrap.scrolled { box-shadow: 0 4px 32px rgba(0,0,0,.45); }
 .nav-wrap { transition: transform .28s ease, box-shadow .3s; }
@@ -610,8 +610,25 @@ details.faq-item[open] summary::after { content: '−'; }
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>
   document.getElementById('yr').textContent = new Date().getFullYear();
+
   const navWrap = document.getElementById('navWrap');
-  window.addEventListener('scroll', () => { navWrap.classList.toggle('scrolled', window.scrollY > 30); });
+
+  // Sync body padding to actual nav height so there is never a gap
+  function syncNavPadding() { document.body.style.paddingTop = navWrap.offsetHeight + 'px'; }
+  syncNavPadding();
+  window.addEventListener('resize', syncNavPadding, { passive: true });
+
+  // Hide nav on scroll down, show on scroll up
+  var lastScroll = 0;
+  window.addEventListener('scroll', function() {
+    var cur = window.scrollY || window.pageYOffset;
+    navWrap.classList.toggle('scrolled', cur > 30);
+    if (cur < 80) { navWrap.classList.remove('nav-hidden'); lastScroll = cur; return; }
+    if (cur > lastScroll + 4) navWrap.classList.add('nav-hidden');
+    else if (cur < lastScroll - 4) navWrap.classList.remove('nav-hidden');
+    lastScroll = cur <= 0 ? 0 : cur;
+  }, { passive: true });
+
   const revealEls = document.querySelectorAll('.reveal');
   const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); revealObserver.unobserve(e.target); } });
