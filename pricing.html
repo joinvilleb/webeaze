@@ -549,7 +549,7 @@ footer {
           <li><i class="fas fa-check"></i> Monthly performance reports</li>
           <li><i class="fas fa-check"></i> Email support</li>
         </ul>
-        <a href="consultation.html" class="btn-bordered">Get My Website</a>
+        <a href="consultation.html?plan=essential" class="btn-bordered">Get My Website</a>
       </div>
 
       <div class="plan-card featured">
@@ -570,7 +570,7 @@ footer {
           <li><i class="fas fa-check"></i> Online review management</li>
           <li><i class="fas fa-check"></i> Monthly performance reports</li>
         </ul>
-        <a href="consultation.html" class="btn-filled">Start Growing</a>
+        <a href="consultation.html?plan=growth" class="btn-filled">Start Growing</a>
       </div>
 
       <div class="plan-card dim">
@@ -611,7 +611,7 @@ footer {
           <li><i class="fas fa-check"></i> Monthly performance reports</li>
           <li><i class="fas fa-check"></i> Email support</li>
         </ul>
-        <a href="consultation.html" class="btn-bordered">Get My Website</a>
+        <a href="consultation.html?plan=essential" class="btn-bordered">Get My Website</a>
       </div>
 
       <div class="plan-card featured">
@@ -633,7 +633,7 @@ footer {
           <li><i class="fas fa-check"></i> Online review management</li>
           <li><i class="fas fa-check"></i> Monthly performance reports</li>
         </ul>
-        <a href="consultation.html" class="btn-filled">Start Growing</a>
+        <a href="consultation.html?plan=growth" class="btn-filled">Start Growing</a>
       </div>
 
       <div class="plan-card dim">
@@ -1103,5 +1103,84 @@ window.WB_PAGE_CTX = {
 </script>
 <script src="js/personalize.js"></script>
 <script src="js/promo-banner.js"></script>
+
+<!-- ── WebEaze Chat Widget ── -->
+<link rel="stylesheet" href="chat-widget.css">
+<script>
+window.WZ_CHAT_PAGE = {
+  greeting: "Hi! I'm Eazy. Have questions about which plan fits your business? I'm happy to help you decide.",
+  starters: [
+    { label: "Essential vs Growth",     msg: "What is the difference between Essential and Growth?" },
+    { label: "What's included",         msg: "What does the Essential plan include?" },
+    { label: "Setup fee",               msg: "Tell me about the setup fee." },
+    { label: "Can I cancel anytime?",   msg: "Is there a contract or cancellation fee?" },
+  ],
+};
+</script>
+<button id="wz-chat-btn" aria-label="Chat with us" onclick="wzOpenChat()" hidden>
+  <i class="fas fa-comment-dots"></i>
+  <div class="wz-badge" id="wzBadge"></div>
+</button>
+<div id="wz-chat-panel" role="dialog" aria-label="WebEaze chat" hidden>
+  <div class="wz-chat-head">
+    <div class="wz-chat-avatar"><i class="fas fa-bolt"></i></div>
+    <div class="wz-chat-head-text">
+      <div class="wz-chat-head-name">Eazy</div>
+      <div class="wz-chat-head-sub">Have a pricing question?</div>
+    </div>
+    <button class="wz-chat-close" onclick="wzCloseChat()" aria-label="Close chat"><i class="fas fa-times"></i></button>
+  </div>
+  <div id="wz-chat-msgs"></div>
+  <div class="wz-chat-starters" id="wzStarters"></div>
+  <div class="wz-chat-foot">
+    <textarea id="wz-chat-input" rows="1" placeholder="Ask a question..." aria-label="Your message"
+      onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();wzSend();}"
+      oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,100)+'px'"></textarea>
+    <button id="wz-chat-send" onclick="wzSend()" aria-label="Send"><i class="fas fa-arrow-up"></i></button>
+  </div>
+</div>
+<script src="chat-widget.js" defer></script>
+
+<!-- ── Exit Intent (pricing page) ── -->
+<div id="wz-exit" style="display:none;position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,.72);align-items:center;justify-content:center;padding:20px;">
+  <div style="background:#16161f;border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:32px 28px;max-width:400px;width:100%;text-align:center;position:relative;">
+    <button onclick="document.getElementById('wz-exit').style.display='none'" style="position:absolute;top:12px;right:16px;background:none;border:none;color:rgba(255,255,255,.4);font-size:20px;cursor:pointer;line-height:1;">&times;</button>
+    <div style="font-size:32px;margin-bottom:12px;">&#129300;</div>
+    <h3 style="font-size:20px;font-weight:700;margin-bottom:8px;color:#fff;">Not sure which plan fits?</h3>
+    <p style="font-size:14px;color:rgba(255,255,255,.62);margin-bottom:22px;line-height:1.6;">Book a free 15-minute call. We'll look at your business and tell you exactly what you need — no sales pressure.</p>
+    <a href="consultation.html" style="display:inline-block;background:#ffd700;color:#1a1a1a;font-weight:700;padding:12px 28px;border-radius:10px;font-size:15px;text-decoration:none;">Book Free Call</a>
+    <div style="margin-top:14px;font-size:12px;color:rgba(255,255,255,.3);">No credit card. No commitment.</div>
+  </div>
+</div>
+<script>
+(function() {
+  if (sessionStorage.getItem('wz_exit_shown')) return;
+  var fired = false;
+  document.documentElement.addEventListener('mouseleave', function(e) {
+    if (fired || e.clientY > 10) return;
+    fired = true;
+    sessionStorage.setItem('wz_exit_shown', '1');
+    document.getElementById('wz-exit').style.display = 'flex';
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') document.getElementById('wz-exit').style.display = 'none';
+  });
+})();
+</script>
+
+<!-- ── Lead Scoring (pricing visits) ── -->
+<script>
+(function() {
+  try {
+    var v = parseInt(localStorage.getItem('wz_pricing_visits') || '0') + 1;
+    localStorage.setItem('wz_pricing_visits', v);
+    if (v < 2) return;
+    var bar = document.createElement('div');
+    bar.style.cssText = 'position:fixed;bottom:0;left:0;right:0;z-index:8999;background:#ffd700;color:#1a1a1a;font-family:Poppins,sans-serif;font-size:14px;font-weight:600;padding:13px 20px;display:flex;align-items:center;justify-content:center;gap:16px;box-shadow:0 -4px 20px rgba(0,0,0,.3);';
+    bar.innerHTML = '<span>You've visited this page before. Ready to get started?</span><a href="consultation.html" style="background:#1a1a1a;color:#ffd700;padding:7px 18px;border-radius:8px;text-decoration:none;font-size:13px;white-space:nowrap;">Book Free Call</a><button onclick="this.parentNode.remove()" style="background:none;border:none;color:#1a1a1a;opacity:.5;cursor:pointer;font-size:18px;line-height:1;margin-left:4px;">&times;</button>';
+    document.body.appendChild(bar);
+  } catch(e) {}
+})();
+</script>
 </body>
 </html>

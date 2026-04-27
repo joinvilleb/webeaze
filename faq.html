@@ -1241,5 +1241,42 @@ window.WB_PAGE_CTX = {
 };
 </script>
 <script src="js/personalize.js"></script>
+
+<!-- ── WebEaze Chat Widget ── -->
+<link rel="stylesheet" href="chat-widget.css">
+<script>
+window.WZ_CHAT_PAGE = {
+  greeting: "Hi! I'm Eazy. If you can't find the answer you need here, just ask me directly.",
+  starters: [
+    { label: "Cancel anytime?",         msg: "Can I cancel my plan at any time?" },
+    { label: "Setup fee",               msg: "What does the setup fee cover?" },
+    { label: "How long to build?",      msg: "How long does it take to build my website?" },
+    { label: "What if I'm unhappy?",    msg: "What if I'm not happy with my website?" },
+  ],
+};
+</script>
+<button id="wz-chat-btn" aria-label="Chat with us" onclick="wzOpenChat()" hidden>
+  <i class="fas fa-comment-dots"></i>
+  <div class="wz-badge" id="wzBadge"></div>
+</button>
+<div id="wz-chat-panel" role="dialog" aria-label="WebEaze chat" hidden>
+  <div class="wz-chat-head">
+    <div class="wz-chat-avatar"><i class="fas fa-bolt"></i></div>
+    <div class="wz-chat-head-text">
+      <div class="wz-chat-head-name">Eazy</div>
+      <div class="wz-chat-head-sub">Can't find your answer? Ask me.</div>
+    </div>
+    <button class="wz-chat-close" onclick="wzCloseChat()" aria-label="Close chat"><i class="fas fa-times"></i></button>
+  </div>
+  <div id="wz-chat-msgs"></div>
+  <div class="wz-chat-starters" id="wzStarters"></div>
+  <div class="wz-chat-foot">
+    <textarea id="wz-chat-input" rows="1" placeholder="Ask a question..." aria-label="Your message"
+      onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();wzSend();}"
+      oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,100)+'px'"></textarea>
+    <button id="wz-chat-send" onclick="wzSend()" aria-label="Send"><i class="fas fa-arrow-up"></i></button>
+  </div>
+</div>
+<script src="chat-widget.js" defer></script>
 </body>
 </html>

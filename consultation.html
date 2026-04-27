@@ -700,5 +700,87 @@ window.WB_PAGE_CTX = {
 };
 </script>
 <script src="js/personalize.js"></script>
+
+<!-- ── Plan pre-fill from pricing page ── -->
+<script>
+(function() {
+  try {
+    var params = new URLSearchParams(window.location.search);
+    var plan = params.get('plan') || localStorage.getItem('wz_selected_plan');
+    if (!plan) return;
+    localStorage.setItem('wz_selected_plan', plan);
+    var label = plan === 'growth' ? 'Growth Plan' : 'Essential Plan';
+    var bar = document.createElement('div');
+    bar.style.cssText = 'background:rgba(120,81,169,.15);border-bottom:1px solid rgba(120,81,169,.3);padding:11px 20px;text-align:center;font-family:Poppins,sans-serif;font-size:14px;color:rgba(255,255,255,.85);';
+    bar.innerHTML = '<i class="fas fa-tag" style="color:#c4a7e7;margin-right:7px;"></i>You selected the <strong style="color:#c4a7e7;">' + label + '</strong> on the pricing page. Mention it on your call.';
+    var nav = document.querySelector('.nav-wrap');
+    if (nav) nav.insertAdjacentElement('afterend', bar);
+  } catch(e) {}
+})();
+</script>
+
+<!-- ── WebEaze Chat Widget ── -->
+<link rel="stylesheet" href="chat-widget.css">
+<script>
+window.WZ_CHAT_PAGE = {
+  greeting: "Hi! I'm Eazy. Quick question before your call? I can answer anything about plans, process, or what to expect.",
+  starters: [
+    { label: "What happens on the call?", msg: "What happens during the free mockup call?" },
+    { label: "How fast is the build?",    msg: "How long does the website build take?" },
+    { label: "Essential vs Growth",       msg: "What is the difference between Essential and Growth?" },
+    { label: "No credit card?",           msg: "Do I need a credit card to book the call?" },
+  ],
+};
+</script>
+<button id="wz-chat-btn" aria-label="Chat with us" onclick="wzOpenChat()" hidden>
+  <i class="fas fa-comment-dots"></i>
+  <div class="wz-badge" id="wzBadge"></div>
+</button>
+<div id="wz-chat-panel" role="dialog" aria-label="WebEaze chat" hidden>
+  <div class="wz-chat-head">
+    <div class="wz-chat-avatar"><i class="fas fa-bolt"></i></div>
+    <div class="wz-chat-head-text">
+      <div class="wz-chat-head-name">Eazy</div>
+      <div class="wz-chat-head-sub">Questions before your call?</div>
+    </div>
+    <button class="wz-chat-close" onclick="wzCloseChat()" aria-label="Close chat"><i class="fas fa-times"></i></button>
+  </div>
+  <div id="wz-chat-msgs"></div>
+  <div class="wz-chat-starters" id="wzStarters"></div>
+  <div class="wz-chat-foot">
+    <textarea id="wz-chat-input" rows="1" placeholder="Ask a question..." aria-label="Your message"
+      onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();wzSend();}"
+      oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,100)+'px'"></textarea>
+    <button id="wz-chat-send" onclick="wzSend()" aria-label="Send"><i class="fas fa-arrow-up"></i></button>
+  </div>
+</div>
+<script src="chat-widget.js" defer></script>
+
+<!-- ── Exit Intent (consultation page) ── -->
+<div id="wz-exit" style="display:none;position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,.72);align-items:center;justify-content:center;padding:20px;">
+  <div style="background:#16161f;border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:32px 28px;max-width:400px;width:100%;text-align:center;position:relative;">
+    <button onclick="document.getElementById('wz-exit').style.display='none'" style="position:absolute;top:12px;right:16px;background:none;border:none;color:rgba(255,255,255,.4);font-size:20px;cursor:pointer;line-height:1;">&times;</button>
+    <div style="font-size:32px;margin-bottom:12px;">&#10024;</div>
+    <h3 style="font-size:20px;font-weight:700;margin-bottom:8px;color:#fff;">Before you go...</h3>
+    <p style="font-size:14px;color:rgba(255,255,255,.62);margin-bottom:22px;line-height:1.6;">The call is free, takes 15 minutes, and you'll see a custom mockup of your site within 48 hours. Nothing to lose.</p>
+    <a href="#booking" onclick="document.getElementById('wz-exit').style.display='none'" style="display:inline-block;background:#ffd700;color:#1a1a1a;font-weight:700;padding:12px 28px;border-radius:10px;font-size:15px;text-decoration:none;">Book Now &mdash; It's Free</a>
+    <div style="margin-top:14px;font-size:12px;color:rgba(255,255,255,.3);">No credit card. No commitment. Ever.</div>
+  </div>
+</div>
+<script>
+(function() {
+  if (sessionStorage.getItem('wz_exit_shown')) return;
+  var fired = false;
+  document.documentElement.addEventListener('mouseleave', function(e) {
+    if (fired || e.clientY > 10) return;
+    fired = true;
+    sessionStorage.setItem('wz_exit_shown', '1');
+    document.getElementById('wz-exit').style.display = 'flex';
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') document.getElementById('wz-exit').style.display = 'none';
+  });
+})();
+</script>
 </body>
 </html>

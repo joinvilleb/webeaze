@@ -8301,5 +8301,112 @@ You can also [browse our Help Center](help.html) or [contact our team](contact-u
 })();
 </script> -->
 
+
+<!-- ── WebEaze Chat Widget ── -->
+<link rel="stylesheet" href="chat-widget.css">
+<script>
+window.WZ_CHAT_PAGE = {
+  greeting: "Hi! I'm Eazy. Can't find what you're looking for? Just ask and I'll answer directly.",
+  starters: [
+    { label: "How do updates work?",    msg: "How do I submit a website update request?" },
+    { label: "Turnaround times",        msg: "How long do updates take?" },
+    { label: "Cancel my plan",          msg: "How do I cancel my WebEaze plan?" },
+    { label: "Site is down",            msg: "My site is down. What do I do?" },
+  ],
+};
+</script>
+<button id="wz-chat-btn" aria-label="Chat with us" onclick="wzOpenChat()" hidden>
+  <i class="fas fa-comment-dots"></i>
+  <div class="wz-badge" id="wzBadge"></div>
+</button>
+<div id="wz-chat-panel" role="dialog" aria-label="WebEaze chat" hidden>
+  <div class="wz-chat-head">
+    <div class="wz-chat-avatar"><i class="fas fa-bolt"></i></div>
+    <div class="wz-chat-head-text">
+      <div class="wz-chat-head-name">Eazy</div>
+      <div class="wz-chat-head-sub">Can't find the answer? Ask me.</div>
+    </div>
+    <button class="wz-chat-close" onclick="wzCloseChat()" aria-label="Close chat"><i class="fas fa-times"></i></button>
+  </div>
+  <div id="wz-chat-msgs"></div>
+  <div class="wz-chat-starters" id="wzStarters"></div>
+  <div class="wz-chat-foot">
+    <textarea id="wz-chat-input" rows="1" placeholder="Ask a question..." aria-label="Your message"
+      onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();wzSend();}"
+      oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,100)+'px'"></textarea>
+    <button id="wz-chat-send" onclick="wzSend()" aria-label="Send"><i class="fas fa-arrow-up"></i></button>
+  </div>
+</div>
+<script src="chat-widget.js" defer></script>
+
+<!-- ── AI Help Search ── -->
+<script>
+(function() {
+  var $search = document.getElementById('search');
+  if (!$search) return;
+
+  // Inject "Ask AI" button next to the search clear button
+  var aiBtn = document.createElement('button');
+  aiBtn.id = 'wzAskAiBtn';
+  aiBtn.type = 'button';
+  aiBtn.style.cssText = 'position:absolute;right:42px;top:50%;transform:translateY(-50%);background:rgba(120,81,169,.18);border:1px solid rgba(120,81,169,.35);color:#c4a7e7;font-family:Poppins,sans-serif;font-size:11.5px;font-weight:600;padding:4px 10px;border-radius:20px;cursor:pointer;white-space:nowrap;opacity:0;transition:opacity .2s;pointer-events:none;';
+  aiBtn.innerHTML = '<i class="fas fa-bolt" style="margin-right:4px;font-size:10px;"></i>Ask AI';
+  $search.parentNode.style.position = 'relative';
+  $search.parentNode.appendChild(aiBtn);
+
+  // AI answer panel below the search card
+  var aiPanel = document.createElement('div');
+  aiPanel.id = 'wzAiPanel';
+  aiPanel.hidden = true;
+  aiPanel.style.cssText = 'margin:0 0 16px;padding:18px 20px;background:rgba(120,81,169,.1);border:1px solid rgba(120,81,169,.25);border-radius:14px;font-family:Poppins,sans-serif;font-size:14px;line-height:1.65;color:rgba(255,255,255,.85);';
+  var searchSection = document.querySelector('.search-section');
+  if (searchSection) searchSection.insertAdjacentElement('afterend', aiPanel);
+
+  // Show/hide AI button as user types a question
+  $search.addEventListener('input', function() {
+    var v = $search.value.trim();
+    var isQ = v.length > 8 && (/\?$/.test(v) || /^(how|what|why|when|can|do|does|is|will|should|where)/i.test(v));
+    aiBtn.style.opacity = isQ ? '1' : '0';
+    aiBtn.style.pointerEvents = isQ ? 'auto' : 'none';
+    if (!isQ) { aiPanel.hidden = true; }
+  });
+
+  function askAI(q) {
+    aiPanel.hidden = false;
+    aiPanel.innerHTML = '<span style="opacity:.6;font-size:13px;">Asking Eazy...</span>';
+    wzOpenChat && wzOpenChat();
+    // Also show in panel
+    fetch('https://webeaze.netlify.app/.netlify/functions/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: q, history: [] })
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(d) {
+      if (d.reply) {
+        aiPanel.innerHTML = '<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;"><span style="width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,#7851a9,#ffd700);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;font-size:10px;color:#fff;"><i class="fas fa-bolt"></i></span><span style="font-size:12px;font-weight:700;color:#c4a7e7;">Eazy</span></div>' + wzSanitizeAI(d.reply);
+      } else {
+        aiPanel.hidden = true;
+      }
+    })
+    .catch(function() { aiPanel.hidden = true; });
+  }
+
+  function wzSanitizeAI(t) {
+    return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+      .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+      .replace(/([a-zA-Z0-9_-]+\.html(?:#\/[a-zA-Z0-9_-]+)?)/g,'<a href="$1" style="color:#ffd700;text-decoration:none;">$1</a>')
+      .replace(/\n/g,'<br>');
+  }
+
+  aiBtn.addEventListener('click', function() { askAI($search.value.trim()); });
+  $search.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') {
+      var v = $search.value.trim();
+      if (v.length > 8) { e.preventDefault(); askAI(v); }
+    }
+  });
+})();
+</script>
 </body>
 </html>
