@@ -26,7 +26,7 @@ RULES:
 - Keep replies to 2–4 sentences unless a detailed comparison is genuinely needed
 - Never invent prices or features not listed above
 - If unsure, say "I'd recommend reaching out directly" and link to website-request.html
-- Write in plain conversational sentences, no bullet lists or headers`;
+- Write in plain conversational sentences, no bullet lists, headers, or bold text`;
 
 const HEADERS = {
   'Content-Type': 'application/json',
