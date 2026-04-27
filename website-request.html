@@ -1139,11 +1139,11 @@
       if (returning) setTimeout(() => showPanel(lastPanel, true), 200);
     }
 
-    // Show/hide priority toggle — only relevant for broken-site issues
+    // Show priority toggle only when broken panel is open AND user arrived from an urgent-context article
     function syncPriorityToggle(panelId) {
       const $pt = document.getElementById('priorityToggle');
       if (!$pt) return;
-      $pt.hidden = (panelId !== 'broken');
+      $pt.hidden = !(urgentContext && panelId === 'broken');
     }
 
     // Intercept showPanel to save + refresh badge + tip + priority toggle
@@ -1201,6 +1201,9 @@
     };
     const BILLING_HASHES = ['manage-your-plan','annual-vs-monthly','change-billing-date','reactivate-plan','view-invoices','change-subscription','billing','failed-payment','refund','pause','cancel','money-back-guarantee','discounts-nonprofits-seasonal','what-do-i-own','website-ownership-access'];
     const BROKEN_HASHES  = ['site-is-down','website-error-troubleshooting','my-site-isnt-updating','contact-form-not-sending','site-not-loading','site-not-updating','contact-form-going-to-spam','social-share-preview-wrong','website-scam-warning'];
+    // Only articles that discuss a site being down or critically broken warrant the urgent toggle
+    const URGENT_HASHES  = ['site-is-down','site-not-loading','website-error-troubleshooting'];
+    let urgentContext = false;
 
     try {
       const ref = document.referrer;
@@ -1220,6 +1223,7 @@
           ctx = { title: 'Billing question?', sub: 'Describe what you need and we\'ll sort it out.', panel: 'billing' };
         } else if (path === 'help.html' && BROKEN_HASHES.some(s => hash.includes(s))) {
           ctx = { title: 'Something not working?', sub: 'Tell us what\'s going on and we\'ll get on it right away.', panel: 'broken' };
+          if (URGENT_HASHES.some(s => hash.includes(s))) urgentContext = true;
         } else {
           ctx = REFERRER_MAP[path] || null;
         }
@@ -1389,12 +1393,14 @@
 
         // Auto-open panel based on what they saved
         if (!lastPanel) {
-          const billingSlags = ['manage-your-plan','annual-vs-monthly','change-billing-date','view-invoices','reactivate-plan','money-back-guarantee','discounts-nonprofits-seasonal','what-do-i-own','website-ownership-access','failed-payment'];
-          const brokenSlugs  = ['site-is-down','website-error-troubleshooting','contact-form-not-sending','contact-form-going-to-spam','social-share-preview-wrong','my-site-isnt-updating'];
+          const billingSlags  = ['manage-your-plan','annual-vs-monthly','change-billing-date','view-invoices','reactivate-plan','money-back-guarantee','discounts-nonprofits-seasonal','what-do-i-own','website-ownership-access','failed-payment'];
+          const brokenSlugs   = ['site-is-down','website-error-troubleshooting','contact-form-not-sending','contact-form-going-to-spam','social-share-preview-wrong','my-site-isnt-updating'];
+          const urgentSlugs   = ['site-is-down','site-not-loading','website-error-troubleshooting'];
           if (helpSaved.some(s => billingSlags.includes(s.slug))) {
             expandShortcuts();
             setTimeout(() => showPanel('billing', true), 300);
           } else if (helpSaved.some(s => brokenSlugs.includes(s.slug))) {
+            if (helpSaved.some(s => urgentSlugs.includes(s.slug))) urgentContext = true;
             expandShortcuts();
             setTimeout(() => showPanel('broken', true), 300);
           }
