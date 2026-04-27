@@ -1,3 +1,38 @@
+const HOLIDAYS = [
+  { name: 'New Year\'s Day',      start: '2026-01-01', end: '2026-01-01' },
+  { name: 'Memorial Day',         start: '2026-05-25', end: '2026-05-25' },
+  { name: 'Independence Day',     start: '2026-07-03', end: '2026-07-03' },
+  { name: 'Labor Day',            start: '2026-09-07', end: '2026-09-07' },
+  { name: 'Thanksgiving',         start: '2026-11-25', end: '2026-11-29' },
+  { name: 'December Holidays',    start: '2026-12-24', end: '2027-01-03' },
+  { name: 'New Year\'s Day',      start: '2027-01-01', end: '2027-01-03' },
+  { name: 'Memorial Day',         start: '2027-05-31', end: '2027-05-31' },
+  { name: 'Independence Day',     start: '2027-07-05', end: '2027-07-05' },
+  { name: 'Labor Day',            start: '2027-09-06', end: '2027-09-06' },
+  { name: 'Thanksgiving',         start: '2027-11-25', end: '2027-11-29' },
+  { name: 'December Holidays',    start: '2027-12-24', end: '2028-01-02' },
+];
+
+function getAvailabilityContext() {
+  const now = new Date(new Date().toLocaleString('en-US', { timeZone: 'America/New_York' }));
+  const day  = now.getDay();   // 0=Sun, 6=Sat
+  const hour = now.getHours(); // 0-23
+  const dateStr = now.toISOString().slice(0, 10); // YYYY-MM-DD
+
+  const holiday = HOLIDAYS.find(h => dateStr >= h.start && dateStr <= h.end);
+  if (holiday) {
+    const end   = new Date(holiday.end + 'T23:59:59');
+    const resumes = new Date(end); resumes.setDate(resumes.getDate() + 1);
+    return `CURRENT AVAILABILITY: Closed today for ${holiday.name}. Resumes ${resumes.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}. Requests submitted during closures are handled when we reopen.`;
+  }
+  const isWeekend = day === 0 || day === 6;
+  if (isWeekend) return `CURRENT AVAILABILITY: Closed (weekend). Support resumes Monday at 9:00am ET. Requests can still be submitted and will be handled Monday.`;
+  const isOpen = hour >= 9 && hour < 17;
+  if (isOpen) return `CURRENT AVAILABILITY: Open now. Monday–Friday 9:00am–5:00pm ET.`;
+  const opensNext = hour < 9 ? 'today' : (day === 5 ? 'Monday' : 'tomorrow');
+  return `CURRENT AVAILABILITY: Currently closed — opens ${opensNext} at 9:00am ET. Requests can still be submitted and will be handled then.`;
+}
+
 const SYSTEM_PROMPT = `You are the WebEaze website assistant. Be warm, direct, and helpful. Answer questions fully from the knowledge below. Only link to a help article or page when it would genuinely add value — not on every reply.
 
 == PLANS & PRICING ==
@@ -36,8 +71,13 @@ All updates go through the Website Request form at website-request.html. This is
 == TURNAROUND TIMES ==
 Text or image edits: 1–3 days. Additional pages: 5–7 days. Mobile optimization fixes: 1–3 days. SEO updates: 1–3 days. Contact form edits: 1–3 days. Full audit or revamp: 7–14 business days. Bug fixes/site issues: 24–48 hours (urgent issues prioritized, often sooner). New website builds: up to 3 weeks.
 
+== BUSINESS HOURS & AVAILABILITY ==
+Monday–Friday, 9:00am–5:00pm Eastern Time. Closed weekends and the following US holidays: New Year's Day, Memorial Day, Independence Day, Labor Day, Thanksgiving (and the week of), and December Holidays (Dec 24–Jan 3). After-hours and weekend submissions are handled the next business day.
+
+Rush/same-day service is available for an additional $69 fee. This applies when a client needs a request completed the same business day.
+
 == RESPONSE TIMES ==
-Standard requests and questions: within 1 business day. Urgent issues (site down, critical error): within a few hours during business hours. After-hours/weekend submissions: next business day. Business hours: Mon–Fri, 9am–5pm Eastern. Closed on major US holidays. Contact email: support@webeaze.io.
+Standard requests and questions: within 1 business day. Urgent issues (site down, critical error): within a few hours during business hours. After-hours/weekend submissions: next business day. Contact: submit a request at website-request.html.
 
 == DISCOUNTS ==
 No discounts. Pricing is fixed. No nonprofit pricing, no seasonal pauses or holds. Seasonal businesses can cancel at end of season and re-subscribe when it starts — but re-subscribing is treated as a new project and the setup fee applies again. The site goes offline when the subscription ends.
@@ -170,7 +210,7 @@ export const handler = async (event) => {
       body: JSON.stringify({
         model: 'claude-haiku-4-5-20251001',
         max_tokens: 400,
-        system: SYSTEM_PROMPT,
+        system: SYSTEM_PROMPT + '\n\n' + getAvailabilityContext(),
         messages,
       }),
     });
