@@ -60,6 +60,23 @@ WebEaze builds custom-coded websites using HTML, CSS, and JavaScript. Also works
 == REACTIVATION ==
 Reactivating after cancellation is treated as a new subscription — setup fee applies again, previous billing date not preserved. If files are still within the retention window, we may restore the previous site. If removed, we rebuild from scratch.
 
+== TERMS OF SERVICE (terms.html) ==
+WebEaze provides: custom website design and development, mobile-responsive design, basic SEO (meta tags, structured data, sitemap), DNS/domain management assistance, hosting setup, ongoing maintenance and security updates, content updates and design refinements, technical consultation, cross-browser compatibility, all pages and features agreed on during onboarding, functional contact forms, navigation, and third-party integrations, and conformity to the approved mockup.
+Not included in any plan: complete redesigns or platform migrations, custom web app or database development, complex API integrations, digital marketing or paid advertising, fixing issues caused by client modifications or unauthorized access.
+
+== REFUND POLICY (refund-policy.html) ==
+Non-refundable: setup fees, monthly and annual subscription payments, domain registration/renewal fees, any custom development or design work. If a client is dissatisfied, they should contact us so we can address concerns. Billing errors (wrong charge amount etc.) can be reported with the transaction date, amount, last 4 digits of the card, and description — WebEaze will verify and may issue a reversal, account credit, or other remedy at its discretion. On cancellation: takes effect immediately, no further charges, access continues through end of current billing period where applicable.
+
+== CANCELLATION POLICY (cancellation-policy.html) ==
+Client keeps: their own content, images, logo, and brand assets. WebEaze retains: the website design, code, and custom layouts — these remain WebEaze property unless transferred. Cancellation does not entitle a refund for current or prior billing periods. Clients with questions before cancelling are encouraged to reach out — there may be options that work better.
+
+== ACCEPTABLE USE POLICY (acceptable-use-policy.html) ==
+Accepted businesses: local service businesses, retail/ecommerce (legal products), restaurants, professional services, health and wellness (licensed practitioners), nonprofits, salons/spas, real estate, events and creative businesses, educational services.
+Not accepted: adult or sexually explicit content, hate speech or extremist content, illegal goods or services, sites designed to deceive or defraud, malware or phishing operations, unlicensed gambling, sites impersonating other businesses, content promoting violence or self-harm.
+
+== COOKIES (cookies.html) ==
+WebEaze uses: essential cookies (security, payment — cannot be turned off), analytics cookies (aggregated/anonymized page traffic), marketing cookies (tracks consultation form submissions for follow-up, not shared with advertisers), preference cookies (help article read history — stays on device only). To manage cookies, use browser settings. Disabling cookies may break contact forms and some personalization.
+
 == HELP ARTICLES — link to these only when it would genuinely help ==
 How WebEaze works → help.html#/getting-started
 Choosing a plan → help.html#/which-plan-should-i-choose
