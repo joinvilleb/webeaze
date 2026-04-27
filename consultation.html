@@ -734,27 +734,34 @@ window.WB_PAGE_CTX = {
   }
 };
 </script>
-<!-- ── Plan pre-fill from pricing page ── -->
+<!-- ── Plan banner: only shown when arriving from pricing page with ?plan= ── -->
 <script>
 (function() {
   try {
-    var params = new URLSearchParams(window.location.search);
-    var plan = params.get('plan') || localStorage.getItem('wz_selected_plan');
+    var plan = new URLSearchParams(window.location.search).get('plan');
     if (!plan) return;
-    localStorage.setItem('wz_selected_plan', plan);
-    // Suppress the personalize.js banner — plan banner already covers this context
     sessionStorage.setItem('wb-ctx:consultation.html', '1');
     var label = plan === 'growth' ? 'Growth Plan' : 'Essential Plan';
-    var bar = document.createElement('div');
-    var navH = (document.querySelector('.nav-wrap') || {}).offsetHeight || 60;
-    bar.style.cssText = 'position:fixed;top:' + navH + 'px;left:0;right:0;z-index:9998;background:#f0ebfa;border-bottom:1px solid rgba(120,81,169,.3);padding:11px 20px;text-align:center;font-family:Poppins,sans-serif;font-size:14px;color:#4a2d8a;';
-    bar.innerHTML = '<i class="fas fa-tag" style="color:#7851a9;margin-right:7px;"></i>You selected the <strong style="color:#7851a9;">' + label + '</strong> on the pricing page. Mention it on your call.';
-    document.body.appendChild(bar);
-    requestAnimationFrame(function() {
-      var bh = bar.getBoundingClientRect().height || 44;
+    function insertBar() {
+      var navEl = document.querySelector('.nav-wrap');
+      var navH  = navEl ? navEl.getBoundingClientRect().height : 60;
+      var bar   = document.createElement('div');
+      bar.style.cssText = 'position:fixed;top:' + navH + 'px;left:0;right:0;z-index:9998;' +
+        'background:#f0ebfa;border-bottom:1px solid rgba(120,81,169,.3);' +
+        'padding:9px 16px;text-align:center;' +
+        'font-family:Poppins,sans-serif;font-size:13.5px;line-height:1.5;color:#4a2d8a;';
+      bar.innerHTML = '<i class="fas fa-tag" style="color:#7851a9;margin-right:6px;"></i>' +
+        'You selected the <strong style="color:#7851a9;">' + label + '</strong> on the pricing page. Mention it on your call.';
+      document.body.appendChild(bar);
+      var bh = bar.getBoundingClientRect().height || 38;
       var tw = document.querySelector('.top-wrap');
       if (tw) tw.style.paddingTop = (navH + bh) + 'px';
-    });
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', insertBar);
+    } else {
+      insertBar();
+    }
   } catch(e) {}
 })();
 </script>
