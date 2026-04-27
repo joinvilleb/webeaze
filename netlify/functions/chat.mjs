@@ -146,15 +146,65 @@ Submit a request → website-request.html
 View pricing → pricing.html
 Add-on fees → fee-schedule.html
 
+== SUBMITTING REQUESTS VIA CHAT ==
+You can submit website update requests directly through this chat. When a client wants to update something, report an issue, or submit any request, offer to handle it right here instead of sending them to website-request.html.
+
+Follow this flow:
+1. Ask for their first name (skip if they already gave it)
+2. Ask for their email address
+3. Ask exactly what they need — get enough detail to act on it (what page, what change, what's broken, etc.)
+4. Read back a summary: "Just to confirm — submitting for [name] at [email]: [description of request]. Is that right?"
+5. Once they say yes, call submit_request
+
+Do not call submit_request until the client has explicitly confirmed the details. Keep your tone warm and efficient.
+
 == RULES ==
 - Answer from the knowledge above — do not say "I don't know" if the answer is here
 - Only link to a help article when it covers something in more depth than you just explained, or when a client needs to take action there
 - Never invent prices, fees, or policies not listed above
-- For existing clients with account or website-related questions, always direct them to website-request.html
+- For existing clients who want to submit an update or report an issue: offer to submit directly via chat by collecting their name, email, and request details. Only direct them to website-request.html if they prefer to do it themselves.
 - For general inquiries from non-clients or questions not related to an existing account or website, direct them to contact.html
 - Never tell anyone to email us directly
 - Write in plain conversational sentences — no bullet lists, headers, or bold text in replies
 - Keep replies concise: 2–4 sentences for simple questions, a short paragraph for complex ones`;
+
+const REQUEST_TOOLS = [
+  {
+    name: 'submit_request',
+    description: "Submit a website update request on behalf of a client. Only call this after you have collected and the client has explicitly confirmed their name, email address, and request details.",
+    input_schema: {
+      type: 'object',
+      properties: {
+        name:    { type: 'string', description: "Client's first name" },
+        email:   { type: 'string', description: "Client's email address" },
+        message: { type: 'string', description: "Full description of what the client needs updated or fixed" },
+      },
+      required: ['name', 'email', 'message'],
+    },
+  },
+];
+
+async function submitToHubspot(name, email, message) {
+  const res = await fetch(
+    'https://api.hsforms.com/submissions/v3/integration/submit/242171361/1bd7643f-da22-4812-a77f-8fe06fb55990',
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        fields: [
+          { name: 'firstname', value: name },
+          { name: 'email',     value: email },
+          { name: 'message',   value: message },
+        ],
+        context: {
+          pageUri: 'https://www.webeaze.io/website-request.html',
+          pageName: 'Website Request | WebEaze',
+        },
+      }),
+    }
+  );
+  return res.ok;
+}
 
 const HEADERS = {
   'Content-Type': 'application/json',
@@ -209,8 +259,9 @@ export const handler = async (event) => {
       },
       body: JSON.stringify({
         model: 'claude-haiku-4-5-20251001',
-        max_tokens: 400,
+        max_tokens: 600,
         system: SYSTEM_PROMPT + '\n\n' + getAvailabilityContext(),
+        tools: REQUEST_TOOLS,
         messages,
       }),
     });
@@ -222,7 +273,17 @@ export const handler = async (event) => {
       return ok({ error: 'Anthropic error: ' + (data.error?.message || res.status) });
     }
 
-    const reply = data.content?.[0]?.text;
+    const toolBlock = data.content?.find(b => b.type === 'tool_use' && b.name === 'submit_request');
+    if (toolBlock) {
+      const { name, email, message: msg } = toolBlock.input;
+      const submitted = await submitToHubspot(name, email, msg);
+      if (submitted) {
+        return ok({ reply: `Done! Your request has been submitted, ${name}. We'll follow up at ${email} — usually within 1 business day.` });
+      }
+      return ok({ reply: `I wasn't able to submit that automatically. Please use the request form at website-request.html and we'll get it handled.` });
+    }
+
+    const reply = data.content?.find(b => b.type === 'text')?.text;
     return ok(reply ? { reply } : { error: 'Empty API response' });
 
   } catch (e) {
