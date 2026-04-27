@@ -25,8 +25,8 @@ ADD-ONS (one-time):
 RULES:
 - Keep replies to 2–4 sentences unless a detailed comparison is genuinely needed
 - Never invent prices or features not listed above
-- If unsure about something specific, say "I'd recommend reaching out directly" and link to website-request.html
-- Do not use markdown headers or bullet lists in replies — write in plain, conversational sentences`;
+- If unsure, say "I'd recommend reaching out directly" and link to website-request.html
+- Write in plain conversational sentences, no bullet lists or headers`;
 
 const HEADERS = {
   'Content-Type': 'application/json',
@@ -35,37 +35,37 @@ const HEADERS = {
   'Access-Control-Allow-Methods': 'POST, OPTIONS',
 };
 
-function ok(data) {
-  return { statusCode: 200, headers: HEADERS, body: JSON.stringify(data) };
-}
+const ok = (data) => ({
+  statusCode: 200,
+  headers: HEADERS,
+  body: JSON.stringify(data),
+});
 
-exports.handler = async function(event) {
-  console.log('Function called, method:', event.httpMethod);
+export const handler = async (event) => {
+  console.log('chat.mjs called, method:', event.httpMethod);
 
   if (event.httpMethod === 'OPTIONS') {
     return { statusCode: 200, headers: HEADERS, body: '' };
   }
 
   if (event.httpMethod !== 'POST') {
-    return ok({ error: 'Method not allowed' });
+    return ok({ error: 'POST only' });
   }
 
   if (!process.env.ANTHROPIC_API_KEY) {
-    console.error('ANTHROPIC_API_KEY is not set');
-    return ok({ error: 'API key not configured — add ANTHROPIC_API_KEY in Netlify environment variables and redeploy.' });
+    console.error('ANTHROPIC_API_KEY not set');
+    return ok({ error: 'API key not configured — set ANTHROPIC_API_KEY in Netlify env vars and redeploy.' });
   }
 
   let message, history;
   try {
-    const body = JSON.parse(event.body || '{}');
-    message = body.message;
-    history = body.history;
-  } catch (e) {
-    return ok({ error: 'Invalid request body' });
+    ({ message, history } = JSON.parse(event.body || '{}'));
+  } catch {
+    return ok({ error: 'Invalid JSON body' });
   }
 
-  if (!message || typeof message !== 'string' || !message.trim()) {
-    return ok({ error: 'Message is required' });
+  if (!message?.trim()) {
+    return ok({ error: 'Message required' });
   }
 
   const messages = [
@@ -74,7 +74,7 @@ exports.handler = async function(event) {
   ];
 
   try {
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -89,22 +89,19 @@ exports.handler = async function(event) {
       }),
     });
 
-    const data = await response.json();
-    console.log('Anthropic status:', response.status);
+    const data = await res.json();
+    console.log('Anthropic status:', res.status);
 
-    if (!response.ok) {
+    if (!res.ok) {
       console.error('Anthropic error:', JSON.stringify(data));
-      return ok({ error: 'Anthropic API error: ' + (data.error?.message || response.status) });
+      return ok({ error: 'Anthropic error: ' + (data.error?.message || res.status) });
     }
 
     const reply = data.content?.[0]?.text;
-    if (!reply) {
-      return ok({ error: 'Empty response from API' });
-    }
+    return ok(reply ? { reply } : { error: 'Empty API response' });
 
-    return ok({ reply });
   } catch (e) {
-    console.error('Fetch error:', e.message);
+    console.error('Fetch failed:', e.message);
     return ok({ error: 'Fetch failed: ' + e.message });
   }
 };
