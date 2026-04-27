@@ -4727,7 +4727,13 @@ window.WB_PAGE_CTX = {
       body: JSON.stringify({ message: text, history: history.slice(0, -1) })
     })
     .then(function(r) {
-      return r.json().then(function(d) { return { status: r.status, data: d }; });
+      return r.text().then(function(raw) {
+        try {
+          return { status: r.status, data: JSON.parse(raw) };
+        } catch(e) {
+          return { status: r.status, data: { error: 'RAW: ' + raw.slice(0, 200) } };
+        }
+      });
     })
     .then(function(res) {
       typing.remove();
@@ -4736,12 +4742,12 @@ window.WB_PAGE_CTX = {
         if (history.length > 20) history = history.slice(-20);
         wzAppend('bot', res.data.reply);
       } else {
-        wzAppend('bot', 'Error ' + res.status + ': ' + (res.data.error || 'Unknown error') + '. Check Netlify function logs.');
+        wzAppend('bot', res.data.error || ('HTTP ' + res.status));
       }
     })
     .catch(function(err) {
       typing.remove();
-      wzAppend('bot', 'Network error: ' + (err && err.message ? err.message : 'Could not reach function. Is it deployed?'));
+      wzAppend('bot', 'Fetch failed: ' + (err && err.message ? err.message : String(err)));
     })
     .finally(function() {
       busy = false;
