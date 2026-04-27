@@ -1611,8 +1611,8 @@ fee-tooltip {
 }
 @keyframes chaosScatter {
   0%   { transform: translate(-50%, -50%) rotate(var(--rot, 0deg)) scale(1); opacity: var(--start-op, 0.4); }
-  40%  { opacity: calc(var(--start-op, 0.4) * 0.6); }
-  100% { transform: translate(calc(-50% + var(--sx)), calc(-50% + var(--sy))) rotate(calc(var(--rot, 0deg) + 15deg)) scale(0.6); opacity: 0; }
+  20%  { opacity: var(--start-op, 0.4); }
+  100% { transform: translate(calc(-50% + var(--sx)), calc(-50% + var(--sy))) rotate(calc(var(--rot, 0deg) + 4deg)) scale(0.3); opacity: 0; }
 }
 
 /* ===== PREMIUM PRICING SECTION ===== */
@@ -4432,23 +4432,16 @@ function whyTabScroll(dir) {
   var H = overlay.offsetHeight || (window.innerHeight - 60);
   var cx = W / 2, cy = H / 2;
 
-  // Place words in edge zones only — left strip, right strip, top strip, bottom strip
-  function edgePos() {
-    var zone = Math.floor(Math.random() * 4);
-    if (zone === 0) return { x: 1  + Math.random() * 16, y: 3  + Math.random() * 94 }; // left
-    if (zone === 1) return { x: 83 + Math.random() * 16, y: 3  + Math.random() * 94 }; // right
-    if (zone === 2) return { x: 17 + Math.random() * 66, y: 1  + Math.random() * 12 }; // top
-                   return { x: 17 + Math.random() * 66, y: 87 + Math.random() * 12 }; // bottom
-  }
-
   WORDS.forEach(function(word) {
     var s = document.createElement('span');
     s.className = 'chaos-word';
     s.textContent = word;
 
-    var pos = edgePos();
-    s.style.left = pos.x + '%';
-    s.style.top  = pos.y + '%';
+    // Spread words across the full center of the screen
+    var x = 8 + Math.random() * 84;
+    var y = 8 + Math.random() * 84;
+    s.style.left = x + '%';
+    s.style.top  = y + '%';
 
     var r = Math.random();
     var size = r < 0.12 ? (64 + Math.floor(Math.random() * 24))  // xl: 64-88px
@@ -4457,7 +4450,7 @@ function whyTabScroll(dir) {
              :             (16 + Math.floor(Math.random() * 8));  // sm: 16-24px
     s.style.fontSize = size + 'px';
 
-    var op = (0.12 + Math.random() * 0.50).toFixed(2);
+    var op = (0.15 + Math.random() * 0.55).toFixed(2);
     s.style.setProperty('--start-op', op);
     s.style.opacity = op;
     s.style.color = COLORS[Math.floor(Math.random() * COLORS.length)].replace('OP', op);
@@ -4466,17 +4459,17 @@ function whyTabScroll(dir) {
     s.style.setProperty('--dur', dur + 's');
     s.style.animationDelay = (Math.random() * 1.2).toFixed(2) + 's';
 
-    // Mostly horizontal — very small rotation
     var rot = (-3 + Math.random() * 6).toFixed(1);
     s.style.setProperty('--rot', rot + 'deg');
 
-    var px = (pos.x / 100) * W, py = (pos.y / 100) * H;
+    // Scatter outward from center with a strong push so it's clearly visible
+    var px = (x / 100) * W, py = (y / 100) * H;
     var dx = px - cx, dy = py - cy;
     var dist = Math.sqrt(dx * dx + dy * dy) || 1;
-    var mag = 500 + Math.random() * 300;
+    var mag = 900 + Math.random() * 500;
     s.style.setProperty('--sx', (dx / dist * mag).toFixed(0) + 'px');
     s.style.setProperty('--sy', (dy / dist * mag).toFixed(0) + 'px');
-    s.style.setProperty('--scatter-delay', (Math.random() * 0.2).toFixed(2) + 's');
+    s.style.setProperty('--scatter-delay', (Math.random() * 0.15).toFixed(2) + 's');
 
     overlay.appendChild(s);
   });
@@ -4486,7 +4479,7 @@ function whyTabScroll(dir) {
     overlay.style.transition = 'opacity 0.6s ease';
     overlay.style.opacity = '0';
     setTimeout(function() { if (overlay.parentNode) overlay.parentNode.removeChild(overlay); }, 600);
-  }, 2300);
+  }, 2500);
 })();
 
 
