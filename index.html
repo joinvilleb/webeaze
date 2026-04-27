@@ -4407,16 +4407,14 @@ function whyTabScroll(dir) {
 
 (function() {
   var WORDS = [
-    'Machine Learning','Neural Networks','Deep Learning','NLP','GPT-4',
-    'LLM','Transformers','Vector DB','RAG','Fine-tuning','Embeddings',
-    'Computer Vision','API','REST','GraphQL','OAuth 2.0','JWT',
-    'WebSockets','CDN','DNS','SSL/TLS','Docker','Kubernetes','CI/CD',
-    'SEO','CTR','SERP','Backlinks','Schema.org','CRM','LTV','CAC',
-    'A/B Testing','Conversion Rate','Lead Generation','GA4','UTM','Heatmaps',
-    'Bounce Rate','Attribution','Automation','SaaS','Webhook','JSON',
-    'Microservices','Cloud Computing','Data Pipeline','Cache-Control',
-    'Load Balancer','Rate Limiting','SSL Certificate','Meta Tags','Sitemap',
-    'Structured Data','Core Web Vitals','Page Speed','Conversion Funnel'
+    'Figma','Webflow','WordPress','Shopify','Squarespace',
+    'HTML5','CSS3','JavaScript','Netlify','GitHub',
+    'Responsive','Mobile First','UX Design','UI Design',
+    'Typography','Color Palette','Grid Layout','Page Speed',
+    'Landing Page','Custom Code','Clean Design','Fast Sites',
+    'SSL','Hosting','Domain','Analytics','Sitemap',
+    'Meta Tags','Core Web Vitals','Open Graph','Schema',
+    'Wireframe','Prototyping','Brand Kit','Style Guide'
   ];
   var COLORS = [
     'rgba(120,81,169,OP)','rgba(120,81,169,OP)',
@@ -4434,51 +4432,61 @@ function whyTabScroll(dir) {
   var H = overlay.offsetHeight || (window.innerHeight - 60);
   var cx = W / 2, cy = H / 2;
 
-  WORDS.forEach(function(word, idx) {
+  // Place words in edge zones only — left strip, right strip, top strip, bottom strip
+  function edgePos() {
+    var zone = Math.floor(Math.random() * 4);
+    if (zone === 0) return { x: 1  + Math.random() * 16, y: 3  + Math.random() * 94 }; // left
+    if (zone === 1) return { x: 83 + Math.random() * 16, y: 3  + Math.random() * 94 }; // right
+    if (zone === 2) return { x: 17 + Math.random() * 66, y: 1  + Math.random() * 12 }; // top
+                   return { x: 17 + Math.random() * 66, y: 87 + Math.random() * 12 }; // bottom
+  }
+
+  WORDS.forEach(function(word) {
     var s = document.createElement('span');
     s.className = 'chaos-word';
     s.textContent = word;
-    var x = 4 + Math.random() * 92;
-    var y = 4 + Math.random() * 90;
-    s.style.left = x + '%';
-    s.style.top  = y + '%';
+
+    var pos = edgePos();
+    s.style.left = pos.x + '%';
+    s.style.top  = pos.y + '%';
 
     var r = Math.random();
-    var size = r < 0.10 ? (48 + Math.floor(Math.random() * 20))  // xl: 48-68px
-             : r < 0.28 ? (28 + Math.floor(Math.random() * 16))  // lg: 28-44px
-             : r < 0.62 ? (18 + Math.floor(Math.random() * 10))  // md: 18-28px
-             :             (13 + Math.floor(Math.random() * 5));  // sm: 13-18px
+    var size = r < 0.12 ? (64 + Math.floor(Math.random() * 24))  // xl: 64-88px
+             : r < 0.32 ? (40 + Math.floor(Math.random() * 20))  // lg: 40-60px
+             : r < 0.65 ? (24 + Math.floor(Math.random() * 14))  // md: 24-38px
+             :             (16 + Math.floor(Math.random() * 8));  // sm: 16-24px
     s.style.fontSize = size + 'px';
 
-    var op = (0.10 + Math.random() * 0.52).toFixed(2);
+    var op = (0.12 + Math.random() * 0.50).toFixed(2);
     s.style.setProperty('--start-op', op);
     s.style.opacity = op;
     s.style.color = COLORS[Math.floor(Math.random() * COLORS.length)].replace('OP', op);
 
     var dur = (2.8 + Math.random() * 3.5).toFixed(1);
     s.style.setProperty('--dur', dur + 's');
-    s.style.animationDelay = (Math.random() * 1.8).toFixed(2) + 's';
+    s.style.animationDelay = (Math.random() * 1.2).toFixed(2) + 's';
 
-    var rot = (-10 + Math.random() * 20).toFixed(1);
+    // Mostly horizontal — very small rotation
+    var rot = (-3 + Math.random() * 6).toFixed(1);
     s.style.setProperty('--rot', rot + 'deg');
 
-    var px = (x / 100) * W, py = (y / 100) * H;
+    var px = (pos.x / 100) * W, py = (pos.y / 100) * H;
     var dx = px - cx, dy = py - cy;
     var dist = Math.sqrt(dx * dx + dy * dy) || 1;
-    var mag = 450 + Math.random() * 350;
+    var mag = 500 + Math.random() * 300;
     s.style.setProperty('--sx', (dx / dist * mag).toFixed(0) + 'px');
     s.style.setProperty('--sy', (dy / dist * mag).toFixed(0) + 'px');
-    s.style.setProperty('--scatter-delay', (Math.random() * 0.3).toFixed(2) + 's');
+    s.style.setProperty('--scatter-delay', (Math.random() * 0.2).toFixed(2) + 's');
 
     overlay.appendChild(s);
   });
 
-  setTimeout(function() { overlay.classList.add('scatter'); }, 2200);
+  setTimeout(function() { overlay.classList.add('scatter'); }, 1600);
   setTimeout(function() {
-    overlay.style.transition = 'opacity 0.7s ease';
+    overlay.style.transition = 'opacity 0.6s ease';
     overlay.style.opacity = '0';
-    setTimeout(function() { if (overlay.parentNode) overlay.parentNode.removeChild(overlay); }, 700);
-  }, 2900);
+    setTimeout(function() { if (overlay.parentNode) overlay.parentNode.removeChild(overlay); }, 600);
+  }, 2300);
 })();
 
 
