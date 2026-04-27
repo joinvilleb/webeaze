@@ -4726,17 +4726,22 @@ window.WB_PAGE_CTX = {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ message: text, history: history.slice(0, -1) })
     })
-    .then(function(r) { return r.json(); })
-    .then(function(d) {
-      typing.remove();
-      var reply = d.reply || 'Something went wrong — please try again.';
-      history.push({ role: 'assistant', content: reply });
-      if (history.length > 20) history = history.slice(-20);
-      wzAppend('bot', reply);
+    .then(function(r) {
+      return r.json().then(function(d) { return { status: r.status, data: d }; });
     })
-    .catch(function() {
+    .then(function(res) {
       typing.remove();
-      wzAppend('bot', 'Something went wrong. You can reach us directly at <a href="website-request.html">website-request.html</a>.');
+      if (res.data.reply) {
+        history.push({ role: 'assistant', content: res.data.reply });
+        if (history.length > 20) history = history.slice(-20);
+        wzAppend('bot', res.data.reply);
+      } else {
+        wzAppend('bot', 'Error ' + res.status + ': ' + (res.data.error || 'Unknown error') + '. Check Netlify function logs.');
+      }
+    })
+    .catch(function(err) {
+      typing.remove();
+      wzAppend('bot', 'Network error: ' + (err && err.message ? err.message : 'Could not reach function. Is it deployed?'));
     })
     .finally(function() {
       busy = false;
