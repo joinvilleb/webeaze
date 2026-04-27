@@ -4726,28 +4726,20 @@ window.WB_PAGE_CTX = {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ message: text, history: history.slice(0, -1) })
     })
-    .then(function(r) {
-      return r.text().then(function(raw) {
-        try {
-          return { status: r.status, data: JSON.parse(raw) };
-        } catch(e) {
-          return { status: r.status, data: { error: 'RAW: ' + raw.slice(0, 200) } };
-        }
-      });
-    })
-    .then(function(res) {
+    .then(function(r) { return r.json(); })
+    .then(function(d) {
       typing.remove();
-      if (res.data.reply) {
-        history.push({ role: 'assistant', content: res.data.reply });
+      if (d.reply) {
+        history.push({ role: 'assistant', content: d.reply });
         if (history.length > 20) history = history.slice(-20);
-        wzAppend('bot', res.data.reply);
+        wzAppend('bot', d.reply);
       } else {
-        wzAppend('bot', res.data.error || ('HTTP ' + res.status));
+        wzAppend('bot', d.error || 'Something went wrong — try again or <a href="website-request.html">contact us directly</a>.');
       }
     })
-    .catch(function(err) {
+    .catch(function() {
       typing.remove();
-      wzAppend('bot', 'Fetch failed: ' + (err && err.message ? err.message : String(err)));
+      wzAppend('bot', 'Something went wrong — try again or <a href="website-request.html">contact us directly</a>.');
     })
     .finally(function() {
       busy = false;
