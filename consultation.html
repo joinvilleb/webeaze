@@ -734,8 +734,6 @@ window.WB_PAGE_CTX = {
   }
 };
 </script>
-<script src="js/personalize.js"></script>
-
 <!-- ── Plan pre-fill from pricing page ── -->
 <script>
 (function() {
@@ -744,6 +742,8 @@ window.WB_PAGE_CTX = {
     var plan = params.get('plan') || localStorage.getItem('wz_selected_plan');
     if (!plan) return;
     localStorage.setItem('wz_selected_plan', plan);
+    // Suppress the personalize.js banner — plan banner already covers this context
+    sessionStorage.setItem('wb-ctx:consultation.html', '1');
     var label = plan === 'growth' ? 'Growth Plan' : 'Essential Plan';
     var bar = document.createElement('div');
     var navH = (document.querySelector('.nav-wrap') || {}).offsetHeight || 60;
@@ -758,6 +758,8 @@ window.WB_PAGE_CTX = {
   } catch(e) {}
 })();
 </script>
+
+<script src="js/personalize.js"></script>
 
 <!-- ── WebEaze Chat Widget ── -->
 <link rel="stylesheet" href="chat-widget.css">
