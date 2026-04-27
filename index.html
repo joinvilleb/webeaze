@@ -4726,20 +4726,27 @@ window.WB_PAGE_CTX = {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ message: text, history: history.slice(0, -1) })
     })
-    .then(function(r) { return r.json(); })
-    .then(function(d) {
+    .then(function(r) {
+      return r.text().then(function(t) { return { s: r.status, t: t }; });
+    })
+    .then(function(r) {
       typing.remove();
-      if (d.reply) {
-        history.push({ role: 'assistant', content: d.reply });
-        if (history.length > 20) history = history.slice(-20);
-        wzAppend('bot', d.reply);
-      } else {
-        wzAppend('bot', d.error || 'Something went wrong — try again or <a href="website-request.html">contact us directly</a>.');
+      try {
+        var d = JSON.parse(r.t);
+        if (d.reply) {
+          history.push({ role: 'assistant', content: d.reply });
+          if (history.length > 20) history = history.slice(-20);
+          wzAppend('bot', d.reply);
+        } else {
+          wzAppend('bot', 'Error: ' + (d.error || r.t.slice(0, 300)));
+        }
+      } catch(e) {
+        wzAppend('bot', 'HTTP ' + r.s + ': ' + r.t.slice(0, 300));
       }
     })
-    .catch(function() {
+    .catch(function(e) {
       typing.remove();
-      wzAppend('bot', 'Something went wrong — try again or <a href="website-request.html">contact us directly</a>.');
+      wzAppend('bot', 'Fetch error: ' + (e ? e.message : 'unknown'));
     })
     .finally(function() {
       busy = false;
