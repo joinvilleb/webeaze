@@ -744,18 +744,24 @@ window.WB_PAGE_CTX = {
     var label = plan === 'growth' ? 'Growth Plan' : 'Essential Plan';
     function insertBar() {
       var navEl = document.querySelector('.nav-wrap');
-      var navH  = navEl ? navEl.getBoundingClientRect().height : 60;
       var bar   = document.createElement('div');
-      bar.style.cssText = 'position:fixed;top:' + navH + 'px;left:0;right:0;z-index:9998;' +
+      bar.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:9998;' +
         'background:#f0ebfa;border-bottom:1px solid rgba(120,81,169,.3);' +
         'padding:9px 16px;text-align:center;' +
         'font-family:Poppins,sans-serif;font-size:13.5px;line-height:1.5;color:#4a2d8a;';
       bar.innerHTML = '<i class="fas fa-tag" style="color:#7851a9;margin-right:6px;"></i>' +
         'You selected the <strong style="color:#7851a9;">' + label + '</strong> on the pricing page. Mention it on your call.';
       document.body.appendChild(bar);
-      var bh = bar.getBoundingClientRect().height || 38;
-      var tw = document.querySelector('.top-wrap');
-      if (tw) tw.style.paddingTop = (navH + bh) + 'px';
+      function reposition() {
+        var navH = navEl ? navEl.getBoundingClientRect().height : 60;
+        bar.style.top = navH + 'px';
+        var bh = bar.getBoundingClientRect().height || 38;
+        var tw = document.querySelector('.top-wrap');
+        if (tw) tw.style.paddingTop = (navH + bh) + 'px';
+      }
+      reposition();
+      // Re-measure after async CSS (Bootstrap) has applied
+      window.addEventListener('load', reposition, { once: true });
     }
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', insertBar);
@@ -767,6 +773,17 @@ window.WB_PAGE_CTX = {
 </script>
 
 <script src="js/personalize.js"></script>
+
+<script>
+// Adjust top-wrap when a social/UTM personalize banner is inserted on a fixed-nav page
+document.addEventListener('wbBannerInserted', function(e) {
+  var tw = document.querySelector('.top-wrap');
+  if (tw) tw.style.paddingTop = (e.detail.navH + e.detail.barH) + 'px';
+  document.addEventListener('wbBannerDismissed', function() {
+    if (tw) tw.style.paddingTop = '';
+  }, { once: true });
+});
+</script>
 
 <!-- ── WebEaze Chat Widget ── -->
 <link rel="stylesheet" href="chat-widget.css">

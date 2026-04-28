@@ -149,8 +149,17 @@
     var nav = document.querySelector('.nav-wrap') || document.querySelector('nav');
     if (nav && nav.parentNode) {
       if (window.getComputedStyle(nav).position === 'fixed') {
-        // Append inside the fixed container so the banner is flush with the nav bottom
-        nav.appendChild(bar);
+        // Float below the fixed nav as a separate fixed element (not inside it)
+        var navH = nav.getBoundingClientRect().height;
+        bar.style.position = 'fixed';
+        bar.style.top = navH + 'px';
+        bar.style.left = '0';
+        bar.style.right = '0';
+        bar.style.zIndex = '9998';
+        document.body.appendChild(bar);
+        document.dispatchEvent(new CustomEvent('wbBannerInserted', {
+          detail: { navH: navH, barH: bar.getBoundingClientRect().height || 44 }
+        }));
       } else {
         nav.parentNode.insertBefore(bar, nav.nextSibling);
       }
@@ -164,6 +173,7 @@
         bar.style.maxHeight = '0';
         bar.style.opacity = '0';
         sessionStorage.setItem(SESSION_KEY, '1');
+        document.dispatchEvent(new CustomEvent('wbBannerDismissed'));
         setTimeout(function () { if (bar.parentNode) bar.parentNode.removeChild(bar); }, 380);
       });
     }
