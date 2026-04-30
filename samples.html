@@ -5,14 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Featured Clients | WebEaze Showcase</title>
   <meta name="description" content="Meet our featured partner clients. A curated showcase of businesses who trust WebEaze with their online presence." />
-  <link rel="canonical" href="https://www.webeaze.io/samples.html" />
+  <link rel="canonical" href="https://webeaze.io/samples" />
 
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="WebEaze" />
   <meta property="og:title" content="Our Work | WebEaze Portfolio" />
   <meta property="og:description" content="See real websites we've built for small businesses." />
-  <meta property="og:url" content="https://www.webeaze.io/samples.html" />
+  <meta property="og:url" content="https://webeaze.io/samples" />
   <meta property="og:image" content="https://webeaze.io/images/default-monochrome.png" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -623,12 +623,12 @@
 {
   "@context": "https://schema.org",
   "@type": "CollectionPage",
-  "@id": "https://www.webeaze.io/samples.html#webpage",
-  "url": "https://www.webeaze.io/samples.html",
+  "@id": "https://webeaze.io/samples#webpage",
+  "url": "https://webeaze.io/samples",
   "name": "Featured Clients | WebEaze Showcase",
   "description": "A showcase of real websites built by WebEaze for small businesses, including tutoring companies, gyms, carpet cleaning services, running clubs, and bakeries.",
-  "isPartOf": {"@id": "https://www.webeaze.io/#website"},
-  "about": {"@id": "https://www.webeaze.io/#organization"},
+  "isPartOf": {"@id": "https://webeaze.io/#website"},
+  "about": {"@id": "https://webeaze.io/#organization"},
   "speakable": {"@type": "SpeakableSpecification", "cssSelector": ["h1", ".hero p"]},
   "mainEntity": {
     "@type": "ItemList",
@@ -986,5 +986,16 @@ window.WB_PAGE_CTX = {
 };
 </script>
 <script src="js/personalize.js"></script>
+<script>
+document.addEventListener('wbBannerInserted', function(e) {
+  var hero = document.querySelector('.hero');
+  if (!hero) return;
+  var base = window.innerWidth <= 600 ? 120 : 140;
+  hero.style.paddingTop = (base + e.detail.barH) + 'px';
+  document.addEventListener('wbBannerDismissed', function() {
+    hero.style.paddingTop = '';
+  }, { once: true });
+});
+</script>
 </body>
 </html>
