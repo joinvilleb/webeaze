@@ -50,37 +50,37 @@
     .notice {
       background: rgba(59,130,246,.12);
       border-bottom: 1px solid rgba(59,130,246,.2);
-      padding: 14px 20px;
+      padding: 8px 20px;
       text-align: center;
-      font-size: 15px;
+      font-size: 13px;
       font-weight: 500;
-      color: rgba(255,255,255,.92);
+      color: rgba(255,255,255,.85);
     }
-    .notice i { color: #60a5fa; margin-right: 6px; }
+    .notice i { color: #60a5fa; margin-right: 5px; font-size: 12px; }
     .notice a { color: #93c5fd; font-weight: 600; text-decoration: underline; }
 
     .notice-busy {
       background: rgba(245,158,11,.12);
       border-bottom: 1px solid rgba(245,158,11,.25);
-      padding: 14px 20px;
+      padding: 8px 20px;
       text-align: center;
-      font-size: 15px;
+      font-size: 13px;
       font-weight: 500;
-      color: rgba(255,255,255,.92);
+      color: rgba(255,255,255,.85);
     }
-    .notice-busy i { color: #fbbf24; margin-right: 6px; }
+    .notice-busy i { color: #fbbf24; margin-right: 5px; font-size: 12px; }
     .notice-busy a { color: #fcd34d; font-weight: 700; text-decoration: underline; margin-left: 4px; }
 
     .notice-referral {
-      background: rgba(255, 215, 0, 0.09);
-      border-bottom: 1px solid rgba(255, 215, 0, 0.18);
-      padding: 14px 20px;
+      background: rgba(255,215,0,.09);
+      border-bottom: 1px solid rgba(255,215,0,.18);
+      padding: 8px 20px;
       text-align: center;
-      font-size: 15px;
+      font-size: 13px;
       font-weight: 500;
-      color: rgba(255,255,255,.92);
+      color: rgba(255,255,255,.85);
     }
-    .notice-referral i { color: var(--gold); margin-right: 6px; }
+    .notice-referral i { color: var(--gold); margin-right: 5px; font-size: 12px; }
     .notice-referral strong { color: var(--gold); }
     .notice-referral a { color: var(--gold); font-weight: 700; text-decoration: underline; margin-left: 4px; }
 
@@ -790,6 +790,9 @@
   </div>
 </div>
 
+<!-- SMART NOTICE BANNER -->
+<div id="smartNotice" style="display:none;"></div>
+
 <!-- PAGE HEADER -->
 <div class="page-header">
   <div class="wrap">
@@ -1246,6 +1249,7 @@
       if (upcomingClosure) {
         $notice.className = 'notice-busy';
         $notice.innerHTML = '<i class="fas fa-triangle-exclamation"></i> Heads up -- we are closed tomorrow for ' + upcomingClosure.name + '. Submit your request today to avoid any delays.';
+        $notice.style.display = '';
         return;
       }
 
@@ -1285,6 +1289,7 @@
       if (b) {
         $notice.className = b.cls;
         $notice.innerHTML = '<i class="fas ' + b.icon + '"></i> ' + b.html;
+        $notice.style.display = '';
       }
     })();
 
