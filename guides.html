@@ -28,6 +28,18 @@
   --line: rgba(255,255,255,0.08);
   --line-gold: rgba(255,215,0,0.25);
   --success: #22c55e;
+  --cat-seo-bg: rgba(120,81,169,0.18);
+  --cat-seo-text: #c4b5fd;
+  --cat-gbp-bg: rgba(13,148,136,0.18);
+  --cat-gbp-text: #5eead4;
+  --cat-pay-bg: rgba(5,150,105,0.18);
+  --cat-pay-text: #6ee7b7;
+  --cat-design-bg: rgba(29,78,216,0.18);
+  --cat-design-text: #93c5fd;
+  --cat-mktg-bg: rgba(217,119,6,0.18);
+  --cat-mktg-text: #fcd34d;
+  --cat-sec-bg: rgba(220,38,38,0.18);
+  --cat-sec-text: #fca5a5;
 }
 
 html, body { height: 100%; overflow-x: hidden; }
@@ -60,275 +72,362 @@ a { color: inherit; text-decoration: none; }
 
 /* HERO */
 .hero {
-  padding: 80px 0 60px;
-  background: linear-gradient(180deg, var(--bg) 0%, var(--bg-card) 100%);
-  border-bottom: 1px solid var(--line);
+  padding: 72px 0 0;
+  background: var(--bg);
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -180px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 900px;
+  height: 600px;
+  background: radial-gradient(ellipse, rgba(120,81,169,0.1) 0%, transparent 70%);
+  pointer-events: none;
 }
 .hero-content {
   text-align: center;
-  max-width: 700px;
+  max-width: 680px;
   margin: 0 auto;
+  padding-bottom: 48px;
+  position: relative;
 }
 .hero-badge {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--gold);
   margin-bottom: 20px;
-  padding: 8px 16px;
+  padding: 7px 16px;
   background: var(--gold-dim);
   border-radius: 999px;
   border: 1px solid var(--line-gold);
 }
 .hero h1 {
-  font-size: clamp(2rem, 5vw, 3rem);
+  font-size: clamp(2.25rem, 5vw, 3.5rem);
   font-weight: 800;
   margin: 0 0 16px;
-  line-height: 1.15;
+  line-height: 1.1;
+  background: linear-gradient(135deg, #ffffff 30%, rgba(255,215,0,0.85) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 .hero p {
-  font-size: 1.15rem;
+  font-size: 1.05rem;
   color: var(--ink-muted);
-  margin: 0;
-  line-height: 1.6;
+  margin: 0 0 36px;
+  line-height: 1.7;
+}
+.hero-stats {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--bg-elevated);
+  overflow: hidden;
+}
+.hero-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 14px 28px;
+}
+.hero-stat + .hero-stat { border-left: 1px solid var(--line); }
+.hero-stat-num {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--gold);
+  line-height: 1;
+  margin-bottom: 3px;
+}
+.hero-stat-label {
+  font-size: 0.75rem;
+  color: var(--ink-muted);
+  font-weight: 500;
+  white-space: nowrap;
+}
+@media (max-width: 480px) {
+  .hero-stat { padding: 12px 18px; }
+  .hero-stat-num { font-size: 1.2rem; }
 }
 
-/* SECTIONS */
-.section { padding: clamp(60px, 10vh, 100px) 0; }
-.section-dark { background: var(--bg-card); }
-.section-header {
-  margin-bottom: 48px;
+/* FILTER BAR */
+.filter-bar {
+  background: var(--bg-card);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  position: sticky;
+  top: 62px;
+  z-index: 100;
 }
-.section-header h2 {
-  font-size: clamp(1.5rem, 4vw, 2rem);
-  font-weight: 700;
-  margin: 0 0 12px;
+.filter-bar::-webkit-scrollbar { display: none; }
+.filter-tabs {
+  display: flex;
+  gap: 4px;
+  padding: 10px 16px;
+  min-width: max-content;
+  max-width: 1100px;
+  margin: 0 auto;
 }
-.section-header p {
-  font-size: 1rem;
+.filter-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 600;
   color: var(--ink-muted);
-  margin: 0;
+  background: transparent;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  font-family: 'Poppins', sans-serif;
+}
+.filter-tab:hover { color: var(--ink); background: rgba(255,255,255,0.05); }
+.filter-tab.active { color: #1a1a2e; background: var(--gold); border-color: var(--gold); }
+.filter-tab .tab-count { font-size: 0.72rem; opacity: 0.65; font-weight: 500; }
+.filter-tab.active .tab-count { opacity: 0.7; }
+
+/* GUIDES SECTION */
+.guides-section { padding: 52px 0 80px; }
+.section-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.section-head h2 { font-size: 1.2rem; font-weight: 700; margin: 0 0 3px; }
+.section-head p { font-size: 0.85rem; color: var(--ink-muted); margin: 0; }
+.count-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  color: var(--ink-muted);
+  background: var(--bg-elevated);
+  border: 1px solid var(--line);
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-weight: 500;
+  white-space: nowrap;
 }
 
 /* GUIDE CARDS GRID */
 .guides-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
 }
-@media (max-width: 400px) {
-  .guides-grid { grid-template-columns: 1fr; }
-}
+@media (max-width: 960px) { .guides-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .guides-grid { grid-template-columns: 1fr; } }
+.guide-card.hidden { display: none; }
 
+/* GUIDE CARD */
 .guide-card {
   background: var(--bg-elevated);
   border: 1px solid var(--line);
-  border-radius: 20px;
+  border-radius: 18px;
   overflow: hidden;
-  transition: all 0.3s ease;
+  transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
   display: flex;
   flex-direction: column;
 }
 .guide-card:hover {
-  border-color: var(--line-gold);
+  border-color: rgba(255,255,255,0.16);
   transform: translateY(-4px);
   box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+  text-decoration: none;
+  color: inherit;
 }
-.guide-card-image {
-  aspect-ratio: 16 / 9;
-  background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-elevated) 100%);
+.card-accent {
+  height: 64px;
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
-  overflow: hidden;
+  flex-shrink: 0;
 }
-.guide-card-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-.guide-card-image i {
-  font-size: 3.5rem;
-  color: var(--gold);
-  opacity: 0.8;
-}
-.guide-card-image.payments {
-  background: linear-gradient(135deg, rgba(99,91,255,0.15) 0%, rgba(0,214,50,0.1) 50%, rgba(0,48,135,0.15) 100%);
-}
-.guide-card-image.warning {
-  background: linear-gradient(135deg, rgba(239,68,68,0.15) 0%, rgba(251,191,36,0.15) 100%);
-}
-.guide-card-content {
-  padding: 24px;
+.card-accent i { font-size: 1.6rem; color: rgba(255,255,255,0.9); }
+.card-body {
+  padding: 17px 19px 19px;
   flex: 1;
   display: flex;
   flex-direction: column;
 }
-.guide-card-category {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--gold);
-  margin-bottom: 12px;
-}
-.guide-card h3 {
-  font-size: 1.15rem;
-  font-weight: 700;
-  margin: 0 0 10px;
-  line-height: 1.3;
-}
-.guide-card p {
-  font-size: 0.9rem;
-  color: var(--ink-muted);
-  margin: 0 0 16px;
-  line-height: 1.6;
-  flex: 1;
-}
-.guide-card-meta {
+.card-labels {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 0.8rem;
-  color: var(--ink-muted);
-  padding-top: 16px;
-  border-top: 1px solid var(--line);
+  margin-bottom: 9px;
 }
-.guide-card-meta span {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-.guide-card-meta i { font-size: 0.75rem; }
-.read-more {
-  color: var(--gold);
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  transition: gap 0.2s ease;
-}
-.guide-card:hover .read-more { gap: 10px; }
-
-/* FEATURED ARTICLE */
-.featured-article {
-  background: var(--bg-elevated);
-  border: 1px solid var(--line);
-  border-radius: 24px;
-  overflow: hidden;
-  margin-bottom: 48px;
-}
-.featured-grid {
-  display: grid;
-  grid-template-columns: 1fr 1.2fr;
-  min-height: 400px;
-}
-@media (max-width: 900px) {
-  .featured-grid { grid-template-columns: 1fr; }
-}
-.featured-image {
-  background: linear-gradient(135deg, rgba(99,91,255,0.2) 0%, rgba(0,214,50,0.15) 50%, rgba(0,48,135,0.2) 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 40px;
-  position: relative;
-}
-.featured-image-icons {
-  display: flex;
-  gap: 24px;
-}
-.featured-image-icons .icon-box {
-  width: 80px;
-  height: 80px;
-  border-radius: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 2rem;
-  color: #fff;
-  box-shadow: 0 12px 30px rgba(0,0,0,0.3);
-}
-.icon-stripe { background: var(--stripe); }
-.icon-square { background: var(--square); }
-.icon-paypal { background: var(--paypal); }
-.featured-content {
-  padding: 40px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-.featured-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 0.75rem;
+.cat-pill {
+  font-size: 0.67rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: var(--gold);
-  background: var(--gold-dim);
-  padding: 6px 12px;
+  padding: 3px 9px;
   border-radius: 999px;
-  margin-bottom: 16px;
-  width: fit-content;
 }
-.featured-content h2 {
+.cat-seo    { background: var(--cat-seo-bg);    color: var(--cat-seo-text); }
+.cat-gbp    { background: var(--cat-gbp-bg);    color: var(--cat-gbp-text); }
+.cat-pay    { background: var(--cat-pay-bg);    color: var(--cat-pay-text); }
+.cat-design { background: var(--cat-design-bg); color: var(--cat-design-text); }
+.cat-mktg   { background: var(--cat-mktg-bg);  color: var(--cat-mktg-text); }
+.cat-sec    { background: var(--cat-sec-bg);    color: var(--cat-sec-text); }
+.badge-feat {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: var(--gold-dim);
+  color: var(--gold);
+  border: 1px solid var(--line-gold);
+}
+.guide-card h3 {
+  font-size: 0.98rem;
+  font-weight: 700;
+  margin: 0 0 8px;
+  line-height: 1.4;
+  color: #fff;
+}
+.guide-card p {
+  font-size: 0.845rem;
+  color: var(--ink-muted);
+  margin: 0;
+  line-height: 1.6;
+  flex: 1;
+}
+.card-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 14px;
+  padding-top: 13px;
+  border-top: 1px solid var(--line);
+}
+.read-time {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.77rem;
+  color: var(--ink-muted);
+}
+.read-time i { font-size: 0.68rem; }
+.read-more {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--gold);
+  transition: gap 0.2s ease;
+}
+.guide-card:hover .read-more { gap: 8px; }
+
+/* CTA SECTION */
+.cta-section {
+  background: linear-gradient(135deg, var(--bg-elevated) 0%, rgba(120,81,169,0.06) 100%);
+  border-top: 1px solid var(--line);
+  padding: 72px 20px;
+  text-align: center;
+}
+.cta-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 16px;
+  background: var(--gold-dim);
+  border: 1px solid var(--line-gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 22px;
+  font-size: 1.4rem;
+  color: var(--gold);
+}
+.cta-section h2 {
   font-size: clamp(1.5rem, 4vw, 2rem);
   font-weight: 800;
-  margin: 0 0 16px;
-  line-height: 1.2;
+  margin: 0 0 12px;
 }
-.featured-content p {
+.cta-section p {
   font-size: 1rem;
   color: var(--ink-muted);
-  line-height: 1.7;
-  margin: 0 0 24px;
+  margin: 0 auto 32px;
+  max-width: 460px;
+  line-height: 1.65;
 }
-.featured-meta {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  font-size: 0.85rem;
-  color: var(--ink-muted);
-  margin-bottom: 24px;
-}
-.featured-meta span {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-.btn-primary {
+.cta-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.btn-gold {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   background: var(--gold);
   color: #1a1a2e;
-  border: none;
-  border-radius: 14px;
-  padding: 14px 24px;
+  border-radius: 12px;
+  padding: 13px 24px;
   font-weight: 700;
   font-size: 0.95rem;
-  box-shadow: 0 12px 32px rgba(255,215,0,0.25);
+  font-family: 'Poppins', sans-serif;
   transition: all 0.2s ease;
-  width: fit-content;
+  border: none;
 }
-.btn-primary:hover {
+.btn-gold:hover {
   background: #ffea80;
   transform: translateY(-2px);
-  box-shadow: 0 16px 40px rgba(255,215,0,0.35);
+  box-shadow: 0 12px 32px rgba(255,215,0,0.3);
   color: #1a1a2e;
   text-decoration: none;
 }
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 13px 24px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  font-family: 'Poppins', sans-serif;
+  transition: all 0.2s ease;
+}
+.btn-outline:hover { border-color: var(--line-gold); color: var(--gold); text-decoration: none; }
+
+/* Recommended mini-cards (inside article views) */
+.guide-card-image {
+  height: 72px;
+  background: var(--bg-card);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.guide-card-image.payments { background: linear-gradient(135deg, rgba(5,150,105,0.2), rgba(16,185,129,0.15)); }
+.guide-card-image.warning  { background: linear-gradient(135deg, rgba(180,83,9,0.2), rgba(245,158,11,0.15)); }
+.guide-card-image i { font-size: 1.75rem; color: rgba(255,255,255,0.75); }
+.guide-card-content { padding: 14px 16px 16px; flex: 1; display: flex; flex-direction: column; }
+.guide-card-category { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--gold); margin-bottom: 8px; display: flex; align-items: center; gap: 5px; }
+.guide-card h3 { font-size: 0.9rem; font-weight: 700; margin: 0 0 6px; line-height: 1.35; color: #fff; }
+.guide-card p { font-size: 0.82rem; color: var(--ink-muted); margin: 0; line-height: 1.55; flex: 1; }
+.guide-card-meta { display: flex; align-items: center; justify-content: space-between; font-size: 0.75rem; color: var(--ink-muted); padding-top: 10px; border-top: 1px solid var(--line); margin-top: 12px; }
+.guide-card-meta span { display: flex; align-items: center; gap: 5px; }
 
 /* ARTICLE DETAIL VIEW */
 .article-view {
@@ -868,261 +967,339 @@ body.article-open .view-article.active { display: block; }
   <section class="hero">
     <div class="container container-narrow">
       <div class="hero-content reveal">
-        <div class="hero-badge">
-          <i class="fas fa-book-open"></i>
-          Resources
+        <div class="hero-badge"><i class="fas fa-book-open"></i> Free Resources</div>
+        <h1>Guides &amp; Resources</h1>
+        <p>Practical guides to help you grow your online presence. Free, updated, for all WebEaze clients. </p>
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <span class="hero-stat-num">15</span>
+            <span class="hero-stat-label">Guides</span>
+          </div>
+          <div class="hero-stat">
+            <span class="hero-stat-num">7</span>
+            <span class="hero-stat-label">Topics</span>
+          </div>
+          <div class="hero-stat">
+            <span class="hero-stat-num">Free</span>
+            <span class="hero-stat-label">Always</span>
+          </div>
         </div>
-        <h1>Guides & Resources</h1>
-        <p>Helpful articles to help you make smart decisions for your business website. No fluff, just practical advice.</p>
       </div>
     </div>
   </section>
 
+  <!-- FILTER BAR -->
+  <div class="filter-bar">
+    <div class="filter-tabs">
+      <button class="filter-tab active" data-filter="all">All <span class="tab-count">15</span></button>
+      <button class="filter-tab" data-filter="seo"><i class="fas fa-search"></i> SEO <span class="tab-count">3</span></button>
+      <button class="filter-tab" data-filter="gbp"><i class="fab fa-google"></i> Google Business <span class="tab-count">2</span></button>
+      <button class="filter-tab" data-filter="payments"><i class="fas fa-credit-card"></i> Payments <span class="tab-count">2</span></button>
+      <button class="filter-tab" data-filter="design"><i class="fas fa-palette"></i> Design &amp; Build <span class="tab-count">4</span></button>
+      <button class="filter-tab" data-filter="marketing"><i class="fas fa-bullhorn"></i> Marketing <span class="tab-count">3</span></button>
+      <button class="filter-tab" data-filter="security"><i class="fas fa-shield-halved"></i> Security <span class="tab-count">1</span></button>
+    </div>
+  </div>
 
-  <!-- FEATURED ARTICLE -->
-  <section class="section">
+  <!-- GUIDES GRID -->
+  <section class="guides-section">
     <div class="container container-narrow">
 
-      <a href="#checkout-guide" class="featured-article reveal" onclick="openArticle('checkout-guide'); return false;">
-        <div class="featured-grid">
-          <div class="featured-image" style="padding: 0;">
-            <img loading="lazy" src="images/guides/which-checkout-to-use-header.webp" alt="Stripe vs Square vs PayPal" style="width: 100%; height: 100%; object-fit: cover;">
-          </div>
-          <div class="featured-content">
-            <div class="featured-badge">
-              <i class="fas fa-star"></i> Featured Guide
-            </div>
-            <h2>Which Checkout Should I Use?</h2>
-            <p>Stripe vs. Square vs. PayPal. Choosing the right checkout system depends on how you sell. Here's a quick comparison to help you decide.</p>
-            <div class="featured-meta">
-              <span><i class="fas fa-clock"></i> 3 min read</span>
-              <span><i class="fas fa-calendar"></i> Updated Aug 2024</span>
-            </div>
-            <span class="btn-primary">
-              Read Guide <i class="fas fa-arrow-right"></i>
-            </span>
-          </div>
+      <div class="section-head reveal">
+        <div>
+          <h2>All Guides</h2>
+          <p>Browse the full library or filter by topic above.</p>
         </div>
-      </a>
-
-
-      <!-- ALL GUIDES GRID -->
-      <div class="section-header reveal">
-        <h2>All Guides</h2>
-        <p>Browse our collection of helpful resources.</p>
+        <span class="count-pill" id="guideCount"><i class="fas fa-layer-group"></i> 15 articles</span>
       </div>
 
-      <div class="guides-grid">
+      <div class="guides-grid" id="guidesGrid">
 
-        <!-- Guide Card 1: Checkout Guide -->
-        <a href="#checkout-guide" class="guide-card reveal" onclick="openArticle('checkout-guide'); return false;">
-          <div class="guide-card-image payments">
-            <img loading="lazy" src="images/guides/which-checkout-to-use-header.webp" alt="Which Checkout Should I Use?">
+        <!-- 1. Checkout Guide -->
+        <a href="#checkout-guide" class="guide-card reveal" data-category="payments" onclick="openArticle('checkout-guide'); return false;">
+          <div class="card-accent" style="background:linear-gradient(135deg,#047857,#10b981);">
+            <i class="fas fa-credit-card"></i>
           </div>
-          <div class="guide-card-content">
-            <div class="guide-card-category">
-              <i class="fas fa-shopping-cart"></i> Payments
+          <div class="card-body">
+            <div class="card-labels">
+              <span class="cat-pill cat-pay">Payments</span>
+              <span class="badge-feat">Featured</span>
             </div>
-            <h3>Which Checkout Should I Use?</h3>
-            <p>Stripe vs. Square vs. PayPal. A quick comparison to help you choose the right payment system.</p>
-            <div class="guide-card-meta">
-              <span><i class="fas fa-clock"></i> 3 min</span>
+            <h3>Which Checkout Should I Use? Stripe vs Square vs PayPal</h3>
+            <p>Choosing the right payment system depends on how you sell. A practical comparison to help you decide.</p>
+            <div class="card-foot">
+              <span class="read-time"><i class="fas fa-clock"></i> 3 min read</span>
               <span class="read-more">Read <i class="fas fa-arrow-right"></i></span>
             </div>
           </div>
         </a>
 
-        <!-- Guide Card 2: Hidden Costs -->
-        <a href="#hidden-costs-guide" class="guide-card reveal reveal-delay-1" onclick="openArticle('hidden-costs-guide'); return false;">
-          <div class="guide-card-image warning">
+        <!-- 2. Hidden Costs -->
+        <a href="#hidden-costs-guide" class="guide-card reveal reveal-delay-1" data-category="marketing" onclick="openArticle('hidden-costs-guide'); return false;">
+          <div class="card-accent" style="background:linear-gradient(135deg,#b45309,#f59e0b);">
             <i class="fas fa-exclamation-triangle"></i>
           </div>
-          <div class="guide-card-content">
-            <div class="guide-card-category">
-              <i class="fas fa-lightbulb"></i> Advice
+          <div class="card-body">
+            <div class="card-labels">
+              <span class="cat-pill cat-mktg">Marketing</span>
             </div>
-            <h3>The Hidden Costs of Cheap Web Design</h3>
-            <p>What to watch out for with budget web design services. If it sounds too good to be true, it probably is.</p>
-            <div class="guide-card-meta">
-              <span><i class="fas fa-clock"></i> 5 min</span>
+            <h3>The Hidden Costs of Cheap Web Design: What to Watch Out For</h3>
+            <p>Budget web design sounds appealing until things go wrong. Here's what to look out for before you commit.</p>
+            <div class="card-foot">
+              <span class="read-time"><i class="fas fa-clock"></i> 5 min read</span>
               <span class="read-more">Read <i class="fas fa-arrow-right"></i></span>
             </div>
           </div>
         </a>
 
-        <a href="#seo-basics" class="guide-card reveal reveal-delay-2" onclick="openArticle('seo-basics'); return false;">
-          <div class="guide-card-image" style="background:linear-gradient(135deg,#7851a9,#a07dd0);display:flex;align-items:center;justify-content:center;">
-            <i class="fas fa-search" style="font-size:2.5rem;color:#fff;opacity:.9;"></i>
+        <!-- 3. SEO Basics -->
+        <a href="#seo-basics" class="guide-card reveal reveal-delay-2" data-category="seo" onclick="openArticle('seo-basics'); return false;">
+          <div class="card-accent" style="background:linear-gradient(135deg,#6d28d9,#a78bfa);">
+            <i class="fas fa-search"></i>
           </div>
-          <div class="guide-card-content">
-            <div class="guide-card-category">
-              <i class="fas fa-chart-line"></i> SEO
+          <div class="card-body">
+            <div class="card-labels">
+              <span class="cat-pill cat-seo">SEO</span>
             </div>
             <h3>SEO Basics for Small Business Owners</h3>
             <p>Simple, actionable steps to help your website show up when customers search for what you offer.</p>
-            <div class="guide-card-meta">
-              <span><i class="fas fa-clock"></i> 6 min</span>
+            <div class="card-foot">
+              <span class="read-time"><i class="fas fa-clock"></i> 6 min read</span>
               <span class="read-more">Read <i class="fas fa-arrow-right"></i></span>
             </div>
           </div>
         </a>
 
-        <a href="#website-cost-guide" class="guide-card reveal reveal-delay-3" onclick="openArticle('website-cost-guide'); return false;">
-          <div class="guide-card-image" style="background:linear-gradient(135deg,#1d4ed8,#3b82f6);display:flex;align-items:center;justify-content:center;">
-            <i class="fas fa-dollar-sign" style="font-size:2.5rem;color:#fff;opacity:.9;"></i>
+        <!-- 4. Website Cost -->
+        <a href="#website-cost-guide" class="guide-card reveal" data-category="design" onclick="openArticle('website-cost-guide'); return false;">
+          <div class="card-accent" style="background:linear-gradient(135deg,#1e40af,#3b82f6);">
+            <i class="fas fa-dollar-sign"></i>
           </div>
-          <div class="guide-card-content">
-            <div class="guide-card-category">
-              <i class="fas fa-tag"></i> Pricing
+          <div class="card-body">
+            <div class="card-labels">
+              <span class="cat-pill cat-design">Design &amp; Build</span>
             </div>
-            <h3>How Much Does a Small Business Website Cost?</h3>
-            <p>A plain-English breakdown of what websites actually cost in 2026 — agencies, freelancers, DIY, and managed services compared.</p>
-            <div class="guide-card-meta">
-              <span><i class="fas fa-clock"></i> 5 min</span>
+            <h3>How Much Does a Small Business Website Cost in 2026?</h3>
+            <p>A plain-English breakdown of what websites actually cost — agencies, freelancers, DIY, and managed services compared.</p>
+            <div class="card-foot">
+              <span class="read-time"><i class="fas fa-clock"></i> 5 min read</span>
               <span class="read-more">Read <i class="fas fa-arrow-right"></i></span>
             </div>
           </div>
         </a>
 
-        <a href="#local-seo-guide" class="guide-card reveal reveal-delay-4" onclick="openArticle('local-seo-guide'); return false;">
-          <div class="guide-card-image" style="background:linear-gradient(135deg,#15803d,#22c55e);display:flex;align-items:center;justify-content:center;">
-            <i class="fas fa-map-marker-alt" style="font-size:2.5rem;color:#fff;opacity:.9;"></i>
+        <!-- 5. Local SEO -->
+        <a href="#local-seo-guide" class="guide-card reveal reveal-delay-1" data-category="gbp" onclick="openArticle('local-seo-guide'); return false;">
+          <div class="card-accent" style="background:linear-gradient(135deg,#0e7490,#22d3ee);">
+            <i class="fas fa-map-marker-alt"></i>
           </div>
-          <div class="guide-card-content">
-            <div class="guide-card-category">
-              <i class="fas fa-map-pin"></i> Local SEO
+          <div class="card-body">
+            <div class="card-labels">
+              <span class="cat-pill cat-gbp">Google Business</span>
             </div>
             <h3>How to Get Your Local Business to Show Up on Google</h3>
             <p>The exact steps local service businesses use to appear in Google search and Maps when customers nearby are looking.</p>
-            <div class="guide-card-meta">
-              <span><i class="fas fa-clock"></i> 7 min</span>
+            <div class="card-foot">
+              <span class="read-time"><i class="fas fa-clock"></i> 7 min read</span>
               <span class="read-more">Read <i class="fas fa-arrow-right"></i></span>
             </div>
           </div>
         </a>
 
-        <a href="#gbp-advanced" class="guide-card reveal" onclick="openArticle('gbp-advanced'); return false;">
-          <div class="guide-card-image" style="background:linear-gradient(135deg,#0d9488,#2dd4bf);display:flex;align-items:center;justify-content:center;">
-            <i class="fab fa-google" style="font-size:2.5rem;color:#fff;opacity:.9;"></i>
+        <!-- 6. GBP Advanced -->
+        <a href="#gbp-advanced" class="guide-card reveal reveal-delay-2" data-category="gbp" onclick="openArticle('gbp-advanced'); return false;">
+          <div class="card-accent" style="background:linear-gradient(135deg,#0d5d4a,#0d9488);">
+            <i class="fab fa-google"></i>
           </div>
-          <div class="guide-card-content">
-            <div class="guide-card-category"><i class="fas fa-map-pin"></i> Google Business</div>
-            <h3>How to Manage Google Business Profile Beyond the Basics</h3>
-            <p>Photo strategies, review replies, Q&amp;A management, and the ongoing habits that keep your profile working for you.</p>
-            <div class="guide-card-meta"><span><i class="fas fa-clock"></i> 6 min</span><span class="read-more">Read <i class="fas fa-arrow-right"></i></span></div>
-          </div>
-        </a>
-
-        <a href="#post-launch-guide" class="guide-card reveal" onclick="openArticle('post-launch-guide'); return false;">
-          <div class="guide-card-image" style="background:linear-gradient(135deg,#ea580c,#fb923c);display:flex;align-items:center;justify-content:center;">
-            <i class="fas fa-rocket" style="font-size:2.5rem;color:#fff;opacity:.9;"></i>
-          </div>
-          <div class="guide-card-content">
-            <div class="guide-card-category"><i class="fas fa-flag-checkered"></i> Getting Started</div>
-            <h3>Post-Launch: The First 30 Days with Your New Website</h3>
-            <p>What to do right after your site goes live so it starts working for your business as quickly as possible.</p>
-            <div class="guide-card-meta"><span><i class="fas fa-clock"></i> 5 min</span><span class="read-more">Read <i class="fas fa-arrow-right"></i></span></div>
+          <div class="card-body">
+            <div class="card-labels">
+              <span class="cat-pill cat-gbp">Google Business</span>
+            </div>
+            <h3>How to Get More Google Reviews for Your Small Business</h3>
+            <p>A practical playbook for collecting reviews, responding professionally, and turning your reputation into a lead source.</p>
+            <div class="card-foot">
+              <span class="read-time"><i class="fas fa-clock"></i> 6 min read</span>
+              <span class="read-more">Read <i class="fas fa-arrow-right"></i></span>
+            </div>
           </div>
         </a>
 
-        <a href="#domain-guide" class="guide-card reveal" onclick="openArticle('domain-guide'); return false;">
-          <div class="guide-card-image" style="background:linear-gradient(135deg,#1e3a8a,#3b82f6);display:flex;align-items:center;justify-content:center;">
-            <i class="fas fa-globe" style="font-size:2.5rem;color:#fff;opacity:.9;"></i>
+        <!-- 7. Post-Launch -->
+        <a href="#post-launch-guide" class="guide-card reveal" data-category="design" onclick="openArticle('post-launch-guide'); return false;">
+          <div class="card-accent" style="background:linear-gradient(135deg,#9a3412,#f97316);">
+            <i class="fas fa-rocket"></i>
           </div>
-          <div class="guide-card-content">
-            <div class="guide-card-category"><i class="fas fa-link"></i> Domains</div>
-            <h3>The Complete Domain Name Guide for Small Business</h3>
-            <p>How to choose, register, and manage your domain name without getting burned by bad advice or hidden fees.</p>
-            <div class="guide-card-meta"><span><i class="fas fa-clock"></i> 5 min</span><span class="read-more">Read <i class="fas fa-arrow-right"></i></span></div>
-          </div>
-        </a>
-
-        <a href="#forms-booking-guide" class="guide-card reveal" onclick="openArticle('forms-booking-guide'); return false;">
-          <div class="guide-card-image" style="background:linear-gradient(135deg,#6366f1,#a5b4fc);display:flex;align-items:center;justify-content:center;">
-            <i class="fas fa-calendar-check" style="font-size:2.5rem;color:#fff;opacity:.9;"></i>
-          </div>
-          <div class="guide-card-content">
-            <div class="guide-card-category"><i class="fas fa-wpforms"></i> Forms &amp; Booking</div>
-            <h3>Website Forms, Booking and Payments: A Beginner's Guide</h3>
-            <p>A clear breakdown of contact forms, appointment scheduling tools, and payment options for small business websites.</p>
-            <div class="guide-card-meta"><span><i class="fas fa-clock"></i> 6 min</span><span class="read-more">Read <i class="fas fa-arrow-right"></i></span></div>
+          <div class="card-body">
+            <div class="card-labels">
+              <span class="cat-pill cat-design">Design &amp; Build</span>
+            </div>
+            <h3>Your New Website Launched. Now What?</h3>
+            <p>What to do in the first 30 days so your new site starts working for your business as quickly as possible.</p>
+            <div class="card-foot">
+              <span class="read-time"><i class="fas fa-clock"></i> 5 min read</span>
+              <span class="read-more">Read <i class="fas fa-arrow-right"></i></span>
+            </div>
           </div>
         </a>
 
-        <a href="#social-proof-guide" class="guide-card reveal" onclick="openArticle('social-proof-guide'); return false;">
-          <div class="guide-card-image" style="background:linear-gradient(135deg,#d97706,#fbbf24);display:flex;align-items:center;justify-content:center;">
-            <i class="fas fa-star" style="font-size:2.5rem;color:#fff;opacity:.9;"></i>
+        <!-- 8. Domain Guide -->
+        <a href="#domain-guide" class="guide-card reveal reveal-delay-1" data-category="design" onclick="openArticle('domain-guide'); return false;">
+          <div class="card-accent" style="background:linear-gradient(135deg,#1e3a8a,#60a5fa);">
+            <i class="fas fa-globe"></i>
           </div>
-          <div class="guide-card-content">
-            <div class="guide-card-category"><i class="fas fa-thumbs-up"></i> Trust</div>
-            <h3>Building Trust Online: Testimonials, Reviews and Social Proof</h3>
-            <p>How to collect, display, and use reviews and testimonials so that visitors trust your business before they even call.</p>
-            <div class="guide-card-meta"><span><i class="fas fa-clock"></i> 5 min</span><span class="read-more">Read <i class="fas fa-arrow-right"></i></span></div>
-          </div>
-        </a>
-
-        <a href="#website-security" class="guide-card reveal" onclick="openArticle('website-security'); return false;">
-          <div class="guide-card-image" style="background:linear-gradient(135deg,#dc2626,#f87171);display:flex;align-items:center;justify-content:center;">
-            <i class="fas fa-shield-halved" style="font-size:2.5rem;color:#fff;opacity:.9;"></i>
-          </div>
-          <div class="guide-card-content">
-            <div class="guide-card-category"><i class="fas fa-lock"></i> Security</div>
-            <h3>Website Security: What Small Business Owners Should Know</h3>
-            <p>SSL certificates, backups, malware, and what actually keeps your site and your customers safe.</p>
-            <div class="guide-card-meta"><span><i class="fas fa-clock"></i> 5 min</span><span class="read-more">Read <i class="fas fa-arrow-right"></i></span></div>
+          <div class="card-body">
+            <div class="card-labels">
+              <span class="cat-pill cat-design">Design &amp; Build</span>
+            </div>
+            <h3>Domain Names for Small Business Owners: A Plain-English Guide</h3>
+            <p>Everything you need to know about choosing, registering, and managing a domain name without the confusion.</p>
+            <div class="card-foot">
+              <span class="read-time"><i class="fas fa-clock"></i> 5 min read</span>
+              <span class="read-more">Read <i class="fas fa-arrow-right"></i></span>
+            </div>
           </div>
         </a>
 
-        <a href="#website-copy-guide" class="guide-card reveal" onclick="openArticle('website-copy-guide'); return false;">
-          <div class="guide-card-image" style="background:linear-gradient(135deg,#db2777,#f472b6);display:flex;align-items:center;justify-content:center;">
-            <i class="fas fa-pen-nib" style="font-size:2.5rem;color:#fff;opacity:.9;"></i>
+        <!-- 9. Forms & Booking -->
+        <a href="#forms-booking-guide" class="guide-card reveal reveal-delay-2" data-category="payments" onclick="openArticle('forms-booking-guide'); return false;">
+          <div class="card-accent" style="background:linear-gradient(135deg,#3730a3,#818cf8);">
+            <i class="fas fa-calendar-check"></i>
           </div>
-          <div class="guide-card-content">
-            <div class="guide-card-category"><i class="fas fa-font"></i> Copywriting</div>
-            <h3>How to Write Website Copy That Actually Sells</h3>
-            <p>Practical guidance on headlines, service descriptions, and calls to action that turn visitors into customers.</p>
-            <div class="guide-card-meta"><span><i class="fas fa-clock"></i> 6 min</span><span class="read-more">Read <i class="fas fa-arrow-right"></i></span></div>
-          </div>
-        </a>
-
-        <a href="#analytics-guide" class="guide-card reveal" onclick="openArticle('analytics-guide'); return false;">
-          <div class="guide-card-image" style="background:linear-gradient(135deg,#0891b2,#22d3ee);display:flex;align-items:center;justify-content:center;">
-            <i class="fas fa-chart-line" style="font-size:2.5rem;color:#fff;opacity:.9;"></i>
-          </div>
-          <div class="guide-card-content">
-            <div class="guide-card-category"><i class="fas fa-chart-bar"></i> Analytics</div>
-            <h3>Understanding Website Analytics: What Metrics Actually Matter</h3>
-            <p>Which numbers to look at, what they mean, and how to use them to make simple decisions about your site.</p>
-            <div class="guide-card-meta"><span><i class="fas fa-clock"></i> 5 min</span><span class="read-more">Read <i class="fas fa-arrow-right"></i></span></div>
+          <div class="card-body">
+            <div class="card-labels">
+              <span class="cat-pill cat-pay">Payments</span>
+            </div>
+            <h3>How to Add Booking, Forms, and Payments to Your Website</h3>
+            <p>The best tools for online booking, contact forms, and payment processing — with guidance for each business type.</p>
+            <div class="card-foot">
+              <span class="read-time"><i class="fas fa-clock"></i> 6 min read</span>
+              <span class="read-more">Read <i class="fas fa-arrow-right"></i></span>
+            </div>
           </div>
         </a>
 
-        <a href="#redesign-guide" class="guide-card reveal" onclick="openArticle('redesign-guide'); return false;">
-          <div class="guide-card-image" style="background:linear-gradient(135deg,#7c3aed,#c4b5fd);display:flex;align-items:center;justify-content:center;">
-            <i class="fas fa-arrows-rotate" style="font-size:2.5rem;color:#fff;opacity:.9;"></i>
+        <!-- 10. Social Proof -->
+        <a href="#social-proof-guide" class="guide-card reveal" data-category="marketing" onclick="openArticle('social-proof-guide'); return false;">
+          <div class="card-accent" style="background:linear-gradient(135deg,#92400e,#f59e0b);">
+            <i class="fas fa-star"></i>
           </div>
-          <div class="guide-card-content">
-            <div class="guide-card-category"><i class="fas fa-paintbrush"></i> Redesign</div>
-            <h3>Website Redesign: When to Update and How to Do It Right</h3>
-            <p>The signals that tell you your site needs a refresh, and a practical process for doing it without losing what works.</p>
-            <div class="guide-card-meta"><span><i class="fas fa-clock"></i> 5 min</span><span class="read-more">Read <i class="fas fa-arrow-right"></i></span></div>
-          </div>
-        </a>
-
-        <a href="#mobile-optimization" class="guide-card reveal" onclick="openArticle('mobile-optimization'); return false;">
-          <div class="guide-card-image" style="background:linear-gradient(135deg,#059669,#34d399);display:flex;align-items:center;justify-content:center;">
-            <i class="fas fa-mobile-screen" style="font-size:2.5rem;color:#fff;opacity:.9;"></i>
-          </div>
-          <div class="guide-card-content">
-            <div class="guide-card-category"><i class="fas fa-mobile-alt"></i> Mobile</div>
-            <h3>Mobile Optimization: Why Your Website Must Work on Phones</h3>
-            <p>Why most small business websites lose customers on mobile, and what a properly optimized site looks like.</p>
-            <div class="guide-card-meta"><span><i class="fas fa-clock"></i> 4 min</span><span class="read-more">Read <i class="fas fa-arrow-right"></i></span></div>
+          <div class="card-body">
+            <div class="card-labels">
+              <span class="cat-pill cat-mktg">Marketing</span>
+            </div>
+            <h3>How to Use Testimonials and Reviews to Win More Customers</h3>
+            <p>How to collect, display, and use social proof on your website to turn visitors into paying customers.</p>
+            <div class="card-foot">
+              <span class="read-time"><i class="fas fa-clock"></i> 5 min read</span>
+              <span class="read-more">Read <i class="fas fa-arrow-right"></i></span>
+            </div>
           </div>
         </a>
 
+        <!-- 11. Website Security -->
+        <a href="#website-security" class="guide-card reveal reveal-delay-1" data-category="security" onclick="openArticle('website-security'); return false;">
+          <div class="card-accent" style="background:linear-gradient(135deg,#7f1d1d,#ef4444);">
+            <i class="fas fa-shield-halved"></i>
+          </div>
+          <div class="card-body">
+            <div class="card-labels">
+              <span class="cat-pill cat-sec">Security</span>
+            </div>
+            <h3>Website Security for Small Business Owners</h3>
+            <p>What actually threatens small business websites and how to protect yours without becoming a security expert.</p>
+            <div class="card-foot">
+              <span class="read-time"><i class="fas fa-clock"></i> 5 min read</span>
+              <span class="read-more">Read <i class="fas fa-arrow-right"></i></span>
+            </div>
+          </div>
+        </a>
+
+        <!-- 12. Website Copy -->
+        <a href="#website-copy-guide" class="guide-card reveal reveal-delay-2" data-category="marketing" onclick="openArticle('website-copy-guide'); return false;">
+          <div class="card-accent" style="background:linear-gradient(135deg,#831843,#ec4899);">
+            <i class="fas fa-pen-nib"></i>
+          </div>
+          <div class="card-body">
+            <div class="card-labels">
+              <span class="cat-pill cat-mktg">Marketing</span>
+            </div>
+            <h3>How to Write Website Copy That Actually Converts</h3>
+            <p>Practical guidance on headlines, service descriptions, and CTAs that turn visitors into customers.</p>
+            <div class="card-foot">
+              <span class="read-time"><i class="fas fa-clock"></i> 6 min read</span>
+              <span class="read-more">Read <i class="fas fa-arrow-right"></i></span>
+            </div>
+          </div>
+        </a>
+
+        <!-- 13. Analytics -->
+        <a href="#analytics-guide" class="guide-card reveal" data-category="seo" onclick="openArticle('analytics-guide'); return false;">
+          <div class="card-accent" style="background:linear-gradient(135deg,#155e75,#06b6d4);">
+            <i class="fas fa-chart-line"></i>
+          </div>
+          <div class="card-body">
+            <div class="card-labels">
+              <span class="cat-pill cat-seo">SEO</span>
+            </div>
+            <h3>How to Read Your Website Analytics (Without Getting Overwhelmed)</h3>
+            <p>Which numbers actually matter, what they mean, and how to use them to make simple decisions about your site.</p>
+            <div class="card-foot">
+              <span class="read-time"><i class="fas fa-clock"></i> 5 min read</span>
+              <span class="read-more">Read <i class="fas fa-arrow-right"></i></span>
+            </div>
+          </div>
+        </a>
+
+        <!-- 14. Redesign Guide -->
+        <a href="#redesign-guide" class="guide-card reveal reveal-delay-1" data-category="design" onclick="openArticle('redesign-guide'); return false;">
+          <div class="card-accent" style="background:linear-gradient(135deg,#4c1d95,#7c3aed);">
+            <i class="fas fa-arrows-rotate"></i>
+          </div>
+          <div class="card-body">
+            <div class="card-labels">
+              <span class="cat-pill cat-design">Design &amp; Build</span>
+            </div>
+            <h3>Is It Time to Redesign Your Website? 7 Signs That Say Yes</h3>
+            <p>Seven clear indicators that your current website is hurting your business, and a practical path forward.</p>
+            <div class="card-foot">
+              <span class="read-time"><i class="fas fa-clock"></i> 5 min read</span>
+              <span class="read-more">Read <i class="fas fa-arrow-right"></i></span>
+            </div>
+          </div>
+        </a>
+
+        <!-- 15. Mobile Optimization -->
+        <a href="#mobile-optimization" class="guide-card reveal reveal-delay-2" data-category="seo" onclick="openArticle('mobile-optimization'); return false;">
+          <div class="card-accent" style="background:linear-gradient(135deg,#064e3b,#10b981);">
+            <i class="fas fa-mobile-screen"></i>
+          </div>
+          <div class="card-body">
+            <div class="card-labels">
+              <span class="cat-pill cat-seo">SEO</span>
+            </div>
+            <h3>Mobile Optimization for Small Business Websites</h3>
+            <p>Why mobile-first design matters and what it means in practice for a site that needs to convert on every device.</p>
+            <div class="card-foot">
+              <span class="read-time"><i class="fas fa-clock"></i> 4 min read</span>
+              <span class="read-more">Read <i class="fas fa-arrow-right"></i></span>
+            </div>
+          </div>
+        </a>
+
+      </div><!-- /guides-grid -->
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="container container-narrow">
+      <div class="cta-icon"><i class="fas fa-rocket"></i></div>
+      <h2>Ready to put this into practice?</h2>
+      <p>WebEaze handles the technical side so you can focus on running your business. Get a free custom mockup in 48 hours.</p>
+      <div class="cta-btns">
+        <a href="consultation.html" class="btn-gold"><i class="fas fa-arrow-right"></i> Get Free Mockup</a>
+        <a href="pricing.html" class="btn-outline">View Pricing <i class="fas fa-arrow-right"></i></a>
       </div>
-
     </div>
   </section>
 
@@ -2354,10 +2531,34 @@ window.addEventListener('popstate', function(e) {
 // Check URL hash on load
 if (window.location.hash) {
   const hash = window.location.hash.substring(1);
-  if (hash === 'checkout-guide' || hash === 'hidden-costs-guide') {
+  const validArticles = ['checkout-guide','hidden-costs-guide','seo-basics','website-cost-guide','local-seo-guide','gbp-advanced','post-launch-guide','domain-guide','forms-booking-guide','social-proof-guide','website-security','website-copy-guide','analytics-guide','redesign-guide','mobile-optimization'];
+  if (validArticles.includes(hash)) {
     openArticle(hash);
   }
 }
+
+// Category filter
+(function() {
+  document.querySelectorAll('.filter-tab').forEach(function(tab) {
+    tab.addEventListener('click', function() {
+      var filter = this.dataset.filter;
+      document.querySelectorAll('.filter-tab').forEach(function(t) { t.classList.remove('active'); });
+      this.classList.add('active');
+      var cards = document.querySelectorAll('#guidesGrid .guide-card');
+      var visible = 0;
+      cards.forEach(function(card) {
+        if (filter === 'all' || card.dataset.category === filter) {
+          card.classList.remove('hidden');
+          visible++;
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+      var countEl = document.getElementById('guideCount');
+      if (countEl) countEl.innerHTML = '<i class="fas fa-layer-group"></i> ' + visible + (visible === 1 ? ' article' : ' articles');
+    });
+  });
+})();
 
 // Reveal on scroll
 (function() {
