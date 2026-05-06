@@ -1230,16 +1230,27 @@ fee-tooltip {
   z-index: 2;
 }
 
+.hero-svg-mobile {
+  display: none;
+  width: 200px;
+  margin: 16px auto 4px;
+  height: auto;
+}
 @media (max-width: 992px) {
   .hero-grid {
     grid-template-columns: 1fr;
-    gap: 50px;
+    gap: 36px;
     text-align: center;
   }
   .hero-section {
     padding: 52px 0 80px;
     min-height: auto;
   }
+  .hero-showcase { display: none; }
+  .hero-svg-mobile { display: block; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-showcase { animation: none; opacity: 1; }
 }
 @media (max-width: 768px) {
   .hero-content-left { animation-delay: 0.1s !important; }
@@ -1513,64 +1524,17 @@ fee-tooltip {
   100% { opacity: 1; transform: translateX(0) rotateY(0); }
 }
 
-.showcase-browser-hero {
-  background: #0f0f1a;
-  border-radius: 16px;
-  border: 1px solid rgba(255,255,255,.1);
-  overflow: hidden;
-  box-shadow:
-    0 25px 80px rgba(0,0,0,.5),
-    0 0 0 1px rgba(255,255,255,.05);
-  transform: perspective(1000px) rotateY(-3deg) rotateX(2deg);
-  transition: transform 0.4s ease, box-shadow 0.4s ease;
-}
-
-.showcase-browser-hero:hover {
-  transform: perspective(1000px) rotateY(0deg) rotateX(0deg);
-  box-shadow:
-    0 35px 100px rgba(0,0,0,.6),
-    0 0 60px rgba(120,81,169,.15);
-}
-
-.browser-bar-hero {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 14px 18px;
-  background: #1a1a2a;
-  border-bottom: 1px solid rgba(255,255,255,.06);
-}
-
-.browser-dots-hero {
-  display: flex;
-  gap: 7px;
-}
-
-.browser-dots-hero span {
-  width: 11px;
-  height: 11px;
-  border-radius: 50%;
-  background: #333;
-}
-
-.browser-dots-hero span:nth-child(1) { background: #ff5f57; }
-.browser-dots-hero span:nth-child(2) { background: #febc2e; }
-.browser-dots-hero span:nth-child(3) { background: #28c840; }
-
-.browser-url-hero {
-  flex: 1;
-  background: rgba(255,255,255,.06);
-  border-radius: 8px;
-  padding: 8px 14px;
-  font-size: 12px;
-  color: rgba(255,255,255,.5);
-  font-family: monospace;
-}
-
-.showcase-browser-hero img {
+.hero-svg-illo {
   width: 100%;
+  max-width: 540px;
+  height: auto;
   display: block;
-  margin-bottom: -4px;
+  transform: perspective(1000px) rotateY(-3deg) rotateX(2deg);
+  transition: transform 0.4s ease;
+  filter: drop-shadow(0 24px 48px rgba(0,0,0,.35));
+}
+.hero-svg-illo:hover {
+  transform: perspective(1000px) rotateY(0deg) rotateX(0deg);
 }
 
 /* Floating elements */
@@ -1619,19 +1583,71 @@ fee-tooltip {
 }
 
 @media (max-width: 992px) {
-  .showcase-browser-hero {
+  .hero-svg-illo {
     transform: none;
-    max-width: 500px;
+    max-width: 360px;
     margin: 0 auto;
-  }
-  .showcase-browser-hero:hover {
-    transform: none;
   }
   .hero-float-badge {
     display: none;
   }
 }
 
+
+/* ===== CLIENT STRIP ===== */
+.clients-strip-label {
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: #9ca3af;
+  margin: 0 0 16px;
+  text-align: center;
+}
+.clients-strip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+.client-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 16px;
+  background: #f8f9fc;
+  border: 1px solid #e5e7eb;
+  border-radius: 999px;
+  transition: background .18s, border-color .18s, transform .18s;
+  text-decoration: none;
+}
+.client-chip:hover {
+  background: rgba(120,81,169,.06);
+  border-color: rgba(120,81,169,.25);
+  transform: translateY(-2px);
+  text-decoration: none;
+}
+.client-chip-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.client-chip-name {
+  font-size: .83rem;
+  font-weight: 600;
+  color: #0f1228;
+}
+.client-chip-cat {
+  font-size: .72rem;
+  color: #9ca3af;
+  font-weight: 500;
+}
+.client-chip-more {
+  border-style: dashed;
+  border-color: rgba(120,81,169,.3);
+}
+.client-chip-more .client-chip-name { color: #7851a9; }
+.client-chip-more:hover { border-color: rgba(120,81,169,.5); background: rgba(120,81,169,.06); }
 
 /* ===== PREMIUM PRICING SECTION ===== */
 .pricing-parallax-section {
@@ -2555,14 +2571,8 @@ fee-tooltip {
   color: #0f1228 !important;
 }
 
-/* Hero browser mockup */
-.showcase-browser-hero {
-  background: #f0f2f8 !important;
-  border-color: #e5e7eb !important;
-  box-shadow: 0 16px 52px rgba(0,0,0,.12), 0 0 0 1px rgba(0,0,0,.06) !important;
-}
-.browser-bar-hero { background: #eceef8 !important; border-bottom-color: #e5e7eb !important; }
-.browser-url-hero { background: rgba(0,0,0,.05) !important; color: #6b7280 !important; }
+/* Hero illustration */
+.hero-svg-illo { filter: drop-shadow(0 16px 32px rgba(0,0,0,.14)) !important; }
 
 /* highlight-secondary — keep original gradient */
 .highlight-secondary {
@@ -2809,6 +2819,8 @@ fee-tooltip {
             <span class="highlight word-reveal" style="--d:.55s">You run the business.</span>
           </h1>
 
+          <img src="images/assets/interactive-website.svg" alt="" aria-hidden="true" class="hero-svg-mobile">
+
           <p class="hero-subtitle-new" id="indexHeroSub">
             From your website and SEO to AI tools and Google Business, we manage your entire digital presence so clients find you, trust you, and reach out.
           </p>
@@ -2846,17 +2858,7 @@ fee-tooltip {
             <span>Fast Loading</span>
           </div>
 
-          <div class="showcase-browser-hero">
-            <div class="browser-bar-hero">
-              <div class="browser-dots-hero">
-                <span></span>
-                <span></span>
-                <span></span>
-              </div>
-              <div class="browser-url-hero"><a href="https://bearcarpetcare.com" target="_blank" rel="noopener noreferrer">bearcarpetcare.com</a></div>
-            </div>
-            <img src="images/bear-carpet-care-home.webp" alt="Bear Carpet Care - Website by WebEaze" width="1314" height="650" loading="eager" fetchpriority="high">
-          </div>
+          <img src="images/assets/interactive-website.svg" alt="Interactive website illustration" class="hero-svg-illo" loading="eager" fetchpriority="high">
         </div>
 
       </div>
@@ -2929,138 +2931,97 @@ fee-tooltip {
     <div class="container container-narrow">
 
       <div class="why-header reveal">
-        <h2>Your web presence. <span class="gold-sweep">One flat price.</span></h2>
-        <p class="why-header-sub">Most small businesses are juggling 4-5 web designers and still paying more than they should. WebEaze bundles everything into one plan, while optimizing your website so clients actually reach out. </p>
+        <div class="why-kicker"><i class="fas fa-layer-group"></i> What's included</div>
+        <h2>Stop paying for it <span class="why-gold">six times over.</span></h2>
+        <p class="why-header-sub">Design, updates, hosting, SEO, security — most businesses pay separate vendors for each. WebEaze bundles all of it into one flat monthly price.</p>
       </div>
 
-      <div class="why-tabs reveal reveal-delay-1">
-
-        <div class="why-tab-bar-wrap">
-          <button class="why-tab-arrow why-tab-arrow-left" id="whyTabLeft" onclick="whyTabScroll(-1)" aria-label="Scroll tabs left"><i class="fas fa-chevron-left"></i></button>
-          <button class="why-tab-arrow why-tab-arrow-right" id="whyTabRight" onclick="whyTabScroll(1)" aria-label="Scroll tabs right"><i class="fas fa-chevron-right"></i></button>
-          <div class="why-tab-bar" id="whyTabBar" role="tablist">
-          <button class="why-tab active" role="tab" onclick="whyTab(this,'wt-design')"><i class="fas fa-paintbrush"></i> Design</button>
-          <button class="why-tab" role="tab" onclick="whyTab(this,'wt-updates')"><i class="fas fa-rotate"></i> Updates</button>
-          <button class="why-tab" role="tab" onclick="whyTab(this,'wt-hosting')"><i class="fas fa-server"></i> Hosting</button>
-          <button class="why-tab" role="tab" onclick="whyTab(this,'wt-seo')"><i class="fas fa-magnifying-glass-chart"></i> SEO</button>
-          <button class="why-tab" role="tab" onclick="whyTab(this,'wt-security')"><i class="fas fa-shield-halved"></i> Security</button>
-          <button class="why-tab why-tab-gold" role="tab" onclick="whyTab(this,'wt-total')"><i class="fas fa-tags"></i> Total</button>
-          </div>
+      <div class="value-cards reveal reveal-delay-1">
+        <div class="vc">
+          <div class="vc-icon" style="background:rgba(120,81,169,.1);color:#7851a9;"><i class="fas fa-paintbrush"></i></div>
+          <div class="vc-label">Website Design</div>
+          <div class="vc-them"><span>Typical agency</span><strong>$3,000–$8,000</strong></div>
+          <div class="vc-us"><i class="fas fa-check-circle"></i> Included with WebEaze</div>
         </div>
-
-        <div class="why-tab-body">
-
-          <div class="why-panel active" id="wt-design">
-            <div class="wp-left">
-              <div class="wp-bg-icon"><i class="fas fa-paintbrush"></i></div>
-              <h3>Your site built right, without the agency price tag</h3>
-              <ul class="wp-bullets">
-                <li><i class="fas fa-times-circle"></i> Agencies quote $3,000-$8,000 upfront before work starts</li>
-                <li><i class="fas fa-times-circle"></i> Templates get handed off. You're on your own after launch</li>
-                <li><i class="fas fa-times-circle"></i> No ongoing relationship, no one to call when things break</li>
-              </ul>
+        <div class="vc">
+          <div class="vc-icon" style="background:rgba(59,130,246,.1);color:#3b82f6;"><i class="fas fa-rotate"></i></div>
+          <div class="vc-label">Unlimited Updates</div>
+          <div class="vc-them"><span>Freelancer or agency</span><strong>$75–$150/hr</strong></div>
+          <div class="vc-us"><i class="fas fa-check-circle"></i> Included with WebEaze</div>
+        </div>
+        <div class="vc">
+          <div class="vc-icon" style="background:rgba(16,185,129,.1);color:#10b981;"><i class="fas fa-server"></i></div>
+          <div class="vc-label">Hosting & SSL</div>
+          <div class="vc-them"><span>DIY hosting setup</span><strong>$30–$50/mo</strong></div>
+          <div class="vc-us"><i class="fas fa-check-circle"></i> Included with WebEaze</div>
+        </div>
+        <div class="vc">
+          <div class="vc-icon" style="background:rgba(245,158,11,.1);color:#f59e0b;"><i class="fas fa-magnifying-glass-chart"></i></div>
+          <div class="vc-label">Local SEO</div>
+          <div class="vc-them"><span>Separate SEO service</span><strong>$99–$300+/mo</strong></div>
+          <div class="vc-us"><i class="fas fa-check-circle"></i> Included with WebEaze</div>
+        </div>
+        <div class="vc">
+          <div class="vc-icon" style="background:rgba(239,68,68,.1);color:#ef4444;"><i class="fas fa-shield-halved"></i></div>
+          <div class="vc-label">Security & Backups</div>
+          <div class="vc-them"><span>Managed security add-on</span><strong>$20–$60/mo</strong></div>
+          <div class="vc-us"><i class="fas fa-check-circle"></i> Included with WebEaze</div>
+        </div>
+        <div class="vc">
+          <div class="vc-icon" style="background:rgba(16,185,129,.1);color:#10b981;"><i class="fas fa-map-location-dot"></i></div>
+          <div class="vc-label">Google Business Profile</div>
+          <div class="vc-them"><span>GBP management service</span><strong>$50–$100/mo</strong></div>
+          <div class="vc-us"><i class="fas fa-check-circle"></i> Included with WebEaze</div>
+        </div>
+        <div class="vc vc-total">
+          <div class="vc-total-row">
+            <div>
+              <div class="vc-total-label">Pieced together elsewhere</div>
+              <div class="vc-total-price vc-total-them">$300–$500+<span>/mo</span></div>
             </div>
-            <div class="wp-right">
-              <div class="wp-we"><span><i class="fas fa-check-circle"></i> With WebEaze</span><strong>Included</strong><small>Custom design, built for your business</small></div>
-              <div class="wp-vs">vs.</div>
-              <div class="wp-other"><span>Typical agency</span><strong>$3,000 - $8,000</strong><small>upfront, before a single update</small></div>
-            </div>
-          </div>
-
-          <div class="why-panel" id="wt-updates">
-            <div class="wp-left">
-              <div class="wp-bg-icon"><i class="fas fa-rotate"></i></div>
-              <h3>Change anything, anytime. There's no invoice waiting for you</h3>
-              <ul class="wp-bullets">
-                <li><i class="fas fa-times-circle"></i> Freelancers bill $75-$150/hr for every small request</li>
-                <li><i class="fas fa-times-circle"></i> Two-day wait for a one-line text edit is normal for most agencies</li>
-                <li><i class="fas fa-times-circle"></i> Businesses stop updating their sites because it costs too much</li>
-              </ul>
-            </div>
-            <div class="wp-right">
-              <div class="wp-we"><span><i class="fas fa-check-circle"></i> With WebEaze</span><strong>Included</strong><small>Unlimited updates, no hourly billing</small></div>
-              <div class="wp-vs">vs.</div>
-              <div class="wp-other"><span>Freelancer or agency</span><strong>$75 - $150/hr</strong><small>per edit, per request, every time</small></div>
-            </div>
-          </div>
-
-          <div class="why-panel" id="wt-hosting">
-            <div class="wp-left">
-              <div class="wp-bg-icon"><i class="fas fa-server"></i></div>
-              <h3>One bill. No logins to juggle, no renewals to miss</h3>
-              <ul class="wp-bullets">
-                <li><i class="fas fa-times-circle"></i> Most builders hand you three separate accounts to manage</li>
-                <li><i class="fas fa-times-circle"></i> SSL expires, domain lapses, your site just disappears</li>
-                <li><i class="fas fa-times-circle"></i> No support when something breaks after handoff</li>
-              </ul>
-            </div>
-            <div class="wp-right">
-              <div class="wp-we"><span><i class="fas fa-check-circle"></i> With WebEaze</span><strong>Included</strong><small>Hosting, domain, SSL all managed for you</small></div>
-              <div class="wp-vs">vs.</div>
-              <div class="wp-other"><span>DIY hosting setup</span><strong>$30 - $50/mo</strong><small>across multiple unmanaged providers</small></div>
+            <div class="vc-total-vs">vs.</div>
+            <div>
+              <div class="vc-total-label">WebEaze starts at</div>
+              <div class="vc-total-price vc-total-ours">$169<span>/mo</span></div>
             </div>
           </div>
-
-          <div class="why-panel" id="wt-seo">
-            <div class="wp-left">
-              <div class="wp-bg-icon"><i class="fas fa-magnifying-glass-chart"></i></div>
-              <h3>Your clients are searching right now. Make sure they find you, not your competitor.</h3>
-              <ul class="wp-bullets">
-                <li><i class="fas fa-times-circle"></i> Most web designers hand off the site and leave SEO to someone else</li>
-                <li><i class="fas fa-times-circle"></i> Without local SEO, you're invisible to the people closest to you</li>
-                <li><i class="fas fa-times-circle"></i> Separate SEO retainers start at $99/mo and rarely include your site too</li>
-              </ul>
-            </div>
-            <div class="wp-right">
-              <div class="wp-we"><span><i class="fas fa-check-circle"></i> With WebEaze</span><strong>Included</strong><small>On-page SEO + Google Business built in from day one</small></div>
-              <div class="wp-vs">vs.</div>
-              <div class="wp-other"><span>Separate SEO service</span><strong>$99 - $300+/mo</strong><small>billed on top of your existing site costs</small></div>
-            </div>
-          </div>
-
-          <div class="why-panel" id="wt-security">
-            <div class="wp-left">
-              <div class="wp-bg-icon"><i class="fas fa-shield-halved"></i></div>
-              <h3>Your site stays up, secure, and current. Always</h3>
-              <ul class="wp-bullets">
-                <li><i class="fas fa-times-circle"></i> Unmanaged sites get hacked or go offline without warning</li>
-                <li><i class="fas fa-times-circle"></i> Most web builders walk away. Maintenance becomes your problem.</li>
-                <li><i class="fas fa-times-circle"></i> Security add-ons cost extra and are rarely set up correctly</li>
-              </ul>
-            </div>
-            <div class="wp-right">
-              <div class="wp-we"><span><i class="fas fa-check-circle"></i> With WebEaze</span><strong>Included</strong><small>Monitoring, backups, HTTPS always active</small></div>
-              <div class="wp-vs">vs.</div>
-              <div class="wp-other"><span>Managed security add-on</span><strong>$20 - $60/mo</strong><small>sold separately, if offered at all</small></div>
-            </div>
-          </div>
-
-          <div class="why-panel" id="wt-total">
-            <div class="wp-left">
-              <div class="wp-bg-icon"><i class="fas fa-tags"></i></div>
-              <h3>5 problems. 1 price. All included.</h3>
-              <ul class="wp-bullets">
-                <li><i class="fas fa-times-circle"></i> Most small businesses cobble together 4-5 vendors and still get gaps</li>
-                <li><i class="fas fa-times-circle"></i> Hourly billing turns every business change into a financial decision</li>
-                <li><i class="fas fa-times-circle"></i> No contracts at WebEaze means you stay because it works, not because you have to</li>
-              </ul>
-            </div>
-            <div class="wp-right">
-              <div class="wp-we wp-we-gold"><span><i class="fas fa-check-circle"></i> WebEaze starts at</span><strong>$169/mo</strong><small>Everything included, cancel anytime</small></div>
-              <div class="wp-vs">vs.</div>
-              <div class="wp-other"><span>Pieced together elsewhere</span><strong>$300 - $500+/mo</strong><small>before hourly fees on top</small></div>
-            </div>
-          </div>
-
+          <div class="vc-total-note">One subscription. Cancel anytime. </div>
         </div>
       </div>
 
-      <div class="why-addons reveal" style="margin-top:32px;padding:20px 24px;background:#14141e;border:1px solid rgba(255,215,0,.18);border-radius:14px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
-        <i class="fas fa-robot" style="color:#ffd700;font-size:20px;flex-shrink:0;"></i>
-        <p style="margin:0;font-size:15px;color:rgba(255,255,255,.8);line-height:1.6;">
-          <strong style="color:#fff;">Want more?</strong> Add AI chatbots, paid ad management, or custom integrations to any plan.
-          <a href="services.html" style="color:#ffd700;font-weight:700;margin-left:6px;border-bottom:1px solid rgba(255,215,0,.3);">See all add-ons <i class="fas fa-arrow-right" style="font-size:11px;"></i></a>
-        </p>
+      <!-- Real clients strip -->
+      <div class="clients-strip reveal" style="margin-top:52px;">
+        <p class="clients-strip-label">Real businesses, live today</p>
+        <div class="clients-strip-row">
+          <a href="https://bearcarpetcare.com" target="_blank" rel="noopener" class="client-chip">
+            <span class="client-chip-dot" style="background:linear-gradient(135deg,#f59e0b,#d97706);"></span>
+            <span class="client-chip-name">Bear Carpet Care</span>
+            <span class="client-chip-cat">Home Services</span>
+          </a>
+          <a href="https://ibisprep.com" target="_blank" rel="noopener" class="client-chip">
+            <span class="client-chip-dot" style="background:linear-gradient(135deg,#7851a9,#5c3d87);"></span>
+            <span class="client-chip-name">Ibis Prep</span>
+            <span class="client-chip-cat">Education</span>
+          </a>
+          <a href="https://galaxygymnast.com" target="_blank" rel="noopener" class="client-chip">
+            <span class="client-chip-dot" style="background:linear-gradient(135deg,#3b82f6,#1d4ed8);"></span>
+            <span class="client-chip-name">Galaxy Gymnastics</span>
+            <span class="client-chip-cat">Fitness</span>
+          </a>
+          <a href="https://rundelmarva.org" target="_blank" rel="noopener" class="client-chip">
+            <span class="client-chip-dot" style="background:linear-gradient(135deg,#22c55e,#15803d);"></span>
+            <span class="client-chip-name">Run Delmarva</span>
+            <span class="client-chip-cat">Community</span>
+          </a>
+          <a href="https://bake350degrees.com" target="_blank" rel="noopener" class="client-chip">
+            <span class="client-chip-dot" style="background:linear-gradient(135deg,#ef4444,#b91c1c);"></span>
+            <span class="client-chip-name">Bake 350 Degrees</span>
+            <span class="client-chip-cat">Food & Bakery</span>
+          </a>
+          <a href="samples.html" class="client-chip client-chip-more">
+            <span class="client-chip-name">See all work <i class="fas fa-arrow-right" style="font-size:11px;"></i></span>
+          </a>
+        </div>
       </div>
 
     </div>
@@ -3742,176 +3703,82 @@ fee-tooltip {
       margin-bottom: 20px;
     }
     .why-header h2 {
-      font-size: clamp(36px, 5.5vw, 58px); font-weight: 800;
+      font-size: clamp(32px, 5vw, 52px); font-weight: 800;
       color: #0f1228; margin: 0 0 16px; line-height: 1.1;
     }
     .why-header-sub {
-      font-size: clamp(1.15rem, 2vw, 1.4rem);
-      color: #4b5563; line-height: 1.7; max-width: 600px; margin: 0 auto;
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      color: #4b5563; line-height: 1.7; max-width: 560px; margin: 0 auto;
     }
     .why-gold {
       background: linear-gradient(135deg, #7851a9, #f59e0b);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     }
 
-    .why-tabs {
+    /* Value cards */
+    .value-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    @media (max-width: 780px) { .value-cards { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 480px) { .value-cards { grid-template-columns: 1fr; } }
+    .vc {
+      background: #f8f9fc;
       border: 1px solid #e5e7eb;
-      border-radius: 22px;
-      overflow: hidden;
-      box-shadow: 0 4px 32px rgba(15,18,40,.07);
+      border-radius: 18px;
+      padding: 24px 22px;
+      display: flex; flex-direction: column; gap: 12px;
+      transition: border-color .2s, box-shadow .2s;
     }
-    .why-tab-bar-wrap {
-      position: relative;
+    .vc:hover { border-color: rgba(120,81,169,.25); box-shadow: 0 6px 24px rgba(120,81,169,.07); }
+    .vc-icon {
+      width: 44px; height: 44px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; flex-shrink: 0;
     }
-    .why-tab-arrow {
-      display: none;
-      position: absolute;
-      top: 0; bottom: 0;
-      width: 36px;
-      border: none;
-      cursor: pointer;
-      z-index: 3;
-      align-items: center; justify-content: center;
-      color: #6b7280;
-      font-size: 12px;
-      transition: opacity .2s, color .2s;
-      outline: none;
-      -webkit-tap-highlight-color: transparent;
+    .vc-label {
+      font-size: 15px; font-weight: 700; color: #0f1228;
     }
-    .why-tab-arrow-left {
-      left: 0;
-      background: linear-gradient(to right, rgba(255,255,255,.95), transparent);
+    .vc-them {
+      display: flex; flex-direction: column; gap: 2px;
+      padding: 10px 12px;
+      background: rgba(239,68,68,.05);
+      border: 1px solid rgba(239,68,68,.15);
+      border-radius: 10px;
     }
-    .why-tab-arrow-right {
-      right: 0;
-      background: linear-gradient(to left, rgba(255,255,255,.95), transparent);
+    .vc-them span { font-size: 11px; font-weight: 600; color: #9ca3af; text-transform: uppercase; letter-spacing: .07em; }
+    .vc-them strong { font-size: 17px; font-weight: 800; color: #ef4444; letter-spacing: -.01em; }
+    .vc-us {
+      display: flex; align-items: center; gap: 7px;
+      font-size: 13px; font-weight: 700; color: #16a34a;
     }
-    .why-tab-arrow:hover { color: #111; }
-    .why-tab-arrow.hidden { opacity: 0; pointer-events: none; }
-    @media (max-width: 700px) {
-      .why-tab-arrow { display: flex; }
-    }
-    .why-tab-bar {
-      display: flex; overflow-x: auto; scrollbar-width: none;
-      background: #f8f9fc;
-      border-bottom: 1px solid #e5e7eb;
-    }
-    .why-tab-bar::-webkit-scrollbar { display: none; }
-    .why-tab {
-      flex: 1; min-width: 110px;
-      display: flex; align-items: center; justify-content: center; gap: 7px;
-      padding: 18px 14px;
-      background: none; border: none; border-bottom: 2px solid transparent;
-      color: #6b7280; font-family: 'Poppins', sans-serif;
-      font-size: 13.5px; font-weight: 600; cursor: pointer;
-      transition: color .15s, border-color .15s, background .15s;
-      white-space: nowrap; outline: none;
-    }
-    .why-tab:focus-visible {
-      outline: 2px solid rgba(120,81,169,.5);
-      outline-offset: -2px;
-      border-radius: 4px;
-    }
-    .why-tab:hover { color: #0f1228; background: rgba(0,0,0,.03); }
-    .why-tab.active { color: #7851a9; border-bottom-color: #7851a9; background: rgba(120,81,169,.06); }
-    .why-tab-gold.active { border-bottom-color: #f59e0b; color: #d97706; background: rgba(245,158,11,.06); }
-    .why-tab i { font-size: 13px; }
+    .vc-us i { font-size: 13px; }
 
-    .why-tab-body { padding: 0; background: #fff; }
-    .why-panel {
-      display: none;
-      grid-template-columns: 1fr 1fr;
-      gap: 0;
+    /* Total card */
+    .vc.vc-total {
+      grid-column: 1 / -1;
+      background: linear-gradient(135deg, #0f1228 0%, #1a1030 100%);
+      border-color: rgba(120,81,169,.3);
+      padding: 28px 32px;
+      gap: 16px;
     }
-    .why-panel.active { display: grid; }
-    @media (max-width: 640px) {
-      .why-panel.active { grid-template-columns: 1fr; }
+    @media (max-width: 480px) { .vc.vc-total { padding: 22px 18px; } }
+    .vc-total-row {
+      display: flex; align-items: center; gap: 24px; flex-wrap: wrap;
     }
-
-    .wp-left {
-      padding: 48px 44px;
-      border-right: 1px solid #e5e7eb;
-      position: relative; overflow: hidden;
-      background: #fff;
+    .vc-total-vs {
+      font-size: 12px; font-weight: 700; color: rgba(255,255,255,.3);
+      letter-spacing: .1em; text-transform: uppercase;
     }
-    @media (max-width: 640px) { .wp-left { border-right: none; border-bottom: 1px solid #e5e7eb; padding: 30px 24px; } }
-    .wp-bg-icon {
-      position: absolute; bottom: -10px; right: -10px;
-      font-size: 130px; line-height: 1;
-      color: rgba(120,81,169,.04);
-      pointer-events: none; user-select: none;
-    }
-    .wp-left h3 {
-      font-size: clamp(19px, 2.4vw, 26px); font-weight: 800;
-      color: #0f1228; margin: 0 0 24px; line-height: 1.28;
-      position: relative; z-index: 1;
-    }
-    .wp-bullets {
-      list-style: none; padding: 0; margin: 0;
-      display: flex; flex-direction: column; gap: 14px;
-      position: relative; z-index: 1;
-    }
-    .wp-bullets li {
-      display: flex; align-items: flex-start; gap: 11px;
-      font-size: 15.5px; color: #4b5563; line-height: 1.55;
-    }
-    .wp-bullets li i { color: #ef4444; font-size: 14px; margin-top: 3px; flex-shrink: 0; }
-
-    .wp-right {
-      padding: 48px 44px;
-      display: flex; flex-direction: column; justify-content: center;
-      gap: 20px;
-      background: #f8f9fc;
-    }
-    @media (max-width: 640px) { .wp-right { padding: 32px 24px; gap: 18px; } }
-
-    .wp-we, .wp-other {
-      display: flex; flex-direction: column; gap: 6px;
-    }
-    .wp-we {
-      background: #ffffff;
-      border: 1.5px solid rgba(22,163,74,.28);
-      border-radius: 16px;
-      padding: 22px 24px;
-      box-shadow: 0 2px 12px rgba(22,163,74,.06);
-    }
-    .wp-we span {
-      font-size: 11.5px; font-weight: 700; text-transform: uppercase;
-      letter-spacing: .09em; color: #16a34a; display: flex; align-items: center; gap: 6px;
-    }
-    .wp-we span i { font-size: 12px; }
-    .wp-we strong {
-      font-size: 36px; font-weight: 800; color: #16a34a;
-      letter-spacing: -.02em; line-height: 1;
-    }
-    .wp-we small { font-size: 13px; color: #6b7280; }
-    .wp-we-gold {
-      border-color: rgba(245,158,11,.35);
-      box-shadow: 0 2px 12px rgba(245,158,11,.07);
-    }
-    .wp-we-gold span { color: #d97706; }
-    .wp-we-gold strong { color: #d97706; }
-
-    .wp-other {
-      background: #ffffff;
-      border: 1.5px solid rgba(239,68,68,.2);
-      border-radius: 16px;
-      padding: 22px 24px;
-    }
-    .wp-other span {
-      font-size: 11.5px; font-weight: 700; text-transform: uppercase;
-      letter-spacing: .09em; color: #9ca3af;
-    }
-    .wp-other strong {
-      font-size: 30px; font-weight: 800; color: #ef4444;
-      letter-spacing: -.02em; line-height: 1;
-    }
-    .wp-other small { font-size: 13px; color: #9ca3af; }
-    .wp-vs {
-      font-size: 11px; font-weight: 700; color: #d1d5db;
-      text-transform: uppercase; letter-spacing: .12em;
-      text-align: center;
-    }
+    .vc-total-label { font-size: 11px; font-weight: 600; color: rgba(255,255,255,.4); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 4px; }
+    .vc-total-price { font-size: 38px; font-weight: 800; letter-spacing: -.03em; line-height: 1; }
+    .vc-total-price span { font-size: 16px; font-weight: 500; opacity: .7; }
+    .vc-total-them { color: rgba(239,68,68,.85); }
+    .vc-total-ours { color: #a78bfa; }
+    .vc-total-note { font-size: 13px; color: rgba(255,255,255,.4); }
+    .vc-total-note a { color: rgba(167,139,250,.8); text-decoration: none; }
+    .vc-total-note a:hover { color: #a78bfa; }
 
     /* SIMPLIFIED PRICING (homepage) */
     .pricing-mini-grid {
