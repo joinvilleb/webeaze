@@ -213,98 +213,107 @@ a { color: inherit; text-decoration: none; }
 .section-header h2 { font-size: clamp(1.8rem,3.8vw,2.6rem); font-weight: 700; letter-spacing: -.03em; margin: 0 0 12px; }
 .section-header p { font-size: 1.08rem; color: var(--muted); line-height: 1.72; margin: 0; }
 
-/* ── SERVICE CARDS ─────────────────────────────── */
-.svc-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 22px; }
-@media (max-width: 900px) { .svc-grid { grid-template-columns: 1fr; max-width: 500px; margin: 0 auto; } }
-
-.svc-card {
-  background: var(--surface); border: 1.5px solid var(--line);
-  border-radius: var(--radius-lg); padding: 36px 30px;
-  display: flex; flex-direction: column;
-  box-shadow: var(--shadow-sm);
-  transition: border-color .25s, box-shadow .25s, transform .25s;
-  position: relative; overflow: hidden;
-}
-.svc-card::before {
-  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
-  opacity: 0; transition: opacity .3s;
-}
-.svc-card.purple::before { background: linear-gradient(90deg, var(--brand), #a06dd8); }
-.svc-card.gold::before   { background: linear-gradient(90deg, var(--gold), #fcd34d); }
-.svc-card.green::before  { background: linear-gradient(90deg, var(--green), #4ade80); }
-.svc-card:hover { border-color: var(--brand-border); box-shadow: var(--shadow-lg); transform: translateY(-5px); }
-.svc-card:hover::before { opacity: 1; }
-
-.svc-icon { width: 54px; height: 54px; border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; }
-.svc-card.purple .svc-icon { background: var(--brand-soft); }
-.svc-card.purple .svc-icon i { color: var(--brand); font-size: 1.35rem; }
-.svc-card.gold   .svc-icon { background: var(--gold-soft); }
-.svc-card.gold   .svc-icon i { color: var(--gold); font-size: 1.35rem; }
-.svc-card.green  .svc-icon { background: var(--green-soft); }
-.svc-card.green  .svc-icon i { color: var(--green); font-size: 1.35rem; }
-
-.svc-card h3 { font-size: 1.3rem; font-weight: 700; margin: 0 0 8px; letter-spacing: -.02em; }
-.svc-tagline { font-size: 1rem; color: var(--muted); line-height: 1.65; margin: 0 0 22px; }
-
-.svc-divider { height: 1px; background: var(--line); margin: 0 0 20px; }
-
-.svc-features { list-style: none; padding: 0; margin: 0 0 24px; flex: 1; }
-.svc-features li {
-  display: flex; align-items: flex-start; gap: 10px;
-  padding: 8px 0; border-bottom: 1px solid var(--line);
-  font-size: .98rem; color: var(--muted); line-height: 1.5;
-}
-.svc-features li:last-child { border-bottom: none; }
-.svc-features i { flex-shrink: 0; margin-top: 3px; font-size: .78rem; }
-.svc-card.purple .svc-features i { color: var(--brand); }
-.svc-card.gold   .svc-features i { color: var(--gold); }
-.svc-card.green  .svc-features i { color: var(--green); }
-
-.svc-price {
-  font-size: 1.5rem; font-weight: 800; color: var(--text); margin-bottom: 16px; line-height: 1;
-}
-.svc-price span { font-size: .9rem; font-weight: 500; color: var(--dim); }
-.svc-price small { display: block; font-size: .8rem; color: var(--dim); font-weight: 400; margin-top: 4px; }
-
-.svc-cta {
-  display: flex; align-items: center; justify-content: center; gap: 8px;
-  border-radius: var(--radius-sm); padding: 12px 18px;
-  font-family: 'Poppins', sans-serif; font-weight: 700; font-size: .9rem;
-  border: 1.5px solid; transition: all .2s; text-align: center;
-}
-.svc-card.purple .svc-cta { background: var(--brand); color: #fff; border-color: var(--brand); box-shadow: 0 4px 16px rgba(120,81,169,.25); }
-.svc-card.purple .svc-cta:hover { background: #6841a0; border-color: #6841a0; color: #fff; transform: translateY(-1px); box-shadow: 0 6px 22px rgba(120,81,169,.35); }
-.svc-card.gold   .svc-cta { background: var(--gold); color: #3d2200; border-color: var(--gold); box-shadow: 0 4px 16px rgba(245,158,11,.22); }
-.svc-card.gold   .svc-cta:hover { background: #d97706; border-color: #d97706; color: #fff; transform: translateY(-1px); }
-.svc-card.green  .svc-cta { background: transparent; color: var(--text); border-color: var(--line); }
-.svc-card.green  .svc-cta:hover { border-color: var(--brand-border); color: var(--brand); background: var(--brand-soft); }
-
-/* ── EVERY PLAN STRIP ──────────────────────────── */
-.every-plan-strip {
-  background: var(--bg);
-  border-top: 1px solid var(--line);
+/* ── PATH SELECTOR ─────────────────────────────── */
+.path-select-section {
+  background: var(--surface);
   border-bottom: 1px solid var(--line);
-  padding: 36px 24px;
+  padding: 24px 0;
 }
-.every-plan-label {
-  font-size: .78rem; font-weight: 700; text-transform: uppercase;
-  letter-spacing: .1em; color: var(--dim); margin-bottom: 20px; text-align: center;
+.path-select-intro {
+  text-align: center; font-size: .78rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .1em; color: var(--dim); margin-bottom: 16px;
 }
-.every-plan-grid {
-  display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 28px; margin-bottom: 20px;
+.path-select-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; }
+@media (max-width: 640px) { .path-select-row { grid-template-columns: 1fr; } }
+.path-btn {
+  display: flex; align-items: center; gap: 14px;
+  background: var(--bg); border: 1.5px solid var(--line);
+  border-radius: var(--radius); padding: 16px 20px;
+  cursor: pointer; text-align: left; width: 100%;
+  font-family: 'Poppins', sans-serif;
+  transition: border-color .2s, background .2s, box-shadow .2s;
 }
-.ep-item {
-  display: inline-flex; align-items: center; gap: 8px;
-  font-size: .9rem; color: var(--muted); font-weight: 500;
+.path-btn:hover { border-color: var(--brand-border); background: var(--surface); }
+.path-btn.active { border-color: var(--brand); background: var(--brand-soft); box-shadow: 0 4px 18px rgba(120,81,169,.13); }
+.path-btn-icon {
+  width: 40px; height: 40px; border-radius: 11px;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
 }
-.ep-item i { color: var(--green); font-size: .78rem; flex-shrink: 0; }
-.every-plan-footer { text-align: center; }
-.every-plan-footer a {
-  font-size: .87rem; font-weight: 600; color: var(--brand);
+.path-btn strong { display: block; font-size: .97rem; font-weight: 700; color: var(--text); line-height: 1.2; }
+.path-btn span { font-size: .83rem; color: var(--muted); }
+.path-btn.active strong { color: var(--brand); }
+.path-btn .path-check { margin-left: auto; flex-shrink: 0; color: var(--brand); opacity: 0; transition: opacity .2s; }
+.path-btn.active .path-check { opacity: 1; }
+
+/* ── PATH PANELS ───────────────────────────────── */
+.path-panels-section { background: var(--bg); }
+.path-panel { display: none; }
+.path-panel.active { display: block; animation: panelFade .28s ease; }
+@keyframes panelFade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+.panel-wrap { padding: clamp(48px,8vh,80px) 0; }
+.panel-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; }
+@media (max-width: 820px) { .panel-inner { grid-template-columns: 1fr; gap: 36px; } }
+.panel-eyebrow {
+  display: inline-flex; align-items: center; gap: 6px; border-radius: 999px;
+  padding: 6px 14px; margin-bottom: 16px; font-size: .74rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .09em; border: 1px solid;
+}
+.panel-eyebrow.purple { background: var(--brand-soft); border-color: var(--brand-border); color: var(--brand); }
+.panel-eyebrow.gold   { background: var(--gold-soft);  border-color: var(--gold-border);  color: #92400e; }
+.panel-eyebrow.green  { background: var(--green-soft); border-color: var(--green-border); color: #166534; }
+.panel-left h2 {
+  font-size: clamp(1.9rem,3.8vw,2.7rem); font-weight: 700;
+  letter-spacing: -.03em; line-height: 1.12; margin: 0 0 16px; color: var(--text);
+}
+.panel-desc { font-size: 1.05rem; color: var(--muted); line-height: 1.75; margin: 0 0 28px; }
+.panel-features { list-style: none; padding: 0; margin: 0 0 28px; }
+.panel-features li {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 9px 0; border-bottom: 1px solid var(--line);
+  font-size: .97rem; color: var(--muted);
+}
+.panel-features li:last-child { border-bottom: none; }
+.panel-features i { flex-shrink: 0; margin-top: 3px; font-size: .8rem; }
+.panel-price {
+  background: var(--surface); border: 1.5px solid var(--line);
+  border-radius: var(--radius); padding: 18px 22px; margin-bottom: 26px;
+  display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap;
+}
+.panel-price-amount { font-size: 2.2rem; font-weight: 800; color: var(--text); }
+.panel-price-period { font-size: .95rem; color: var(--dim); }
+.panel-price-note { font-size: .82rem; color: var(--dim); width: 100%; margin-top: 4px; }
+.panel-btns { display: flex; gap: 10px; flex-wrap: wrap; }
+.panel-right-card {
+  background: var(--surface); border: 1.5px solid var(--line);
+  border-radius: var(--radius-lg); padding: 28px 30px; box-shadow: var(--shadow-sm); margin-bottom: 14px;
+}
+.panel-right-card:last-child { margin-bottom: 0; }
+.panel-right-card h4 {
+  font-size: .76rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .1em; color: var(--dim); margin: 0 0 20px;
+}
+.panel-step { display: flex; gap: 16px; align-items: flex-start; margin-bottom: 20px; }
+.panel-step:last-child { margin-bottom: 0; }
+.panel-step-num {
+  width: 30px; height: 30px; border-radius: 50%; background: var(--brand); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: .82rem; flex-shrink: 0; margin-top: 2px;
+}
+.panel-step strong { display: block; font-size: .95rem; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+.panel-step span { font-size: .87rem; color: var(--muted); line-height: 1.6; }
+.platform-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.platform-pill {
   display: inline-flex; align-items: center; gap: 6px;
-  transition: gap .2s;
+  background: var(--bg); border: 1px solid var(--line); border-radius: 999px;
+  padding: 6px 14px; font-size: .84rem; color: var(--muted); font-weight: 500;
 }
-.every-plan-footer a:hover { gap: 10px; }
+.panel-list-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 0; border-bottom: 1px solid var(--line);
+  font-size: .93rem; color: var(--muted);
+}
+.panel-list-item:last-child { border-bottom: none; }
+.panel-list-item i { flex-shrink: 0; font-size: .8rem; }
 
 /* ── HOW IT WORKS ──────────────────────────────── */
 .steps-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 40px; max-width: 860px; margin: 0 auto; position: relative; }
@@ -737,7 +746,7 @@ footer { background: #0a0a0f; padding: 56px 20px 36px; border-top: 1px solid rgb
     </div>
 
     <div class="hero-cards">
-      <a class="hero-card" href="#new-website">
+      <a class="hero-card" href="#service-paths" data-select="new-website">
         <div class="hc-icon purple"><i class="fas fa-hammer"></i></div>
         <div class="hc-text">
           <strong>New Website</strong>
@@ -745,7 +754,7 @@ footer { background: #0a0a0f; padding: 56px 20px 36px; border-top: 1px solid rgb
         </div>
         <i class="fas fa-arrow-right" style="color:var(--brand);font-size:.8rem;margin-left:auto;flex-shrink:0;opacity:.6;"></i>
       </a>
-      <a class="hero-card" href="#manage-site">
+      <a class="hero-card" href="#service-paths" data-select="manage-site">
         <div class="hc-icon gold"><i class="fas fa-tools"></i></div>
         <div class="hc-text">
           <strong>Manage My Site</strong>
@@ -753,7 +762,7 @@ footer { background: #0a0a0f; padding: 56px 20px 36px; border-top: 1px solid rgb
         </div>
         <i class="fas fa-arrow-right" style="color:var(--gold);font-size:.8rem;margin-left:auto;flex-shrink:0;opacity:.6;"></i>
       </a>
-      <a class="hero-card" href="#one-time">
+      <a class="hero-card" href="#service-paths" data-select="one-time">
         <div class="hc-icon green"><i class="fas fa-bolt"></i></div>
         <div class="hc-text">
           <strong>One-Time Project</strong>
@@ -767,91 +776,196 @@ footer { background: #0a0a0f; padding: 56px 20px 36px; border-top: 1px solid rgb
 </header>
 
 
-<!-- SERVICES -->
-<section class="section section-white" id="services">
+<!-- PATH SELECTOR -->
+<div class="path-select-section" id="service-paths">
   <div class="container container-narrow px-4">
-    <div class="section-header reveal">
-      <div class="eyebrow"><i class="fas fa-layer-group"></i> What we offer</div>
-      <h2>Every business is different. We start where you are.</h2>
-      <p>Whether you need a site built from scratch, want us to take over what you have, or just need one thing done, we have a path that fits.</p>
-    </div>
-
-    <div class="svc-grid">
-
-      <!-- New Website -->
-      <div class="svc-card purple reveal" id="new-website">
-        <div class="svc-icon"><i class="fas fa-hammer"></i></div>
-        <h3>New Website</h3>
-        <p class="svc-tagline">Your business deserves more than a template. We build a fast, professional site from scratch, designed to get you found and convert visitors into clients.</p>
-        <div class="svc-divider"></div>
-        <ul class="svc-features">
-          <li><i class="fas fa-check"></i> Custom design, your brand and style</li>
-          <li><i class="fas fa-check"></i> Live in 5 business days, on average</li>
-          <li><i class="fas fa-check"></i> Hosting and SSL included</li>
-          <li><i class="fas fa-check"></i> Unlimited updates every month</li>
-          <li><i class="fas fa-check"></i> Real support from people who know your site</li>
-        </ul>
-        <div class="svc-price">$169<span>/mo</span><small>No setup fee on annual plans</small></div>
-        <a href="consultation.html" class="svc-cta"><i class="fas fa-arrow-right"></i> Get Your Free Mockup</a>
-      </div>
-
-      <!-- Manage My Site -->
-      <div class="svc-card gold reveal d1" id="manage-site">
-        <div class="svc-icon"><i class="fas fa-tools"></i></div>
-        <h3>Manage My Site</h3>
-        <p class="svc-tagline">Already have a site that isn't working hard enough? We take it over, keep it sharp, and optimize it so it actually brings in business.</p>
-        <div class="svc-divider"></div>
-        <ul class="svc-features">
-          <li><i class="fas fa-check"></i> Content updates, same day</li>
-          <li><i class="fas fa-check"></i> Security monitoring and backups</li>
-          <li><i class="fas fa-check"></i> Hosting migration if needed</li>
-          <li><i class="fas fa-check"></i> Performance and uptime monitoring</li>
-          <li><i class="fas fa-check"></i> No hourly billing, ever</li>
-        </ul>
-        <div class="svc-price">$169<span>/mo</span><small>Works with WordPress, Wix, Squarespace, and more</small></div>
-        <a href="consultation.html" class="svc-cta"><i class="fas fa-calendar-check"></i> Book a Free Call</a>
-      </div>
-
-      <!-- One-Time Project -->
-      <div class="svc-card green reveal d2" id="one-time">
-        <div class="svc-icon"><i class="fas fa-bolt"></i></div>
-        <h3>One-Time Project</h3>
-        <p class="svc-tagline">Need one specific thing fixed or built? We scope it, quote it flat, and deliver it clean. No retainer, no surprises, no strings attached.</p>
-        <div class="svc-divider"></div>
-        <ul class="svc-features">
-          <li><i class="fas fa-check"></i> Page updates, new pages, or full builds</li>
-          <li><i class="fas fa-check"></i> Flat price agreed upfront</li>
-          <li><i class="fas fa-check"></i> Fast delivery</li>
-          <li><i class="fas fa-check"></i> You own all the files and code</li>
-          <li><i class="fas fa-check"></i> No ongoing fees after delivery</li>
-        </ul>
-        <div class="svc-price">$149<span>+</span><small>Basic updates start at $149. Full builds from $449.</small></div>
-        <a href="consultation.html" class="svc-cta"><i class="fas fa-comment-dots"></i> Get a Free Quote</a>
-      </div>
-
+    <div class="path-select-intro">What brings you here?</div>
+    <div class="path-select-row">
+      <button class="path-btn active" data-path="new-website">
+        <div class="path-btn-icon" style="background:var(--brand-soft)"><i class="fas fa-hammer" style="color:var(--brand)"></i></div>
+        <div><strong>New Website</strong><span>Build from scratch</span></div>
+        <i class="fas fa-check-circle path-check"></i>
+      </button>
+      <button class="path-btn" data-path="manage-site">
+        <div class="path-btn-icon" style="background:var(--gold-soft)"><i class="fas fa-tools" style="color:var(--gold)"></i></div>
+        <div><strong>Manage My Site</strong><span>Take over existing</span></div>
+        <i class="fas fa-check-circle path-check"></i>
+      </button>
+      <button class="path-btn" data-path="one-time">
+        <div class="path-btn-icon" style="background:var(--green-soft)"><i class="fas fa-bolt" style="color:var(--green)"></i></div>
+        <div><strong>One-Time Project</strong><span>No subscription</span></div>
+        <i class="fas fa-check-circle path-check"></i>
+      </button>
     </div>
   </div>
-</section>
+</div>
 
+<!-- PATH PANELS -->
+<div class="path-panels-section">
 
-<!-- EVERY PLAN INCLUDES -->
-<div class="every-plan-strip">
-  <div class="container container-narrow">
-    <div class="every-plan-label">Included in every plan</div>
-    <div class="every-plan-grid">
-      <span class="ep-item"><i class="fas fa-check-circle"></i> Custom website design</span>
-      <span class="ep-item"><i class="fas fa-check-circle"></i> Hosting &amp; SSL certificate</span>
-      <span class="ep-item"><i class="fas fa-check-circle"></i> Unlimited content updates</span>
-      <span class="ep-item"><i class="fas fa-check-circle"></i> Mobile-optimized layout</span>
-      <span class="ep-item"><i class="fas fa-check-circle"></i> Basic SEO setup</span>
-      <span class="ep-item"><i class="fas fa-check-circle"></i> Security monitoring</span>
-      <span class="ep-item"><i class="fas fa-check-circle"></i> Real human support</span>
-      <span class="ep-item"><i class="fas fa-check-circle"></i> No long-term contracts</span>
-    </div>
-    <div class="every-plan-footer">
-      <a href="benefits.html">See the full feature breakdown <i class="fas fa-arrow-right"></i></a>
+  <!-- NEW WEBSITE -->
+  <div class="path-panel active" id="panel-new-website">
+    <div class="panel-wrap">
+      <div class="container container-narrow px-4">
+        <div class="panel-inner">
+          <div class="panel-left">
+            <div class="panel-eyebrow purple"><i class="fas fa-hammer"></i> Starting fresh</div>
+            <h2>A site that looks like you mean business.</h2>
+            <p class="panel-desc">We design your website from scratch — your brand, your style. Built to convert visitors into clients and get found on Google. No templates, no guesswork.</p>
+            <ul class="panel-features">
+              <li><i class="fas fa-check" style="color:var(--brand)"></i> Custom design built around your brand</li>
+              <li><i class="fas fa-check" style="color:var(--brand)"></i> Hosting and SSL included from day one</li>
+              <li><i class="fas fa-check" style="color:var(--brand)"></i> Unlimited content updates every month</li>
+              <li><i class="fas fa-check" style="color:var(--brand)"></i> Mobile-optimized and fast loading</li>
+              <li><i class="fas fa-check" style="color:var(--brand)"></i> Basic SEO setup on every page</li>
+              <li><i class="fas fa-check" style="color:var(--brand)"></i> Real human support, no tickets</li>
+            </ul>
+            <div class="panel-price">
+              <span class="panel-price-amount">$169</span>
+              <span class="panel-price-period">/month</span>
+              <span class="panel-price-note">No setup fee on annual plans &nbsp;·&nbsp; No contracts</span>
+            </div>
+            <div class="panel-btns">
+              <a href="consultation.html" class="btn-primary"><i class="fas fa-arrow-right"></i> Get Your Free Mockup</a>
+              <a href="pricing.html" class="btn-outline">Compare plans</a>
+            </div>
+          </div>
+          <div class="panel-right">
+            <div class="panel-right-card">
+              <h4>How it works</h4>
+              <div class="panel-step">
+                <div class="panel-step-num">1</div>
+                <div><strong>Tell us about your business</strong><span>Fill out a short form. No tech knowledge needed — we just need to know your goals.</span></div>
+              </div>
+              <div class="panel-step">
+                <div class="panel-step-num">2</div>
+                <div><strong>Free mockup in 48 hours</strong><span>A real design built for your business. No obligation — if you love it, we build it.</span></div>
+              </div>
+              <div class="panel-step">
+                <div class="panel-step-num">3</div>
+                <div><strong>Live in 5 business days</strong><span>We handle design, hosting, domain, and SEO. You just review and approve.</span></div>
+              </div>
+            </div>
+            <a href="samples.html" class="btn-outline" style="width:100%;justify-content:center;margin-top:0;">See examples of our work <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
+
+  <!-- MANAGE MY SITE -->
+  <div class="path-panel" id="panel-manage-site">
+    <div class="panel-wrap">
+      <div class="container container-narrow px-4">
+        <div class="panel-inner">
+          <div class="panel-left">
+            <div class="panel-eyebrow gold"><i class="fas fa-tools"></i> Already have a site</div>
+            <h2>We take over your site and keep it sharp.</h2>
+            <p class="panel-desc">Got a site that's falling behind — outdated content, slow loading, or just not bringing in business? We step in, handle everything, and optimize it on whatever platform you're already on.</p>
+            <ul class="panel-features">
+              <li><i class="fas fa-check" style="color:var(--gold)"></i> Content updates handled same day</li>
+              <li><i class="fas fa-check" style="color:var(--gold)"></i> Security monitoring and automatic backups</li>
+              <li><i class="fas fa-check" style="color:var(--gold)"></i> Hosting migration if needed</li>
+              <li><i class="fas fa-check" style="color:var(--gold)"></i> Performance and uptime monitoring</li>
+              <li><i class="fas fa-check" style="color:var(--gold)"></i> Design improvements over time</li>
+              <li><i class="fas fa-check" style="color:var(--gold)"></i> No hourly billing, ever</li>
+            </ul>
+            <div class="panel-price">
+              <span class="panel-price-amount">$169</span>
+              <span class="panel-price-period">/month</span>
+              <span class="panel-price-note">Works with WordPress, Wix, Squarespace, GitHub Pages, and more</span>
+            </div>
+            <div class="panel-btns">
+              <a href="consultation.html" class="btn-primary"><i class="fas fa-calendar-check"></i> Book a Free Call</a>
+              <a href="pricing.html" class="btn-outline">Compare plans</a>
+            </div>
+          </div>
+          <div class="panel-right">
+            <div class="panel-right-card">
+              <h4>Works with your platform</h4>
+              <p style="font-size:.9rem;color:var(--muted);margin:0 0 14px;">No migration required unless you want one. We work on whatever you're already using.</p>
+              <div class="platform-list">
+                <span class="platform-pill"><i class="fab fa-wordpress"></i> WordPress</span>
+                <span class="platform-pill">Wix</span>
+                <span class="platform-pill">Squarespace</span>
+                <span class="platform-pill"><i class="fab fa-github"></i> GitHub Pages</span>
+                <span class="platform-pill">Webflow</span>
+                <span class="platform-pill">Shopify</span>
+                <span class="platform-pill">Custom HTML</span>
+              </div>
+            </div>
+            <div class="panel-right-card">
+              <h4>What we do every month</h4>
+              <div class="panel-list-item"><i class="fas fa-check" style="color:var(--green)"></i> Update your text, prices, and photos</div>
+              <div class="panel-list-item"><i class="fas fa-check" style="color:var(--green)"></i> Monitor for downtime and security issues</div>
+              <div class="panel-list-item"><i class="fas fa-check" style="color:var(--green)"></i> Keep plugins and frameworks up to date</div>
+              <div class="panel-list-item"><i class="fas fa-check" style="color:var(--green)"></i> Improve speed and performance over time</div>
+              <div class="panel-list-item"><i class="fas fa-check" style="color:var(--green)"></i> Back up your site automatically</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ONE-TIME PROJECT -->
+  <div class="path-panel" id="panel-one-time">
+    <div class="panel-wrap">
+      <div class="container container-narrow px-4">
+        <div class="panel-inner">
+          <div class="panel-left">
+            <div class="panel-eyebrow green"><i class="fas fa-bolt"></i> No subscription needed</div>
+            <h2>Tell us what you need. We'll scope it and ship it.</h2>
+            <p class="panel-desc">Just need one specific thing done? We'll give you a flat price upfront and deliver it clean. No retainer, no ongoing fees, no strings attached.</p>
+            <ul class="panel-features">
+              <li><i class="fas fa-check" style="color:var(--green)"></i> Flat price agreed before we start</li>
+              <li><i class="fas fa-check" style="color:var(--green)"></i> Fast turnaround on all projects</li>
+              <li><i class="fas fa-check" style="color:var(--green)"></i> You own all the files and code</li>
+              <li><i class="fas fa-check" style="color:var(--green)"></i> No ongoing fees after delivery</li>
+              <li><i class="fas fa-check" style="color:var(--green)"></i> New pages, full builds, or specific fixes</li>
+            </ul>
+            <div class="panel-price">
+              <span class="panel-price-amount">$149</span>
+              <span class="panel-price-period">+</span>
+              <span class="panel-price-note">Basic updates from $149 &nbsp;·&nbsp; Full site builds from $449</span>
+            </div>
+            <div class="panel-btns">
+              <a href="consultation.html" class="btn-primary"><i class="fas fa-comment-dots"></i> Get a Free Quote</a>
+              <a href="fee-schedule.html" class="btn-outline">View fee schedule</a>
+            </div>
+          </div>
+          <div class="panel-right">
+            <div class="panel-right-card">
+              <h4>Common project types</h4>
+              <div class="panel-list-item"><i class="fas fa-check" style="color:var(--green)"></i> New landing page or service page</div>
+              <div class="panel-list-item"><i class="fas fa-check" style="color:var(--green)"></i> Full website redesign</div>
+              <div class="panel-list-item"><i class="fas fa-check" style="color:var(--green)"></i> Speed and performance fixes</div>
+              <div class="panel-list-item"><i class="fas fa-check" style="color:var(--green)"></i> Contact form or booking setup</div>
+              <div class="panel-list-item"><i class="fas fa-check" style="color:var(--green)"></i> Content and copy refresh</div>
+              <div class="panel-list-item"><i class="fas fa-check" style="color:var(--green)"></i> Logo, favicon, or brand assets</div>
+              <div class="panel-list-item"><i class="fas fa-check" style="color:var(--green)"></i> Domain setup or site migration</div>
+            </div>
+            <div class="panel-right-card">
+              <h4>How the process works</h4>
+              <div class="panel-step">
+                <div class="panel-step-num" style="background:var(--green)">1</div>
+                <div><strong>Describe what you need</strong><span>Tell us the scope — we'll ask any clarifying questions.</span></div>
+              </div>
+              <div class="panel-step">
+                <div class="panel-step-num" style="background:var(--green)">2</div>
+                <div><strong>You get a flat quote</strong><span>One price, agreed upfront. No surprises when the invoice arrives.</span></div>
+              </div>
+              <div class="panel-step">
+                <div class="panel-step-num" style="background:var(--green)">3</div>
+                <div><strong>We build and deliver</strong><span>You get the finished work and own everything outright.</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <!-- HOW IT WORKS -->
@@ -1028,6 +1142,32 @@ footer { background: #0a0a0f; padding: 56px 20px 36px; border-top: 1px solid rgb
     });
   }, { threshold: 0.09, rootMargin: '0px 0px -28px 0px' });
   document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+})();
+</script>
+
+<script>
+// ── Path selector ──────────────────────────────
+(function() {
+  var btns   = document.querySelectorAll('.path-btn');
+  var panels = document.querySelectorAll('.path-panel');
+
+  function activate(path) {
+    btns.forEach(function(b) { b.classList.toggle('active', b.dataset.path === path); });
+    panels.forEach(function(p) { p.classList.toggle('active', p.id === 'panel-' + path); });
+  }
+
+  btns.forEach(function(btn) {
+    btn.addEventListener('click', function() { activate(btn.dataset.path); });
+  });
+
+  // Hero cards: set path then scroll to selector
+  document.querySelectorAll('.hero-card[data-select]').forEach(function(card) {
+    card.addEventListener('click', function(e) {
+      e.preventDefault();
+      activate(card.dataset.select);
+      document.getElementById('service-paths').scrollIntoView({ behavior: 'smooth' });
+    });
+  });
 })();
 </script>
 
