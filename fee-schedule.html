@@ -422,6 +422,34 @@ footer {
 }
 .qb-result-card:hover { border-color: rgba(120,81,169,.25); }
 .qb-result-card.in-quote { border-color: rgba(120,81,169,.35); background: rgba(120,81,169,.04); }
+.qb-included-header {
+  font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .09em;
+  color: #166534; margin-bottom: 8px; margin-top: 4px;
+}
+.qb-included-card {
+  display: flex; align-items: flex-start; gap: 12px;
+  background: rgba(22,163,74,.06); border: 1px solid rgba(22,163,74,.22);
+  border-radius: 12px; padding: 14px 16px; margin-bottom: 8px;
+}
+.qb-included-icon {
+  width: 30px; height: 30px; border-radius: 8px;
+  background: rgba(22,163,74,.12); display: flex; align-items: center;
+  justify-content: center; flex-shrink: 0;
+}
+.qb-included-icon i { color: #16a34a; font-size: .82rem; }
+.qb-included-info { flex: 1; min-width: 0; }
+.qb-included-name { font-weight: 600; font-size: .93rem; color: #14532d; margin-bottom: 2px; }
+.qb-included-desc { font-size: .8rem; color: #166534; line-height: 1.5; opacity: .85; }
+.qb-included-badge {
+  flex-shrink: 0; align-self: center;
+  font-size: .7rem; font-weight: 700; color: #16a34a;
+  background: rgba(22,163,74,.1); border: 1px solid rgba(22,163,74,.25);
+  border-radius: 999px; padding: 3px 10px; white-space: nowrap;
+}
+.qb-paid-header {
+  font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .09em;
+  color: var(--dim); margin-bottom: 8px; margin-top: 16px;
+}
 .qb-result-info { flex: 1; min-width: 0; }
 .qb-result-name { font-weight: 600; font-size: .95rem; color: var(--text); margin-bottom: 3px; }
 .qb-result-desc { font-size: .82rem; color: var(--dim); line-height: 1.55; }
@@ -1158,6 +1186,68 @@ document.querySelectorAll('a[href^="#"]').forEach(function(a) {
   var SMAP = {};
   SERVICES.forEach(function(s) { SMAP[s.id] = s; });
 
+  // Things already covered by every WebEaze plan — shown as "included" instead of a paid item
+  var INCLUDED = [
+    {
+      label: 'Text & content updates',
+      desc: 'Changing copy, fixing typos, updating hours, prices, or any written content is included in every plan.',
+      keys: ['change text','update text','edit text','fix text','text change','content update','update content','fix typo','typo','spelling','update hours','change hours','update price','change price','update address','change address','update phone','update email','update info','change info','fix copy','update copy','edit copy']
+    },
+    {
+      label: 'Font & color changes',
+      desc: 'Adjusting fonts, font sizes, text colors, or brand colors are part of ongoing design support in every plan.',
+      keys: ['font','change font','font color','font size','font style','color','change color','update color','brand color','text color','colour','change colour','heading font','body font','font family','typeface']
+    },
+    {
+      label: 'Image & photo updates',
+      desc: 'Swapping, adding, or removing photos and images is covered — just send us the new files.',
+      keys: ['swap image','replace image','update image','change image','add photo','change photo','update photo','new photo','photo update','image update','swap photo','replace photo','upload image','upload photo','add image','remove image','delete image','banner image','hero image','background image']
+    },
+    {
+      label: 'Button & link updates',
+      desc: 'Fixing broken links, updating button text or URLs, and tweaking navigation are all included.',
+      keys: ['fix link','broken link','update link','change link','button text','update button','fix button','nav link','menu link','navigation link','call to action','cta button','change cta','update cta']
+    },
+    {
+      label: 'Minor layout adjustments',
+      desc: 'Small spacing tweaks, reordering sections, or adjusting alignment are handled under your plan.',
+      keys: ['spacing','padding','margin','alignment','align','reorder','move section','rearrange','layout tweak','small layout','adjust layout','section order','column']
+    },
+    {
+      label: 'Hosting & SSL',
+      desc: 'Hosting, your SSL certificate, and HTTPS are included and maintained in every plan.',
+      keys: ['hosting','ssl','certificate','https','secure site','web hosting','site hosting','host']
+    },
+    {
+      label: 'Security & backups',
+      desc: 'Security monitoring and automatic backups run continuously in the background on every plan.',
+      keys: ['security','backup','backups','malware','hack','hacked','virus','protect','protection','secure','safety']
+    },
+    {
+      label: 'Mobile responsiveness',
+      desc: 'Your site is kept mobile-friendly and responsive across all screen sizes — maintained automatically.',
+      keys: ['mobile','responsive','phone view','tablet','mobile-friendly','looks on phone','mobile view','on mobile','mobile layout','mobile design']
+    },
+    {
+      label: 'Basic SEO maintenance',
+      desc: 'Page titles, meta descriptions, alt text, and search console are maintained as part of every plan.',
+      keys: ['meta description','page title','title tag','alt text','seo basic','search engine','google search','search result','search ranking','appear on google','show up on google','found on google']
+    },
+    {
+      label: 'Performance & uptime monitoring',
+      desc: 'We monitor your site speed and uptime and address issues as part of ongoing management.',
+      keys: ['slow','speed','page speed','load time','loading slow','uptime','downtime','site down','performance','fast','faster','optimize speed']
+    }
+  ];
+
+  function checkIncluded(query) {
+    if (!query.trim()) return [];
+    var q = query.toLowerCase();
+    return INCLUDED.filter(function(item) {
+      return item.keys.some(function(k) { return q.includes(k); });
+    });
+  }
+
   var quote      = {};   // id -> qty
   var pendingQty = {};   // id -> qty shown in the results panel before "Add"
 
@@ -1195,8 +1285,9 @@ document.querySelectorAll('a[href^="#"]').forEach(function(a) {
       .sort(function(a, b) { return b.score - a.score; });
   }
 
-  function renderResults(matches) {
-    if (!matches.length) {
+  function renderResults(matches, query) {
+    var included = checkIncluded(query || input.value);
+    if (!matches.length && !included.length) {
       results.innerHTML = '';
       results.appendChild(emptyState);
       emptyState.style.display = '';
@@ -1204,35 +1295,58 @@ document.querySelectorAll('a[href^="#"]').forEach(function(a) {
       return;
     }
     emptyState.style.display = 'none';
-    matchCount.textContent = matches.length + ' match' + (matches.length !== 1 ? 'es' : '');
     var html = '';
-    matches.forEach(function(m) {
-      var s = m.s;
-      var inQ = !!quote[s.id];
-      var qty = inQ ? quote[s.id] : (pendingQty[s.id] || 1);
-      html += '<div class="qb-result-card' + (inQ ? ' in-quote' : '') + '" data-id="' + s.id + '">'
-        + '<div class="qb-result-info">'
-          + '<div class="qb-result-name">' + s.name + '</div>'
-          + '<div class="qb-result-desc">' + s.desc + '</div>'
-        + '</div>'
-        + '<div class="qb-result-right">'
-          + '<div>'
-            + '<div class="qb-result-price">' + fmt(s.price) + '</div>'
-            + '<div class="qb-result-period' + (s.monthly ? ' monthly' : '') + '">' + s.period + '</div>'
+
+    if (included.length) {
+      html += '<div class="qb-included-header"><i class="fas fa-check-circle" style="margin-right:5px;"></i>Already included in your plan</div>';
+      included.forEach(function(item) {
+        html += '<div class="qb-included-card">'
+          + '<div class="qb-included-icon"><i class="fas fa-check"></i></div>'
+          + '<div class="qb-included-info">'
+            + '<div class="qb-included-name">' + item.label + '</div>'
+            + '<div class="qb-included-desc">' + item.desc + '</div>'
           + '</div>'
-          + (s.unit
-            ? '<div class="qb-qty">'
-                + '<button data-action="dec" data-id="' + s.id + '">&#8722;</button>'
-                + '<span id="qty-' + s.id + '">' + qty + '</span>'
-                + '<button data-action="inc" data-id="' + s.id + '">+</button>'
-              + '</div>'
-            : '')
-          + '<button class="qb-add-btn' + (inQ ? ' added' : '') + '" data-action="toggle" data-id="' + s.id + '">'
-              + (inQ ? '<i class="fas fa-check"></i> Added' : '+ Add')
-            + '</button>'
-        + '</div>'
-        + '</div>';
-    });
+          + '<div class="qb-included-badge">Included</div>'
+          + '</div>';
+      });
+    }
+
+    if (matches.length) {
+      if (included.length) {
+        html += '<div class="qb-paid-header">Additional services</div>';
+      }
+      matchCount.textContent = matches.length + ' match' + (matches.length !== 1 ? 'es' : '');
+      matches.forEach(function(m) {
+        var s = m.s;
+        var inQ = !!quote[s.id];
+        var qty = inQ ? quote[s.id] : (pendingQty[s.id] || 1);
+        html += '<div class="qb-result-card' + (inQ ? ' in-quote' : '') + '" data-id="' + s.id + '">'
+          + '<div class="qb-result-info">'
+            + '<div class="qb-result-name">' + s.name + '</div>'
+            + '<div class="qb-result-desc">' + s.desc + '</div>'
+          + '</div>'
+          + '<div class="qb-result-right">'
+            + '<div>'
+              + '<div class="qb-result-price">' + fmt(s.price) + '</div>'
+              + '<div class="qb-result-period' + (s.monthly ? ' monthly' : '') + '">' + s.period + '</div>'
+            + '</div>'
+            + (s.unit
+              ? '<div class="qb-qty">'
+                  + '<button data-action="dec" data-id="' + s.id + '">&#8722;</button>'
+                  + '<span id="qty-' + s.id + '">' + qty + '</span>'
+                  + '<button data-action="inc" data-id="' + s.id + '">+</button>'
+                + '</div>'
+              : '')
+            + '<button class="qb-add-btn' + (inQ ? ' added' : '') + '" data-action="toggle" data-id="' + s.id + '">'
+                + (inQ ? '<i class="fas fa-check"></i> Added' : '+ Add')
+              + '</button>'
+          + '</div>'
+          + '</div>';
+      });
+    } else {
+      matchCount.textContent = '';
+    }
+
     results.innerHTML = html;
   }
 
