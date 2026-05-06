@@ -334,6 +334,168 @@ footer {
   body { color: #000; }
   .page-header { background: #fff; }
 }
+
+/* ── QUOTE BUILDER ── */
+.qb-hero {
+  background: #08080f;
+  padding: 64px 20px 48px;
+  border-bottom: 1px solid rgba(255,255,255,.07);
+}
+.qb-hero-inner { max-width: 720px; margin: 0 auto; }
+.qb-eyebrow {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em;
+  color: var(--brand); background: var(--brand-soft); border: 1px solid var(--brand-border);
+  border-radius: 999px; padding: 5px 14px; margin-bottom: 18px;
+}
+.qb-headline { font-size: clamp(1.9rem,4vw,2.8rem); font-weight: 800; color: #fff; margin: 0 0 10px; }
+.qb-sub { color: rgba(255,255,255,.55); font-size: 1rem; margin: 0 0 28px; }
+.qb-input-wrap {
+  position: relative;
+  background: #131320;
+  border: 1.5px solid rgba(255,255,255,.13);
+  border-radius: 16px;
+  transition: border-color .2s;
+}
+.qb-input-wrap:focus-within { border-color: var(--brand); box-shadow: 0 0 0 4px rgba(120,81,169,.12); }
+.qb-input-icon {
+  position: absolute; left: 18px; top: 18px;
+  color: rgba(255,255,255,.3); font-size: .9rem; pointer-events: none;
+}
+.qb-input {
+  width: 100%; background: transparent; border: none; outline: none; resize: none;
+  color: #fff; font-family: inherit; font-size: 1rem; line-height: 1.6;
+  padding: 16px 48px 16px 44px;
+}
+.qb-input::placeholder { color: rgba(255,255,255,.3); }
+.qb-clear-btn {
+  position: absolute; right: 14px; top: 14px;
+  background: rgba(255,255,255,.08); border: none; color: rgba(255,255,255,.5);
+  width: 26px; height: 26px; border-radius: 50%; cursor: pointer; font-size: .75rem;
+  display: none; align-items: center; justify-content: center;
+  transition: background .15s;
+}
+.qb-clear-btn.visible { display: flex; }
+.qb-clear-btn:hover { background: rgba(255,255,255,.15); color: #fff; }
+.qb-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.qb-chip {
+  background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1);
+  color: rgba(255,255,255,.7); font-size: .8rem; font-family: inherit;
+  border-radius: 999px; padding: 5px 14px; cursor: pointer;
+  transition: background .15s, border-color .15s, color .15s;
+}
+.qb-chip:hover { background: rgba(120,81,169,.18); border-color: rgba(120,81,169,.4); color: #fff; }
+
+/* layout */
+.qb-layout {
+  display: grid; grid-template-columns: 1fr 340px;
+  gap: 0; max-width: 1100px; margin: 0 auto;
+  padding: 32px 20px; align-items: start;
+}
+@media (max-width: 860px) { .qb-layout { grid-template-columns: 1fr; } }
+
+.qb-col-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 16px;
+}
+.qb-col-title { font-size: .8rem; font-weight: 700; text-transform: uppercase; letter-spacing: .09em; color: var(--dim); }
+.qb-match-count { font-size: .78rem; color: var(--brand); font-weight: 600; }
+.qb-clear-all { background: none; border: none; font-size: .78rem; color: var(--dim); cursor: pointer; font-family: inherit; padding: 0; }
+.qb-clear-all:hover { color: #c0392b; }
+
+/* empty states */
+.qb-empty-state, .qb-quote-empty {
+  text-align: center; padding: 40px 20px;
+  color: var(--dim); font-size: .9rem; line-height: 1.6;
+}
+.qb-empty-state i, .qb-quote-empty i { font-size: 1.8rem; color: #d1d5db; display: block; margin-bottom: 12px; }
+.qb-empty-hint { font-size: .8rem; color: #9ca3af; margin-top: 4px; }
+
+/* result cards */
+.qb-results-col { padding-right: 28px; }
+@media (max-width: 860px) { .qb-results-col { padding-right: 0; } }
+.qb-result-card {
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 16px;
+  background: var(--bg-2); border: 1px solid var(--line);
+  border-radius: 12px; padding: 16px 18px; margin-bottom: 8px;
+  transition: border-color .15s;
+}
+.qb-result-card:hover { border-color: rgba(120,81,169,.25); }
+.qb-result-card.in-quote { border-color: rgba(120,81,169,.35); background: rgba(120,81,169,.04); }
+.qb-result-info { flex: 1; min-width: 0; }
+.qb-result-name { font-weight: 600; font-size: .95rem; color: var(--text); margin-bottom: 3px; }
+.qb-result-desc { font-size: .82rem; color: var(--dim); line-height: 1.55; }
+.qb-result-right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; flex-shrink: 0; }
+.qb-result-price { font-weight: 700; font-size: 1rem; color: var(--text); white-space: nowrap; }
+.qb-result-period { font-size: .72rem; color: var(--dim); white-space: nowrap; }
+.qb-result-period.monthly { color: var(--brand); }
+.qb-add-btn {
+  background: var(--brand); color: #fff; border: none; border-radius: 8px;
+  padding: 6px 14px; font-size: .78rem; font-weight: 600; font-family: inherit;
+  cursor: pointer; white-space: nowrap; transition: background .15s;
+}
+.qb-add-btn:hover { background: #6740a0; }
+.qb-add-btn.added { background: #16a34a; }
+.qb-add-btn.added:hover { background: #15803d; }
+
+/* qty control */
+.qb-qty {
+  display: flex; align-items: center; gap: 6px;
+}
+.qb-qty button {
+  width: 24px; height: 24px; border-radius: 6px;
+  background: rgba(120,81,169,.1); border: 1px solid rgba(120,81,169,.2);
+  color: var(--brand); font-size: .9rem; cursor: pointer; line-height: 1;
+  display: flex; align-items: center; justify-content: center;
+}
+.qb-qty button:hover { background: rgba(120,81,169,.2); }
+.qb-qty span { font-size: .85rem; font-weight: 600; min-width: 20px; text-align: center; }
+
+/* quote panel */
+.qb-quote-col { position: sticky; top: 80px; }
+.qb-quote-card {
+  background: var(--bg-2); border: 1px solid var(--line);
+  border-radius: 16px; padding: 20px;
+}
+
+/* quote lines */
+.qb-line {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 0; border-bottom: 1px solid var(--line); gap: 10px;
+  font-size: .88rem;
+}
+.qb-line:last-of-type { border-bottom: none; }
+.qb-line-name { font-weight: 500; color: var(--text); flex: 1; }
+.qb-line-price { font-weight: 700; color: var(--text); white-space: nowrap; }
+.qb-line-remove { background: none; border: none; color: #d1d5db; cursor: pointer; font-size: .75rem; padding: 0 0 0 6px; }
+.qb-line-remove:hover { color: #c0392b; }
+
+/* totals */
+.qb-totals { border-top: 1px solid var(--line); padding-top: 16px; margin-top: 4px; }
+.qb-total-row { display: flex; justify-content: space-between; font-size: .9rem; margin-bottom: 8px; }
+.qb-total-row strong { font-weight: 700; color: var(--text); }
+.qb-request-btn {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  background: var(--brand); color: #fff; border-radius: 12px;
+  padding: 13px; font-weight: 700; font-size: .9rem;
+  margin-top: 14px; text-decoration: none; transition: background .15s;
+}
+.qb-request-btn:hover { background: #6740a0; color: #fff; text-decoration: none; }
+.qb-confirm-note { font-size: .75rem; color: var(--dim); text-align: center; margin: 10px 0 0; }
+
+/* reference section */
+.qb-reference { border-top: 1px solid var(--line); }
+.qb-ref-toggle {
+  width: 100%; background: var(--bg-2); border: none; border-bottom: 1px solid var(--line);
+  padding: 18px 24px; display: flex; align-items: center; justify-content: space-between;
+  font-family: inherit; font-size: .9rem; font-weight: 600; color: var(--text);
+  cursor: pointer; transition: background .15s;
+}
+.qb-ref-toggle:hover { background: var(--bg-3); }
+.qb-ref-chevron { transition: transform .25s; }
+.qb-ref-chevron.open { transform: rotate(180deg); }
+.qb-ref-body { display: none; }
+.qb-ref-body.open { display: block; }
 </style>
 <script type="application/ld+json">
 {
@@ -374,33 +536,84 @@ footer {
   </div>
 </div>
 
-<!-- PAGE HEADER -->
-<header class="page-header">
-  <div class="page-header-inner">
-    <div class="doc-badge"><i class="fas fa-file-invoice-dollar"></i> Official Document</div>
-    <h1>Fee Schedule</h1>
-    <p class="doc-sub">This document lists all fees outside of your monthly or annual plan. Everything here is optional or situational. Your plan covers day-to-day updates, hosting, and support at no extra charge. Fees on this page apply only when you request something beyond that scope.</p>
-    <div class="doc-meta">
-      <span><i class="fas fa-calendar-alt"></i> Effective October 2024</span>
-      <span><i class="fas fa-sync-alt"></i> Last updated April 2026</span>
-      <span style="cursor:pointer" onclick="window.print()"><i class="fas fa-print"></i> Print this page</span>
+<!-- QUOTE BUILDER HERO -->
+<section class="qb-hero">
+  <div class="qb-hero-inner">
+    <div class="qb-eyebrow"><i class="fas fa-calculator"></i> Instant Price Estimate</div>
+    <h1 class="qb-headline">What do you need?</h1>
+    <p class="qb-sub">Describe it below and we'll match it to the right services and price instantly.</p>
+    <div class="qb-input-wrap">
+      <i class="fas fa-search qb-input-icon"></i>
+      <textarea id="qbInput" class="qb-input" placeholder="e.g. I want to add 2 more pages and an AI chatbot..." rows="2"></textarea>
+      <button class="qb-clear-btn" id="qbClearBtn" title="Clear">&#x2715;</button>
+    </div>
+    <div class="qb-chips" id="qbChips">
+      <button class="qb-chip" data-text="add a new page">+ Add a page</button>
+      <button class="qb-chip" data-text="build a new website from scratch">New website</button>
+      <button class="qb-chip" data-text="AI chatbot">AI chatbot</button>
+      <button class="qb-chip" data-text="redesign my website">Redesign</button>
+      <button class="qb-chip" data-text="booking system setup">Booking system</button>
+      <button class="qb-chip" data-text="online store ecommerce">Online store</button>
+      <button class="qb-chip" data-text="google business management">Google Business</button>
+      <button class="qb-chip" data-text="same day rush urgent">Rush request</button>
     </div>
   </div>
-</header>
+</section>
 
-<!-- TOC -->
-<nav class="toc-bar" aria-label="Jump to section">
-  <div class="toc-inner">
-    <span class="toc-label">Jump to:</span>
-    <a href="#overview">What's Included</a>
-    <a href="#one-time">One-Time Fees</a>
-    <a href="#add-ons">Add-Ons</a>
-    <a href="#custom-dev">Custom Dev</a>
-    <a href="#rush">Rush Requests</a>
-    <a href="#policies">Billing Policies</a>
+<!-- QUOTE LAYOUT -->
+<div class="qb-layout" id="qbLayout">
+
+  <!-- RESULTS -->
+  <div class="qb-results-col">
+    <div class="qb-col-header">
+      <span class="qb-col-title">Matched services</span>
+      <span class="qb-match-count" id="qbMatchCount"></span>
+    </div>
+    <div id="qbResults">
+      <div class="qb-empty-state" id="qbEmptyState">
+        <i class="fas fa-magnifying-glass"></i>
+        <p>Type above to find matching services and prices.</p>
+        <p class="qb-empty-hint">Try "new page", "chatbot", or "booking system".</p>
+      </div>
+    </div>
   </div>
-</nav>
 
+  <!-- QUOTE PANEL -->
+  <div class="qb-quote-col">
+    <div class="qb-quote-card">
+      <div class="qb-col-header">
+        <span class="qb-col-title">Your estimate</span>
+        <button class="qb-clear-all" id="qbClearAll">Clear</button>
+      </div>
+      <div class="qb-quote-empty" id="qbQuoteEmpty">
+        <i class="fas fa-receipt"></i>
+        <p>Add services from the results to build your quote.</p>
+      </div>
+      <div id="qbLines"></div>
+      <div class="qb-totals" id="qbTotals" style="display:none">
+        <div class="qb-total-row" id="qbOneTimeRow" style="display:none">
+          <span>One-time</span><strong id="qbOneTimeAmt"></strong>
+        </div>
+        <div class="qb-total-row" id="qbMonthlyRow" style="display:none">
+          <span>Monthly add-ons</span><strong id="qbMonthlyAmt"></strong>
+        </div>
+        <a class="qb-request-btn" id="qbRequestBtn" href="website-request.html">
+          <i class="fas fa-paper-plane"></i> Request this quote
+        </a>
+        <p class="qb-confirm-note">All prices confirmed before any work begins.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- FULL FEE REFERENCE (collapsible) -->
+<div class="qb-reference">
+  <button class="qb-ref-toggle" id="qbRefToggle">
+    <span><i class="fas fa-list-ul"></i> View full fee schedule</span>
+    <i class="fas fa-chevron-down qb-ref-chevron" id="qbRefChevron"></i>
+  </button>
+  <div class="qb-ref-body" id="qbRefBody">
 <div class="content-wrap">
 
   <!-- OVERVIEW -->
@@ -808,6 +1021,8 @@ footer {
   </div>
 
 </div><!-- /content-wrap -->
+  </div><!-- /qb-ref-body -->
+</div><!-- /qb-reference -->
 
 <!-- FOOTER -->
 <footer>
@@ -873,6 +1088,262 @@ document.querySelectorAll('a[href^="#"]').forEach(function(a) {
     if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
 });
+</script>
+
+<script>
+(function() {
+  var SERVICES = [
+    { id:'page',        name:'Additional Website Page',           price:199,  period:'per page, one-time',       monthly:false, unit:true,
+      desc:'Each page beyond your plan limit. Covers design, layout, and content setup.',
+      keys:['page','pages','more page','new page','add page','extra page','another page','additional page'] },
+    { id:'new-site',    name:'New Website Build',                 price:449,  period:'one-time',                 monthly:false,
+      desc:'A complete site built from scratch. Up to 3 pages plus a contact page, custom design, mobile-ready.',
+      keys:['new website','build website','new site','from scratch','full website','build a site','create website','website build'] },
+    { id:'revamp',      name:'Website Revamp',                    price:399,  period:'one-time',                 monthly:false,
+      desc:'Full redesign of your existing site. New look, new layout, same content. Up to 3 pages.',
+      keys:['redesign','revamp','new look','redo','refresh','makeover','new design','rebrand','new style'] },
+    { id:'basic',       name:'Web Project: Basic',                price:149,  period:'one-time',                 monthly:false,
+      desc:'Focused update to a single page. Text edits, image swaps, layout tweaks, or small fixes.',
+      keys:['update','edit','fix','change','small update','minor','text change','content change','image swap','single page'] },
+    { id:'standard',    name:'Web Project: Standard',             price:299,  period:'one-time',                 monthly:false,
+      desc:'Updates across 2+ pages. Content refreshes, layout adjustments, design changes spanning multiple pages.',
+      keys:['multiple pages','several pages','multi-page','update pages','few pages','across pages'] },
+    { id:'ecom',        name:'E-commerce Store Setup',            price:659,  period:'one-time',                 monthly:false,
+      desc:'Full online store setup. Product listings, cart, and checkout. Covers 12 months of platform fees.',
+      keys:['store','shop','online store','sell','selling','products','shopping cart','checkout','ecommerce','e-commerce'] },
+    { id:'chat',        name:'Live Chat Integration',             price:229,  period:'one-time setup',           monthly:false,
+      desc:'Live chat widget (Tawk, Messenger, etc.) integrated and styled to your site.',
+      keys:['live chat','chat widget','messenger','tawk','chat box','talk to customers'] },
+    { id:'ai',          name:'AI Chatbot',                        price:79,   period:'per month',                monthly:true,
+      desc:'Custom AI assistant trained on your business. Answers questions 24/7 and captures leads.',
+      keys:['ai','chatbot','bot','ai assistant','virtual assistant','automated chat','auto reply','artificial intelligence'] },
+    { id:'gbp',         name:'Google Business Profile Mgmt.',     price:79,   period:'per month',                monthly:true,
+      desc:'Monthly management of your Google Business listing: posts, reviews, hours, and local SEO.',
+      keys:['google business','gbp','google maps','local listing','google profile','local seo','maps listing'] },
+    { id:'email',       name:'Email Newsletter',                  price:99,   period:'per month',                monthly:true,
+      desc:'Monthly newsletter design and delivery. Layout, content assistance, and scheduling included.',
+      keys:['newsletter','email marketing','email campaign','mailchimp','email list','subscribers','email blast'] },
+    { id:'ads',         name:'Ad Management',                     price:149,  period:'per month',                monthly:true,
+      desc:'Google, Facebook, and Instagram ad management. Strategy, creative, targeting, and optimization.',
+      keys:['ads','advertising','paid ads','google ads','facebook ads','instagram ads','ppc','digital ads','ad campaign'] },
+    { id:'crm',         name:'Custom Form / CRM Integration',     price:299,  period:'starting at, one-time',    monthly:false,
+      desc:'Custom form or CRM connection (HubSpot, intake forms, lead pipelines, etc.).',
+      keys:['form','crm','hubspot','integration','intake','lead form','contact form','pipeline','leads','custom form'] },
+    { id:'booking',     name:'Booking System Setup',              price:329,  period:'starting at, one-time',    monthly:false,
+      desc:'Scheduling tool setup (Calendly, Square, Acuity, etc.) integrated and styled to your site.',
+      keys:['booking','appointment','schedule','calendar','calendly','acuity','reservations','scheduling','appointments'] },
+    { id:'landing',     name:'Campaign / Landing Page',           price:329,  period:'starting at, one-time',    monthly:false,
+      desc:'Focused conversion page for a campaign, promotion, or ad. Layout, CTA, and optional tracking.',
+      keys:['landing page','campaign','promo','promotion','ad page','sales page','funnel','conversion page'] },
+    { id:'footer',      name:'Footer Credit Removal',             price:149,  period:'one-time',                 monthly:false,
+      desc:'Remove the "Built by WebEaze" credit from your site footer permanently.',
+      keys:['footer','credit','built by','remove credit','footer credit','webeaze credit'] },
+    { id:'rush',        name:'Same-Day Turnaround',               price:69,   period:'per request',              monthly:false,
+      desc:'Request completed within the same business day. Subject to availability.',
+      keys:['rush','urgent','same day','today','asap','quickly','fast','immediately','emergency','quick'] },
+    { id:'weekend',     name:'Weekend / After-Hours',             price:89,   period:'per request',              monthly:false,
+      desc:'Work completed outside standard Mon-Fri 9AM-5PM ET business hours.',
+      keys:['weekend','after hours','evening','holiday','saturday','sunday','nights','after 5'] },
+    { id:'transfer',    name:'Site Transfer',                     price:99,   period:'one-time',                 monthly:false,
+      desc:'Package and transfer your site files to a new host. Free for plans 12+ months.',
+      keys:['transfer','move site','leave','new host','migrate','hosting change','move to another'] },
+    { id:'domain',      name:'Domain Registration',               price:89,   period:'includes first year',      monthly:false,
+      desc:'Register an additional domain. Includes the first year. Renewals billed at cost.',
+      keys:['domain','register domain','new domain','domain name','url','web address','.com','.net'] },
+    { id:'images',      name:'Heavy Image Editing',               price:40,   period:'per batch over 8 edits',   monthly:false,
+      desc:'Advanced photo editing: background removal, compositing, retouching beyond standard optimization.',
+      keys:['image editing','photo editing','photos','retouching','background removal','edit photos','photo editing'] },
+  ];
+
+  // Build an ID-keyed map so inline handlers never need to pass the full object
+  var SMAP = {};
+  SERVICES.forEach(function(s) { SMAP[s.id] = s; });
+
+  var quote      = {};   // id -> qty
+  var pendingQty = {};   // id -> qty shown in the results panel before "Add"
+
+  var input      = document.getElementById('qbInput');
+  var clearBtn   = document.getElementById('qbClearBtn');
+  var results    = document.getElementById('qbResults');
+  var matchCount = document.getElementById('qbMatchCount');
+  var emptyState = document.getElementById('qbEmptyState');
+  var lines      = document.getElementById('qbLines');
+  var quoteEmpty = document.getElementById('qbQuoteEmpty');
+  var totals     = document.getElementById('qbTotals');
+  var oneTimeRow = document.getElementById('qbOneTimeRow');
+  var monthlyRow = document.getElementById('qbMonthlyRow');
+  var oneTimeAmt = document.getElementById('qbOneTimeAmt');
+  var monthlyAmt = document.getElementById('qbMonthlyAmt');
+  var requestBtn = document.getElementById('qbRequestBtn');
+
+  function fmt(n) { return '$' + n.toLocaleString(); }
+
+  function parsePageQty(q) {
+    var m = q.match(/(\d+)\s*(?:new|more|additional|extra|other)?\s*pages?/i);
+    return m ? Math.min(Math.max(1, parseInt(m[1], 10)), 20) : 1;
+  }
+
+  function matchServices(query) {
+    if (!query.trim()) return [];
+    var q = query.toLowerCase();
+    var pageQty = parsePageQty(q);
+    return SERVICES.map(function(s) {
+      var score = 0;
+      s.keys.forEach(function(k) { if (q.includes(k)) score += k.split(' ').length; });
+      if (s.unit && !pendingQty[s.id]) pendingQty[s.id] = pageQty;
+      return { s: s, score: score };
+    }).filter(function(m) { return m.score > 0; })
+      .sort(function(a, b) { return b.score - a.score; });
+  }
+
+  function renderResults(matches) {
+    if (!matches.length) {
+      results.innerHTML = '';
+      results.appendChild(emptyState);
+      emptyState.style.display = '';
+      matchCount.textContent = '';
+      return;
+    }
+    emptyState.style.display = 'none';
+    matchCount.textContent = matches.length + ' match' + (matches.length !== 1 ? 'es' : '');
+    var html = '';
+    matches.forEach(function(m) {
+      var s = m.s;
+      var inQ = !!quote[s.id];
+      var qty = inQ ? quote[s.id] : (pendingQty[s.id] || 1);
+      html += '<div class="qb-result-card' + (inQ ? ' in-quote' : '') + '" data-id="' + s.id + '">'
+        + '<div class="qb-result-info">'
+          + '<div class="qb-result-name">' + s.name + '</div>'
+          + '<div class="qb-result-desc">' + s.desc + '</div>'
+        + '</div>'
+        + '<div class="qb-result-right">'
+          + '<div>'
+            + '<div class="qb-result-price">' + fmt(s.price) + '</div>'
+            + '<div class="qb-result-period' + (s.monthly ? ' monthly' : '') + '">' + s.period + '</div>'
+          + '</div>'
+          + (s.unit
+            ? '<div class="qb-qty">'
+                + '<button data-action="dec" data-id="' + s.id + '">&#8722;</button>'
+                + '<span id="qty-' + s.id + '">' + qty + '</span>'
+                + '<button data-action="inc" data-id="' + s.id + '">+</button>'
+              + '</div>'
+            : '')
+          + '<button class="qb-add-btn' + (inQ ? ' added' : '') + '" data-action="toggle" data-id="' + s.id + '">'
+              + (inQ ? '<i class="fas fa-check"></i> Added' : '+ Add')
+            + '</button>'
+        + '</div>'
+        + '</div>';
+    });
+    results.innerHTML = html;
+  }
+
+  function renderQuote() {
+    var ids = Object.keys(quote);
+    if (!ids.length) {
+      quoteEmpty.style.display = '';
+      lines.innerHTML = '';
+      totals.style.display = 'none';
+      return;
+    }
+    quoteEmpty.style.display = 'none';
+    var oneTime = 0, monthly = 0, html = '';
+    ids.forEach(function(id) {
+      var s = SMAP[id];
+      var qty = quote[id];
+      var total = s.price * qty;
+      if (s.monthly) monthly += total; else oneTime += total;
+      html += '<div class="qb-line">'
+        + '<span class="qb-line-name">' + s.name + (qty > 1 ? ' &times;' + qty : '') + '</span>'
+        + '<span class="qb-line-price">' + fmt(total) + (s.monthly ? '/mo' : '') + '</span>'
+        + '<button class="qb-line-remove" data-action="remove" data-id="' + id + '" title="Remove">&#x2715;</button>'
+        + '</div>';
+    });
+    lines.innerHTML = html;
+    totals.style.display = '';
+    oneTimeRow.style.display = oneTime ? '' : 'none';
+    monthlyRow.style.display = monthly ? '' : 'none';
+    if (oneTime) oneTimeAmt.textContent = fmt(oneTime);
+    if (monthly) monthlyAmt.textContent = fmt(monthly) + '/mo';
+    var params = ids.map(function(id) {
+      var s = SMAP[id], qty = quote[id];
+      return s.name + (qty > 1 ? ' x' + qty : '') + ' (' + fmt(s.price * qty) + (s.monthly ? '/mo' : '') + ')';
+    }).join(', ');
+    requestBtn.href = 'website-request.html?quote=' + encodeURIComponent(params);
+  }
+
+  // Single delegated handler for results panel
+  results.addEventListener('click', function(e) {
+    var btn = e.target.closest('[data-action]');
+    if (!btn) return;
+    var action = btn.dataset.action;
+    var id = btn.dataset.id;
+    var s = SMAP[id];
+    if (!s) return;
+    if (action === 'toggle') {
+      if (quote[id]) {
+        delete quote[id];
+      } else {
+        var qty = s.unit ? (pendingQty[id] || 1) : 1;
+        quote[id] = qty;
+      }
+      renderQuote();
+      renderResults(matchServices(input.value));
+    } else if (action === 'inc' || action === 'dec') {
+      var el = document.getElementById('qty-' + id);
+      if (!el) return;
+      var cur = parseInt(el.textContent, 10) + (action === 'inc' ? 1 : -1);
+      if (cur < 1) cur = 1;
+      el.textContent = cur;
+      pendingQty[id] = cur;
+      if (quote[id]) { quote[id] = cur; renderQuote(); }
+    }
+  });
+
+  // Delegated handler for quote lines (remove)
+  lines.addEventListener('click', function(e) {
+    var btn = e.target.closest('[data-action="remove"]');
+    if (!btn) return;
+    delete quote[btn.dataset.id];
+    renderQuote();
+    renderResults(matchServices(input.value));
+  });
+
+  input.addEventListener('input', function() {
+    var v = this.value;
+    clearBtn.classList.toggle('visible', v.length > 0);
+    renderResults(matchServices(v));
+  });
+  clearBtn.addEventListener('click', function() {
+    input.value = '';
+    clearBtn.classList.remove('visible');
+    results.innerHTML = '';
+    results.appendChild(emptyState);
+    emptyState.style.display = '';
+    matchCount.textContent = '';
+  });
+  document.getElementById('qbClearAll').addEventListener('click', function() {
+    quote = {};
+    renderQuote();
+    renderResults(matchServices(input.value));
+  });
+  document.querySelectorAll('.qb-chip').forEach(function(chip) {
+    chip.addEventListener('click', function() {
+      var t = this.dataset.text;
+      input.value = input.value ? input.value + ', ' + t : t;
+      clearBtn.classList.add('visible');
+      renderResults(matchServices(input.value));
+    });
+  });
+
+  // reference toggle
+  var refToggle = document.getElementById('qbRefToggle');
+  var refBody   = document.getElementById('qbRefBody');
+  var refChevron = document.getElementById('qbRefChevron');
+  refToggle.addEventListener('click', function() {
+    var open = refBody.classList.toggle('open');
+    refChevron.classList.toggle('open', open);
+  });
+})();
 </script>
 </body>
 </html>
