@@ -1324,7 +1324,8 @@ fee-tooltip {
   background-clip: text;
 }
 .hero-eyebrow {
-  display: inline-flex;
+  display: flex;
+  width: fit-content;
   align-items: center;
   gap: 7px;
   font-size: .82rem;
@@ -1335,7 +1336,10 @@ fee-tooltip {
   border-radius: 999px;
   padding: 6px 14px;
   margin-bottom: 18px;
+  margin-left: 0;
+  margin-right: auto;
 }
+@media (max-width: 992px) { .hero-eyebrow { display: none; } }
 .word-reveal {
   display: inline-block;
   margin-right: 0.22em;
@@ -2014,34 +2018,48 @@ fee-tooltip {
   font-weight: 800; line-height: 1.2;
   margin-bottom: 44px; max-width: 620px; color: #fff;
 }
-.pain-grid {
-  display: grid; grid-template-columns: repeat(3,1fr); gap: 20px;
-  margin-bottom: 48px;
+.pain-bento {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 12px;
 }
-@media (max-width: 768px) { .pain-grid { grid-template-columns: 1fr; } }
-.pain-card {
-  background: #14141e; border: 1px solid rgba(255,255,255,.11);
-  border-radius: 18px; padding: 32px 28px;
-  transition: border-color .2s, background .2s;
+.pain-tile {
+  border-radius: 22px;
+  padding: 34px 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  transition: transform 0.22s ease;
 }
-.pain-card:hover { border-color: rgba(255,215,0,.35); background: #16161f; }
-.pain-card i { font-size: 26px; color: #ffd700; margin-bottom: 16px; display: block; }
-.pain-card h3 { font-size: 19px; font-weight: 700; margin-bottom: 12px; color: #fff; }
-.pain-card p { font-size: 15.5px; color: rgba(255,255,255,.78); line-height: 1.8; margin: 0; }
-.pain-bridge {
-  text-align: center;
-  border-top: 1px solid rgba(255,255,255,.08);
-  padding-top: 40px;
+.pain-tile:hover { transform: translateY(-4px); }
+.pain-tile-a { grid-column: 1 / 8; background: #14141e; border: 1px solid rgba(255,255,255,.09); }
+.pain-tile-b { grid-column: 8 / 13; background: #14141e; border: 1px solid rgba(255,255,255,.09); }
+.pain-tile-c { grid-column: 1 / 6; background: #14141e; border: 1px solid rgba(255,255,255,.09); }
+.pain-tile-d { grid-column: 6 / 13; background: linear-gradient(135deg,#1a1025,#0c0c14); border: 1px solid rgba(255,215,0,.22); }
+.pain-tile-illo {
+  font-size: 48px; line-height: 1;
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(255,255,255,.07);
+  border-radius: 16px;
+  padding: 14px 16px;
+  display: inline-block;
+  width: fit-content;
 }
-.pain-bridge p {
-  font-size: 19px; font-weight: 600; color: #fff; margin: 0; line-height: 1.6;
+.pain-tile h3 { font-size: 19px; font-weight: 700; color: #fff; margin: 0 0 8px; }
+.pain-tile p { font-size: 15px; color: rgba(255,255,255,.7); line-height: 1.75; margin: 0; }
+.pain-tile-d h3 { color: #ffd700; }
+.pain-tile-cta {
+  display: inline-flex; align-items: center; gap: 8px;
+  color: #ffd700; font-weight: 600; font-size: 14px;
+  border-bottom: 1px solid rgba(255,215,0,.35);
+  padding-bottom: 2px; margin-top: 4px;
+  text-decoration: none; transition: border-color .15s;
 }
-.pain-bridge a {
-  color: #ffd700; font-weight: 700;
-  border-bottom: 1px solid rgba(255,215,0,.4);
-  transition: border-color .15s;
+.pain-tile-cta:hover { border-color: #ffd700; text-decoration: none; color: #ffd700; }
+@media (max-width: 768px) {
+  .pain-bento { grid-template-columns: 1fr; }
+  .pain-tile-a, .pain-tile-b, .pain-tile-c, .pain-tile-d { grid-column: 1; }
 }
-.pain-bridge a:hover { border-color: #ffd700; }
 
 /* ===== HOW IT WORKS ===== */
 .how-section {
@@ -2868,26 +2886,41 @@ fee-tooltip {
         <h2>Most small businesses are losing clients <span class="gold-sweep">they don't even know about.</span></h2>
       </div>
 
-      <div class="pain-grid reveal reveal-delay-1">
-        <div class="pain-card">
-          <i class="fas fa-eye-slash"></i>
-          <h3>Invisible on Google</h3>
-          <p>Your competitors show up first. Potential clients search for exactly what you offer and never find you.</p>
-        </div>
-        <div class="pain-card">
-          <i class="fas fa-chart-line"></i>
-          <h3>A site that doesn't convert</h3>
-          <p>You have a website, but it isn't bringing in calls or leads. Visitors land and leave without taking action.</p>
-        </div>
-        <div class="pain-card">
-          <i class="fas fa-clock"></i>
-          <h3>No time for the tech</h3>
-          <p>You're running a business. You shouldn't have to think about SSL certificates, page speed, or software updates.</p>
-        </div>
-      </div>
+      <div class="pain-bento reveal reveal-delay-1">
 
-      <div class="pain-bridge reveal reveal-delay-2">
-        <p>WebEaze handles all of it: <a href="services.html">website, SEO, AI tools, and more</a>, so your business shows up, stands out, and grows.</p>
+        <div class="pain-tile pain-tile-a">
+          <div class="pain-tile-illo">🔍</div>
+          <div>
+            <h3>Invisible on Google</h3>
+            <p>Your competitors show up first. Potential clients search for exactly what you offer and never find you.</p>
+          </div>
+        </div>
+
+        <div class="pain-tile pain-tile-b">
+          <div class="pain-tile-illo">📊</div>
+          <div>
+            <h3>A site that doesn't convert</h3>
+            <p>You have a website, but it isn't bringing in calls or leads. Visitors leave without taking action.</p>
+          </div>
+        </div>
+
+        <div class="pain-tile pain-tile-c">
+          <div class="pain-tile-illo">🛠️</div>
+          <div>
+            <h3>No time for the tech</h3>
+            <p>You're running a business. You shouldn't have to think about SSL certificates, page speed, or software updates.</p>
+          </div>
+        </div>
+
+        <div class="pain-tile pain-tile-d">
+          <div class="pain-tile-illo">⚡</div>
+          <div>
+            <h3>WebEaze handles all of it</h3>
+            <p>Website, SEO, AI tools, and more, so your business shows up, stands out, and grows without you lifting a finger.</p>
+            <a class="pain-tile-cta" href="services.html">See what's included <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+
       </div>
 
     </div>
