@@ -348,7 +348,7 @@ footer {
   color: var(--brand); background: var(--brand-soft); border: 1px solid var(--brand-border);
   border-radius: 999px; padding: 5px 14px; margin-bottom: 18px;
 }
-.qb-headline { font-size: clamp(1.9rem,4vw,2.8rem); font-weight: 800; color: #fff; margin: 0 0 10px; }
+.qb-headline { font-size: clamp(1.9rem,4vw,2.8rem); font-weight: 600; color: #fff; margin: 0 0 10px; }
 .qb-sub { color: rgba(255,255,255,.55); font-size: 1rem; margin: 0 0 28px; }
 .qb-input-wrap {
   position: relative;
@@ -539,7 +539,6 @@ footer {
 <!-- QUOTE BUILDER HERO -->
 <section class="qb-hero">
   <div class="qb-hero-inner">
-    <div class="qb-eyebrow"><i class="fas fa-calculator"></i> Instant Price Estimate</div>
     <h1 class="qb-headline">What do you need?</h1>
     <p class="qb-sub">Describe it below and we'll match it to the right services and price instantly.</p>
     <div class="qb-input-wrap">
@@ -610,7 +609,7 @@ footer {
 <!-- FULL FEE REFERENCE (collapsible) -->
 <div class="qb-reference">
   <button class="qb-ref-toggle" id="qbRefToggle">
-    <span><i class="fas fa-list-ul"></i> View full fee schedule</span>
+    <span><i class="fas fa-list-ul"></i> View full Fee Schedule</span>
     <i class="fas fa-chevron-down qb-ref-chevron" id="qbRefChevron"></i>
   </button>
   <div class="qb-ref-body" id="qbRefBody">
@@ -1264,10 +1263,15 @@ document.querySelectorAll('a[href^="#"]').forEach(function(a) {
     monthlyRow.style.display = monthly ? '' : 'none';
     if (oneTime) oneTimeAmt.textContent = fmt(oneTime);
     if (monthly) monthlyAmt.textContent = fmt(monthly) + '/mo';
-    var params = ids.map(function(id) {
+    var itemList = ids.map(function(id) {
       var s = SMAP[id], qty = quote[id];
       return s.name + (qty > 1 ? ' x' + qty : '') + ' (' + fmt(s.price * qty) + (s.monthly ? '/mo' : '') + ')';
-    }).join(', ');
+    });
+    var summaryParts = [];
+    if (oneTime) summaryParts.push('one-time total: ' + fmt(oneTime));
+    if (monthly) summaryParts.push('monthly total: ' + fmt(monthly) + '/mo');
+    var intro = 'I am requesting ' + itemList.join(', ') + '.';
+    var params = intro + (summaryParts.length ? '\n\n' + summaryParts.map(function(s){ return s.charAt(0).toUpperCase()+s.slice(1); }).join('\n') : '');
     requestBtn.href = 'website-request.html?quote=' + encodeURIComponent(params);
   }
 

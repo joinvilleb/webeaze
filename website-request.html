@@ -489,6 +489,61 @@
     .submitted-note i { color: #4ade80; font-size: 13px; flex-shrink: 0; }
     .submitted-note strong { color: #86efac; }
 
+    /* QUOTE COPY BANNER */
+    .quote-copy-banner {
+      background: rgba(245,158,11,.1);
+      border: 1px solid rgba(245,158,11,.3);
+      border-radius: 12px;
+      padding: 16px 18px;
+      margin-bottom: 18px;
+      display: none;
+    }
+    .quote-copy-banner.visible { display: block; }
+    .qcb-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: #fbbf24;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .qcb-pre {
+      font-family: monospace;
+      font-size: 12.5px;
+      background: rgba(0,0,0,.25);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 8px;
+      padding: 12px 14px;
+      color: rgba(255,255,255,.85);
+      white-space: pre-wrap;
+      word-break: break-word;
+      margin-bottom: 10px;
+      max-height: 180px;
+      overflow-y: auto;
+      line-height: 1.6;
+    }
+    .qcb-copy-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #f59e0b;
+      color: #fff;
+      border: none;
+      border-radius: 7px;
+      padding: 8px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.18s;
+    }
+    .qcb-copy-btn:hover { background: #d97706; }
+    .qcb-hint {
+      font-size: 12px;
+      color: rgba(255,255,255,.45);
+      margin-top: 9px;
+    }
+
     /* MEMBER SINCE */
     .member-since {
       display: inline-flex;
@@ -696,6 +751,17 @@
   .notice-referral strong, .notice-referral i { color: #7851a9 !important; }
   .notice-referral a { color: #7851a9 !important; text-decoration: underline !important; }
 
+  /* Quote copy banner (light mode override) */
+  .quote-copy-banner {
+    background: rgba(245,158,11,.08) !important;
+    border-color: rgba(245,158,11,.35) !important;
+    color: #78350f !important;
+  }
+  .quote-copy-banner .qcb-label { color: #92400e !important; }
+  .quote-copy-banner .qcb-pre { background: #fef3c7 !important; color: #1c1917 !important; border-color: rgba(245,158,11,.25) !important; }
+  .quote-copy-banner .qcb-copy-btn { background: #f59e0b !important; color: #fff !important; }
+  .quote-copy-banner .qcb-copy-btn:hover { background: #d97706 !important; }
+
   /* Borders and dividers */
   hr, .divider { border-color: rgba(0,0,0,.08) !important; }
   .page-header { border-bottom-color: rgba(0,0,0,.08) !important; }
@@ -855,6 +921,12 @@
     <div id="afterHoursNote" class="after-hours-note" hidden></div>
     <div id="submittedNote" class="submitted-note" hidden></div>
     <div id="sinceLastNote" class="form-tip" hidden></div>
+    <div id="quoteCopyBanner" class="quote-copy-banner" role="region" aria-label="Your quote summary">
+      <div class="qcb-label"><i class="fas fa-receipt"></i> Your quote from the Fee Schedule</div>
+      <div id="qcbPre" class="qcb-pre"></div>
+      <button class="qcb-copy-btn" onclick="qcbCopy()"><i class="fas fa-copy"></i> Copy to clipboard</button>
+      <div class="qcb-hint">Paste this into the message field below so we have your full quote on file.</div>
+    </div>
     <script src="https://js-na2.hsforms.net/forms/embed/242171361.js" defer></script>
     <div class="hs-form-frame" data-region="na2" data-form-id="1bd7643f-da22-4812-a77f-8fe06fb55990" data-portal-id="242171361"></div>
     <p class="form-note">
@@ -1653,7 +1725,56 @@
     if (e.key === 'Escape') closeHelpModal();
   });
 
-  // ── 22. Article-aware textarea placeholder hint ─────────
+  // ── 22. Quote banner from fee-schedule ?quote= param ────
+  (function() {
+    try {
+      var raw = new URLSearchParams(window.location.search).get('quote');
+      if (!raw) return;
+      var text = decodeURIComponent(raw);
+      var banner = document.getElementById('quoteCopyBanner');
+      var pre    = document.getElementById('qcbPre');
+      if (!banner || !pre) return;
+      pre.textContent = text;
+      banner.classList.add('visible');
+      // Auto-fill the HubSpot textarea once it renders
+      (function watchTA() {
+        var ta = document.querySelector('.hs-form-frame textarea, .hs-form-frame input[name="message"]');
+        if (ta && !ta.dataset.qbFilled) {
+          ta.dataset.qbFilled = '1';
+          ta.value = text;
+          ta.dispatchEvent(new Event('input', { bubbles: true }));
+          ta.dispatchEvent(new Event('change', { bubbles: true }));
+        } else if (!ta) {
+          setTimeout(watchTA, 400);
+        }
+      })();
+    } catch(e) {}
+  })();
+
+  function qcbCopy() {
+    var text = document.getElementById('qcbPre').textContent;
+    if (!text) return;
+    navigator.clipboard.writeText(text).then(function() {
+      var btn = document.querySelector('.qcb-copy-btn');
+      var orig = btn.innerHTML;
+      btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+      setTimeout(function() { btn.innerHTML = orig; }, 2000);
+    }).catch(function() {
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.cssText = 'position:fixed;opacity:0;';
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      var btn = document.querySelector('.qcb-copy-btn');
+      var orig = btn.innerHTML;
+      btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+      setTimeout(function() { btn.innerHTML = orig; }, 2000);
+    });
+  }
+
+  // ── 23. Article-aware textarea placeholder hint ──────────
   (function() {
     try {
       function _ls(k) { try { return JSON.parse(localStorage.getItem(k)); } catch(e) { return null; } }
