@@ -1242,15 +1242,15 @@ fee-tooltip {
   }
 }
 @media (max-width: 768px) {
-  .hero-content-left { animation-delay: 0.2s !important; }
-  .hero-showcase     { animation-delay: 0.5s !important; }
-  .hero-trust        { animation-delay: 0.8s !important; }
+  .hero-content-left { animation-delay: 0.1s !important; }
+  .hero-showcase     { animation-delay: 0.3s !important; }
+  .hero-trust        { animation-delay: 0.4s !important; }
 }
 
 .hero-content-left {
   opacity: 0;
   transform: translateY(30px);
-  animation: heroFadeUp 0.9s ease forwards 3.0s;
+  animation: heroFadeUp 0.9s ease forwards 0.1s;
 }
 
 /* Scroll indicator */
@@ -1269,7 +1269,7 @@ fee-tooltip {
   cursor: pointer;
   font-size: 14px;
   opacity: 0;
-  animation: scrollBobIn 1s ease forwards 4.8s, scrollBob 2s ease-in-out 5.8s infinite;
+  animation: scrollBobIn 1s ease forwards 1.4s, scrollBob 2s ease-in-out 2.4s infinite;
   transition: opacity .35s ease, background .2s, color .2s;
   outline: none;
   -webkit-tap-highlight-color: transparent;
@@ -1323,17 +1323,28 @@ fee-tooltip {
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
-.hero-cursor {
-  display: inline-block;
-  color: #ffd700;
-  font-weight: 300;
-  margin-left: 2px;
-  animation: cursorBlink .75s step-end infinite;
-  -webkit-text-fill-color: #ffd700;
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: .82rem;
+  font-weight: 500;
+  color: #a0a6c0;
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 999px;
+  padding: 6px 14px;
+  margin-bottom: 18px;
 }
-@keyframes cursorBlink {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0; }
+.word-reveal {
+  display: inline-block;
+  margin-right: 0.22em;
+  opacity: 0;
+  transform: perspective(500px) rotateX(-25deg) translateY(18px);
+  animation: wordFlip 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards var(--d, 0s);
+}
+@keyframes wordFlip {
+  to { opacity: 1; transform: perspective(500px) rotateX(0deg) translateY(0); }
 }
 
 .highlight-secondary {
@@ -1431,7 +1442,7 @@ fee-tooltip {
   align-items: center;
   gap: 20px;
   opacity: 0;
-  animation: heroFadeUp 0.6s ease forwards 3.6s;
+  animation: heroFadeUp 0.6s ease forwards 0.4s;
 }
 
 @media (max-width: 992px) {
@@ -1490,7 +1501,7 @@ fee-tooltip {
 .hero-showcase {
   position: relative;
   opacity: 0;
-  animation: showcaseSlideIn 0.9s ease forwards 3.3s;
+  animation: showcaseSlideIn 0.9s ease forwards 0.3s;
 }
 
 @keyframes showcaseSlideIn {
@@ -1617,37 +1628,6 @@ fee-tooltip {
   }
 }
 
-/* ===== TECH CHAOS OVERLAY ===== */
-#techChaos {
-  position: absolute;
-  inset: 0;
-  z-index: 10;
-  overflow: hidden;
-  pointer-events: none;
-  background: #0a0a0f;
-}
-.chaos-word {
-  position: absolute;
-  font-family: 'Poppins', sans-serif;
-  font-weight: 700;
-  white-space: nowrap;
-  transform: translate(-50%, -50%) rotate(var(--rot, 0deg));
-  animation: chaosFloat var(--dur, 3.5s) ease-in-out infinite alternate;
-  will-change: transform, opacity;
-}
-@keyframes chaosFloat {
-  0%   { transform: translate(-50%, calc(-50% - 9px)) rotate(var(--rot, 0deg)); }
-  100% { transform: translate(-50%, calc(-50% + 9px)) rotate(calc(var(--rot, 0deg) + 1.5deg)); }
-}
-#techChaos.scatter .chaos-word {
-  animation: chaosScatter 1s cubic-bezier(0.2, 0, 0.9, 1) forwards;
-  animation-delay: var(--scatter-delay, 0s);
-}
-@keyframes chaosScatter {
-  0%   { transform: translate(-50%, -50%) rotate(var(--rot, 0deg)) scale(1); opacity: var(--start-op, 0.4); }
-  20%  { opacity: var(--start-op, 0.4); }
-  100% { transform: translate(calc(-50% + var(--sx)), calc(-50% + var(--sy))) rotate(calc(var(--rot, 0deg) + 4deg)) scale(0.3); opacity: 0; }
-}
 
 /* ===== PREMIUM PRICING SECTION ===== */
 .pricing-parallax-section {
@@ -2542,7 +2522,6 @@ fee-tooltip {
   background: linear-gradient(135deg, #ffd700 0%, #b389ff 100%) !important;
   -webkit-background-clip: text !important; -webkit-text-fill-color: transparent !important; background-clip: text !important;
 }
-.hero-cursor { color: #7851a9 !important; -webkit-text-fill-color: #7851a9 !important; }
 .hero-subtitle-new { color: #4b5563 !important; }
 .hero-cta-secondary { color: #0f1228 !important; border-color: #d1d5db !important; background: #fff !important; }
 .hero-cta-secondary:hover { background: #f3f4f6 !important; border-color: #7851a9 !important; color: #7851a9 !important; }
@@ -2796,7 +2775,6 @@ fee-tooltip {
 
   <!-- HERO SECTION -->
   <section class="hero-section">
-    <div id="techChaos"></div>
     <div class="hero-glow-new"></div>
     <div class="container container-narrow">
       <div class="hero-grid">
@@ -2804,8 +2782,14 @@ fee-tooltip {
         <!-- Left: Content -->
         <div class="hero-content-left">
 
-          <h1 class="hero-title-new" id="hero-title" aria-label="We run the tech. You run the business.">
-            <span id="hero-plain"></span><span class="highlight" id="hero-highlight"></span><span class="hero-cursor" id="hero-cursor">|</span>
+          <div class="hero-eyebrow">
+            <i class="fas fa-circle-check" style="color:#22c55e;font-size:.75rem;"></i>
+            Professional web design &amp; management for small businesses
+          </div>
+
+          <h1 class="hero-title-new" aria-label="We run the tech. You run the business.">
+            <span class="word-reveal" style="--d:.05s">We</span><span class="word-reveal" style="--d:.15s">run</span><span class="word-reveal" style="--d:.25s">the</span><span class="word-reveal" style="--d:.35s">tech.</span><br>
+            <span class="highlight word-reveal" style="--d:.55s">You run the business.</span>
           </h1>
 
           <p class="hero-subtitle-new" id="indexHeroSub">
@@ -2913,9 +2897,8 @@ fee-tooltip {
     <div class="container container-narrow">
 
       <div class="why-header reveal">
-        <div class="why-kicker"><i class="fas fa-bolt"></i> The WebEaze Difference</div>
-        <h2>Your entire web presence. <span class="gold-sweep">One flat price.</span></h2>
-        <p class="why-header-sub">Most small businesses are juggling 4-5 vendors and still falling through the cracks. WebEaze bundles everything into one plan with one team, so your site works, you rank on Google, and clients actually reach out.</p>
+        <h2>Your web presence. <span class="gold-sweep">One flat price.</span></h2>
+        <p class="why-header-sub">Most small businesses are juggling 4-5 web designers and still paying more than they should. WebEaze bundles everything into one plan, while optimizing your website so clients actually reach out. </p>
       </div>
 
       <div class="why-tabs reveal reveal-delay-1">
@@ -3105,15 +3088,11 @@ fee-tooltip {
       <div class="container container-narrow">
 
         <div class="pricing-header reveal">
-          <span class="pricing-badge">
-            <i class="fas fa-tag"></i>
-            Simple Pricing
-          </span>
           <h2 class="pricing-title">
             Pricing. <span class="gold-sweep">Made easy.</span>
           </h2>
           <p class="pricing-subtitle">
-            Everything your business needs to get found, look credible, and convert clients. One simple monthly price, no hidden fees, no long-term contracts.
+            Everything your business needs to get found, look credible, and convert clients.
           </p>
         </div>
 
@@ -3185,10 +3164,6 @@ fee-tooltip {
   <div class="container container-narrow">
 
     <div class="testimonials-header reveal">
-      <span class="testimonials-badge">
-        <i class="fas fa-star"></i>
-        The WebEaze Experience
-      </span>
       <h2 class="testimonials-title">
       <span class="gold-sweep">47+ clients.</span> And counting.
       </h2>
@@ -3338,9 +3313,6 @@ fee-tooltip {
 <section id="home-faq" style="background:#0a0b14; padding: clamp(60px,9vh,96px) 0; border-top:1px solid rgba(255,255,255,0.06);">
   <div class="container container-narrow">
     <div style="text-align:center; margin-bottom:44px;">
-      <div style="display:inline-flex;align-items:center;gap:7px;background:rgba(120,81,169,0.1);border:1px solid rgba(120,81,169,0.22);border-radius:999px;color:#9d70d6;font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:6px 16px;margin-bottom:18px;">
-        <i class="fas fa-circle-question"></i> Common Questions
-      </div>
       <h2 style="margin-bottom:16px;"><span class="gold-sweep">Everything you should know.</span></h2>
 
     </div>
@@ -4416,118 +4388,6 @@ function whyTabScroll(dir) {
   updateArrows();
 })();
 
-(function() {
-  var isMobile  = window.innerWidth <= 768;
-  var plain     = isMobile ? 'We run the tech.\n' : 'We run the tech. ';
-  var highlight = 'You run the business.';
-  var elPlain   = document.getElementById('hero-plain');
-  var elHL      = document.getElementById('hero-highlight');
-  var elCursor  = document.getElementById('hero-cursor');
-  var i = 0, j = 0;
-  var startDelay = isMobile ? 300 : 3200;
-
-  setTimeout(function typePlain() {
-    if (i < plain.length) {
-      var ch = plain[i++];
-      if (ch === '\n') {
-        elPlain.appendChild(document.createElement('br'));
-      } else {
-        elPlain.appendChild(document.createTextNode(ch));
-      }
-      setTimeout(typePlain, 38);
-    } else {
-      setTimeout(function typeHL() {
-        if (j < highlight.length) {
-          elHL.textContent += highlight[j++];
-          setTimeout(typeHL, 60);
-        } else {
-          setTimeout(function() {
-            elCursor.style.transition = 'opacity .4s';
-            elCursor.style.opacity = '0';
-            setTimeout(function() { elCursor.style.display = 'none'; }, 450);
-          }, 1400);
-        }
-      }, 180);
-    }
-  }, startDelay);
-})();
-
-(function() {
-  var WORDS = [
-    'Figma','Webflow','WordPress','Shopify','Squarespace',
-    'HTML5','CSS3','JavaScript','Netlify','GitHub',
-    'Responsive','Mobile First','UX Design','UI Design',
-    'Typography','Color Palette','Grid Layout','Page Speed',
-    'Landing Page','Custom Code','Clean Design','Fast Sites',
-    'SSL','Hosting','Domain','Analytics','Sitemap',
-    'Meta Tags','Core Web Vitals','Open Graph','Schema',
-    'Wireframe','Prototyping','Brand Kit','Style Guide'
-  ];
-  var COLORS = [
-    'rgba(120,81,169,OP)','rgba(120,81,169,OP)',
-    'rgba(255,215,0,OP)',
-    'rgba(255,255,255,OP)',
-    'rgba(180,130,255,OP)'
-  ];
-  var overlay = document.getElementById('techChaos');
-  if (!overlay) return;
-  if (window.innerWidth <= 768) {
-    if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
-    return;
-  }
-  var W = overlay.offsetWidth || window.innerWidth;
-  var H = overlay.offsetHeight || (window.innerHeight - 60);
-  var cx = W / 2, cy = H / 2;
-
-  WORDS.forEach(function(word) {
-    var s = document.createElement('span');
-    s.className = 'chaos-word';
-    s.textContent = word;
-
-    // Spread words across the full center of the screen
-    var x = 8 + Math.random() * 84;
-    var y = 8 + Math.random() * 84;
-    s.style.left = x + '%';
-    s.style.top  = y + '%';
-
-    var r = Math.random();
-    var size = r < 0.12 ? (64 + Math.floor(Math.random() * 24))  // xl: 64-88px
-             : r < 0.32 ? (40 + Math.floor(Math.random() * 20))  // lg: 40-60px
-             : r < 0.65 ? (24 + Math.floor(Math.random() * 14))  // md: 24-38px
-             :             (16 + Math.floor(Math.random() * 8));  // sm: 16-24px
-    s.style.fontSize = size + 'px';
-
-    var op = (0.15 + Math.random() * 0.55).toFixed(2);
-    s.style.setProperty('--start-op', op);
-    s.style.opacity = op;
-    s.style.color = COLORS[Math.floor(Math.random() * COLORS.length)].replace('OP', op);
-
-    var dur = (2.8 + Math.random() * 3.5).toFixed(1);
-    s.style.setProperty('--dur', dur + 's');
-    s.style.animationDelay = (Math.random() * 1.2).toFixed(2) + 's';
-
-    var rot = (-3 + Math.random() * 6).toFixed(1);
-    s.style.setProperty('--rot', rot + 'deg');
-
-    // Scatter outward from center with a strong push so it's clearly visible
-    var px = (x / 100) * W, py = (y / 100) * H;
-    var dx = px - cx, dy = py - cy;
-    var dist = Math.sqrt(dx * dx + dy * dy) || 1;
-    var mag = 900 + Math.random() * 500;
-    s.style.setProperty('--sx', (dx / dist * mag).toFixed(0) + 'px');
-    s.style.setProperty('--sy', (dy / dist * mag).toFixed(0) + 'px');
-    s.style.setProperty('--scatter-delay', (Math.random() * 0.15).toFixed(2) + 's');
-
-    overlay.appendChild(s);
-  });
-
-  setTimeout(function() { overlay.classList.add('scatter'); }, 1600);
-  setTimeout(function() {
-    overlay.style.transition = 'opacity 0.6s ease';
-    overlay.style.opacity = '0';
-    setTimeout(function() { if (overlay.parentNode) overlay.parentNode.removeChild(overlay); }, 600);
-  }, 2500);
-})();
 
 
 // Personalization
