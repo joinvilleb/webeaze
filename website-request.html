@@ -927,8 +927,52 @@
       <button class="qcb-copy-btn" onclick="qcbCopy()"><i class="fas fa-copy"></i> Copy to clipboard</button>
       <div class="qcb-hint">Paste this into the message field below so we have your full quote on file.</div>
     </div>
-    <script src="https://js-na2.hsforms.net/forms/embed/242171361.js" defer></script>
-    <div class="hs-form-frame" data-region="na2" data-form-id="1bd7643f-da22-4812-a77f-8fe06fb55990" data-portal-id="242171361"></div>
+    <div class="hs-form-frame"></div>
+    <script>
+    (function() {
+      var s = document.createElement('script');
+      s.src = '//js-na2.hsforms.net/forms/embed/v2.js';
+      s.charset = 'utf-8';
+      s.onload = function() {
+        hbspt.forms.create({
+          region: 'na2',
+          portalId: '242171361',
+          formId: '1bd7643f-da22-4812-a77f-8fe06fb55990',
+          target: '.hs-form-frame',
+          onFormReady: function($form) {
+            var text = window._wz_quotePrefill;
+            if (!text) return;
+            var attempts = 0;
+            function tryFill() {
+              attempts++;
+              var ta = document.querySelector('.hs-form-frame textarea');
+              if (ta && !ta.dataset.qbFilled) {
+                ta.dataset.qbFilled = '1';
+                ta.value = text;
+                ['input','change','keyup','keydown'].forEach(function(e) {
+                  ta.dispatchEvent(new Event(e, { bubbles: true }));
+                });
+                ta.focus();
+                ta.blur();
+                return;
+              }
+              if ($form && $form.find) {
+                var $ta = $form.find('textarea').first();
+                if ($ta.length && !$ta.data('qbFilled')) {
+                  $ta.data('qbFilled', true);
+                  $ta.val(text).trigger('input').trigger('change').trigger('keyup');
+                  return;
+                }
+              }
+              if (attempts < 15) setTimeout(tryFill, 250);
+            }
+            setTimeout(tryFill, 100);
+          }
+        });
+      };
+      document.head.appendChild(s);
+    })();
+    </script>
     <p class="form-note">
       <i class="fas fa-clock" style="margin-right:5px;"></i>
       Requests outside <a href="status.html">working hours</a> are handled when we reopen.
@@ -1731,23 +1775,34 @@
       var raw = new URLSearchParams(window.location.search).get('quote');
       if (!raw) return;
       var text = decodeURIComponent(raw);
+      window._wz_quotePrefill = text;
+
       var banner = document.getElementById('quoteCopyBanner');
       var pre    = document.getElementById('qcbPre');
-      if (!banner || !pre) return;
-      pre.textContent = text;
-      banner.classList.add('visible');
-      // Auto-fill the HubSpot textarea once it renders
-      (function watchTA() {
-        var ta = document.querySelector('.hs-form-frame textarea, .hs-form-frame input[name="message"]');
-        if (ta && !ta.dataset.qbFilled) {
-          ta.dataset.qbFilled = '1';
-          ta.value = text;
-          ta.dispatchEvent(new Event('input', { bubbles: true }));
-          ta.dispatchEvent(new Event('change', { bubbles: true }));
-        } else if (!ta) {
-          setTimeout(watchTA, 400);
-        }
-      })();
+      if (banner && pre) { pre.textContent = text; banner.classList.add('visible'); }
+
+      // MutationObserver: fill the instant any textarea appears inside the form frame
+      function fillTA(ta) {
+        if (ta.dataset.qbFilled) return;
+        ta.dataset.qbFilled = '1';
+        ta.value = text;
+        ['input','change','keyup','keydown'].forEach(function(e) {
+          ta.dispatchEvent(new Event(e, { bubbles: true }));
+        });
+        ta.focus();
+        ta.blur();
+      }
+      var container = document.querySelector('.hs-form-frame') || document.body;
+      var obs = new MutationObserver(function() {
+        var ta = container.querySelector('textarea');
+        if (ta) { fillTA(ta); obs.disconnect(); }
+      });
+      obs.observe(container, { childList: true, subtree: true });
+      // Also try immediately in case form already rendered
+      var ta = container.querySelector('textarea');
+      if (ta) { fillTA(ta); obs.disconnect(); }
+      // Safety cutoff after 15 s
+      setTimeout(function() { obs.disconnect(); }, 15000);
     } catch(e) {}
   })();
 
