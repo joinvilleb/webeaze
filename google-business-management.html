@@ -268,29 +268,37 @@
     .process { padding: 90px 0; background: var(--surface); }
     .process-header { text-align: center; margin-bottom: 60px; }
     .steps {
-      display: grid; grid-template-columns: repeat(4, 1fr);
-      gap: 0; position: relative;
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
+      position: relative; max-width: 1000px; margin: 0 auto;
     }
     .steps::before {
-      content: '';
-      position: absolute; top: 28px; left: calc(12.5%); right: calc(12.5%);
-      height: 1px; background: linear-gradient(90deg, transparent, var(--line) 20%, var(--line) 80%, transparent);
+      content: ''; position: absolute; top: 44px;
+      left: calc(12.5% + 12px); right: calc(12.5% + 12px);
+      height: 1px; background: linear-gradient(90deg, rgba(255,215,0,.4), rgba(120,81,169,.4));
+      z-index: 0; pointer-events: none;
     }
-    .step { text-align: center; padding: 0 16px; position: relative; }
+    @media (max-width: 720px) { .steps { grid-template-columns: repeat(2,1fr); gap: 16px; } .steps::before { display: none; } }
+    @media (max-width: 440px) { .steps { grid-template-columns: 1fr; } }
+    .step {
+      background: var(--surface); border: 1px solid var(--line);
+      border-radius: 18px; padding: 32px 18px 28px; text-align: center;
+      position: relative; z-index: 1; overflow: hidden;
+      transition: transform .25s, border-color .25s, box-shadow .25s;
+    }
+    .step::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--gold), var(--gold-soft)); opacity: 0; transition: opacity .25s; }
+    .step:hover { transform: translateY(-5px); border-color: rgba(255,215,0,.25); box-shadow: 0 14px 36px rgba(0,0,0,.3); }
+    .step:hover::after { opacity: 1; }
     .step-num {
-      width: 56px; height: 56px; border-radius: 50%; margin: 0 auto 20px;
-      background: var(--surface-2); border: 2px solid var(--line);
+      width: 64px; height: 64px; border-radius: 50%; margin: 0 auto 18px;
+      background: linear-gradient(135deg, var(--gold), #ffe97a); color: #1a1a2e;
       display: flex; align-items: center; justify-content: center;
-      font-size: 18px; font-weight: 800; color: var(--gold);
-      position: relative; z-index: 1;
-      transition: .2s;
+      font-size: 1.3rem; font-weight: 800;
+      box-shadow: 0 8px 22px rgba(255,215,0,.28);
+      position: relative; z-index: 1; transition: transform .25s;
     }
-    .step:hover .step-num {
-      border-color: var(--gold); background: rgba(255,215,0,.08);
-      box-shadow: 0 0 20px rgba(255,215,0,.15);
-    }
-    .step h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
-    .step p { font-size: 13.5px; color: var(--muted); line-height: 1.65; }
+    .step:hover .step-num { transform: scale(1.08); }
+    .step h3 { font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
+    .step p { font-size: 13.5px; color: var(--muted); line-height: 1.65; margin: 0; }
 
     /* ── PRICING ── */
     .pricing { padding: 90px 0; }

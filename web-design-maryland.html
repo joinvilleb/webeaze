@@ -173,22 +173,18 @@ section.alt { background: var(--card); }
 @media (max-width: 580px) { .get-grid { grid-template-columns: 1fr; } }
 
 /* STEPS */
-.steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; position: relative; }
-@media (max-width: 768px) { .steps-grid { grid-template-columns: 1fr; gap: 24px; } }
-.steps-grid::before {
-  content: ''; position: absolute; top: 27px; left: 10%; right: 10%; height: 2px;
-  background: linear-gradient(90deg, var(--gold), var(--purple), var(--gold)); opacity: .2;
-}
-@media (max-width: 768px) { .steps-grid::before { display: none; } }
-.step { text-align: center; }
-.step-num {
-  width: 54px; height: 54px; border-radius: 50%; margin: 0 auto 16px;
-  background: linear-gradient(135deg, var(--gold), #ffe97a); color: #1a1a2e;
-  font-size: 1.2rem; font-weight: 800;
-  display: flex; align-items: center; justify-content: center;
-}
-.step h3 { font-size: 1.06rem; font-weight: 600; margin-bottom: 8px; }
-.step p { font-size: 1.02rem; color: var(--muted); }
+.steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; max-width: 900px; margin: 0 auto; position: relative; }
+@media (max-width: 720px) { .steps-grid { grid-template-columns: 1fr; max-width: 480px; gap: 20px; } }
+.steps-grid::before { content: ''; position: absolute; top: 44px; left: calc(33.333% + 16px); right: calc(33.333% + 16px); height: 1px; background: linear-gradient(90deg, rgba(255,215,0,.4), rgba(120,81,169,.4)); z-index: 0; pointer-events: none; }
+@media (max-width: 720px) { .steps-grid::before { display: none; } }
+.step { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 36px 24px 32px; text-align: center; position: relative; z-index: 1; overflow: hidden; transition: transform .25s, border-color .25s, box-shadow .25s; }
+.step::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--gold), var(--purple)); opacity: 0; transition: opacity .25s; }
+.step:hover { transform: translateY(-5px); border-color: rgba(255,215,0,.25); box-shadow: 0 16px 40px rgba(0,0,0,.35); }
+.step:hover::after { opacity: 1; }
+.step-num { width: 64px; height: 64px; border-radius: 50%; margin: 0 auto 20px; background: linear-gradient(135deg, var(--gold), #ffe97a); color: #1a1a2e; font-size: 1.4rem; font-weight: 800; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 24px rgba(255,215,0,.25); position: relative; z-index: 1; transition: transform .25s; }
+.step:hover .step-num { transform: scale(1.08); }
+.step h3 { font-size: 1.1rem; font-weight: 700; margin: 0 0 10px; }
+.step p { font-size: .95rem; color: var(--muted); line-height: 1.7; margin: 0; }
 
 /* AREA BAND */
 .area-band {

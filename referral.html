@@ -305,59 +305,57 @@
     }
     .steps-row {
       display: grid;
-      grid-template-columns: 1fr 48px 1fr 48px 1fr;
-      align-items: start;
-      max-width: 960px; margin: 0 auto;
-      gap: 0;
-    }
-    @media (max-width: 768px) {
-      .steps-row { grid-template-columns: 1fr; gap: 24px; }
-      .step-connector { display: none; }
-      .hero-svg { max-width: 180px !important; }
-    }
-    .step-connector {
-      display: flex; align-items: flex-start; justify-content: center;
-      padding-top: 54px;
-    }
-    .step-connector-line {
-      width: 2px; height: 48px;
-      background: linear-gradient(to bottom, var(--gold-glow), transparent);
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      max-width: 900px; margin: 0 auto;
       position: relative;
     }
-    @media (min-width: 769px) {
-      .step-connector { padding-top: 0; align-items: center; }
-      .step-connector-line { width: 100%; height: 2px; background: linear-gradient(to right, var(--gold-glow), transparent); }
+    .steps-row::before {
+      content: ''; position: absolute;
+      top: 44px; left: calc(33.333% + 16px); right: calc(33.333% + 16px);
+      height: 1px;
+      background: linear-gradient(90deg, rgba(255,215,0,.4), rgba(120,81,169,.4));
+      z-index: 0; pointer-events: none;
+    }
+    @media (max-width: 768px) {
+      .steps-row { grid-template-columns: 1fr; max-width: 480px; gap: 20px; }
+      .steps-row::before { display: none; }
+      .hero-svg { max-width: 180px !important; }
     }
 
     .step-card {
       background: var(--bg-card);
       border: 1px solid var(--line);
-      border-radius: 24px;
-      padding: 32px 28px;
-      position: relative;
-      transition: all 0.3s ease;
+      border-radius: 20px;
+      padding: 36px 24px 32px;
+      text-align: center;
+      position: relative; z-index: 1;
+      overflow: hidden;
+      transition: transform .25s, border-color .25s, box-shadow .25s;
     }
-    .step-card:hover { border-color: var(--line-gold); transform: translateY(-4px); box-shadow: 0 20px 48px rgba(0,0,0,0.4); }
+    .step-card::after {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--gold), var(--gold-glow));
+      opacity: 0; transition: opacity .25s;
+    }
+    .step-card:hover { transform: translateY(-5px); border-color: var(--line-gold); box-shadow: 0 20px 50px rgba(0,0,0,.45); }
+    .step-card:hover::after { opacity: 1; }
     .step-num-badge {
-      position: absolute;
-      top: -16px; left: 28px;
-      width: 38px; height: 38px;
+      width: 64px; height: 64px;
+      border-radius: 50%;
       background: linear-gradient(135deg, var(--gold), #ffe566);
-      border-radius: 12px;
+      color: #1a1a2e;
+      font-size: 1.5rem; font-weight: 800;
       display: flex; align-items: center; justify-content: center;
-      font-weight: 800; font-size: 1rem; color: #1a1a2e;
-      box-shadow: 0 6px 20px rgba(255,215,0,0.35);
+      margin: 0 auto 20px;
+      box-shadow: 0 8px 24px rgba(255,215,0,.3);
+      position: relative; z-index: 1;
+      transition: transform .25s;
     }
-    .step-icon {
-      width: 52px; height: 52px;
-      background: linear-gradient(135deg, rgba(255,215,0,0.12), rgba(34,197,94,0.08));
-      border: 1px solid rgba(255,215,0,0.15);
-      border-radius: 14px;
-      display: flex; align-items: center; justify-content: center;
-      margin-bottom: 18px; font-size: 1.4rem; color: var(--gold);
-    }
-    .step-card h3 { font-size: 1.2rem; font-weight: 700; margin: 0 0 10px; }
-    .step-card p { color: var(--ink-2); font-size: 0.92rem; line-height: 1.65; margin: 0; }
+    .step-card:hover .step-num-badge { transform: scale(1.08); }
+    .step-icon { display: none; }
+    .step-card h3 { font-size: 1.15rem; font-weight: 700; margin: 0 0 10px; }
+    .step-card p { color: var(--ink-2); font-size: 0.93rem; line-height: 1.7; margin: 0; }
 
     /* ── Earnings Potential ── */
     .earn-section {
@@ -755,29 +753,18 @@
     <div class="steps-row">
       <div class="step-card reveal">
         <div class="step-num-badge">1</div>
-        <div class="step-icon"><i class="fas fa-share-alt"></i></div>
         <h3>Share WebEaze</h3>
         <p>Tell a business owner about us. Send them to webeaze.io or have them mention your name when they reach out.</p>
       </div>
 
-      <div class="step-connector">
-        <div class="step-connector-line"></div>
-      </div>
-
       <div class="step-card reveal reveal-delay-1">
         <div class="step-num-badge">2</div>
-        <div class="step-icon"><i class="fas fa-handshake"></i></div>
         <h3>They Sign Up</h3>
         <p>When they schedule a call and become a paying client, we verify the referral. We track referrals for 90 days.</p>
       </div>
 
-      <div class="step-connector">
-        <div class="step-connector-line"></div>
-      </div>
-
       <div class="step-card reveal reveal-delay-2">
         <div class="step-num-badge">3</div>
-        <div class="step-icon"><i class="fas fa-wallet"></i></div>
         <h3>You Get Paid</h3>
         <p>After their first week as a client clears, we send $50 cash straight to Venmo, Cash App, PayPal, or Zelle.</p>
       </div>
