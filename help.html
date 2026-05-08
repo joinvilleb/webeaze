@@ -835,6 +835,17 @@
       transition: background .15s;
     }
     .article-body summary:hover { background: rgba(120,81,169,.1); }
+    .article-notice {
+      display: flex; align-items: flex-start; gap: 10px;
+      padding: 12px 16px; border-radius: 10px; margin-bottom: 18px;
+      font-size: 14px; line-height: 1.5;
+    }
+    .article-notice--busy {
+      background: rgba(245,158,11,.12);
+      border: 1px solid rgba(245,158,11,.3);
+      color: rgba(255,255,255,.88);
+    }
+    .article-notice--busy i { color: #fbbf24; margin-top: 2px; flex-shrink: 0; }
     .article-body summary::-webkit-details-marker { display: none; }
     .article-body summary .summary-label { display: flex; align-items: center; gap: 10px; flex: 1; }
     .article-body summary .summary-label i { font-size: 13px; color: #a07dd0; }
@@ -5519,21 +5530,23 @@
       ]},
 
       { id: 'troubleshooting', group: 'support', title: 'Website Support', icon: 'fa-life-ring', articles: [
-        { slug: 'turnarounds-and-common-requests', title: 'When will my website request be completed?', updated: '04-02-2026', meta: 'Typical completion windows for several types of website requests. This article is frequently updated.', body: `
+        { slug: 'turnarounds-and-common-requests', title: 'When will my website request be completed?', updated: new Date() < new Date('2026-05-12T04:00:00Z') ? '05-08-2026' : '04-02-2026', meta: 'Typical completion windows for several types of website requests. This article is frequently updated.', body: `
 
         <p>This page is regularly updated to reflect current turnaround times based on our team's workload and efficiency.</p>
+
+        ${new Date() < new Date('2026-05-12T04:00:00Z') ? '<div class="article-notice article-notice--busy"><i class="fas fa-triangle-exclamation"></i> We are currently experiencing higher than normal request volume. Times below reflect adjusted estimates.</div>' : ''}
 
           <table class="table table-bordered">
             <thead><tr><th>Request type</th><th>Turnaround</th></tr></thead>
             <tbody>
-              <tr><td>Text or image edits</td><td>1 to 3 days</td></tr>
-              <tr><td>Additional pages</td><td>5 to 7 days</td></tr>
-              <tr><td>Mobile optimization fixes</td><td>1 to 3 days</td></tr>
-              <tr><td>SEO updates</td><td>1 to 3 days</td></tr>
-              <tr><td>Contact form edits</td><td>1 to 3 days</td></tr>
-              <tr><td>Full website audit or revamp</td><td>7 to 14 business days</td></tr>
-              <tr><td>Bug fixes or site issues</td><td>24 to 48 hours*</td></tr>
-              <tr><td>Website builds</td><td>Up to 3 weeks</td></tr>
+              <tr><td>Text or image edits</td><td>${new Date() < new Date('2026-05-12T04:00:00Z') ? '3 to 5 days' : '1 to 3 days'}</td></tr>
+              <tr><td>Additional pages</td><td>${new Date() < new Date('2026-05-12T04:00:00Z') ? '7 to 10 days' : '5 to 7 days'}</td></tr>
+              <tr><td>Mobile optimization fixes</td><td>${new Date() < new Date('2026-05-12T04:00:00Z') ? '3 to 5 days' : '1 to 3 days'}</td></tr>
+              <tr><td>SEO updates</td><td>${new Date() < new Date('2026-05-12T04:00:00Z') ? '3 to 5 days' : '1 to 3 days'}</td></tr>
+              <tr><td>Contact form edits</td><td>${new Date() < new Date('2026-05-12T04:00:00Z') ? '3 to 5 days' : '1 to 3 days'}</td></tr>
+              <tr><td>Full website audit or revamp</td><td>${new Date() < new Date('2026-05-12T04:00:00Z') ? '10 to 17 business days' : '7 to 14 business days'}</td></tr>
+              <tr><td>Bug fixes or site issues</td><td>${new Date() < new Date('2026-05-12T04:00:00Z') ? '48 to 72 hours*' : '24 to 48 hours*'}</td></tr>
+              <tr><td>Website builds</td><td>${new Date() < new Date('2026-05-12T04:00:00Z') ? 'Up to 4 weeks' : 'Up to 3 weeks'}</td></tr>
             </tbody>
           </table>
           <p><em>*Urgent issues are prioritized and are often resolved sooner.</em></p>
