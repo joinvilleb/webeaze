@@ -72,7 +72,16 @@ a { text-decoration: none; color: inherit; }
   min-height: 100vh;
 }
 .top-inner {
-  max-width: 680px; margin: 0 auto; padding: 56px 20px 80px;
+  max-width: 1060px; margin: 0 auto; padding: 56px 20px 80px;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 52px; align-items: start;
+}
+.top-left { display: flex; flex-direction: column; }
+.top-right { display: flex; flex-direction: column; gap: 0; }
+.top-visual { margin-top: 28px; }
+.top-visual img { width: 100%; max-width: 360px; height: auto; display: block; }
+@media (max-width: 880px) {
+  .top-inner { grid-template-columns: 1fr; max-width: 640px; gap: 32px; }
+  .top-visual { display: none; }
 }
 @media (max-width: 640px) {
   .top-wrap { padding-top: 56px; }
@@ -89,7 +98,7 @@ a { text-decoration: none; color: inherit; }
   line-height: 1.2; margin-bottom: 12px;
 }
 .top-inner p {
-  font-size: 1.1rem; color: var(--muted); line-height: 1.6; margin-bottom: 36px;
+  font-size: 1.1rem; color: var(--muted); line-height: 1.6; margin-bottom: 0;
 }
 
 /* QUIZ CARD */
@@ -399,9 +408,17 @@ footer { background: #000; padding: 60px 20px 40px; border-top: 1px solid rgba(2
 <!-- TOP: QUIZ + BOOKING -->
 <div class="top-wrap">
   <div class="top-inner">
-    <div class="top-eyebrow"><i class="fas fa-gift"></i> Free mockup, no commitment</div>
-    <h1>Let's see what we can build for you.</h1>
-    <p>Answer a few quick questions and we'll put together a custom mockup for your business. </p>
+
+    <div class="top-left">
+      <div class="top-eyebrow"><i class="fas fa-gift"></i> Free mockup, no commitment</div>
+      <h1>Let's see what we can build for you.</h1>
+      <p>Answer a few quick questions and we'll put together a custom mockup for your business.</p>
+      <div class="top-visual">
+        <img src="images/assets/consultation.svg" alt="" aria-hidden="true" loading="eager">
+      </div>
+    </div>
+
+    <div class="top-right">
 
     <!-- QUIZ -->
     <div class="quiz-card" id="quizCard">
@@ -508,8 +525,10 @@ footer { background: #000; padding: 60px 20px 40px; border-top: 1px solid rgba(2
       <script src="https://static.hsappstatic.net/MeetingsEmbed/ex/MeetingsEmbedCode.js"></script>
     </div>
 
-  </div>
-</div>
+    </div><!-- /top-right -->
+
+  </div><!-- /top-inner -->
+</div><!-- /top-wrap -->
 
 <!-- HOW IT WORKS -->
 <section class="section">
