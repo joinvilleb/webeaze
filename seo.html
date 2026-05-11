@@ -98,7 +98,7 @@ img { max-width: 100%; height: auto; }
   padding: 7px 16px; margin-bottom: 20px;
 }
 .hero h1 {
-  font-size: clamp(2.4rem, 5vw, 3.6rem); font-weight: 800;
+  font-size: clamp(2.4rem, 5vw, 3.6rem); font-weight: 600;
   letter-spacing: -.04em; line-height: 1.08; margin: 0 0 18px; color: var(--text);
 }
 .hero h1 .accent {
@@ -201,10 +201,10 @@ img { max-width: 100%; height: auto; }
 
 /* ── AEO SECTION ── */
 .aeo-inner {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center;
+  display: grid; grid-template-columns: 1fr 1.15fr; gap: 60px; align-items: start;
 }
-@media (max-width: 840px) { .aeo-inner { grid-template-columns: 1fr; gap: 36px; } }
-.aeo-text h2 { font-size: clamp(1.7rem, 3.5vw, 2.3rem); font-weight: 800; letter-spacing: -.03em; margin: 0 0 14px; }
+@media (max-width: 860px) { .aeo-inner { grid-template-columns: 1fr; gap: 36px; } }
+.aeo-text h2 { font-size: clamp(1.7rem, 3.5vw, 2.3rem); font-weight: 700; letter-spacing: -.03em; margin: 0 0 14px; }
 .aeo-text p { color: var(--muted); font-size: .98rem; line-height: 1.75; margin: 0 0 20px; }
 .aeo-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px; }
 .aeo-chip {
@@ -214,21 +214,23 @@ img { max-width: 100%; height: auto; }
   background: var(--blue-soft); color: var(--blue);
 }
 .aeo-engines {
-  display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;
 }
+@media (max-width: 520px) { .aeo-engines { grid-template-columns: 1fr; } }
 .aeo-engine {
-  background: var(--bg); border: 1.5px solid var(--line);
-  border-radius: var(--radius); padding: 18px 20px;
-  display: flex; align-items: flex-start; gap: 14px;
-  transition: border-color .2s;
+  background: var(--surface); border: 1.5px solid var(--line);
+  border-radius: var(--radius-lg); padding: 26px 22px;
+  display: flex; flex-direction: column; gap: 12px;
+  transition: border-color .2s, box-shadow .2s, transform .2s;
+  box-shadow: var(--shadow-sm);
 }
-.aeo-engine:hover { border-color: var(--brand-border); }
+.aeo-engine:hover { border-color: var(--brand-border); box-shadow: var(--shadow-md); transform: translateY(-3px); }
 .aeo-engine-icon {
-  width: 38px; height: 38px; border-radius: 10px; flex-shrink: 0;
-  display: flex; align-items: center; justify-content: center; font-size: .9rem;
+  width: 44px; height: 44px; border-radius: 12px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; font-size: 1rem;
 }
-.aeo-engine h4 { font-size: .87rem; font-weight: 700; margin: 0 0 2px; color: var(--text); }
-.aeo-engine p { font-size: .78rem; color: var(--muted); margin: 0; line-height: 1.45; }
+.aeo-engine h4 { font-size: .95rem; font-weight: 700; margin: 0 0 4px; color: var(--text); }
+.aeo-engine p { font-size: .84rem; color: var(--muted); margin: 0; line-height: 1.6; }
 
 /* ── PLAN COMPARISON ── */
 .plan-compare {
@@ -321,12 +323,13 @@ img { max-width: 100%; height: auto; }
 .faq-list { max-width: 740px; margin: 0 auto; }
 .faq-item { border-bottom: 1px solid var(--line); }
 .faq-q {
-  width: 100%; text-align: left; background: none; border: none;
+  width: 100%; text-align: left; background: none; border: none; outline: none;
   color: var(--text); font-family: 'Poppins', sans-serif;
   font-weight: 600; font-size: .98rem; padding: 22px 0; cursor: pointer;
   display: flex; justify-content: space-between; align-items: center; gap: 16px;
   transition: color .18s;
 }
+.faq-q:focus { outline: none; }
 .faq-q:hover { color: var(--brand); }
 .faq-toggle {
   width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
@@ -426,7 +429,6 @@ footer { background: #0a0a0f; padding: 56px 20px 36px; border-top: 1px solid rgb
   <div class="container container-narrow px-4" style="position:relative;z-index:2;">
     <div class="hero-inner">
       <div class="hero-text">
-        <div class="hero-badge reveal"><i class="fas fa-magnifying-glass-chart"></i> SEO for Small Business</div>
         <h1 class="reveal">Get found.<br><span class="accent">Get chosen.</span></h1>
         <p class="hero-sub reveal">We handle the SEO fundamentals that actually move the needle: clean structure, fast performance, local visibility, and AI search optimization.</p>
         <div class="hero-ctas reveal">
@@ -469,7 +471,6 @@ footer { background: #0a0a0f; padding: 56px 20px 36px; border-top: 1px solid rgb
 <section class="section section-white" id="pillars">
   <div class="container container-narrow px-4">
     <div class="section-header reveal">
-      <div class="section-badge"><i class="fas fa-layer-group"></i> What We Do</div>
       <h2>Four pillars of practical SEO</h2>
       <p>No fluff, no black-hat shortcuts. We focus on what search engines and customers actually reward.</p>
     </div>
@@ -524,47 +525,44 @@ footer { background: #0a0a0f; padding: 56px 20px 36px; border-top: 1px solid rgb
   <div class="container container-narrow px-4">
     <div class="aeo-inner">
       <div class="aeo-text reveal">
-        <div class="section-badge" style="margin-bottom:16px;"><i class="fas fa-robot"></i> Answer Engine Optimization</div>
         <h2>SEO for the AI era.</h2>
         <p>Google AI Overviews, ChatGPT Search, and Perplexity are changing how people find businesses. AEO is the practice of structuring your content and schema so these tools can understand, trust, and cite your business in their answers.</p>
-        <p>We build this into every site we manage. It's not an add-on. It's how modern SEO works.</p>
+        <p>Available on the Growth plan.</p>
         <div class="aeo-chips">
           <span class="aeo-chip"><i class="fas fa-code"></i> Schema markup</span>
           <span class="aeo-chip"><i class="fas fa-list-check"></i> Structured content</span>
           <span class="aeo-chip"><i class="fas fa-circle-question"></i> FAQ optimization</span>
           <span class="aeo-chip"><i class="fas fa-building"></i> Entity clarity</span>
         </div>
-        <a href="consultation.html" class="btn-primary" style="align-self:flex-start;"><i class="fas fa-arrow-right"></i> Talk to Us About AEO</a>
+        <a href="consultation.html" class="btn-primary"><i class="fas fa-arrow-right"></i> Talk to Us About AEO</a>
       </div>
       <div class="aeo-engines reveal d1">
-        <div class="aeo-engines">
-          <div class="aeo-engine">
-            <div class="aeo-engine-icon" style="background:#fef9ee;"><i class="fab fa-google" style="color:#f59e0b;"></i></div>
-            <div>
-              <h4>Google AI Overviews</h4>
-              <p>Structured content and schema help Google surface your business in AI-generated answers.</p>
-            </div>
+        <div class="aeo-engine">
+          <div class="aeo-engine-icon" style="background:#fef9ee;"><i class="fab fa-google" style="color:#f59e0b;"></i></div>
+          <div>
+            <h4>Google AI Overviews</h4>
+            <p>Structured content and schema help Google surface your business in AI-generated answer cards.</p>
           </div>
-          <div class="aeo-engine">
-            <div class="aeo-engine-icon" style="background:#f0f4ff;"><i class="fas fa-comment-dots" style="color:#2563eb;"></i></div>
-            <div>
-              <h4>ChatGPT Search</h4>
-              <p>OpenAI crawls the web. Clear entity signals and authoritative content get you cited.</p>
-            </div>
+        </div>
+        <div class="aeo-engine">
+          <div class="aeo-engine-icon" style="background:#f0f4ff;"><i class="fas fa-comment-dots" style="color:#2563eb;"></i></div>
+          <div>
+            <h4>ChatGPT Search</h4>
+            <p>OpenAI crawls the web. Clear entity signals and authoritative content get you cited in responses.</p>
           </div>
-          <div class="aeo-engine">
-            <div class="aeo-engine-icon" style="background:#f0faf4;"><i class="fas fa-magnifying-glass" style="color:#16a34a;"></i></div>
-            <div>
-              <h4>Perplexity</h4>
-              <p>Well-structured, factual pages rank in AI-first search results and answer summaries.</p>
-            </div>
+        </div>
+        <div class="aeo-engine">
+          <div class="aeo-engine-icon" style="background:#f0faf4;"><i class="fas fa-magnifying-glass" style="color:#16a34a;"></i></div>
+          <div>
+            <h4>Perplexity</h4>
+            <p>Well-structured, factual pages rank in AI-first search results and answer summaries.</p>
           </div>
-          <div class="aeo-engine">
-            <div class="aeo-engine-icon" style="background:#faf0f9;"><i class="fas fa-star" style="color:#7851a9;"></i></div>
-            <div>
-              <h4>Traditional Search</h4>
-              <p>AEO reinforces classic SEO signals: relevance, authority, and user experience.</p>
-            </div>
+        </div>
+        <div class="aeo-engine">
+          <div class="aeo-engine-icon" style="background:#faf0f9;"><i class="fas fa-star" style="color:#7851a9;"></i></div>
+          <div>
+            <h4>Traditional Search</h4>
+            <p>AEO reinforces classic SEO signals: relevance, authority, and user experience.</p>
           </div>
         </div>
       </div>
@@ -577,7 +575,6 @@ footer { background: #0a0a0f; padding: 56px 20px 36px; border-top: 1px solid rgb
 <section class="section section-white">
   <div class="container container-narrow px-4">
     <div class="section-header reveal">
-      <div class="section-badge"><i class="fas fa-chart-line"></i> Ranking Signals</div>
       <h2>What we optimize for</h2>
       <p>These are the signals Google and AI engines use to decide who ranks. We make sure you hit every one.</p>
     </div>
@@ -631,9 +628,8 @@ footer { background: #0a0a0f; padding: 56px 20px 36px; border-top: 1px solid rgb
 <section class="section section-gray" id="plan-comparison">
   <div class="container container-narrow px-4">
     <div class="section-header reveal">
-      <div class="section-badge"><i class="fas fa-layer-group"></i> Plans</div>
       <h2>SEO by plan</h2>
-      <p>Every plan includes foundational SEO. Growth adds the advanced tools to actively grow your visibility over time.</p>
+      <p>Every plan includes foundational SEO. Growth adds advanced tools, AEO, and active visibility growth.</p>
     </div>
     <div class="plan-compare reveal">
       <div class="plan-tier">
@@ -649,7 +645,7 @@ footer { background: #0a0a0f; padding: 56px 20px 36px; border-top: 1px solid rgb
           <li><i class="fas fa-check yes"></i> Google Search Console setup</li>
           <li><i class="fas fa-check yes"></i> Core Web Vitals optimization</li>
           <li><i class="fas fa-check yes"></i> Mobile usability</li>
-          <li><i class="fas fa-check yes"></i> AEO content structuring</li>
+          <li><i class="fas fa-minus" style="color:#d1d5db;"></i> AEO content structuring</li>
           <li><i class="fas fa-minus" style="color:#d1d5db;"></i> Advanced keyword tracking</li>
           <li><i class="fas fa-minus" style="color:#d1d5db;"></i> Google Business Profile management</li>
           <li><i class="fas fa-minus" style="color:#d1d5db;"></i> Local citation building</li>
@@ -671,7 +667,7 @@ footer { background: #0a0a0f; padding: 56px 20px 36px; border-top: 1px solid rgb
           <li><i class="fas fa-check featured-icon"></i> Monthly performance and ranking reports</li>
           <li><i class="fas fa-check featured-icon"></i> Online review management and templates</li>
           <li><i class="fas fa-check featured-icon"></i> Location-specific landing pages</li>
-          <li><i class="fas fa-check featured-icon"></i> Advanced schema and entity optimization</li>
+          <li><i class="fas fa-check featured-icon"></i> AEO content structuring and schema optimization</li>
           <li><i class="fas fa-check featured-icon"></i> Priority turnaround on all updates</li>
         </ul>
       </div>
@@ -687,7 +683,6 @@ footer { background: #0a0a0f; padding: 56px 20px 36px; border-top: 1px solid rgb
 <section class="section section-white">
   <div class="container container-narrow px-4">
     <div class="section-header reveal">
-      <div class="section-badge"><i class="fas fa-route"></i> How It Works</div>
       <h2>Simple process. Real results.</h2>
       <p>Clear steps, quick wins, then steady compounding growth that builds month over month.</p>
     </div>
@@ -716,7 +711,6 @@ footer { background: #0a0a0f; padding: 56px 20px 36px; border-top: 1px solid rgb
 <section class="section section-gray" id="faq">
   <div class="container container-narrow px-4">
     <div class="section-header reveal">
-      <div class="section-badge"><i class="fas fa-circle-question"></i> FAQ</div>
       <h2>Common questions</h2>
     </div>
     <div class="faq-list">
@@ -750,7 +744,7 @@ footer { background: #0a0a0f; padding: 56px 20px 36px; border-top: 1px solid rgb
           What is AEO and do I need it?
           <span class="faq-toggle"><i class="fas fa-plus"></i></span>
         </button>
-        <div class="faq-a">Answer Engine Optimization (AEO) is how you get cited by AI tools like Google AI Overviews, ChatGPT Search, and Perplexity. It involves clean schema markup, structured content, FAQ sections, and entity clarity so AI engines understand and trust your business. We build this into every site we manage because it overlaps directly with classic SEO signals.</div>
+        <div class="faq-a">Answer Engine Optimization (AEO) is how you get cited by AI tools like Google AI Overviews, ChatGPT Search, and Perplexity. It involves clean schema markup, structured content, FAQ sections, and entity clarity so AI engines understand and trust your business. AEO is available on the Growth plan.</div>
       </div>
 
       <div class="faq-item reveal">
