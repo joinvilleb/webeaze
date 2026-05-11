@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="canonical" href="https://webeaze.io/accessibility" />
-<title>Accessibility Statement | WebEaze</title>
-  <meta name="description" content="WebEaze is committed to building accessible, inclusive websites. Read our standards, testing, known issues, and how to get help." />
+  <title>Accessibility Statement | WebEaze</title>
+  <meta name="description" content="WebEaze is committed to building accessible, inclusive websites. Read our standards, testing practices, known issues, and how to reach us." />
   <link rel="shortcut icon" href="images/webeaze-transparent-copy.png" type="image/png" />
 
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
@@ -21,11 +21,9 @@
 
   <style>
     :root {
-      --purple: #000000;
       --gold:   #ffd700;
       --ink:    #0f0f14;
       --paper:  #ffffff;
-      --ring:   rgba(255,255,255,.14);
       --brand:  #7851a9;
     }
     *, *::before, *::after { box-sizing: border-box; }
@@ -33,51 +31,84 @@
     body {
       font-family: Poppins, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
       color: #fff;
-      background: var(--purple);
+      background: #000;
     }
     a { color: var(--gold); }
     a:hover { opacity: .9; }
     .container-narrow { max-width: 980px; margin: 0 auto; }
 
     /* NAV */
-    .navbar { background: rgba(0,0,0,.12); }
+    .nav-wrap {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 9999;
+      background: rgba(5,5,9,0.88);
+      backdrop-filter: saturate(150%) blur(16px);
+      -webkit-backdrop-filter: saturate(150%) blur(16px);
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      transition: transform 0.3s ease;
+    }
+    .nav-wrap.nav-hidden { transform: translateY(-100%); }
+    .webeaze-nav { background: transparent !important; box-shadow: none !important; padding: .6rem 0; }
+    .nav-wrap .container-narrow { padding-left: 24px; padding-right: 24px; }
     .navbar-brand img { height: 36px; }
-    .brand-word { letter-spacing: -.3px; font-weight: 700; color: #fff; }
+    .brand-word { letter-spacing: -.3px; font-weight: 700; background: linear-gradient(90deg,#fff,#a0a6c0); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+    .navbar-dark .nav-link { color: #fff !important; opacity: .85; border-radius: 10px; padding: .45rem .7rem; }
+    .navbar-dark .nav-link:hover { opacity: 1; background: rgba(255,255,255,.08); }
+    .btn-nav { background: var(--gold); color: #1a1a2e; border: none; border-radius: 12px; padding: .6rem .9rem; font-weight: 700; }
 
     /* HERO */
-    .hero { background: #1a1a1a; border-bottom: 1px solid #333; }
-    .hero-inner { padding: 60px 18px 40px; text-align: center; }
-    .eyebrow {
-      display: inline-block; font-size: .75rem; letter-spacing: .1em;
-      text-transform: uppercase; color: #888; margin-bottom: 8px;
-    }
+    .hero { background: #1a1a1a; border-bottom: 1px solid #333; padding-top: 72px; }
+    .hero-inner { padding: 60px 18px 40px; text-align: left; }
     .pill {
       display: inline-block; padding: 6px 12px; border-radius: 6px;
       background: rgba(255,255,255,.08); border: 1px solid #333;
-      font-size: .8rem; margin: 0 6px;
+      font-size: .8rem; margin: 0 6px 0 0;
     }
-    .hero h1 { font-weight: 600; font-size: 2rem; margin: .25rem 0; color: #fff; }
-    .hero p.lead { max-width: 700px; margin: 12px auto 0; line-height: 1.6; color: #999; font-size: 1rem; }
+    .hero h1 { font-weight: 600; letter-spacing: 0; font-size: 2rem; margin: .25rem 0; color: #fff; }
+    .hero p.lead { max-width: 700px; margin: 12px 0 0; line-height: 1.6; color: #999; font-size: 1rem; }
 
-    /* CONTENT */
-    .section-light { background: #f9f7ff; color: #2a2140; padding: 60px 18px; }
-    .section-light h2 { color: #2a2140; }
+    /* CTA */
+    .cta { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 20px; }
+    .btn-hero {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 5px 0; border-radius: 0; text-decoration: none;
+      font-weight: 500; font-size: .82rem; border: none; background: transparent; transition: opacity .2s;
+    }
+    .btn-hero-gold { color: #fff; border-bottom: 1px solid rgba(255,255,255,.35); }
+    .btn-hero-gold:hover { color: #fff; opacity: .7; text-decoration: none; }
+    .btn-hero-ghost { color: #888; border-bottom: 1px solid rgba(255,255,255,.15); }
+    .btn-hero-ghost:hover { color: #aaa; text-decoration: none; }
+
+    /* CONTENT SECTION */
+    .section-light { background: #f9f7ff; color: #2a2140; padding: 60px 18px 80px; }
+
     h2 { font-size: 1.9rem; font-weight: 700; margin-bottom: 18px; }
-    h3 { font-size: 1.25rem; font-weight: 700; margin: 18px 0 8px; }
-    h4 { font-size: 1.05rem; font-weight: 700; margin: 16px 0 6px; }
+    h3 { font-size: 1.35rem; font-weight: 700; margin: 18px 0 8px; }
+    h4 { font-size: 1.12rem; font-weight: 700; margin: 16px 0 6px; }
 
     .card-solid {
       background: #fff; border: 1px solid #eee; border-radius: 14px;
-      padding: 28px; color: #1e1a29; margin-bottom: 20px;
+      padding: 28px 32px; color: #1e1a29; margin-bottom: 20px;
+      font-size: 1rem; line-height: 1.85;
     }
     .card-solid:last-child { margin-bottom: 0; }
-    .card-solid h2 { color: #1e1a29; font-size: 1.4rem; }
-    .card-solid h3 { color: #1e1a29; }
+    .card-solid h2 { color: #1e1a29; font-size: 1.35rem; margin-bottom: 14px; }
+    .card-solid h3 { color: #1e1a29; font-size: 1.1rem; margin: 20px 0 8px; }
+    .card-solid h4 { color: #1e1a29; font-size: 1rem; margin: 16px 0 6px; }
     .card-solid a { color: var(--brand); }
-    .card-solid ul { padding-left: 1.4rem; }
-    .card-solid li { margin-bottom: 8px; line-height: 1.6; }
-    .card-solid p { line-height: 1.7; margin-bottom: 12px; }
+    .card-solid ul, .card-solid ol { padding-left: 1.4rem; margin-bottom: 12px; }
+    .card-solid li { margin-bottom: 8px; line-height: 1.7; }
+    .card-solid p { line-height: 1.75; margin-bottom: 12px; }
     .card-solid p:last-child { margin-bottom: 0; }
+    .card-solid code { background: #f3f0fa; padding: 2px 6px; border-radius: 4px; font-size: .88em; color: #4b2d8a; }
+
+    .section-label {
+      display: inline-block; font-size: .7rem; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--brand); background: rgba(120,81,169,.08);
+      border: 1px solid rgba(120,81,169,.18); border-radius: 6px;
+      padding: 3px 10px; margin-bottom: 10px;
+    }
 
     .note {
       background: rgba(120,81,169,.07); border: 1px solid rgba(120,81,169,.2);
@@ -85,17 +116,39 @@
       color: #4b2d8a; font-size: .9rem; line-height: 1.6;
     }
 
-    /* CTA */
-    .cta { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-top: 20px; }
-    .btn {
-      display: inline-block; padding: 10px 20px; border-radius: 6px;
-      text-decoration: none; font-weight: 500; font-size: .9rem;
-      border: 1px solid #444; transition: all .2s;
+    .check-list { list-style: none; padding: 0; }
+    .check-list li {
+      display: flex; align-items: flex-start; gap: 10px;
+      padding: 7px 0; border-bottom: 1px solid #f0eef8; line-height: 1.6;
     }
-    .btn-gold { background: #fff; color: #1a1a1a; border-color: #fff; }
-    .btn-gold:hover { background: #f0f0f0; color: #1a1a1a; text-decoration: none; }
-    .btn-ghost { background: transparent; color: #ccc; border-color: #555; }
-    .btn-ghost:hover { background: rgba(255,255,255,.05); color: #fff; text-decoration: none; }
+    .check-list li:last-child { border-bottom: none; }
+    .check-list .chk { color: #22c55e; font-size: .85rem; margin-top: 3px; flex-shrink: 0; }
+
+    .tools-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 12px; margin-top: 14px;
+    }
+    .tool-item {
+      background: #f9f7ff; border: 1px solid #e8e4f5; border-radius: 10px;
+      padding: 12px 14px; display: flex; align-items: center; gap: 10px;
+      font-size: .88rem; color: #2a2140; font-weight: 500;
+    }
+    .tool-item i { color: var(--brand); font-size: 1rem; flex-shrink: 0; }
+
+    /* Floating back to top */
+    .back-top {
+      position: fixed; bottom: 28px; right: 28px;
+      width: 42px; height: 42px; background: #1a1a1a;
+      border: 1px solid #333; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      color: #888; font-size: .85rem; cursor: pointer;
+      opacity: 0; pointer-events: none;
+      transform: translateY(8px);
+      transition: opacity .25s ease, transform .25s ease, background .2s, color .2s;
+      z-index: 999; text-decoration: none;
+    }
+    .back-top.visible { opacity: 1; pointer-events: auto; transform: translateY(0); }
+    .back-top:hover { background: #222; color: var(--gold); border-color: rgba(255,215,0,.3); text-decoration: none; }
 
     /* FOOTER */
     footer { background: #000; padding: 60px 20px 40px; border-top: 1px solid rgba(255,255,255,.08); }
@@ -117,10 +170,7 @@
       transition: all .2s; text-decoration: none;
     }
     .footer-social a:hover { background: var(--gold); color: #1a1a2e; }
-    .footer-col h5 {
-      font-size: .85rem; font-weight: 700; text-transform: uppercase;
-      letter-spacing: .08em; color: #fff; margin: 0 0 16px;
-    }
+    .footer-col h5 { font-size: .85rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: #fff; margin: 0 0 16px; }
     .footer-col ul { list-style: none; padding: 0; margin: 0; }
     .footer-col li { margin-bottom: 10px; }
     .footer-col a { color: #a0a6c0; font-size: .9rem; transition: color .2s; text-decoration: none; }
@@ -137,145 +187,206 @@
     .footer-legal a:hover { color: var(--gold); }
     @media (max-width: 600px) { .footer-bottom { flex-direction: column; text-align: center; } }
 
-    /* Reduced motion */
-    @media (prefers-reduced-motion: reduce) {
-      * { animation: none !important; transition: none !important; }
-    }
+    @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
   </style>
 
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position": 1,
-      "name": "Home",
-      "item": "https://webeaze.io/"
-    },
-    {
-      "@type": "ListItem",
-      "position": 2,
-      "name": "Legal"
-    },
-    {
-      "@type": "ListItem",
-      "position": 3,
-      "name": "Accessibility"
-    }
-  ]
-}
-</script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://webeaze.io/" },
+      { "@type": "ListItem", "position": 2, "name": "Legal" },
+      { "@type": "ListItem", "position": 3, "name": "Accessibility Statement" }
+    ]
+  }
+  </script>
 </head>
 <body>
 
 <!-- NAV -->
-<nav class="navbar navbar-expand-lg navbar-dark">
-  <a class="navbar-brand d-flex align-items-center" href="index.html">
-    <img loading="eager" src="images/webeaze-transparent-copy.png" alt="WebEaze">
-    <strong class="ml-2 brand-word">WebEaze</strong>
-  </a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav"
-          aria-controls="nav" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="nav">
-    <ul class="navbar-nav ml-auto">
-      <li class="nav-item"><a class="nav-link" href="services.html">Our Services</a></li>
-      <li class="nav-item"><a class="nav-link" href="pricing.html">Pricing</a></li>
-      <li class="nav-item"><a class="nav-link" href="faq.html">FAQ</a></li>
-      <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
-      <li class="nav-item"><a class="nav-link" href="contact-us.html">Contact</a></li>
-    </ul>
+<div class="nav-wrap" id="top">
+  <div class="container container-narrow">
+    <nav class="navbar navbar-expand-lg navbar-dark webeaze-nav" role="navigation" aria-label="Primary">
+      <a class="navbar-brand d-flex align-items-center" href="index.html">
+        <img loading="eager" src="images/webeaze-transparent-copy.png" alt="WebEaze" height="36" />
+        <strong class="ml-2 brand-word">WebEaze</strong>
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mobileNav"
+              aria-controls="mobileNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div id="mobileNav" class="collapse navbar-collapse">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item"><a class="nav-link" href="services.html">Our Services</a></li>
+          <li class="nav-item"><a class="nav-link" href="pricing.html">Pricing</a></li>
+          <li class="nav-item"><a class="nav-link" href="faq.html">FAQ</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact-us.html">Contact</a></li>
+        </ul>
+      </div>
+    </nav>
   </div>
-</nav>
+</div>
 
 <!-- HERO -->
 <header class="hero">
   <div class="hero-inner container-narrow">
-    <span class="eyebrow">Legal & Compliance</span>
     <h1>Accessibility Statement</h1>
-    <p class="lead">WebEaze is committed to ensuring digital accessibility for people of all abilities. Here's how we approach it and how to reach us if you need help.</p>
+    <p class="lead">WebEaze is committed to ensuring digital accessibility for people of all abilities. This document describes our standards, testing practices, known limitations, and how to reach us if you need help.</p>
     <div class="mt-3">
+      <span class="pill">Effective: <strong>November 1, 2024</strong></span>
       <span class="pill">Last reviewed: <strong id="lastReviewed"></strong></span>
     </div>
     <div class="cta">
-      <a class="btn btn-gold" href="#commitment"><strong>Read Statement</strong></a>
-      <a class="btn btn-ghost" href="#contact-a11y">Report an Issue</a>
+      <a class="btn-hero btn-hero-gold" href="#commitment"><i class="fas fa-arrow-down" style="font-size:.7rem;"></i> Read Statement</a>
+      <a class="btn-hero btn-hero-ghost" href="#contact-a11y">Report an Issue</a>
     </div>
   </div>
 </header>
 
 <!-- CONTENT -->
-<section class="section-light">
+<section class="section-light" id="legal">
   <div class="container-narrow">
 
     <article class="card-solid" id="commitment">
+      <span class="section-label">1. Commitment</span>
       <h2>Our Commitment</h2>
-      <p>WebEaze Web Design ("WebEaze," "we," "our," or "us") is committed to providing an accessible and inclusive digital experience for all users, including individuals with disabilities. We believe the internet should be available to everyone, and we work to ensure our website and services are usable by the widest possible audience.</p>
-      <p>We endeavor to conform to the Web Content Accessibility Guidelines (WCAG) 2.1 Level AA standards as published by the World Wide Web Consortium (W3C). These guidelines provide a framework for making web content more accessible to people with a wide range of disabilities — visual, auditory, physical, cognitive, and neurological.</p>
+      <p>WebEaze Web Design ("WebEaze," "we," "our," or "us") is committed to providing an accessible and inclusive digital experience for all users, including individuals with disabilities. We believe the internet should be usable by everyone, and we apply accessibility principles to every website we design and deliver.</p>
+      <p>We target conformance with the <strong>Web Content Accessibility Guidelines (WCAG) 2.1 Level AA</strong> as published by the World Wide Web Consortium (W3C). These guidelines address accessibility for users with visual, auditory, motor, cognitive, and neurological disabilities.</p>
+      <p>Accessibility is not a checkbox we apply at the end of a project. It is integrated into how we structure HTML, choose color palettes, write content, and test every site before it goes live.</p>
     </article>
 
     <article class="card-solid">
+      <span class="section-label">2. What We Do</span>
       <h2>Accessibility Measures</h2>
-      <p>WebEaze takes the following steps to ensure accessibility across our website and client deliverables:</p>
-      <ul>
-        <li>Semantic HTML markup with proper heading hierarchy, landmark regions, and ARIA attributes where appropriate</li>
-        <li>Fully keyboard-navigable interactive elements with visible focus indicators</li>
-        <li>Color contrast ratios meeting or exceeding WCAG 2.1 Level AA (4.5:1 for normal text, 3:1 for large text)</li>
-        <li>Descriptive alt text for images and non-text content</li>
-        <li>Responsive layouts that function across devices and support browser zoom up to 200%</li>
-        <li>Respect for <code>prefers-reduced-motion</code> user preferences via CSS media queries</li>
-        <li>Form elements with associated labels, clear error identification, and correction guidance</li>
-        <li>Testing with assistive technologies including screen readers and keyboard-only navigation</li>
+      <p>The following practices are applied to every website WebEaze designs and manages:</p>
+
+      <h3>Structure and Semantics</h3>
+      <ul class="check-list">
+        <li><i class="fas fa-check chk"></i><span>Semantic HTML5 elements (<code>&lt;nav&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;header&gt;</code>, <code>&lt;footer&gt;</code>, <code>&lt;article&gt;</code>, <code>&lt;section&gt;</code>) used throughout to define page regions</span></li>
+        <li><i class="fas fa-check chk"></i><span>Heading hierarchy maintained in logical order (h1 &rarr; h2 &rarr; h3) so screen readers can navigate by heading</span></li>
+        <li><i class="fas fa-check chk"></i><span>WAI-ARIA roles and attributes (<code>aria-label</code>, <code>aria-describedby</code>, <code>aria-expanded</code>, <code>aria-current</code>) applied to interactive widgets where native HTML semantics are insufficient</span></li>
+        <li><i class="fas fa-check chk"></i><span>Landmark regions present on all pages so assistive technology users can jump directly to navigation, main content, or footer</span></li>
+      </ul>
+
+      <h3>Color and Visual Design</h3>
+      <ul class="check-list">
+        <li><i class="fas fa-check chk"></i><span>Text color contrast tested to WCAG 2.1 Success Criterion 1.4.3: minimum 4.5:1 for normal text, 3:1 for large text (18pt or 14pt bold)</span></li>
+        <li><i class="fas fa-check chk"></i><span>UI component contrast tested to WCAG 2.1 SC 1.4.11: minimum 3:1 for buttons, form borders, and focus indicators against adjacent backgrounds</span></li>
+        <li><i class="fas fa-check chk"></i><span>Information is never conveyed by color alone; icons, labels, or text patterns are used alongside color</span></li>
+      </ul>
+
+      <h3>Keyboard and Focus</h3>
+      <ul class="check-list">
+        <li><i class="fas fa-check chk"></i><span>All interactive elements (links, buttons, form fields, dropdowns) are reachable and operable using Tab, Shift+Tab, Enter, and Space</span></li>
+        <li><i class="fas fa-check chk"></i><span>Visible focus indicators applied via <code>:focus-visible</code> CSS; no element has <code>outline: none</code> without an accessible alternative</span></li>
+        <li><i class="fas fa-check chk"></i><span>Modal dialogs and overlays trap focus within themselves and return focus to the triggering element when dismissed</span></li>
+      </ul>
+
+      <h3>Images and Media</h3>
+      <ul class="check-list">
+        <li><i class="fas fa-check chk"></i><span>All meaningful images include descriptive <code>alt</code> text per WCAG 2.1 SC 1.1.1; decorative images use empty <code>alt=""</code> to be skipped by screen readers</span></li>
+        <li><i class="fas fa-check chk"></i><span>Icon-only buttons include <code>aria-label</code> text so their purpose is announced by screen readers</span></li>
+      </ul>
+
+      <h3>Forms</h3>
+      <ul class="check-list">
+        <li><i class="fas fa-check chk"></i><span>Every form input has a programmatically associated <code>&lt;label&gt;</code> or <code>aria-label</code></span></li>
+        <li><i class="fas fa-check chk"></i><span>Required fields are identified both visually and via <code>aria-required="true"</code></span></li>
+        <li><i class="fas fa-check chk"></i><span>Inline error messages reference the affected field with <code>aria-describedby</code> so screen readers announce the error in context</span></li>
+      </ul>
+
+      <h3>Responsive Design and Motion</h3>
+      <ul class="check-list">
+        <li><i class="fas fa-check chk"></i><span>Layouts tested down to 320px viewport width with no horizontal scrolling, per WCAG 2.1 SC 1.4.10 (Reflow)</span></li>
+        <li><i class="fas fa-check chk"></i><span>Browser zoom tested up to 400% without loss of content or functionality</span></li>
+        <li><i class="fas fa-check chk"></i><span>A <code>@media (prefers-reduced-motion: reduce)</code> block is included in every site's CSS to disable animations and transitions for users with vestibular sensitivity</span></li>
+        <li><i class="fas fa-check chk"></i><span>Body text is set at a minimum of 16px; line-height is 1.6 or greater for readability</span></li>
       </ul>
     </article>
 
     <article class="card-solid">
-      <h2>Third-Party Content</h2>
-      <p>Our website may incorporate content or functionality from third-party vendors — including scheduling tools, embedded media, analytics, and CRM platforms. While we evaluate vendors for their accessibility practices and prefer those committed to WCAG standards, we cannot guarantee the accessibility of third-party content.</p>
-      <p>Where third-party tools present accessibility barriers, WebEaze will make reasonable efforts to provide alternative methods for completing essential tasks. If you encounter a barrier related to third-party content on our site, please contact us and we will work to assist you directly.</p>
-    </article>
+      <span class="section-label">3. Testing</span>
+      <h2>How We Test</h2>
+      <p>Every WebEaze site undergoes accessibility testing before and after launch. Our testing approach combines automated scanning with manual review.</p>
 
-    <article class="card-solid">
-      <h2>Known Limitations</h2>
-      <p>Despite our efforts, certain limitations may exist. The following are known and being actively addressed:</p>
-      <ul>
-        <li><strong>Third-party integrations:</strong> Embedded widgets may not fully conform to WCAG 2.1 Level AA. We are working with vendors or identifying accessible alternatives.</li>
-        <li><strong>Legacy content:</strong> Some older pages developed prior to our current accessibility standards may contain barriers. These are being remediated on a prioritized schedule.</li>
-        <li><strong>Client-provided content:</strong> Images, documents, and text provided by clients may not always meet accessibility guidelines. We provide guidance on best practices.</li>
-        <li><strong>Multimedia:</strong> Some video or audio content may lack captions or transcripts. We are working to ensure all new multimedia includes appropriate alternatives.</li>
+      <h3>Automated Tools</h3>
+      <div class="tools-grid">
+        <div class="tool-item"><i class="fas fa-bolt"></i> Google Lighthouse (Accessibility audit)</div>
+        <div class="tool-item"><i class="fas fa-universal-access"></i> axe DevTools browser extension</div>
+        <div class="tool-item"><i class="fas fa-palette"></i> WebAIM Contrast Checker</div>
+        <div class="tool-item"><i class="fas fa-code"></i> W3C HTML Validator</div>
+      </div>
+
+      <h3 style="margin-top:20px;">Manual Testing</h3>
+      <ul class="check-list">
+        <li><i class="fas fa-check chk"></i><span>Keyboard-only navigation: every page navigated without a mouse, confirming tab order, focus visibility, and interactive element operability</span></li>
+        <li><i class="fas fa-check chk"></i><span>Screen reader testing with VoiceOver on macOS and Safari, verifying that headings, landmarks, images, forms, and interactive controls are correctly announced</span></li>
+        <li><i class="fas fa-check chk"></i><span>Mobile accessibility testing on iOS with VoiceOver enabled</span></li>
+        <li><i class="fas fa-check chk"></i><span>Cross-browser testing on current versions of Chrome, Firefox, Safari, and Edge</span></li>
       </ul>
+
       <div class="note">
-        <strong>Ongoing assessment:</strong> Accessibility issues are prioritized by impact and technical feasibility. This statement is reviewed periodically to reflect our current status.
+        <strong>Target score:</strong> We aim for a Google Lighthouse Accessibility score of 90 or above on all delivered pages. Issues identified during testing are resolved before launch.
       </div>
     </article>
 
     <article class="card-solid">
-      <h2>Technical Specifications</h2>
-      <p>Our website relies on the following technologies for accessibility conformance:</p>
+      <span class="section-label">4. Third-Party Content</span>
+      <h2>Third-Party Content</h2>
+      <p>Our website and client sites may incorporate functionality from third-party providers, including scheduling tools, embedded media, analytics platforms, and CRM forms. We evaluate vendors for their accessibility practices and prefer those committed to WCAG conformance. However, we cannot fully guarantee the accessibility of third-party content.</p>
+      <p>Where third-party tools present accessibility barriers, WebEaze will make reasonable efforts to provide alternative methods for completing essential tasks. If you encounter a barrier from embedded third-party content, please contact us and we will work to assist you directly.</p>
+    </article>
+
+    <article class="card-solid">
+      <span class="section-label">5. Known Limitations</span>
+      <h2>Known Limitations</h2>
+      <p>Despite our efforts, certain limitations may exist. The following are known and being actively addressed:</p>
       <ul>
-        <li>HTML5</li>
-        <li>CSS3</li>
-        <li>JavaScript</li>
-        <li>WAI-ARIA (Web Accessibility Initiative — Accessible Rich Internet Applications)</li>
+        <li><strong>Third-party form embeds:</strong> Embedded forms from HubSpot and similar platforms may not fully conform to WCAG 2.1 Level AA. We are working with vendors and, where necessary, providing alternative contact methods.</li>
+        <li><strong>Legacy pages:</strong> Pages developed prior to our current accessibility standards may contain gaps. These are remediated on a prioritized schedule, beginning with highest-traffic pages.</li>
+        <li><strong>Client-provided content:</strong> Images, PDFs, and documents provided by clients may not always meet accessibility guidelines. We provide written guidance and offer to remediate content as part of our ongoing plans.</li>
+        <li><strong>Video and audio:</strong> Some video content may lack captions or audio descriptions. All new multimedia produced by WebEaze includes appropriate text alternatives.</li>
       </ul>
-      <p>We design for compatibility with assistive technologies including screen readers (NVDA, JAWS, VoiceOver, TalkBack), screen magnification software, speech recognition software, and keyboard-only navigation. We test across current versions of Chrome, Firefox, Safari, and Edge.</p>
+      <div class="note">
+        <strong>Ongoing assessment:</strong> Accessibility issues are triaged by user impact and technical feasibility. This statement is reviewed bi-monthly and updated when significant changes are made or new issues are resolved.
+      </div>
+    </article>
+
+    <article class="card-solid">
+      <span class="section-label">6. Technical Standards</span>
+      <h2>Technical Specifications</h2>
+      <p>WebEaze websites are built on the following technologies and standards for accessibility conformance:</p>
+      <ul>
+        <li><strong>HTML5</strong> with semantic landmark elements and valid markup (W3C validated)</li>
+        <li><strong>CSS3</strong> with <code>prefers-reduced-motion</code> support and fluid, responsive layouts</li>
+        <li><strong>JavaScript</strong> applied with progressive enhancement; core content and functionality do not require JavaScript to be accessible</li>
+        <li><strong>WAI-ARIA</strong> (Web Accessibility Initiative: Accessible Rich Internet Applications) roles, states, and properties for dynamic widgets</li>
+      </ul>
+      <p>Our sites are designed to be compatible with the following assistive technologies:</p>
+      <ul>
+        <li>Screen readers: NVDA (Windows), JAWS (Windows), VoiceOver (macOS and iOS), TalkBack (Android)</li>
+        <li>Screen magnification software (tested up to 400% zoom)</li>
+        <li>Speech recognition software (Dragon NaturallySpeaking and browser built-in controls)</li>
+        <li>Keyboard-only navigation</li>
+        <li>Switch access and alternative pointing devices (via proper keyboard focus management)</li>
+      </ul>
     </article>
 
     <article class="card-solid" id="contact-a11y">
+      <span class="section-label">7. Report an Issue</span>
       <h2>Report an Accessibility Issue</h2>
-      <p>We welcome your feedback. If you encounter an accessibility barrier or have a suggestion for improvement, please let us know. We take accessibility concerns seriously and will make reasonable efforts to address reported issues promptly.</p>
-      <p><strong>When reporting, it helps to include:</strong></p>
+      <p>We welcome feedback on accessibility. If you encounter a barrier or have a suggestion, please let us know. We respond to accessibility reports within <strong>5 business days</strong> and aim to resolve verified issues within 30 days where technically feasible.</p>
+      <p><strong>To help us investigate quickly, please include:</strong></p>
       <ul>
-        <li>The URL of the page where you encountered the barrier</li>
-        <li>A description of the problem you experienced</li>
-        <li>The browser, operating system, and device type you were using</li>
-        <li>Any assistive technology you were using (e.g., screen reader name and version)</li>
+        <li>The URL of the page where you encountered the issue</li>
+        <li>A description of what happened and what you expected to happen</li>
+        <li>The browser, operating system, and device you were using</li>
+        <li>Any assistive technology in use (name and version if known)</li>
       </ul>
-      <p><strong>Prefer email or phone?</strong> Reach us at <a href="mailto:support@webeaze.io">support@webeaze.io</a> or <a href="tel:+13473772408">(347) 377-2408</a>. We respond to accessibility feedback within 5 business days.</p>
-      <hr style="border-color:#eee; margin: 20px 0;">
+      <p><strong>Prefer to reach us directly?</strong> Email <a href="mailto:support@webeaze.io">support@webeaze.io</a> or call <a href="tel:+13473772408">(347) 377-2408</a>.</p>
+      <hr style="border-color:#eee; margin: 24px 0;">
       <h3>Submit a Report</h3>
       <script src="https://js-na2.hsforms.net/forms/embed/242171361.js" defer></script>
       <div
@@ -287,20 +398,32 @@
     </article>
 
     <article class="card-solid">
+      <span class="section-label">8. Alternative Formats</span>
       <h2>Alternative Formats</h2>
-      <p>Upon request, WebEaze will provide information in alternative formats to accommodate individuals with disabilities — including accessible versions of invoices, contracts, and service agreements. Send requests to <a href="mailto:support@webeaze.io">support@webeaze.io</a> and we will fulfill them within a reasonable timeframe.</p>
+      <p>Upon request, WebEaze will provide information in alternative accessible formats, including accessible versions of invoices, contracts, and service agreements. Send requests to <a href="mailto:support@webeaze.io">support@webeaze.io</a> and we will fulfill them within a reasonable timeframe.</p>
       <p>If you require assistance completing any transaction or accessing any information on our website due to a disability, please contact us and we will provide reasonable accommodations.</p>
     </article>
 
     <article class="card-solid">
+      <span class="section-label">9. Review and Approval</span>
       <h2>Review and Approval</h2>
-      <p>This Accessibility Statement has been reviewed and approved by WebEaze Web Design management. Our accessibility efforts include regular review of this statement, integration of accessibility into project workflows, and monitoring of evolving standards and legal requirements.</p>
-      <p>This statement is reviewed at least annually, or more frequently when significant changes are made to our website or when new issues are identified and remediated.</p>
+      <p>This Accessibility Statement has been reviewed and approved by WebEaze Web Design management. Our accessibility program includes:</p>
+      <ul>
+        <li>Bi-monthly review of this statement, or more frequently when significant changes are made</li>
+        <li>Accessibility checks integrated into our site build and launch checklist</li>
+        <li>Monitoring of WCAG updates and evolving legal requirements (including ADA Title III guidance)</li>
+        <li>Staff awareness of accessibility principles and best practices</li>
+      </ul>
       <p><strong>Statement last reviewed:</strong> <span id="reviewDateText"></span></p>
     </article>
 
   </div>
 </section>
+
+<!-- BACK TO TOP -->
+<a href="#top" class="back-top" id="backTop" aria-label="Back to top">
+  <i class="fas fa-arrow-up"></i>
+</a>
 
 <!-- FOOTER -->
 <footer>
@@ -359,9 +482,26 @@
 <script>
   const now = new Date();
   const fmt = { month: 'long', year: 'numeric' };
-  document.getElementById('lastReviewed').textContent = now.toLocaleDateString(undefined, fmt);
-  document.getElementById('reviewDateText').textContent = now.toLocaleDateString(undefined, fmt);
+  const reviewMonth = Math.floor(now.getMonth() / 2) * 2;
+  const reviewDate = new Date(now.getFullYear(), reviewMonth, 1);
+  document.getElementById('lastReviewed').textContent = reviewDate.toLocaleDateString(undefined, fmt);
+  document.getElementById('reviewDateText').textContent = reviewDate.toLocaleDateString(undefined, fmt);
   document.getElementById('yr').textContent = now.getFullYear();
+
+  // Hide-on-scroll nav
+  let lastY = 0;
+  const navWrap = document.querySelector('.nav-wrap');
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY;
+    navWrap.classList.toggle('nav-hidden', y > lastY && y > 80);
+    lastY = y;
+  }, { passive: true });
+
+  // Back to top
+  const backTop = document.getElementById('backTop');
+  window.addEventListener('scroll', () => {
+    backTop.classList.toggle('visible', window.scrollY > 400);
+  }, { passive: true });
 </script>
 </body>
 </html>
