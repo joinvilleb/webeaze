@@ -17,15 +17,15 @@
 :root {
   --brand: #7851a9;
   --brand-soft: rgba(120,81,169,0.08);
-  --brand-border: rgba(120,81,169,0.18);
+  --brand-border: rgba(120,81,169,0.2);
   --gold: #ffd700;
   --gold-soft: rgba(255,215,0,0.1);
-  --gold-border: rgba(255,215,0,0.22);
+  --gold-border: rgba(255,215,0,0.25);
   --red-soft: rgba(239,68,68,0.08);
-  --red-border: rgba(239,68,68,0.2);
+  --red-border: rgba(239,68,68,0.22);
   --red: #ef4444;
   --green-soft: rgba(34,197,94,0.08);
-  --green-border: rgba(34,197,94,0.2);
+  --green-border: rgba(34,197,94,0.22);
   --green: #16a34a;
   --text: #0f1228;
   --muted: #6b7280;
@@ -80,86 +80,80 @@ main {
   padding: clamp(44px,8vh,84px) 20px clamp(52px,9vh,96px);
 }
 
-/* GREETING */
-.greeting {
-  text-align: center;
-  margin-bottom: 44px;
-  max-width: 560px;
+/* CATEGORY SELECT VIEW */
+.select-view {
+  display: flex; flex-direction: column; align-items: center;
+  width: 100%; max-width: 760px;
 }
+
 .portal-badge {
   display: inline-flex; align-items: center; gap: 7px;
-  font-size: .75rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+  font-size: .75rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
   color: var(--brand); background: var(--brand-soft); border: 1px solid var(--brand-border);
   border-radius: 999px; padding: 7px 16px; margin-bottom: 20px;
 }
-.greeting h1 {
-  font-size: clamp(2rem,4.5vw,3rem);
-  font-weight: 600;
-  letter-spacing: -.03em;
-  line-height: 1.2;
-  margin-bottom: 10px;
+.select-heading {
+  font-size: clamp(1.65rem,4vw,2.4rem);
+  font-weight: 700; letter-spacing: -.03em; line-height: 1.2;
+  margin: 0 0 8px; text-align: center;
 }
-.greeting p {
-  font-size: 1.06rem;
-  color: var(--muted);
-  margin: 0;
-  line-height: 1.6;
+.select-sub {
+  font-size: .97rem; color: var(--muted);
+  margin: 0 0 36px; text-align: center; line-height: 1.6;
 }
 
-/* QUESTION TILES */
+/* TILES GRID */
 .tiles-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
+  gap: 14px;
   width: 100%;
-  max-width: 760px;
 }
-@media (max-width: 580px) {
-  .tiles-grid { grid-template-columns: 1fr; max-width: 420px; }
+@media (max-width: 540px) {
+  .tiles-grid { grid-template-columns: 1fr; }
 }
 
 .tile {
   background: var(--card);
   border: 2px solid var(--line);
   border-radius: var(--radius);
-  padding: 28px 26px;
+  padding: 26px 24px;
   box-shadow: var(--shadow);
   cursor: pointer;
-  display: flex; align-items: flex-start; gap: 18px;
+  display: flex; align-items: flex-start; gap: 16px;
   transition: all .22s ease;
   text-align: left;
   position: relative;
   overflow: hidden;
+  outline: none;
+  font-family: inherit;
+  width: 100%;
 }
 .tile::after {
   content: '';
   position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
   transform: scaleX(0); transform-origin: left; transition: transform .28s;
 }
-.tile:hover, .tile.active {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-hover);
-}
-.tile:hover::after, .tile.active::after { transform: scaleX(1); }
+.tile:hover { transform: translateY(-3px); box-shadow: var(--shadow-hover); }
+.tile:hover::after { transform: scaleX(1); }
 
 .tile.t-update::after  { background: linear-gradient(90deg, var(--brand), #a06dd8); }
 .tile.t-content::after { background: linear-gradient(90deg, var(--gold), #ffb347); }
 .tile.t-billing::after { background: linear-gradient(90deg, #22c55e, #4ade80); }
 .tile.t-broken::after  { background: linear-gradient(90deg, var(--red), #f87171); }
 
-.tile:hover { border-color: var(--line); }
-.tile.t-update:hover, .tile.t-update.active   { border-color: var(--brand-border); }
-.tile.t-content:hover, .tile.t-content.active  { border-color: var(--gold-border); }
-.tile.t-billing:hover, .tile.t-billing.active  { border-color: var(--green-border); }
-.tile.t-broken:hover, .tile.t-broken.active   { border-color: var(--red-border); }
+.tile.t-update:hover  { border-color: var(--brand-border); }
+.tile.t-content:hover { border-color: var(--gold-border); }
+.tile.t-billing:hover { border-color: var(--green-border); }
+.tile.t-broken:hover  { border-color: var(--red-border); }
 
 .tile-icon {
-  width: 48px; height: 48px; border-radius: 12px;
+  width: 46px; height: 46px; border-radius: 12px;
   display: flex; align-items: center; justify-content: center;
-  font-size: 1.25rem; flex-shrink: 0;
+  font-size: 1.2rem; flex-shrink: 0;
   transition: transform .22s;
 }
-.tile:hover .tile-icon, .tile.active .tile-icon { transform: scale(1.07); }
+.tile:hover .tile-icon { transform: scale(1.07); }
 .tile.t-update .tile-icon  { background: var(--brand-soft); color: var(--brand); }
 .tile.t-content .tile-icon { background: var(--gold-soft); color: #8a6400; }
 .tile.t-billing .tile-icon { background: var(--green-soft); color: var(--green); }
@@ -167,62 +161,124 @@ main {
 
 .tile-body strong {
   display: block;
-  font-size: 1.06rem; font-weight: 600; line-height: 1.25; margin-bottom: 5px;
+  font-size: 1.02rem; font-weight: 600; line-height: 1.25; margin-bottom: 4px;
 }
 .tile-body span {
-  font-size: .94rem; color: var(--muted); line-height: 1.5;
+  font-size: .9rem; color: var(--muted); line-height: 1.5;
+}
+.tile-arrow {
+  margin-left: auto; align-self: center; flex-shrink: 0;
+  color: var(--muted); font-size: .85rem;
+  transition: transform .2s, color .2s;
+}
+.tile:hover .tile-arrow { transform: translateX(3px); color: var(--text); }
+
+/* DETAIL VIEW */
+.detail-view {
+  display: none;
+  flex-direction: column;
+  width: 100%; max-width: 600px;
+  animation: panelIn .25s ease;
+}
+.detail-view.visible { display: flex; }
+@keyframes panelIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
-/* NEXT STEP PANEL */
-.next-panel {
-  width: 100%;
-  max-width: 760px;
-  margin-top: 14px;
+.back-btn {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-size: .85rem; font-weight: 600; color: var(--muted);
+  background: none; border: none; cursor: pointer;
+  padding: 0; margin-bottom: 28px; font-family: inherit;
+  transition: color .2s;
+  align-self: flex-start;
+}
+.back-btn:hover { color: var(--text); }
+.back-btn i { font-size: .8rem; }
+
+.detail-header {
+  display: flex; align-items: center; gap: 16px;
+  margin-bottom: 28px;
+}
+.detail-icon {
+  width: 54px; height: 54px; border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.4rem; flex-shrink: 0;
+}
+.detail-icon.update  { background: var(--brand-soft); color: var(--brand); }
+.detail-icon.content { background: var(--gold-soft); color: #8a6400; }
+.detail-icon.billing { background: var(--green-soft); color: var(--green); }
+.detail-icon.broken  { background: var(--red-soft); color: var(--red); }
+
+.detail-title {
+  font-size: 1.35rem; font-weight: 700; letter-spacing: -.02em;
+  margin: 0 0 4px;
+}
+.detail-sub { font-size: .9rem; color: var(--muted); margin: 0; line-height: 1.5; }
+
+.detail-card {
   background: var(--card);
   border: 1.5px solid var(--line);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   padding: 28px;
-  display: none;
-  animation: panelIn .22s ease;
+  display: flex; flex-direction: column; gap: 14px;
 }
-.next-panel.visible { display: block; }
-@keyframes panelIn {
-  from { opacity: 0; transform: translateY(6px); }
-  to   { opacity: 1; transform: translateY(0); }
+
+.detail-section-label {
+  font-size: .72rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .09em; color: var(--muted); margin-bottom: 4px;
 }
-.panel-label {
-  font-size: .73rem; font-weight: 700; text-transform: uppercase;
-  letter-spacing: .09em; color: var(--muted); margin-bottom: 16px;
+
+.action-list {
+  display: flex; flex-direction: column; gap: 10px;
 }
-.panel-actions {
-  display: flex; flex-wrap: wrap; gap: 10px;
-}
-.pa-btn {
-  display: inline-flex; align-items: center; gap: 9px;
-  padding: 11px 18px; border-radius: 10px; font-size: .88rem; font-weight: 600;
+
+.act-btn {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 18px; border-radius: 12px;
+  font-size: .93rem; font-weight: 600;
   border: 1.5px solid var(--line); background: var(--bg);
   color: var(--text); transition: all .18s; text-decoration: none;
+  cursor: pointer; font-family: inherit;
 }
-.pa-btn i { font-size: .85rem; }
-.pa-btn:hover { border-color: var(--brand-border); color: var(--brand); background: var(--brand-soft); }
-.pa-btn.primary {
+.act-btn i { font-size: .9rem; width: 18px; text-align: center; }
+.act-btn .act-arrow { margin-left: auto; font-size: .8rem; color: var(--muted); transition: transform .18s, color .18s; }
+.act-btn:hover { border-color: var(--brand-border); color: var(--brand); background: var(--brand-soft); text-decoration: none; }
+.act-btn:hover .act-arrow { transform: translateX(3px); color: var(--brand); }
+
+.act-btn.primary {
   background: var(--brand); color: #fff; border-color: var(--brand);
   box-shadow: 0 4px 16px rgba(120,81,169,0.22);
 }
-.pa-btn.primary:hover {
+.act-btn.primary:hover {
   background: #6841a0; border-color: #6841a0; color: #fff;
   box-shadow: 0 6px 22px rgba(120,81,169,0.3);
 }
-.pa-btn.gold {
+.act-btn.primary:hover .act-arrow { color: rgba(255,255,255,.7); }
+
+.act-btn.gold {
   background: var(--gold); color: #3d2200; border-color: var(--gold);
   box-shadow: 0 4px 16px rgba(255,215,0,0.28);
 }
-.pa-btn.gold:hover { background: #f2c600; border-color: #f2c600; }
+.act-btn.gold:hover { background: #f2c600; border-color: #f2c600; color: #3d2200; }
+
+.act-btn.red {
+  background: var(--red-soft); color: var(--red); border-color: var(--red-border);
+}
+.act-btn.red:hover { background: rgba(239,68,68,.14); border-color: rgba(239,68,68,.35); color: var(--red); }
+
+.detail-note {
+  font-size: .83rem; color: var(--muted); text-align: center;
+  padding-top: 4px;
+}
+.detail-note a { color: var(--brand); font-weight: 600; }
+.detail-note a:hover { text-decoration: underline; }
 
 /* HELP STRIP */
 .help-strip {
-  margin-top: 40px;
+  margin-top: 36px;
   text-align: center;
   max-width: 760px;
   width: 100%;
@@ -258,90 +314,201 @@ footer a:hover { color: var(--gold); }
 <!-- MAIN -->
 <main>
 
-  <div class="greeting">
+  <!-- CATEGORY SELECT VIEW -->
+  <div class="select-view" id="selectView">
     <div class="portal-badge">
       <i class="fas fa-user-check"></i> Client Portal
     </div>
-    <h1>What do you need today?</h1>
- 
-  </div>
+    <h1 class="select-heading">What do you need today?</h1>
+    <p class="select-sub">Select a category and we'll point you in the right direction.</p>
 
-  <div class="tiles-grid">
+    <div class="tiles-grid">
 
-    <!-- Update my site -->
-    <a class="tile t-update" href="website-request.html">
-      <div class="tile-icon"><i class="fas fa-pen-to-square"></i></div>
-      <div class="tile-body">
-        <strong>Update my website</strong>
-        <span>Request a change, new page, or fix</span>
-      </div>
-    </a>
+      <button class="tile t-update" onclick="selectCategory('update')">
+        <div class="tile-icon"><i class="fas fa-pen-to-square"></i></div>
+        <div class="tile-body">
+          <strong>Update my website</strong>
+          <span>Request a change, new page, or fix</span>
+        </div>
+        <i class="fas fa-chevron-right tile-arrow"></i>
+      </button>
 
-    <!-- Submit content -->
-    <a class="tile t-content" href="https://406km9.share-na2.hsforms.com/2BrG2FrkxQX6to17RxtyS5g" rel="noopener">
-      <div class="tile-icon"><i class="fas fa-folder-open"></i></div>
-      <div class="tile-body">
-        <strong>Submit content for my new site</strong>
-        <span>We're building your site and need your materials.</span>
-      </div>
-    </a>
+      <button class="tile t-content" onclick="selectCategory('content')">
+        <div class="tile-icon"><i class="fas fa-folder-open"></i></div>
+        <div class="tile-body">
+          <strong>Submit content for my new site</strong>
+          <span>We're building your site and need your materials</span>
+        </div>
+        <i class="fas fa-chevron-right tile-arrow"></i>
+      </button>
 
-    <!-- Billing -->
-    <button class="tile t-billing" onclick="showPanel('billing')">
-      <div class="tile-icon"><i class="fas fa-credit-card"></i></div>
-      <div class="tile-body">
-        <strong>Billing or plan question</strong>
-        <span>Invoices, upgrades, or account changes</span>
-      </div>
-    </button>
+      <button class="tile t-billing" onclick="selectCategory('billing')">
+        <div class="tile-icon"><i class="fas fa-credit-card"></i></div>
+        <div class="tile-body">
+          <strong>Billing or plan question</strong>
+          <span>Invoices, upgrades, or account changes</span>
+        </div>
+        <i class="fas fa-chevron-right tile-arrow"></i>
+      </button>
 
-    <!-- Something broken -->
-    <button class="tile t-broken" onclick="showPanel('broken')">
-      <div class="tile-icon"><i class="fas fa-triangle-exclamation"></i></div>
-      <div class="tile-body">
-        <strong>Something is broken</strong>
-        <span>My site has an issue right now</span>
-      </div>
-    </button>
+      <button class="tile t-broken" onclick="selectCategory('broken')">
+        <div class="tile-icon"><i class="fas fa-triangle-exclamation"></i></div>
+        <div class="tile-body">
+          <strong>Something is broken</strong>
+          <span>My site has an issue right now</span>
+        </div>
+        <i class="fas fa-chevron-right tile-arrow"></i>
+      </button>
 
-  </div>
-
-  <!-- Panel: Billing -->
-  <div class="next-panel" id="panel-billing">
-    <div class="panel-label">Billing options</div>
-    <div class="panel-actions">
-      <a class="pa-btn primary" href="https://billing.stripe.com/p/login/7sI3gfaO14CEdlm144" target="_blank" rel="noopener">
-        <i class="fas fa-credit-card"></i> Stripe Portal
-      </a>
-      <a class="pa-btn" href="https://billing.stripe.com/p/login/7sI3gfaO14CEdlm144" target="_blank" rel="noopener">
-        <i class="fas fa-file-invoice"></i> View Invoices
-      </a>
-      <a class="pa-btn" href="help.html#/manage-your-plan">
-        <i class="fas fa-circle-question"></i> Billing Help Article
-      </a>
-      <a class="pa-btn" href="website-request.html">
-        <i class="fas fa-envelope"></i> Send Us a Message
-      </a>
     </div>
   </div>
 
-  <!-- Panel: Broken -->
-  <div class="next-panel" id="panel-broken">
-    <div class="panel-label">Report an issue</div>
-    <div class="panel-actions">
-      <a class="pa-btn primary" href="website-request.html">
-        <i class="fas fa-bolt"></i> Submit Urgent Request
-      </a>
-      <a class="pa-btn" href="help.html#/site-is-down">
-        <i class="fas fa-circle-question"></i> My Site Is Down
-      </a>
-      <a class="pa-btn" href="help.html#/website-error-troubleshooting">
-        <i class="fas fa-wrench"></i> Error on My Site
-      </a>
+  <!-- DETAIL: Update website -->
+  <div class="detail-view" id="detail-update">
+    <button class="back-btn" onclick="goBack()">
+      <i class="fas fa-arrow-left"></i> All options
+    </button>
+    <div class="detail-header">
+      <div class="detail-icon update"><i class="fas fa-pen-to-square"></i></div>
+      <div>
+        <div class="detail-title">Update my website</div>
+        <p class="detail-sub">Submit a change request and we'll take care of it.</p>
+      </div>
     </div>
+    <div class="detail-card">
+      <div class="detail-section-label">What would you like to do?</div>
+      <div class="action-list">
+        <a class="act-btn primary" href="website-request.html">
+          <i class="fas fa-pen-to-square"></i>
+          <span>Submit a website update request</span>
+          <i class="fas fa-arrow-right act-arrow"></i>
+        </a>
+        <a class="act-btn" href="help.html#/website-updates">
+          <i class="fas fa-circle-question"></i>
+          <span>How do update requests work?</span>
+          <i class="fas fa-arrow-right act-arrow"></i>
+        </a>
+        <a class="act-btn" href="help.html#/turnaround-times">
+          <i class="fas fa-clock"></i>
+          <span>Turnaround times</span>
+          <i class="fas fa-arrow-right act-arrow"></i>
+        </a>
+      </div>
+    </div>
+    <p class="detail-note">Questions? <a href="consultation.html">Book a quick call</a> or <a href="help.html">browse the Help Center</a>.</p>
   </div>
 
-  <div class="help-strip">
+  <!-- DETAIL: Submit content -->
+  <div class="detail-view" id="detail-content">
+    <button class="back-btn" onclick="goBack()">
+      <i class="fas fa-arrow-left"></i> All options
+    </button>
+    <div class="detail-header">
+      <div class="detail-icon content"><i class="fas fa-folder-open"></i></div>
+      <div>
+        <div class="detail-title">Submit content for my new site</div>
+        <p class="detail-sub">We need your materials to get started on your build.</p>
+      </div>
+    </div>
+    <div class="detail-card">
+      <div class="detail-section-label">Ready to send your content?</div>
+      <div class="action-list">
+        <a class="act-btn gold" href="https://406km9.share-na2.hsforms.com/2BrG2FrkxQX6to17RxtyS5g" target="_blank" rel="noopener">
+          <i class="fas fa-cloud-arrow-up"></i>
+          <span>Open content submission form</span>
+          <i class="fas fa-arrow-up-right-from-square act-arrow"></i>
+        </a>
+        <a class="act-btn" href="help.html#/what-content-do-i-need">
+          <i class="fas fa-list-check"></i>
+          <span>What content do I need to provide?</span>
+          <i class="fas fa-arrow-right act-arrow"></i>
+        </a>
+        <a class="act-btn" href="help.html#/build-timeline">
+          <i class="fas fa-calendar-days"></i>
+          <span>Website build timeline</span>
+          <i class="fas fa-arrow-right act-arrow"></i>
+        </a>
+      </div>
+    </div>
+    <p class="detail-note">Not sure what to submit? <a href="consultation.html">Book a quick call</a> and we'll walk you through it.</p>
+  </div>
+
+  <!-- DETAIL: Billing -->
+  <div class="detail-view" id="detail-billing">
+    <button class="back-btn" onclick="goBack()">
+      <i class="fas fa-arrow-left"></i> All options
+    </button>
+    <div class="detail-header">
+      <div class="detail-icon billing"><i class="fas fa-credit-card"></i></div>
+      <div>
+        <div class="detail-title">Billing &amp; plan</div>
+        <p class="detail-sub">Manage your subscription, invoices, or account changes.</p>
+      </div>
+    </div>
+    <div class="detail-card">
+      <div class="detail-section-label">Billing options</div>
+      <div class="action-list">
+        <a class="act-btn primary" href="https://billing.stripe.com/p/login/7sI3gfaO14CEdlm144" target="_blank" rel="noopener">
+          <i class="fas fa-credit-card"></i>
+          <span>Manage billing &amp; subscription</span>
+          <i class="fas fa-arrow-up-right-from-square act-arrow"></i>
+        </a>
+        <a class="act-btn" href="https://billing.stripe.com/p/login/7sI3gfaO14CEdlm144" target="_blank" rel="noopener">
+          <i class="fas fa-file-invoice"></i>
+          <span>View past invoices</span>
+          <i class="fas fa-arrow-up-right-from-square act-arrow"></i>
+        </a>
+        <a class="act-btn" href="help.html#/manage-your-plan">
+          <i class="fas fa-circle-question"></i>
+          <span>Billing help article</span>
+          <i class="fas fa-arrow-right act-arrow"></i>
+        </a>
+        <a class="act-btn" href="website-request.html">
+          <i class="fas fa-envelope"></i>
+          <span>Send us a message</span>
+          <i class="fas fa-arrow-right act-arrow"></i>
+        </a>
+      </div>
+    </div>
+    <p class="detail-note">Need to cancel? See the <a href="cancellation-policy.html">cancellation policy</a>.</p>
+  </div>
+
+  <!-- DETAIL: Something broken -->
+  <div class="detail-view" id="detail-broken">
+    <button class="back-btn" onclick="goBack()">
+      <i class="fas fa-arrow-left"></i> All options
+    </button>
+    <div class="detail-header">
+      <div class="detail-icon broken"><i class="fas fa-triangle-exclamation"></i></div>
+      <div>
+        <div class="detail-title">Something is broken</div>
+        <p class="detail-sub">Let us know what's wrong and we'll get it fixed.</p>
+      </div>
+    </div>
+    <div class="detail-card">
+      <div class="detail-section-label">Report the issue</div>
+      <div class="action-list">
+        <a class="act-btn red" href="website-request.html">
+          <i class="fas fa-bolt"></i>
+          <span>Submit an urgent fix request</span>
+          <i class="fas fa-arrow-right act-arrow"></i>
+        </a>
+        <a class="act-btn" href="help.html#/site-is-down">
+          <i class="fas fa-circle-question"></i>
+          <span>My site is down — what to do</span>
+          <i class="fas fa-arrow-right act-arrow"></i>
+        </a>
+        <a class="act-btn" href="help.html#/website-error-troubleshooting">
+          <i class="fas fa-wrench"></i>
+          <span>Troubleshooting an error on my site</span>
+          <i class="fas fa-arrow-right act-arrow"></i>
+        </a>
+      </div>
+    </div>
+    <p class="detail-note">Site completely down? <a href="consultation.html">Book an emergency call</a> and we'll prioritize it.</p>
+  </div>
+
+  <div class="help-strip" id="helpStrip">
     <p>Not sure? <a href="help.html">Browse the Help Center</a> or <a href="consultation.html">book a quick call</a>.</p>
   </div>
 
@@ -360,29 +527,27 @@ footer a:hover { color: var(--gold); }
 <script>
 document.getElementById('yr').textContent = new Date().getFullYear();
 
-function showPanel(id) {
-  // Deactivate all tiles
-  document.querySelectorAll('.tile').forEach(t => t.classList.remove('active'));
-  // Hide all panels
-  document.querySelectorAll('.next-panel').forEach(p => p.classList.remove('visible'));
+function selectCategory(cat) {
+  document.getElementById('selectView').style.display = 'none';
+  document.getElementById('helpStrip').style.display = 'none';
 
-  const panel = document.getElementById('panel-' + id);
-  const tile  = document.querySelector('.t-' + id);
+  document.querySelectorAll('.detail-view').forEach(function(d) {
+    d.classList.remove('visible');
+  });
 
-  if (!panel) return;
-
-  // Toggle: clicking the active tile again collapses it
-  if (tile && tile.classList.contains('was-active')) {
-    tile.classList.remove('was-active');
-    return;
+  var detail = document.getElementById('detail-' + cat);
+  if (detail) {
+    detail.classList.add('visible');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
+}
 
-  document.querySelectorAll('.tile').forEach(t => t.classList.remove('was-active'));
-  if (tile) { tile.classList.add('active'); tile.classList.add('was-active'); }
-  panel.classList.add('visible');
-
-  // Scroll panel into view on mobile
-  setTimeout(() => panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 60);
+function goBack() {
+  document.querySelectorAll('.detail-view').forEach(function(d) {
+    d.classList.remove('visible');
+  });
+  document.getElementById('selectView').style.display = '';
+  document.getElementById('helpStrip').style.display = '';
 }
 </script>
 </body>

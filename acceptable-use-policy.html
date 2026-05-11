@@ -7,30 +7,27 @@
 <meta name="description" content="WebEaze Acceptable Use Policy: the types of websites and content we will and won't build or support." />
 <link rel="canonical" href="https://webeaze.io/acceptable-use-policy" />
 <link rel="shortcut icon" href="images/webeaze-transparent-copy.png" type="image/png" />
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
 <style>
 :root {
-  --bg: #ffffff;
-  --bg-2: #f5f6fa;
-  --bg-3: #eceef8;
-  --gold: #ffd700;
   --brand: #7851a9;
+  --gold: #ffd700;
   --text: #1a1a2e;
-  --text-muted: #374151;
-  --text-dim: #6b7280;
-  --line: rgba(0,0,0,.09);
+  --muted: #4b5563;
+  --dim: #6b7280;
+  --line: #e5e7eb;
+  --bg: #ffffff;
+  --bg-2: #f8f9fc;
   --red: #dc2626;
   --green: #16a34a;
 }
 
-*,*::before,*::after { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 64px; }
 body {
   margin: 0;
   font-family: 'Poppins', sans-serif;
@@ -45,136 +42,206 @@ a:hover { text-decoration: underline; }
 /* NAV */
 .nav-wrap {
   position: sticky; top: 0; z-index: 9999;
-  background: rgba(10,10,15,.95);
+  background: rgba(10,10,15,.97);
   backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid rgba(255,255,255,.08);
+  padding: .6rem 0;
 }
-.webeaze-nav { background: transparent !important; box-shadow: none !important; padding: .6rem 0; }
-.brand-word { letter-spacing: -.3px; font-weight: 700; color: #fff; }
-.logo { height: 36px; }
-.navbar-dark .nav-link { color: #fff !important; opacity: .85; border-radius: 10px; padding: .45rem .7rem; }
-.navbar-dark .nav-link:hover { opacity: 1; background: rgba(255,255,255,.08); }
-.btn-nav { background: var(--gold); color: #2f1e66; border: none; border-radius: 12px; padding: .55rem .85rem; font-weight: 700; font-size: .9rem; }
+.nav-inner { max-width: 1100px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; }
+.nav-brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 1rem; color: #fff; text-decoration: none; }
+.nav-brand img { height: 34px; }
+.nav-links { display: flex; align-items: center; gap: 6px; }
+.nav-link { color: rgba(255,255,255,.85); font-size: .88rem; padding: .4rem .7rem; border-radius: 10px; transition: background .15s, color .15s; }
+.nav-link:hover { background: rgba(255,255,255,.08); color: #fff; text-decoration: none; }
+.btn-nav { background: var(--gold); color: #2f1e66; border-radius: 10px; padding: .5rem .9rem; font-weight: 700; font-size: .88rem; }
+.btn-nav:hover { text-decoration: none; color: #2f1e66; opacity: .9; }
+@media (max-width: 768px) { .nav-links { display: none; } }
+
+/* PAGE WRAPPER */
+.page-wrap {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 0 24px 80px;
+}
 
 /* PAGE HEADER */
-.page-header { background: var(--bg-2); border-bottom: 1px solid var(--line); padding: 56px 20px 40px; }
-.page-header-inner { max-width: 780px; margin: 0 auto; }
-.page-label { font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .18em; color: var(--text-dim); margin-bottom: 10px; }
-.page-header h1 { font-size: clamp(24px,4vw,36px); font-weight: 800; letter-spacing: -.02em; margin: 0 0 10px; }
-.page-meta { display: flex; flex-wrap: wrap; gap: 18px; font-size: .83rem; color: var(--text-dim); }
-.page-meta span { display: flex; align-items: center; gap: 6px; }
-
-/* TOC */
-.toc-bar { background: var(--bg); border-bottom: 1px solid var(--line); padding: 12px 20px; position: sticky; top: 60px; z-index: 100; }
-.toc-inner { max-width: 780px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 18px; }
-.toc-label { font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--text-dim); }
-.toc-bar a { font-size: .87rem; color: var(--text-muted); transition: color .15s; }
-.toc-bar a:hover { color: var(--brand); text-decoration: none; }
-
-/* CONTENT */
-.policy-body { max-width: 780px; margin: 0 auto; padding: 48px 20px 0; }
-.policy-section { margin-bottom: 48px; }
-.policy-section + .policy-section { border-top: 1px solid var(--line); padding-top: 48px; }
-.section-title { font-size: 1.18rem; font-weight: 700; color: var(--text); margin: 0 0 6px; }
-.section-sub { font-size: .97rem; color: var(--text-dim); margin: 0 0 20px; }
-
-/* TWO-COL GRID */
-.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-@media (max-width: 560px) { .two-col { grid-template-columns: 1fr; } }
-.check-card {
-  background: var(--bg-2); border: 1px solid var(--line); border-radius: 10px; padding: 18px 20px;
+.doc-header {
+  padding: 52px 0 36px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 48px;
 }
-.check-card-label {
-  font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em;
-  margin-bottom: 12px; display: flex; align-items: center; gap: 7px;
+.doc-eyebrow {
+  font-size: .72rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .12em; color: var(--dim); margin-bottom: 12px;
 }
-.check-card-label.green { color: var(--green); }
-.check-card-label.red { color: var(--red); }
-.check-card ul { list-style: none; padding: 0; margin: 0; }
-.check-card li {
-  font-size: .97rem; color: var(--text-muted); padding: 5px 0 5px 20px;
-  position: relative; border-bottom: 1px solid var(--line); line-height: 1.65;
+.doc-header h1 {
+  font-size: clamp(24px, 4vw, 34px);
+  font-weight: 800; letter-spacing: -.03em;
+  margin: 0 0 16px; line-height: 1.15;
 }
-.check-card li:last-child { border-bottom: none; }
-.check-card li::before {
+.doc-meta {
+  display: flex; flex-wrap: wrap; gap: 20px;
+  font-size: .83rem; color: var(--dim);
+}
+.doc-meta span { display: flex; align-items: center; gap: 6px; }
+.doc-meta button {
+  display: flex; align-items: center; gap: 6px;
+  background: none; border: none; cursor: pointer;
+  font-size: .83rem; color: var(--dim); font-family: inherit; padding: 0;
+}
+.doc-meta button:hover { color: var(--brand); }
+
+/* DOCUMENT SECTIONS */
+.doc-section {
+  margin-bottom: 52px;
+  padding-bottom: 52px;
+  border-bottom: 1px solid var(--line);
+}
+.doc-section:last-of-type { border-bottom: none; }
+
+.section-label {
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--bg-2); border: 1px solid var(--line);
+  border-radius: 6px; padding: 3px 10px;
+  font-size: .68rem; font-weight: 700; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--dim);
+  margin-bottom: 12px;
+}
+
+.doc-section h2 {
+  font-size: 1.2rem; font-weight: 700; letter-spacing: -.01em;
+  margin: 0 0 6px; color: var(--text);
+}
+.doc-section .section-intro {
+  font-size: .95rem; color: var(--dim); margin: 0 0 22px; line-height: 1.65;
+}
+
+/* PROSE */
+.prose { font-size: .97rem; color: var(--muted); line-height: 1.8; }
+.prose p { margin: 0 0 14px; }
+.prose p:last-child { margin: 0; }
+
+/* ITEM LISTS (rules, conduct) */
+.item-list {
+  list-style: none; padding: 0; margin: 0;
+}
+.item-list li {
+  display: flex; align-items: flex-start; gap: 14px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: .96rem; color: var(--muted); line-height: 1.7;
+}
+.item-list li:first-child { padding-top: 0; }
+.item-list li:last-child { border-bottom: none; padding-bottom: 0; }
+.item-list li .li-icon {
+  margin-top: 3px; flex-shrink: 0; width: 18px; text-align: center; font-size: .9rem;
+}
+.item-list li .li-icon.green { color: var(--green); }
+.item-list li .li-icon.red   { color: var(--red); }
+.item-list li .li-icon.warn  { color: #d97706; }
+
+/* USE CASES LAYOUT */
+.use-cases-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+@media (max-width: 560px) { .use-cases-grid { grid-template-columns: 1fr; } }
+
+.use-card {
+  background: var(--bg-2); border: 1px solid var(--line); border-radius: 12px;
+  padding: 18px 20px;
+}
+.use-card-label {
+  display: flex; align-items: center; gap: 8px;
+  font-size: .75rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .08em; margin-bottom: 14px;
+}
+.use-card-label.green { color: var(--green); }
+.use-card-label.red   { color: var(--red); }
+
+.use-card ul {
+  list-style: none; padding: 0; margin: 0;
+}
+.use-card li {
+  font-size: .92rem; color: var(--muted);
+  padding: 5px 0 5px 22px; position: relative;
+  border-bottom: 1px solid rgba(0,0,0,.05); line-height: 1.6;
+}
+.use-card li:last-child { border-bottom: none; padding-bottom: 0; }
+.use-card li::before {
   position: absolute; left: 0; top: 8px;
   font-family: 'Font Awesome 6 Free'; font-weight: 900;
   font-size: .7rem;
 }
-.check-card.allowed li::before { content: '\f00c'; color: var(--green); }
-.check-card.denied li::before { content: '\f00d'; color: var(--red); }
+.use-card.allowed li::before { content: '\f00c'; color: var(--green); }
+.use-card.denied li::before  { content: '\f00d'; color: var(--red); }
 
-/* RULES LIST */
-.rules-list { list-style: none; padding: 0; margin: 0; }
-.rules-list li {
-  display: flex; gap: 12px; align-items: flex-start;
-  padding: 14px 0; border-bottom: 1px solid var(--line);
-  font-size: 1rem; color: var(--text-muted); line-height: 1.7;
+/* NOTICE BOX */
+.notice-box {
+  background: #fefce8; border: 1px solid #fde68a; border-radius: 10px;
+  padding: 14px 18px; font-size: .92rem; color: #78450a;
+  display: flex; gap: 10px; align-items: flex-start; margin-top: 4px;
 }
-.rules-list li:last-child { border-bottom: none; }
-.rules-list li i { margin-top: 3px; flex-shrink: 0; width: 16px; text-align: center; }
+.notice-box i { margin-top: 2px; flex-shrink: 0; }
+.notice-box a { color: #92400e; }
 
-/* ALERT BOX */
-.alert-box {
-  background: #fef9ec; border: 1px solid #f0d060; border-radius: 10px; padding: 16px 20px;
-  font-size: .97rem; color: #78450a; margin-bottom: 20px;
-  display: flex; gap: 10px; align-items: flex-start;
+/* RELATED LINKS */
+.related-links {
+  margin-top: 48px;
+  background: var(--bg-2); border: 1px solid var(--line);
+  border-radius: 12px; padding: 22px 24px;
 }
-.alert-box i { margin-top: 2px; flex-shrink: 0; }
+.related-links h3 {
+  font-size: .88rem; font-weight: 700; margin: 0 0 14px;
+  display: flex; align-items: center; gap: 8px; color: var(--text);
+}
+.related-links ul {
+  list-style: none; padding: 0; margin: 0;
+  display: flex; flex-direction: column; gap: 9px;
+}
+.related-links li a {
+  font-size: .9rem; display: inline-flex; align-items: center; gap: 7px; color: var(--brand);
+}
+.related-links li a:hover { text-decoration: underline; }
 
-/* PROSE */
-.prose { font-size: 1rem; color: var(--text-muted); line-height: 1.8; }
-.prose p { margin: 0 0 14px; }
-.prose p:last-child { margin: 0; }
-
-/* HELP LINKS */
-.help-links { margin-top: 48px; padding: 24px; background: var(--bg-2); border: 1px solid var(--line); border-radius: 12px; }
-.help-links h3 { font-size: .95rem; font-weight: 700; color: var(--text); margin: 0 0 14px; display: flex; align-items: center; gap: 8px; }
-.help-links ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
-.help-links li a { font-size: .97rem; color: var(--brand); display: inline-flex; align-items: center; gap: 6px; }
-.help-links li a:hover { text-decoration: underline; }
-
-/* CTA */
-.cta-box { max-width: 780px; margin: 48px auto 0; padding: 0 20px 56px; }
-.cta-inner {
-  background: var(--bg-2); border: 1px solid var(--line); border-radius: 12px;
-  padding: 28px 32px; display: flex; align-items: center; justify-content: space-between;
+/* CTA STRIP */
+.cta-strip {
+  margin-top: 48px;
+  background: var(--bg-2); border: 1px solid var(--line); border-radius: 14px;
+  padding: 26px 28px;
+  display: flex; align-items: center; justify-content: space-between;
   flex-wrap: wrap; gap: 16px;
 }
-.cta-text h3 { font-size: .97rem; font-weight: 700; margin: 0 0 3px; color: var(--text); }
-.cta-text p { font-size: .86rem; color: var(--text-dim); margin: 0; }
-.cta-actions { display: flex; gap: 10px; flex-wrap: wrap; }
-.btn-gold { display: inline-flex; align-items: center; gap: 7px; padding: 10px 20px; background: var(--gold); color: #1a1a2e; border-radius: 10px; font-weight: 700; font-size: .87rem; transition: transform .2s; }
-.btn-gold:hover { transform: translateY(-1px); color: #1a1a2e; text-decoration: none; }
-.btn-outline { display: inline-flex; align-items: center; gap: 7px; padding: 10px 20px; background: transparent; color: var(--text); border: 1px solid var(--line); border-radius: 10px; font-weight: 600; font-size: .87rem; transition: border-color .2s; }
+.cta-strip-text h3 { font-size: .97rem; font-weight: 700; margin: 0 0 3px; }
+.cta-strip-text p { font-size: .86rem; color: var(--dim); margin: 0; }
+.cta-strip-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+.btn-gold {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 10px 20px; background: var(--gold); color: #1a1a2e;
+  border-radius: 10px; font-weight: 700; font-size: .87rem; transition: opacity .15s;
+}
+.btn-gold:hover { opacity: .9; color: #1a1a2e; text-decoration: none; }
+.btn-outline {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 10px 20px; background: transparent; color: var(--text);
+  border: 1px solid var(--line); border-radius: 10px; font-weight: 600; font-size: .87rem;
+  transition: border-color .15s;
+}
 .btn-outline:hover { border-color: rgba(0,0,0,.25); color: var(--text); text-decoration: none; }
 
 /* FOOTER */
-footer { background: #0a0a0f; padding: 60px 20px 40px; border-top: 1px solid rgba(255,255,255,.08); }
-.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; max-width: 1100px; margin: 0 auto 48px; }
-@media (max-width: 768px) { .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; } }
-@media (max-width: 480px) { .footer-grid { grid-template-columns: 1fr; gap: 28px; } }
-.footer-brand { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
-.footer-brand img { height: 32px; }
-.footer-brand span { font-weight: 700; font-size: 1.1rem; color: #fff; }
-.footer-tagline { color: #a0a6c0; font-size: .9rem; line-height: 1.6; margin-bottom: 18px; max-width: 280px; }
-.footer-social { display: flex; gap: 10px; }
-.footer-social a { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; background: rgba(255,255,255,.06); border-radius: 10px; color: #a0a6c0; font-size: .95rem; transition: all .2s; }
-.footer-social a:hover { background: var(--gold); color: #1a1a2e; text-decoration: none; }
-.footer-col h5 { font-size: .83rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: #fff; margin: 0 0 14px; }
-.footer-col ul { list-style: none; padding: 0; margin: 0; }
-.footer-col li { margin-bottom: 9px; }
-.footer-col a { color: #a0a6c0; font-size: .88rem; transition: color .2s; }
-.footer-col a:hover { color: var(--gold); text-decoration: none; }
-.footer-bottom { max-width: 1100px; margin: 0 auto; padding-top: 22px; border-top: 1px solid rgba(255,255,255,.08); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; }
-.footer-bottom p { color: #6b7280; font-size: .83rem; margin: 0; }
-.footer-legal { display: flex; gap: 22px; }
-.footer-legal a { color: #6b7280; font-size: .83rem; transition: color .2s; }
-.footer-legal a:hover { color: var(--gold); text-decoration: none; }
-@media (max-width: 600px) { .footer-bottom { flex-direction: column; text-align: center; } }
+footer { background: #0a0a0f; padding: 40px 20px 30px; border-top: 1px solid rgba(255,255,255,.08); }
+.footer-inner { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+.footer-inner p { color: #6b7280; font-size: .83rem; margin: 0; }
+.footer-links { display: flex; gap: 18px; }
+.footer-links a { color: #6b7280; font-size: .83rem; transition: color .2s; }
+.footer-links a:hover { color: var(--gold); text-decoration: none; }
+@media (max-width: 600px) { .footer-inner { flex-direction: column; text-align: center; } }
 
 @media print {
-  .nav-wrap, .toc-bar, .cta-box, footer { display: none !important; }
+  .nav-wrap, .cta-strip, footer { display: none !important; }
 }
 </style>
 
@@ -183,22 +250,9 @@ footer { background: #0a0a0f; padding: 60px 20px 40px; border-top: 1px solid rgb
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position": 1,
-      "name": "Home",
-      "item": "https://webeaze.io/"
-    },
-    {
-      "@type": "ListItem",
-      "position": 2,
-      "name": "Legal"
-    },
-    {
-      "@type": "ListItem",
-      "position": 3,
-      "name": "Acceptable Use Policy"
-    }
+    {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://webeaze.io/"},
+    {"@type": "ListItem", "position": 2, "name": "Legal"},
+    {"@type": "ListItem", "position": 3, "name": "Acceptable Use Policy"}
   ]
 }
 </script>
@@ -207,79 +261,57 @@ footer { background: #0a0a0f; padding: 60px 20px 40px; border-top: 1px solid rgb
 
 <!-- NAV -->
 <div class="nav-wrap">
-  <div class="container" style="max-width:1100px">
-    <nav class="navbar navbar-expand-lg navbar-dark webeaze-nav" role="navigation" aria-label="Primary">
-      <a class="navbar-brand d-flex align-items-center" href="index.html">
-        <img loading="eager" class="logo" src="images/webeaze-transparent-copy.png" alt="WebEaze" />
-        <strong class="ml-2 brand-word">WebEaze</strong>
-      </a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mobileNav"
-              aria-controls="mobileNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div id="mobileNav" class="collapse navbar-collapse">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item"><a class="nav-link" href="services.html">Our Services</a></li>
-          <li class="nav-item"><a class="nav-link" href="pricing.html">Pricing</a></li>
-          <li class="nav-item"><a class="nav-link" href="faq.html">FAQ</a></li>
-          <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
-          <li class="nav-item"><a class="nav-link" href="contact-us.html">Contact</a></li>
-          <li class="nav-item ml-1"><a class="btn btn-sm btn-nav" href="consultation.html">Free Mockup</a></li>
-        </ul>
-      </div>
-    </nav>
+  <div class="nav-inner">
+    <a class="nav-brand" href="index.html">
+      <img loading="eager" src="images/webeaze-transparent-copy.png" alt="WebEaze" />
+      <strong>WebEaze</strong>
+    </a>
+    <div class="nav-links">
+      <a class="nav-link" href="services.html">Services</a>
+      <a class="nav-link" href="pricing.html">Pricing</a>
+      <a class="nav-link" href="about.html">About</a>
+      <a class="nav-link" href="contact-us.html">Contact</a>
+      <a class="btn-nav" href="consultation.html">Free Mockup</a>
+    </div>
   </div>
 </div>
 
-<!-- PAGE HEADER -->
-<header class="page-header">
-  <div class="page-header-inner">
-    <div class="page-label">Policy Document</div>
+<div class="page-wrap">
+
+  <!-- HEADER -->
+  <header class="doc-header">
+    <div class="doc-eyebrow">Policy Document</div>
     <h1>Acceptable Use Policy</h1>
-    <div class="page-meta">
+    <div class="doc-meta">
       <span><i class="fas fa-calendar-alt"></i> Effective October 2024</span>
       <span><i class="fas fa-sync-alt"></i> Updated March 2026</span>
-      <span style="cursor:pointer" onclick="window.print()"><i class="fas fa-print"></i> Print</span>
+      <button onclick="window.print()"><i class="fas fa-print"></i> Print</button>
     </div>
-  </div>
-</header>
+  </header>
 
-<!-- TOC -->
-<nav class="toc-bar" aria-label="Jump to section">
-  <div class="toc-inner">
-    <span class="toc-label">Jump to:</span>
-    <a href="#overview">Overview</a>
-    <a href="#what-we-build">What We Build</a>
-    <a href="#what-we-dont">What We Don't Build</a>
-    <a href="#client-conduct">Client Conduct</a>
-    <a href="#content-rules">Content Rules</a>
-    <a href="#enforcement">Enforcement</a>
-  </div>
-</nav>
-
-<div class="policy-body">
-
-  <!-- OVERVIEW -->
-  <div id="overview" class="policy-section">
-    <h2 class="section-title">Overview</h2>
+  <!-- SECTION 1: Overview -->
+  <section id="overview" class="doc-section">
+    <div class="section-label">01 — Overview</div>
+    <h2>Overview</h2>
     <div class="prose">
-      <p>WebEaze builds professional websites for small businesses. This policy outlines the types of websites and content we will and won't work with, and how you're expected to conduct yourself as a client.</p>
-      <p>This Acceptable Use Policy (AUP) applies to all WebEaze clients, including those on monthly or annual plans, one-time projects, and any other services we provide. By engaging our services, you agree and are bound by these terms. .</p>
+      <p>WebEaze builds professional websites for small businesses. This policy describes the types of websites and content we will and won't work with, and what we expect from you as a client.</p>
+      <p>This Acceptable Use Policy applies to all WebEaze clients, including those on monthly or annual plans, one-time projects, and any other services we provide. By engaging our services, you agree to these terms.</p>
     </div>
-  </div>
+  </section>
 
-  <!-- WHAT WE BUILD -->
-  <div id="what-we-build" class="policy-section">
-    <h2 class="section-title">What We Build</h2>
-    <p class="section-sub">We specialize in websites for legitimate, operating small businesses.</p>
-    <div class="check-card allowed">
-      <div class="check-card-label green"><i class="fas fa-check-circle"></i> Accepted use cases</div>
+  <!-- SECTION 2: What We Build -->
+  <section id="what-we-build" class="doc-section">
+    <div class="section-label">02 — What We Build</div>
+    <h2>What We Build</h2>
+    <p class="section-intro">We specialize in websites for legitimate, operating small businesses.</p>
+    <div class="use-card allowed">
+      <div class="use-card-label green"><i class="fas fa-check-circle"></i> Accepted use cases</div>
       <ul>
-        <li>Local service businesses (contractors, cleaners, landscapers, etc.)</li>
-        <li>Retail stores and e-commerce shops (legal products)</li>
+        <li>Local service businesses (contractors, cleaners, landscapers, and similar trades)</li>
+        <li>Retail stores and e-commerce shops selling legal products</li>
         <li>Restaurants, cafes, and food service businesses</li>
-        <li>Professional services (consultants, accountants, attorneys, etc.)</li>
-        <li>Health and wellness providers (licensed practitioners)</li>
+        <li>Professional services (consultants, accountants, attorneys, and similar)</li>
+        <li>Licensed health and wellness providers</li>
         <li>Non-profit and community organizations</li>
         <li>Salons, spas, and personal care businesses</li>
         <li>Real estate and property management</li>
@@ -287,15 +319,16 @@ footer { background: #0a0a0f; padding: 60px 20px 40px; border-top: 1px solid rgb
         <li>Educational services and tutoring</li>
       </ul>
     </div>
-  </div>
+  </section>
 
-  <!-- WHAT WE DON'T BUILD -->
-  <div id="what-we-dont" class="policy-section">
-    <h2 class="section-title">What We Don't Build</h2>
-    <p class="section-sub">We reserve the right to decline any project that doesn't align with our values or services.</p>
-    <div class="two-col" style="margin-bottom:16px">
-      <div class="check-card denied">
-        <div class="check-card-label red"><i class="fas fa-ban"></i> Always declined</div>
+  <!-- SECTION 3: What We Don't Build -->
+  <section id="what-we-dont" class="doc-section">
+    <div class="section-label">03 — What We Don't Build</div>
+    <h2>What We Don't Build</h2>
+    <p class="section-intro">We reserve the right to decline any project that doesn't align with our values or services.</p>
+    <div class="use-cases-grid">
+      <div class="use-card denied">
+        <div class="use-card-label red"><i class="fas fa-ban"></i> Always declined</div>
         <ul>
           <li>Adult or sexually explicit content</li>
           <li>Hate speech, discrimination, or extremist content</li>
@@ -307,187 +340,143 @@ footer { background: #0a0a0f; padding: 60px 20px 40px; border-top: 1px solid rgb
           <li>Content promoting violence or self-harm</li>
         </ul>
       </div>
-      <div class="check-card denied">
-        <div class="check-card-label red"><i class="fas fa-circle-exclamation"></i> Generally declined</div>
+      <div class="use-card denied">
+        <div class="use-card-label red"><i class="fas fa-circle-exclamation"></i> Generally declined</div>
         <ul>
           <li>Competing web design agencies</li>
           <li>Cryptocurrency exchanges or NFT platforms</li>
-          <li>Multi-level marketing (MLM) primary sites</li>
+          <li>Multi-level marketing primary sites</li>
           <li>Political campaigns or lobbying organizations</li>
           <li>Sites requiring licensed medical or legal advice</li>
-          <li>Cannabis or controlled substance retailers (state laws vary)</li>
-          <li>Firearms dealers (case by case)</li>
+          <li>Cannabis retailers (state laws vary)</li>
+          <li>Firearms dealers (reviewed case by case)</li>
         </ul>
       </div>
     </div>
-    <div class="alert-box">
+    <div class="notice-box">
       <i class="fas fa-info-circle"></i>
-      <div>If you're unsure whether your business qualifies, <a href="contact-us.html">reach out before purchasing</a>. We're happy to discuss your project.</div>
+      <div>Unsure whether your business qualifies? <a href="contact-us.html">Reach out before purchasing</a> and we'll be happy to discuss your project.</div>
     </div>
-  </div>
+  </section>
 
-  <!-- CLIENT CONDUCT -->
-  <div id="client-conduct" class="policy-section">
-    <h2 class="section-title">Client Conduct</h2>
-    <p class="section-sub">We expect all clients to work with us in good faith.</p>
-    <ul class="rules-list">
+  <!-- SECTION 4: Client Conduct -->
+  <section id="client-conduct" class="doc-section">
+    <div class="section-label">04 — Client Conduct</div>
+    <h2>Client Conduct</h2>
+    <p class="section-intro">We expect all clients to work with us in good faith.</p>
+    <ul class="item-list">
       <li>
-        <i class="fas fa-circle-check" style="color:var(--green)"></i>
+        <i class="fas fa-circle-check li-icon green"></i>
         <div><strong>Communicate clearly and honestly.</strong> Provide accurate business information, content, and credentials when requested.</div>
       </li>
       <li>
-        <i class="fas fa-circle-check" style="color:var(--green)"></i>
-        <div><strong>Respect our team.</strong> We have a zero-tolerance policy for harassment, threats, or abusive communication toward any WebEaze team member.</div>
+        <i class="fas fa-circle-check li-icon green"></i>
+        <div><strong>Treat our team with respect.</strong> We have a zero-tolerance policy for harassment, threats, or abusive communication toward any WebEaze team member.</div>
       </li>
       <li>
-        <i class="fas fa-circle-xmark" style="color:var(--red)"></i>
-        <div><strong>Don't make unauthorized changes.</strong> If we manage your site, do not modify the platform, code, or settings without letting us know first. Unauthorized changes may cause issues we are not responsible for fixing. See <a href="help.html#/self-management">Can I manage my own website?</a></div>
+        <i class="fas fa-circle-xmark li-icon red"></i>
+        <div><strong>Do not make unauthorized changes.</strong> If we manage your site, do not modify the platform, code, or settings without letting us know first. Unauthorized changes may cause issues we are not responsible for fixing. See <a href="help.html#/self-management">Can I manage my own website?</a></div>
       </li>
       <li>
-        <i class="fas fa-circle-xmark" style="color:var(--red)"></i>
-        <div><strong>Don't share login credentials without notice.</strong> If you need a third party to access your site or platform, inform us first.</div>
+        <i class="fas fa-circle-xmark li-icon red"></i>
+        <div><strong>Do not share login credentials without notice.</strong> If you need a third party to access your site or platform, inform us first.</div>
       </li>
       <li>
-        <i class="fas fa-circle-xmark" style="color:var(--red)"></i>
-        <div><strong>Don't add unauthorized third-party scripts.</strong> Custom code, tracking pixels, or plugins added without our knowledge may break your site. We are not liable for resulting damage.</div>
+        <i class="fas fa-circle-xmark li-icon red"></i>
+        <div><strong>Do not add unauthorized third-party scripts.</strong> Custom code, tracking pixels, or plugins added without our knowledge may break your site. We are not liable for resulting damage.</div>
       </li>
       <li>
-        <i class="fas fa-circle-xmark" style="color:var(--red)"></i>
-        <div><strong>Don't misuse support.</strong> Support is for website-related needs. Excessive off-topic requests, repeated submissions for the same issue, or attempts to work around fair-use limits are not permitted. See our <a href="help.html#/fair-use">Fair Use Policy</a>.</div>
+        <i class="fas fa-circle-xmark li-icon red"></i>
+        <div><strong>Do not misuse support.</strong> Support is for website-related needs. Excessive off-topic requests, repeated submissions for the same issue, or attempts to circumvent fair-use limits are not permitted. See our <a href="help.html#/fair-use">Fair Use Policy</a>.</div>
       </li>
     </ul>
-  </div>
+  </section>
 
-  <!-- CONTENT RULES -->
-  <div id="content-rules" class="policy-section">
-    <h2 class="section-title">Content Rules</h2>
-    <p class="section-sub">You are responsible for the content you ask us to publish on your website.</p>
-    <ul class="rules-list">
+  <!-- SECTION 5: Content Rules -->
+  <section id="content-rules" class="doc-section">
+    <div class="section-label">05 — Content Rules</div>
+    <h2>Content Rules</h2>
+    <p class="section-intro">You are responsible for the content you ask us to publish on your website.</p>
+    <ul class="item-list">
       <li>
-        <i class="fas fa-circle-check" style="color:var(--green)"></i>
+        <i class="fas fa-circle-check li-icon green"></i>
         <div><strong>You own and are responsible for your content.</strong> Text, images, logos, and other assets you provide must be legally yours to use.</div>
       </li>
       <li>
-        <i class="fas fa-circle-xmark" style="color:var(--red)"></i>
+        <i class="fas fa-circle-xmark li-icon red"></i>
         <div><strong>No copyright-infringing material.</strong> Do not ask us to publish images, text, or media that you do not have the rights to.</div>
       </li>
       <li>
-        <i class="fas fa-circle-xmark" style="color:var(--red)"></i>
+        <i class="fas fa-circle-xmark li-icon red"></i>
         <div><strong>No misleading or false claims.</strong> Content must accurately represent your business, products, and services. We will not publish false testimonials, fabricated reviews, or deceptive pricing.</div>
       </li>
       <li>
-        <i class="fas fa-circle-xmark" style="color:var(--red)"></i>
+        <i class="fas fa-circle-xmark li-icon red"></i>
         <div><strong>No content that violates applicable law.</strong> This includes consumer protection regulations, FTC disclosure requirements, and state or federal advertising laws.</div>
       </li>
       <li>
-        <i class="fas fa-circle-check" style="color:var(--green)"></i>
+        <i class="fas fa-circle-check li-icon green"></i>
         <div><strong>Legal pages are your responsibility.</strong> Privacy policies, terms of service, and disclaimers you ask us to publish must be reviewed by your own legal counsel. We can help create basic versions but do not provide legal advice. See <a href="help.html#/legal-pages">Legal Pages</a>.</div>
       </li>
     </ul>
-  </div>
+  </section>
 
-  <!-- ENFORCEMENT -->
-  <div id="enforcement" class="policy-section">
-    <h2 class="section-title">Enforcement</h2>
-    <p class="section-sub">What happens if this policy is violated.</p>
-    <div class="prose">
-      <p>If we determine that a client has violated this Acceptable Use Policy, we may take any of the following actions:</p>
-    </div>
-    <ul class="rules-list">
+  <!-- SECTION 6: Enforcement -->
+  <section id="enforcement" class="doc-section">
+    <div class="section-label">06 — Enforcement</div>
+    <h2>Enforcement</h2>
+    <p class="section-intro">What happens if this policy is violated.</p>
+    <ul class="item-list">
       <li>
-        <i class="fas fa-triangle-exclamation" style="color:#b8860b"></i>
-        <div><strong>Warning.</strong> For minor violations, we'll notify you of the issue and request corrective action before taking further steps.</div>
+        <i class="fas fa-triangle-exclamation li-icon warn"></i>
+        <div><strong>Warning.</strong> For minor violations, we'll notify you and request corrective action before taking further steps.</div>
       </li>
       <li>
-        <i class="fas fa-triangle-exclamation" style="color:#b8860b"></i>
-        <div><strong>Content removal.</strong> We'll remove or refuse to publish specific content that violates this policy without affecting your overall plan or account.</div>
+        <i class="fas fa-triangle-exclamation li-icon warn"></i>
+        <div><strong>Content removal.</strong> We may remove or refuse to publish specific content that violates this policy without affecting your overall plan or account.</div>
       </li>
       <li>
-        <i class="fas fa-circle-xmark" style="color:var(--red)"></i>
+        <i class="fas fa-circle-xmark li-icon red"></i>
         <div><strong>Immediate termination.</strong> For serious violations, we reserve the right to terminate your account immediately without notice or refund.</div>
       </li>
     </ul>
-    <div class="alert-box" style="margin-top:20px">
+    <div class="notice-box" style="margin-top:20px">
       <i class="fas fa-info-circle"></i>
       <div>Termination due to an AUP violation does not entitle you to a refund. See our <a href="refund-policy.html">Refund Policy</a> for details.</div>
     </div>
-  </div>
+  </section>
 
-  <!-- HELP LINKS -->
-  <div class="help-links">
+  <!-- RELATED LINKS -->
+  <div class="related-links">
     <h3><i class="fas fa-circle-question" style="color:var(--brand)"></i> Related Help Articles</h3>
     <ul>
       <li><a href="help.html#/client-policy"><i class="fas fa-arrow-right fa-xs"></i> Websites we don't build or support</a></li>
       <li><a href="help.html#/self-management"><i class="fas fa-arrow-right fa-xs"></i> Can I manage my own website?</a></li>
       <li><a href="help.html#/website-ownership-access"><i class="fas fa-arrow-right fa-xs"></i> What are my rights as a website owner?</a></li>
-      <li><a href="help.html#/fair-use"><i class="fas fa-arrow-right fa-xs"></i> Fair Usage policy</a></li>
-      <li><a href="help.html#/unfinished-work-policy"><i class="fas fa-arrow-right fa-xs"></i> Unfinished Work policy</a></li>
+      <li><a href="help.html#/fair-use"><i class="fas fa-arrow-right fa-xs"></i> Fair Usage Policy</a></li>
       <li><a href="help.html#/legal-pages"><i class="fas fa-arrow-right fa-xs"></i> Legal pages: Privacy Policy, Terms, ADA compliance</a></li>
     </ul>
   </div>
 
-</div><!-- /policy-body -->
-
-<!-- CTA -->
-<div class="cta-box">
-  <div class="cta-inner">
-    <div class="cta-text">
+  <!-- CTA -->
+  <div class="cta-strip">
+    <div class="cta-strip-text">
       <h3>Questions about your project?</h3>
       <p>We're happy to talk through whether your business is a good fit.</p>
     </div>
-    <div class="cta-actions">
+    <div class="cta-strip-actions">
       <a href="contact-us.html" class="btn-gold"><i class="fas fa-envelope"></i> Contact Us</a>
       <a href="services.html" class="btn-outline"><i class="fas fa-layer-group"></i> Our Services</a>
     </div>
   </div>
-</div>
+
+</div><!-- /page-wrap -->
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-grid">
-    <div>
-      <div class="footer-brand">
-        <img loading="eager" src="images/webeaze-transparent-copy.png" alt="WebEaze">
-        <span>WebEaze</span>
-      </div>
-      <p class="footer-tagline">Professional websites for small businesses. We build, host, and manage your site so you can focus on what matters.</p>
-      <div class="footer-social">
-        <a href="https://facebook.com/61568824951084" target="_blank" rel="noopener" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-        <a href="https://www.linkedin.com/company/webeaze" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-        <a href="https://instagram.com/webeaze.io" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-      </div>
-    </div>
-    <div class="footer-col">
-      <h5>Services</h5>
-      <ul>
-        <li><a href="services.html">Our Services</a></li>
-        <li><a href="pricing.html">Pricing</a></li>
-        <li><a href="plan-guide.html">Plan Guide</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h5>Company</h5>
-      <ul>
-        <li><a href="about.html">About Us</a></li>
-        <li><a href="samples.html">Our Work</a></li>
-        <li><a href="referral.html">Referral Program</a></li>
-        <li><a href="contact-us.html">Contact</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h5>Legal</h5>
-      <ul>
-        <li><a href="terms.html">Terms of Service</a></li>
-        <li><a href="terms.html#privacy">Privacy Policy</a></li>
-        <li><a href="refund-policy.html">Refund Policy</a></li>
-        <li><a href="cancellation-policy.html">Cancellation Policy</a></li>
-        <li><a href="acceptable-use-policy.html">Acceptable Use</a></li>
-      </ul>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <p style="color:#fff">&copy; <span id="yr"></span> WebEaze. Made in Delaware, USA 🇺🇸</p>
-    <div class="footer-legal">
+  <div class="footer-inner">
+    <p>&copy; <span id="yr"></span> WebEaze. Made in Delaware, USA.</p>
+    <div class="footer-links">
       <a href="terms.html#privacy">Privacy Policy</a>
       <a href="terms.html">Terms of Service</a>
       <a href="sitemap.xml">Site Map</a>
@@ -496,16 +485,5 @@ footer { background: #0a0a0f; padding: 60px 20px 40px; border-top: 1px solid rgb
 </footer>
 
 <script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-document.querySelectorAll('a[href^="#"]').forEach(function(a) {
-  a.addEventListener('click', function(e) {
-    e.preventDefault();
-    var target = document.querySelector(this.getAttribute('href'));
-    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  });
-});
-</script>
 </body>
 </html>
