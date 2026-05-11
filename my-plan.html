@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>My Plan Benefits | WebEaze</title>
+  <title>My Plan | WebEaze</title>
   <meta name="description" content="See exactly what's included in your WebEaze plan. Select your plan to view your features, support access, and benefits." />
   <link rel="canonical" href="https://webeaze.io/my-plan" />
   <link rel="shortcut icon" href="images/webeaze-transparent-copy.png" type="image/png" />
@@ -64,269 +64,195 @@
     /* ── HERO ── */
     .hero {
       background: #000;
-      padding: 36px 20px 40px;
+      padding: 32px 20px 36px;
       text-align: center;
       border-bottom: 1px solid rgba(255,255,255,.08);
     }
+    .plan-greeting {
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .12em; color: rgba(255,255,255,.38);
+      margin-bottom: 12px;
+    }
     .hero h1 {
       color: #fff;
-      font-size: clamp(20px, 3.5vw, 30px);
-      font-weight: 800; letter-spacing: -.025em;
+      font-size: clamp(22px, 3.5vw, 32px);
+      font-weight: 700; letter-spacing: -.025em;
       margin: 0 0 6px;
     }
-    .hero p {
-      color: rgba(255,255,255,.45);
-      font-size: .92rem; max-width: 420px;
-      margin: 0 auto 28px;
+    .hero-sub {
+      color: rgba(255,255,255,.4);
+      font-size: .88rem; max-width: 380px;
+      margin: 0 auto 24px; line-height: 1.5;
     }
 
-    /* ── PLAN PICKER ── */
-    .plan-picker {
-      display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;
-      position: relative;
-    }
-    .pick-btn {
-      display: flex; flex-direction: column; align-items: center; gap: 10px;
-      padding: 24px 28px 22px;
-      border-radius: 18px;
-      border: 1.5px solid rgba(255,255,255,.1);
+    /* ── PLAN TABS ── */
+    .plan-tabs {
+      display: inline-flex;
       background: rgba(255,255,255,.06);
-      color: rgba(255,255,255,.6);
-      font-family: 'Poppins', sans-serif;
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 14px;
+      padding: 5px;
+      gap: 3px;
+    }
+    .plan-tab {
+      padding: 9px 22px;
+      border-radius: 10px;
+      font-size: 13.5px; font-weight: 600;
+      color: rgba(255,255,255,.5);
+      border: none; background: transparent;
       cursor: pointer;
-      transition: all .2s ease;
-      min-width: 148px;
-      position: relative;
-      overflow: hidden;
-    }
-    .pick-btn::after {
-      content: '';
-      position: absolute; top: 0; left: 0; right: 0;
-      height: 3px; border-radius: 18px 18px 0 0;
-      opacity: 0; transition: opacity .2s;
-    }
-    .pick-btn[data-plan="essential"]::after { background: #22c55e; }
-    .pick-btn[data-plan="growth"]::after    { background: linear-gradient(90deg, #a855f7, #ffd700); }
-    .pick-btn[data-plan="onetime"]::after   { background: #3b82f6; }
-
-    .pick-btn:hover {
-      border-color: rgba(255,255,255,.22);
-      background: rgba(255,255,255,.1);
-      color: rgba(255,255,255,.85);
-      transform: translateY(-2px);
-    }
-    .pick-btn .pick-icon { font-size: 24px; line-height: 1; }
-    .pick-btn .plan-label { font-size: 14px; font-weight: 700; letter-spacing: -.01em; line-height: 1.2; }
-    .pick-btn .plan-sub { font-size: 11px; font-weight: 500; opacity: .55; letter-spacing: .01em; }
-
-    /* Essential active */
-    .pick-btn[data-plan="essential"].active {
-      border-color: #22c55e;
-      background: rgba(34,197,94,.12);
-      color: #86efac;
-      box-shadow: 0 0 0 3px rgba(34,197,94,.15), 0 8px 24px rgba(0,0,0,.3);
-    }
-    .pick-btn[data-plan="essential"].active::after { opacity: 1; }
-    .pick-btn[data-plan="essential"].active .pick-icon { color: #4ade80; }
-
-    /* Growth active */
-    .pick-btn[data-plan="growth"].active {
-      border-color: #7851a9;
-      background: rgba(120,81,169,.2);
-      color: #d8b4fe;
-      box-shadow: 0 0 0 3px rgba(120,81,169,.2), 0 8px 24px rgba(0,0,0,.3);
-    }
-    .pick-btn[data-plan="growth"].active::after { opacity: 1; }
-    .pick-btn[data-plan="growth"].active .pick-icon { color: #ffd700; }
-
-    /* One-Time active */
-    .pick-btn[data-plan="onetime"].active {
-      border-color: #3b82f6;
-      background: rgba(59,130,246,.12);
-      color: #93c5fd;
-      box-shadow: 0 0 0 3px rgba(59,130,246,.15), 0 8px 24px rgba(0,0,0,.3);
-    }
-    .pick-btn[data-plan="onetime"].active::after { opacity: 1; }
-    .pick-btn[data-plan="onetime"].active .pick-icon { color: #60a5fa; }
-
-    /* ── CONTENT AREA ── */
-    .content-wrap { padding: 56px 20px 80px; }
-
-    /* Plan badge at top of results */
-    .plan-badge {
-      display: flex; align-items: center; gap: 16px;
-      background: linear-gradient(135deg, #7851a9 0%, #5b3d8a 100%);
-      color: #fff; border-radius: 16px;
-      padding: 22px 28px; margin-bottom: 32px;
-      box-shadow: 0 6px 24px rgba(120,81,169,.22);
-    }
-    .plan-badge .badge-icon {
-      width: 52px; height: 52px; border-radius: 12px;
-      background: rgba(255,255,255,.15);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 22px; flex-shrink: 0;
-    }
-    .plan-badge .badge-text { display: flex; flex-direction: column; gap: 2px; }
-    .plan-badge .badge-name { font-size: 1.3rem; font-weight: 800; letter-spacing: -.01em; }
-    .plan-badge .badge-sub { font-size: .85rem; opacity: .75; font-weight: 500; }
-    .plan-badge.growth { background: linear-gradient(135deg, #7851a9 0%, #3d2070 100%); box-shadow: 0 6px 24px rgba(120,81,169,.3); }
-    .plan-badge.onetime { background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); box-shadow: 0 6px 24px rgba(37,99,235,.22); }
-    .plan-badge.essential { background: linear-gradient(135deg, #16a34a 0%, #15803d 100%); box-shadow: 0 6px 24px rgba(22,163,74,.22); }
-
-    /* ── SECTION HEADING ── */
-    .section-label {
-      font-size: 13px; font-weight: 700; text-transform: uppercase;
-      letter-spacing: .1em; color: var(--ink-3);
-      margin: 36px 0 14px;
-    }
-
-    /* ── FEATURE CHIP GRID ── */
-    .feature-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 9px;
-      justify-content: center;
-    }
-    .feat-chip {
-      flex: 0 0 calc(33.333% - 6px);
-      max-width: calc(33.333% - 6px);
-      box-sizing: border-box;
-    }
-    @media (max-width: 640px) {
-      .feat-chip { flex: 0 0 calc(50% - 4.5px); max-width: calc(50% - 4.5px); }
-    }
-    @media (max-width: 360px) {
-      .feat-chip { flex: 0 0 100%; max-width: 100%; }
-    }
-
-    .feat-chip {
-      display: flex; align-items: center; gap: 10px;
-      background: var(--white); border: 1.5px solid var(--line);
-      border-radius: 12px; padding: 13px 14px;
+      transition: all .15s;
       font-family: 'Poppins', sans-serif;
+      white-space: nowrap;
+    }
+    .plan-tab:hover { color: rgba(255,255,255,.85); background: rgba(255,255,255,.06); }
+    .plan-tab[data-plan="essential"].active { background: rgba(34,197,94,.16); color: #86efac; }
+    .plan-tab[data-plan="growth"].active    { background: rgba(120,81,169,.28); color: #d8b4fe; }
+    .plan-tab[data-plan="onetime"].active   { background: rgba(59,130,246,.18); color: #93c5fd; }
+    @media (max-width: 420px) {
+      .plan-tab { padding: 8px 14px; font-size: 13px; }
+    }
+
+    /* ── CONTENT ── */
+    .content-wrap { padding: 48px 20px 80px; }
+
+    /* ── SECTION LABEL ── */
+    .section-label {
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .1em; color: var(--ink-3);
+      margin: 32px 0 14px; display: block;
+    }
+
+    /* ── FEATURE LIST ── */
+    .feature-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4px;
+    }
+    @media (max-width: 600px) { .feature-list { grid-template-columns: 1fr; } }
+
+    .feature-row {
+      display: flex; flex-direction: column;
+      padding: 0; border-radius: 12px;
+      background: var(--white); border: 1.5px solid var(--line);
+      overflow: hidden;
+      transition: border-color .15s;
+      cursor: pointer;
+    }
+    .feature-row:hover { border-color: rgba(120,81,169,.35); }
+    .feature-row.open  { border-color: var(--brand); }
+    .fr-top {
+      display: flex; align-items: center; gap: 13px;
+      padding: 14px 16px;
+    }
+    .fr-icon {
+      width: 36px; height: 36px; border-radius: 9px;
+      background: rgba(120,81,169,.09);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--brand); font-size: 14px; flex-shrink: 0;
+    }
+    .fr-body { flex: 1; min-width: 0; }
+    .fr-name { font-size: 14.5px; font-weight: 700; color: var(--ink); line-height: 1.3; }
+    .fr-chevron {
+      font-size: 11px; color: #c8cce0; flex-shrink: 0;
+      transition: transform .2s ease, color .15s;
+    }
+    .feature-row.open .fr-chevron { transform: rotate(180deg); color: var(--brand); }
+    .fr-detail {
+      display: none;
+      padding: 12px 16px 14px 65px;
+      font-size: 13.5px; color: var(--ink-2); line-height: 1.6;
+      border-top: 1px solid var(--line);
+    }
+    .feature-row.open .fr-detail { display: block; }
+
+    /* Essential color scheme */
+    .plan-essential .fr-icon { background: rgba(34,197,94,.1); color: #16a34a; }
+    /* Growth color scheme */
+    .plan-growth .fr-icon { background: rgba(120,81,169,.1); color: var(--brand); }
+    /* Onetime */
+    .plan-onetime .fr-icon { background: rgba(59,130,246,.1); color: #2563eb; }
+
+    /* ── SUPPORT CHIPS ── */
+    .support-row { display: flex; flex-wrap: wrap; gap: 8px; }
+    .support-chip {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: var(--white); border: 1.5px solid var(--line);
+      border-radius: 10px; padding: 9px 14px;
       font-size: 13px; font-weight: 600; color: var(--ink-2);
-      text-align: left; cursor: pointer;
-      transition: border-color .15s, background .15s, color .15s;
     }
-    .feat-chip .fc-icon { font-size: 13px; color: var(--brand); flex-shrink: 0; width: 16px; text-align: center; }
-    .feat-chip .fc-name { flex: 1; line-height: 1.3; }
-    .feat-chip .fc-arrow { font-size: 9px; color: #d1d5e0; flex-shrink: 0; transition: transform .2s, color .15s; }
-    .feat-chip:hover { border-color: rgba(120,81,169,.4); color: var(--ink); }
-    .feat-chip.active { border-color: var(--brand); background: #f8f5ff; color: var(--ink); }
-    .feat-chip.active .fc-arrow { transform: rotate(180deg); color: var(--brand); }
+    .support-chip i { color: var(--brand); font-size: 13px; }
 
-    .feat-detail-inline {
-      flex: 0 0 100%;
-      background: #f8f5ff; border: 1.5px solid rgba(120,81,169,.22);
-      border-radius: 14px; padding: 16px 20px;
-      font-size: 14px; color: var(--ink-2); line-height: 1.65;
-      animation: fdIn .15s ease;
+    /* ── NEXT TIER HINT ── */
+    .tier-hint {
+      display: flex; align-items: flex-start; gap: 12px;
+      background: #f8f5ff; border: 1px solid rgba(120,81,169,.15);
+      border-radius: 12px; padding: 16px 18px; margin-top: 28px;
+      font-size: 13px; color: var(--ink-2); line-height: 1.6;
     }
-    @keyframes fdIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
-    .feat-detail-inline .fd-title { font-size: 13px; font-weight: 700; color: var(--brand); margin-bottom: 6px; display: flex; align-items: center; gap: 7px; }
-
-    /* ── NOT INCLUDED ── */
-    .not-pills { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; }
-    .not-pill {
-      display: inline-flex; align-items: center; gap: 6px;
-      background: #f5f6fa; border: 1px solid #edf0f7;
-      border-radius: 20px; padding: 6px 14px;
-      font-size: 12.5px; color: var(--ink-3);
-    }
-    .not-pill i { font-size: 10px; color: #d1d5e0; }
+    .tier-hint i { color: var(--brand); margin-top: 2px; flex-shrink: 0; font-size: 14px; }
+    .tier-hint a { color: var(--brand); font-weight: 600; }
 
     /* ── INFO NOTE ── */
     .info-note {
       background: var(--white); border: 1px solid var(--line);
       border-left: 3px solid var(--brand);
-      border-radius: 0 12px 12px 0; padding: 14px 18px; margin: 8px 0;
-      font-size: 13.5px; color: var(--ink-2); line-height: 1.6;
+      border-radius: 0 10px 10px 0; padding: 12px 16px; margin: 8px 0;
+      font-size: 13px; color: var(--ink-2); line-height: 1.6;
     }
     .info-note strong { color: var(--ink); }
-
-    /* ── SUPPORT CHANNELS ── */
-    .support-grid {
-      display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-      gap: 12px; margin: 0;
-    }
-    .support-chip {
-      display: flex; align-items: center; gap: 10px;
-      background: var(--white); border: 1px solid var(--line);
-      border-radius: 12px; padding: 14px 16px;
-      font-size: 1rem; font-weight: 600; color: var(--ink-2);
-    }
-    .support-chip i { color: var(--brand); font-size: 1.05rem; flex-shrink: 0; }
-    .support-chip.muted { color: #c0c4d6; border-color: #edf0f7; }
-    .support-chip.muted i { color: #d1d5e0; }
 
     /* ── CTA STRIP ── */
     .cta-strip {
       background: linear-gradient(135deg, #0f1228, #1e1040);
-      border-radius: 20px; padding: 40px 36px;
-      text-align: center; margin-top: 48px;
+      border-radius: 18px; padding: 36px 32px;
+      text-align: center; margin-top: 44px;
     }
-    .cta-strip h3 { color: #fff; font-size: 1.35rem; font-weight: 700; margin: 0 0 10px; }
-    .cta-strip p { color: #b0b8d4; font-size: 1rem; margin: 0 0 24px; }
+    .cta-strip h3 { color: #fff; font-size: 1.2rem; font-weight: 700; margin: 0 0 8px; }
+    .cta-strip p { color: #8892b8; font-size: .9rem; margin: 0 0 22px; }
     .cta-strip a {
       display: inline-block; background: var(--gold); color: #2f1e66;
-      border-radius: 12px; padding: 13px 30px; font-weight: 700;
-      font-size: 1rem; text-decoration: none;
-      box-shadow: 0 6px 20px rgba(255,215,0,.25);
+      border-radius: 12px; padding: 12px 28px; font-weight: 700;
+      font-size: .95rem; text-decoration: none;
+      box-shadow: 0 6px 20px rgba(255,215,0,.22);
       transition: opacity .15s;
     }
     .cta-strip a:hover { opacity: .88; text-decoration: none; }
 
     /* ── HELP PANEL ── */
     .help-panel {
-      background: var(--bg);
-      border: 1px solid var(--line);
-      border-radius: 20px;
-      padding: 32px 36px;
-      margin-top: 48px;
+      background: var(--white); border: 1px solid var(--line);
+      border-radius: 18px; padding: 28px 32px; margin-top: 44px;
     }
     .help-panel-header {
-      display: flex; align-items: center; gap: 10px;
-      margin-bottom: 18px;
+      display: flex; align-items: center; gap: 10px; margin-bottom: 16px;
     }
-    .help-panel-header i { color: var(--brand); font-size: 18px; }
-    .help-panel-header h4 { font-size: 1rem; font-weight: 700; color: var(--ink); margin: 0; }
+    .help-panel-header i { color: var(--brand); font-size: 16px; }
+    .help-panel-header h4 { font-size: .95rem; font-weight: 700; color: var(--ink); margin: 0; }
     .help-panel-links {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 10px;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 8px;
     }
     .help-panel-link {
-      display: flex; align-items: center; gap: 10px;
-      padding: 12px 16px;
-      border-radius: 12px;
-      border: 1px solid var(--line);
-      background: var(--white);
-      color: var(--ink);
-      text-decoration: none;
-      font-size: 13.5px; font-weight: 600;
-      transition: border-color .15s, box-shadow .15s;
+      display: flex; align-items: center; gap: 9px;
+      padding: 10px 14px; border-radius: 10px;
+      border: 1px solid var(--line); background: var(--bg);
+      color: var(--ink); text-decoration: none;
+      font-size: 13px; font-weight: 600;
+      transition: border-color .15s;
     }
-    .help-panel-link:hover {
-      border-color: var(--brand);
-      box-shadow: 0 2px 12px rgba(120,81,169,.12);
-      text-decoration: none; color: var(--ink);
-    }
-    .help-panel-link i { color: var(--brand); font-size: 14px; flex-shrink: 0; }
-    .help-panel-footer {
-      margin-top: 16px;
-      font-size: 12.5px; color: var(--ink-3);
-    }
+    .help-panel-link:hover { border-color: var(--brand); text-decoration: none; color: var(--ink); }
+    .help-panel-link i { color: var(--brand); font-size: 13px; flex-shrink: 0; }
+    .help-panel-footer { margin-top: 14px; font-size: 12px; color: var(--ink-3); }
     .help-panel-footer a { color: var(--brand); font-weight: 600; }
 
     /* ── EMPTY STATE ── */
-    .empty-state {
-      text-align: center; padding: 80px 20px;
-      display: none;
-    }
+    .empty-state { text-align: center; padding: 72px 20px; display: none; }
     .empty-state.visible { display: block; }
-    .empty-state i { font-size: 48px; color: var(--line); margin-bottom: 20px; }
-    .empty-state h3 { font-size: 1.25rem; font-weight: 700; margin-bottom: 10px; }
-    .empty-state p { color: var(--ink-3); font-size: 1rem; }
+    .empty-state i { font-size: 40px; color: var(--line); margin-bottom: 18px; }
+    .empty-state h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 8px; }
+    .empty-state p { color: var(--ink-3); font-size: .9rem; }
 
     /* ── RESULTS ── */
     .plan-results { display: none; }
@@ -367,31 +293,6 @@
     .footer-legal a { color: #6b7280; font-size: .85rem; transition: color .2s ease; text-decoration: none; }
     .footer-legal a:hover { color: #ffd700; text-decoration: none; }
     @media (max-width: 600px) { .footer-bottom { flex-direction: column; text-align: center; } }
-
-    /* Greeting */
-    .plan-greeting {
-      font-size: 11.5px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: .12em;
-      color: rgba(255,255,255,.4);
-      margin-bottom: 10px;
-      position: relative;
-    }
-
-    /* Member since */
-    .member-since-line {
-      margin-top: 16px;
-      font-size: 12px;
-      color: rgba(255,255,255,.35);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 5px;
-      position: relative;
-    }
-    .member-since-line i { font-size: 10px; }
-
   </style>
 </head>
 <body>
@@ -426,27 +327,13 @@
 <header class="hero">
   <div class="container-narrow">
     <div id="myPlanGreeting" class="plan-greeting" hidden></div>
-    <h1>What's Included in My Plan?</h1>
-    <p>Select your plan below to see every feature and benefit you have access to.</p>
-
-    <div class="plan-picker">
-      <button class="pick-btn" data-plan="essential" onclick="selectPlan('essential')">
-        <i class="fas fa-seedling pick-icon"></i>
-        <span class="plan-label">Essential</span>
-        <span class="plan-sub">Monthly plan</span>
-      </button>
-      <button class="pick-btn" data-plan="growth" onclick="selectPlan('growth')">
-        <i class="fas fa-chart-line pick-icon"></i>
-        <span class="plan-label">Growth</span>
-        <span class="plan-sub">Full service</span>
-      </button>
-      <button class="pick-btn" data-plan="onetime" onclick="selectPlan('onetime')">
-        <i class="fas fa-file-invoice pick-icon"></i>
-        <span class="plan-label">One-Time Project</span>
-        <span class="plan-sub">Single build</span>
-      </button>
+    <h1 id="heroTitle">Your Plan</h1>
+    <p class="hero-sub" id="heroSub">Select your plan to see everything included.</p>
+    <div class="plan-tabs">
+      <button class="plan-tab" data-plan="essential" onclick="selectPlan('essential')">Essential</button>
+      <button class="plan-tab" data-plan="growth" onclick="selectPlan('growth')">Growth</button>
+      <button class="plan-tab" data-plan="onetime" onclick="selectPlan('onetime')">One-Time</button>
     </div>
-    <div id="memberSinceLine" class="member-since-line" style="display:none"></div>
   </div>
 </header>
 
@@ -458,68 +345,60 @@
     <div class="empty-state visible" id="empty-state">
       <i class="fas fa-hand-pointer"></i>
       <h3>Select your plan above</h3>
-      <p>Your full feature list will appear here once you choose.</p>
+      <p>Your full feature breakdown will appear here.</p>
     </div>
 
     <!-- ESSENTIAL RESULTS -->
     <div class="plan-results" id="results-essential">
-      <div class="plan-badge essential">
-        <div class="badge-icon"><i class="fas fa-seedling"></i></div>
-        <div class="badge-text">
-          <span class="badge-name">Essential Plan</span>
-          <span class="badge-sub">Click any feature to learn more</span>
-        </div>
-      </div>
 
-      <div class="section-label">What's Included</div>
-      <div class="feature-grid" id="grid-essential"></div>
+      <span class="section-label">What's Included</span>
+      <div class="feature-list plan-essential" id="grid-essential"></div>
 
-      <div class="section-label">Support Access</div>
-      <div class="support-grid">
+      <span class="section-label">Support Access</span>
+      <div class="support-row">
         <div class="support-chip"><i class="fas fa-envelope"></i> Email</div>
         <div class="support-chip"><i class="fas fa-file-alt"></i> Request Form</div>
-        <div class="support-chip muted"><i class="fas fa-phone"></i> Phone</div>
-        <div class="support-chip muted"><i class="fas fa-video"></i> Video Calls</div>
-        <div class="support-chip muted"><i class="fas fa-comments"></i> Live Chat</div>
-      </div>
-      <p style="font-size:12.5px;color:var(--ink-3);margin-top:10px;"><i class="fas fa-info-circle" style="margin-right:5px;"></i>Grayed-out channels are available on the Growth plan.</p>
-
-      <div class="section-label">Not Included</div>
-      <div class="not-pills">
-        <span class="not-pill"><i class="fas fa-minus"></i>Phone &amp; video support</span>
-        <span class="not-pill"><i class="fas fa-minus"></i>Google Business Profile</span>
-        <span class="not-pill"><i class="fas fa-minus"></i>Advanced SEO &amp; tracking</span>
-        <span class="not-pill"><i class="fas fa-minus"></i>Performance checks</span>
-        <span class="not-pill"><i class="fas fa-minus"></i>Hosting credit</span>
-        <span class="not-pill"><i class="fas fa-minus"></i>Review management</span>
       </div>
 
-      <div class="section-label">Good to Know</div>
+      <div class="tier-hint">
+        <i class="fas fa-arrow-trend-up"></i>
+        <span>The Growth plan adds phone &amp; video support, Google Business Profile management, advanced SEO, review management, and bi-monthly performance checks. <a href="pricing.html">See what's included on Growth &rarr;</a></span>
+      </div>
+
+      <span class="section-label">Good to Know</span>
       <div class="info-note"><strong>Add-ons available</strong> — AI Chatbot, Ad Management, Newsletter Management, and Google Business Profile can be added without upgrading. See <a href="fee-schedule.html#add-ons">Available Add-Ons</a>.</div>
-      <div class="info-note"><strong>Want more?</strong> Growth adds phone &amp; video support, Google Business Profile, advanced SEO, and a hosting credit. Manage your plan in the <a href="https://billing.stripe.com/p/login/7sI3gfaO14CEdlm144" target="_blank" rel="noopener">Stripe portal</a>.</div>
 
       <div class="cta-strip">
-        <h3>Need to submit an update?</h3>
-        <p>Head to the Website Request page — it's how all Essential plan updates get submitted.</p>
+        <h3>Ready to submit an update?</h3>
+        <p>The request form is how all Essential plan updates get submitted.</p>
         <a href="website-request.html">Go to Website Request &rarr;</a>
+      </div>
+
+      <div class="help-panel">
+        <div class="help-panel-header">
+          <i class="fas fa-circle-question"></i>
+          <h4>Common plan questions</h4>
+        </div>
+        <div class="help-panel-links">
+          <a href="help.html#/manage-your-plan" class="help-panel-link"><i class="fas fa-credit-card"></i> Manage your plan</a>
+          <a href="help.html#/annual-vs-monthly" class="help-panel-link"><i class="fas fa-calendar-alt"></i> Annual vs monthly billing</a>
+          <a href="help.html#/which-plan-should-i-choose" class="help-panel-link"><i class="fas fa-tag"></i> Choosing the right plan</a>
+          <a href="help.html#/payment-methods" class="help-panel-link"><i class="fas fa-wallet"></i> Payment methods</a>
+          <a href="help.html#/additional-pages" class="help-panel-link"><i class="fas fa-plus"></i> Adding more pages</a>
+          <a href="help.html#/no-contract" class="help-panel-link"><i class="fas fa-handshake"></i> Contracts &amp; commitments</a>
+        </div>
+        <p class="help-panel-footer">Need something else? <a href="help.html">Browse all help articles</a> or <a href="contact-us.html">contact us</a>.</p>
       </div>
     </div>
 
     <!-- GROWTH RESULTS -->
     <div class="plan-results" id="results-growth">
-      <div class="plan-badge growth">
-        <div class="badge-icon"><i class="fas fa-chart-line"></i></div>
-        <div class="badge-text">
-          <span class="badge-name">Growth Plan</span>
-          <span class="badge-sub">Click any feature to learn more</span>
-        </div>
-      </div>
 
-      <div class="section-label">What's Included</div>
-      <div class="feature-grid" id="grid-growth"></div>
+      <span class="section-label">What's Included</span>
+      <div class="feature-list plan-growth" id="grid-growth"></div>
 
-      <div class="section-label">Support Access</div>
-      <div class="support-grid">
+      <span class="section-label">Support Access</span>
+      <div class="support-row">
         <div class="support-chip"><i class="fas fa-envelope"></i> Email</div>
         <div class="support-chip"><i class="fas fa-file-alt"></i> Request Form</div>
         <div class="support-chip"><i class="fas fa-phone"></i> Phone</div>
@@ -527,88 +406,75 @@
         <div class="support-chip"><i class="fas fa-comments"></i> Live Chat</div>
       </div>
 
-      <div class="section-label">Good to Know</div>
-      <div class="info-note"><strong>Add-ons available</strong> — Stack optional services on top of your Growth plan. <a href="fee-schedule.html#add-ons">See all add-ons</a>.</div>
-      <div class="info-note"><strong>Hosting credit</strong> — Applies to domains and hosting managed through us. Doesn't carry over between billing periods. See the <a href="fee-schedule.html">Fee Schedule</a> for the current amount.</div>
+      <span class="section-label">Good to Know</span>
+      <div class="info-note"><strong>Hosting credit</strong> — Applied to domains and hosting managed through us. Doesn't carry over between billing periods. See the <a href="fee-schedule.html">Fee Schedule</a> for the current amount.</div>
       <div class="info-note"><strong>Support hours</strong> — Monday–Friday, 9 AM–5 PM ET, excluding major holidays. <a href="status.html">Check current availability</a>.</div>
+      <div class="info-note"><strong>Add-ons available</strong> — Stack optional services on top of your Growth plan. <a href="fee-schedule.html#add-ons">See all add-ons</a>.</div>
 
       <div class="cta-strip">
-        <h3>Need to submit an update?</h3>
+        <h3>Ready to submit an update?</h3>
         <p>Growth clients can reach us through any channel — form, email, phone, or video call.</p>
         <a href="website-request.html">Go to Website Request &rarr;</a>
+      </div>
+
+      <div class="help-panel">
+        <div class="help-panel-header">
+          <i class="fas fa-circle-question"></i>
+          <h4>Common plan questions</h4>
+        </div>
+        <div class="help-panel-links">
+          <a href="help.html#/manage-your-plan" class="help-panel-link"><i class="fas fa-credit-card"></i> Manage your plan</a>
+          <a href="help.html#/annual-vs-monthly" class="help-panel-link"><i class="fas fa-calendar-alt"></i> Annual vs monthly billing</a>
+          <a href="help.html#/which-plan-should-i-choose" class="help-panel-link"><i class="fas fa-tag"></i> Choosing the right plan</a>
+          <a href="help.html#/payment-methods" class="help-panel-link"><i class="fas fa-wallet"></i> Payment methods</a>
+          <a href="help.html#/additional-pages" class="help-panel-link"><i class="fas fa-plus"></i> Adding more pages</a>
+          <a href="help.html#/no-contract" class="help-panel-link"><i class="fas fa-handshake"></i> Contracts &amp; commitments</a>
+        </div>
+        <p class="help-panel-footer">Need something else? <a href="help.html">Browse all help articles</a> or <a href="contact-us.html">contact us</a>.</p>
       </div>
     </div>
 
     <!-- ONE-TIME RESULTS -->
     <div class="plan-results" id="results-onetime">
-      <div class="plan-badge onetime">
-        <div class="badge-icon"><i class="fas fa-file-invoice"></i></div>
-        <div class="badge-text">
-          <span class="badge-name">One-Time Project</span>
-          <span class="badge-sub">Click any feature to learn more</span>
-        </div>
+
+      <span class="section-label">What's Included in Every Project</span>
+      <div class="feature-list plan-onetime" id="grid-onetime"></div>
+
+      <span class="section-label">Project Tiers</span>
+      <div class="feature-list plan-onetime" id="grid-tiers"></div>
+
+      <div class="tier-hint">
+        <i class="fas fa-rotate"></i>
+        <span>Subscribe within 14 days of delivery and get the setup fee plus your first month waived. <a href="pricing.html">View monthly plans &rarr;</a></span>
       </div>
 
-      <div class="section-label">Included in Every Tier</div>
-      <div class="feature-grid" id="grid-onetime"></div>
-
-      <div class="section-label">Project Tiers</div>
-      <div class="feature-grid" id="grid-tiers"></div>
-
-      <div class="section-label">Not Included</div>
-      <div class="not-pills">
-        <span class="not-pill"><i class="fas fa-minus"></i>Ongoing maintenance</span>
-        <span class="not-pill"><i class="fas fa-minus"></i>Hosting &amp; backups</span>
-        <span class="not-pill"><i class="fas fa-minus"></i>Priority support</span>
-        <span class="not-pill"><i class="fas fa-minus"></i>Google Business Profile</span>
-        <span class="not-pill"><i class="fas fa-minus"></i>Domain registration</span>
-        <span class="not-pill"><i class="fas fa-minus"></i>Content writing</span>
-      </div>
-
-      <div class="section-label">After Your Project</div>
-      <div class="info-note"><strong>Subscribe within 14 days</strong> — Setup fee and first month waived if you join any monthly plan within 14 days of delivery. Contact us before checkout to redeem.</div>
-      <div class="info-note"><strong>Add-ons without a subscription</strong> — One-time clients can add AI Chatbot, Ad Management, Newsletter Management, Google Business Profile, and more independently.</div>
+      <span class="section-label">Good to Know</span>
+      <div class="info-note"><strong>After delivery</strong> — Ongoing maintenance, hosting, and support are not included. Monthly plans are available if you want someone managing the site long-term.</div>
+      <div class="info-note"><strong>Add-ons without a subscription</strong> — AI Chatbot, Ad Management, Newsletter Management, and Google Business Profile can be added independently. <a href="fee-schedule.html#add-ons">See add-ons</a>.</div>
 
       <div class="cta-strip">
         <h3>Want ongoing support after your project?</h3>
-        <p>Subscribe within 14 days and get the setup fee and 1st month waived.</p>
+        <p>Subscribe within 14 days and get the setup fee and first month waived.</p>
         <a href="pricing.html">View Monthly Plans &rarr;</a>
       </div>
+
+      <div class="help-panel">
+        <div class="help-panel-header">
+          <i class="fas fa-circle-question"></i>
+          <h4>Common plan questions</h4>
+        </div>
+        <div class="help-panel-links">
+          <a href="help.html#/manage-your-plan" class="help-panel-link"><i class="fas fa-credit-card"></i> Manage your plan</a>
+          <a href="help.html#/annual-vs-monthly" class="help-panel-link"><i class="fas fa-calendar-alt"></i> Annual vs monthly billing</a>
+          <a href="help.html#/which-plan-should-i-choose" class="help-panel-link"><i class="fas fa-tag"></i> Choosing the right plan</a>
+          <a href="help.html#/payment-methods" class="help-panel-link"><i class="fas fa-wallet"></i> Payment methods</a>
+          <a href="help.html#/additional-pages" class="help-panel-link"><i class="fas fa-plus"></i> Adding more pages</a>
+          <a href="help.html#/no-contract" class="help-panel-link"><i class="fas fa-handshake"></i> Contracts &amp; commitments</a>
+        </div>
+        <p class="help-panel-footer">Need something else? <a href="help.html">Browse all help articles</a> or <a href="contact-us.html">contact us</a>.</p>
+      </div>
     </div>
 
-  </div>
-</div>
-
-<!-- HELP PANEL -->
-<div style="background: var(--bg); padding: 0 20px 60px;">
-  <div style="max-width: 900px; margin: 0 auto;">
-    <div class="help-panel">
-      <div class="help-panel-header">
-        <i class="fas fa-circle-question"></i>
-        <h4>Common plan questions</h4>
-      </div>
-      <div class="help-panel-links">
-        <a href="help.html#/manage-your-plan" class="help-panel-link">
-          <i class="fas fa-credit-card"></i> Manage your plan
-        </a>
-        <a href="help.html#/annual-vs-monthly" class="help-panel-link">
-          <i class="fas fa-calendar-alt"></i> Annual vs monthly billing
-        </a>
-        <a href="help.html#/which-plan-should-i-choose" class="help-panel-link">
-          <i class="fas fa-tag"></i> Choosing the right plan
-        </a>
-        <a href="help.html#/payment-methods" class="help-panel-link">
-          <i class="fas fa-wallet"></i> Payment methods
-        </a>
-        <a href="help.html#/additional-pages" class="help-panel-link">
-          <i class="fas fa-plus"></i> Adding more pages
-        </a>
-        <a href="help.html#/no-contract" class="help-panel-link">
-          <i class="fas fa-handshake"></i> Contracts and commitments
-        </a>
-      </div>
-      <p class="help-panel-footer">Need something else? <a href="help.html">Browse all help articles</a> or <a href="contact-us.html">contact us</a>.</p>
-    </div>
   </div>
 </div>
 
@@ -667,147 +533,126 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-  // Set footer year
   document.getElementById('yr').textContent = new Date().getFullYear();
 
   function lsGet(k) { try { return JSON.parse(localStorage.getItem(k)); } catch(e) { return null; } }
   function lsSet(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch(e) {} }
-
   if (!lsGet('wz_first_visit')) lsSet('wz_first_visit', Date.now());
 
-  // ── Feature chip data ──────────────────────────────────────
   var FEATURES = {
     essential: [
-      { icon:'fa-file-lines',      name:'Up to 3 pages',          detail:'Home, service pages, and a contact page. Professionally designed to match your brand and built to convert visitors.' },
-      { icon:'fa-envelope-open-text', name:'Contact page',         detail:'A fully working contact form so visitors can reach you directly from your site, included on every build.' },
-      { icon:'fa-pen-to-square',   name:'Unlimited updates',       detail:'Text, images, links, hours, prices — submit updates anytime through the request form and we handle them, no limit.' },
-      { icon:'fa-mobile-screen',   name:'Mobile-responsive',       detail:'Your site is built to look and work perfectly on phones, tablets, and desktops. No extra work needed from you.' },
-      { icon:'fa-lock',            name:'SSL certificate',         detail:'Secure HTTPS is set up automatically on every site. No configuration, no renewals, nothing to manage on your end.' },
-      { icon:'fa-server',          name:'Hosting &amp; DNS',       detail:'We manage your hosting environment and domain configuration end-to-end so you never deal with the technical side.' },
-      { icon:'fa-shield-halved',   name:'Security &amp; backups',  detail:'Your site is continuously monitored for threats and backed up on a regular schedule. Your content is always protected.' },
-      { icon:'fa-magnifying-glass',name:'Standard SEO',            detail:'Page titles, meta descriptions, and on-page optimization are built into every page from day one.' },
-      { icon:'fa-rotate',          name:'Existing site support',   detail:'Already have a website? We can take over management and handle updates without building from scratch.' },
+      { icon:'fa-file-lines',         name:'Up to 3 pages',           detail:'Home, service pages, and a contact page. Professionally designed to match your brand and built to convert visitors.' },
+      { icon:'fa-envelope-open-text', name:'Contact form',             detail:'A fully working contact form so visitors can reach you directly from your site, included on every build.' },
+      { icon:'fa-pen-to-square',      name:'Unlimited updates',        detail:'Text, images, links, hours, prices — submit updates anytime through the request form and we handle them, no limit.' },
+      { icon:'fa-mobile-screen',      name:'Mobile-responsive',        detail:'Your site is built to look and work perfectly on phones, tablets, and desktops. No extra work needed from you.' },
+      { icon:'fa-lock',               name:'SSL certificate',          detail:'Secure HTTPS is set up automatically on every site. No configuration, no renewals, nothing to manage on your end.' },
+      { icon:'fa-server',             name:'Hosting & DNS',            detail:'We manage your hosting environment and domain configuration end-to-end so you never deal with the technical side.' },
+      { icon:'fa-shield-halved',      name:'Security & backups',       detail:'Your site is continuously monitored for threats and backed up on a regular schedule. Your content is always protected.' },
+      { icon:'fa-magnifying-glass',   name:'Standard SEO',             detail:'Page titles, meta descriptions, and on-page optimization are built into every page from day one.' },
+      { icon:'fa-rotate',             name:'Existing site support',    detail:'Already have a website? We can take over management and handle updates without building from scratch.' },
     ],
     growth: [
-      { icon:'fa-file-lines',      name:'Up to 6 pages',           detail:'More room for services, team bios, testimonials, case studies, or any other pages your business needs.' },
-      { icon:'fa-envelope-open-text', name:'Contact page',          detail:'A fully working contact form included on every site. In addition to your 6 pages.' },
-      { icon:'fa-pen-to-square',   name:'Unlimited updates',        detail:'Submit updates via form, email, phone, or video call.' },
-      { icon:'fa-bolt',            name:'Priority turnaround',      detail:'Your requests move to the front of the queue ahead of Essential plan clients, so you get faster results.' },
-      { icon:'fa-headset',         name:'Total Access Support',     detail:'Every support channel included. Email, live chat, phone calls, and Google Meet video calls, all in one plan.' },
-      { icon:'fa-mobile-screen',   name:'Mobile-responsive',        detail:'Built to look and perform perfectly on every device and screen size.' },
-      { icon:'fa-lock',            name:'SSL certificate',          detail:'Secure HTTPS set up and maintained automatically at no extra charge.' },
-      { icon:'fa-server',          name:'Hosting &amp; DNS',        detail:'Full hosting and domain configuration handled for you, start to finish.' },
-      { icon:'fa-coins',           name:'Hosting credit',           detail:'A monthly credit applied toward your hosting or domain costs managed through us. See the Fee Schedule for the current amount.' },
-      { icon:'fa-shield-halved',   name:'Security &amp; backups',   detail:'Continuous monitoring and regular backups keep your site protected and recoverable.' },
-      { icon:'fa-chart-bar',       name:'Advanced SEO',             detail:'Enhanced on-page optimization with keyword tracking, reporting tools, and ongoing search performance monitoring.' },
-      { icon:'fa-map-location-dot',name:'Google Business Profile',  detail:'We manage your Google Business Profile — post updates, add photos, and respond to reviews on your behalf.' },
-      { icon:'fa-star',            name:'Review management',        detail:'We monitor your online reviews across platforms and respond professionally so your reputation stays strong.' },
-      { icon:'fa-chart-line',      name:'Performance checks',       detail:'Bi-monthly checks on your site\'s traffic, visibility, and load performance with a brief summary sent to you.' },
+      { icon:'fa-file-lines',         name:'Up to 6 pages',            detail:'More room for services, team bios, testimonials, case studies, or any other pages your business needs.' },
+      { icon:'fa-envelope-open-text', name:'Contact form',             detail:'A fully working contact form included on every site, in addition to your 6 pages.' },
+      { icon:'fa-pen-to-square',      name:'Unlimited updates',        detail:'Submit updates via form, email, phone, or video call. Any channel, any time.' },
+      { icon:'fa-bolt',               name:'Priority turnaround',      detail:'Your requests move to the front of the queue ahead of Essential plan clients, so you get faster results.' },
+      { icon:'fa-headset',            name:'Total Access Support',     detail:'Every support channel included: email, live chat, phone calls, and Google Meet video calls.' },
+      { icon:'fa-mobile-screen',      name:'Mobile-responsive',        detail:'Built to look and perform perfectly on every device and screen size.' },
+      { icon:'fa-lock',               name:'SSL certificate',          detail:'Secure HTTPS set up and maintained automatically at no extra charge.' },
+      { icon:'fa-server',             name:'Hosting & DNS',            detail:'Full hosting and domain configuration handled for you, start to finish.' },
+      { icon:'fa-coins',              name:'Hosting credit',           detail:'A monthly credit applied toward your hosting or domain costs managed through us. See the Fee Schedule for the current amount.' },
+      { icon:'fa-shield-halved',      name:'Security & backups',       detail:'Continuous monitoring and regular backups keep your site protected and recoverable.' },
+      { icon:'fa-chart-bar',          name:'Advanced SEO',             detail:'Enhanced on-page optimization with keyword tracking, reporting tools, and ongoing search performance monitoring.' },
+      { icon:'fa-map-location-dot',   name:'Google Business Profile',  detail:'We manage your Google Business Profile: post updates, add photos, and respond to reviews on your behalf.' },
+      { icon:'fa-star',               name:'Review management',        detail:'We monitor your online reviews across platforms and respond professionally so your reputation stays strong.' },
+      { icon:'fa-chart-line',         name:'Performance checks',       detail:'Bi-monthly checks on your site\'s traffic, visibility, and load performance with a summary sent to you.' },
     ],
     onetime: [
-      { icon:'fa-paintbrush',      name:'Professional design',      detail:'Custom design work built to your brand brief, not from generic templates. Everything is made for your business.' },
-      { icon:'fa-mobile-screen',   name:'Mobile-responsive',        detail:'Fully responsive implementation that displays and functions correctly on all screen sizes and devices.' },
-      { icon:'fa-clipboard-check', name:'QA before delivery',       detail:'We review and test everything before handing over the finished work so you receive something polished and ready.' },
-      { icon:'fa-rotate-left',     name:'Up to 3 revisions',        detail:'Minor text, image, or layout tweaks within 14 days of delivery at no extra charge. Larger scope changes are quoted separately.' },
+      { icon:'fa-paintbrush',         name:'Professional design',      detail:'Custom design work built to your brand brief, not from generic templates. Everything is made for your business.' },
+      { icon:'fa-mobile-screen',      name:'Mobile-responsive',        detail:'Fully responsive implementation that displays and functions correctly on all screen sizes and devices.' },
+      { icon:'fa-clipboard-check',    name:'QA before delivery',       detail:'We review and test everything before handing over the finished work so you receive something polished and ready.' },
+      { icon:'fa-rotate-left',        name:'Up to 3 revisions',        detail:'Minor text, image, or layout tweaks within 14 days of delivery at no extra charge.' },
     ],
     tiers: [
-      { icon:'fa-layer-group',     name:'Basic',                    detail:'Single-page scope. Text edits, image swaps, or minor fixes on one existing page. Typically delivered in 3–5 business days.' },
-      { icon:'fa-layer-group',     name:'Standard',                 detail:'Up to two pages. Content changes, layout adjustments, and section redesigns across existing pages. Typically 5–7 business days.' },
-      { icon:'fa-layer-group',     name:'Full Build',               detail:'Complete new website, up to 3 pages plus a contact page, designed from scratch. First draft typically within 7–14 business days.' },
+      { icon:'fa-layer-group',        name:'Basic',                    detail:'Single-page scope. Text edits, image swaps, or minor fixes on one existing page. Typically 3–5 business days.' },
+      { icon:'fa-layer-group',        name:'Standard',                 detail:'Up to two pages. Content changes, layout adjustments, and section redesigns. Typically 5–7 business days.' },
+      { icon:'fa-layer-group',        name:'Full Build',               detail:'Complete new website, up to 3 pages plus a contact page, designed from scratch. First draft typically 7–14 business days.' },
     ],
   };
 
-  function buildGrid(gridId, _detailId, items, planKey) {
+  function buildGrid(gridId, items) {
     var grid = document.getElementById(gridId);
     if (!grid) return;
-    grid.innerHTML = items.map(function(f, i) {
-      return '<button class="feat-chip" data-plan="' + planKey + '" data-idx="' + i + '">' +
-        '<i class="fas ' + f.icon + ' fc-icon"></i>' +
-        '<span class="fc-name">' + f.name + '</span>' +
-        '<i class="fas fa-chevron-down fc-arrow"></i>' +
-        '</button>';
+    grid.innerHTML = items.map(function(f) {
+      return '<div class="feature-row" onclick="toggleRow(this)">' +
+        '<div class="fr-top">' +
+          '<div class="fr-icon"><i class="fas ' + f.icon + '"></i></div>' +
+          '<div class="fr-body"><div class="fr-name">' + f.name + '</div></div>' +
+          '<i class="fas fa-chevron-down fr-chevron"></i>' +
+        '</div>' +
+        '<div class="fr-detail">' + f.detail + '</div>' +
+      '</div>';
     }).join('');
-    grid.querySelectorAll('.feat-chip').forEach(function(btn) {
-      btn.addEventListener('click', function() {
-        var i   = parseInt(btn.dataset.idx);
-        var key = btn.dataset.plan;
-        var f   = FEATURES[key][i];
-        var wasActive = btn.classList.contains('active');
-
-        // Remove any existing inline detail and clear active states
-        var existing = grid.querySelector('.feat-detail-inline');
-        if (existing) existing.remove();
-        grid.querySelectorAll('.feat-chip').forEach(function(c) { c.classList.remove('active'); });
-
-        if (wasActive) return;
-
-        btn.classList.add('active');
-
-        // Find last chip in the same visual row, then insert detail after it
-        var clickedTop = btn.offsetTop;
-        var chips = Array.from(grid.querySelectorAll('.feat-chip'));
-        var lastInRow = btn;
-        chips.forEach(function(c) {
-          if (c.offsetTop === clickedTop) lastInRow = c;
-        });
-
-        var detail = document.createElement('div');
-        detail.className = 'feat-detail-inline';
-        detail.innerHTML = '<div class="fd-title"><i class="fas ' + f.icon + '"></i> ' + f.name + '</div>' + f.detail;
-        lastInRow.insertAdjacentElement('afterend', detail);
-      });
-    });
   }
 
+  function toggleRow(row) {
+    row.classList.toggle('open');
+  }
+
+  var PLAN_TITLES = {
+    essential: 'Essential Plan',
+    growth:    'Growth Plan',
+    onetime:   'One-Time Project',
+  };
+  var PLAN_SUBS = {
+    essential: 'Everything included in your Essential plan.',
+    growth:    'Everything included in your Growth plan.',
+    onetime:   'Everything included in your one-time project.',
+  };
+
   function selectPlan(plan) {
-    // Update buttons
-    document.querySelectorAll('.pick-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.plan-tab').forEach(b => b.classList.remove('active'));
     document.querySelector('[data-plan="' + plan + '"]').classList.add('active');
 
-    // Hide all results and empty state
+    document.getElementById('heroTitle').textContent = PLAN_TITLES[plan] || 'Your Plan';
+    document.getElementById('heroSub').textContent   = PLAN_SUBS[plan]   || '';
+
     document.getElementById('empty-state').classList.remove('visible');
     document.querySelectorAll('.plan-results').forEach(r => r.classList.remove('visible'));
-
-    // Show selected
     document.getElementById('results-' + plan).classList.add('visible');
 
-    // Build feature grids for this plan
-    if (plan === 'essential') buildGrid('grid-essential', 'detail-essential', FEATURES.essential, 'essential');
-    if (plan === 'growth')    buildGrid('grid-growth',    'detail-growth',    FEATURES.growth,    'growth');
+    if (plan === 'essential') buildGrid('grid-essential', FEATURES.essential);
+    if (plan === 'growth')    buildGrid('grid-growth',    FEATURES.growth);
     if (plan === 'onetime') {
-      buildGrid('grid-onetime', 'detail-onetime', FEATURES.onetime, 'onetime');
-      buildGrid('grid-tiers',   'detail-tiers',   FEATURES.tiers,   'tiers');
+      buildGrid('grid-onetime', FEATURES.onetime);
+      buildGrid('grid-tiers',   FEATURES.tiers);
     }
 
-    // Update URL param and remember last plan
     const url = new URL(window.location);
     url.searchParams.set('plan', plan);
     history.replaceState(null, '', url);
     lsSet('wz_myplan_last', plan);
 
-    // Scroll to results smoothly
     window.scrollTo({ top: document.querySelector('.content-wrap').offsetTop - 80, behavior: 'smooth' });
   }
 
-  // Auto-select: URL param takes priority, then localStorage, then nothing
-  const params = new URLSearchParams(window.location.search);
-  const urlPlan = params.get('plan');
+  const params   = new URLSearchParams(window.location.search);
+  const urlPlan  = params.get('plan');
   const savedPlan = lsGet('wz_myplan_last');
   const planToLoad = urlPlan || savedPlan;
   if (planToLoad && ['essential', 'growth', 'onetime'].includes(planToLoad)) {
     selectPlan(planToLoad);
   }
 
-
-  // ── Personalization ────────────────────────────────────
+  // Personalization
   (function() {
     const count = (lsGet('wz_myplan_count') || 0) + 1;
     lsSet('wz_myplan_count', count);
     const returning = lsGet('wz_myplan_visited');
     lsSet('wz_myplan_visited', true);
 
-    const greeting = document.getElementById('myPlanGreeting');
-    const reqCount = lsGet('wz_req_submitted') || 0;
+    const greeting  = document.getElementById('myPlanGreeting');
+    const reqCount  = lsGet('wz_req_submitted') || 0;
     const firstVisit = lsGet('wz_first_visit');
 
     if (greeting) {
@@ -816,10 +661,6 @@
         msg = '<i class="fas fa-star" style="color:#ffd700;margin-right:6px;"></i> Power user — ' + reqCount + ' requests submitted';
       } else if (returning && reqCount > 0) {
         msg = '<i class="fas fa-check-circle" style="color:#4ade80;margin-right:6px;"></i> ' + reqCount + ' update request' + (reqCount === 1 ? '' : 's') + ' submitted';
-      } else if (returning && firstVisit) {
-        const since = new Date(firstVisit);
-        const months = Math.round((Date.now() - since) / (1000 * 60 * 60 * 24 * 30));
-        if (months >= 1) msg = '<i class="fas fa-calendar-check" style="color:rgba(255,255,255,.5);margin-right:6px;"></i> With WebEaze for ' + months + ' month' + (months === 1 ? '' : 's');
       } else if (returning) {
         msg = '<i class="fas fa-rotate-right" style="color:rgba(255,255,255,.4);margin-right:6px;"></i> Welcome back';
       }
