@@ -700,7 +700,6 @@
   <div class="container container-narrow">
     <h1>Support Hours &amp; Updates</h1>
     <p class="subtitle">Hours, holiday closures, and service announcements from WebEaze.</p>
-    <div id="hero-status" class="status-indicator" style="display:none;margin-top:18px;"></div>
   </div>
 </header>
 
@@ -1132,7 +1131,6 @@
 
   function updateTodayBanner() {
     const banner = document.getElementById('today-banner');
-    const heroStatus = document.getElementById('hero-status');
     if (!banner) return;
     const now = getET();
     const day = now.getDay(), hour = now.getHours();
@@ -1150,20 +1148,16 @@
       const retStr = ret.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
       banner.className = 'today-banner today-closed';
       banner.innerHTML = '<i class="fas fa-moon"></i> <strong>Closed: ' + currentHoliday.name + '</strong> · Resumes ' + retStr + ' <span class="banner-date">' + dateStr + '</span>';
-      if (heroStatus) { heroStatus.style.display = 'inline-flex'; heroStatus.className = 'status-indicator offline'; heroStatus.innerHTML = '<span class="status-dot"></span><span class="status-text">Closed: ' + currentHoliday.name + '</span>'; }
     } else if (isWeekend) {
       banner.className = 'today-banner today-closed';
       banner.innerHTML = '<i class="fas fa-moon"></i> <strong>Closed today.</strong> Support resumes Monday 9:00am ET <span class="banner-date">' + dateStr + '</span>';
-      if (heroStatus) { heroStatus.style.display = 'inline-flex'; heroStatus.className = 'status-indicator offline'; heroStatus.innerHTML = '<span class="status-dot"></span><span class="status-text">Closed today</span>'; }
     } else if (isOpen) {
       banner.className = 'today-banner today-open';
       banner.innerHTML = '<i class="fas fa-circle-check"></i> <strong>Open now</strong> · 9:00am – 5:00pm ET <span class="banner-date">' + dateStr + '</span>';
-      if (heroStatus) { heroStatus.style.display = 'inline-flex'; heroStatus.className = 'status-indicator'; heroStatus.innerHTML = '<span class="status-dot"></span><span class="status-text">Support open now</span>'; }
     } else {
       const opensNext = hour < 9 ? 'today' : (day === 5 ? 'Monday' : 'tomorrow');
       banner.className = 'today-banner today-away';
       banner.innerHTML = '<i class="fas fa-clock"></i> <strong>Closed now</strong> · Opens ' + opensNext + ' at 9:00am ET <span class="banner-date">' + dateStr + '</span>';
-      if (heroStatus) { heroStatus.style.display = 'inline-flex'; heroStatus.className = 'status-indicator away'; heroStatus.innerHTML = '<span class="status-dot"></span><span class="status-text">Outside business hours</span>'; }
     }
   }
 
