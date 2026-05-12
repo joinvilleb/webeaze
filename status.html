@@ -413,6 +413,52 @@
     }
     .btn-older:hover { color: #fff; border-color: rgba(255,255,255,.2); background: rgba(255,255,255,.04); }
 
+    /* SYSTEMS BAR */
+    .systems-bar {
+      background: #f0faf4;
+      border-bottom: 1px solid rgba(34,197,94,.2);
+      padding: 11px 0;
+    }
+    .systems-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 10px;
+    }
+    .systems-overall {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 13.5px; font-weight: 700; color: #15803d;
+    }
+    .sys-dot {
+      width: 8px; height: 8px; border-radius: 50%; background: #22c55e;
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+    .systems-checks {
+      display: flex; gap: 16px; flex-wrap: wrap;
+    }
+    .sys-check {
+      display: flex; align-items: center; gap: 5px;
+      font-size: 12.5px; color: #4b7c5a; font-weight: 500;
+    }
+    .sys-check i { font-size: 11px; color: #22c55e; }
+
+    /* COMPACT CLOSURES LIST */
+    .closures-list {
+      list-style: none; padding: 0; margin: 0;
+    }
+    .closure-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 0; border-bottom: 1px solid var(--line); gap: 12px;
+    }
+    .closure-row:last-child { border-bottom: none; }
+    .closure-left { display: flex; align-items: center; gap: 12px; }
+    .closure-icon {
+      width: 36px; height: 36px; border-radius: 10px; flex-shrink: 0;
+      background: rgba(245,158,11,.1); color: #d97706;
+      display: flex; align-items: center; justify-content: center; font-size: 14px;
+    }
+    .closure-name { font-size: 15px; font-weight: 600; }
+    .closure-date { font-size: 13px; opacity: .65; margin-top: 2px; }
+    .closure-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+
     /* QUICK STRIP */
     .quick-strip {
       background: #f8f9fc;
@@ -644,6 +690,17 @@
   .tools-note { font-size: 13px; color: #6b7280 !important; margin: 16px 0 0; text-align: center; }
   .tools-note a { color: #7851a9 !important; font-weight: 600; }
 
+  /* SYSTEMS BAR in light mode */
+  .systems-bar { background: #f0faf4 !important; border-bottom-color: rgba(34,197,94,.2) !important; }
+  .systems-overall { color: #15803d !important; }
+  .sys-dot { background: #22c55e !important; }
+  .sys-check { color: #4b7c5a !important; }
+  .sys-check i { color: #22c55e !important; }
+
+  /* COMPACT CLOSURES in light mode */
+  .closure-name { color: #1a1a2e !important; }
+  .closure-icon { background: rgba(245,158,11,.1) !important; color: #d97706 !important; }
+
   /* QUICK STRIP in light mode */
   .quick-strip { background: #f0f1f9 !important; border-bottom-color: rgba(0,0,0,.09) !important; }
   .quick-link { background: #fff !important; color: #1a1a2e !important; border-color: rgba(0,0,0,.1) !important; }
@@ -698,8 +755,8 @@
 <!-- HERO -->
 <header class="hero">
   <div class="container container-narrow">
-    <h1>Support Hours &amp; Updates</h1>
-    <p class="subtitle">Hours, holiday closures, and service announcements from WebEaze.</p>
+    <h1>Your WebEaze Support Center</h1>
+    <p class="subtitle">We're here Mon–Fri, 9am–5pm ET. Everything you need to reach us is right here.</p>
   </div>
 </header>
 
@@ -715,97 +772,22 @@
   </div>
 </div>
 
-<!-- HOURS -->
-<section class="page-section" id="hours">
+<!-- SYSTEMS STATUS -->
+<div class="systems-bar">
   <div class="container container-narrow">
-
-    <div class="section-header">
-      <i class="fas fa-clock"></i>
-      <h2>Support Hours</h2>
-    </div>
-
-    <div class="today-banner" id="today-banner"></div>
-
-    <div class="hours-grid">
-
-      <div class="hours-card">
-        <h3><i class="fas fa-headset"></i> Email, Chat & Video</h3>
-        <div class="hours-row">
-          <span class="hours-day">Mon – Fri</span>
-          <span class="hours-time">9:00am – 5:00pm ET</span>
-        </div>
-        <div class="hours-row">
-          <span class="hours-day">Sat – Sun</span>
-          <span class="hours-time">Closed</span>
-        </div>
+    <div class="systems-inner">
+      <div class="systems-overall">
+        <span class="sys-dot"></span>
+        <strong>All systems operational</strong>
       </div>
-
-      <div class="hours-card">
-        <h3><i class="fas fa-wrench"></i> Website Updates</h3>
-        <div class="hours-row">
-          <span class="hours-day">Standard turnaround</span>
-          <span class="hours-time">24–48 hrs</span>
-        </div>
-        <div class="hours-row">
-          <span class="hours-day">Rush / same-day</span>
-          <span class="hours-time">+ $69 fee</span>
-        </div>
+      <div class="systems-checks">
+        <span class="sys-check"><i class="fas fa-circle-check"></i> Website delivery</span>
+        <span class="sys-check"><i class="fas fa-circle-check"></i> Email support</span>
+        <span class="sys-check"><i class="fas fa-circle-check"></i> Billing portal</span>
       </div>
-
     </div>
-
-    <div class="closure-banner" id="closure-banner">
-      <h3><i class="fas fa-calendar-xmark"></i> <span id="closure-title">Upcoming Closure</span></h3>
-      <p id="closure-message"></p>
-    </div>
-
   </div>
-</section>
-
-<!-- HOLIDAYS -->
-<section class="page-section" id="holidays">
-  <div class="container container-narrow">
-
-    <div class="section-header">
-      <i class="fas fa-calendar-alt"></i>
-      <h2>Holiday Schedule</h2>
-    </div>
-
-    <div class="holiday-years">
-
-      <div class="holiday-card">
-        <div class="holiday-card-header">2026</div>
-        <ul class="holiday-list">
-          <li data-start="2026-01-01" data-end="2026-01-01"><span class="holiday-name">New Year's Day</span><span class="holiday-date">Jan 1</span></li>
-          <li data-start="2026-05-25" data-end="2026-05-25"><span class="holiday-name">Memorial Day</span><span class="holiday-date">May 25</span></li>
-          <li data-start="2026-07-03" data-end="2026-07-03"><span class="holiday-name">Independence Day</span><span class="holiday-date">Jul 3</span></li>
-          <li data-start="2026-09-07" data-end="2026-09-07"><span class="holiday-name">Labor Day</span><span class="holiday-date">Sep 7</span></li>
-          <li data-start="2026-11-25" data-end="2026-11-29"><span class="holiday-name">Thanksgiving</span><span class="holiday-date">Nov 25–29</span></li>
-          <li data-start="2026-12-24" data-end="2027-01-03"><span class="holiday-name">December Holidays</span><span class="holiday-date">Dec 24–Jan 3, 2027</span></li>
-        </ul>
-      </div>
-
-      <div class="holiday-card">
-        <div class="holiday-card-header">2027</div>
-        <ul class="holiday-list">
-          <li data-start="2027-01-01" data-end="2027-01-03"><span class="holiday-name">New Year's Day</span><span class="holiday-date">Jan 1–3</span></li>
-          <li data-start="2027-05-31" data-end="2027-05-31"><span class="holiday-name">Memorial Day</span><span class="holiday-date">May 31</span></li>
-          <li data-start="2027-07-05" data-end="2027-07-05"><span class="holiday-name">Independence Day</span><span class="holiday-date">Jul 5</span></li>
-          <li data-start="2027-09-06" data-end="2027-09-06"><span class="holiday-name">Labor Day</span><span class="holiday-date">Sep 6</span></li>
-          <li data-start="2027-11-25" data-end="2027-11-29"><span class="holiday-name">Thanksgiving</span><span class="holiday-date">Nov 25–29</span></li>
-          <li data-start="2027-12-24" data-end="2028-01-02"><span class="holiday-name">December Holidays</span><span class="holiday-date">Dec 24–Jan 2, 2028</span></li>
-        </ul>
-      </div>
-
-    </div>
-
-    <p class="holiday-note">
-      <i class="fas fa-info-circle" style="color:var(--brand);margin-top:2px;flex-shrink:0;"></i>
-      Requests submitted during closures are handled when we reopen. 
-    </p>
-
-  </div>
-</section>
+</div>
 
 <!-- UPDATES -->
 <section class="page-section" id="updates">
@@ -816,7 +798,6 @@
       <h2>Recent Updates</h2>
     </div>
 
-    <!-- Recent (always visible) -->
     <details class="update-item" open>
       <summary>
         <span class="update-title">Elite Plan Discontinued</span>
@@ -827,9 +808,7 @@
         </span>
       </summary>
       <div class="update-body">
-        <p>
-          We've simplified our offerings to two plans, Essential and Growth. The Elite Plan has been discontinued. Existing Elite clients will continue receiving service without interruption. <a href="help.html#/elite-plan-discontinued">Learn more if you're an Elite plan client</a>.
-        </p>
+        <p>We've simplified our offerings to two plans, Essential and Growth. The Elite Plan has been discontinued. Existing Elite clients will continue receiving service without interruption. <a href="help.html#/elite-plan-discontinued">Learn more if you're an Elite plan client</a>.</p>
       </div>
     </details>
 
@@ -843,9 +822,7 @@
         </span>
       </summary>
       <div class="update-body">
-        <p>
-          We now offer <strong>One-Time Web Projects</strong>, with no monthly plan required. For new clients only, they can choose from Basic, Standard, or a Full one-time website build.  <a href="help.html#/one-time-web-project">Learn more</a>.
-        </p>
+        <p>We now offer <strong>One-Time Web Projects</strong> with no monthly plan required. New clients can choose from Basic, Standard, or a Full one-time build. <a href="help.html#/one-time-web-project">Learn more</a>.</p>
       </div>
     </details>
 
@@ -859,9 +836,7 @@
         </span>
       </summary>
       <div class="update-body">
-        <p>
-          Two new add-ons are now available. <strong>AI Chatbot</strong> is a custom assistant trained on your business, available 24/7. <a href="ai.html">Learn more</a>. <strong>Ad Management</strong> is an add-on service where we create and manage Google and Facebook/Instagram ads for you. <a href="ads.html">Learn more</a>.
-        </p>
+        <p>Two new add-ons are now available. <strong>AI Chatbot</strong> is a custom assistant trained on your business, available 24/7. <a href="ai.html">Learn more</a>. <strong>Ad Management</strong> covers Google and Facebook/Instagram ads, created and managed for you. <a href="ads.html">Learn more</a>.</p>
       </div>
     </details>
 
@@ -875,9 +850,7 @@
         </span>
       </summary>
       <div class="update-body">
-        <p>
-          We've stopped sending monthly newsletters. Important updates are now posted here and emailed as they happen, with reduced inbox clutter and keeping things relevant.
-        </p>
+        <p>We've stopped sending monthly newsletters. Important updates are posted here and emailed as they happen, keeping things relevant and your inbox lighter.</p>
       </div>
     </details>
 
@@ -891,13 +864,10 @@
         </span>
       </summary>
       <div class="update-body">
-        <p>
-          All new and renewing clients have domain and GitHub Pages hosting covered as part of their plan. This doesn't affect existing clients with active credits. <a href="help.html#/domain-and-hosting-credit">Full details in the Help Center</a>.
-        </p>
+        <p>All new and renewing clients have domain and GitHub Pages hosting covered as part of their plan. This doesn't affect existing clients with active credits. <a href="help.html#/domain-and-hosting-credit">Full details in the Help Center</a>.</p>
       </div>
     </details>
 
-    <!-- Older updates (hidden by default) -->
     <div class="older-updates" id="older-updates" style="display:none;">
 
       <details class="update-item">
@@ -910,9 +880,7 @@
           </span>
         </summary>
         <div class="update-body">
-          <p>
-            Growth plan clients now have <strong>Total Access Support</strong> — Google Meet, Live Chat, and Phone support bundled together so you can reach us however works best for you.
-          </p>
+          <p>Growth plan clients now have <strong>Total Access Support</strong>: Google Meet, Live Chat, and Phone support bundled so you can reach us however works best for you.</p>
         </div>
       </details>
 
@@ -926,9 +894,7 @@
           </span>
         </summary>
         <div class="update-body">
-          <p>
-            We've moved from Zoom to Google Meet for all live support sessions starting December 1, 2025.
-          </p>
+          <p>We've moved from Zoom to Google Meet for all live support sessions starting December 1, 2025.</p>
         </div>
       </details>
 
@@ -942,9 +908,7 @@
           </span>
         </summary>
         <div class="update-body">
-          <p>
-            If you're at risk of missing a payment or need to pause your service due to economic impact, contact us as soon as possible and we'll work something out.
-          </p>
+          <p>If you're at risk of missing a payment or need to pause your service due to economic impact, contact us as soon as possible and we'll work something out.</p>
         </div>
       </details>
 
@@ -958,9 +922,7 @@
           </span>
         </summary>
         <div class="update-body">
-          <p>
-            Legacy clients were able to upgrade to Essential or Growth at reduced pricing before November 30. Eligible clients were contacted by email.
-          </p>
+          <p>Legacy clients were able to upgrade to Essential or Growth at reduced pricing before November 30. Eligible clients were contacted by email.</p>
         </div>
       </details>
 
@@ -974,15 +936,13 @@
           </span>
         </summary>
         <div class="update-body">
-          <p>
-            Growth plan clients can now request Google Business Profile management through the standard Website Request form.
-          </p>
+          <p>Growth plan clients can now request Google Business Profile management through the standard Website Request form.</p>
         </div>
       </details>
 
       <details class="update-item">
         <summary>
-          <span class="update-title">Welcome to the Status Page</span>
+          <span class="update-title">Welcome to the Support Center</span>
           <span class="update-meta">
             <span class="update-badge announcement">Announcement</span>
             <span class="update-date">Sep 10, 2025</span>
@@ -990,9 +950,7 @@
           </span>
         </summary>
         <div class="update-body">
-          <p>
-            This page launched as the central place for support hours, holiday schedules, and announcements. Bookmark it to stay up to date.
-          </p>
+          <p>This page launched as the central place for support hours, holiday schedules, and announcements. Bookmark it to stay up to date.</p>
         </div>
       </details>
 
@@ -1002,6 +960,69 @@
       <i class="fas fa-chevron-down" id="older-icon"></i>
       <span id="older-label">Show older updates</span>
     </button>
+
+  </div>
+</section>
+
+<!-- HOURS -->
+<section class="page-section" id="hours">
+  <div class="container container-narrow">
+
+    <div class="section-header">
+      <i class="fas fa-clock"></i>
+      <h2>Support Hours</h2>
+    </div>
+
+    <div class="today-banner" id="today-banner"></div>
+
+    <div class="hours-grid">
+      <div class="hours-card">
+        <h3><i class="fas fa-headset"></i> Email, Chat &amp; Video</h3>
+        <div class="hours-row">
+          <span class="hours-day">Mon – Fri</span>
+          <span class="hours-time">9:00am – 5:00pm ET</span>
+        </div>
+        <div class="hours-row">
+          <span class="hours-day">Sat – Sun</span>
+          <span class="hours-time">Closed</span>
+        </div>
+      </div>
+      <div class="hours-card">
+        <h3><i class="fas fa-wrench"></i> Website Updates</h3>
+        <div class="hours-row">
+          <span class="hours-day">Standard turnaround</span>
+          <span class="hours-time">24–48 hrs</span>
+        </div>
+        <div class="hours-row">
+          <span class="hours-day">Rush / same-day</span>
+          <span class="hours-time">+$69 fee</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="closure-banner" id="closure-banner">
+      <h3><i class="fas fa-calendar-xmark"></i> <span id="closure-title">Upcoming Closure</span></h3>
+      <p id="closure-message"></p>
+    </div>
+
+  </div>
+</section>
+
+<!-- UPCOMING CLOSURES -->
+<section class="page-section" id="holidays">
+  <div class="container container-narrow">
+
+    <div class="section-header">
+      <i class="fas fa-calendar-alt"></i>
+      <h2>Upcoming Closures</h2>
+    </div>
+
+    <ul id="closures-list" class="closures-list"></ul>
+
+    <p class="holiday-note" style="margin-top:16px;">
+      <i class="fas fa-info-circle" style="color:var(--brand);margin-top:2px;flex-shrink:0;"></i>
+      Requests submitted during closures are handled when we reopen.
+    </p>
 
   </div>
 </section>
@@ -1092,12 +1113,19 @@
       { name: 'Independence Day',    start: '2026-07-03', end: '2026-07-03' },
       { name: 'Labor Day',           start: '2026-09-07', end: '2026-09-07' },
       { name: 'Thanksgiving',        start: '2026-11-25', end: '2026-11-29' },
-      { name: 'December Holidays',   start: '2026-12-24', end: '2027-01-03' }
-    ].map(c => ({
-      name: c.name,
-      start: new Date(c.start + 'T00:00:00'),
-      end:   new Date(c.end   + 'T23:59:59')
-    }));
+      { name: 'December Holidays',   start: '2026-12-24', end: '2027-01-03' },
+      { name: 'Memorial Day',        start: '2027-05-31', end: '2027-05-31' },
+      { name: 'Independence Day',    start: '2027-07-05', end: '2027-07-05' },
+      { name: 'Labor Day',           start: '2027-09-06', end: '2027-09-06' },
+      { name: 'Thanksgiving',        start: '2027-11-24', end: '2027-11-28' },
+      { name: 'December Holidays',   start: '2027-12-24', end: '2028-01-02' }
+    ].map(function(c) {
+      return {
+        name: c.name,
+        start: new Date(c.start + 'T00:00:00'),
+        end:   new Date(c.end   + 'T23:59:59')
+      };
+    });
   }
 
   function updateStatus() {
@@ -1161,30 +1189,57 @@
     }
   }
 
-  // Mark holiday rows as past / today / upcoming and add days-away chip to the next closure
-  function markHolidays() {
-    const now = getET();
-    var nextLi = null, nextDays = Infinity;
+  function buildClosuresList() {
+    var list = document.getElementById('closures-list');
+    if (!list) return;
+    var now = getET();
+    var closures = getClosures();
 
-    document.querySelectorAll('.holiday-list li[data-start]').forEach(function(li) {
-      var start = new Date(li.dataset.start + 'T00:00:00');
-      var end   = new Date(li.dataset.end   + 'T23:59:59');
-      if (now > end) {
-        li.classList.add('holiday-past');
-      } else if (now >= start && now <= end) {
-        li.classList.add('holiday-today');
+    var upcoming = closures.filter(function(c) { return now <= c.end; }).slice(0, 3);
+
+    if (upcoming.length === 0) {
+      list.innerHTML = '<li class="closure-row"><span class="closure-name" style="opacity:.6">No upcoming closures scheduled.</span></li>';
+      return;
+    }
+
+    var html = '';
+    upcoming.forEach(function(c, i) {
+      var isActive = now >= c.start && now <= c.end;
+      var daysAway = isActive ? 0 : Math.ceil((c.start - now) / (1000 * 60 * 60 * 24));
+
+      var sameDay = c.start.toDateString() === c.end.toDateString();
+      var sameMonth = c.start.getMonth() === c.end.getMonth() && c.start.getFullYear() === c.end.getFullYear();
+      var dateStr;
+      if (sameDay) {
+        dateStr = c.start.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+      } else if (sameMonth) {
+        dateStr = c.start.toLocaleDateString('en-US', { month: 'long', day: 'numeric' }) + ' – ' + c.end.toLocaleDateString('en-US', { day: 'numeric', year: 'numeric' });
       } else {
-        var daysAway = Math.ceil((start - now) / (1000 * 60 * 60 * 24));
-        if (daysAway < nextDays) { nextDays = daysAway; nextLi = li; }
+        dateStr = c.start.toLocaleDateString('en-US', { month: 'long', day: 'numeric' }) + ' – ' + c.end.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
       }
+
+      var chipHtml = '';
+      if (isActive) {
+        chipHtml = '<span class="holiday-days-chip">Closed today</span>';
+      } else if (daysAway === 1) {
+        chipHtml = '<span class="holiday-days-chip">Tomorrow</span>';
+      } else if (daysAway <= 30) {
+        chipHtml = '<span class="holiday-days-chip">' + daysAway + ' days</span>';
+      }
+
+      html += '<li class="closure-row">' +
+        '<div class="closure-left">' +
+          '<div class="closure-icon"><i class="fas fa-calendar-xmark"></i></div>' +
+          '<div>' +
+            '<div class="closure-name">' + c.name + '</div>' +
+            '<div class="closure-date">' + dateStr + '</div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="closure-right">' + chipHtml + '</div>' +
+        '</li>';
     });
 
-    if (nextLi) {
-      var chip = document.createElement('span');
-      chip.className = 'holiday-days-chip';
-      chip.textContent = nextDays === 1 ? 'Tomorrow' : nextDays + ' days';
-      nextLi.appendChild(chip);
-    }
+    list.innerHTML = html;
   }
 
   // Show/hide older updates
@@ -1201,7 +1256,7 @@
   updateStatus();
   updateClosureBanner();
   updateTodayBanner();
-  markHolidays();
+  buildClosuresList();
   setInterval(updateStatus, 60000);
   setInterval(updateTodayBanner, 60000);
 </script>
