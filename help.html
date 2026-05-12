@@ -754,6 +754,18 @@
       .resume-row { margin-bottom: 24px; padding-bottom: 24px; }
       .recommended-row { margin-bottom: 24px; padding-bottom: 24px; }
       .quick-links-label { margin-top: 24px; }
+      .hero { padding: 44px 0 48px; }
+      main { padding: 32px 0 56px; }
+      .search-section { margin-top: -20px; }
+      .categories-section { padding: 40px 0; }
+    }
+    @media (max-width: 480px) {
+      .hero { padding: 28px 0 32px; }
+      .search-section { margin-top: 0; padding: 0 12px; }
+      .search-card { padding: 16px 14px; border-radius: 12px; }
+      .article-view { padding: 18px; }
+      .categories-section { padding: 28px 0; }
+      main { padding: 20px 0 40px; }
     }
     .article-breadcrumb {
       display: flex;
@@ -981,7 +993,7 @@
     }
     .categories-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
       gap: 20px;
     }
     .category-section-label {
@@ -1289,6 +1301,10 @@
       border: 0;
     }
 
+
+    /* TABLE SCROLL WRAPPER */
+    .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 14px; }
+    .table-scroll .table { margin: 0; border-radius: 14px; }
 
     .mobile-topics-toggle {
       display: none;
@@ -2165,6 +2181,14 @@
   .stuck-link { background: #f5f6fa !important; border-color: rgba(0,0,0,.09) !important; color: #1a1a2e !important; }
   .stuck-link:hover { background: #eceef8 !important; border-color: rgba(120,81,169,.25) !important; color: #1a1a2e !important; }
   .stuck-link i { color: #7851a9 !important; }
+
+  /* Mobile topics toggle in light mode */
+  .mobile-topics-toggle { background: #f5f6fa !important; border-color: rgba(0,0,0,.1) !important; color: #1a1a2e !important; }
+  .mobile-topics-toggle:hover { background: #eceef8 !important; }
+  .mobile-topics-toggle i { color: #7851a9 !important; }
+
+  /* Table scroll wrapper */
+  .table-scroll { background: transparent !important; border: none !important; }
   </style>
 
 <script type="application/ld+json">
@@ -7112,6 +7136,17 @@ const LS_SAVED    = 'wz_help_saved';
     $view.appendChild(row);
   }
 
+  // ---- Wrap tables in overflow-x containers after render ----
+  function wrapTables() {
+    document.querySelectorAll('.article-body .table, .article-body table').forEach(function(t) {
+      if (t.parentNode.classList && t.parentNode.classList.contains('table-scroll')) return;
+      var w = document.createElement('div');
+      w.className = 'table-scroll';
+      t.parentNode.insertBefore(w, t);
+      w.appendChild(t);
+    });
+  }
+
   // ---- Called by renderArticle after article renders ----
   function onArticleRendered(slug) {
     const found = findArticleBySlug(slug);
@@ -7121,6 +7156,7 @@ const LS_SAVED    = 'wz_help_saved';
     injectHelpfulRow(slug);
     injectRelatedArticles(slug, topic);
     injectStuckSection(slug);
+    wrapTables();
     // Track topic reads
     if (topic && topic.id) {
       const counts = lsGet(LS_TOPICS) || {};
