@@ -7065,6 +7065,15 @@ const LS_SAVED    = 'wz_help_saved';
     const $sub     = document.getElementById('heroSub');
     const $content = document.querySelector('.hero-content');
 
+    // Time-of-day greeting
+    if ($content && !$content.querySelector('.hero-greeting')) {
+      const h = new Date().getHours();
+      const greet = h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
+      const $g = document.createElement('div');
+      $g.className = 'hero-greeting';
+      $g.textContent = greet;
+      $content.insertBefore($g, $content.firstChild);
+    }
 
     // Adaptive subtext — topic-aware for return visitors
     if ($sub && visited) {
