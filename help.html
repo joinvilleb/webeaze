@@ -101,7 +101,7 @@
     /* HERO */
     .hero {
       position: relative;
-      padding: 80px 0 80px;
+      padding: 72px 0 80px;
       background: var(--dark);
       overflow: hidden;
     }
@@ -109,14 +109,24 @@
       position: absolute;
       inset: 0;
       background:
-        radial-gradient(ellipse 60% 50% at 50% 0%, rgba(120,81,169,.2), transparent 60%),
-        radial-gradient(ellipse 40% 30% at 80% 20%, rgba(255,215,0,.08), transparent 50%);
+        radial-gradient(ellipse 70% 60% at 50% 0%, rgba(120,81,169,.22), transparent 65%),
+        radial-gradient(ellipse 40% 30% at 80% 20%, rgba(255,215,0,.07), transparent 50%);
       pointer-events: none;
     }
     .hero-content {
       position: relative;
       z-index: 1;
-      max-width: 700px;
+      max-width: 680px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .hero .search-card {
+      background: rgba(255,255,255,.055);
+      border: 1px solid rgba(255,255,255,.1);
+      box-shadow: 0 8px 40px rgba(0,0,0,.18);
+      max-width: 100%;
+      margin: 28px 0 0;
+      text-align: left;
     }
     .hero-badge {
       display: inline-flex;
@@ -146,12 +156,6 @@
     }
 
     /* SEARCH */
-    .search-section {
-      position: relative;
-      z-index: 10;
-      margin-top: -40px;
-      padding: 0 20px;
-    }
     .search-card {
       background: var(--dark-2);
       border: 1px solid var(--line);
@@ -231,8 +235,9 @@
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
-      margin-top: 20px;
+      margin-top: 12px;
     }
+    .hero .quick-links { justify-content: flex-start; }
     .quick-link {
       display: inline-flex;
       align-items: center;
@@ -540,7 +545,7 @@
       color: rgba(255,255,255,.45);
     }
     .hero-return-msg i { color: var(--brand-light); font-size: 12px; }
-    .hero-greeting { font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--brand-light); opacity: .7; margin-bottom: 10px; }
+    .hero-greeting { font-size: 13px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: var(--brand-light); margin-bottom: 12px; opacity: .85; }
 
     /* YOU MIGHT ALSO LIKE */
     .related-section {
@@ -754,15 +759,13 @@
       .resume-row { margin-bottom: 24px; padding-bottom: 24px; }
       .recommended-row { margin-bottom: 24px; padding-bottom: 24px; }
       .quick-links-label { margin-top: 24px; }
-      .hero { padding: 44px 0 48px; }
+      .hero { padding: 48px 0 56px; }
       main { padding: 32px 0 56px; }
-      .search-section { margin-top: -20px; }
       .categories-section { padding: 40px 0; }
     }
     @media (max-width: 480px) {
-      .hero { padding: 28px 0 32px; }
-      .search-section { margin-top: 0; padding: 0 12px; }
-      .search-card { padding: 16px 14px; border-radius: 12px; }
+      .hero { padding: 32px 0 40px; }
+      .hero .search-card { margin-top: 20px; padding: 16px 14px; border-radius: 14px; }
       .article-view { padding: 18px; }
       .categories-section { padding: 28px 0; }
       main { padding: 20px 0 40px; }
@@ -1938,8 +1941,6 @@
   .zero-results h3 { font-size: 18px; font-weight: 700; margin: 0 0 8px; color: #1a1a2e; }
   .zero-results > p { font-size: 14px; color: var(--muted); margin: 0 0 24px; }
 
-  /* CONTINUE READING ROW */
-  .last-read-row { margin-bottom: 18px; }
 
   /* STILL STUCK */
   .stuck-section { margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--line); }
@@ -1969,28 +1970,6 @@
     transform: translateY(-1px); color: #fff;
   }
   .stuck-link i { color: var(--brand-light); font-size: 12px; }
-
-  /* QUICK ACTIONS STRIP */
-  .help-action-strip {
-    background: #f8f9fc;
-    border-bottom: 1px solid var(--line);
-    padding: 10px 0;
-  }
-  .help-actions {
-    display: flex; gap: 8px; flex-wrap: wrap; justify-content: center;
-  }
-  .help-action {
-    display: inline-flex; align-items: center; gap: 8px;
-    padding: 8px 16px; border-radius: 999px;
-    font-size: 13px; font-weight: 600;
-    background: #fff; border: 1px solid rgba(0,0,0,.1);
-    color: #1a1a2e; transition: all .18s; text-decoration: none;
-  }
-  .help-action:hover {
-    border-color: var(--brand); color: var(--brand);
-    background: rgba(120,81,169,.06); text-decoration: none;
-  }
-  .help-action i { font-size: 12px; color: var(--brand); }
 
   /* READING PROGRESS BAR */
   #read-progress {
@@ -2243,11 +2222,13 @@
   .stuck-link:hover { background: #eceef8 !important; border-color: rgba(120,81,169,.25) !important; color: #1a1a2e !important; }
   .stuck-link i { color: #7851a9 !important; }
 
-  /* Quick actions strip */
-  .help-action-strip { background: #f0f1f9 !important; border-bottom-color: rgba(0,0,0,.09) !important; }
-  .help-action { background: #fff !important; color: #1a1a2e !important; border-color: rgba(0,0,0,.1) !important; }
-  .help-action:hover { color: #7851a9 !important; background: rgba(120,81,169,.06) !important; border-color: rgba(120,81,169,.3) !important; }
-  .help-action i { color: #7851a9 !important; }
+  /* Hero embedded search card */
+  .hero .search-card {
+    background: rgba(255,255,255,.75) !important;
+    border-color: rgba(120,81,169,.14) !important;
+    box-shadow: 0 4px 24px rgba(120,81,169,.07) !important;
+  }
+  .hero-greeting { color: #7851a9 !important; }
 
   /* Reading progress bar */
   #read-progress { background: #7851a9 !important; }
@@ -2364,7 +2345,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark">
       <a class="navbar-brand d-flex align-items-center" href="index.html">
         <img loading="eager" src="images/webeaze-transparent-copy.png" class="logo" alt="WebEaze">
-        <strong class="ml-2 brand-word">WebEaze Help Center</strong>
+        <strong class="ml-2 brand-word">Help Center</strong>
       </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav">
         <span class="navbar-toggler-icon"></span>
@@ -2388,58 +2369,39 @@
   <div class="hero-bg"></div>
   <div class="container container-narrow">
     <div class="hero-content">
- 
-      <h1 style="font-weight: 600;">Help Center</h1>
-      <p id="heroSub">Explore our guides to get the most out of your WebEaze experience.</p>
+      <h1 style="font-weight: 800;">Find answers,&nbsp;fast.</h1>
+      <p id="heroSub">Guides, how-tos, and answers to everything WebEaze — before, during, and after your launch.</p>
+      <div class="search-card">
+        <div class="search-wrap">
+          <i class="fas fa-search icon"></i>
+          <input id="search" type="search" placeholder="Search for answers..." aria-label="Search Help Center" autocomplete="off" />
+          <button class="clear" id="clearBtn" aria-label="Clear search">
+            <i class="fas fa-times"></i>
+          </button>
+          <div class="search-typeahead" id="searchTypeahead" hidden></div>
+        </div>
+
+        <div id="recommendedRow" class="recommended-row" hidden>
+          <div class="rec-label"><i class="fas fa-star"></i> Recommended for you</div>
+          <div class="rec-pills" id="recPills"></div>
+        </div>
+
+        <div id="searchHistoryRow" class="search-history-row" hidden>
+          <div class="history-label"><i class="fas fa-clock-rotate-left"></i> Recently searched</div>
+          <div class="history-pills" id="historyPills"></div>
+        </div>
+
+        <div class="quick-links-label">Popular topics</div>
+        <div class="quick-links">
+          <a href="#/getting-started" class="quick-link"><i class="fas fa-rocket"></i> Getting Started</a>
+          <a href="#/which-plan-should-i-choose" class="quick-link"><i class="fas fa-tag"></i> Choosing a Plan</a>
+          <a href="#/how-to-request-updates" class="quick-link"><i class="fas fa-edit"></i> Request Changes</a>
+          <a href="#/manage-your-plan" class="quick-link"><i class="fas fa-credit-card"></i> Billing</a>
+        </div>
+      </div>
     </div>
   </div>
 </header>
-
-<!-- QUICK ACTIONS STRIP -->
-<div class="help-action-strip">
-  <div class="container container-narrow">
-    <div class="help-actions">
-      <a href="website-request.html" class="help-action"><i class="fas fa-paper-plane"></i> Submit a Request</a>
-      <a href="https://billing.stripe.com/p/login/7sI3gfaO14CEdlm144" target="_blank" rel="noopener" class="help-action"><i class="fas fa-credit-card"></i> Billing Portal</a>
-      <a href="status.html" class="help-action"><i class="fas fa-circle-dot"></i> Support Status</a>
-      <a href="contact-us.html" class="help-action"><i class="fas fa-envelope"></i> Contact Us</a>
-    </div>
-  </div>
-</div>
-
-<!-- SEARCH SECTION -->
-<div class="search-section">
-  <div class="search-card">
-    <div class="search-wrap">
-      <i class="fas fa-search icon"></i>
-      <input id="search" type="search" placeholder="Search for answers..." aria-label="Search Help Center" autocomplete="off" />
-      <button class="clear" id="clearBtn" aria-label="Clear search">
-        <i class="fas fa-times"></i>
-      </button>
-      <div class="search-typeahead" id="searchTypeahead" hidden></div>
-    </div>
-
-    
-
-    <div id="recommendedRow" class="recommended-row" hidden>
-      <div class="rec-label"><i class="fas fa-star"></i> Recommended for you</div>
-      <div class="rec-pills" id="recPills"></div>
-    </div>
-
-    <div id="searchHistoryRow" class="search-history-row" hidden>
-      <div class="history-label"><i class="fas fa-clock-rotate-left"></i> Recently searched</div>
-      <div class="history-pills" id="historyPills"></div>
-    </div>
-
-    <div class="quick-links-label">Popular topics</div>
-    <div class="quick-links">
-      <a href="#/getting-started" class="quick-link"><i class="fas fa-rocket"></i> Getting Started</a>
-      <a href="#/which-plan-should-i-choose" class="quick-link"><i class="fas fa-tag"></i> Choosing a Plan</a>
-      <a href="#/how-to-request-updates" class="quick-link"><i class="fas fa-edit"></i> Request Changes</a>
-      <a href="#/manage-your-plan" class="quick-link"><i class="fas fa-credit-card"></i> Billing</a>
-    </div>
-  </div>
-</div>
 
 
 
@@ -7103,34 +7065,6 @@ const LS_SAVED    = 'wz_help_saved';
     const $sub     = document.getElementById('heroSub');
     const $content = document.querySelector('.hero-content');
 
-    // Time-of-day greeting
-    if ($content && !$content.querySelector('.hero-greeting')) {
-      const h = new Date().getHours();
-      const greet = h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
-      const $g = document.createElement('div');
-      $g.className = 'hero-greeting';
-      $g.textContent = greet;
-      $content.insertBefore($g, $content.firstChild);
-    }
-
-    // First-visit callout — inject a "Start here" strip for brand-new visitors
-    if (!visited && $content) {
-      const $strip = document.createElement('div');
-      $strip.style.cssText = 'margin-top:16px;display:flex;align-items:center;flex-wrap:wrap;gap:10px;';
-      $strip.innerHTML =
-        '<span style="font-size:13px;font-weight:600;color:rgba(255,255,255,.55);">New here? Start with:</span>' +
-        [
-          { slug: 'getting-started',       label: 'How WebEaze works' },
-          { slug: 'which-plan-should-i-choose', label: 'Choosing a plan' },
-          { slug: 'free-mockup-call',      label: 'Free mockup call' },
-        ].map(l =>
-          '<a href="#/' + l.slug + '" style="display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;padding:6px 12px;border-radius:8px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:#fff;text-decoration:none;transition:.15s;" onmouseover="this.style.background=\'rgba(255,255,255,.14)\'" onmouseout="this.style.background=\'rgba(255,255,255,.08)\'">' +
-            '<i class="fas fa-arrow-right" style="font-size:10px;color:#f97316;"></i>' + l.label +
-          '</a>'
-        ).join('') +
-        '';
-      $content.appendChild($strip);
-    }
 
     // Adaptive subtext — topic-aware for return visitors
     if ($sub && visited) {
@@ -7420,28 +7354,6 @@ const LS_SAVED    = 'wz_help_saved';
     });
   }
 
-  // ---- Continue reading (last 3 read articles) ----
-  function initLastRead() {
-    const history = lsGet(LS_READ) || [];
-    if (!history.length) return;
-    const recent = history.slice(0, 3);
-    const $searchCard = document.querySelector('.search-card');
-    if (!$searchCard) return;
-    const $row = document.createElement('div');
-    $row.className = 'last-read-row search-history-row';
-    $row.innerHTML =
-      '<div class="history-label"><i class="fas fa-rotate-left"></i> Continue reading</div>' +
-      '<div class="history-pills">' +
-      recent.map(r =>
-        `<a class="history-pill" href="#/${r.slug}">` +
-          `<i class="fas fa-book-open"></i>${r.title.length > 35 ? r.title.slice(0, 35) + '...' : r.title}` +
-        `</a>`
-      ).join('') +
-      '</div>';
-    const $ql = $searchCard.querySelector('.quick-links-label');
-    if ($ql) $searchCard.insertBefore($row, $ql);
-    else $searchCard.appendChild($row);
-  }
 
   // ---- Reading progress bar ----
   function initReadProgress() {
@@ -7493,7 +7405,7 @@ const LS_SAVED    = 'wz_help_saved';
         '<div class="scc-label">Need more help?</div>' +
         '<div class="scc-status-row"><span class="scc-dot ' + statusClass + '"></span><span>' + statusText + '</span></div>' +
         '<div class="scc-hours">' + hoursText + '</div>' +
-        '<a href="contact-us.html" class="scc-btn"><i class="fas fa-envelope"></i> ' + btnText + '</a>';
+        '<a href="website-request.html" class="scc-btn"><i class="fas fa-envelope" style="color: white!important;"></i> ' + btnText + '</a>';
     }
     updateSidebarContact();
     setInterval(updateSidebarContact, 60000);
@@ -7508,7 +7420,6 @@ const LS_SAVED    = 'wz_help_saved';
     renderRecommended();
     initReturnVisitor();
     initSearchHistory();
-    initLastRead();
     renderSavedSidebar();
     initPhaseBanner();
     bindInternalLinks();
