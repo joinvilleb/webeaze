@@ -81,7 +81,7 @@
       margin-bottom: 10px;
     }
     .hero .subtitle {
-      color: rgba(255,255,255,.7);
+      color: #6b7280;
       font-size: 17px;
       max-width: 480px;
       margin: 0 auto;
@@ -413,6 +413,47 @@
     }
     .btn-older:hover { color: #fff; border-color: rgba(255,255,255,.2); background: rgba(255,255,255,.04); }
 
+    /* QUICK STRIP */
+    .quick-strip {
+      background: #f8f9fc;
+      border-bottom: 1px solid var(--line);
+      padding: 11px 0;
+    }
+    .quick-links {
+      display: flex; gap: 8px; flex-wrap: wrap; justify-content: center;
+    }
+    .quick-link {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 8px 16px; border-radius: 999px;
+      font-size: 13px; font-weight: 600;
+      background: #fff; border: 1px solid rgba(0,0,0,.1);
+      color: #1a1a2e; transition: all .18s; text-decoration: none;
+    }
+    .quick-link:hover {
+      border-color: var(--brand); color: var(--brand);
+      background: rgba(120,81,169,.06); text-decoration: none;
+    }
+    .quick-link i { font-size: 12px; color: var(--brand); }
+
+    /* UPDATE BADGES */
+    .update-badge {
+      font-size: 10.5px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .06em; padding: 3px 9px; border-radius: 999px;
+      flex-shrink: 0; white-space: nowrap;
+    }
+    .update-badge.feature      { background: rgba(120,81,169,.1);   color: #7851a9; }
+    .update-badge.policy       { background: rgba(59,130,246,.1);   color: #2563eb; }
+    .update-badge.announcement { background: rgba(245,158,11,.1);   color: #d97706; }
+
+    /* HOLIDAY DAYS CHIP */
+    .holiday-days-chip {
+      font-size: 10.5px; font-weight: 700;
+      padding: 3px 9px; border-radius: 999px;
+      background: rgba(120,81,169,.1); color: var(--brand);
+      white-space: nowrap;
+    }
+    .holiday-list li { align-items: center; }
+
     /* FOOTER */
     footer {
       background: #000;
@@ -602,6 +643,28 @@
   .tool-divider { border: none; border-top: 1px solid rgba(0,0,0,.08); margin: 18px 0; }
   .tools-note { font-size: 13px; color: #6b7280 !important; margin: 16px 0 0; text-align: center; }
   .tools-note a { color: #7851a9 !important; font-weight: 600; }
+
+  /* QUICK STRIP in light mode */
+  .quick-strip { background: #f0f1f9 !important; border-bottom-color: rgba(0,0,0,.09) !important; }
+  .quick-link { background: #fff !important; color: #1a1a2e !important; border-color: rgba(0,0,0,.1) !important; }
+  .quick-link:hover { color: #7851a9 !important; background: rgba(120,81,169,.06) !important; border-color: rgba(120,81,169,.3) !important; }
+  .quick-link i { color: #7851a9 !important; }
+
+  /* HERO STATUS INDICATOR in light mode */
+  #hero-status.status-indicator { border-color: rgba(34,197,94,.3) !important; background: rgba(34,197,94,.07) !important; }
+  #hero-status.status-indicator.offline { border-color: rgba(239,68,68,.25) !important; background: rgba(239,68,68,.07) !important; }
+  #hero-status.status-indicator.away    { border-color: rgba(245,158,11,.25) !important; background: rgba(245,158,11,.07) !important; }
+  #hero-status .status-text             { color: #15803d !important; }
+  #hero-status.offline .status-text     { color: #dc2626 !important; }
+  #hero-status.away    .status-text     { color: #d97706 !important; }
+
+  /* UPDATE BADGES in light mode */
+  .update-badge.feature      { color: #7851a9 !important; background: rgba(120,81,169,.1) !important; }
+  .update-badge.policy       { color: #1d4ed8 !important; background: rgba(59,130,246,.1) !important; }
+  .update-badge.announcement { color: #b45309 !important; background: rgba(245,158,11,.1) !important; }
+
+  /* HOLIDAY CHIP in light mode */
+  .holiday-days-chip { color: #7851a9 !important; background: rgba(120,81,169,.1) !important; }
   </style>
 
 </head>
@@ -635,10 +698,23 @@
 <!-- HERO -->
 <header class="hero">
   <div class="container container-narrow">
-    <h1>Support Hours & Updates</h1>
+    <h1>Support Hours &amp; Updates</h1>
     <p class="subtitle">Hours, holiday closures, and service announcements from WebEaze.</p>
+    <div id="hero-status" class="status-indicator" style="display:none;margin-top:18px;"></div>
   </div>
 </header>
+
+<!-- QUICK STRIP -->
+<div class="quick-strip">
+  <div class="container container-narrow">
+    <div class="quick-links">
+      <a href="website-request.html" class="quick-link"><i class="fas fa-paper-plane"></i> Submit a Request</a>
+      <a href="help.html" class="quick-link"><i class="fas fa-book-open"></i> Help Center</a>
+      <a href="https://billing.stripe.com/p/login/7sI3gfaO14CEdlm144" target="_blank" rel="noopener" class="quick-link"><i class="fas fa-credit-card"></i> Billing Portal</a>
+      <a href="client-start.html" class="quick-link"><i class="fas fa-user-check"></i> Client Portal</a>
+    </div>
+  </div>
+</div>
 
 <!-- STICKY IN-PAGE NAV -->
 <div class="page-nav-wrap" id="page-nav-wrap">
@@ -757,6 +833,7 @@
       <summary>
         <span class="update-title">Elite Plan Discontinued</span>
         <span class="update-meta">
+          <span class="update-badge policy">Policy</span>
           <span class="update-date">Mar 1, 2026</span>
           <i class="fas fa-chevron-down update-arrow"></i>
         </span>
@@ -772,6 +849,7 @@
       <summary>
         <span class="update-title">Introducing One-Time Web Projects</span>
         <span class="update-meta">
+          <span class="update-badge feature">Feature</span>
           <span class="update-date">Feb 18, 2026</span>
           <i class="fas fa-chevron-down update-arrow"></i>
         </span>
@@ -785,8 +863,9 @@
 
     <details class="update-item">
       <summary>
-        <span class="update-title">AI Chatbot & Ad Management Add-Ons</span>
+        <span class="update-title">AI Chatbot &amp; Ad Management Add-Ons</span>
         <span class="update-meta">
+          <span class="update-badge feature">Feature</span>
           <span class="update-date">Feb 18, 2026</span>
           <i class="fas fa-chevron-down update-arrow"></i>
         </span>
@@ -802,6 +881,7 @@
       <summary>
         <span class="update-title">Changes to Email Communications</span>
         <span class="update-meta">
+          <span class="update-badge announcement">Announcement</span>
           <span class="update-date">Feb 4, 2026</span>
           <i class="fas fa-chevron-down update-arrow"></i>
         </span>
@@ -815,8 +895,9 @@
 
     <details class="update-item">
       <summary>
-        <span class="update-title">Updated Domain & Hosting Coverage Policy</span>
+        <span class="update-title">Updated Domain &amp; Hosting Coverage Policy</span>
         <span class="update-meta">
+          <span class="update-badge policy">Policy</span>
           <span class="update-date">Jan 3, 2026</span>
           <i class="fas fa-chevron-down update-arrow"></i>
         </span>
@@ -835,6 +916,7 @@
         <summary>
           <span class="update-title">Introducing Total Access Support</span>
           <span class="update-meta">
+            <span class="update-badge feature">Feature</span>
             <span class="update-date">Jan 3, 2026</span>
             <i class="fas fa-chevron-down update-arrow"></i>
           </span>
@@ -850,6 +932,7 @@
         <summary>
           <span class="update-title">Switching to Google Meet for Live Support</span>
           <span class="update-meta">
+            <span class="update-badge announcement">Announcement</span>
             <span class="update-date">Nov 25, 2025</span>
             <i class="fas fa-chevron-down update-arrow"></i>
           </span>
@@ -865,6 +948,7 @@
         <summary>
           <span class="update-title">Support for Clients Affected by Government Shutdown</span>
           <span class="update-meta">
+            <span class="update-badge announcement">Announcement</span>
             <span class="update-date">Nov 7, 2025</span>
             <i class="fas fa-chevron-down update-arrow"></i>
           </span>
@@ -880,6 +964,7 @@
         <summary>
           <span class="update-title">Plan Upgrade Savings for Legacy WSP Clients</span>
           <span class="update-meta">
+            <span class="update-badge announcement">Announcement</span>
             <span class="update-date">Oct 27, 2025</span>
             <i class="fas fa-chevron-down update-arrow"></i>
           </span>
@@ -895,6 +980,7 @@
         <summary>
           <span class="update-title">Google Business Profile Integration Added</span>
           <span class="update-meta">
+            <span class="update-badge feature">Feature</span>
             <span class="update-date">Oct 15, 2025</span>
             <i class="fas fa-chevron-down update-arrow"></i>
           </span>
@@ -910,6 +996,7 @@
         <summary>
           <span class="update-title">Welcome to the Status Page</span>
           <span class="update-meta">
+            <span class="update-badge announcement">Announcement</span>
             <span class="update-date">Sep 10, 2025</span>
             <i class="fas fa-chevron-down update-arrow"></i>
           </span>
@@ -1128,6 +1215,7 @@
 
   function updateTodayBanner() {
     const banner = document.getElementById('today-banner');
+    const heroStatus = document.getElementById('hero-status');
     if (!banner) return;
     const now = getET();
     const day = now.getDay(), hour = now.getHours();
@@ -1145,22 +1233,28 @@
       const retStr = ret.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
       banner.className = 'today-banner today-closed';
       banner.innerHTML = '<i class="fas fa-moon"></i> <strong>Closed: ' + currentHoliday.name + '</strong> · Resumes ' + retStr + ' <span class="banner-date">' + dateStr + '</span>';
+      if (heroStatus) { heroStatus.style.display = 'inline-flex'; heroStatus.className = 'status-indicator offline'; heroStatus.innerHTML = '<span class="status-dot"></span><span class="status-text">Closed: ' + currentHoliday.name + '</span>'; }
     } else if (isWeekend) {
       banner.className = 'today-banner today-closed';
       banner.innerHTML = '<i class="fas fa-moon"></i> <strong>Closed today.</strong> Support resumes Monday 9:00am ET <span class="banner-date">' + dateStr + '</span>';
+      if (heroStatus) { heroStatus.style.display = 'inline-flex'; heroStatus.className = 'status-indicator offline'; heroStatus.innerHTML = '<span class="status-dot"></span><span class="status-text">Closed today</span>'; }
     } else if (isOpen) {
       banner.className = 'today-banner today-open';
       banner.innerHTML = '<i class="fas fa-circle-check"></i> <strong>Open now</strong> · 9:00am – 5:00pm ET <span class="banner-date">' + dateStr + '</span>';
+      if (heroStatus) { heroStatus.style.display = 'inline-flex'; heroStatus.className = 'status-indicator'; heroStatus.innerHTML = '<span class="status-dot"></span><span class="status-text">Support open now</span>'; }
     } else {
       const opensNext = hour < 9 ? 'today' : (day === 5 ? 'Monday' : 'tomorrow');
       banner.className = 'today-banner today-away';
       banner.innerHTML = '<i class="fas fa-clock"></i> <strong>Closed now</strong> · Opens ' + opensNext + ' at 9:00am ET <span class="banner-date">' + dateStr + '</span>';
+      if (heroStatus) { heroStatus.style.display = 'inline-flex'; heroStatus.className = 'status-indicator away'; heroStatus.innerHTML = '<span class="status-dot"></span><span class="status-text">Outside business hours</span>'; }
     }
   }
 
-  // Mark holiday rows as past / today / upcoming
+  // Mark holiday rows as past / today / upcoming and add days-away chip to the next closure
   function markHolidays() {
     const now = getET();
+    var nextLi = null, nextDays = Infinity;
+
     document.querySelectorAll('.holiday-list li[data-start]').forEach(function(li) {
       var start = new Date(li.dataset.start + 'T00:00:00');
       var end   = new Date(li.dataset.end   + 'T23:59:59');
@@ -1170,13 +1264,16 @@
         li.classList.add('holiday-today');
       } else {
         var daysAway = Math.ceil((start - now) / (1000 * 60 * 60 * 24));
-        if (daysAway <= 14) {
-          var dot = document.createElement('span');
-          dot.className = 'holiday-upcoming-dot';
-          li.querySelector('.holiday-name').prepend(dot);
-        }
+        if (daysAway < nextDays) { nextDays = daysAway; nextLi = li; }
       }
     });
+
+    if (nextLi) {
+      var chip = document.createElement('span');
+      chip.className = 'holiday-days-chip';
+      chip.textContent = nextDays === 1 ? 'Tomorrow' : nextDays + ' days';
+      nextLi.appendChild(chip);
+    }
   }
 
   // Sticky in-page nav highlighting
