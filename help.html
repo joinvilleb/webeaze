@@ -1970,6 +1970,67 @@
   }
   .stuck-link i { color: var(--brand-light); font-size: 12px; }
 
+  /* QUICK ACTIONS STRIP */
+  .help-action-strip {
+    background: #f8f9fc;
+    border-bottom: 1px solid var(--line);
+    padding: 10px 0;
+  }
+  .help-actions {
+    display: flex; gap: 8px; flex-wrap: wrap; justify-content: center;
+  }
+  .help-action {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 8px 16px; border-radius: 999px;
+    font-size: 13px; font-weight: 600;
+    background: #fff; border: 1px solid rgba(0,0,0,.1);
+    color: #1a1a2e; transition: all .18s; text-decoration: none;
+  }
+  .help-action:hover {
+    border-color: var(--brand); color: var(--brand);
+    background: rgba(120,81,169,.06); text-decoration: none;
+  }
+  .help-action i { font-size: 12px; color: var(--brand); }
+
+  /* READING PROGRESS BAR */
+  #read-progress {
+    position: fixed; top: 0; left: 0; height: 3px;
+    background: var(--brand); width: 0%; z-index: 99999;
+    transition: width .08s linear; display: none; pointer-events: none;
+  }
+  #read-progress.active { display: block; }
+
+  /* SIDEBAR CONTACT CARD */
+  .sidebar-contact-card {
+    background: var(--dark-2); border: 1px solid var(--line);
+    border-radius: 16px; padding: 18px; margin-top: 12px;
+  }
+  .scc-label {
+    font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .08em; color: var(--muted); margin-bottom: 12px;
+  }
+  .scc-status-row {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 14px; font-weight: 600; margin-bottom: 8px;
+  }
+  .scc-dot {
+    width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+  }
+  .scc-dot.open { background: #22c55e; animation: pulse-dot 2s ease-in-out infinite; }
+  .scc-dot.closed { background: #ef4444; }
+  .scc-dot.away { background: #f59e0b; }
+  .scc-hours {
+    font-size: 12.5px; color: var(--muted); margin-bottom: 14px; line-height: 1.55;
+  }
+  .scc-btn {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    width: 100%; padding: 10px; border-radius: 10px;
+    font-size: 13px; font-weight: 600; text-decoration: none;
+    background: var(--brand); color: #fff !important; border: none;
+    transition: opacity .18s;
+  }
+  .scc-btn:hover { opacity: .88; text-decoration: none; }
+
   </style>
 
 
@@ -2182,6 +2243,25 @@
   .stuck-link:hover { background: #eceef8 !important; border-color: rgba(120,81,169,.25) !important; color: #1a1a2e !important; }
   .stuck-link i { color: #7851a9 !important; }
 
+  /* Quick actions strip */
+  .help-action-strip { background: #f0f1f9 !important; border-bottom-color: rgba(0,0,0,.09) !important; }
+  .help-action { background: #fff !important; color: #1a1a2e !important; border-color: rgba(0,0,0,.1) !important; }
+  .help-action:hover { color: #7851a9 !important; background: rgba(120,81,169,.06) !important; border-color: rgba(120,81,169,.3) !important; }
+  .help-action i { color: #7851a9 !important; }
+
+  /* Reading progress bar */
+  #read-progress { background: #7851a9 !important; }
+
+  /* Sidebar contact card */
+  .sidebar-contact-card { background: #f5f6fa !important; border-color: rgba(0,0,0,.09) !important; }
+  .scc-label { color: #9ca3b0 !important; }
+  .scc-status-row { color: #1a1a2e !important; }
+  .scc-hours { color: #6b7280 !important; }
+  .scc-dot.open { background: #22c55e !important; }
+  .scc-dot.closed { background: #ef4444 !important; }
+  .scc-dot.away { background: #f59e0b !important; }
+  .scc-btn { background: #7851a9 !important; color: #fff !important; }
+
   /* Mobile topics toggle in light mode */
   .mobile-topics-toggle { background: #f5f6fa !important; border-color: rgba(0,0,0,.1) !important; color: #1a1a2e !important; }
   .mobile-topics-toggle:hover { background: #eceef8 !important; }
@@ -2276,6 +2356,8 @@
 </head>
 <body>
 
+<div id="read-progress"></div>
+
 <!-- NAV -->
 <div class="nav-wrap">
   <div class="container container-narrow">
@@ -2312,6 +2394,18 @@
     </div>
   </div>
 </header>
+
+<!-- QUICK ACTIONS STRIP -->
+<div class="help-action-strip">
+  <div class="container container-narrow">
+    <div class="help-actions">
+      <a href="website-request.html" class="help-action"><i class="fas fa-paper-plane"></i> Submit a Request</a>
+      <a href="https://billing.stripe.com/p/login/7sI3gfaO14CEdlm144" target="_blank" rel="noopener" class="help-action"><i class="fas fa-credit-card"></i> Billing Portal</a>
+      <a href="status.html" class="help-action"><i class="fas fa-circle-dot"></i> Support Status</a>
+      <a href="contact-us.html" class="help-action"><i class="fas fa-envelope"></i> Contact Us</a>
+    </div>
+  </div>
+</div>
 
 <!-- SEARCH SECTION -->
 <div class="search-section">
@@ -2371,6 +2465,7 @@
           <div class="sidebar-title">Browse by Topic</div>
           <div id="browseBody"></div>
         </div>
+        <div class="sidebar-contact-card" id="sidebarContactCard"></div>
       </aside>
 
       <!-- CONTENT AREA -->
@@ -7348,6 +7443,62 @@ const LS_SAVED    = 'wz_help_saved';
     else $searchCard.appendChild($row);
   }
 
+  // ---- Reading progress bar ----
+  function initReadProgress() {
+    var bar = document.getElementById('read-progress');
+    if (!bar) return;
+    window.addEventListener('scroll', function() {
+      var articleEl = document.getElementById('article');
+      if (!articleEl || articleEl.hidden) { bar.classList.remove('active'); bar.style.width = '0%'; return; }
+      bar.classList.add('active');
+      var top = articleEl.getBoundingClientRect().top + window.scrollY;
+      var bottom = articleEl.getBoundingClientRect().bottom + window.scrollY;
+      var scrolled = window.scrollY - top;
+      var total = bottom - top - window.innerHeight;
+      var pct = total <= 0 ? 100 : Math.min(100, Math.max(0, (scrolled / total) * 100));
+      bar.style.width = pct + '%';
+    }, { passive: true });
+  }
+
+  // ---- Sidebar contact card ----
+  function initSidebarContact() {
+    var card = document.getElementById('sidebarContactCard');
+    if (!card) return;
+    function getHelpET() {
+      return new Date(new Date().toLocaleString('en-US', { timeZone: 'America/New_York' }));
+    }
+    function updateSidebarContact() {
+      var now = getHelpET();
+      var day = now.getDay(), hour = now.getHours();
+      var isWeekend = day === 0 || day === 6;
+      var isOpen = !isWeekend && hour >= 9 && hour < 17;
+      var statusClass, statusText, hoursText, btnText;
+      if (isOpen) {
+        statusClass = 'open';
+        statusText = 'Support is open now';
+        hoursText = 'We typically reply within a few hours during business hours.';
+        btnText = 'Send us a message';
+      } else if (isWeekend) {
+        statusClass = 'closed';
+        statusText = 'Closed — reopens Monday';
+        hoursText = 'Leave a message and we\'ll get back to you Monday morning.';
+        btnText = 'Leave a message';
+      } else {
+        statusClass = 'away';
+        statusText = hour < 9 ? 'Opens today at 9am ET' : 'Closed for today';
+        hoursText = 'Support resumes next business day at 9am ET.';
+        btnText = 'Leave a message';
+      }
+      card.innerHTML =
+        '<div class="scc-label">Need more help?</div>' +
+        '<div class="scc-status-row"><span class="scc-dot ' + statusClass + '"></span><span>' + statusText + '</span></div>' +
+        '<div class="scc-hours">' + hoursText + '</div>' +
+        '<a href="contact-us.html" class="scc-btn"><i class="fas fa-envelope"></i> ' + btnText + '</a>';
+    }
+    updateSidebarContact();
+    setInterval(updateSidebarContact, 60000);
+  }
+
   function boot() {
     if (!lsGet('wz_first_visit')) lsSet('wz_first_visit', Date.now());
     lastVisitTs = lsGet('wz_help_last_visit') || 0;
@@ -7363,6 +7514,8 @@ const LS_SAVED    = 'wz_help_saved';
     bindInternalLinks();
     initSearch();
     initTypeahead();
+    initReadProgress();
+    initSidebarContact();
     window.addEventListener('hashchange', onHash);
     onHash();
   }
