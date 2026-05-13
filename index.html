@@ -1697,32 +1697,94 @@ fee-tooltip {
 
 
 /* ===== CLIENT STRIP ===== */
-.clients-eyebrow {
+/* ===== SHOWCASE CAROUSEL ===== */
+.showcase-section {
+  background: #fff;
+  padding: clamp(48px, 6vh, 72px) 0;
+  border-top: 1px solid #e8eaf0;
+  border-bottom: 1px solid #e8eaf0;
+}
+.showcase-eyebrow {
   font-size: .72rem; font-weight: 700; letter-spacing: .12em;
   text-transform: uppercase; color: #9ca3af;
-  text-align: center; margin-bottom: 16px;
+  text-align: center; margin-bottom: 8px;
 }
-.clients-grid {
-  display: flex; flex-wrap: wrap; justify-content: center;
-  border: 1px solid #e8eaf0; border-radius: 14px; overflow: hidden;
+.showcase-heading {
+  text-align: center; font-size: clamp(22px, 3vw, 30px); font-weight: 800;
+  color: #0f1228; letter-spacing: -.02em; margin: 0 0 32px;
 }
-.client-entry {
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  padding: 16px 20px; flex: 1; min-width: 110px;
-  border-right: 1px solid #e8eaf0;
-  text-decoration: none; transition: background .15s;
+.showcase-track {
+  display: flex;
+  gap: 18px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding: 4px 0 12px;
+  cursor: grab;
 }
-.client-entry:last-child { border-right: none; }
-.client-entry:hover { background: rgba(120,81,169,.04); text-decoration: none; }
-.client-entry-name { font-size: .88rem; font-weight: 700; color: #0f1228; }
-.client-entry-cat  { font-size: .73rem; color: #9ca3af; font-weight: 500; margin-top: 3px; }
-.client-entry-more .client-entry-name { color: #7851a9; display: flex; align-items: center; gap: 5px; }
-@media (max-width: 640px) {
-  .clients-grid { border-radius: 12px; flex-wrap: wrap; }
-  .client-entry { flex: 0 0 50%; min-width: 0; box-sizing: border-box; border-bottom: 1px solid #e8eaf0; border-right: 1px solid #e8eaf0; }
-  .client-entry:nth-child(2n) { border-right: none; }
-  .client-entry:nth-last-child(-n+2) { border-bottom: none; }
-  .client-entry-name { font-size: .82rem; }
+.showcase-track:active { cursor: grabbing; }
+.showcase-track::-webkit-scrollbar { display: none; }
+.showcase-slide {
+  flex: 0 0 calc(33.33% - 12px);
+  scroll-snap-align: start;
+  background: #fff;
+  border: 1px solid #e8eaf0;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,.07);
+  transition: transform .22s, box-shadow .22s;
+  text-decoration: none;
+}
+.showcase-slide:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 14px 40px rgba(0,0,0,.13);
+}
+.showcase-browser {
+  background: #f0f2f7;
+  border-bottom: 1px solid #e8eaf0;
+  padding: 8px 12px 0;
+}
+.showcase-browser-bar {
+  display: flex; align-items: center; gap: 5px; margin-bottom: 8px;
+}
+.showcase-dot-r { width: 8px; height: 8px; border-radius: 50%; background: #fc5f5f; flex-shrink:0; }
+.showcase-dot-y { width: 8px; height: 8px; border-radius: 50%; background: #fdbc40; flex-shrink:0; }
+.showcase-dot-g { width: 8px; height: 8px; border-radius: 50%; background: #34c749; flex-shrink:0; }
+.showcase-screenshot {
+  display: block; width: 100%; aspect-ratio: 16/10; object-fit: cover; object-position: top;
+}
+.showcase-info { padding: 14px 16px 16px; }
+.showcase-info-name { font-size: 14px; font-weight: 800; color: #0f1228; margin-bottom: 2px; }
+.showcase-info-cat { font-size: 12px; color: #9ca3af; font-weight: 500; margin-bottom: 10px; }
+.showcase-info-link {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 12px; font-weight: 700; color: #7851a9;
+}
+.showcase-nav {
+  display: flex; align-items: center; justify-content: center; gap: 7px; margin-top: 22px;
+}
+.showcase-nav-dot {
+  width: 7px; height: 7px; border-radius: 99px;
+  background: #d1d5db; border: none; cursor: pointer; padding: 0;
+  transition: background .2s, width .25s;
+}
+.showcase-nav-dot.active { background: #7851a9; width: 20px; }
+.showcase-view-all {
+  text-align: center; margin-top: 24px;
+}
+.showcase-view-all a {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-size: 13px; font-weight: 700; color: #7851a9; text-decoration: none;
+  border-bottom: 1.5px solid rgba(120,81,169,.3); padding-bottom: 2px;
+  transition: border-color .15s;
+}
+.showcase-view-all a:hover { border-color: #7851a9; }
+@media (max-width: 840px) {
+  .showcase-slide { flex: 0 0 78%; }
+}
+@media (max-width: 480px) {
+  .showcase-slide { flex: 0 0 88%; }
 }
 
 /* ===== PREMIUM PRICING SECTION ===== */
@@ -2140,10 +2202,10 @@ fee-tooltip {
 .pain-tile p { font-size: 15px; color: #374151; line-height: 1.75; margin: 0; }
 .pain-tile-d h3 { color: #ffd700; }
 .pain-tile-d p { color: rgba(255,255,255,.82); }
-.pain-tile-a.reveal { transform: translateX(-22px) translateY(10px); }
-.pain-tile-b.reveal { transform: translateX(22px) translateY(10px); }
-.pain-tile-c.reveal { transform: translateX(-22px) translateY(10px); }
-.pain-tile-d.reveal { transform: translateX(22px) translateY(10px); }
+.pain-tile-a.reveal:not(.in-view) { transform: translateX(-24px) translateY(10px); }
+.pain-tile-b.reveal:not(.in-view) { transform: translateX(24px) translateY(10px); }
+.pain-tile-c.reveal:not(.in-view) { transform: translateX(-24px) translateY(10px); }
+.pain-tile-d.reveal:not(.in-view) { transform: translateX(24px) translateY(10px); }
 .pain-tile-cta {
   display: inline-flex; align-items: center; gap: 8px;
   color: #ffd700; font-weight: 600; font-size: 14px;
@@ -3076,36 +3138,86 @@ fee-tooltip {
         </div>
       </div>
 
-      <!-- Real clients strip -->
-      <div class="clients-strip reveal" style="margin-top:52px;">
-        <p class="clients-eyebrow">Real businesses, live today</p>
-        <div class="clients-grid">
-          <a href="https://bearcarpetcare.com" target="_blank" rel="noopener" class="client-entry">
-            <span class="client-entry-name">Bear Carpet Care</span>
-            <span class="client-entry-cat">Home Services</span>
-          </a>
-          <a href="https://ibisprep.com" target="_blank" rel="noopener" class="client-entry">
-            <span class="client-entry-name">Ibis Prep</span>
-            <span class="client-entry-cat">Education</span>
-          </a>
-          <a href="https://galaxygymnast.com" target="_blank" rel="noopener" class="client-entry">
-            <span class="client-entry-name">Galaxy Gymnastics</span>
-            <span class="client-entry-cat">Fitness</span>
-          </a>
-          <a href="https://rundelmarva.org" target="_blank" rel="noopener" class="client-entry">
-            <span class="client-entry-name">Run Delmarva</span>
-            <span class="client-entry-cat">Community</span>
-          </a>
-          <a href="https://bake350degrees.com" target="_blank" rel="noopener" class="client-entry">
-            <span class="client-entry-name">Bake 350 Degrees</span>
-            <span class="client-entry-cat">Food &amp; Bakery</span>
-          </a>
-          <a href="samples.html" class="client-entry client-entry-more">
-            <span class="client-entry-name">See all work <i class="fas fa-arrow-right" style="font-size:11px;"></i></span>
-          </a>
-        </div>
+
+    </div>
+  </section>
+
+  <!-- SHOWCASE CAROUSEL -->
+  <section class="showcase-section">
+    <div class="container container-narrow">
+      <p class="showcase-eyebrow">Real businesses, live today</p>
+      <h2 class="showcase-heading">Websites we built and manage</h2>
+
+      <div class="showcase-track" id="showcaseTrack">
+
+        <a href="https://bearcarpetcare.com" target="_blank" rel="noopener" class="showcase-slide">
+          <div class="showcase-browser">
+            <div class="showcase-browser-bar">
+              <span class="showcase-dot-r"></span>
+              <span class="showcase-dot-y"></span>
+              <span class="showcase-dot-g"></span>
+            </div>
+            <picture>
+              <source srcset="images/bear-carpet-care-home.webp" type="image/webp">
+              <img class="showcase-screenshot" src="images/bear-carpet-care-home.png" alt="Bear Carpet Care website" loading="lazy" width="868" height="543">
+            </picture>
+          </div>
+          <div class="showcase-info">
+            <div class="showcase-info-name">Bear Carpet Care</div>
+            <div class="showcase-info-cat">Home Services &bull; Delaware</div>
+            <span class="showcase-info-link">Visit site <i class="fas fa-arrow-up-right-from-square" style="font-size:10px;"></i></span>
+          </div>
+        </a>
+
+        <a href="https://ibisprep.com" target="_blank" rel="noopener" class="showcase-slide">
+          <div class="showcase-browser">
+            <div class="showcase-browser-bar">
+              <span class="showcase-dot-r"></span>
+              <span class="showcase-dot-y"></span>
+              <span class="showcase-dot-g"></span>
+            </div>
+            <picture>
+              <source srcset="images/ibis-prep-home.webp" type="image/webp">
+              <img class="showcase-screenshot" src="images/ibis-prep-home.png" alt="Ibis Prep website" loading="lazy" width="670" height="419">
+            </picture>
+          </div>
+          <div class="showcase-info">
+            <div class="showcase-info-name">Ibis Prep</div>
+            <div class="showcase-info-cat">Education &bull; Maryland</div>
+            <span class="showcase-info-link">Visit site <i class="fas fa-arrow-up-right-from-square" style="font-size:10px;"></i></span>
+          </div>
+        </a>
+
+        <a href="https://galaxygymnast.com" target="_blank" rel="noopener" class="showcase-slide">
+          <div class="showcase-browser">
+            <div class="showcase-browser-bar">
+              <span class="showcase-dot-r"></span>
+              <span class="showcase-dot-y"></span>
+              <span class="showcase-dot-g"></span>
+            </div>
+            <picture>
+              <source srcset="images/galaxy-gymnast-home.webp" type="image/webp">
+              <img class="showcase-screenshot" src="images/galaxy-gymnast-home.png" alt="Galaxy Gymnastics website" loading="lazy" width="868" height="543">
+            </picture>
+          </div>
+          <div class="showcase-info">
+            <div class="showcase-info-name">Galaxy Gymnastics</div>
+            <div class="showcase-info-cat">Fitness &bull; Delaware</div>
+            <span class="showcase-info-link">Visit site <i class="fas fa-arrow-up-right-from-square" style="font-size:10px;"></i></span>
+          </div>
+        </a>
+
       </div>
 
+      <div class="showcase-nav" id="showcaseNav">
+        <button class="showcase-nav-dot active" aria-label="Slide 1"></button>
+        <button class="showcase-nav-dot" aria-label="Slide 2"></button>
+        <button class="showcase-nav-dot" aria-label="Slide 3"></button>
+      </div>
+
+      <div class="showcase-view-all">
+        <a href="samples.html">See all our work <i class="fas fa-arrow-right" style="font-size:11px;"></i></a>
+      </div>
     </div>
   </section>
 
@@ -4456,6 +4568,45 @@ function whyTabScroll(dir) {
 
   var wrap = document.getElementById('billWrap');
   if (wrap) obs.observe(wrap);
+})();
+
+// Showcase carousel
+(function() {
+  var track = document.getElementById('showcaseTrack');
+  var dots  = document.querySelectorAll('#showcaseNav .showcase-nav-dot');
+  if (!track || !dots.length) return;
+  var slides = track.querySelectorAll('.showcase-slide');
+  var activeIdx = 0;
+
+  function setDot(i) {
+    dots.forEach(function(d, n) { d.classList.toggle('active', n === i); });
+    activeIdx = i;
+  }
+
+  // Scroll to slide on dot click
+  dots.forEach(function(dot, i) {
+    dot.addEventListener('click', function() {
+      var slide = slides[i];
+      if (!slide) return;
+      track.scrollTo({ left: slide.offsetLeft - track.offsetLeft, behavior: 'smooth' });
+      setDot(i);
+    });
+  });
+
+  // Update dots on scroll
+  var scrollTimer;
+  track.addEventListener('scroll', function() {
+    clearTimeout(scrollTimer);
+    scrollTimer = setTimeout(function() {
+      var center = track.scrollLeft + track.clientWidth / 2;
+      var closest = 0, minDist = Infinity;
+      slides.forEach(function(s, i) {
+        var dist = Math.abs((s.offsetLeft - track.offsetLeft + s.offsetWidth / 2) - center);
+        if (dist < minDist) { minDist = dist; closest = i; }
+      });
+      setDot(closest);
+    }, 60);
+  }, { passive: true });
 })();
 
 // Personalization

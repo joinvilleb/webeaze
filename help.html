@@ -977,113 +977,94 @@
 
     /* CATEGORIES SECTION */
     .categories-section {
-      padding: 60px 0;
+      padding: 40px 0;
       background: var(--dark-2);
     }
-    .section-header {
-      text-align: center;
-      max-width: 600px;
-      margin: 0 auto 48px;
-    }
-    .section-header h2 {
-      font-size: clamp(24px, 4vw, 32px);
-      font-weight: 800;
-      margin: 0 0 12px;
-    }
-    .section-header p {
+    .categories-heading {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .07em;
       color: var(--muted);
-      font-size: 16px;
+      margin-bottom: 16px;
     }
     .categories-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+    @media (max-width: 640px) {
+      .categories-grid { grid-template-columns: repeat(2, 1fr); }
     }
     .category-section-label {
       grid-column: 1 / -1;
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.09em;
-      color: var(--muted);
-      padding-top: 12px;
+      color: rgba(255,255,255,.3);
+      padding-top: 8px;
       border-top: 1px solid var(--line);
-      margin-top: 8px;
+      margin-top: 4px;
     }
     .category-section-label:first-child { border-top: none; padding-top: 0; margin-top: 0; }
     .category-card {
       background: var(--dark-3);
       border: 1px solid var(--line);
-      border-radius: 16px;
-      padding: 28px;
-      transition: transform .2s, box-shadow .2s, border-color .2s;
+      border-radius: 12px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: background .15s, border-color .15s;
       cursor: pointer;
     }
     .category-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 12px 40px rgba(0,0,0,.3);
-      border-color: rgba(255,215,0,.2);
+      background: rgba(120,81,169,.1);
+      border-color: rgba(120,81,169,.3);
     }
     .category-card .icon {
-      width: 48px;
-      height: 48px;
+      width: 36px;
+      height: 36px;
       background: var(--gold-dim);
-      border-radius: 12px;
+      border-radius: 9px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 20px;
+      font-size: 15px;
       color: var(--gold);
-      margin-bottom: 16px;
+      flex-shrink: 0;
     }
+    .category-card-text { flex: 1; min-width: 0; }
     .category-card h3 {
-      font-size: 16px;
-      font-weight: 700;
-      margin: 0 0 8px;
-    }
-    .category-card p {
       font-size: 13px;
-      color: var(--muted);
-      margin: 0 0 12px;
-      line-height: 1.6;
+      font-weight: 700;
+      margin: 0 0 2px;
+      line-height: 1.3;
     }
     .category-card .count {
-      font-size: 12px;
-      color: var(--brand-light);
-      font-weight: 600;
-    }
-    .category-card .read-progress {
-      margin-top: 12px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .category-card .progress-bar {
-      flex: 1;
-      height: 4px;
-      background: rgba(255,255,255,.1);
-      border-radius: 99px;
-      overflow: hidden;
-    }
-    .category-card .progress-fill {
-      height: 100%;
-      background: var(--gold);
-      border-radius: 99px;
-      transition: width .4s ease;
-    }
-    .category-card .progress-label {
       font-size: 11px;
       color: var(--muted);
-      white-space: nowrap;
+      font-weight: 500;
     }
     .category-card.all-read .count { color: var(--gold); }
+    .category-card p { display: none; }
+    .category-card .read-progress { display: none; }
 
     /* Group filter chips */
     .group-chips {
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .group-chips::-webkit-scrollbar { display: none; }
+    @media (max-width: 640px) {
+      .group-chips { flex-wrap: nowrap; padding-bottom: 4px; }
+      .group-chip { flex-shrink: 0; }
     }
     .group-chip {
       display: inline-flex;
@@ -1312,7 +1293,7 @@
     .mobile-topics-toggle {
       display: none;
       width: 100%;
-      padding: 14px 20px;
+      padding: 13px 18px;
       background: var(--dark-2);
       border: 1px solid var(--line);
       border-radius: 12px;
@@ -1320,13 +1301,29 @@
       font-weight: 600;
       font-size: 14px;
       cursor: pointer;
-      margin-bottom: 20px;
+      margin-bottom: 16px;
       justify-content: space-between;
       align-items: center;
+      transition: border-color .15s, background .15s;
     }
+    .mobile-topics-toggle:hover { border-color: var(--brand); background: rgba(120,81,169,.12); }
+    .mobile-topics-toggle.is-open { border-color: var(--brand); background: rgba(120,81,169,.12); }
+    .mobile-topics-toggle .toggle-chevron {
+      transition: transform .25s ease;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .mobile-topics-toggle.is-open .toggle-chevron { transform: rotate(180deg); }
     @media (max-width: 992px) {
       .mobile-topics-toggle { display: flex; }
-      .sidebar { display: none; }
+      .sidebar {
+        display: none;
+        animation: sidebarSlideDown .22s ease both;
+      }
+      @keyframes sidebarSlideDown {
+        from { opacity: 0; transform: translateY(-8px); }
+        to   { opacity: 1; transform: translateY(0); }
+      }
       .sidebar.open { display: block; max-width: 100%; overflow-x: hidden; }
     }
 
@@ -2143,6 +2140,7 @@
   /* Sections */
   section:not(.hero) { background: transparent !important; }
   .categories-section { background: #f5f6fa !important; }
+  .categories-heading { color: #9ca3b0 !important; }
   .contact-cta { background: #eceef8 !important; }
   .hero {
     background: linear-gradient(140deg, #faf7ff 0%, #fff8f2 50%, #f0f6ff 100%) !important;
@@ -2412,8 +2410,8 @@
 <main>
   <div class="container container-narrow">
     <button class="mobile-topics-toggle" id="mobileTopicsToggle">
-      <span><i class="fas fa-list"></i> Browse Topics</span>
-      <i class="fas fa-chevron-down"></i>
+      <span><i class="fas fa-list"></i> <span id="mobileToggleLabel">Browse Topics</span></span>
+      <i class="fas fa-chevron-down toggle-chevron"></i>
     </button>
 
     <div class="main-grid">
@@ -2442,10 +2440,7 @@
 <!-- CATEGORIES SECTION -->
 <section class="categories-section" id="categoriesSection">
   <div class="container container-narrow">
-    <div class="section-header">
-      <h2>Browse by Category</h2>
-      <p>Explore our help articles organized by topic to find exactly what you need.</p>
-    </div>
+    <p class="categories-heading">Browse by Category</p>
     <div class="group-chips" id="groupChips"></div>
     <div class="categories-grid" id="categoriesGrid"></div>
   </div>
@@ -6943,17 +6938,10 @@
         onkeydown="if(event.key==='Enter' || event.key===' ') { event.preventDefault(); renderTopicResults('${t.id}'); }"
       >
         <div class="icon"><i class="fas ${t.icon}"></i></div>
-        <h3>${t.title}</h3>
-        <p>${TOPIC_DESC[t.id] || ''}</p>
-        <div class="count">
-          ${total} article${total === 1 ? '' : 's'}
-          ${readCount > 0 ? `<span style="margin-left:10px; color: rgba(255,255,255,.55); font-weight:500;">• ${allRead ? 'All read' : readCount + ' read'}</span>` : '<span style="margin-left:10px; color: rgba(255,255,255,.55); font-weight:500;">• View</span>'}
+        <div class="category-card-text">
+          <h3>${t.title}</h3>
+          <div class="count">${total} article${total === 1 ? '' : 's'}${allRead ? ' &middot; All read' : ''}</div>
         </div>
-        ${readCount > 0 ? `
-        <div class="read-progress">
-          <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
-          <span class="progress-label">${pct}%</span>
-        </div>` : ''}
       </div>`;
     });
     $categoriesGrid.innerHTML = html;
@@ -7264,9 +7252,14 @@
 
   // Mobile sidebar toggle
   document.getElementById('mobileTopicsToggle').addEventListener('click', () => {
+    const $btn = document.getElementById('mobileTopicsToggle');
+    const $label = document.getElementById('mobileToggleLabel');
     const $sidebar = document.getElementById('sidebar');
     $sidebar.classList.toggle('open');
-    if ($sidebar.classList.contains('open')) renderSavedSidebar();
+    const isOpen = $sidebar.classList.contains('open');
+    $btn.classList.toggle('is-open', isOpen);
+    $label.textContent = isOpen ? 'Close Topics' : 'Browse Topics';
+    if (isOpen) renderSavedSidebar();
   });
 
   // =============================================
