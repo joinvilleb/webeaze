@@ -6759,28 +6759,69 @@
   }
 
   function searchArticles(q) {
-    const allTerms = tokenize(q);
-    if (!allTerms.length) return INDEX.slice(0, 12);
-    const baseTerms = allTerms.filter(t => t.length > 1 && !STOP_WORDS.has(t));
+    const raw = tokenize(q);
+    if (!raw.length) return INDEX.slice(0, 12);
+    const baseTerms = raw.filter(t => t.length > 1 && !STOP_WORDS.has(t));
     if (!baseTerms.length) return INDEX.slice(0, 12);
-    const query    = baseTerms.join(' ');
     const synTerms = expandTerms(baseTerms).filter(t => !baseTerms.includes(t));
+
+    // Returns 3=exact word, 2=prefix (≥4 chars), 1=substring, 0=none
+    function hitType(term, words, str) {
+      if (words.some(w => w === term)) return 3;
+      if (term.length >= 4 && words.some(w => w.startsWith(term))) return 2;
+      if (str.includes(term)) return 1;
+      return 0;
+    }
+    // Count occurrences in body, capped to reduce noise from long articles
+    function bodyCount(term, body) {
+      let n = 0, i = 0;
+      while ((i = body.indexOf(term, i)) !== -1) { n++; i += term.length; }
+      return Math.min(n, 6);
+    }
 
     return INDEX.map(doc => {
       let score = 0;
-      if (doc.nTitle.includes(query))        score += 50;
-      else if (doc.nTitle.startsWith(query)) score += 30;
+      const titleWords = doc.nTitle.split(/[^a-z0-9]+/).filter(Boolean);
+      const metaWords  = doc.nMeta.split(/[^a-z0-9]+/).filter(Boolean);
+      let matched = 0;
+
       baseTerms.forEach(t => {
-        if (doc.nTitle.includes(t))  score += 12;
-        if (doc.nMeta.includes(t))   score += 5;
-        if (doc.nTopic.includes(t))  score += 3;
-        if (doc.nBody.includes(t))   score += 2;
+        const th = hitType(t, titleWords, doc.nTitle); // title hit type
+        const mh = hitType(t, metaWords,  doc.nMeta);  // meta hit type
+        const tpHit = doc.nTopic.includes(t) ? 1 : 0;
+        const bHits = bodyCount(t, doc.nBody);
+
+        // title: exact=18, prefix=12, substring=6
+        score += th * 6;
+        // meta: exact=9, prefix=6, substring=3
+        score += mh * 3;
+        // topic section name
+        score += tpHit * 2;
+        // body occurrences (1 pt each, max 6)
+        score += bHits;
+
+        if (th > 0 || mh > 0 || tpHit || bHits) matched++;
       });
+
+      // Strong bonus when every query term matched — rewards precision
+      if (matched === baseTerms.length && baseTerms.length >= 2) score += 22;
+
+      // Adjacent phrase bonus (base terms together, in order) in title/meta
+      if (baseTerms.length >= 2) {
+        const phrase = baseTerms.join(' ');
+        if (doc.nTitle.includes(phrase)) score += 16;
+        else if (doc.nMeta.includes(phrase)) score += 8;
+      }
+
+      // Synonym scoring (lower weight)
       synTerms.forEach(t => {
-        if (doc.nTitle.includes(t))  score += 4;
-        if (doc.nMeta.includes(t))   score += 2;
-        if (doc.nBody.includes(t))   score += 1;
+        const th = hitType(t, titleWords, doc.nTitle);
+        const mh = hitType(t, metaWords,  doc.nMeta);
+        score += th * 2;
+        score += mh;
+        score += doc.nBody.includes(t) ? 0.5 : 0;
       });
+
       return { doc, score };
     }).filter(x => x.score > 0).sort((a, b) => b.score - a.score).map(x => x.doc).slice(0, 20);
   }
