@@ -1327,7 +1327,7 @@
     @media (max-width: 992px) {
       .mobile-topics-toggle { display: flex; }
       .sidebar { display: none; }
-      .sidebar.open { display: block; }
+      .sidebar.open { display: block; max-width: 100%; overflow-x: hidden; }
     }
 
   
@@ -7264,7 +7264,9 @@
 
   // Mobile sidebar toggle
   document.getElementById('mobileTopicsToggle').addEventListener('click', () => {
-    document.getElementById('sidebar').classList.toggle('open');
+    const $sidebar = document.getElementById('sidebar');
+    $sidebar.classList.toggle('open');
+    if ($sidebar.classList.contains('open')) renderSavedSidebar();
   });
 
   // =============================================
@@ -7339,7 +7341,11 @@ const LS_SAVED    = 'wz_help_saved';
     if (idx > -1) { saved.splice(idx, 1); }
     else { saved.unshift({ slug, title }); }
     lsSet(LS_SAVED, saved);
-    renderSavedSidebar();
+    // Only update sidebar DOM when it is actually visible — avoids mobile reflow/paint shift
+    const $sidebar = document.getElementById('sidebar');
+    if ($sidebar && $sidebar.offsetParent !== null) {
+      renderSavedSidebar();
+    }
     return idx === -1; // true = now saved
   }
   function renderSavedSidebar() {
