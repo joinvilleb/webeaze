@@ -80,6 +80,9 @@
 
   if (!ctx || !ctx.msg) return;
 
+  // Banners disabled — referral source detected but not displayed.
+  return;
+
   // ── Build HTML ────────────────────────────────────────────────────────────────
   var linksHtml = (ctx.links || []).map(function (l) {
     return '<a href="' + l.href + '" class="wbp-link">' + l.text + '</a>';
