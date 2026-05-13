@@ -1734,11 +1734,12 @@ fee-tooltip {
   overflow: hidden;
   box-shadow: 0 4px 20px rgba(0,0,0,.07);
   transition: transform .22s, box-shadow .22s;
-  text-decoration: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 }
 .showcase-slide:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 14px 40px rgba(0,0,0,.13);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 36px rgba(0,0,0,.12);
 }
 .showcase-browser {
   background: #f0f2f7;
@@ -1751,16 +1752,37 @@ fee-tooltip {
 .showcase-dot-r { width: 8px; height: 8px; border-radius: 50%; background: #fc5f5f; flex-shrink:0; }
 .showcase-dot-y { width: 8px; height: 8px; border-radius: 50%; background: #fdbc40; flex-shrink:0; }
 .showcase-dot-g { width: 8px; height: 8px; border-radius: 50%; background: #34c749; flex-shrink:0; }
+.showcase-img-wrap { position: relative; overflow: hidden; line-height: 0; }
 .showcase-screenshot {
   display: block; width: 100%; aspect-ratio: 16/10; object-fit: cover; object-position: top;
 }
-.showcase-info { padding: 14px 16px 16px; }
-.showcase-info-name { font-size: 14px; font-weight: 800; color: #0f1228; margin-bottom: 2px; }
-.showcase-info-cat { font-size: 12px; color: #9ca3af; font-weight: 500; margin-bottom: 10px; }
-.showcase-info-link {
-  display: inline-flex; align-items: center; gap: 5px;
-  font-size: 12px; font-weight: 700; color: #7851a9;
+.showcase-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(5,5,15,.9) 0%, rgba(5,5,15,.55) 55%, transparent 100%);
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 14px 16px 16px;
+  opacity: 0; transition: opacity .22s ease;
+  pointer-events: none;
 }
+.showcase-slide:hover .showcase-overlay,
+.showcase-slide.is-active .showcase-overlay {
+  opacity: 1; pointer-events: auto;
+}
+.showcase-ov-name { font-size: 14px; font-weight: 800; color: #fff; margin-bottom: 1px; }
+.showcase-ov-cat { font-size: 11px; color: rgba(255,255,255,.55); font-weight: 600; margin-bottom: 6px; }
+.showcase-ov-desc { font-size: 12px; color: rgba(255,255,255,.78); line-height: 1.5; margin-bottom: 12px; }
+.showcase-ov-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: #fff; color: #0f1228;
+  border-radius: 8px; padding: 7px 14px;
+  font-size: 12px; font-weight: 700; text-decoration: none;
+  align-self: flex-start;
+  transition: background .15s;
+}
+.showcase-ov-btn:hover { background: #ede9f8; color: #0f1228; text-decoration: none; }
+.showcase-info { padding: 13px 16px 15px; }
+.showcase-info-name { font-size: 14px; font-weight: 800; color: #0f1228; margin-bottom: 1px; }
+.showcase-info-cat { font-size: 12px; color: #9ca3af; font-weight: 500; }
 .showcase-nav {
   display: flex; align-items: center; justify-content: center; gap: 7px; margin-top: 22px;
 }
@@ -3113,62 +3135,83 @@ fee-tooltip {
 
       <div class="showcase-track" id="showcaseTrack">
 
-        <a href="https://bearcarpetcare.com" target="_blank" rel="noopener" class="showcase-slide">
+        <div class="showcase-slide">
           <div class="showcase-browser">
             <div class="showcase-browser-bar">
               <span class="showcase-dot-r"></span>
               <span class="showcase-dot-y"></span>
               <span class="showcase-dot-g"></span>
             </div>
-            <picture>
-              <source srcset="images/bear-carpet-care-home.webp" type="image/webp">
-              <img class="showcase-screenshot" src="images/bear-carpet-care-home.png" alt="Bear Carpet Care website" loading="lazy" width="868" height="543">
-            </picture>
+            <div class="showcase-img-wrap">
+              <picture>
+                <source srcset="images/bear-carpet-care-home.webp" type="image/webp">
+                <img class="showcase-screenshot" src="images/bear-carpet-care-home.png" alt="Bear Carpet Care website" loading="lazy" width="868" height="543">
+              </picture>
+              <div class="showcase-overlay">
+                <div class="showcase-ov-name">Bear Carpet Care</div>
+                <div class="showcase-ov-cat">Home Services &middot; Delaware</div>
+                <div class="showcase-ov-desc">Professional carpet and upholstery cleaning for homes and businesses across Delaware.</div>
+                <a href="https://bearcarpetcare.com" target="_blank" rel="noopener" class="showcase-ov-btn">View site <i class="fas fa-arrow-up-right-from-square" style="font-size:10px;"></i></a>
+              </div>
+            </div>
           </div>
           <div class="showcase-info">
             <div class="showcase-info-name">Bear Carpet Care</div>
-            <div class="showcase-info-cat">Home Services</div>
-            <span class="showcase-info-link">Visit site <i class="fas fa-arrow-up-right-from-square" style="font-size:10px;"></i></span>
+            <div class="showcase-info-cat">Home Services &middot; Delaware</div>
           </div>
-        </a>
+        </div>
 
-        <a href="https://ibisprep.com" target="_blank" rel="noopener" class="showcase-slide">
+        <div class="showcase-slide">
           <div class="showcase-browser">
             <div class="showcase-browser-bar">
               <span class="showcase-dot-r"></span>
               <span class="showcase-dot-y"></span>
               <span class="showcase-dot-g"></span>
             </div>
-            <picture>
-              <source srcset="images/ibis-prep-home.webp" type="image/webp">
-              <img class="showcase-screenshot" src="images/ibis-prep-home.png" alt="Ibis Prep website" loading="lazy" width="670" height="419">
-            </picture>
+            <div class="showcase-img-wrap">
+              <picture>
+                <source srcset="images/ibis-prep-home.webp" type="image/webp">
+                <img class="showcase-screenshot" src="images/ibis-prep-home.png" alt="Ibis Prep website" loading="lazy" width="670" height="419">
+              </picture>
+              <div class="showcase-overlay">
+                <div class="showcase-ov-name">Ibis Prep</div>
+                <div class="showcase-ov-cat">Education &middot; Maryland</div>
+                <div class="showcase-ov-desc">SAT, ACT, and academic tutoring for students preparing for college in the Mid-Atlantic region.</div>
+                <a href="https://ibisprep.com" target="_blank" rel="noopener" class="showcase-ov-btn">View site <i class="fas fa-arrow-up-right-from-square" style="font-size:10px;"></i></a>
+              </div>
+            </div>
           </div>
           <div class="showcase-info">
             <div class="showcase-info-name">Ibis Prep</div>
-            <div class="showcase-info-cat">Education</div>
-            <span class="showcase-info-link">Visit site <i class="fas fa-arrow-up-right-from-square" style="font-size:10px;"></i></span>
+            <div class="showcase-info-cat">Education &middot; Maryland</div>
           </div>
-        </a>
+        </div>
 
-        <a href="https://galaxygymnast.com" target="_blank" rel="noopener" class="showcase-slide">
+        <div class="showcase-slide">
           <div class="showcase-browser">
             <div class="showcase-browser-bar">
               <span class="showcase-dot-r"></span>
               <span class="showcase-dot-y"></span>
               <span class="showcase-dot-g"></span>
             </div>
-            <picture>
-              <source srcset="images/galaxy-gymnast-home.webp" type="image/webp">
-              <img class="showcase-screenshot" src="images/galaxy-gymnast-home.png" alt="Galaxy Gymnastics website" loading="lazy" width="868" height="543">
-            </picture>
+            <div class="showcase-img-wrap">
+              <picture>
+                <source srcset="images/galaxy-gymnast-home.webp" type="image/webp">
+                <img class="showcase-screenshot" src="images/galaxy-gymnast-home.png" alt="Galaxy Gymnastics website" loading="lazy" width="868" height="543">
+              </picture>
+              <div class="showcase-overlay">
+                <div class="showcase-ov-name">Galaxy Gymnastics</div>
+                <div class="showcase-ov-cat">Fitness &middot; Delaware</div>
+                <div class="showcase-ov-desc">Recreational and competitive gymnastics classes for kids and teens throughout Delaware.</div>
+                <a href="https://galaxygymnast.com" target="_blank" rel="noopener" class="showcase-ov-btn">View site <i class="fas fa-arrow-up-right-from-square" style="font-size:10px;"></i></a>
+              </div>
+            </div>
           </div>
           <div class="showcase-info">
             <div class="showcase-info-name">Galaxy Gymnastics</div>
-            <div class="showcase-info-cat">Fitness</div>
-            <span class="showcase-info-link">Visit site <i class="fas fa-arrow-up-right-from-square" style="font-size:10px;"></i></span>
+            <div class="showcase-info-cat">Fitness &middot; Delaware</div>
           </div>
-        </a>
+        </div>
 
       </div>
 
@@ -4546,6 +4589,39 @@ function whyTabScroll(dir) {
       setDot(closest);
     }, 60);
   }, { passive: true });
+
+  // Mobile tap: show/hide overlay (dismiss on outside tap)
+  var pointerStart = { x: 0, y: 0 };
+
+  track.addEventListener('pointerdown', function(e) {
+    pointerStart.x = e.clientX;
+    pointerStart.y = e.clientY;
+  });
+
+  track.addEventListener('pointerup', function(e) {
+    var dx = Math.abs(e.clientX - pointerStart.x);
+    var dy = Math.abs(e.clientY - pointerStart.y);
+    if (dx > 8 || dy > 8) return; // drag, not tap
+
+    var slide = e.target.closest('.showcase-slide');
+    var btn   = e.target.closest('.showcase-ov-btn');
+
+    if (btn) return; // let the link navigate normally
+
+    slides.forEach(function(s) {
+      if (s === slide) {
+        s.classList.toggle('is-active');
+      } else {
+        s.classList.remove('is-active');
+      }
+    });
+  });
+
+  document.addEventListener('pointerup', function(e) {
+    if (!e.target.closest('#showcaseTrack')) {
+      slides.forEach(function(s) { s.classList.remove('is-active'); });
+    }
+  });
 })();
 
 // Personalization
