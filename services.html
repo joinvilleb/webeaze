@@ -102,79 +102,92 @@ a { color: inherit; text-decoration: none; }
 
 /* ── HERO ──────────────────────────────────────── */
 .hero {
-  padding: 130px 0 80px;
+  padding: 130px 0 90px;
   background: linear-gradient(160deg, #fafbff 0%, #f0f1f9 100%);
   position: relative; overflow: hidden;
+  text-align: center;
 }
 .hero-accent {
   position: absolute; pointer-events: none; border-radius: 50%;
   filter: blur(80px); opacity: .55;
 }
-.hero-accent-1 { width: 420px; height: 420px; top: -80px; right: -60px; background: radial-gradient(circle, rgba(120,81,169,.14), transparent 70%); animation: accentDrift 16s ease-in-out infinite; }
-.hero-accent-2 { width: 300px; height: 300px; bottom: -40px; left: -60px; background: radial-gradient(circle, rgba(245,158,11,.09), transparent 70%); animation: accentDrift 20s ease-in-out infinite reverse; }
+.hero-accent-1 { width: 500px; height: 500px; top: -100px; right: -80px; background: radial-gradient(circle, rgba(120,81,169,.13), transparent 70%); animation: accentDrift 16s ease-in-out infinite; }
+.hero-accent-2 { width: 360px; height: 360px; bottom: -60px; left: -80px; background: radial-gradient(circle, rgba(245,158,11,.09), transparent 70%); animation: accentDrift 20s ease-in-out infinite reverse; }
 @keyframes accentDrift { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-30px,20px)} }
 
-.hero-inner { max-width: 1080px; margin: 0 auto; padding: 0 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; position: relative; z-index: 2; }
-@media (max-width: 860px) { .hero-inner { grid-template-columns: 1fr; gap: 40px; } }
+.hero-inner { max-width: 680px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 2; }
 
-.hero-badge {
-  display: inline-flex; align-items: center; gap: 7px;
-  background: var(--brand-soft); border: 1px solid var(--brand-border);
-  color: var(--brand); font-size: .75rem; font-weight: 700;
-  letter-spacing: .08em; text-transform: uppercase; border-radius: 999px;
-  padding: 7px 16px; margin-bottom: 20px;
-  opacity: 0; animation: fadeUp .5s ease .05s forwards;
-}
 .hero h1 {
-  font-size: clamp(2.4rem, 5vw, 3.6rem);
-  font-weight: 700; letter-spacing: -.035em; line-height: 1.08;
-  margin: 0 0 18px; color: var(--text);
-  opacity: 0; animation: fadeUp .55s ease .12s forwards;
+  font-size: clamp(2.4rem, 5.5vw, 3.8rem);
+  font-weight: 800; letter-spacing: -.04em; line-height: 1.08;
+  margin: 0 0 20px; color: var(--text);
+  opacity: 0; animation: fadeUp .55s ease .08s forwards;
 }
 .hero h1 .accent {
   background: linear-gradient(135deg, var(--brand) 0%, #a06dd8 100%);
   -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
 }
 .hero-sub {
-  font-size: 1.12rem; color: var(--muted); line-height: 1.72;
-  margin: 0 0 30px; max-width: 460px;
-  opacity: 0; animation: fadeUp .55s ease .2s forwards;
+  font-size: 1.15rem; color: var(--muted); line-height: 1.75;
+  margin: 0 auto 32px; max-width: 520px;
+  opacity: 0; animation: fadeUp .55s ease .18s forwards;
 }
 .hero-btns {
-  display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 32px;
-  opacity: 0; animation: fadeUp .55s ease .28s forwards;
+  display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 28px;
+  justify-content: center;
+  opacity: 0; animation: fadeUp .55s ease .26s forwards;
 }
 .hero-trust {
-  display: flex; flex-wrap: wrap; gap: 18px;
-  opacity: 0; animation: fadeUp .55s ease .36s forwards;
+  display: flex; flex-wrap: wrap; gap: 18px; justify-content: center;
+  opacity: 0; animation: fadeUp .55s ease .34s forwards;
 }
 .trust-pill { display: inline-flex; align-items: center; gap: 7px; font-size: .85rem; color: var(--dim); font-weight: 500; }
 .trust-pill i { color: var(--green); font-size: .78rem; }
 
-/* Hero right: service cards stack */
-.hero-cards {
-  display: flex; flex-direction: column; gap: 12px;
-  opacity: 0; animation: fadeLeft .6s ease .18s forwards;
+/* ── SERVICES GRID ─────────────────────────────── */
+.services-section { padding: clamp(56px,8vh,80px) 0; background: var(--surface); }
+.section-title {
+  text-align: center; font-size: clamp(1.7rem,3.5vw,2.4rem);
+  font-weight: 700; letter-spacing: -.03em; margin: 0 0 10px;
 }
-@keyframes fadeLeft { from{opacity:0;transform:translateX(28px)} to{opacity:1;transform:translateX(0)} }
-.hero-card {
-  background: var(--surface); border: 1.5px solid var(--line);
-  border-radius: var(--radius); padding: 18px 22px;
-  display: flex; align-items: center; gap: 16px;
+.section-sub { text-align: center; font-size: 1.05rem; color: var(--muted); margin: 0 0 44px; }
+.services-grid {
+  display: grid; grid-template-columns: repeat(3,1fr); gap: 20px;
+}
+@media (max-width: 760px) { .services-grid { grid-template-columns: 1fr; max-width: 420px; margin: 0 auto; } }
+.svc-card {
+  background: var(--bg); border: 1.5px solid var(--line);
+  border-radius: var(--radius-lg); padding: 32px 28px;
+  display: flex; flex-direction: column; position: relative;
   box-shadow: var(--shadow-sm);
-  transition: border-color .2s, transform .2s, box-shadow .2s;
-  color: inherit; text-decoration: none;
+  transition: border-color .22s, box-shadow .22s, transform .22s;
 }
-.hero-card:hover { border-color: var(--brand-border); transform: translateX(4px); box-shadow: var(--shadow-md); color: inherit; text-decoration: none; }
-.hc-icon { width: 42px; height: 42px; border-radius: 11px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.hc-icon.purple { background: var(--brand-soft); }
-.hc-icon.purple i { color: var(--brand); font-size: 1.1rem; }
-.hc-icon.gold { background: var(--gold-soft); }
-.hc-icon.gold i { color: var(--gold); font-size: 1.1rem; }
-.hc-icon.green { background: var(--green-soft); }
-.hc-icon.green i { color: var(--green); font-size: 1.1rem; }
-.hc-text strong { display: block; font-size: .95rem; font-weight: 700; color: var(--text); line-height: 1.2; }
-.hc-text span { font-size: .84rem; color: var(--dim); }
+.svc-card:hover { border-color: var(--brand-border); box-shadow: var(--shadow-md); transform: translateY(-4px); }
+.svc-card.featured { background: var(--surface); border-color: var(--brand-border); box-shadow: var(--shadow-md); }
+.svc-badge {
+  position: absolute; top: -13px; left: 50%; transform: translateX(-50%);
+  background: var(--brand); color: #fff; font-size: .7rem; font-weight: 700;
+  padding: 4px 14px; border-radius: 20px; letter-spacing: .05em; text-transform: uppercase; white-space: nowrap;
+}
+.svc-icon {
+  width: 50px; height: 50px; border-radius: 14px;
+  display: flex; align-items: center; justify-content: center; margin-bottom: 18px;
+}
+.svc-icon.purple { background: var(--brand-soft); }
+.svc-icon.purple i { color: var(--brand); font-size: 1.3rem; }
+.svc-icon.gold { background: var(--gold-soft); }
+.svc-icon.gold i { color: var(--gold); font-size: 1.3rem; }
+.svc-icon.green { background: var(--green-soft); }
+.svc-icon.green i { color: var(--green); font-size: 1.3rem; }
+.svc-card h3 { font-size: 1.15rem; font-weight: 700; margin: 0 0 10px; color: var(--text); }
+.svc-card p { font-size: .97rem; color: var(--muted); line-height: 1.72; margin: 0 0 18px; flex: 1; }
+.svc-price { font-size: .88rem; font-weight: 600; color: var(--brand); margin-bottom: 14px; }
+.svc-link {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-size: .9rem; font-weight: 700; color: var(--brand);
+  transition: gap .18s;
+}
+.svc-link:hover { gap: 11px; }
 
 @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
 
@@ -762,49 +775,17 @@ footer { background: #0a0a0f; padding: 56px 20px 36px; border-top: 1px solid rgb
   <div class="hero-accent hero-accent-1"></div>
   <div class="hero-accent hero-accent-2"></div>
   <div class="hero-inner">
-
-    <div class="hero-left">
-      <div class="hero-badge"><i class="fas fa-heart"></i> Made for small business owners</div>
-      <h1>We build websites small<br>businesses are <span class="accent">proud of.</span></h1>
-      <p class="hero-sub">Custom-designed, fully managed, and built to bring in real clients. You tell us about your business and we handle everything else. No tech headaches, no long-term contracts.</p>
-      <div class="hero-btns">
-        <a href="consultation.html" class="btn-primary"><i class="fas fa-arrow-right"></i> Get Your Free Mockup</a>
-        <a href="pricing.html" class="btn-outline"><i class="fas fa-dollar-sign"></i> View Pricing</a>
-      </div>
-      <div class="hero-trust">
-        <span class="trust-pill"><i class="fas fa-check-circle"></i> Live in 5 business days</span>
-        <span class="trust-pill"><i class="fas fa-check-circle"></i> No contracts</span>
-        <span class="trust-pill"><i class="fas fa-check-circle"></i> Unlimited updates</span>
-      </div>
+    <h1>Professional websites for small businesses,<br><span class="accent">fully managed for you.</span></h1>
+    <p class="hero-sub">Custom-designed, hosted, and maintained from $169/month. You focus on your business. We handle everything else, forever.</p>
+    <div class="hero-btns">
+      <a href="consultation.html" class="btn-primary"><i class="fas fa-arrow-right"></i> Get Your Free Mockup</a>
+      <a href="pricing.html" class="btn-outline">See Pricing</a>
     </div>
-
-    <div class="hero-cards">
-      <a class="hero-card" href="#service-paths" data-select="new-website">
-        <div class="hc-icon purple"><i class="fas fa-hammer"></i></div>
-        <div class="hc-text">
-          <strong>New Website</strong>
-          <span>Custom-built from scratch, live in 5 business days</span>
-        </div>
-        <i class="fas fa-arrow-right" style="color:var(--brand);font-size:.8rem;margin-left:auto;flex-shrink:0;opacity:.6;"></i>
-      </a>
-      <a class="hero-card" href="#service-paths" data-select="manage-site">
-        <div class="hc-icon gold"><i class="fas fa-tools"></i></div>
-        <div class="hc-text">
-          <strong>Manage My Site</strong>
-          <span>We take over your existing website</span>
-        </div>
-        <i class="fas fa-arrow-right" style="color:var(--gold);font-size:.8rem;margin-left:auto;flex-shrink:0;opacity:.6;"></i>
-      </a>
-      <a class="hero-card" href="#service-paths" data-select="one-time">
-        <div class="hc-icon green"><i class="fas fa-bolt"></i></div>
-        <div class="hc-text">
-          <strong>One-Time Project</strong>
-          <span>One flat price, no subscription needed</span>
-        </div>
-        <i class="fas fa-arrow-right" style="color:var(--green);font-size:.8rem;margin-left:auto;flex-shrink:0;opacity:.6;"></i>
-      </a>
+    <div class="hero-trust">
+      <span class="trust-pill"><i class="fas fa-check-circle"></i> Free mockup in 48 hours</span>
+      <span class="trust-pill"><i class="fas fa-check-circle"></i> No contracts</span>
+      <span class="trust-pill"><i class="fas fa-check-circle"></i> Live in 5 business days</span>
     </div>
-
   </div>
 </header>
 
@@ -814,7 +795,7 @@ footer { background: #0a0a0f; padding: 56px 20px 36px; border-top: 1px solid rgb
   <div class="container container-narrow px-4">
     <div class="who-label">Trusted by local businesses across every industry</div>
     <div class="who-row">
-      
+      <span class="who-pill"><i class="fas fa-cut"></i> Salons &amp; Spas</span>
       <span class="who-pill"><i class="fas fa-wrench"></i> Contractors</span>
       <span class="who-pill"><i class="fas fa-utensils"></i> Restaurants</span>
       <span class="who-pill"><i class="fas fa-heartbeat"></i> Healthcare</span>
@@ -826,197 +807,41 @@ footer { background: #0a0a0f; padding: 56px 20px 36px; border-top: 1px solid rgb
   </div>
 </div>
 
-<!-- PATH SELECTOR -->
-<div class="path-select-section" id="service-paths">
+<!-- WHAT WE DO -->
+<section class="services-section" id="what-we-do">
   <div class="container container-narrow px-4">
-    <div class="path-select-intro">What brings you here?</div>
-    <div class="path-select-row">
-      <button class="path-btn active" data-path="new-website">
-        <div class="path-btn-icon" style="background:var(--brand-soft)"><i class="fas fa-hammer" style="color:var(--brand)"></i></div>
-        <div><strong>New Website</strong><span>Build from scratch</span></div>
-        <i class="fas fa-check-circle path-check"></i>
-      </button>
-      <button class="path-btn" data-path="manage-site">
-        <div class="path-btn-icon" style="background:var(--gold-soft)"><i class="fas fa-tools" style="color:var(--gold)"></i></div>
-        <div><strong>Manage My Site</strong><span>Take over existing</span></div>
-        <i class="fas fa-check-circle path-check"></i>
-      </button>
-      <button class="path-btn" data-path="one-time">
-        <div class="path-btn-icon" style="background:var(--green-soft)"><i class="fas fa-bolt" style="color:var(--green)"></i></div>
-        <div><strong>One-Time Project</strong><span>No subscription</span></div>
-        <i class="fas fa-check-circle path-check"></i>
-      </button>
-    </div>
-  </div>
-</div>
+    <h2 class="section-title">What we can do for you</h2>
+    <p class="section-sub">Pick what fits. All options come with real human support and no long-term contracts.</p>
+    <div class="services-grid reveal">
 
-<!-- PATH PANELS -->
-<div class="path-panels-section">
-
-  <!-- NEW WEBSITE -->
-  <div class="path-panel active" id="panel-new-website">
-    <div class="panel-wrap">
-      <div class="container container-narrow px-4">
-        <div class="panel-inner">
-          <div class="panel-left">
-            <div class="panel-eyebrow purple"><i class="fas fa-hammer"></i> Starting fresh</div>
-            <h2>A site that looks like you mean business.</h2>
-            <p class="panel-desc">We design your website from scratch. Your brand, your style. Built to convert visitors into clients and get found on Google. No templates, no guesswork.</p>
-            <ul class="panel-features">
-              <li><i class="fas fa-check" style="color:var(--brand)"></i> Custom design built around your brand</li>
-              <li><i class="fas fa-check" style="color:var(--brand)"></i> Hosting and SSL included from day one</li>
-              <li><i class="fas fa-check" style="color:var(--brand)"></i> Unlimited content updates every month</li>
-              <li><i class="fas fa-check" style="color:var(--brand)"></i> Mobile-optimized and fast loading</li>
-              <li><i class="fas fa-check" style="color:var(--brand)"></i> Basic SEO setup on every page</li>
-              <li><i class="fas fa-check" style="color:var(--brand)"></i> Real human support, no tickets</li>
-            </ul>
-            <div class="panel-price">
-              <span class="panel-price-amount">$169</span>
-              <span class="panel-price-period">/month</span>
-              <span class="panel-price-note">No setup fee on annual plans &nbsp;·&nbsp; No contracts</span>
-            </div>
-            <div class="panel-btns">
-              <a href="consultation.html" class="btn-primary"><i class="fas fa-arrow-right"></i> Get Your Free Mockup</a>
-              <a href="pricing.html" class="btn-outline">Compare plans</a>
-            </div>
-          </div>
-          <div class="panel-right">
-            <div class="panel-right-card">
-              <h4>How it works</h4>
-              <div class="panel-step">
-                <div class="panel-step-num">1</div>
-                <div><strong>Tell us about your business</strong><span>Fill out a short form. No tech knowledge needed. We just need to know your goals.</span></div>
-              </div>
-              <div class="panel-step">
-                <div class="panel-step-num">2</div>
-                <div><strong>Free mockup in 48 hours</strong><span>A real design built for your business. No obligation. If you love it, we build it.</span></div>
-              </div>
-              <div class="panel-step">
-                <div class="panel-step-num">3</div>
-                <div><strong>Live in 5 business days</strong><span>We handle design, hosting, domain, and SEO. You just review and approve.</span></div>
-              </div>
-            </div>
-            <a href="samples.html" class="btn-outline" style="width:100%;justify-content:center;margin-top:0;">See examples of our work <i class="fas fa-arrow-right"></i></a>
-          </div>
-        </div>
+      <div class="svc-card">
+        <div class="svc-icon purple"><i class="fas fa-hammer"></i></div>
+        <h3>New Website</h3>
+        <p>Starting from scratch. We design and build your site around your brand. No templates, no DIY. Live in 5 business days.</p>
+        <div class="svc-price">From $169/month</div>
+        <a href="consultation.html" class="svc-link">Get a free mockup <i class="fas fa-arrow-right"></i></a>
       </div>
-    </div>
-  </div>
 
-  <!-- MANAGE MY SITE -->
-  <div class="path-panel" id="panel-manage-site">
-    <div class="panel-wrap">
-      <div class="container container-narrow px-4">
-        <div class="panel-inner">
-          <div class="panel-left">
-            <div class="panel-eyebrow gold"><i class="fas fa-tools"></i> Already have a site</div>
-            <h2>We take over your site and keep it sharp.</h2>
-            <p class="panel-desc">Got a site that's falling behind? Outdated content, slow loading, or just not bringing in business. We step in, handle everything, and optimize it on whatever platform you're already on.</p>
-            <ul class="panel-features">
-              <li><i class="fas fa-check" style="color:var(--gold)"></i> Content updates handled same day</li>
-              <li><i class="fas fa-check" style="color:var(--gold)"></i> Security monitoring and automatic backups</li>
-              <li><i class="fas fa-check" style="color:var(--gold)"></i> Hosting migration if needed</li>
-              <li><i class="fas fa-check" style="color:var(--gold)"></i> Performance and uptime monitoring</li>
-              <li><i class="fas fa-check" style="color:var(--gold)"></i> Design improvements over time</li>
-              <li><i class="fas fa-check" style="color:var(--gold)"></i> No hourly billing, ever</li>
-            </ul>
-            <div class="panel-price">
-              <span class="panel-price-amount">$169</span>
-              <span class="panel-price-period">/month</span>
-              <span class="panel-price-note">Works with WordPress, Wix, Squarespace, GitHub Pages, and more</span>
-            </div>
-            <div class="panel-btns">
-              <a href="consultation.html" class="btn-primary"><i class="fas fa-calendar-check"></i> Book a Free Call</a>
-              <a href="pricing.html" class="btn-outline">Compare plans</a>
-            </div>
-          </div>
-          <div class="panel-right">
-            <div class="panel-right-card">
-              <h4>Works with your platform</h4>
-              <p style="font-size:.9rem;color:var(--muted);margin:0 0 14px;">No migration required unless you want one. We work on whatever you're already using.</p>
-              <div class="platform-list">
-                <span class="platform-pill"><i class="fab fa-wordpress"></i> WordPress</span>
-                <span class="platform-pill">Wix</span>
-                <span class="platform-pill">Squarespace</span>
-                <span class="platform-pill"><i class="fab fa-github"></i> GitHub Pages</span>
-                <span class="platform-pill">Webflow</span>
-                <span class="platform-pill">Shopify</span>
-                <span class="platform-pill">Custom HTML</span>
-              </div>
-            </div>
-            <div class="panel-right-card">
-              <h4>What we do every month</h4>
-              <div class="panel-list-item"><i class="fas fa-check" style="color:var(--green)"></i> Update your text, prices, and photos</div>
-              <div class="panel-list-item"><i class="fas fa-check" style="color:var(--green)"></i> Monitor for downtime and security issues</div>
-              <div class="panel-list-item"><i class="fas fa-check" style="color:var(--green)"></i> Keep plugins and frameworks up to date</div>
-              <div class="panel-list-item"><i class="fas fa-check" style="color:var(--green)"></i> Improve speed and performance over time</div>
-              <div class="panel-list-item"><i class="fas fa-check" style="color:var(--green)"></i> Back up your site automatically</div>
-            </div>
-          </div>
-        </div>
+      <div class="svc-card featured">
+        <div class="svc-badge">Most Common</div>
+        <div class="svc-icon gold"><i class="fas fa-tools"></i></div>
+        <h3>Website Management</h3>
+        <p>Already have a site? We take it over, keep it updated, and improve it every month. You just send us requests.</p>
+        <div class="svc-price">From $169/month</div>
+        <a href="consultation.html" class="svc-link">Talk to us <i class="fas fa-arrow-right"></i></a>
       </div>
-    </div>
-  </div>
 
-  <!-- ONE-TIME PROJECT -->
-  <div class="path-panel" id="panel-one-time">
-    <div class="panel-wrap">
-      <div class="container container-narrow px-4">
-        <div class="panel-inner">
-          <div class="panel-left">
-            <div class="panel-eyebrow green"><i class="fas fa-bolt"></i> No subscription needed</div>
-            <h2>Tell us what you need. We'll scope it and ship it.</h2>
-            <p class="panel-desc">Just need one specific thing done? We'll give you a flat price upfront and deliver it clean. No retainer, no ongoing fees, no strings attached.</p>
-            <ul class="panel-features">
-              <li><i class="fas fa-check" style="color:var(--green)"></i> Flat price agreed before we start</li>
-              <li><i class="fas fa-check" style="color:var(--green)"></i> Fast turnaround on all projects</li>
-              <li><i class="fas fa-check" style="color:var(--green)"></i> You own all the files and code</li>
-              <li><i class="fas fa-check" style="color:var(--green)"></i> No ongoing fees after delivery</li>
-              <li><i class="fas fa-check" style="color:var(--green)"></i> New pages, full builds, or specific fixes</li>
-            </ul>
-            <div class="panel-price">
-              <span class="panel-price-amount">$149</span>
-              <span class="panel-price-period">+</span>
-              <span class="panel-price-note">Basic updates from $149 &nbsp;·&nbsp; Full site builds from $449</span>
-            </div>
-            <div class="panel-btns">
-              <a href="consultation.html" class="btn-primary"><i class="fas fa-comment-dots"></i> Get a Free Quote</a>
-              <a href="fee-schedule.html" class="btn-outline">View fee schedule</a>
-            </div>
-          </div>
-          <div class="panel-right">
-            <div class="panel-right-card">
-              <h4>Common project types</h4>
-              <div class="panel-list-item"><i class="fas fa-check" style="color:var(--green)"></i> New landing page or service page</div>
-              <div class="panel-list-item"><i class="fas fa-check" style="color:var(--green)"></i> Full website redesign</div>
-              <div class="panel-list-item"><i class="fas fa-check" style="color:var(--green)"></i> Speed and performance fixes</div>
-              <div class="panel-list-item"><i class="fas fa-check" style="color:var(--green)"></i> Contact form or booking setup</div>
-              <div class="panel-list-item"><i class="fas fa-check" style="color:var(--green)"></i> Content and copy refresh</div>
-              <div class="panel-list-item"><i class="fas fa-check" style="color:var(--green)"></i> Logo, favicon, or brand assets</div>
-              <div class="panel-list-item"><i class="fas fa-check" style="color:var(--green)"></i> Domain setup or site migration</div>
-            </div>
-            <div class="panel-right-card">
-              <h4>How the process works</h4>
-              <div class="panel-step">
-                <div class="panel-step-num" style="background:var(--green)">1</div>
-                <div><strong>Describe what you need</strong><span>Tell us the scope and we'll ask any clarifying questions.</span></div>
-              </div>
-              <div class="panel-step">
-                <div class="panel-step-num" style="background:var(--green)">2</div>
-                <div><strong>You get a flat quote</strong><span>One price, agreed upfront. No surprises when the invoice arrives.</span></div>
-              </div>
-              <div class="panel-step">
-                <div class="panel-step-num" style="background:var(--green)">3</div>
-                <div><strong>We build and deliver</strong><span>You get the finished work and own everything outright.</span></div>
-              </div>
-            </div>
-          </div>
-        </div>
+      <div class="svc-card">
+        <div class="svc-icon green"><i class="fas fa-bolt"></i></div>
+        <h3>One-Time Projects</h3>
+        <p>Need something specific done once? Flat price upfront, fast turnaround, you own everything. No retainer needed.</p>
+        <div class="svc-price">From $149</div>
+        <a href="fee-schedule.html" class="svc-link">See fees <i class="fas fa-arrow-right"></i></a>
       </div>
+
     </div>
   </div>
-
-</div>
+</section>
 
 <!-- HOW IT WORKS -->
 <section class="section section-gray">
@@ -1189,32 +1014,6 @@ footer { background: #0a0a0f; padding: 56px 20px 36px; border-top: 1px solid rgb
     });
   }, { threshold: 0.09, rootMargin: '0px 0px -28px 0px' });
   document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
-})();
-</script>
-
-<script>
-// ── Path selector ──────────────────────────────
-(function() {
-  var btns   = document.querySelectorAll('.path-btn');
-  var panels = document.querySelectorAll('.path-panel');
-
-  function activate(path) {
-    btns.forEach(function(b) { b.classList.toggle('active', b.dataset.path === path); });
-    panels.forEach(function(p) { p.classList.toggle('active', p.id === 'panel-' + path); });
-  }
-
-  btns.forEach(function(btn) {
-    btn.addEventListener('click', function() { activate(btn.dataset.path); });
-  });
-
-  // Hero cards: set path then scroll to selector
-  document.querySelectorAll('.hero-card[data-select]').forEach(function(card) {
-    card.addEventListener('click', function(e) {
-      e.preventDefault();
-      activate(card.dataset.select);
-      document.getElementById('service-paths').scrollIntoView({ behavior: 'smooth' });
-    });
-  });
 })();
 </script>
 
