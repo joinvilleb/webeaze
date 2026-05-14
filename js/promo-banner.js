@@ -75,7 +75,7 @@
       color:  '#b91c1c',
       border: 'rgba(185,28,28,0.25)',
       headline: function () {
-        return 'Honor Memorial Day — setup fee waived.';
+        return 'Honor Memorial Day. Setup fee waived.';
       },
       body: function () {
         return 'We\'re waiving the $199 setup fee in honor of Memorial Day. Start your plan and get your site launched.';
@@ -90,7 +90,7 @@
       color:  '#1d4ed8',
       border: 'rgba(29,78,216,0.25)',
       headline: function () {
-        return 'Your first month is on us — Happy 4th!';
+        return 'Your first month is on us. Happy 4th!';
       },
       body: function () {
         return 'Sign up before July 4th and we\'ll credit your entire first month. No setup fee either.';
@@ -109,7 +109,7 @@
       color:  '#7851a9',
       border: 'rgba(120,81,169,0.25)',
       headline: function () {
-        return 'You\'ve worked hard — let us handle your website.';
+        return 'You\'ve worked hard. Let us handle your website.';
       },
       body: function () {
         return 'Setup fee waived through Labor Day. Get your business website up before the holiday.';
