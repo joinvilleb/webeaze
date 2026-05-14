@@ -286,68 +286,6 @@
       margin-top: 20px;
     }
 
-    /* RESUME ROW */
-    .resume-row {
-      margin-bottom: 20px;
-      padding-bottom: 20px;
-      border-bottom: 1px solid var(--line);
-    }
-    .resume-inner {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      background: rgba(120,81,169,.1);
-      border: 1px solid rgba(120,81,169,.25);
-      border-radius: 14px;
-      padding: 14px 16px;
-    }
-    .resume-text { flex: 1; min-width: 0; }
-    .resume-eyebrow {
-      font-size: 10px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.09em;
-      color: var(--brand-light);
-      margin-bottom: 4px;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-    .resume-title {
-      font-size: 13px;
-      font-weight: 600;
-      color: #fff;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .resume-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 8px 14px;
-      background: var(--white);
-      color: #fff;
-      font-size: 13px;
-      font-weight: 600;
-      border-radius: 8px;
-      white-space: nowrap;
-      transition: opacity .2s, transform .2s;
-      text-decoration: none !important;
-      flex-shrink: 0;
-    }
-    .resume-btn:hover { opacity: .88; transform: translateY(-1px); color: #fff; }
-    .resume-dismiss {
-      background: none;
-      border: none;
-      color: var(--muted);
-      font-size: 13px;
-      cursor: pointer;
-      padding: 4px;
-      flex-shrink: 0;
-      transition: color .2s;
-    }
-    .resume-dismiss:hover { color: #fff; }
 
     /* SIDEBAR SAVED */
     .sidebar-saved {
@@ -449,27 +387,6 @@
       flex-shrink: 0;
       line-height: 1.4;
     }
-
-    /* SEARCH HISTORY */
-    .search-history-row {
-      margin-top: 16px; padding-top: 16px;
-      border-top: 1px solid var(--line);
-    }
-    .history-label {
-      font-size: 11px; font-weight: 700; text-transform: uppercase;
-      letter-spacing: .1em; color: var(--muted); margin-bottom: 10px;
-      display: flex; align-items: center; gap: 6px;
-    }
-    .history-pills { display: flex; flex-wrap: wrap; gap: 8px; }
-    .history-pill {
-      display: inline-flex; align-items: center; gap: 6px;
-      background: var(--dark-3); border: 1px solid var(--line);
-      border-radius: 20px; padding: 5px 12px;
-      font-size: 12.5px; cursor: pointer; color: var(--muted);
-      transition: border-color .15s, color .15s; text-decoration: none;
-    }
-    .history-pill:hover { border-color: var(--brand-light); color: var(--brand-light); }
-    .history-pill i { font-size: 10px; }
 
     /* TOPIC AFFINITY */
     .topic-affinity-row {
@@ -731,7 +648,6 @@
       .article-view { padding: 24px; }
       .search-card { padding: 24px 20px; }
       .search-wrap { margin-bottom: 24px; }
-      .resume-row { margin-bottom: 24px; padding-bottom: 24px; }
       .recommended-row { margin-bottom: 24px; padding-bottom: 24px; }
       .quick-links-label { margin-top: 24px; }
       .hero { padding: 28px 0 0; }
@@ -2120,9 +2036,6 @@
   .rec-pill:hover { background: rgba(120,81,169,.13) !important; border-color: rgba(120,81,169,.35) !important; }
   .recommended-row { border-bottom-color: rgba(0,0,0,.08) !important; }
   .quick-links-label { color: #9ca3b0 !important; }
-  .resume-row { border-bottom-color: rgba(0,0,0,.08) !important; }
-  .resume-inner { background: rgba(120,81,169,.07) !important; border-color: rgba(120,81,169,.2) !important; }
-  .resume-title { color: #1a1a2e !important; }
   .sidebar-saved { background: #f5f6fa !important; border-color: rgba(120,81,169,.2) !important; }
   .saved-link:hover { background: #eceef8 !important; color: #1a1a2e !important; }
   .btn-bookmark { background: #f5f6fa !important; border-color: rgba(0,0,0,.09) !important; color: #1a1a2e !important; }
@@ -2157,8 +2070,6 @@
   .topic-link.active { color: #7851a9 !important; }
   .page-nav-link.active { color: #7851a9 !important; }
   .btn-nav, .btn-brand { background: #7851a9 !important; color: #fff !important; }
-  .search-history-row { border-top-color: rgba(0,0,0,.08) !important; }
-  .history-pill { background: #f5f6fa !important; border-color: rgba(0,0,0,.09) !important; color: #6b7280 !important; }
   .history-pill:hover { border-color: #7851a9 !important; color: #7851a9 !important; }
   .topic-affinity-row { border-top-color: rgba(0,0,0,.08) !important; color: #6b7280 !important; }
   .affinity-name { color: #7851a9 !important; }
@@ -2401,11 +2312,6 @@
         <div id="recommendedRow" class="recommended-row" hidden>
           <div class="rec-label"><i class="fas fa-star"></i> Recommended for you</div>
           <div class="rec-pills" id="recPills"></div>
-        </div>
-
-        <div id="searchHistoryRow" class="search-history-row" hidden>
-          <div class="history-label"><i class="fas fa-clock-rotate-left"></i> Recently searched</div>
-          <div class="history-pills" id="historyPills"></div>
         </div>
 
         <div class="quick-links-label">Popular topics</div>
@@ -7601,23 +7507,10 @@
     $search.addEventListener('input', onSearch);
     $clearBtn.addEventListener('click', () => { $search.value = ''; $search.focus(); onSearch(); });
 
-    let _searchSaveTimer;
     function onSearch() {
       const q = $search.value.trim();
       if (currentSlug()) { go('', true); }
       renderList(searchArticles(q), q);
-      clearTimeout(_searchSaveTimer);
-      if (q.length >= 3) {
-        _searchSaveTimer = setTimeout(() => {
-          const searches = lsGet(LS_SEARCHES) || [];
-          const filtered = searches.filter(s => s !== q);
-          filtered.unshift(q);
-          lsSet(LS_SEARCHES, filtered.slice(0, 3));
-          initSearchHistory();
-        }, 1500);
-      } else if (q.length === 0) {
-        initSearchHistory();
-      }
     }
   }
 
@@ -7639,7 +7532,6 @@
   const LS_VISIT    = 'wz_help_visited';
 const LS_SAVED    = 'wz_help_saved';
   const LS_HELPFUL  = 'wz_help_helpful';
-  const LS_SEARCHES = 'wz_help_searches';
   const LS_TOPICS   = 'wz_help_topic_counts';
   const LS_ART_CNT  = 'wz_help_article_counts';
   const SAVE_TTL    = 30 * 24 * 60 * 60 * 1000; // 30 days
@@ -7647,53 +7539,7 @@ const LS_SAVED    = 'wz_help_saved';
   function lsGet(key) { try { return JSON.parse(localStorage.getItem(key)); } catch(e) { return null; } }
   function lsSet(key, val) { try { localStorage.setItem(key, JSON.stringify(val)); } catch(e) {} }
 
-  // ---- 5. Return visitor hero ----
-  const TOPIC_SUBTEXTS = {
-    billing:              "Looks like you've been managing your plan. We're here if anything's unclear.",
-    troubleshooting:      "Having some trouble? Let's get it sorted.",
-    'managing-site':      "Managing your site? We're always here when you need a change.",
-    'seo-visibility':     "Working on your rankings? Here's what we can do for you.",
-    'security-performance': "Your site's security and speed are on us. Let us know if anything looks off.",
-    before:               "Getting started? You're in the right place.",
-    'content-design':     "Getting your content and design ready? We'll walk you through it.",
-    build:                "Your website is in progress. Here's what to expect.",
-    'domains-hosting':    "Questions about your domain or hosting? We've got you.",
-    'one-time-projects':  "Looking for a one-time project? Here's how it works.",
-    'add-ons':            "Looking to grow? Browse our add-ons or submit a request.",
-    billing_default:      "Welcome back. What can we help you with today?",
-  };
-
   function initReturnVisitor() {
-    const visited  = lsGet(LS_VISIT);
-    const searches = lsGet(LS_SEARCHES) || [];
-    const $sub     = document.getElementById('heroSub');
-    const $content = document.querySelector('.hero-content');
-
-    // Time-of-day greeting
-    if ($content && !$content.querySelector('.hero-greeting')) {
-      const h = new Date().getHours();
-      const greet = h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
-      const $g = document.createElement('div');
-      $g.className = 'hero-greeting';
-      $g.textContent = greet;
-      $content.insertBefore($g, $content.firstChild);
-    }
-
-    // Adaptive subtext — topic-aware for return visitors
-    if ($sub && visited) {
-      const topicCounts = lsGet(LS_TOPICS) || {};
-      const topEntries  = Object.entries(topicCounts).sort((a, b) => b[1] - a[1]);
-      const topTopic    = topEntries.length && topEntries[0][1] >= 2 ? topEntries[0][0] : null;
-
-      if (topTopic && TOPIC_SUBTEXTS[topTopic]) {
-        $sub.textContent = TOPIC_SUBTEXTS[topTopic];
-      } else if (searches.length) {
-        $sub.textContent = "Welcome back. Pick up your search or browse below.";
-      } else {
-        $sub.textContent = "Welcome back. What can we help you with today?";
-      }
-    }
-
     lsSet(LS_VISIT, true);
   }
 
@@ -7897,28 +7743,6 @@ const LS_SAVED    = 'wz_help_saved';
     });
   }
 
-  // ---- Search history ----
-  function initSearchHistory() {
-    const searches = lsGet(LS_SEARCHES) || [];
-    if (!searches.length) return;
-    const $row   = document.getElementById('searchHistoryRow');
-    const $pills = document.getElementById('historyPills');
-    if (!$row || !$pills) return;
-    $pills.innerHTML = searches.map(s =>
-      `<a class="history-pill" href="#" data-q="${s.replace(/&/g,'&amp;').replace(/"/g,'&quot;')}">` +
-      `<i class="fas fa-clock-rotate-left"></i>${s}</a>`
-    ).join('');
-    $pills.querySelectorAll('.history-pill').forEach(function(pill) {
-      pill.addEventListener('click', function(e) {
-        e.preventDefault();
-        $search.value = this.dataset.q;
-        $search.dispatchEvent(new Event('input'));
-        $search.focus();
-      });
-    });
-    $row.hidden = false;
-  }
-
   // ---- Phase / new visitor banner ----
   function initPhaseBanner() {
     const params = new URLSearchParams(window.location.search);
@@ -8059,7 +7883,6 @@ const LS_SAVED    = 'wz_help_saved';
     renderCategories();
     renderRecommended();
     initReturnVisitor();
-    initSearchHistory();
     renderSavedSidebar();
     initPhaseBanner();
     bindInternalLinks();
