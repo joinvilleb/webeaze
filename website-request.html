@@ -499,6 +499,10 @@
   .quote-copy-banner .qcb-pre { background: #fef3c7 !important; color: #1c1917 !important; border-color: rgba(245,158,11,.25) !important; }
   .quote-copy-banner .qcb-copy-btn { background: #f59e0b !important; color: #fff !important; }
   .quote-copy-banner .qcb-copy-btn:hover { background: #d97706 !important; }
+  .quote-copy-banner.qcb-from-help .qcb-label { color: #5b21b6 !important; }
+  .quote-copy-banner.qcb-from-help .qcb-pre { background: #f5f3ff !important; color: #1e1b2e !important; border-color: rgba(120,81,169,.25) !important; }
+  .quote-copy-banner.qcb-from-help .qcb-copy-btn { background: #7851a9 !important; color: #fff !important; }
+  .quote-copy-banner.qcb-from-help .qcb-copy-btn:hover { background: #6340a0 !important; }
 
   /* Borders and dividers */
   hr, .divider { border-color: rgba(0,0,0,.08) !important; }
@@ -1123,17 +1127,31 @@
     if (e.key === 'Escape') closeHelpModal();
   });
 
-  // ── 22. Quote banner from fee-schedule ?quote= param ────
+  // ── 22. Quote banner from fee-schedule or help center ?quote= param ────
   (function() {
     try {
-      var raw = new URLSearchParams(window.location.search).get('quote');
+      var params = new URLSearchParams(window.location.search);
+      var raw = params.get('quote');
       if (!raw) return;
       var text = decodeURIComponent(raw);
       window._wz_quotePrefill = text;
 
       var banner = document.getElementById('quoteCopyBanner');
       var pre    = document.getElementById('qcbPre');
-      if (banner && pre) { pre.textContent = text; banner.classList.add('visible'); }
+      if (banner && pre) {
+        pre.textContent = text;
+        // Customise label when coming from a help article
+        if (params.get('from') === 'help') {
+          var articleTitle = params.get('article') ? decodeURIComponent(params.get('article')) : 'Help Center';
+          var label = banner.querySelector('.qcb-label');
+          if (label) label.innerHTML = '<i class="fas fa-circle-question"></i> Request template from: ' + articleTitle;
+          var hint = banner.querySelector('.qcb-hint');
+          if (hint) hint.textContent = 'Your request has been pre-filled below — add any details and submit.';
+          banner.style.setProperty('--qcb-accent', '#7851a9');
+          banner.classList.add('qcb-from-help');
+        }
+        banner.classList.add('visible');
+      }
 
       // MutationObserver: fill the instant any textarea appears inside the form frame
       function fillTA(ta) {
