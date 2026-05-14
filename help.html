@@ -7410,7 +7410,7 @@
           <button class="btn-ghost" id="copyLinkBtn" type="button">
             <i class="fas fa-link"></i> Copy Link
           </button>
-          <button class="btn-brand" id="submitRequestBtn" type="button">
+          <button class="btn-brand" id="submitRequestBtn" type="button" style="display:none;">
             <i class="fas fa-paper-plane"></i> Submit a Request
           </button>
           <a href="#/" class="btn-ghost" onclick="event.preventDefault(); history.back();">
@@ -7431,11 +7431,22 @@
 
     const $reqBtn = document.getElementById('submitRequestBtn');
     if ($reqBtn) {
-      $reqBtn.addEventListener('click', () => {
-        const prefill = `[From Help Article: ${article.title}]\n\nHi WebEaze team, I was reading "${article.title}" in the Help Center and I'd like to submit a related request:\n\n`;
-        const url = 'website-request.html?from=help&article=' + encodeURIComponent(article.title) + '&quote=' + encodeURIComponent(prefill);
-        window.location.href = url;
-      });
+      // Only show if the article actually directs the user to submit a request
+      const bodyLower = article.body.toLowerCase();
+      const isRequestArticle = bodyLower.includes('website-request') ||
+                               bodyLower.includes('submit a request') ||
+                               bodyLower.includes('website request form') ||
+                               bodyLower.includes('website request page');
+      if (isRequestArticle) {
+        $reqBtn.style.display = '';
+        $reqBtn.addEventListener('click', () => {
+          const prefill = `[From Help Article: ${article.title}]\n\nHi WebEaze team, I was reading "${article.title}" in the Help Center and I'd like to submit a related request:\n\n`;
+          const url = 'website-request.html?from=help&article=' + encodeURIComponent(article.title) + '&quote=' + encodeURIComponent(prefill);
+          window.location.href = url;
+        });
+      } else {
+        $reqBtn.style.display = 'none';
+      }
     }
 
     $article.focus({ preventScroll: true });
