@@ -242,27 +242,49 @@ a { text-decoration: none; color: inherit; transition: .2s; }
 .section-header h2 { font-size: clamp(22px, 3vw, 30px); font-weight: 800; margin: 0 0 8px; color: var(--text); }
 .section-header p { font-size: 16px; color: var(--muted); margin: 0; }
 
-.compare-wrap { overflow-x: auto; }
+.compare-wrap { overflow-x: auto; border-radius: 16px; box-shadow: 0 2px 16px rgba(0,0,0,.07); }
 .compare-wrap table {
   width: 100%; border-collapse: collapse;
-  background: #fff; border-radius: 16px;
-  overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,.05);
+  background: #fff;
+  min-width: 480px;
 }
+/* Header */
 .compare-wrap thead th {
-  padding: 16px 20px;
-  font-size: 14px; font-weight: 700; text-align: left;
-  background: var(--bg-2); border-bottom: 1px solid var(--line);
+  padding: 20px 24px;
+  font-size: 13px; font-weight: 700; text-align: left;
+  background: var(--bg-2); border-bottom: 2px solid var(--line);
   color: var(--muted);
 }
-.compare-wrap thead th.plan-col { text-align: center; color: var(--text); font-size: 15px; }
-.compare-wrap thead th.plan-col.hi { color: var(--brand); }
-.compare-wrap td { padding: 13px 20px; font-size: 14.5px; border-top: 1px solid var(--line); color: var(--text); }
-.compare-wrap td:not(:first-child) { text-align: center; }
-.compare-wrap .hi { background: rgba(120,81,169,.03); }
-.compare-wrap .check { color: var(--green); }
-.compare-wrap .dash { color: #d1d5db; }
-.feature-name { display: flex; align-items: center; gap: 8px; }
-.feature-name i { color: var(--muted); width: 16px; font-size: 13px; }
+.compare-wrap thead th.plan-col { text-align: center; width: 22%; }
+.compare-wrap thead th.plan-col-essential { color: var(--text); }
+.compare-wrap thead th.plan-col-growth {
+  background: var(--brand); color: #fff;
+  border-radius: 0 16px 0 0;
+}
+.compare-wrap .plan-col-head-name { display: block; font-size: 16px; font-weight: 800; margin-bottom: 3px; }
+.compare-wrap .plan-col-head-price { display: block; font-size: 12px; font-weight: 500; opacity: .8; }
+
+/* Category rows */
+.compare-wrap tr.cat-row td {
+  background: var(--bg-2); padding: 10px 24px;
+  font-size: 11px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .09em; color: var(--brand);
+  border-top: 2px solid var(--line);
+  border-bottom: none;
+}
+.compare-wrap tr.cat-row td.hi-col { background: rgba(120,81,169,.06); }
+
+/* Body rows */
+.compare-wrap tbody td {
+  padding: 14px 24px; font-size: 15px;
+  border-top: 1px solid var(--line); color: var(--text);
+}
+.compare-wrap tbody td:not(:first-child) { text-align: center; }
+.compare-wrap .hi-col { background: rgba(120,81,169,.04); }
+.compare-wrap .check { color: var(--green); font-size: 15px; }
+.compare-wrap .nope { color: #d1d5db; font-size: 14px; }
+.feature-name { display: flex; align-items: center; gap: 10px; font-size: 15px; }
+.feature-name i { color: var(--muted); width: 16px; font-size: 13px; flex-shrink: 0; }
 .compare-link { display: block; text-align: center; margin-top: 24px; color: var(--brand); font-weight: 600; font-size: 15px; }
 .compare-link:hover { color: #6a45a0; }
 
@@ -639,78 +661,98 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
   <div class="container-narrow">
     <div class="section-header">
       <h2>Compare Plans</h2>
-      <p>See exactly what's included in each plan</p>
+      <p>See what each plan includes</p>
     </div>
     <div class="compare-wrap">
       <table>
         <thead>
           <tr>
-            <th scope="col">Feature</th>
-            <th scope="col" class="plan-col">Essential</th>
-            <th scope="col" class="plan-col hi">Growth</th>
+            <th scope="col" style="border-radius:16px 0 0 0"></th>
+            <th scope="col" class="plan-col plan-col-essential">
+              <span class="plan-col-head-name">Essential</span>
+              <span class="plan-col-head-price">from $169/mo</span>
+            </th>
+            <th scope="col" class="plan-col plan-col-growth">
+              <span class="plan-col-head-name">Growth</span>
+              <span class="plan-col-head-price">from $249/mo</span>
+            </th>
           </tr>
         </thead>
         <tbody>
+
+          <tr class="cat-row"><td colspan="2">Website &amp; Design</td><td class="hi-col"></td></tr>
           <tr>
             <td><span class="feature-name"><i class="fas fa-file-alt"></i> Pages included</span></td>
             <td>Up to 3</td>
-            <td class="hi">Up to 6</td>
+            <td class="hi-col">Up to 6</td>
           </tr>
           <tr>
             <td><span class="feature-name"><i class="fas fa-paint-brush"></i> Custom design</span></td>
             <td><i class="fas fa-check check"></i></td>
-            <td class="hi"><i class="fas fa-check check"></i></td>
+            <td class="hi-col"><i class="fas fa-check check"></i></td>
           </tr>
           <tr>
             <td><span class="feature-name"><i class="fas fa-mobile-alt"></i> Mobile responsive</span></td>
             <td><i class="fas fa-check check"></i></td>
-            <td class="hi"><i class="fas fa-check check"></i></td>
+            <td class="hi-col"><i class="fas fa-check check"></i></td>
           </tr>
+          <tr>
+            <td><span class="feature-name"><i class="fas fa-server"></i> Hosting &amp; SSL</span></td>
+            <td><i class="fas fa-check check"></i></td>
+            <td class="hi-col"><i class="fas fa-check check"></i></td>
+          </tr>
+
+          <tr class="cat-row"><td colspan="2">Updates &amp; Support</td><td class="hi-col"></td></tr>
           <tr>
             <td><span class="feature-name"><i class="fas fa-sync-alt"></i> Content updates</span></td>
             <td>Unlimited</td>
-            <td class="hi">Unlimited</td>
+            <td class="hi-col">Unlimited</td>
           </tr>
           <tr>
             <td><span class="feature-name"><i class="fas fa-clock"></i> Update turnaround</span></td>
             <td>24–48 hours</td>
-            <td class="hi"><strong style="color:var(--brand)">Priority</strong></td>
+            <td class="hi-col"><strong style="color:var(--brand)">Priority</strong></td>
           </tr>
           <tr>
-            <td><span class="feature-name"><i class="fas fa-server"></i> Hosting & SSL</span></td>
-            <td><i class="fas fa-check check"></i></td>
-            <td class="hi">+ $100 credit</td>
-          </tr>
-          <tr>
-            <td><span class="feature-name"><i class="fas fa-search"></i> SEO optimization</span></td>
-            <td>Basic</td>
-            <td class="hi">Advanced</td>
-          </tr>
-          <tr>
-            <td><span class="feature-name"><i class="fas fa-headset"></i> Support channels</span></td>
+            <td><span class="feature-name"><i class="fas fa-headset"></i> Support</span></td>
             <td>Email</td>
-            <td class="hi"><strong style="color:var(--brand)">Total Access</strong></td>
-          </tr>
-          <tr>
-            <td><span class="feature-name"><i class="fab fa-google"></i> Google Business Profile</span></td>
-            <td><span class="dash">—</span></td>
-            <td class="hi"><i class="fas fa-check check"></i></td>
-          </tr>
-          <tr>
-            <td><span class="feature-name"><i class="fas fa-star"></i> Review management</span></td>
-            <td><span class="dash">—</span></td>
-            <td class="hi"><i class="fas fa-check check"></i></td>
+            <td class="hi-col"><strong style="color:var(--brand)">Total Access</strong></td>
           </tr>
           <tr>
             <td><span class="feature-name"><i class="fas fa-chart-line"></i> Performance reports</span></td>
             <td><i class="fas fa-check check"></i></td>
-            <td class="hi"><i class="fas fa-check check"></i></td>
+            <td class="hi-col"><i class="fas fa-check check"></i></td>
+          </tr>
+
+          <tr class="cat-row"><td colspan="2">SEO &amp; Visibility</td><td class="hi-col"></td></tr>
+          <tr>
+            <td><span class="feature-name"><i class="fas fa-search"></i> SEO optimization</span></td>
+            <td>Basic</td>
+            <td class="hi-col">Advanced</td>
           </tr>
           <tr>
-            <td><span class="feature-name"><i class="fas fa-dollar-sign"></i> Monthly price</span></td>
-            <td><strong>$169/mo</strong></td>
-            <td class="hi"><strong style="color:var(--brand)">$249/mo</strong></td>
+            <td><span class="feature-name"><i class="fab fa-google"></i> Google Business Profile</span></td>
+            <td><i class="fas fa-xmark nope"></i></td>
+            <td class="hi-col"><i class="fas fa-check check"></i></td>
           </tr>
+          <tr>
+            <td><span class="feature-name"><i class="fas fa-star"></i> Review management</span></td>
+            <td><i class="fas fa-xmark nope"></i></td>
+            <td class="hi-col"><i class="fas fa-check check"></i></td>
+          </tr>
+
+          <tr class="cat-row"><td colspan="2">Credits &amp; Extras</td><td class="hi-col"></td></tr>
+          <tr>
+            <td><span class="feature-name"><i class="fas fa-dollar-sign"></i> Hosting &amp; domain credit</span></td>
+            <td><i class="fas fa-xmark nope"></i></td>
+            <td class="hi-col">$100/year</td>
+          </tr>
+          <tr>
+            <td><span class="feature-name"><i class="fas fa-tag"></i> Monthly price</span></td>
+            <td><strong>$169/mo</strong></td>
+            <td class="hi-col"><strong style="color:var(--brand)">$249/mo</strong></td>
+          </tr>
+
         </tbody>
       </table>
     </div>
