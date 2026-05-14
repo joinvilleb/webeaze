@@ -906,6 +906,36 @@
       gap: 12px;
       margin-top: 24px;
     }
+    .article-request-cta {
+      margin-top: 32px;
+      padding: 20px 24px;
+      background: rgba(120,81,169,.10);
+      border: 1px solid rgba(120,81,169,.28);
+      border-radius: 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .article-request-cta__label {
+      margin: 0;
+      font-size: .9rem;
+      font-weight: 600;
+      color: #c4a8ff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .article-request-cta__btn {
+      padding: .7rem 1.5rem;
+      font-size: .92rem;
+    }
+    .article-request-cta__hint {
+      margin: 0;
+      font-size: .8rem;
+      color: var(--muted);
+    }
+
     .article-footer {
       margin-top: 40px;
       padding-top: 24px;
@@ -7397,6 +7427,41 @@
     window.scrollTo({ top: y, behavior: 'smooth' });
   }
 
+  // Specific pre-filled request templates — only articles listed here get the in-body CTA
+  const REQUEST_TEMPLATES = {
+    'update-business-info': `I'd like to update my business information on my website.\n\nPlease update the following:\n\nBusiness hours:\nMonday–Friday: \nSaturday: \nSunday: \n\nAddress (if changed): \n\nPhone number (if changed): \n\nEmail address (if changed): `,
+
+    'add-photos-after-launch': `I'd like to add or replace photos on my website.\n\nWhere the photos should go (e.g. homepage hero, gallery, about page): \n\nI have attached the new photos to this request.`,
+
+    'changes-mid-build': `I have changes to request during my current build.\n\nPage or section to update: \n\nWhat to change: `,
+
+    'reviewing-your-draft': `I've reviewed my website draft and have the following revision requests:\n\nPage 1 – [page name]:\n- \n- \n\nPage 2 – [page name]:\n- \n- \n\nOverall feedback: `,
+
+    'no-logo-yet': `My logo is ready and I'd like it added to my website.\n\nI have attached the logo file (PNG or SVG with transparent background preferred).`,
+
+    'logo-file-format': `I'd like to submit my logo for my website.\n\nFormat provided: \n\nI have attached the logo file.`,
+
+    'favicon': `I'd like to add or update the favicon on my website.\n\nI have attached the favicon file (ICO, PNG, or SVG preferred).`,
+
+    'choosing-fonts': `I'd like to request a specific font for my website.\n\nFont name: \nWhere to apply it (e.g. headings, body text, navigation): \nFont source (Google Fonts, Adobe, custom file): `,
+
+    'custom-email-setup': `I'd like help setting up a custom email address.\n\nDesired email address (e.g. hello@mybusiness.com): \nDomain name: \nPreferred email provider (e.g. Google Workspace, Zoho, other): `,
+
+    'connect-your-domain': `I'd like help connecting my domain to my website.\n\nDomain name: \nDomain registrar (e.g. GoDaddy, Namecheap, Google Domains): \nI have access to my registrar account: Yes / No`,
+
+    'multilingual-pages': `I'd like to add pages in another language to my website.\n\nLanguage to add: \nPages to translate: \nI will provide the translated content: Yes / No (please advise if help is available)`,
+
+    'legal-pages': `I'd like to add or update legal pages on my website.\n\nPages needed:\n[ ] Privacy Policy\n[ ] Terms of Service\n[ ] Accessibility Statement\n\nAdditional notes: `,
+
+    'support-schedules': `I'd like to set up a scheduled recurring website update.\n\nWhat to update: \nHow often (e.g. weekly, monthly): \nPreferred day/time: \nFirst update date: `,
+
+    'total-access-support': `I'd like to schedule a support call.\n\nCall type:\n[ ] Phone call\n[ ] Video call (Google Meet)\n\nPreferred date: \nPreferred time (ET): \nWhat I'd like to discuss: `,
+
+    'share-your-branding': `I'd like to submit my branding files.\n\nAttached:\n[ ] Logo file\n[ ] Brand colors (hex codes): \n[ ] Font name or file: \n[ ] Inspiration websites: `,
+
+    'what-content-do-i-need': `I'm ready to submit my website content.\n\nBusiness name: \nTagline or slogan (if any): \nServices or products to list: \nI have attached: photos / logo / other files`,
+  };
+
   function renderArticle(slug) {
     const found = findArticleBySlug(slug);
     if (!found) { renderList(searchArticles($search.value.trim()), $search.value.trim()); return; }
@@ -7427,9 +7492,6 @@
           <button class="btn-ghost" id="copyLinkBtn" type="button">
             <i class="fas fa-link"></i> Copy Link
           </button>
-          <button class="btn-brand" id="submitRequestBtn" type="button" style="display:none;">
-            <i class="fas fa-paper-plane"></i> Submit a Request
-          </button>
           <a href="#/" class="btn-ghost" onclick="event.preventDefault(); history.back();">
             <i class="fas fa-arrow-left"></i> Back
           </a>
@@ -7444,26 +7506,6 @@
         $btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
         setTimeout(() => { $btn.innerHTML = '<i class="fas fa-link"></i> Copy Link'; }, 1500);
       });
-    }
-
-    const $reqBtn = document.getElementById('submitRequestBtn');
-    if ($reqBtn) {
-      // Only show if the article actually directs the user to submit a request
-      const bodyLower = article.body.toLowerCase();
-      const isRequestArticle = bodyLower.includes('website-request') ||
-                               bodyLower.includes('submit a request') ||
-                               bodyLower.includes('website request form') ||
-                               bodyLower.includes('website request page');
-      if (isRequestArticle) {
-        $reqBtn.style.display = '';
-        $reqBtn.addEventListener('click', () => {
-          const prefill = `[From Help Article: ${article.title}]\n\nHi WebEaze team, I was reading "${article.title}" in the Help Center and I'd like to submit a related request:\n\n`;
-          const url = 'website-request.html?from=help&article=' + encodeURIComponent(article.title) + '&quote=' + encodeURIComponent(prefill);
-          window.location.href = url;
-        });
-      } else {
-        $reqBtn.style.display = 'none';
-      }
     }
 
     $article.focus({ preventScroll: true });
@@ -7716,6 +7758,29 @@ const LS_SAVED    = 'wz_help_saved';
     injectRelatedArticles(slug, topic);
     injectStuckSection(slug);
     wrapTables();
+
+    // Inject in-body request CTA for articles with a specific template
+    const reqTemplate = REQUEST_TEMPLATES[slug];
+    if (reqTemplate) {
+      const $body = document.querySelector('.article-body');
+      if ($body && !$body.querySelector('.article-request-cta')) {
+        const cta = document.createElement('div');
+        cta.className = 'article-request-cta';
+        cta.innerHTML = `
+          <p class="article-request-cta__label"><i class="fas fa-circle-info"></i> Ready to make this change?</p>
+          <button class="btn-brand article-request-cta__btn" type="button">
+            <i class="fas fa-paper-plane"></i> Submit this request
+          </button>
+          <p class="article-request-cta__hint">Your request will be pre-filled — just review and send.</p>
+        `;
+        cta.querySelector('button').addEventListener('click', function() {
+          const url = 'website-request.html?from=help&article=' + encodeURIComponent(article.title) + '&quote=' + encodeURIComponent(reqTemplate);
+          window.location.href = url;
+        });
+        $body.appendChild(cta);
+      }
+    }
+
     // Track topic reads
     if (topic && topic.id) {
       const counts = lsGet(LS_TOPICS) || {};
