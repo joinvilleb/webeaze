@@ -71,7 +71,12 @@ p:last-child { margin-bottom: 0; }
   border-bottom: 1px solid var(--line);
   padding: 52px 20px 44px;
 }
-.page-hero-inner { max-width: 600px; margin: 0 auto; }
+.page-hero-inner {
+  max-width: 860px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between; gap: 32px;
+}
+.page-hero-inner img { flex-shrink: 0; }
+@media (max-width: 600px) { .page-hero-inner img { display: none; } }
 .page-hero h1 {
   font-size: clamp(1.75rem, 4vw, 2.5rem);
   font-weight: 800; letter-spacing: -.04em;
@@ -411,22 +416,24 @@ footer {
 <!-- HERO -->
 <section class="page-hero">
   <div class="page-hero-inner">
-    <img src="images/assets/calculator.svg" alt="" aria-hidden="true" loading="lazy" style="width:90px;margin-bottom:18px;opacity:.9;" />
-    <h1>Fee Schedule</h1>
-    <p>Search for a service or browse by category below.</p>
-    <div class="fee-search-wrap">
-      <i class="fas fa-magnifying-glass fee-search-icon"></i>
-      <input id="feeSearch" class="fee-search" type="text" placeholder="e.g. booking system, new page, AI chatbot..." autocomplete="off" />
-      <button id="feeSearchClear" class="fee-search-clear" title="Clear">&#x2715;</button>
+    <div class="page-hero-text">
+      <h1>Fee Schedule</h1>
+      <p>Search for a service or browse by category below.</p>
+      <div class="fee-search-wrap">
+        <i class="fas fa-magnifying-glass fee-search-icon"></i>
+        <input id="feeSearch" class="fee-search" type="text" placeholder="e.g. booking system, new page, AI chatbot..." autocomplete="off" />
+        <button id="feeSearchClear" class="fee-search-clear" title="Clear">&#x2715;</button>
+      </div>
+      <div class="fee-chips">
+        <button class="fee-chip" data-text="new website">New website</button>
+        <button class="fee-chip" data-text="booking system">Booking system</button>
+        <button class="fee-chip" data-text="AI chatbot">AI chatbot</button>
+        <button class="fee-chip" data-text="rush">Rush request</button>
+        <button class="fee-chip" data-text="add-on">Monthly add-ons</button>
+        <button class="fee-chip" data-text="domain">Domain</button>
+      </div>
     </div>
-    <div class="fee-chips">
-      <button class="fee-chip" data-text="new website">New website</button>
-      <button class="fee-chip" data-text="booking system">Booking system</button>
-      <button class="fee-chip" data-text="AI chatbot">AI chatbot</button>
-      <button class="fee-chip" data-text="rush">Rush request</button>
-      <button class="fee-chip" data-text="add-on">Monthly add-ons</button>
-      <button class="fee-chip" data-text="domain">Domain</button>
-    </div>
+    <img src="images/assets/calculator.svg" alt="" aria-hidden="true" loading="lazy" style="width:110px;opacity:.9;" />
   </div>
 </section>
 
