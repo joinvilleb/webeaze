@@ -4,17 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Plan Guide | WebEaze</title>
-  <meta name="description" content="Find the perfect WebEaze plan for your business. Compare Essential, Growth, and Elite plans with our interactive guide." />
+  <meta name="description" content="Find the perfect WebEaze plan for your business. Answer 4 quick questions and get a personalized recommendation." />
   <link rel="canonical" href="https://webeaze.io/plan-guide" />
-
-  <!-- Open Graph -->
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="WebEaze" />
   <meta property="og:title" content="Plan Guide | WebEaze" />
   <meta property="og:description" content="Find the perfect WebEaze plan for your business." />
   <meta property="og:url" content="https://webeaze.io/plan-guide" />
   <meta property="og:image" content="https://webeaze.io/images/default-monochrome.png" />
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -25,22 +22,22 @@
   <style>
     :root {
       --gold: #ffd700;
-      --gold-dim: rgba(255, 215, 0, 0.12);
-      --gold-glow: rgba(255, 215, 0, 0.25);
+      --gold-dim: rgba(255,215,0,.12);
+      --gold-glow: rgba(255,215,0,.25);
       --ink: #ffffff;
       --ink-2: #a0a6c0;
       --muted: #6b7280;
       --bg: #050509;
       --bg-card: #0c0d14;
       --bg-card-hover: #12141f;
-      --line: rgba(255, 255, 255, 0.08);
-      --line-gold: rgba(255, 215, 0, 0.2);
+      --line: rgba(255,255,255,.08);
+      --line-gold: rgba(255,215,0,.2);
       --essential: #60a5fa;
       --growth: #ffd700;
       --elite: #a78bfa;
     }
 
-    *, *::before, *::after { box-sizing: border-box }
+    *,*::before,*::after { box-sizing: border-box }
     html { scroll-behavior: smooth }
     body {
       margin: 0;
@@ -53,916 +50,355 @@
     a { color: inherit; text-decoration: none }
     .container-narrow { max-width: 1100px }
 
-    /* Nav */
+    /* NAV */
     .nav-wrap {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 9999;
-      background: rgba(5, 5, 9, 0.85);
+      position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
+      background: rgba(5,5,9,.85);
       backdrop-filter: saturate(150%) blur(16px);
       -webkit-backdrop-filter: saturate(150%) blur(16px);
       border-bottom: 1px solid var(--line);
-      transition: transform 0.3s ease;
+      transition: transform .3s ease;
     }
     .nav-wrap.nav-hidden { transform: translateY(-100%) }
     .webeaze-nav { background: transparent !important; box-shadow: none !important; padding: .6rem 0 }
-    .brand-word { letter-spacing: -.3px; font-weight: 700; background: linear-gradient(90deg, #fff, #a0a6c0); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent }
+    .brand-word { letter-spacing: -.3px; font-weight: 700; background: linear-gradient(90deg,#fff,#a0a6c0); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent }
     .navbar-dark .nav-link { color: #fff !important; opacity: .85; border-radius: 10px; padding: .45rem .7rem }
-    .navbar-dark .nav-link:hover { opacity: 1; background: rgba(255, 255, 255, .08) }
-    .btn-nav { background: var(--gold); color: #1a1a2e; border: none; border-radius: 12px; padding: .6rem .9rem; font-weight: 700; box-shadow: 0 8px 22px rgba(255, 215, 0, .22) }
+    .navbar-dark .nav-link:hover { opacity: 1; background: rgba(255,255,255,.08) }
+    .btn-nav { background: var(--gold); color: #1a1a2e; border: none; border-radius: 12px; padding: .6rem .9rem; font-weight: 700; box-shadow: 0 8px 22px rgba(255,215,0,.22) }
 
-    /* Hero */
+    /* HERO */
     .hero {
-      position: relative;
-      min-height: 80vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 140px 20px 100px;
-      overflow: hidden;
+      min-height: 72vh; display: flex; align-items: center; justify-content: center;
+      text-align: center; padding: 140px 20px 80px; position: relative; overflow: hidden;
     }
     .hero::before {
-      content: '';
-      position: absolute;
-      top: -200px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 1000px;
-      height: 1000px;
-      background: radial-gradient(circle, rgba(255, 215, 0, 0.08) 0%, transparent 50%);
+      content: ''; position: absolute; top: -200px; left: 50%; transform: translateX(-50%);
+      width: 1000px; height: 1000px;
+      background: radial-gradient(circle, rgba(255,215,0,.07) 0%, transparent 55%);
       pointer-events: none;
     }
-    .hero::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 200px;
-      background: linear-gradient(to top, var(--bg), transparent);
-      pointer-events: none;
-    }
-
-    .hero-content {
-      position: relative;
-      z-index: 2;
-      max-width: 800px;
-    }
-
+    .hero-content { position: relative; z-index: 2; max-width: 720px; }
     .kicker {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 0.85rem;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 20px;
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: .82rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 20px;
     }
-    .kicker i { font-size: 0.75rem }
-
     .headline {
-      font-size: clamp(2.5rem, 6vw, 4.5rem);
-      font-weight: 600;
-      letter-spacing: -0.03em;
-      line-height: 1.05;
-      margin-bottom: 24px;
+      font-size: clamp(2.4rem,6vw,4rem); font-weight: 800;
+      letter-spacing: -.03em; line-height: 1.1; margin: 0 0 20px;
     }
     .headline span {
       background: linear-gradient(135deg, var(--gold) 0%, #ffea80 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     }
+    .sub { font-size: 1.15rem; color: var(--ink-2); max-width: 560px; margin: 0 auto 36px; line-height: 1.65; }
+    .hero-cta { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; }
 
-    .sub {
-      font-size: 1.2rem;
-      color: var(--ink-2);
-      max-width: 600px;
-      margin: 0 auto 40px;
-      line-height: 1.6;
-    }
-
-    .hero-cta {
-      display: flex;
-      justify-content: center;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-
-    /* Buttons */
+    /* BUTTONS */
     .btn-brand {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      background: var(--gold);
-      color: #1a1a2e;
-      border: none;
-      border-radius: 14px;
-      padding: 16px 32px;
-      font-weight: 700;
-      font-size: 1rem;
-      box-shadow: 0 12px 32px rgba(255, 215, 0, 0.25);
-      transition: all 0.2s ease;
+      display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+      background: var(--gold); color: #1a1a2e; border: none; border-radius: 14px;
+      padding: 16px 32px; font-weight: 700; font-size: 1rem; cursor: pointer;
+      font-family: inherit;
+      box-shadow: 0 12px 32px rgba(255,215,0,.25); transition: all .2s ease;
     }
-    .btn-brand:hover {
-      background: #ffea80;
-      transform: translateY(-2px);
-      box-shadow: 0 16px 40px rgba(255, 215, 0, 0.35);
-      color: #1a1a2e;
-      text-decoration: none;
-    }
-
+    .btn-brand:hover { background: #ffea80; transform: translateY(-2px); box-shadow: 0 16px 40px rgba(255,215,0,.35); color: #1a1a2e; text-decoration: none; }
     .btn-outline {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      background: transparent;
-      color: #fff;
-      border: 2px solid var(--line);
-      border-radius: 14px;
-      padding: 14px 28px;
-      font-weight: 600;
-      font-size: 1rem;
-      transition: all 0.2s ease;
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      background: transparent; color: #fff; border: 2px solid var(--line); border-radius: 14px;
+      padding: 14px 28px; font-weight: 600; font-size: 1rem; transition: all .2s ease;
     }
-    .btn-outline:hover {
-      border-color: var(--gold);
-      color: var(--gold);
-      text-decoration: none;
-    }
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold); text-decoration: none; }
 
-    /* Quiz Section */
+    /* QUIZ SECTION */
     .quiz-section {
-      padding: 100px 20px;
+      padding: 80px 20px 100px;
       background: linear-gradient(180deg, var(--bg) 0%, #0a0b12 100%);
-      position: relative;
+    }
+    .quiz-container { max-width: 680px; margin: 0 auto; }
+
+    /* PROGRESS */
+    .quiz-progress-wrap { margin-bottom: 48px; }
+    .quiz-progress-steps {
+      display: flex; justify-content: center; gap: 10px; margin-bottom: 16px;
+    }
+    .quiz-step-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: rgba(255,255,255,.15); transition: all .3s ease;
+    }
+    .quiz-step-dot.active { background: var(--gold); transform: scale(1.25); }
+    .quiz-step-dot.done { background: rgba(255,215,0,.4); }
+    .quiz-progress-label {
+      text-align: center; font-size: .8rem; color: var(--ink-2);
+      font-weight: 500; letter-spacing: .06em;
     }
 
-    .section-header {
-      text-align: center;
-      margin-bottom: 60px;
-    }
-    .section-header h2 {
-      font-size: clamp(2rem, 5vw, 3rem);
-      font-weight: 800;
-      margin: 0 0 16px;
-      letter-spacing: -0.02em;
-    }
-    .section-header p {
-      color: var(--ink-2);
-      font-size: 1.15rem;
-      max-width: 600px;
-      margin: 0 auto;
-    }
-
-    .quiz-cards {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-    @media (max-width: 992px) {
-      .quiz-cards { grid-template-columns: 1fr }
-    }
-
-    .quiz-card {
-      background: var(--bg-card);
-      border: 2px solid var(--line);
-      border-radius: 24px;
-      padding: 40px 32px;
-      text-align: center;
-      transition: all 0.3s ease;
-      position: relative;
-      overflow: hidden;
-      cursor: pointer;
-    }
-    .quiz-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 4px;
-      background: var(--card-accent, var(--gold));
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-    .quiz-card:hover {
-      border-color: var(--card-accent, var(--gold));
-      transform: translateY(-8px);
-      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4);
-    }
-    .quiz-card:hover::before { opacity: 1 }
-
-    .quiz-card.essential { --card-accent: var(--essential) }
-    .quiz-card.growth { --card-accent: var(--growth) }
-    .quiz-card.elite { --card-accent: var(--elite) }
-
-    .quiz-icon {
-      width: 80px;
-      height: 80px;
-      margin: 0 auto 24px;
-      background: var(--gold-dim);
-      border-radius: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 2rem;
-    }
-    .quiz-card.essential .quiz-icon { background: rgba(96, 165, 250, 0.15); color: var(--essential) }
-    .quiz-card.growth .quiz-icon { background: var(--gold-dim); color: var(--gold) }
-    .quiz-card.elite .quiz-icon { background: rgba(167, 139, 250, 0.15); color: var(--elite) }
-
-    .quiz-card h3 {
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: var(--ink-2);
-      margin: 0 0 16px;
-      line-height: 1.5;
-    }
-
-    .quiz-result {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 10px 20px;
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 100px;
-      font-weight: 700;
-      font-size: 0.9rem;
-      margin-top: 8px;
-    }
-    .quiz-card.essential .quiz-result { color: var(--essential) }
-    .quiz-card.growth .quiz-result { color: var(--gold) }
-    .quiz-card.elite .quiz-result { color: var(--elite) }
-
-    /* Plans Section */
-    .plans-section {
-      padding: 100px 20px;
-      background: var(--bg);
-    }
-
-    .plans-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-    @media (max-width: 992px) {
-      .plans-grid { grid-template-columns: 1fr }
-    }
-
-    .plan-card {
-      background: var(--bg-card);
-      border: 1px solid var(--line);
-      border-radius: 24px;
-      padding: 40px 32px;
-      position: relative;
-      transition: all 0.3s ease;
-    }
-    .plan-card:hover {
-      border-color: var(--line-gold);
-      transform: translateY(-4px);
-    }
-    .plan-card.featured {
-      border-color: var(--gold);
-      background: linear-gradient(180deg, rgba(255, 215, 0, 0.05) 0%, var(--bg-card) 100%);
-    }
-    .plan-card.featured::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 40px;
-      right: 40px;
-      height: 3px;
-      background: linear-gradient(90deg, transparent, var(--gold), transparent);
-      border-radius: 0 0 4px 4px;
-    }
-
-    .plan-badge {
-      position: absolute;
-      top: -12px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: var(--gold);
-      color: #1a1a2e;
-      padding: 6px 16px;
-      border-radius: 100px;
-      font-size: 0.75rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
-    .plan-header {
-      text-align: center;
-      margin-bottom: 32px;
-      padding-bottom: 24px;
-      border-bottom: 1px solid var(--line);
-    }
-    .plan-name {
-      font-size: 1.5rem;
-      font-weight: 800;
-      margin: 0 0 8px;
-    }
-    .plan-tagline {
-      font-size: 0.95rem;
-      color: var(--ink-2);
-      margin: 0 0 20px;
-    }
-    .plan-price {
-      font-size: 3rem;
-      font-weight: 800;
-      line-height: 1;
-    }
-    .plan-price span {
-      font-size: 1rem;
-      font-weight: 500;
-      color: var(--ink-2);
-    }
-
-    .plan-ideal {
-      background: rgba(255, 255, 255, 0.03);
-      border-radius: 12px;
-      padding: 16px;
-      margin-bottom: 24px;
-    }
-    .plan-ideal-label {
-      font-size: 0.75rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--gold);
-      margin-bottom: 8px;
-    }
-    .plan-ideal p {
-      font-size: 0.9rem;
-      color: var(--ink-2);
-      margin: 0;
-      line-height: 1.5;
-    }
-
-    .plan-features {
-      list-style: none;
-      padding: 0;
-      margin: 0 0 32px;
-    }
-    .plan-features li {
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      padding: 12px 0;
-      font-size: 0.95rem;
-      color: var(--ink);
-      border-bottom: 1px solid var(--line);
-    }
-    .plan-features li:last-child { border-bottom: none }
-    .plan-features li i {
-      color: var(--gold);
-      font-size: 0.85rem;
-      margin-top: 4px;
-      flex-shrink: 0;
-    }
-
-    .plan-cta {
+    /* STEP */
+    .quiz-step { display: none; }
+    .quiz-step.active {
       display: block;
-      width: 100%;
-      text-align: center;
-      padding: 16px;
-      border-radius: 14px;
-      font-weight: 700;
-      font-size: 1rem;
-      transition: all 0.2s ease;
+      animation: stepIn .35s cubic-bezier(.22,1,.36,1) both;
     }
-    .plan-cta.primary {
-      background: var(--gold);
-      color: #1a1a2e;
+    .quiz-step.leaving {
+      animation: stepOut .25s ease forwards;
     }
-    .plan-cta.primary:hover {
-      background: #ffea80;
-      transform: translateY(-2px);
-      text-decoration: none;
-      color: #1a1a2e;
+    @keyframes stepIn {
+      from { opacity: 0; transform: translateX(32px); }
+      to   { opacity: 1; transform: translateX(0); }
     }
-    .plan-cta.secondary {
-      background: rgba(255, 255, 255, 0.05);
-      color: #fff;
-      border: 1px solid var(--line);
+    @keyframes stepInBack {
+      from { opacity: 0; transform: translateX(-32px); }
+      to   { opacity: 1; transform: translateX(0); }
     }
-    .plan-cta.secondary:hover {
+    @keyframes stepOut {
+      from { opacity: 1; transform: translateX(0); }
+      to   { opacity: 0; transform: translateX(-24px); }
+    }
+    .quiz-step.active.from-back { animation-name: stepInBack; }
+
+    .quiz-q-num {
+      font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .12em;
+      color: var(--gold); margin-bottom: 12px;
+    }
+    .quiz-question {
+      font-size: clamp(1.4rem, 3.5vw, 2rem); font-weight: 700;
+      letter-spacing: -.02em; margin: 0 0 36px; line-height: 1.25;
+    }
+
+    /* OPTIONS */
+    .quiz-options { display: flex; flex-direction: column; gap: 12px; }
+    .quiz-option {
+      display: flex; align-items: center; gap: 20px;
+      background: var(--bg-card); border: 1.5px solid var(--line);
+      border-radius: 16px; padding: 20px 24px;
+      text-align: left; cursor: pointer; font-family: inherit;
+      color: var(--ink); transition: all .2s ease; width: 100%;
+    }
+    .quiz-option:hover {
+      border-color: rgba(255,215,0,.35);
+      background: var(--bg-card-hover);
+      transform: translateX(4px);
+    }
+    .quiz-option.selected {
       border-color: var(--gold);
-      color: var(--gold);
-      text-decoration: none;
+      background: linear-gradient(90deg, rgba(255,215,0,.08) 0%, var(--bg-card) 100%);
     }
+    .opt-icon {
+      width: 44px; height: 44px; border-radius: 12px; flex-shrink: 0;
+      background: rgba(255,255,255,.06); display: flex; align-items: center;
+      justify-content: center; font-size: 1.1rem; color: var(--ink-2);
+      transition: all .2s;
+    }
+    .quiz-option:hover .opt-icon, .quiz-option.selected .opt-icon {
+      background: var(--gold-dim); color: var(--gold);
+    }
+    .opt-body { flex: 1; }
+    .opt-label { font-size: 1rem; font-weight: 600; display: block; margin-bottom: 2px; }
+    .opt-hint { font-size: .83rem; color: var(--ink-2); display: block; line-height: 1.4; }
 
-    /* Upgrade Section */
-    .upgrade-section {
-      padding: 100px 20px;
-      background: linear-gradient(180deg, var(--bg) 0%, #0a0b12 100%);
+    /* NAV BUTTONS */
+    .quiz-nav-row {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-top: 32px; gap: 12px;
     }
+    .quiz-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: transparent; border: 1.5px solid var(--line);
+      color: var(--ink-2); border-radius: 12px; padding: 12px 20px;
+      font-size: .9rem; font-weight: 600; font-family: inherit;
+      cursor: pointer; transition: all .2s ease;
+    }
+    .quiz-back:hover { border-color: var(--gold); color: var(--gold); }
+    .quiz-back:disabled { opacity: 0; pointer-events: none; }
+    .quiz-next {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--gold); color: #1a1a2e; border: none; border-radius: 12px;
+      padding: 13px 24px; font-size: .95rem; font-weight: 700; font-family: inherit;
+      cursor: pointer; transition: all .2s ease; opacity: .35; pointer-events: none;
+    }
+    .quiz-next.enabled { opacity: 1; pointer-events: all; }
+    .quiz-next.enabled:hover { background: #ffea80; transform: translateY(-1px); }
 
-    .upgrade-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 32px;
-      max-width: 900px;
-      margin: 0 auto;
-    }
-    @media (max-width: 768px) {
-      .upgrade-grid { grid-template-columns: 1fr }
-    }
-
-    .upgrade-card {
-      background: var(--bg-card);
-      border: 1px solid var(--line);
-      border-radius: 20px;
-      padding: 32px;
-      position: relative;
-    }
-    .upgrade-card::before {
-      content: '';
-      position: absolute;
-      top: 32px;
-      left: 0;
-      width: 4px;
-      height: 60px;
-      background: var(--gold);
-      border-radius: 0 4px 4px 0;
-    }
-
-    .upgrade-card h3 {
-      font-size: 1.1rem;
-      font-weight: 700;
-      margin: 0 0 16px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .upgrade-card h3 i {
-      color: var(--gold);
-      font-size: 1rem;
-    }
-
-    .upgrade-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-    .upgrade-list li {
-      position: relative;
-      padding: 10px 0 10px 24px;
-      font-size: 0.95rem;
-      color: var(--ink-2);
-      line-height: 1.5;
-    }
-    .upgrade-list li::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 18px;
-      width: 8px;
-      height: 8px;
-      background: var(--gold);
-      border-radius: 50%;
-    }
-
-    /* Comparison Table */
-    .comparison-section {
-      padding: 100px 20px;
-      background: var(--bg);
-    }
-
-    .comparison-table {
-      max-width: 1000px;
-      margin: 0 auto;
-      background: var(--bg-card);
-      border: 1px solid var(--line);
-      border-radius: 20px;
-      overflow: hidden;
-    }
-
-    .comparison-header {
-      display: grid;
-      grid-template-columns: 2fr repeat(3, 1fr);
-      background: rgba(255, 255, 255, 0.03);
-      border-bottom: 1px solid var(--line);
-    }
-    .comparison-header > div {
-      padding: 24px 20px;
-      text-align: center;
-      font-weight: 700;
-      font-size: 1.1rem;
-    }
-    .comparison-header > div:first-child {
-      text-align: left;
-      color: var(--ink-2);
-    }
-    .comparison-header .featured-col {
-      background: rgba(255, 215, 0, 0.08);
-      color: var(--gold);
-    }
-
-    .comparison-row {
-      display: grid;
-      grid-template-columns: 2fr repeat(3, 1fr);
-      border-bottom: 1px solid var(--line);
-    }
-    .comparison-row:last-child { border-bottom: none }
-    .comparison-row > div {
-      padding: 18px 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.95rem;
-    }
-    .comparison-row > div:first-child {
-      justify-content: flex-start;
-      color: var(--ink);
-    }
-    .comparison-row .featured-col {
-      background: rgba(255, 215, 0, 0.04);
-    }
-    .comparison-row i.fa-check { color: var(--gold) }
-    .comparison-row i.fa-minus { color: var(--muted) }
-
-    @media (max-width: 768px) {
-      .comparison-table { display: none }
-      .mobile-comparison { display: block }
-    }
-
-    /* Mobile Comparison Cards */
-    .mobile-comparison {
-      display: none;
-      max-width: 500px;
-      margin: 0 auto;
-    }
-    .mobile-plan-compare {
-      background: var(--bg-card);
-      border: 1px solid var(--line);
-      border-radius: 20px;
-      margin-bottom: 24px;
-      overflow: hidden;
-    }
-    .mobile-plan-compare.featured {
-      border-color: var(--gold);
-    }
-    .mobile-plan-header {
-      padding: 20px 24px;
-      background: rgba(255, 255, 255, 0.03);
-      border-bottom: 1px solid var(--line);
-      text-align: center;
-    }
-    .mobile-plan-compare.featured .mobile-plan-header {
-      background: rgba(255, 215, 0, 0.08);
-    }
-    .mobile-plan-header h4 {
-      margin: 0 0 4px;
-      font-size: 1.25rem;
-      font-weight: 700;
-    }
-    .mobile-plan-compare.featured .mobile-plan-header h4 {
-      color: var(--gold);
-    }
-    .mobile-plan-header .price {
-      font-size: 1.5rem;
-      font-weight: 800;
-    }
-    .mobile-plan-header .price span {
-      font-size: 0.9rem;
-      font-weight: 400;
-      color: var(--ink-2);
-    }
-    .mobile-feature-list {
-      padding: 20px 24px;
-    }
-    .mobile-feature-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 12px 0;
-      border-bottom: 1px solid var(--line);
-      font-size: 0.9rem;
-    }
-    .mobile-feature-row:last-child {
-      border-bottom: none;
-    }
-    .mobile-feature-row .label {
-      color: var(--ink-2);
-    }
-    .mobile-feature-row .value {
-      font-weight: 600;
-      color: var(--ink);
-    }
-    .mobile-feature-row i.fa-check {
-      color: var(--gold);
-    }
-    .mobile-feature-row i.fa-minus {
-      color: var(--muted);
-    }
-
-    /* CTA Section */
-    .cta-section {
-      padding: 100px 20px;
+    /* RESULT */
+    .result-section {
+      padding: 80px 20px 100px;
       background: linear-gradient(180deg, #0a0b12 0%, var(--bg) 100%);
     }
-
-    .cta-card {
-      max-width: 800px;
-      margin: 0 auto;
-      background: linear-gradient(135deg, #12141f 0%, #0c0d14 100%);
-      border: 1px solid var(--line-gold);
-      border-radius: 32px;
-      padding: 60px 48px;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
+    .result-wrap { max-width: 680px; margin: 0 auto; }
+    .result-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: .78rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em;
+      color: var(--gold); background: var(--gold-dim); border: 1px solid var(--line-gold);
+      border-radius: 999px; padding: 7px 16px; margin-bottom: 20px;
     }
+    .result-heading {
+      font-size: clamp(1.6rem,4vw,2.5rem); font-weight: 800;
+      letter-spacing: -.03em; margin: 0 0 10px;
+    }
+    .result-sub { font-size: 1.05rem; color: var(--ink-2); margin: 0 0 36px; line-height: 1.6; }
+    .result-card {
+      background: var(--bg-card); border-radius: 24px;
+      padding: 36px; margin-bottom: 20px; position: relative; overflow: hidden;
+    }
+    .result-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: var(--result-color, var(--gold));
+    }
+    .result-plan-name {
+      font-size: 1.8rem; font-weight: 800; margin: 0 0 4px;
+      color: var(--result-color, var(--gold));
+    }
+    .result-plan-price { font-size: 1.05rem; color: var(--ink-2); margin: 0 0 20px; }
+    .result-plan-tagline {
+      font-size: 1rem; color: var(--ink); line-height: 1.65;
+      padding: 16px 18px; background: rgba(255,255,255,.04); border-radius: 12px;
+      margin-bottom: 24px;
+    }
+    .result-features { list-style: none; padding: 0; margin: 0 0 28px; }
+    .result-features li {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 10px 0; border-bottom: 1px solid var(--line);
+      font-size: .97rem; color: var(--ink);
+    }
+    .result-features li:last-child { border-bottom: none; }
+    .result-features li i { color: var(--result-color, var(--gold)); font-size: .85rem; margin-top: 4px; flex-shrink: 0; }
+    .result-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+    .result-cta {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--gold); color: #1a1a2e; border-radius: 12px;
+      padding: 14px 28px; font-weight: 700; font-size: .97rem; transition: all .2s;
+    }
+    .result-cta:hover { background: #ffea80; transform: translateY(-1px); color: #1a1a2e; text-decoration: none; }
+    .result-cta.secondary {
+      background: transparent; color: var(--ink);
+      border: 1.5px solid var(--line);
+    }
+    .result-cta.secondary:hover { border-color: var(--gold); color: var(--gold); }
+    .result-retake {
+      text-align: center; margin-top: 20px;
+      font-size: .88rem; color: var(--ink-2);
+    }
+    .result-retake button {
+      background: none; border: none; color: var(--gold); font-family: inherit;
+      font-size: .88rem; font-weight: 600; cursor: pointer; padding: 0;
+      text-decoration: underline; transition: opacity .2s;
+    }
+    .result-retake button:hover { opacity: .8; }
+
+    /* PLANS SECTION */
+    .plans-section { padding: 100px 20px; background: var(--bg); }
+    .section-header { text-align: center; margin-bottom: 56px; }
+    .section-header h2 { font-size: clamp(1.9rem,5vw,2.8rem); font-weight: 800; margin: 0 0 14px; letter-spacing: -.02em; }
+    .section-header p { color: var(--ink-2); font-size: 1.1rem; max-width: 520px; margin: 0 auto; }
+    .plans-grid {
+      display: grid; grid-template-columns: repeat(3,1fr); gap: 24px;
+      max-width: 1100px; margin: 0 auto;
+    }
+    @media (max-width: 992px) { .plans-grid { grid-template-columns: 1fr } }
+    .plan-card {
+      background: var(--bg-card); border: 1px solid var(--line);
+      border-radius: 24px; padding: 40px 32px; position: relative; transition: all .3s ease;
+    }
+    .plan-card:hover { border-color: var(--line-gold); transform: translateY(-4px); }
+    .plan-card.featured {
+      border-color: var(--gold);
+      background: linear-gradient(180deg, rgba(255,215,0,.05) 0%, var(--bg-card) 100%);
+    }
+    .plan-card.featured::before {
+      content: ''; position: absolute; top: 0; left: 40px; right: 40px; height: 3px;
+      background: linear-gradient(90deg,transparent,var(--gold),transparent);
+    }
+    .plan-badge {
+      position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+      background: var(--gold); color: #1a1a2e; padding: 6px 16px; border-radius: 100px;
+      font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .05em;
+    }
+    .plan-header { text-align: center; margin-bottom: 28px; padding-bottom: 24px; border-bottom: 1px solid var(--line); }
+    .plan-name { font-size: 1.5rem; font-weight: 800; margin: 0 0 6px; }
+    .plan-tagline { font-size: .93rem; color: var(--ink-2); margin: 0 0 18px; }
+    .plan-price { font-size: 3rem; font-weight: 800; line-height: 1; }
+    .plan-price span { font-size: 1rem; font-weight: 500; color: var(--ink-2); }
+    .plan-ideal { background: rgba(255,255,255,.03); border-radius: 12px; padding: 16px; margin-bottom: 22px; }
+    .plan-ideal-label { font-size: .73rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--gold); margin-bottom: 6px; }
+    .plan-ideal p { font-size: .9rem; color: var(--ink-2); margin: 0; line-height: 1.55; }
+    .plan-features { list-style: none; padding: 0; margin: 0 0 28px; }
+    .plan-features li { display: flex; align-items: flex-start; gap: 12px; padding: 11px 0; font-size: .93rem; color: var(--ink); border-bottom: 1px solid var(--line); }
+    .plan-features li:last-child { border-bottom: none }
+    .plan-features li i { color: var(--gold); font-size: .85rem; margin-top: 4px; flex-shrink: 0; }
+    .plan-cta { display: block; width: 100%; text-align: center; padding: 15px; border-radius: 14px; font-weight: 700; font-size: .97rem; transition: all .2s ease; }
+    .plan-cta.primary { background: var(--gold); color: #1a1a2e; }
+    .plan-cta.primary:hover { background: #ffea80; transform: translateY(-2px); text-decoration: none; color: #1a1a2e; }
+    .plan-cta.secondary { background: rgba(255,255,255,.05); color: #fff; border: 1px solid var(--line); }
+    .plan-cta.secondary:hover { border-color: var(--gold); color: var(--gold); text-decoration: none; }
+
+    /* UPGRADE SECTION */
+    .upgrade-section { padding: 100px 20px; background: linear-gradient(180deg,var(--bg) 0%,#0a0b12 100%); }
+    .upgrade-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 28px; max-width: 900px; margin: 0 auto; }
+    @media (max-width: 768px) { .upgrade-grid { grid-template-columns: 1fr } }
+    .upgrade-card { background: var(--bg-card); border: 1px solid var(--line); border-radius: 20px; padding: 32px; position: relative; }
+    .upgrade-card::before { content: ''; position: absolute; top: 32px; left: 0; width: 4px; height: 56px; background: var(--gold); border-radius: 0 4px 4px 0; }
+    .upgrade-card h3 { font-size: 1.05rem; font-weight: 700; margin: 0 0 16px; display: flex; align-items: center; gap: 12px; }
+    .upgrade-card h3 i { color: var(--gold); }
+    .upgrade-list { list-style: none; padding: 0; margin: 0; }
+    .upgrade-list li { position: relative; padding: 9px 0 9px 22px; font-size: .93rem; color: var(--ink-2); line-height: 1.55; }
+    .upgrade-list li::before { content: ''; position: absolute; left: 0; top: 17px; width: 7px; height: 7px; background: var(--gold); border-radius: 50%; }
+
+    /* CTA SECTION */
+    .cta-section { padding: 100px 20px; background: linear-gradient(180deg,#0a0b12 0%,var(--bg) 100%); }
+    .cta-card {
+      max-width: 740px; margin: 0 auto;
+      background: linear-gradient(135deg, #12141f 0%, #0c0d14 100%);
+      border: 1px solid var(--line-gold); border-radius: 32px;
+      padding: 60px 48px; text-align: center; position: relative; overflow: hidden;
+    }
+    @media (max-width: 600px) { .cta-card { padding: 40px 24px; } }
     .cta-card::before {
-      content: '';
-      position: absolute;
-      top: -100px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 400px;
-      height: 400px;
-      background: radial-gradient(circle, rgba(255, 215, 0, 0.1) 0%, transparent 60%);
+      content: ''; position: absolute; top: -100px; left: 50%; transform: translateX(-50%);
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(255,215,0,.1) 0%, transparent 60%);
       pointer-events: none;
     }
+    .cta-card h2 { font-size: clamp(1.6rem,4vw,2.4rem); font-weight: 800; margin: 0 0 14px; position: relative; }
+    .cta-card p { color: var(--ink-2); font-size: 1.05rem; max-width: 480px; margin: 0 auto 30px; position: relative; line-height: 1.65; }
 
-    .cta-card h2 {
-      font-size: clamp(1.75rem, 4vw, 2.5rem);
-      font-weight: 800;
-      margin: 0 0 16px;
-      position: relative;
-    }
-    .cta-card p {
-      color: var(--ink-2);
-      font-size: 1.1rem;
-      max-width: 500px;
-      margin: 0 auto 32px;
-      position: relative;
-    }
-    .cta-card .btn-brand {
-      position: relative;
-    }
+    /* FOOTER */
+    footer { background: #000; padding: 60px 20px 40px; border-top: 1px solid var(--line); }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; max-width: 1100px; margin: 0 auto 48px; }
+    @media (max-width: 768px) { .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; } }
+    @media (max-width: 480px) { .footer-grid { grid-template-columns: 1fr; gap: 28px; } }
+    .footer-brand { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+    .footer-brand img { height: 32px; }
+    .footer-brand span { font-weight: 700; font-size: 1.1rem; }
+    .footer-tagline { color: var(--ink-2); font-size: .9rem; line-height: 1.6; margin-bottom: 20px; max-width: 280px; }
+    .footer-social { display: flex; gap: 12px; }
+    .footer-social a { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; background: rgba(255,255,255,.06); border-radius: 10px; color: var(--ink-2); font-size: 1rem; transition: all .2s; }
+    .footer-social a:hover { background: var(--gold); color: #1a1a2e; }
+    .footer-col h5 { font-size: .85rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--ink); margin: 0 0 16px; }
+    .footer-col ul { list-style: none; padding: 0; margin: 0; }
+    .footer-col li { margin-bottom: 10px; }
+    .footer-col a { color: var(--ink-2); font-size: .9rem; transition: color .2s; }
+    .footer-col a:hover { color: var(--gold); }
+    .footer-bottom { max-width: 1100px; margin: 0 auto; padding-top: 24px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+    .footer-bottom p { color: var(--muted); font-size: .85rem; margin: 0; }
+    .footer-legal { display: flex; gap: 24px; }
+    .footer-legal a { color: var(--muted); font-size: .85rem; transition: color .2s; }
+    .footer-legal a:hover { color: var(--gold); }
+    @media (max-width: 600px) { .footer-bottom { flex-direction: column; text-align: center; } }
 
-    /* Footer */
-    footer {
-      background: #000;
-      padding: 60px 20px 40px;
-      border-top: 1px solid var(--line);
-    }
-    .footer-grid {
-      display: grid;
-      grid-template-columns: 2fr 1fr 1fr 1fr;
-      gap: 48px;
-      max-width: 1100px;
-      margin: 0 auto 48px;
-      text-align: left;
-    }
-    @media (max-width: 768px) {
-      .footer-grid {
-        grid-template-columns: 1fr 1fr;
-        gap: 32px;
-      }
-    }
-    @media (max-width: 480px) {
-      .footer-grid {
-        grid-template-columns: 1fr;
-        gap: 28px;
-      }
-    }
-    .footer-brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 16px;
-    }
-    .footer-brand img {
-      height: 32px;
-    }
-    .footer-brand span {
-      font-weight: 700;
-      font-size: 1.1rem;
-    }
-    .footer-tagline {
-      color: var(--ink-2);
-      font-size: 0.9rem;
-      line-height: 1.6;
-      margin-bottom: 20px;
-      max-width: 280px;
-    }
-    .footer-social {
-      display: flex;
-      gap: 12px;
-    }
-    .footer-social a {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 36px;
-      height: 36px;
-      background: rgba(255, 255, 255, 0.06);
-      border-radius: 10px;
-      color: var(--ink-2);
-      font-size: 1rem;
-      transition: all 0.2s ease;
-    }
-    .footer-social a:hover {
-      background: var(--gold);
-      color: #1a1a2e;
-    }
-    .footer-col h5 {
-      font-size: 0.85rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--ink);
-      margin: 0 0 16px;
-    }
-    .footer-col ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-    .footer-col li {
-      margin-bottom: 10px;
-    }
-    .footer-col a {
-      color: var(--ink-2);
-      font-size: 0.9rem;
-      transition: color 0.2s ease;
-    }
-    .footer-col a:hover {
-      color: var(--gold);
-    }
-    .footer-bottom {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding-top: 24px;
-      border-top: 1px solid var(--line);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 16px;
-    }
-    .footer-bottom p {
-      color: var(--muted);
-      font-size: 0.85rem;
-      margin: 0;
-    }
-    .footer-legal {
-      display: flex;
-      gap: 24px;
-    }
-    .footer-legal a {
-      color: var(--muted);
-      font-size: 0.85rem;
-      transition: color 0.2s ease;
-    }
-    .footer-legal a:hover {
-      color: var(--gold);
-    }
-    @media (max-width: 600px) {
-      .footer-bottom {
-        flex-direction: column;
-        text-align: center;
-      }
-    }
-
-    /* Animations */
-    .reveal {
-      opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
-    }
-    .reveal.in {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    .reveal-delay-1 { transition-delay: 0.1s }
-    .reveal-delay-2 { transition-delay: 0.2s }
-    .reveal-delay-3 { transition-delay: 0.3s }
-
-    /* Info Button */
-    .info-btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 18px;
-      height: 18px;
-      border-radius: 50%;
-      background: rgba(255, 215, 0, 0.2);
-      border: 1px solid var(--gold);
-      color: var(--gold);
-      font-size: 10px;
-      font-weight: 700;
-      cursor: pointer;
-      margin-left: 6px;
-      transition: all 0.2s ease;
-    }
-    .info-btn:hover {
-      background: var(--gold);
-      color: #1a1a2e;
-      transform: scale(1.1);
-    }
-
-    /* Modal */
-    .modal-overlay {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.85);
-      z-index: 10000;
-      animation: fadeIn 0.2s ease;
-    }
-    .modal-overlay.active {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .modal-content {
-      background: var(--bg-card);
-      border: 1px solid var(--line-gold);
-      border-radius: 24px;
-      padding: 40px;
-      max-width: 500px;
-      width: 90%;
-      position: relative;
-      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.6);
-      animation: slideUp 0.3s ease;
-    }
-    .modal-close {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      background: transparent;
-      border: none;
-      color: #fff;
-      font-size: 28px;
-      cursor: pointer;
-      opacity: 0.6;
-      transition: opacity 0.2s ease;
-      line-height: 1;
-      padding: 0;
-    }
-    .modal-close:hover { opacity: 1 }
-    .modal-content h3 {
-      font-weight: 800;
-      font-size: 1.5rem;
-      margin-bottom: 16px;
-      color: var(--gold);
-    }
-    .modal-content ul {
-      list-style: none;
-      padding: 0;
-      margin: 20px 0;
-    }
-    .modal-content li {
-      margin-bottom: 14px;
-      color: var(--ink-2);
-      font-size: 0.95rem;
-      display: flex;
-      align-items: flex-start;
-    }
-    .modal-content li::before {
-      content: "\f00c";
-      font-family: "Font Awesome 6 Free";
-      font-weight: 900;
-      color: var(--gold);
-      margin-right: 12px;
-      flex-shrink: 0;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0 }
-      to { opacity: 1 }
-    }
-    @keyframes slideUp {
-      from { opacity: 0; transform: translateY(20px) }
-      to { opacity: 1; transform: translateY(0) }
-    }
+    /* REVEAL */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s ease; }
+    .reveal.in { opacity: 1; transform: translateY(0); }
+    .reveal-d1 { transition-delay: .1s }
+    .reveal-d2 { transition-delay: .2s }
+    .reveal-d3 { transition-delay: .3s }
   </style>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   "itemListElement": [
-    {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://webeaze.com/"},
-    {"@type": "ListItem", "position": 2, "name": "Plan Guide", "item": "https://webeaze.com/plan-guide.html"}
+    {"@type":"ListItem","position":1,"name":"Home","item":"https://webeaze.com/"},
+    {"@type":"ListItem","position":2,"name":"Plan Guide","item":"https://webeaze.com/plan-guide.html"}
   ]
 }
 </script>
@@ -997,135 +433,244 @@
 <!-- HERO -->
 <header class="hero">
   <div class="hero-content">
-    <h1 class="headline reveal reveal-delay-1">
-      Find your <span>perfect</span> plan.
-    </h1>
-    <p class="sub reveal reveal-delay-2">
-      Choose the plan that matches your business today. Start simple, upgrade when you're ready.
-    </p>
-    <div class="hero-cta reveal reveal-delay-3">
-      <a href="#quiz" class="btn-brand">
-        <i class="fas fa-play"></i> Start Guide
-      </a>
-      <a href="consultation.html" class="btn-outline">
-        <i class="fas fa-calendar"></i> Talk to Us
-      </a>
+    <p class="kicker"><i class="fas fa-compass"></i> Plan Guide</p>
+    <h1 class="headline">Find your <span>perfect plan.</span></h1>
+    <p class="sub">Answer 4 quick questions and we'll recommend the best plan for where your business is right now.</p>
+    <div class="hero-cta">
+      <a href="#quiz" class="btn-brand"><i class="fas fa-play"></i> Start the Guide</a>
+      <a href="pricing.html" class="btn-outline"><i class="fas fa-tag"></i> View All Plans</a>
     </div>
   </div>
 </header>
 
-<!-- QUIZ SECTION -->
+<!-- QUIZ -->
 <section id="quiz" class="quiz-section">
-  <div class="container container-narrow">
-    <div class="section-header reveal">
-      <h2>Where are you right now?</h2>
-      <p>Your plan should match your current stage, not your dream one. Find your fit.</p>
+  <div class="quiz-container">
+
+    <!-- Progress dots -->
+    <div class="quiz-progress-wrap" id="quizProgressWrap">
+      <div class="quiz-progress-steps" id="quizDots">
+        <div class="quiz-step-dot active" data-dot="0"></div>
+        <div class="quiz-step-dot" data-dot="1"></div>
+        <div class="quiz-step-dot" data-dot="2"></div>
+        <div class="quiz-step-dot" data-dot="3"></div>
+      </div>
+      <div class="quiz-progress-label" id="quizProgressLabel">Question 1 of 4</div>
     </div>
 
-    <div class="quiz-cards">
-      <a href="#essential" class="quiz-card essential reveal">
-        <div class="quiz-icon"><i class="fas fa-seedling"></i></div>
-        <h3>"I just need something clean and professional to get started."</h3>
-        <div class="quiz-result"><i class="fas fa-arrow-right"></i> Essential</div>
-      </a>
-
-      <a href="#growth" class="quiz-card growth reveal reveal-delay-1">
-        <div class="quiz-icon"><i class="fas fa-rocket"></i></div>
-        <h3>"I'm growing and need ongoing support, analytics, and momentum."</h3>
-        <div class="quiz-result"><i class="fas fa-arrow-right"></i> Growth</div>
-      </a>
-
-      <a href="contact-us.html" class="quiz-card elite reveal reveal-delay-2">
-        <div class="quiz-icon"><i class="fas fa-crown"></i></div>
-        <h3>"We're scaling fast and need something custom or beyond the standard plans."</h3>
-        <div class="quiz-result"><i class="fas fa-arrow-right"></i> Let's Talk</div>
-      </a>
+    <!-- Step 1 -->
+    <div class="quiz-step active" id="step-0">
+      <div class="quiz-q-num">Question 1 of 4</div>
+      <h2 class="quiz-question">How many pages does your site need?</h2>
+      <div class="quiz-options">
+        <button class="quiz-option" data-value="0" data-score="essential">
+          <span class="opt-icon"><i class="fas fa-file"></i></span>
+          <span class="opt-body">
+            <span class="opt-label">1 to 3 pages</span>
+            <span class="opt-hint">Home, About, Contact — clean and focused</span>
+          </span>
+        </button>
+        <button class="quiz-option" data-value="1" data-score="growth">
+          <span class="opt-icon"><i class="fas fa-layer-group"></i></span>
+          <span class="opt-body">
+            <span class="opt-label">4 to 6 pages</span>
+            <span class="opt-hint">Plus Services, Gallery, Team, or more</span>
+          </span>
+        </button>
+        <button class="quiz-option" data-value="2" data-score="custom">
+          <span class="opt-icon"><i class="fas fa-infinity"></i></span>
+          <span class="opt-body">
+            <span class="opt-label">7 or more</span>
+            <span class="opt-hint">Large site or not sure yet</span>
+          </span>
+        </button>
+      </div>
     </div>
+
+    <!-- Step 2 -->
+    <div class="quiz-step" id="step-1">
+      <div class="quiz-q-num">Question 2 of 4</div>
+      <h2 class="quiz-question">How often do you expect to need changes?</h2>
+      <div class="quiz-options">
+        <button class="quiz-option" data-value="0" data-score="essential">
+          <span class="opt-icon"><i class="fas fa-calendar"></i></span>
+          <span class="opt-body">
+            <span class="opt-label">A few times a year</span>
+            <span class="opt-hint">Seasonal updates, nothing urgent</span>
+          </span>
+        </button>
+        <button class="quiz-option" data-value="1" data-score="growth">
+          <span class="opt-icon"><i class="fas fa-rotate"></i></span>
+          <span class="opt-body">
+            <span class="opt-label">Monthly or more</span>
+            <span class="opt-hint">New offers, promotions, fresh content</span>
+          </span>
+        </button>
+        <button class="quiz-option" data-value="2" data-score="custom">
+          <span class="opt-icon"><i class="fas fa-bolt"></i></span>
+          <span class="opt-body">
+            <span class="opt-label">Frequently — sometimes same week</span>
+            <span class="opt-hint">Fast-moving business, high traffic, constant updates</span>
+          </span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="quiz-step" id="step-2">
+      <div class="quiz-q-num">Question 3 of 4</div>
+      <h2 class="quiz-question">What kind of support do you want access to?</h2>
+      <div class="quiz-options">
+        <button class="quiz-option" data-value="0" data-score="essential">
+          <span class="opt-icon"><i class="fas fa-envelope"></i></span>
+          <span class="opt-body">
+            <span class="opt-label">Email is fine</span>
+            <span class="opt-hint">I'll send a message and wait for a reply</span>
+          </span>
+        </button>
+        <button class="quiz-option" data-value="1" data-score="growth">
+          <span class="opt-icon"><i class="fas fa-phone"></i></span>
+          <span class="opt-body">
+            <span class="opt-label">Phone, video call, or live chat</span>
+            <span class="opt-hint">I want to be able to talk to someone quickly</span>
+          </span>
+        </button>
+        <button class="quiz-option" data-value="2" data-score="custom">
+          <span class="opt-icon"><i class="fas fa-user-tie"></i></span>
+          <span class="opt-body">
+            <span class="opt-label">Dedicated account manager</span>
+            <span class="opt-hint">One person who knows my business, always on call</span>
+          </span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Step 4 -->
+    <div class="quiz-step" id="step-3">
+      <div class="quiz-q-num">Question 4 of 4</div>
+      <h2 class="quiz-question">Which of these matters most to you?</h2>
+      <div class="quiz-options">
+        <button class="quiz-option" data-value="0" data-score="essential">
+          <span class="opt-icon"><i class="fas fa-star"></i></span>
+          <span class="opt-body">
+            <span class="opt-label">A clean, professional website</span>
+            <span class="opt-hint">I mainly want to look credible and be found online</span>
+          </span>
+        </button>
+        <button class="quiz-option" data-value="1" data-score="growth">
+          <span class="opt-icon"><i class="fas fa-chart-line"></i></span>
+          <span class="opt-body">
+            <span class="opt-label">Performance reports &amp; Google Business</span>
+            <span class="opt-hint">I want to track results and grow local visibility</span>
+          </span>
+        </button>
+        <button class="quiz-option" data-value="2" data-score="custom">
+          <span class="opt-icon"><i class="fas fa-puzzle-piece"></i></span>
+          <span class="opt-body">
+            <span class="opt-label">E-commerce, bookings, or custom integrations</span>
+            <span class="opt-hint">I need features beyond a standard managed website</span>
+          </span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Nav row -->
+    <div class="quiz-nav-row" id="quizNavRow">
+      <button class="quiz-back" id="quizBack" disabled><i class="fas fa-arrow-left"></i> Back</button>
+      <button class="quiz-next" id="quizNext">Next <i class="fas fa-arrow-right"></i></button>
+    </div>
+
   </div>
 </section>
 
-<!-- PLANS SECTION -->
+<!-- RESULT (shown after quiz) -->
+<section class="result-section" id="resultSection" style="display:none;">
+  <div class="result-wrap">
+    <div class="result-badge"><i class="fas fa-check-circle"></i> Your recommendation</div>
+    <h2 class="result-heading" id="resultHeading"></h2>
+    <p class="result-sub" id="resultSub"></p>
+    <div class="result-card" id="resultCard">
+      <div class="result-plan-name" id="resultPlanName"></div>
+      <div class="result-plan-price" id="resultPlanPrice"></div>
+      <div class="result-plan-tagline" id="resultPlanTagline"></div>
+      <ul class="result-features" id="resultFeatures"></ul>
+      <div class="result-actions" id="resultActions"></div>
+    </div>
+    <p class="result-retake">Not quite right? <button id="retakeBtn">Retake the quiz</button></p>
+  </div>
+</section>
+
+<!-- PLANS COMPARISON -->
 <section class="plans-section">
   <div class="container container-narrow">
     <div class="section-header reveal">
-      <h2>Compare Plans</h2>
-      <p>Everything you need to make the right choice for your business.</p>
+      <h2>All Plans</h2>
+      <p>Compare everything side by side.</p>
     </div>
-
     <div class="plans-grid">
-      <!-- Essential -->
-      <div id="essential" class="plan-card reveal">
+
+      <div class="plan-card reveal">
         <div class="plan-header">
           <h3 class="plan-name">Essential</h3>
           <p class="plan-tagline">Launch your online presence</p>
           <div class="plan-price">$169<span>/mo</span></div>
         </div>
-
         <div class="plan-ideal">
           <div class="plan-ideal-label">Ideal for</div>
           <p>New businesses, solopreneurs, or anyone who needs a clean, credible website without the complexity.</p>
         </div>
-
         <ul class="plan-features">
           <li><i class="fas fa-check"></i> Up to 3 pages</li>
           <li><i class="fas fa-check"></i> Mobile responsive design</li>
           <li><i class="fas fa-check"></i> Domain included</li>
-          <li><i class="fas fa-check"></i> Hosting included*</li>
-          <li><i class="fas fa-check"></i> Unlimited updates</li>
+          <li><i class="fas fa-check"></i> Hosting included</li>
+          <li><i class="fas fa-check"></i> Unlimited content updates</li>
           <li><i class="fas fa-check"></i> Email support</li>
         </ul>
-
         <a href="consultation.html" class="plan-cta secondary">Get Started</a>
       </div>
 
-      <!-- Growth -->
-      <div id="growth" class="plan-card featured reveal reveal-delay-1">
+      <div class="plan-card featured reveal reveal-d1">
         <div class="plan-badge">Most Popular</div>
         <div class="plan-header">
           <h3 class="plan-name">Growth</h3>
           <p class="plan-tagline">Build momentum and visibility</p>
           <div class="plan-price">$249<span>/mo</span></div>
         </div>
-
         <div class="plan-ideal">
           <div class="plan-ideal-label">Ideal for</div>
           <p>Growing businesses that want analytics, multiple support channels, and ongoing optimization.</p>
         </div>
-
         <ul class="plan-features">
           <li><i class="fas fa-check"></i> Up to 6 pages</li>
-          <li><i class="fas fa-check"></i> Total Access Support<span class="info-btn" onclick="openModal()">i</span></li>
+          <li><i class="fas fa-check"></i> Total Access Support (phone, video, chat)</li>
           <li><i class="fas fa-check"></i> Monthly performance reports</li>
-          <li><i class="fas fa-check"></i> Google Business Profile setup</li>
-          <li><i class="fas fa-check"></i> Hosting covered**</li>
-          <li><i class="fas fa-check"></i> Priority response</li>
+          <li><i class="fas fa-check"></i> Google Business Profile management</li>
+          <li><i class="fas fa-check"></i> Hosting credit included</li>
+          <li><i class="fas fa-check"></i> Priority response time</li>
         </ul>
-
         <a href="consultation.html" class="plan-cta primary">Get Started</a>
       </div>
 
-      <!-- Custom -->
-      <div id="custom" class="plan-card reveal reveal-delay-2" style="border-color:rgba(255,255,255,.1);opacity:.85;">
+      <div class="plan-card reveal reveal-d2" style="border-color:rgba(255,255,255,.07);opacity:.9;">
         <div class="plan-header">
           <h3 class="plan-name" style="color:var(--muted);">Custom</h3>
           <p class="plan-tagline">Beyond standard plans</p>
           <div class="plan-price" style="font-size:2rem;color:var(--muted);">Let's Talk</div>
         </div>
-
         <div class="plan-ideal">
           <div class="plan-ideal-label">Ideal for</div>
-          <p>Larger or complex projects — e-commerce, advanced integrations, or needs beyond the Growth plan.</p>
+          <p>Larger or complex projects — e-commerce, advanced integrations, or needs that go beyond Growth.</p>
         </div>
-
         <ul class="plan-features">
           <li><i class="fas fa-check"></i> Custom project scoping</li>
-          <li><i class="fas fa-check"></i> E-commerce & integrations</li>
+          <li><i class="fas fa-check"></i> E-commerce &amp; integrations</li>
           <li><i class="fas fa-check"></i> Same-day turnaround available</li>
           <li><i class="fas fa-check"></i> Dedicated account management</li>
         </ul>
-
         <a href="contact-us.html" class="plan-cta secondary">Contact Us</a>
       </div>
+
     </div>
   </div>
 </section>
@@ -1137,25 +682,23 @@
       <h2>When to Upgrade</h2>
       <p>You'll know it's time. Here are the signs.</p>
     </div>
-
     <div class="upgrade-grid">
       <div class="upgrade-card reveal">
         <h3><i class="fas fa-arrow-up"></i> Essential to Growth</h3>
         <ul class="upgrade-list">
-          <li>You're posting content or running ads consistently</li>
-          <li>You want to track leads, conversions, or marketing ROI</li>
-          <li>You need faster support with live chat or video calls</li>
-          <li>Your business has grown beyond a basic web presence</li>
+          <li>You're running ads or posting content consistently</li>
+          <li>You want to track leads, visits, or conversions</li>
+          <li>You need faster or more personal support options</li>
+          <li>Your business has outgrown a 3-page presence</li>
         </ul>
       </div>
-
-      <div class="upgrade-card reveal reveal-delay-1">
-        <h3><i class="fas fa-arrow-up"></i> Growth to Elite</h3>
+      <div class="upgrade-card reveal reveal-d1">
+        <h3><i class="fas fa-arrow-up"></i> Growth to Custom</h3>
         <ul class="upgrade-list">
-          <li>Your brand is expanding with new offers or services</li>
-          <li>You need frequent, priority, or same-day updates</li>
-          <li>Your website directly drives significant revenue</li>
-          <li>You want dedicated support and advanced analytics</li>
+          <li>You need an online store or booking system</li>
+          <li>You require custom integrations with third-party tools</li>
+          <li>Your site directly drives a significant portion of revenue</li>
+          <li>You need same-day availability or a dedicated contact</li>
         </ul>
       </div>
     </div>
@@ -1167,10 +710,8 @@
   <div class="container container-narrow">
     <div class="cta-card reveal">
       <h2>Still not sure?</h2>
-      <p>Let's chat. We'll show you a free mockup, walk through your options, and help you pick the right plan. No pressure.</p>
-      <a href="consultation.html" class="btn-brand">
-        <i class="fas fa-magic"></i> Request Free Mockup
-      </a>
+      <p>We'll show you a free mockup, walk through your options, and help you pick the right plan. No pressure, no commitment.</p>
+      <a href="consultation.html" class="btn-brand"><i class="fas fa-magic"></i> Request Free Mockup</a>
     </div>
   </div>
 </section>
@@ -1178,7 +719,7 @@
 <!-- FOOTER -->
 <footer>
   <div class="footer-grid">
-    <div class="footer-about">
+    <div>
       <div class="footer-brand">
         <img loading="eager" src="images/webeaze-transparent-copy.png" alt="WebEaze">
         <span>WebEaze</span>
@@ -1190,7 +731,6 @@
         <a href="https://instagram.com/webeaze.io" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
       </div>
     </div>
-
     <div class="footer-col">
       <h5>Services</h5>
       <ul>
@@ -1199,7 +739,6 @@
         <li><a href="plan-guide.html">Plan Guide</a></li>
       </ul>
     </div>
-
     <div class="footer-col">
       <h5>Company</h5>
       <ul>
@@ -1209,7 +748,6 @@
         <li><a href="contact-us.html">Contact</a></li>
       </ul>
     </div>
-
     <div class="footer-col">
       <h5>Support</h5>
       <ul>
@@ -1220,12 +758,10 @@
       </ul>
     </div>
   </div>
-
-  <p style="font-size: 0.8rem; color: var(--muted); max-width: 600px; margin: 0 auto 20px; text-align: center;">
-    *Essential plan: domain and hosting covered on GitHub Pages. If using another hosting provider, you are responsible for that hosting cost.<br>
-    **Growth plan includes a $100 annual credit toward domain and hosting costs combined. Costs beyond the credit are your responsibility. See our <a href="https://webeaze.io/help#/domain-and-hosting-credit">Hosting Policy</a> for details.
+  <p style="font-size:.8rem;color:var(--muted);max-width:600px;margin:0 auto 20px;text-align:center;">
+    *Essential plan: domain and hosting covered on GitHub Pages. If using another hosting provider, you are responsible for that cost.<br>
+    **Growth plan includes a $100 annual credit toward domain and hosting costs. Costs beyond the credit are your responsibility. See our <a href="https://webeaze.io/help#/domain-and-hosting-credit">Hosting Policy</a> for details.
   </p>
-
   <div class="footer-bottom">
     <p style="color:#fff">&copy; <span id="yr"></span> WebEaze. Made in Delaware, USA 🇺🇸</p>
     <div class="footer-legal">
@@ -1236,83 +772,235 @@
   </div>
 </footer>
 
-<!-- MODAL -->
-<div id="supportModal" class="modal-overlay" onclick="closeModal(event)">
-  <div class="modal-content" onclick="event.stopPropagation()">
-    <button class="modal-close" onclick="closeModal()">&times;</button>
-    <h3>Total Access Support</h3>
-    <p style="color: var(--ink-2); margin-bottom: 20px;">Get help whenever you need it through multiple channels:</p>
-    <ul>
-      <li>Unlimited email support with priority response</li>
-      <li>Google Meet video calls for screen sharing and walkthroughs</li>
-      <li>Live chat during business hours for quick questions</li>
-      <li>Phone support for urgent issues</li>
-    </ul>
-    <p style="color: var(--ink-2); font-size: 0.9rem; opacity: 0.8; margin-top: 20px;">Available for Growth and Elite plan clients. We're here to help you succeed.</p>
-  </div>
-</div>
-
-<!-- JS -->
 <script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
-  // Nav hide on scroll
-  (function() {
-    var nav = document.querySelector('.nav-wrap');
-    var lastScroll = 0;
-    window.addEventListener('scroll', function() {
-      var st = window.pageYOffset;
-      if (st > lastScroll && st > 100) {
-        nav.classList.add('nav-hidden');
-      } else {
-        nav.classList.remove('nav-hidden');
-      }
-      lastScroll = st <= 0 ? 0 : st;
-    }, { passive: true });
-  })();
+/* ── NAV HIDE ── */
+(function() {
+  var nav = document.querySelector('.nav-wrap'), last = 0;
+  window.addEventListener('scroll', function() {
+    var st = window.pageYOffset;
+    nav.classList.toggle('nav-hidden', st > last && st > 100);
+    last = st <= 0 ? 0 : st;
+  }, { passive: true });
+})();
 
-  // Reveal on scroll
-  (function() {
-    var els = document.querySelectorAll('.reveal');
-    if (!els.length) return;
+/* ── REVEAL ── */
+(function() {
+  var els = document.querySelectorAll('.reveal');
+  if (!('IntersectionObserver' in window)) { els.forEach(function(e){e.classList.add('in');}); return; }
+  var io = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) { entry.target.classList.add('in'); io.unobserve(entry.target); }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+  els.forEach(function(el) { io.observe(el); });
+})();
 
-    if (!('IntersectionObserver' in window)) {
-      els.forEach(function(e) { e.classList.add('in'); });
-      return;
+/* ── QUIZ ── */
+(function() {
+  var TOTAL = 4;
+  var currentStep = 0;
+  var answers = new Array(TOTAL).fill(null); // each: { value, score }
+  var goingBack = false;
+
+  var steps      = document.querySelectorAll('.quiz-step');
+  var dots       = document.querySelectorAll('.quiz-step-dot');
+  var label      = document.getElementById('quizProgressLabel');
+  var backBtn    = document.getElementById('quizBack');
+  var nextBtn    = document.getElementById('quizNext');
+  var resultSec  = document.getElementById('resultSection');
+  var quizSec    = document.getElementById('quiz');
+  var retakeBtn  = document.getElementById('retakeBtn');
+
+  /* Result data */
+  var RESULTS = {
+    essential: {
+      color: '#60a5fa',
+      heading: 'We recommend Essential.',
+      sub: 'Based on your answers, the Essential plan covers everything you need right now without paying for features you won\'t use.',
+      name: 'Essential', price: '$169 / month',
+      tagline: 'A clean, professional website — built, hosted, and managed for you.',
+      features: [
+        'Up to 3 pages, fully custom designed',
+        'Mobile-responsive and fast',
+        'Domain included',
+        'Hosting included',
+        'Unlimited content updates',
+        'Email support'
+      ],
+      ctaText: 'Get Started with Essential', ctaHref: 'consultation.html',
+      altText: 'Compare all plans', altHref: 'pricing.html'
+    },
+    growth: {
+      color: '#ffd700',
+      heading: 'We recommend Growth.',
+      sub: 'Your answers point to a business that\'s actively growing. Growth gives you the pages, support, and tools to keep up.',
+      name: 'Growth', price: '$249 / month',
+      tagline: 'More pages, better support, performance tracking, and local visibility built in.',
+      features: [
+        'Up to 6 pages, fully custom designed',
+        'Total Access Support — phone, video, live chat',
+        'Monthly performance reports',
+        'Google Business Profile management',
+        'Hosting credit included',
+        'Priority response time'
+      ],
+      ctaText: 'Get Started with Growth', ctaHref: 'consultation.html',
+      altText: 'Compare all plans', altHref: 'pricing.html'
+    },
+    custom: {
+      color: '#a78bfa',
+      heading: 'Let\'s talk.',
+      sub: 'Based on your answers, your needs go beyond standard plans. We\'ll scope something that fits your business exactly.',
+      name: 'Custom', price: 'Custom pricing',
+      tagline: 'Scoped around your business — e-commerce, integrations, dedicated support, and more.',
+      features: [
+        'Custom project scoping and timeline',
+        'E-commerce store setup',
+        'Booking systems and third-party integrations',
+        'Dedicated account management',
+        'Same-day turnaround available'
+      ],
+      ctaText: 'Contact Us', ctaHref: 'contact-us.html',
+      altText: 'View fee schedule', altHref: 'fee-schedule.html'
     }
+  };
 
-    var io = new IntersectionObserver(function(entries) {
-      entries.forEach(function(entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('in');
-          io.unobserve(entry.target);
-        }
+  function updateDots() {
+    dots.forEach(function(dot, i) {
+      dot.classList.remove('active', 'done');
+      if (i < currentStep) dot.classList.add('done');
+      else if (i === currentStep) dot.classList.add('active');
+    });
+    label.textContent = 'Question ' + (currentStep + 1) + ' of ' + TOTAL;
+  }
+
+  function getSelectedOption(stepIndex) {
+    return steps[stepIndex].querySelector('.quiz-option.selected');
+  }
+
+  function showStep(index, fromBack) {
+    var current = steps[currentStep];
+    current.classList.add('leaving');
+    setTimeout(function() {
+      current.classList.remove('active', 'leaving');
+      currentStep = index;
+      var next = steps[currentStep];
+      next.classList.add('active');
+      if (fromBack) next.classList.add('from-back');
+      else next.classList.remove('from-back');
+      updateDots();
+      updateNavButtons();
+    }, 240);
+  }
+
+  function updateNavButtons() {
+    backBtn.disabled = (currentStep === 0);
+    var selected = getSelectedOption(currentStep);
+    nextBtn.classList.toggle('enabled', !!selected);
+    nextBtn.textContent = '';
+    if (currentStep === TOTAL - 1) {
+      nextBtn.innerHTML = 'See my result <i class="fas fa-arrow-right"></i>';
+    } else {
+      nextBtn.innerHTML = 'Next <i class="fas fa-arrow-right"></i>';
+    }
+  }
+
+  function getRecommendation() {
+    var scores = { essential: 0, growth: 0, custom: 0 };
+    answers.forEach(function(a) {
+      if (a && a.score) scores[a.score]++;
+    });
+    if (scores.custom > 0) return 'custom';
+    if (scores.growth > scores.essential) return 'growth';
+    if (scores.growth === scores.essential) return 'growth'; // tie → growth
+    return 'essential';
+  }
+
+  function showResult() {
+    var rec = getRecommendation();
+    var data = RESULTS[rec];
+
+    document.getElementById('resultCard').style.setProperty('--result-color', data.color);
+    document.getElementById('resultHeading').textContent = data.heading;
+    document.getElementById('resultSub').textContent = data.sub;
+    document.getElementById('resultPlanName').textContent = data.name;
+    document.getElementById('resultPlanPrice').textContent = data.price;
+    document.getElementById('resultPlanTagline').textContent = data.tagline;
+
+    var featuresEl = document.getElementById('resultFeatures');
+    featuresEl.innerHTML = '';
+    data.features.forEach(function(f) {
+      var li = document.createElement('li');
+      li.innerHTML = '<i class="fas fa-check"></i> ' + f;
+      featuresEl.appendChild(li);
+    });
+
+    document.getElementById('resultActions').innerHTML =
+      '<a href="' + data.ctaHref + '" class="result-cta"><i class="fas fa-arrow-right"></i> ' + data.ctaText + '</a>' +
+      '<a href="' + data.altHref + '" class="result-cta secondary">' + data.altText + '</a>';
+
+    quizSec.style.display = 'none';
+    resultSec.style.display = 'block';
+    resultSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  /* Option click */
+  steps.forEach(function(step, stepIndex) {
+    step.querySelectorAll('.quiz-option').forEach(function(opt) {
+      opt.addEventListener('click', function() {
+        step.querySelectorAll('.quiz-option').forEach(function(o) { o.classList.remove('selected'); });
+        opt.classList.add('selected');
+        answers[stepIndex] = { value: opt.dataset.value, score: opt.dataset.score };
+        nextBtn.classList.add('enabled');
+        /* Auto-advance after brief delay */
+        setTimeout(function() {
+          if (currentStep === TOTAL - 1) {
+            showResult();
+          } else {
+            showStep(currentStep + 1, false);
+          }
+        }, 320);
       });
-    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-
-    els.forEach(function(el) { io.observe(el); });
-  })();
-
-  // Modal functions
-  function openModal() {
-    document.getElementById('supportModal').classList.add('active');
-    document.body.style.overflow = 'hidden';
-  }
-
-  function closeModal(event) {
-    if (!event || event.target.classList.contains('modal-overlay') || event.target.classList.contains('modal-close')) {
-      document.getElementById('supportModal').classList.remove('active');
-      document.body.style.overflow = '';
-    }
-  }
-
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') closeModal();
+    });
   });
-</script>
 
+  /* Next button */
+  nextBtn.addEventListener('click', function() {
+    if (!nextBtn.classList.contains('enabled')) return;
+    if (currentStep === TOTAL - 1) { showResult(); return; }
+    showStep(currentStep + 1, false);
+  });
+
+  /* Back button */
+  backBtn.addEventListener('click', function() {
+    if (currentStep === 0) return;
+    showStep(currentStep - 1, true);
+  });
+
+  /* Retake */
+  retakeBtn.addEventListener('click', function() {
+    answers = new Array(TOTAL).fill(null);
+    steps.forEach(function(s) {
+      s.classList.remove('active', 'leaving', 'from-back');
+      s.querySelectorAll('.quiz-option').forEach(function(o) { o.classList.remove('selected'); });
+    });
+    currentStep = 0;
+    steps[0].classList.add('active');
+    updateDots();
+    updateNavButtons();
+    resultSec.style.display = 'none';
+    quizSec.style.display = 'block';
+    quizSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+
+  updateDots();
+  updateNavButtons();
+})();
+</script>
 </body>
 </html>
