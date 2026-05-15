@@ -452,37 +452,55 @@ footer { background: #0a0a0f; padding: 60px 20px 40px; border-top: 1px solid rgb
 @media (max-width: 600px) { .footer-bottom { flex-direction: column; text-align: center; } }
 
 @media print {
-  .nav-wrap, .cta-strip, footer, .related-box, .doc-meta-btn { display: none !important; }
+  @page { margin: 1.5cm 2cm; }
 
-  body { background: #fff; color: #000; font-size: 11pt; line-height: 1.7; }
+  /* Hide all navigation and decorative chrome */
+  .nav-wrap, .cta-strip, footer, .related-box, .doc-meta-btn,
+  .doc-meta-grid, [class*="hero-accent"], .btn-gold { display: none !important; }
 
-  .doc-wrap { padding: 0; max-width: 100%; }
-  .doc-header { padding-top: 12pt; border-bottom: 1pt solid #000; margin-bottom: 24pt; }
-  .doc-header h1 { font-size: 20pt; color: #000; }
-  .doc-org { color: #444; }
-  .doc-meta-grid { display: none; }
+  /* Nuclear white reset — forces every element to white background and black text */
+  *, *::before, *::after {
+    background: #fff !important;
+    color: #000 !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+    border-color: #ccc !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
 
-  .doc-toc { border: 1pt solid #ccc; background: #f9f9f9; break-inside: avoid; }
-  .doc-toc ol { grid-template-columns: 1fr; }
+  body { font-size: 11pt !important; line-height: 1.75 !important; }
 
-  .doc-intro { border-left: 2pt solid #000; background: none; color: #000; }
+  /* Document layout */
+  .doc-wrap { padding: 0 !important; max-width: 100% !important; }
+  .doc-header { border-bottom: 1pt solid #000 !important; padding-bottom: 10pt !important; margin-bottom: 22pt !important; }
+  .doc-header h1 { font-size: 20pt !important; }
 
-  .doc-section { border-bottom: none; margin-bottom: 18pt; padding-bottom: 0; }
-  .doc-section h2 { font-size: 13pt; color: #000; border-bottom: .5pt solid #ccc; padding-bottom: 4pt; margin-bottom: 10pt; }
-  .doc-section p, .doc-section li { color: #000; font-size: 11pt; }
-  .section-number { color: #000; }
+  /* TOC */
+  .doc-toc { border: 1pt solid #bbb !important; break-inside: avoid !important; }
+  .doc-toc ol { grid-template-columns: 1fr !important; }
 
-  .info-grid, .use-cases-grid { grid-template-columns: 1fr; }
-  .info-card, .use-card { border: .5pt solid #ccc; background: #fff; break-inside: avoid; box-shadow: none; }
+  /* Intro callout */
+  .doc-intro { border-left: 2.5pt solid #000 !important; padding-left: 12pt !important; }
 
-  .item-list li, .policy-list li { border-bottom: .5pt solid #eee; color: #000; font-size: 11pt; }
-  .notice-box { border: .5pt solid #ccc; background: #fff; color: #000; }
-  .notice-box.warning { background: #fff; color: #000; }
+  /* Sections */
+  .doc-section { border-bottom: none !important; margin-bottom: 18pt !important; padding-bottom: 0 !important; break-inside: avoid; }
+  .doc-section h2 { font-size: 13pt !important; border-bottom: .5pt solid #aaa !important; padding-bottom: 4pt !important; margin-bottom: 10pt !important; }
+  .doc-section p, .doc-section li { font-size: 11pt !important; }
 
-  .policy-table { border: .5pt solid #ccc; font-size: 10pt; }
-  .policy-table thead th { background: #eee; color: #000; }
-  .policy-table tbody td { color: #000; }
+  /* Cards and grids */
+  .info-grid, .use-cases-grid { grid-template-columns: 1fr !important; }
+  .info-card, .use-card { border: .5pt solid #ccc !important; break-inside: avoid !important; }
 
-  a { color: #000; text-decoration: underline; }
-  * { box-shadow: none !important; }
+  /* Lists */
+  .item-list li, .policy-list li { border-bottom: .5pt solid #ddd !important; font-size: 11pt !important; }
+
+  /* Notice/warning boxes */
+  .notice-box { border: .5pt solid #aaa !important; padding: 10pt !important; }
+
+  /* Tables */
+  .policy-table { font-size: 10pt !important; }
+  .policy-table thead th { background: #eee !important; font-weight: bold !important; }
+
+  a { text-decoration: underline !important; }
 }
