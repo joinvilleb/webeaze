@@ -329,7 +329,7 @@
     <div class="hero-inner container-narrow">
       <span class="eyebrow">Legal & Privacy</span>
       <h1>Terms of Service &amp; Privacy Policy</h1>
-      <p class="lead">Updated Terms of Service and Privacy Policy, effective June 1, 2026. Please review carefully.</p>
+      <p class="lead" id="heroLead">Updated Terms of Service and Privacy Policy, effective June 1, 2026. Please review carefully.</p>
       <div class="mt-2">
 
         <span class="pill">Effective: <strong>June 1, 2026</strong></span>
@@ -342,7 +342,7 @@
   </header>
 
   <!-- VERSION NOTICE -->
-  <div class="version-notice">
+  <div class="version-notice" id="versionNotice">
     <div class="version-notice-inner">
       <i class="fas fa-clock v-notice-icon"></i>
       <div class="v-notice-text">
@@ -1501,6 +1501,16 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
   <script>
     document.getElementById('footerYear').textContent = new Date().getFullYear();
+
+    // Auto-update page state on/after June 1, 2026
+    (function () {
+      if (new Date() >= new Date('2026-06-01T00:00:00')) {
+        var notice = document.getElementById('versionNotice');
+        if (notice) notice.style.display = 'none';
+        var lead = document.getElementById('heroLead');
+        if (lead) lead.textContent = 'Terms of Service and Privacy Policy, currently in effect as of June 1, 2026.';
+      }
+    })();
 
     // Nav hide on scroll down
     (function() {
