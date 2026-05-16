@@ -1,20 +1,21 @@
 /**
  * WebEaze Promotional Banner
  * Slim fixed bar shown below the nav. Dismissed state resets each calendar day.
+ * Clicking "Claim offer" opens a booking modal and dismisses the banner.
  *
  * Promo windows (recur every year):
- *   May 15 to Memorial Day  — Setup fee waived
- *   June 15 to July 4       — First month free (Independence Day)
- *   2 weeks before Labor Day — Setup fee waived
- *   Thanksgiving to Nov 30  — Setup fee waived
- *   Dec 10 to Dec 25        — Setup fee waived (Christmas)
+ *   May 15 to Memorial Day  -- Setup fee waived
+ *   June 15 to July 4       -- First month free (Independence Day)
+ *   2 weeks before Labor Day -- Setup fee waived
+ *   Thanksgiving to Nov 30  -- Setup fee waived
+ *   Dec 10 to Dec 25        -- Setup fee waived (Christmas)
  *
  * Preview any banner: ?promo-preview=memorial|july4|laborday|thanksgiving|christmas
  */
 (function () {
   'use strict';
 
-  var BAR_H = 40; // px — height of the slim bar and its flow spacer
+  var BAR_H = 40; // px
 
   // ── Date helpers ─────────────────────────────────────────────────────────────
 
@@ -146,6 +147,19 @@
   var lsKey = 'wb-promo-dismissed-' + promo.id + '-' + today;
   if (!isPreview) { try { if (localStorage.getItem(lsKey)) return; } catch (e) {} }
 
+  // ── Dismiss helper (slides bar out and records in localStorage) ───────────────
+
+  function dismissBar() {
+    bar.style.transform = 'translateY(-' + bar.offsetHeight + 'px)';
+    bar.style.opacity = '0';
+    spacer.style.height = '0';
+    if (!isPreview) { try { localStorage.setItem(lsKey, '1'); } catch (e) {} }
+    setTimeout(function () {
+      if (bar.parentNode) bar.parentNode.removeChild(bar);
+      if (spacer.parentNode) spacer.parentNode.removeChild(spacer);
+    }, 380);
+  }
+
   // ── Build banner ─────────────────────────────────────────────────────────────
 
   var bar = document.createElement('div');
@@ -155,37 +169,59 @@
     '<div class="wbpromo-inner">' +
       '<span class="wbpromo-badge"><i class="' + promo.icon + '"></i><span class="wbpromo-badge-text"> ' + promo.badge + '</span></span>' +
       '<span class="wbpromo-headline">' + promo.headline + '</span>' +
-      '<a href="consultation.html" class="wbpromo-cta">Claim offer <i class="fas fa-arrow-right wbpromo-arrow"></i></a>' +
-      '<button class="wbpromo-close" id="wbpromo-close-btn" aria-label="Dismiss"><i class="fas fa-xmark"></i></button>' +
+      '<button class="wbpromo-cta" id="wbpromo-cta-btn" type="button">Claim offer <i class="fas fa-arrow-right wbpromo-arrow"></i></button>' +
+      '<button class="wbpromo-close" id="wbpromo-close-btn" aria-label="Dismiss" type="button"><i class="fas fa-xmark"></i></button>' +
     '</div>';
 
   var spacer = document.createElement('div');
   spacer.id = 'wb-promo-spacer';
 
+  // ── Build modal ───────────────────────────────────────────────────────────────
+
+  var modal = document.createElement('div');
+  modal.id = 'wb-promo-modal';
+  modal.setAttribute('role', 'dialog');
+  modal.setAttribute('aria-modal', 'true');
+  modal.setAttribute('aria-label', 'Book a Free Discovery Call');
+  modal.innerHTML =
+    '<div class="wbpm-backdrop"></div>' +
+    '<div class="wbpm-panel">' +
+      '<button class="wbpm-x" id="wbpm-x-btn" aria-label="Close" type="button"><i class="fas fa-xmark"></i></button>' +
+      '<div class="wbpm-head">' +
+        '<span class="wbpm-badge-pill" style="background:' + promo.color + '"><i class="' + promo.icon + '"></i> ' + promo.badge + '</span>' +
+        '<h2 class="wbpm-title">Book a Free Discovery Call</h2>' +
+        '<p class="wbpm-sub">' + promo.headline + ' Book a time below to lock it in.</p>' +
+      '</div>' +
+      '<div class="wbpm-embed">' +
+        '<iframe' +
+          ' src="https://meetings-na2.hubspot.com/webeaze/free-consultation?embed=true"' +
+          ' width="100%"' +
+          ' height="690"' +
+          ' frameborder="0"' +
+          ' scrolling="auto"' +
+          ' title="Book a Free Discovery Call with WebEaze"' +
+          ' style="border:0;display:block;width:100%;min-height:690px;"' +
+        '></iframe>' +
+      '</div>' +
+    '</div>';
+
+  // ── Styles (banner + modal) ───────────────────────────────────────────────────
+
   var s = document.createElement('style');
   s.textContent = [
+    // Banner
     '#wb-promo-bar{',
-      'position:fixed;',
-      'left:0;right:0;',
-      'z-index:9990;',
+      'position:fixed;left:0;right:0;z-index:9990;',
       'height:' + BAR_H + 'px;',
-      'background:#fff;',
-      'border-bottom:2px solid ' + promo.border + ';',
+      'background:#fff;border-bottom:2px solid ' + promo.border + ';',
       'box-shadow:0 1px 6px rgba(0,0,0,.07);',
-      'transition:transform .35s ease,opacity .3s ease;',
-      'overflow:hidden;',
+      'transition:transform .35s ease,opacity .3s ease;overflow:hidden;',
     '}',
-    '#wb-promo-spacer{',
-      'height:' + BAR_H + 'px;',
-      'flex-shrink:0;',
-      'transition:height .35s ease;',
-    '}',
+    '#wb-promo-spacer{height:' + BAR_H + 'px;flex-shrink:0;transition:height .35s ease;}',
     '.wbpromo-inner{',
       'max-width:1100px;margin:0 auto;padding:0 16px;',
-      'height:' + BAR_H + 'px;',
-      'display:flex;align-items:center;gap:10px;',
-      'font-family:"Poppins",system-ui,sans-serif;',
-      'white-space:nowrap;overflow:hidden;flex-wrap:nowrap;',
+      'height:' + BAR_H + 'px;display:flex;align-items:center;gap:10px;',
+      'font-family:"Poppins",system-ui,sans-serif;white-space:nowrap;overflow:hidden;flex-wrap:nowrap;',
     '}',
     '.wbpromo-badge{',
       'display:inline-flex;align-items:center;gap:5px;',
@@ -193,17 +229,12 @@
       'font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;',
       'padding:3px 10px;border-radius:999px;flex-shrink:0;',
     '}',
-    '.wbpromo-headline{',
-      'font-size:13.5px;font-weight:600;color:#111827;',
-      'flex:1;overflow:hidden;text-overflow:ellipsis;',
-    '}',
+    '.wbpromo-headline{font-size:13.5px;font-weight:600;color:#111827;flex:1;overflow:hidden;text-overflow:ellipsis;}',
     '.wbpromo-cta{',
-      'display:inline-flex;align-items:center;gap:6px;',
-      'background:' + promo.color + ';color:#fff !important;',
-      'font-size:12.5px;font-weight:700;',
-      'padding:5px 13px;border-radius:8px;',
-      'text-decoration:none !important;flex-shrink:0;',
-      'transition:opacity .15s;',
+      'display:inline-flex;align-items:center;gap:6px;cursor:pointer;border:none;',
+      'background:' + promo.color + ';color:#fff;',
+      'font-size:12.5px;font-weight:700;font-family:"Poppins",system-ui,sans-serif;',
+      'padding:5px 13px;border-radius:8px;flex-shrink:0;transition:opacity .15s;',
     '}',
     '.wbpromo-cta:hover{opacity:.85;}',
     '.wbpromo-arrow{font-size:10px;}',
@@ -215,23 +246,87 @@
     '.wbpromo-close:hover{color:#374151;background:rgba(0,0,0,.06);}',
     '@media(max-width:640px){',
       '#wb-promo-bar{height:auto;overflow:visible;}',
-      '.wbpromo-inner{',
-        'white-space:normal;flex-wrap:wrap;height:auto;',
-        'padding:7px 14px;align-items:center;gap:5px 8px;',
-      '}',
+      '.wbpromo-inner{white-space:normal;flex-wrap:wrap;height:auto;padding:7px 14px;align-items:center;gap:5px 8px;}',
       '.wbpromo-badge{order:1;flex-shrink:0;}',
       '.wbpromo-badge-text{display:none;}',
       '.wbpromo-close{order:2;margin-left:auto;}',
-      '.wbpromo-headline{',
-        'order:3;flex-basis:100%;',
-        'font-size:12.5px;font-weight:600;',
-        'white-space:normal;overflow:visible;text-overflow:clip;',
-        'line-height:1.4;',
-      '}',
+      '.wbpromo-headline{order:3;flex-basis:100%;font-size:12.5px;font-weight:600;white-space:normal;overflow:visible;text-overflow:clip;line-height:1.4;}',
       '.wbpromo-cta{order:4;font-size:12px;padding:4px 10px;}',
-    '}'
+    '}',
+    // Modal
+    '#wb-promo-modal{',
+      'display:none;position:fixed;inset:0;z-index:99999;',
+      'font-family:"Poppins",system-ui,sans-serif;',
+    '}',
+    '#wb-promo-modal.wbpm-open{display:flex;align-items:center;justify-content:center;}',
+    '.wbpm-backdrop{',
+      'position:absolute;inset:0;',
+      'background:rgba(0,0,0,.55);',
+      'backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);',
+      'animation:wbpm-fade-in .22s ease;',
+    '}',
+    '.wbpm-panel{',
+      'position:relative;z-index:1;',
+      'background:#fff;border-radius:16px;',
+      'width:min(700px,96vw);',
+      'max-height:90vh;overflow-y:auto;',
+      '-webkit-overflow-scrolling:touch;',
+      'box-shadow:0 24px 60px rgba(0,0,0,.28);',
+      'animation:wbpm-slide-up .26s ease;',
+    '}',
+    '.wbpm-x{',
+      'position:absolute;top:14px;right:14px;z-index:2;',
+      'background:rgba(0,0,0,.06);border:none;cursor:pointer;',
+      'width:32px;height:32px;border-radius:50%;',
+      'display:flex;align-items:center;justify-content:center;',
+      'color:#374151;font-size:14px;transition:background .14s;',
+    '}',
+    '.wbpm-x:hover{background:rgba(0,0,0,.13);}',
+    '.wbpm-head{',
+      'padding:28px 28px 0;',
+      'display:flex;flex-direction:column;gap:8px;',
+    '}',
+    '.wbpm-badge-pill{',
+      'display:inline-flex;align-items:center;gap:7px;',
+      'color:#fff;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;',
+      'padding:4px 12px;border-radius:999px;width:fit-content;',
+    '}',
+    '.wbpm-title{font-size:clamp(1.25rem,4vw,1.6rem);font-weight:800;color:#111827;line-height:1.2;margin:0;}',
+    '.wbpm-sub{font-size:13.5px;color:#6b7280;margin:0;line-height:1.5;}',
+    '.wbpm-embed{padding:16px 0 0;}',
+    '@media(max-width:600px){',
+      '.wbpm-panel{border-radius:16px 16px 0 0;position:fixed;bottom:0;left:0;right:0;width:100%;max-height:92vh;}',
+      '#wb-promo-modal.wbpm-open{align-items:flex-end;}',
+      '.wbpm-head{padding:20px 18px 0;}',
+    '}',
+    '@keyframes wbpm-fade-in{from{opacity:0}to{opacity:1}}',
+    '@keyframes wbpm-slide-up{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}'
   ].join('');
   document.head.appendChild(s);
+
+  // ── Modal open / close ────────────────────────────────────────────────────────
+
+  function openModal() {
+    document.body.appendChild(modal);
+    modal.classList.add('wbpm-open');
+    document.body.style.overflow = 'hidden';
+    var xBtn = document.getElementById('wbpm-x-btn');
+    if (xBtn) xBtn.focus();
+  }
+
+  function closeModal() {
+    modal.classList.remove('wbpm-open');
+    document.body.style.overflow = '';
+    if (modal.parentNode) modal.parentNode.removeChild(modal);
+  }
+
+  modal.addEventListener('click', function (e) {
+    if (e.target.closest('.wbpm-backdrop')) closeModal();
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && modal.classList.contains('wbpm-open')) closeModal();
+  });
 
   // ── Insert banner and spacer ──────────────────────────────────────────────────
 
@@ -241,25 +336,19 @@
 
     bar.style.top = navH + 'px';
 
-    // Spacer goes after nav in the flow so it pushes content down by BAR_H
     if (nav && nav.parentNode) {
       nav.parentNode.insertBefore(spacer, nav.nextSibling);
     } else {
       document.body.insertBefore(spacer, document.body.firstChild);
     }
 
-    // Bar goes at end of body (fixed, so placement in DOM doesn't matter visually)
     document.body.appendChild(bar);
 
-    // Sync spacer to actual rendered bar height (important on mobile where bar grows)
     function syncSpacerHeight() {
       spacer.style.height = bar.offsetHeight + 'px';
     }
     requestAnimationFrame(syncSpacerHeight);
 
-    // Re-calibrate once all resources (fonts, images) have loaded.
-    // On mobile, fonts can settle the nav a few px taller than at DOMContentLoaded,
-    // which leaves a visible gap between the nav bottom and the bar top.
     window.addEventListener('load', function () {
       var n = document.querySelector('.nav-wrap');
       if (n && bar.parentNode) {
@@ -268,26 +357,33 @@
       }
     }, { once: true });
 
-    // Reposition and resize spacer when viewport changes
     window.addEventListener('resize', function () {
       var n = document.querySelector('.nav-wrap');
       if (n) bar.style.top = n.offsetHeight + 'px';
       requestAnimationFrame(syncSpacerHeight);
     }, { passive: true });
 
-    var btn = document.getElementById('wbpromo-close-btn');
-    if (btn) {
-      btn.addEventListener('click', function () {
-        bar.style.transform = 'translateY(-' + bar.offsetHeight + 'px)';
-        bar.style.opacity = '0';
-        spacer.style.height = '0';
-        if (!isPreview) { try { localStorage.setItem(lsKey, '1'); } catch (e) {} }
-        setTimeout(function () {
-          if (bar.parentNode) bar.parentNode.removeChild(bar);
-          if (spacer.parentNode) spacer.parentNode.removeChild(spacer);
-        }, 380);
+    // Dismiss (X button)
+    var closeBtn = document.getElementById('wbpromo-close-btn');
+    if (closeBtn) {
+      closeBtn.addEventListener('click', function () {
+        dismissBar();
       });
     }
+
+    // Claim offer -- dismiss bar and open modal
+    var ctaBtn = document.getElementById('wbpromo-cta-btn');
+    if (ctaBtn) {
+      ctaBtn.addEventListener('click', function () {
+        dismissBar();
+        openModal();
+      });
+    }
+
+    // Close modal X
+    modal.addEventListener('click', function (e) {
+      if (e.target.closest('#wbpm-x-btn')) closeModal();
+    });
   }
 
   if (document.readyState === 'loading') {
