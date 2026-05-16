@@ -257,6 +257,17 @@
     }
     requestAnimationFrame(syncSpacerHeight);
 
+    // Re-calibrate once all resources (fonts, images) have loaded.
+    // On mobile, fonts can settle the nav a few px taller than at DOMContentLoaded,
+    // which leaves a visible gap between the nav bottom and the bar top.
+    window.addEventListener('load', function () {
+      var n = document.querySelector('.nav-wrap');
+      if (n && bar.parentNode) {
+        bar.style.top = n.offsetHeight + 'px';
+        requestAnimationFrame(syncSpacerHeight);
+      }
+    }, { once: true });
+
     // Reposition and resize spacer when viewport changes
     window.addEventListener('resize', function () {
       var n = document.querySelector('.nav-wrap');
