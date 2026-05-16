@@ -185,7 +185,7 @@
       'height:' + BAR_H + 'px;',
       'display:flex;align-items:center;gap:10px;',
       'font-family:"Poppins",system-ui,sans-serif;',
-      'white-space:nowrap;overflow:hidden;',
+      'white-space:nowrap;overflow:hidden;flex-wrap:nowrap;',
     '}',
     '.wbpromo-badge{',
       'display:inline-flex;align-items:center;gap:5px;',
@@ -213,10 +213,22 @@
       'transition:color .14s,background .14s;',
     '}',
     '.wbpromo-close:hover{color:#374151;background:rgba(0,0,0,.06);}',
-    '@media(max-width:600px){',
+    '@media(max-width:640px){',
+      '#wb-promo-bar{height:auto;overflow:visible;}',
+      '.wbpromo-inner{',
+        'white-space:normal;flex-wrap:wrap;height:auto;',
+        'padding:7px 14px;align-items:center;gap:5px 8px;',
+      '}',
+      '.wbpromo-badge{order:1;flex-shrink:0;}',
       '.wbpromo-badge-text{display:none;}',
-      '.wbpromo-headline{font-size:12.5px;}',
-      '.wbpromo-cta{font-size:12px;padding:4px 10px;}',
+      '.wbpromo-close{order:2;margin-left:auto;}',
+      '.wbpromo-headline{',
+        'order:3;flex-basis:100%;',
+        'font-size:12.5px;font-weight:600;',
+        'white-space:normal;overflow:visible;text-overflow:clip;',
+        'line-height:1.4;',
+      '}',
+      '.wbpromo-cta{order:4;font-size:12px;padding:4px 10px;}',
     '}'
   ].join('');
   document.head.appendChild(s);
@@ -239,16 +251,23 @@
     // Bar goes at end of body (fixed, so placement in DOM doesn't matter visually)
     document.body.appendChild(bar);
 
-    // Reposition on resize (nav height can change on mobile)
+    // Sync spacer to actual rendered bar height (important on mobile where bar grows)
+    function syncSpacerHeight() {
+      spacer.style.height = bar.offsetHeight + 'px';
+    }
+    requestAnimationFrame(syncSpacerHeight);
+
+    // Reposition and resize spacer when viewport changes
     window.addEventListener('resize', function () {
       var n = document.querySelector('.nav-wrap');
       if (n) bar.style.top = n.offsetHeight + 'px';
+      requestAnimationFrame(syncSpacerHeight);
     }, { passive: true });
 
     var btn = document.getElementById('wbpromo-close-btn');
     if (btn) {
       btn.addEventListener('click', function () {
-        bar.style.transform = 'translateY(-' + BAR_H + 'px)';
+        bar.style.transform = 'translateY(-' + bar.offsetHeight + 'px)';
         bar.style.opacity = '0';
         spacer.style.height = '0';
         if (!isPreview) { try { localStorage.setItem(lsKey, '1'); } catch (e) {} }
@@ -270,7 +289,7 @@
 
   setInterval(function () {
     if (Date.now() > promo.end.getTime()) {
-      bar.style.transform = 'translateY(-' + BAR_H + 'px)';
+      bar.style.transform = 'translateY(-' + bar.offsetHeight + 'px)';
       bar.style.opacity = '0';
       spacer.style.height = '0';
       setTimeout(function () {
