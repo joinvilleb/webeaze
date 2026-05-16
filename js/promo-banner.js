@@ -193,15 +193,7 @@
         '<p class="wbpm-sub">' + promo.headline + ' Book a time below to lock it in.</p>' +
       '</div>' +
       '<div class="wbpm-embed">' +
-        '<iframe' +
-          ' src="https://meetings-na2.hubspot.com/webeaze/free-consultation?embed=true"' +
-          ' width="100%"' +
-          ' height="690"' +
-          ' frameborder="0"' +
-          ' scrolling="auto"' +
-          ' title="Book a Free Discovery Call with WebEaze"' +
-          ' style="border:0;display:block;width:100%;min-height:690px;"' +
-        '></iframe>' +
+        '<div class="meetings-iframe-container" data-src="https://meetings-na2.hubspot.com/webeaze/free-consultation?embed=true" style="min-height:690px;"></div>' +
       '</div>' +
     '</div>';
 
@@ -310,8 +302,19 @@
     document.body.appendChild(modal);
     modal.classList.add('wbpm-open');
     document.body.style.overflow = 'hidden';
+
+    // Load HubSpot meetings embed script if not already present on this page
+    if (!document.querySelector('script[src*="MeetingsEmbedCode"]')) {
+      var hs = document.createElement('script');
+      hs.src = 'https://static.hsappstatic.net/MeetingsEmbed/ex/MeetingsEmbedCode.js';
+      document.body.appendChild(hs);
+    }
+
     var xBtn = document.getElementById('wbpm-x-btn');
-    if (xBtn) xBtn.focus();
+    if (xBtn) {
+      xBtn.addEventListener('click', closeModal, { once: true });
+      xBtn.focus();
+    }
   }
 
   function closeModal() {
@@ -380,10 +383,6 @@
       });
     }
 
-    // Close modal X
-    modal.addEventListener('click', function (e) {
-      if (e.target.closest('#wbpm-x-btn')) closeModal();
-    });
   }
 
   if (document.readyState === 'loading') {
