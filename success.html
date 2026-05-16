@@ -4,11 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>You're Booked! | WebEaze</title>
-  <meta name="description" content="Thanks for booking. Your meeting with WebEaze is confirmed. Here's what to expect and how to prepare." />
+  <meta name="description" content="Thanks for booking. Your meeting with WebEaze is confirmed." />
   <meta name="robots" content="noindex, nofollow" />
   <link rel="shortcut icon" href="images/webeaze-transparent-copy.png" type="image/png" />
-
-  <!-- Fonts & CSS -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" />
 
@@ -23,10 +21,8 @@
     *{box-sizing:border-box}
     html,body{margin:0;padding:0}
     body{font-family:'Poppins',sans-serif;background:var(--black);color:var(--white);}
-
     a{color:var(--gold);text-decoration:none}
     a:hover{opacity:.85}
-
     .container-narrow{max-width:980px;margin:0 auto}
 
     /* HERO */
@@ -35,7 +31,6 @@
       padding:90px 18px 64px;
       background:linear-gradient(180deg,#0f0f0f,#151515 80%);
       border-bottom:1px solid rgba(255,255,255,.1);
-      position:relative;
     }
     .hero .checkmark{
       width:90px;height:90px;border-radius:50%;
@@ -57,7 +52,9 @@
 
     .hero h1{font-size:clamp(28px,4.2vw,46px);font-weight:700;margin:12px 0 8px}
     .hero p.lead{max-width:800px;margin:0 auto;opacity:.95;line-height:1.7;font-weight:400;color:var(--muted)}
-    .pill{display:inline-block;margin-top:18px;padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);font-size:.9rem;color:var(--white)}
+    .pills{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:18px}
+    .pill{display:inline-block;padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);font-size:.9rem;color:var(--white)}
+    .pill-accent{border-color:rgba(255,215,0,.4);color:var(--gold)}
 
     /* SECTIONS */
     section{padding:64px 18px}
@@ -74,15 +71,28 @@
 
     .list-check{padding:0;margin:0}
     .list-check li{list-style:none;display:flex;align-items:flex-start;gap:10px;margin:10px 0}
-    .list-check .dot{width:22px;height:22px;flex:0 0 22px;border-radius:50%;border:1px solid var(--black);display:flex;align-items:center;justify-content:center}
+    .list-check .dot{width:22px;height:22px;flex:0 0 22px;border-radius:50%;border:1px solid #ccc;display:flex;align-items:center;justify-content:center}
     .list-check svg{width:14px;height:14px;stroke:purple;stroke-width:2;fill:none}
+
+    /* Notice box (for phone number callout etc.) */
+    .notice-callout{
+      background:rgba(255,215,0,.08);
+      border:1px solid rgba(255,215,0,.25);
+      border-radius:10px;
+      padding:12px 16px;
+      margin-top:12px;
+      font-size:.9rem;
+      color:var(--white);
+      line-height:1.5;
+    }
+    .notice-callout strong{color:var(--gold)}
 
     /* Buttons */
     .cta{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:20px}
     .btn-brand{background:var(--gold);color:#000;border:none;border-radius:12px;padding:12px 18px;font-weight:700;text-decoration:none;transition:.2s}
-    .btn-brand:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(255,215,0,.25)}
-    .btn-ghost{border:1px solid rgba(255,255,255,.3);border-radius:12px;padding:10px 18px;font-weight:600;color:#fff;background:transparent;text-decoration:none}
-    .btn-ghost:hover{background:rgba(255,255,255,.08)}
+    .btn-brand:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(255,215,0,.25);color:#000}
+    .btn-ghost{border:1px solid rgba(255,255,255,.3);border-radius:12px;padding:10px 18px;font-weight:600;color:#fff;background:transparent;text-decoration:none;display:inline-block}
+    .btn-ghost:hover{background:rgba(255,255,255,.08);color:#fff}
 
     /* FAQ */
     .faq dt{font-weight:600;margin:10px 0;cursor:pointer}
@@ -102,79 +112,37 @@
     <div class="checkmark" aria-hidden="true">
       <svg viewBox="0 0 52 52"><path d="M14 27l8 8 16-18"/></svg>
     </div>
-    <h1>You're Booked! 🎉</h1>
-    <p class="lead">We emailed your confirmation and invite. Follow the steps below so our walkthrough is productive and stress-free.</p>
-    <span class="pill">Confirmed via HubSpot</span>
+    <h1 id="hero-h1">You're Booked!</h1>
+    <p class="lead" id="hero-lead">We emailed your confirmation and invite. Follow the steps below so our walkthrough is productive and stress-free.</p>
+    <div class="pills">
+      <span class="pill" id="hero-pill">Confirmed</span>
+    </div>
   </div>
 </header>
 
 <!-- NEXT STEPS -->
-<section class="section-dark">
+<section class="section-dark" id="steps-section">
   <div class="container-narrow">
-    <span class="eyebrow">Next steps</span>
-    <h2>Before the walkthrough</h2>
-    <div class="grid grid-3">
-      <div class="card-dark">
-        <h5><strong>1. Confirm your appointment</strong></h5>
-        <p>Double-check your confirmation email or calendar invite. If something changes, reschedule anytime via the link provided.
-        </p>
-      </div>
-      <div class="card-dark">
-        <h5><strong>2. Gather any assets</strong></h5>
-        <p>Logos, colors, or examples are helpful if you have them. Attach any relevant files and assets to the email. Totally optional.</p>
-        <a class="btn-ghost mt-2" href="mailto:support@webeaze.io?subject=Files%20%26%20Assets%20for%20Upcoming%20Call&body=Attach%20your%20files%20and%20assets%20here%20that%20will%20be%20relevant%20for%20our%20call%20(logos%2C%20images%2C%20brand%20colors%2C%20examples%2C%20etc.).%0A%0A%0AAdditional%20Information%3A%20%0A">Send Files & Assets</a>
-      </div>
-      <div class="card-dark">
-        <h5><strong>3. Quick tech check</strong></h5>
-        <p>Please join from a quiet space, and test your mic/camera if it's a Google Meet.</p>
-      </div>
-    </div>
+    <span class="eyebrow" id="steps-eyebrow">Next steps</span>
+    <h2 id="steps-heading">Before the walkthrough</h2>
+    <div class="grid grid-3" id="steps-cards"></div>
   </div>
 </section>
 
 <!-- EXPECTATIONS -->
-<section class="section-light">
+<section class="section-light" id="expect-section">
   <div class="container-narrow grid grid-2">
-    <div class="card-light">
-      <h5><strong>What to Expect</strong></h5>
-      <ul class="list-check">
-        <li><span class="dot"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span> A relaxed walkthrough of your homepage mockup.</li>
-        <li><span class="dot"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span> We'll review the direction together and answer questions. </li>
-        <li><span class="dot"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span> No pressure. Just clarity on next steps if you want them. </li>
-      </ul>
-    </div>
-    <div class="card-light">
-      <h5><strong>Reschedule or Cancel</strong></h5>
-      <p>You can adjust your booking anytime using the link in your confirmation email. </p>
-      <p class="mb-0"><em>Booked a phone call?</em> We'll call you from <strong>(347) 377-2408</strong> at your scheduled time.</p>
-    </div>
+    <div class="card-light" id="expect-left"></div>
+    <div class="card-light" id="expect-right"></div>
   </div>
 </section>
 
 <!-- RESOURCES -->
-<section class="section-dark">
+<section class="section-dark" id="resources-section">
   <div class="container-narrow">
     <span class="eyebrow">Resources</span>
     <h2>Helpful Links</h2>
-    <div class="grid grid-3">
-      <div class="card-dark">
-        <h5><strong>Help Center</strong></h5>
-        <p>Quick guides and answers to common questions.</p>
-        <a class="btn-ghost" href="help.html" target="_blank">Open Help Center</a>
-      </div>
-      <div class="card-dark">
-        <h5><strong>Website Request page</strong></h5>
-        <p>
-          Submit website requests and view resources. Exclusively for active clients.
-        </p>
-        <a class="btn-ghost" href="website-request.html">Submit a Request</a>
-      </div>
-      <div class="card-dark">
-        <h5><strong>Policies</strong></h5>
-        <p>View our refund policy, terms, and privacy details.</p>
-        <a class="btn-ghost" href="sitemap.xml#legal">View Policies</a>
-      </div>
-    </div>
+    <div class="grid grid-3" id="resources-cards"></div>
   </div>
 </section>
 
@@ -183,125 +151,361 @@
   <div class="container-narrow">
     <span class="eyebrow">FAQ</span>
     <h2>Quick Answers</h2>
-    <dl class="faq">
-      <dt>Will I get a calendar invite?</dt>
-      <dd>Yes. You'll receive a confirmation email with the join link and reschedule option if needed.</dd>
-
-      <dt>Can I bring a teammate?</dt>
-      <dd>Absolutely. Just forward them the invite or share the meeting link so they can join too.</dd>
-
-      <dt>Not sure what makes sense after the mockup?</dt>
-      <dd>No problem. That's exactly what we'll help you figure out during the call. In the meantime, you can review our <a href="pricing.html" style="color: #e79f0f;">plans and pricing</a>.</dd>
-
-      </dd>
-    </dl>
+    <dl class="faq" id="faq-list"></dl>
   </div>
 </section>
 
 <!-- CTA -->
 <section class="section-dark text-center" style="background:linear-gradient(180deg,#0f0f0f,#1a1a1a 85%)">
   <div class="container-narrow">
-    <h2 class="mb-2" style="color:var(--gold)">We’re excited to walk you through it.</h2>
-    <p class="small" style="color:var(--muted)">You'll see the direction first. Deciding what's next is up to you.
-    </p>
-    <div class="cta">
-      <a class="btn-brand" href="pricing.html">View Plans</a>
-      <a class="btn-ghost" href="benefits.html">
-        Why WebEaze?
-      </a>
-    </div>
+    <h2 class="mb-2" style="color:var(--gold)" id="cta-heading"></h2>
+    <p class="small" style="color:var(--muted)" id="cta-sub"></p>
+    <div class="cta" id="cta-buttons"></div>
   </div>
 </section>
 
 <!-- FOOTER -->
 <footer>
   <p>&copy; <span id="yr"></span> WebEaze. All rights reserved.</p>
-  <p><a href="https://webeaze.io/terms#privacy" target="_blank">Privacy Policy</a> · 
-  <a href="webeaze.io/terms" target="_blank">Terms</a> · <a href="sitemap.xml" target="_blank">Site Map</a>
-</p> 
-  <div class="small">Made in Delaware, USA 🇺🇸</div>
+  <p>
+    <a href="terms.html#privacy" target="_blank">Privacy Policy</a> &middot;
+    <a href="terms.html" target="_blank">Terms</a> &middot;
+    <a href="sitemap.xml" target="_blank">Site Map</a>
+  </p>
+  <div class="small">Made in Delaware, USA &#127482;&#127480;</div>
 </footer>
 
 <script>
-  // Simple FAQ toggle
-  document.querySelectorAll('.faq dt').forEach(dt=>{
-    dt.addEventListener('click',()=>{
-      dt.classList.toggle('open');
-      const dd=dt.nextElementSibling;
-      dd.style.display=(dd.style.display==='block')?'none':'block';
-    });
-  });
+document.getElementById('yr').textContent = new Date().getFullYear();
 
-  // Personalization: surface plan context and relevant next-step help articles
-  (function() {
-    try {
-      function lsGet(k) { try { return JSON.parse(localStorage.getItem(k)); } catch(e) { return null; } }
+// ── Page configs ────────────────────────────────────────────────────────────
 
-      const lastPlan = lsGet('wz_myplan_last');
-      const reqCount = lsGet('wz_req_submitted') || 0;
-      const helpSaved = lsGet('wz_help_saved') || [];
-      const firstName = lsGet('wz_user_name') || '';
+var CONFIGS = {
 
-      // Personalize hero greeting
-      const h1 = document.querySelector('header.hero h1');
-      if (h1 && firstName) h1.textContent = "You're Booked, " + firstName + "! 🎉";
+  consultation: {
+    h1:   "You're Booked!",
+    lead: "We emailed your confirmation and invite. Follow the steps below so our walkthrough is productive and stress-free.",
+    pill: "Free Consultation",
+    steps: {
+      eyebrow: "Next steps",
+      heading: "Before the walkthrough",
+      cards: [
+        {
+          title: "1. Confirm your appointment",
+          body:  "Double-check your confirmation email or calendar invite. If something changes, reschedule anytime using the link provided."
+        },
+        {
+          title: "2. Gather any assets",
+          body:  "Logos, colors, or inspiration examples are helpful if you have them. Totally optional.",
+          link:  { href: "mailto:support@webeaze.io?subject=Files%20%26%20Assets%20for%20Upcoming%20Call&body=Attach%20your%20files%20here%20(logos%2C%20images%2C%20brand%20colors%2C%20examples%2C%20etc.).", label: "Send Files &amp; Assets" }
+        },
+        {
+          title: "3. Quick tech check",
+          body:  "Plan to join from a quiet space. Test your mic and camera if this is a Google Meet session."
+        }
+      ]
+    },
+    expectLeft: {
+      title: "What to Expect",
+      items: [
+        "A relaxed walkthrough of your homepage mockup.",
+        "We will review the direction together and answer any questions.",
+        "No pressure. Just clarity on next steps if you want them."
+      ]
+    },
+    expectRight: {
+      title: "Reschedule or Cancel",
+      body:  "You can adjust your booking anytime using the link in your confirmation email.",
+      note:  null
+    },
+    resources: 'new',
+    faq: [
+      { q: "Will I get a calendar invite?",
+        a: "Yes. You will receive a confirmation email with the join link and a reschedule option." },
+      { q: "Can I bring a teammate?",
+        a: "Absolutely. Forward them the invite or share the meeting link so they can join too." },
+      { q: "Not sure what makes sense after the mockup?",
+        a: "That is exactly what we will help you figure out on the call. In the meantime, you can <a href=\"pricing.html\" style=\"color:#e79f0f;\">review our plans and pricing</a>." }
+    ],
+    cta: {
+      heading: "We're excited to walk you through it.",
+      sub:     "You will see the direction first. Deciding what comes next is entirely up to you.",
+      buttons: [
+        { label: "View Plans",    href: "pricing.html",  style: "brand" },
+        { label: "Why WebEaze?", href: "benefits.html", style: "ghost" }
+      ]
+    }
+  },
 
-      // Show plan context pill if we know what they were looking at
-      const PLAN_LABELS = { essential: 'Essential Plan', growth: 'Growth Plan', onetime: 'One-Time Project' };
+  phone: {
+    h1:   "Call Confirmed!",
+    lead: "Your phone support session is booked. We will call you at your scheduled time. Keep your phone close and have your website open.",
+    pill: "Phone Support",
+    steps: {
+      eyebrow: "Before the call",
+      heading: "How to prepare",
+      cards: [
+        {
+          title: "1. Save our number",
+          body:  "We will call you from <strong>(347) 377-2408</strong>. Save it to your contacts now so you don't miss us.",
+          callout: "Incoming call from (347) 377-2408 at your scheduled time."
+        },
+        {
+          title: "2. Open your website",
+          body:  "Pull up your site in a browser before the call. Being able to look at the same thing at the same time saves a lot of back and forth."
+        },
+        {
+          title: "3. Note your questions",
+          body:  "Jot down anything you want to cover. We will work through your list and follow up by email with any action items."
+        }
+      ]
+    },
+    expectLeft: {
+      title: "What to Expect",
+      items: [
+        "A focused, efficient call. Most issues are handled on the spot.",
+        "We will take notes and send a summary email after the call.",
+        "If something needs more work, we will submit a request on your behalf."
+      ]
+    },
+    expectRight: {
+      title: "Reschedule or Cancel",
+      body:  "Use the link in your confirmation email to reschedule. If you need to cancel last minute, email us at support@webeaze.io.",
+      note:  "Remember: we call you. No dial-in number needed on your end."
+    },
+    resources: 'client',
+    faq: [
+      { q: "What number will you call from?",
+        a: "We will call from <strong>(347) 377-2408</strong>. If you see an unknown number at your scheduled time, that is us. Save it now to be safe." },
+      { q: "What if I miss the call?",
+        a: "Reply to your confirmation email and we will find a new time. We do not leave voicemails for support calls." },
+      { q: "Can I send screenshots or files before the call?",
+        a: "Yes. Email <a href=\"mailto:support@webeaze.io\" style=\"color:#e79f0f;\">support@webeaze.io</a> with anything relevant and we will have it pulled up when we call." },
+      { q: "What if my issue is resolved before the call?",
+        a: "No problem. Just email us and we can cancel or use the time to cover anything else on your site." }
+    ],
+    cta: {
+      heading: "We'll call you at your scheduled time.",
+      sub:     "Keep your phone nearby. We will handle the rest.",
+      buttons: [
+        { label: "Submit a Request", href: "website-request.html", style: "brand" },
+        { label: "Open Help Center", href: "help.html",            style: "ghost" }
+      ]
+    }
+  },
+
+  meet: {
+    h1:   "Meeting Confirmed!",
+    lead: "Your Google Meet session is booked. Check your confirmation email for the join link. We'll see you at your scheduled time.",
+    pill: "Google Meet Session",
+    steps: {
+      eyebrow: "Before the session",
+      heading: "How to prepare",
+      cards: [
+        {
+          title: "1. Find your Meet link",
+          body:  "Your confirmation email has the Google Meet link. Join from a desktop or laptop if possible for the best experience."
+        },
+        {
+          title: "2. Test your mic and camera",
+          body:  "A quick check beforehand saves time on the call. Chrome works best. Join from a quiet space if you can."
+        },
+        {
+          title: "3. Have your site open",
+          body:  "Open any pages or files you want to walk through. You can share your screen so we can look at the same thing together."
+        }
+      ]
+    },
+    expectLeft: {
+      title: "What to Expect",
+      items: [
+        "A live screen-sharing session so we can work through things together.",
+        "We will handle updates or changes during or immediately after the call.",
+        "A follow-up email with a summary and any action items will be sent after."
+      ]
+    },
+    expectRight: {
+      title: "Reschedule or Cancel",
+      body:  "Use the link in your confirmation email to reschedule. For last-minute changes, email support@webeaze.io.",
+      note:  "No Google account required. You can join as a guest directly from the Meet link."
+    },
+    resources: 'client',
+    faq: [
+      { q: "Where is the Google Meet link?",
+        a: "It is in your confirmation email. Check your spam folder if you don't see it, or email <a href=\"mailto:support@webeaze.io\" style=\"color:#e79f0f;\">support@webeaze.io</a>." },
+      { q: "Do I need a Google account to join?",
+        a: "No. You can join as a guest directly from the link. No sign-in required." },
+      { q: "Can I share my screen during the session?",
+        a: "Yes. Most browsers support it. You will see a prompt when you click Share Screen inside Meet. Chrome works most reliably." },
+      { q: "What if the link does not work?",
+        a: "Reply to your confirmation email right away and we will send you a direct link or alternative." }
+    ],
+    cta: {
+      heading: "We'll see you in the meeting.",
+      sub:     "Join from a quiet spot and we will take care of the rest together.",
+      buttons: [
+        { label: "Submit a Request", href: "website-request.html", style: "brand" },
+        { label: "Open Help Center", href: "help.html",            style: "ghost" }
+      ]
+    }
+  }
+};
+
+// ── Resource card sets ───────────────────────────────────────────────────────
+
+var RESOURCES = {
+  new: [
+    { title: "Help Center",           body: "Quick guides and answers to common questions.",                  link: { href: "help.html",             label: "Open Help Center" } },
+    { title: "Plans &amp; Pricing",   body: "Compare what's included in each WebEaze plan.",                 link: { href: "pricing.html",          label: "View Plans" } },
+    { title: "Policies",              body: "View our refund policy, terms, and privacy details.",            link: { href: "terms.html",            label: "View Policies" } }
+  ],
+  client: [
+    { title: "Help Center",           body: "Quick guides and answers to common questions.",                  link: { href: "help.html",             label: "Open Help Center" } },
+    { title: "Website Request",       body: "Submit update requests and view resources for active clients.",  link: { href: "website-request.html",  label: "Submit a Request" } },
+    { title: "Fee Schedule",          body: "View pricing for one-time services and add-ons.",                link: { href: "fee-schedule.html",     label: "View Fee Schedule" } }
+  ]
+};
+
+// ── Render helpers ───────────────────────────────────────────────────────────
+
+function card(content, dark) {
+  var cls = dark ? 'card-dark' : 'card-light';
+  return '<div class="' + cls + '">' + content + '</div>';
+}
+
+function btn(label, href, style) {
+  if (style === 'brand') return '<a class="btn-brand" href="' + href + '">' + label + '</a>';
+  return '<a class="btn-ghost" href="' + href + '">' + label + '</a>';
+}
+
+// ── Apply config ─────────────────────────────────────────────────────────────
+
+function applyConfig(cfg) {
+  document.getElementById('hero-h1').textContent    = cfg.h1;
+  document.getElementById('hero-lead').textContent  = cfg.lead;
+  document.getElementById('hero-pill').textContent  = cfg.pill;
+
+  document.getElementById('steps-eyebrow').textContent = cfg.steps.eyebrow;
+  document.getElementById('steps-heading').textContent = cfg.steps.heading;
+
+  var stepCards = cfg.steps.cards.map(function(c) {
+    var inner = '<h5><strong>' + c.title + '</strong></h5><p>' + c.body + '</p>';
+    if (c.callout) inner += '<div class="notice-callout"><strong>' + c.callout + '</strong></div>';
+    if (c.link)    inner += '<a class="btn-ghost mt-2" href="' + c.link.href + '" style="font-size:.85rem;">' + c.link.label + '</a>';
+    return card(inner, true);
+  }).join('');
+  document.getElementById('steps-cards').innerHTML = stepCards;
+
+  var leftItems = cfg.expectLeft.items.map(function(i) {
+    return '<li><span class="dot"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span> ' + i + '</li>';
+  }).join('');
+  document.getElementById('expect-left').innerHTML =
+    '<h5><strong>' + cfg.expectLeft.title + '</strong></h5><ul class="list-check">' + leftItems + '</ul>';
+
+  var rightHtml = '<h5><strong>' + cfg.expectRight.title + '</strong></h5><p>' + cfg.expectRight.body + '</p>';
+  if (cfg.expectRight.note) rightHtml += '<div class="notice-callout">' + cfg.expectRight.note + '</div>';
+  document.getElementById('expect-right').innerHTML = rightHtml;
+
+  var resCards = RESOURCES[cfg.resources].map(function(r) {
+    return card('<h5><strong>' + r.title + '</strong></h5><p>' + r.body + '</p><a class="btn-ghost" href="' + r.link.href + '">' + r.link.label + '</a>', true);
+  }).join('');
+  document.getElementById('resources-cards').innerHTML = resCards;
+
+  var faqHtml = cfg.faq.map(function(item) {
+    return '<dt>' + item.q + '</dt><dd>' + item.a + '</dd>';
+  }).join('');
+  document.getElementById('faq-list').innerHTML = faqHtml;
+
+  document.getElementById('cta-heading').textContent = cfg.cta.heading;
+  document.getElementById('cta-sub').textContent     = cfg.cta.sub;
+  document.getElementById('cta-buttons').innerHTML   = cfg.cta.buttons.map(function(b) {
+    return btn(b.label, b.href, b.style);
+  }).join('');
+}
+
+// ── Init ─────────────────────────────────────────────────────────────────────
+
+var type = new URLSearchParams(window.location.search).get('type') || 'consultation';
+var cfg  = CONFIGS[type] || CONFIGS.consultation;
+applyConfig(cfg);
+
+// ── localStorage personalization (name + plan context) ───────────────────────
+(function () {
+  try {
+    function lsGet(k) { try { return JSON.parse(localStorage.getItem(k)); } catch(e) { return null; } }
+
+    var firstName = lsGet('wz_user_name') || '';
+    if (firstName) {
+      var h1 = document.getElementById('hero-h1');
+      if (h1) h1.textContent = cfg.h1.replace('!', ', ' + firstName + '!');
+    }
+
+    // Consultation only: show plan-interest pill + tailored help articles
+    if (type === 'consultation') {
+      var lastPlan = lsGet('wz_myplan_last');
+      var PLAN_LABELS = { essential: 'Essential Plan', growth: 'Growth Plan', onetime: 'One-Time Project' };
       if (lastPlan && PLAN_LABELS[lastPlan]) {
-        const pill = document.querySelector('.pill');
-        if (pill) {
-          const planPill = document.createElement('span');
-          planPill.className = 'pill';
-          planPill.style.marginLeft = '8px';
-          planPill.textContent = 'You were looking at the ' + PLAN_LABELS[lastPlan];
-          pill.insertAdjacentElement('afterend', planPill);
+        var pills = document.querySelector('.pills');
+        if (pills) {
+          var p = document.createElement('span');
+          p.className = 'pill pill-accent';
+          p.textContent = 'You were looking at the ' + PLAN_LABELS[lastPlan];
+          pills.appendChild(p);
         }
       }
 
-      // Surface relevant help articles based on their plan interest
-      const PLAN_ARTICLES = {
+      var PLAN_ARTICLES = {
         essential: [
           { title: 'What is included in the Essential plan?', href: 'help.html#/which-plan-should-i-choose' },
-          { title: 'How to request updates', href: 'help.html#/how-to-request-updates' },
-          { title: 'How long does launch take?', href: 'help.html#/getting-started' }
+          { title: 'How to request updates',                  href: 'help.html#/how-to-request-updates' },
+          { title: 'How long does launch take?',             href: 'help.html#/getting-started' }
         ],
         growth: [
-          { title: 'What is included in the Growth plan?', href: 'help.html#/which-plan-should-i-choose' },
-          { title: 'Google Business Profile management', href: 'help.html#/google-business-management' },
-          { title: 'Priority support explained', href: 'help.html#/support-schedules' }
+          { title: 'What is included in the Growth plan?',   href: 'help.html#/which-plan-should-i-choose' },
+          { title: 'Google Business Profile management',     href: 'help.html#/google-business-management' },
+          { title: 'Priority support explained',             href: 'help.html#/support-schedules' }
         ],
         onetime: [
-          { title: 'How one-time projects work', href: 'help.html#/one-time-web-project' },
-          { title: 'Website Setup Package details', href: 'help.html#/website-setup-package' },
-          { title: 'Upgrading to a monthly plan later', href: 'help.html#/which-plan-should-i-choose' }
+          { title: 'How one-time projects work',             href: 'help.html#/one-time-web-project' },
+          { title: 'Website Setup Package details',          href: 'help.html#/website-setup-package' },
+          { title: 'Upgrading to a plan later',             href: 'help.html#/which-plan-should-i-choose' }
         ]
       };
-
-      const articles = PLAN_ARTICLES[lastPlan];
+      var articles = lastPlan && PLAN_ARTICLES[lastPlan];
       if (articles) {
-        const helpCard = document.querySelector('section.section-dark .card-dark');
+        var helpCard = document.querySelector('#resources-cards .card-dark');
         if (helpCard) {
           helpCard.innerHTML = '<h5><strong>Help Center</strong></h5>' +
             '<p>Based on your interest in the ' + PLAN_LABELS[lastPlan] + ':</p>' +
             '<ul style="padding-left:0;list-style:none;margin:0;">' +
-            articles.map(a => '<li style="margin-bottom:8px;"><a href="' + a.href + '" style="color:var(--gold);font-size:.88rem;">' + a.title + ' &rarr;</a></li>').join('') +
-            '</ul>';
+            articles.map(function(a) {
+              return '<li style="margin-bottom:8px;"><a href="' + a.href + '" style="color:var(--gold);font-size:.88rem;">' + a.title + ' &rarr;</a></li>';
+            }).join('') + '</ul>';
         }
       }
 
-      // If they've already submitted requests, show a note
+      var reqCount = lsGet('wz_req_submitted') || 0;
       if (reqCount > 0) {
-        const lead = document.querySelector('.hero p.lead');
+        var lead = document.getElementById('hero-lead');
         if (lead) {
-          const note = document.createElement('p');
+          var note = document.createElement('p');
           note.style.cssText = 'font-size:.85rem;color:rgba(255,255,255,.45);margin-top:8px;';
-          note.textContent = reqCount + ' update request' + (reqCount === 1 ? '' : 's') + ' already on file — you\'re all set.';
+          note.textContent = reqCount + ' update request' + (reqCount === 1 ? '' : 's') + ' already on file.';
           lead.insertAdjacentElement('afterend', note);
         }
       }
-    } catch(e) {}
-  })();
+    }
+  } catch(e) {}
+})();
+
+// ── FAQ toggle ───────────────────────────────────────────────────────────────
+document.getElementById('faq-list').addEventListener('click', function(e) {
+  var dt = e.target.closest('dt');
+  if (!dt) return;
+  dt.classList.toggle('open');
+  var dd = dt.nextElementSibling;
+  if (dd) dd.style.display = (dd.style.display === 'block') ? 'none' : 'block';
+});
 </script>
 </body>
 </html>
