@@ -7289,11 +7289,11 @@
             <li><strong>Webflow:</strong> Password protection is available on paid plans. Set per-page directly in the Designer.</li>
             <li><strong>Wix:</strong> Individual page permissions can restrict pages to logged-in members. Full members area requires the Wix Members app, which adds some complexity.</li>
             <li><strong>WordPress:</strong> Native per-post/page password protection is built in. For more robust access control (user roles, member tiers), a plugin like MemberPress or Restrict Content Pro is used.</li>
-            <li><strong>Custom HTML sites:</strong> Server-level basic authentication or a simple login script can be implemented. This is functional but less polished than CMS-based solutions.</li>
+            <li><strong>Custom HTML sites:</strong> Password protection isn't available on custom HTML sites without a backend. If you need private content on a custom site, we'd recommend migrating that section to a CMS platform or using a linked Squarespace or Webflow page for the protected content.</li>
           </ul>
 
           <h2>What it doesn't cover</h2>
-          <p>Simple password protection is not a substitute for a full membership platform. If you need user accounts, individual login credentials per person, subscription billing for content access, or tiered access levels, that's a more involved build. Let us know what you're trying to achieve and we'll recommend the right approach.</p>
+          <p>Simple password protection is not a substitute for a full membership platform. If you need individual user accounts, per-user login credentials, subscription billing for gated content, or tiered access levels, that counts as a more involved build and falls under our e-commerce and custom development scope. <a href="#/ecommerce-upgrades">See e-commerce and custom features</a> for more on what that involves.</p>
 
           <h2>How to request it</h2>
           <p>Submit a <a href="website-request.html">Website Request</a> with the page you want protected and what the password should be. We'll set it up and confirm when it's active.</p>
@@ -7763,83 +7763,103 @@
 
   // Specific pre-filled request templates — only articles listed here get the in-body CTA
   const REQUEST_TEMPLATES = {
-    'update-business-info': `I'd like to update my business information on my website.\n\nPlease update the following:\n\nBusiness hours:\nMonday–Friday: \nSaturday: \nSunday: \n\nAddress (if changed): \n\nPhone number (if changed): \n\nEmail address (if changed): `,
+    'update-business-info': `What to update (check all that apply):\n[ ] Business hours\n[ ] Phone number\n[ ] Address\n[ ] Email address\n[ ] Other\n\nNew business hours (if changing):\nMonday to Friday: \nSaturday: \nSunday: \n\nNew phone number: \nNew address: \nNew email: \nAnything else to update: `,
 
-    'add-photos-after-launch': `I'd like to add or replace photos on my website.\n\nWhere the photos should go (e.g. homepage hero, gallery, about page): \n\nI have attached the new photos to this request.`,
+    'add-photos-after-launch': `Where the photos should go (page and section): \nWhat they replace or add to: \n\nI've attached the photos: Yes / No (attach below or share a link if uploading separately)`,
 
-    'changes-mid-build': `I have changes to request during my current build.\n\nPage or section to update: \n\nWhat to change: `,
+    'changes-mid-build': `Page or section to update: \nWhat to change: \nIs this a content change, design change, or new addition? Content / Design / New addition`,
 
-    'reviewing-your-draft': `I've reviewed my website draft and have the following revision requests:\n\nPage 1 – [page name]:\n- \n- \n\nPage 2 – [page name]:\n- \n- \n\nOverall feedback: `,
+    'reviewing-your-draft': `Draft feedback by page:\n\nPage: \nChanges needed:\n- \n- \n\nPage: \nChanges needed:\n- \n- \n\nAnything else to flag: `,
 
-    'no-logo-yet': `My logo is ready and I'd like it added to my website.\n\nI have attached the logo file (PNG or SVG with transparent background preferred).`,
+    'no-logo-yet': `File format (PNG or SVG with transparent background preferred): \nDoes it have a transparent background? Yes / No\n\nI've attached the logo file below.`,
 
-    'logo-file-format': `I'd like to submit my logo for my website.\n\nFormat provided: \n\nI have attached the logo file.`,
+    'logo-file-format': `File format: \nIs it high resolution? Yes / Not sure\n\nI've attached the logo file below.`,
 
-    'favicon': `I'd like to add or update the favicon on my website.\n\nI have attached the favicon file (ICO, PNG, or SVG preferred).`,
+    'favicon': `File format (ICO, PNG, or SVG preferred): \n\nI've attached the favicon file below.`,
 
-    'choosing-fonts': `I'd like to request a specific font for my website.\n\nFont name: \nWhere to apply it (e.g. headings, body text, navigation): \nFont source (Google Fonts, Adobe, custom file): `,
+    'choosing-fonts': `Font name: \nApply to (headings / body text / both / navigation): \nFont source (Google Fonts, Adobe, other): \nI'd like to preview before it goes live: Yes / No`,
 
-    'custom-email-setup': `I'd like help setting up a custom email address.\n\nDesired email address (e.g. hello@mybusiness.com): \nDomain name: \nPreferred email provider (e.g. Google Workspace, Zoho, other): `,
+    'custom-email-setup': `Desired email address (e.g. hello@mybusiness.com): \nDomain name: \nPreferred provider:\n[ ] Google Workspace ($6/mo per user)\n[ ] Zoho Mail (free option available)\n[ ] Other: \nDo I already own this domain? Yes / No`,
 
-    'connect-your-domain': `I'd like help connecting my domain to my website.\n\nDomain name: \nDomain registrar (e.g. GoDaddy, Namecheap, Google Domains): \nI have access to my registrar account: Yes / No`,
+    'connect-your-domain': `Domain name: \nRegistrar (e.g. GoDaddy, Google Domains): \nI have access to my registrar account: Yes / No\nI want to transfer the domain to WebEaze hosting: Yes / No / Not sure`,
 
-    'multilingual-pages': `I'd like to add pages in another language to my website.\n\nLanguage to add: \nPages to translate: \nI will provide the translated content: Yes / No (please advise if help is available)`,
+    'multilingual-pages': `Language to add: \nPages to translate: \nI'll provide the translated text: Yes / No\nContent ready now or coming later? Ready now / Coming later`,
 
-    'legal-pages': `I'd like to add or update legal pages on my website.\n\nPages needed:\n[ ] Privacy Policy\n[ ] Terms of Service\n[ ] Accessibility Statement\n\nAdditional notes: `,
+    'legal-pages': `Pages needed:\n[ ] Privacy Policy\n[ ] Terms of Service\n[ ] Accessibility Statement\n\nDo I use tracking tools (Google Analytics, Facebook Pixel, etc.)? Yes / No\nAny specific requirements or notes: `,
 
-    'support-schedules': `I'd like to set up a scheduled recurring website update.\n\nWhat to update: \nHow often (e.g. weekly, monthly): \nPreferred day/time: \nFirst update date: `,
+    'support-schedules': `What to update: \nHow often (e.g. weekly, monthly): \nPreferred day or time: \nStart date: \nShould it stop on a specific date? Yes (date): / No, keep recurring`,
 
-    'total-access-support': `I'd like to schedule a support call.\n\nCall type:\n[ ] Phone call\n[ ] Video call (Google Meet)\n\nPreferred date: \nPreferred time (ET): \nWhat I'd like to discuss: `,
+    'total-access-support': `Call type:\n[ ] Phone call\n[ ] Video call (Google Meet)\n\nPreferred date: \nPreferred time (Eastern): \nWhat I'd like to discuss: `,
 
-    'share-your-branding': `I'd like to submit my branding files.\n\nAttached:\n[ ] Logo file\n[ ] Brand colors (hex codes): \n[ ] Font name or file: \n[ ] Inspiration websites: `,
+    'share-your-branding': `What's attached (check all that apply):\n[ ] Logo file\n[ ] Brand colors (hex codes): \n[ ] Font preference: \n[ ] Inspiration sites or references: \n\nNotes for the designer: `,
 
-    'what-content-do-i-need': `I'm ready to submit my website content.\n\nBusiness name: \nTagline or slogan (if any): \nServices or products to list: \nI have attached: photos / logo / other files`,
+    'what-content-do-i-need': `Business name: \nTagline or slogan: \nMain services or products: \nWho I serve and where: \nWhat makes me different from competitors: \nFiles attached: logo / photos / other`,
 
-    'redesign-after-launch': `I'd like to request a design change to my website.\n\nWhat I'd like to change:\n[ ] Color scheme / brand colors\n[ ] Layout or page structure\n[ ] Typography / fonts\n[ ] Header or footer design\n[ ] A specific section (described below)\n[ ] Full redesign\n\nDetails of the change: \n\nInspiration or reference sites (if any): `,
+    'redesign-after-launch': `What I'd like to change:\n[ ] Colors or brand palette\n[ ] Page layout or structure\n[ ] Fonts\n[ ] Header or footer\n[ ] A specific section\n[ ] Full redesign\n\nWhat I don't like about the current design: \nWhat I want it to feel like instead: \nReference sites or examples: `,
 
-    'privacy-policy-cookie-banner': `I'd like to add or update legal compliance pages on my website.\n\nWhat I need:\n[ ] Privacy Policy\n[ ] Cookie notice / consent banner\n[ ] Terms of Service\n\nDo I use Google Analytics, Facebook Pixel, or similar tracking tools? Yes / No\nDo I have visitors from the EU or California who may require cookie consent? Yes / No / Unsure\n\nAny specific compliance requirements or notes: `,
+    'privacy-policy-cookie-banner': `What I need:\n[ ] Privacy Policy\n[ ] Cookie consent banner\n[ ] Terms of Service\n\nDo I use tracking tools (Google Analytics, Facebook Pixel, etc.)? Yes / No\nDo I serve EU or California visitors? Yes / No / Not sure\nAny specific requirements: `,
 
-    'dark-theme': `I'd like to request a dark theme for my website.\n\nMy website platform: GitHub Pages / WordPress / Wix / Squarespace\n\nIs this for a new build or an existing site? New build / Existing site\n\nDark style preference:\n[ ] Dark background with light text\n[ ] Dark navy or charcoal\n[ ] True black\n[ ] Open to your recommendation\n\nColor preferences or reference sites (if any): `,
+    'dark-theme': `New build or existing site? New / Existing\nPlatform: \n\nPreferred style:\n[ ] Dark background with light text\n[ ] Dark navy or charcoal\n[ ] True black\n[ ] Open to recommendation\n\nColor preferences or reference sites: `,
 
-    'popup-announcement-banner': `I'd like to add a popup or announcement banner to my website.\n\nType:\n[ ] Announcement banner (slim bar at the top of the page)\n[ ] Popup / lightbox overlay\n\nContent to display: \n\nTrigger or timing (e.g. on page load, after 5 seconds, on exit, permanent): \n\nLink the banner or popup to (if applicable): \n\nExpiry or end date (if it's temporary): `,
+    'popup-announcement-banner': `Type:\n[ ] Slim announcement bar (top of page)\n[ ] Popup overlay\n\nContent to display: \nLink to (if any): \nWhen to show it (on load / after delay / on exit): \nExpiry date (leave blank if permanent): `,
 
-    'animations': `I'd like to request animations on my website.\n\nType of animation:\n[ ] Fade-in or slide-in effects as sections scroll into view\n[ ] Hover effects on buttons or cards\n[ ] Animated hero section\n[ ] Step-by-step or timeline animation\n[ ] Other: \n\nWhere to apply it (page and section): \n\nAny references or examples: `,
+    'animations': `What kind:\n[ ] Fade-in or slide-in on scroll\n[ ] Hover effects on buttons or cards\n[ ] Animated hero section\n[ ] Timeline or step animation\n[ ] Other: \n\nPage and section: \nReferences or examples: `,
 
-    'team-access': `A team member will be submitting requests on behalf of our business.\n\nBusiness name: \nWebsite URL: \nTeam member name: \nTeam member email: \n\nRequest for this submission: `,
+    'team-access': `Business name: \nWebsite URL: \nTeam member name: \nTeam member email: \n\nWhat they're requesting (describe below):`,
 
-    'add-google-reviews': `I'd like to add Google reviews or testimonials to my website.\n\nPreferred method:\n[ ] Manual testimonials section (I'll provide review text)\n[ ] Embedded live Google reviews widget (Elfsight, EmbedSocial, or similar)\n\nIf manual — reviews to add (copy from Google, include reviewer first name and star rating):\n1. \n2. \n3. \n\nWhere should the reviews appear (e.g. homepage, a dedicated Testimonials page): `,
+    'add-google-reviews': `What I'd like:\n[ ] Styled testimonials section (I'll provide the quotes)\n[ ] Live Google Reviews widget (pulls from my Google listing)\n\nWhere to place it (page and section): \n\nIf adding manual testimonials, paste them here (name, quote, star rating):\n1. \n2. \n3. `,
 
-    'qr-code': `I'd like a QR code added to my website.\n\nWhat the QR code should link to (URL): \n\nWhere on the website it should appear (page and section): \n\nLabel to display with the QR code (e.g. "Scan to visit our site", "Scan to book online"): `,
+    'qr-code': `What the QR code should link to: \nWhere on the site (page and section): \nLabel to show with it (e.g. "Scan to book"): `,
 
-    'connect-social-media': `I'd like to connect my social media profiles to my website.\n\nWhat I need:\n[ ] Add or update social media icon links (header / footer)\n[ ] Embed a live social media feed on the site\n\nMy social profile URLs:\nFacebook: \nInstagram: \nLinkedIn: \nOther: \n\nFor a live feed — which platform to embed: \nPreferred location on the site: `,
+    'connect-social-media': `What I need:\n[ ] Social icon links in header or footer\n[ ] Live social feed embedded on the site\n\nMy profile URLs:\nFacebook: \nInstagram: \nLinkedIn: \nOther: \n\nFor a live feed, which platform: \nWhere on the site: `,
 
-    'seo-optimization': `I'd like to request SEO improvements for my website.\n\nWhat I'd like updated:\n[ ] Page titles and meta descriptions\n[ ] Keyword content on specific pages\n[ ] New content targeting specific search terms\n[ ] General SEO review\n\nKeywords or search phrases I want to rank for: \n\nPages to focus on: \n\nAny competitors or reference sites I'd like to outrank: `,
+    'seo-optimization': `What I'd like improved:\n[ ] Page titles and meta descriptions\n[ ] Content targeting specific keywords\n[ ] General SEO review\n\nKeywords I want to rank for: \nPages to focus on: \nCompetitors I want to outrank: \nCity or location to rank in (if local): `,
 
-    'google-business-profile': `I'd like to set up or improve my Google Business Profile management.\n\nCurrent status:\n[ ] I don't have a Google Business Profile yet\n[ ] I have one but it's not verified\n[ ] I have a verified profile that needs optimization\n[ ] I need ongoing management (regular posts, review monitoring, updates)\n\nBusiness name: \nBusiness address or service area: \nPhone number: \nWebsite: \nBusiness category (e.g. HVAC contractor, personal trainer, bakery): `,
+    'google-business-profile': `What I need:\n[ ] Create a new Google Business Profile\n[ ] Verify an existing profile\n[ ] Optimize my profile\n[ ] Ongoing management (posts, reviews, updates)\n\nBusiness name: \nAddress or service area: \nPhone number: \nBusiness category (e.g. plumber, bakery, personal trainer): \nWebsite: `,
 
-    'geo-pages': `I'd like to add geo pages to my website to rank in local searches.\n\nMy business type and main services: \n\nCities or regions to target (list as many as you'd like):\n1. \n2. \n3. \n4. \n5. \n\nAre these new pages or updates to existing pages? New / Updates to existing\n\nAny specific services to highlight for these locations: `,
+    'geo-pages': `My main services: \n\nCities or areas to target:\n1. \n2. \n3. \n4. \n5. \n\nNew pages or updates to existing? New / Updates\nServices to highlight per location (if different): `,
 
-    'showcase-program': `I'd like to apply for the WebEaze Showcase Program.\n\nMy business name: \nMy website URL: \nBrief description of my business: \n\nI give WebEaze permission to display screenshots and link to my website: Yes`,
+    'showcase-program': `Business name: \nWebsite URL: \nBusiness description (1 to 2 sentences): \n\nI give WebEaze permission to feature my site: Yes`,
 
-    'not-showing-on-google-maps': `My business isn't appearing in Google Maps or local search and I need help.\n\nMy business name: \nMy website URL: \nBusiness address or service area: \n\nCurrent GBP status:\n[ ] I don't have a Google Business Profile\n[ ] I have one but it's not verified\n[ ] I have a verified GBP but I'm still not appearing\n\nHow long has my site or GBP been live? \n\nApproximate number of Google reviews: `,
+    'not-showing-on-google-maps': `Business name: \nWebsite URL: \nAddress or service area: \nHow long has the site or GBP been live: \nApproximate number of Google reviews: \n\nCurrent GBP status:\n[ ] Don't have one yet\n[ ] Have one but not verified\n[ ] Verified but still not appearing`,
 
-    'not-showing-on-google': `My website isn't showing up in Google search results and I need help.\n\nMy website URL: \nApproximate launch date: \n\nWhat I searched for (and expected my site to appear): \n\nResult of site:mydomain.com search on Google: Found results / No results\n\nAny recent changes (new domain, major update, platform move)? `,
+    'not-showing-on-google': `Website URL: \nApprox. launch date: \nSearch term I expected to appear for: \nAny recent changes (new domain, platform move, major update)? \nHave I checked if Google can find my site (site:mydomain.com)? Yes / No / Not sure`,
 
-    'how-long-does-seo-take': `I'd like to request SEO improvements while we wait for results to build.\n\nWhat I'd like prioritized:\n[ ] Google Business Profile optimization\n[ ] New content targeting local keywords\n[ ] Review strategy\n[ ] Directory listings and citations\n[ ] Other: \n\nMy current plan: Essential / Growth\n\nAny specific goals or timeline: `,
+    'how-long-does-seo-take': `What I'd like prioritized:\n[ ] Google Business Profile optimization\n[ ] Content targeting local keywords\n[ ] Review strategy\n[ ] Directory listings\n[ ] Other: \n\nMy plan: Essential / Growth\nSpecific goals or timeline: `,
 
-    'get-more-google-reviews': `I'd like a Google review button or link added to my website.\n\nMy Google review link (from Google Business Profile dashboard): \n\nWhere on the site to place it (e.g. homepage, footer, contact page): \n\nPreferred button or link label (e.g. "Leave us a Google review", "Rate us on Google"): `,
+    'get-more-google-reviews': `My Google review link: \nWhere to place it (page and section): \nButton label (e.g. "Leave us a Google review"): `,
 
-    'what-to-post-on-gbp': `I'm interested in Google Business Profile management.\n\nMy GBP status:\n[ ] My profile isn't set up yet\n[ ] I have a profile but don't post regularly\n[ ] I want ongoing management (posts, updates, review responses)\n\nMy business type and services: \nCurrent plan: Essential / Growth\n\nQuestions or goals: `,
+    'what-to-post-on-gbp': `My GBP status:\n[ ] Not set up yet\n[ ] Set up but not posting regularly\n[ ] Want ongoing management\n\nBusiness type and services: \nCurrent plan: Essential / Growth\nWhat I want to achieve: `,
 
-    'bad-google-review': `I received a negative Google review and need help.\n\nWhat I'd like help with:\n[ ] Draft a professional public response\n[ ] Assess whether it qualifies for removal or flagging\n[ ] Both\n\nMy Google Business Profile link or business name: \n\nThe review (paste the text): \n\nAny context I'd like you to know: `,
+    'bad-google-review': `What I need:\n[ ] Draft a response\n[ ] Assess whether it can be flagged for removal\n[ ] Both\n\nBusiness name or GBP link: \nThe review text: \nContext I'd like you to know: `,
 
-    'google-listing-wrong-info': `My Google listing shows incorrect information and I need it corrected.\n\nWhat's wrong:\n[ ] Business hours\n[ ] Phone number\n[ ] Address or service area\n[ ] Website URL\n[ ] Business name\n[ ] Category or description\n[ ] Other: \n\nThe correct information: \n\nDo I manage my own GBP, or does WebEaze manage it? I manage it / WebEaze manages it`,
+    'google-listing-wrong-info': `What's incorrect:\n[ ] Business hours\n[ ] Phone number\n[ ] Address\n[ ] Website URL\n[ ] Business name\n[ ] Category or description\n\nWhat it should say: \nWho manages this GBP: I manage it / WebEaze manages it`,
 
-    'subscribe-after-one-time': `I completed a one-time project and I'd like to subscribe to a monthly plan.\n\nProject delivery date (approx.): \nProject type: Basic / Standard / Full Build\n\nPlan I'm interested in:\n[ ] Essential — $169/mo\n[ ] Growth — $249/mo\n[ ] Annual Essential — $1,690/yr\n[ ] Annual Growth — $2,490/yr\n\nIs this within 14 days of my project delivery (to qualify for waived setup fee and first month)? Yes / No`,
+    'subscribe-after-one-time': `Project delivery date (approx.): \nProject type: Basic / Standard / Full Build\n\nPlan I want:\n[ ] Essential ($169/mo)\n[ ] Growth ($249/mo)\n[ ] Annual Essential ($1,690/yr)\n[ ] Annual Growth ($2,490/yr)\n\nIs this within 14 days of delivery? Yes / No`,
 
-    'how-backups-work': `I'd like to request a backup or restore of my website.\n\nRequest type:\n[ ] Download a copy of my website files\n[ ] Restore my site to a previous version\n\nReason (if a restore): \n\nMy website URL: `,
+    'how-backups-work': `What I need:\n[ ] Download a copy of my website files\n[ ] Restore to a previous version\n\nWebsite URL: \nReason (if restoring): `,
 
-    'website-security': `I need to report a security concern with my website.\n\nUrgency:\n[ ] URGENT — site appears hacked or is down\n[ ] Non-urgent — potential issue to investigate\n\nWhat I noticed: \n\nWhen I first noticed it: \n\nMy website URL: `,
+    'website-security': `Urgency:\n[ ] Urgent (site appears hacked or is down)\n[ ] Non-urgent (possible issue to investigate)\n\nWhat I noticed: \nWhen I first noticed it: \nWebsite URL: `,
+
+    'testimonials-section': `Where to add it (page and section): \n\nStyle:\n[ ] Static quote block\n[ ] Rotating carousel\n[ ] Live Google Reviews widget\n[ ] Video testimonials\n\nTestimonials to include (name, quote, and role or company if available):\n1. Name: \n   Quote: \n2. Name: \n   Quote: \n3. Name: \n   Quote: `,
+
+    'team-page': `Add to an existing page or build a new page? Existing / New page\n\nTeam members (copy and fill in for each person):\nName: \nTitle or role: \nBio (2 to 4 sentences): \nProfile photo attached: Yes / No\n\nAnything else to include (certifications, LinkedIn link, etc.): `,
+
+    'website-sitemap': `What I need:\n[ ] Confirm my sitemap exists and is submitted to Google\n[ ] Update the sitemap after recent page changes\n[ ] Other: \n\nWebsite URL: \nPlatform (if known): `,
+
+    'url-redirects': `Redirect details (add as many as needed):\n\nOld URL: \nRedirect to: \n\nOld URL: \nRedirect to: \n\nOld URL: \nRedirect to: \n\nReason (e.g. page renamed, site migrated, page removed): `,
+
+    'multiple-locations': `Number of locations: \n\nLocation details (copy for each location):\nName: \nAddress: \nPhone: \nHours: \nLocation-specific services: \n\nDo I need a Google Business Profile set up per location? Yes / No / Already have them`,
+
+    'video-on-website': `Type:\n[ ] Embedded YouTube or Vimeo video\n[ ] Video background in a section\n[ ] Video testimonial\n\nVideo link (YouTube or Vimeo URL): \nWhere to place it (page and section): \nShould it autoplay? Yes / No / No preference`,
+
+    'live-chat-widget': `Tool I want:\n[ ] WhatsApp button\n[ ] Tidio\n[ ] HubSpot Live Chat\n[ ] Facebook Messenger\n[ ] Other: \n\nI already have an account with them: Yes / No\nEmbed code or account details (if available): \nShow on all pages or specific pages: `,
+
+    'menu-on-website': `Format:\n[ ] Styled HTML section (we design it)\n[ ] PDF embed (I'll provide the PDF)\n[ ] Third-party platform embed\n[ ] Simple price list table\n\nWhere to place it (page and section): \nMenu content (paste below or attach a file): \nSections, dietary tags, or anything specific to note: `,
+
+    'email-marketing-connection': `Email platform I use: \nI have an active account: Yes / No\n\nWhere to place the sign-up form:\n[ ] Footer\n[ ] Homepage section\n[ ] Popup\n[ ] Standalone page\n[ ] Other: \n\nI can provide an embed code: Yes / No / Need help getting one\nIncentive for signing up (e.g. discount, free guide, leave blank if none): `,
+
+    'password-protected-page': `Page to protect (name or URL): \nPassword to use: \nWho is this page for (e.g. clients, trade buyers, internal team): \nPermanent or temporary? Permanent / Temporary (remove after: )`,
   };
 
   function renderArticle(slug) {
@@ -8076,7 +8096,6 @@ const LS_SAVED    = 'wz_help_saved';
     injectBookmarkBtn(slug, article.title);
     injectHelpfulRow(slug);
     injectRelatedArticles(slug, topic);
-    injectStuckSection(slug);
     wrapTables();
 
     // Inject in-body request CTA for articles with a specific template
@@ -8118,18 +8137,108 @@ const LS_SAVED    = 'wz_help_saved';
     lsSet(LS_READ, filtered.slice(0, 20));
   }
 
-  // ---- You might also like ----
+  // ---- Related articles ----
+  /* spellchecker:disable */
+  const RELATED_MAP = {
+    'getting-started':              ['which-plan-should-i-choose', 'free-mockup-call', 'when-will-my-website-launch'],
+    'which-plan-should-i-choose':   ['one-time-setup-fee', 'annual-vs-monthly', 'getting-started'],
+    'new-website-onboarding':       ['what-content-do-i-need', 'when-will-my-website-launch', 'how-do-we-collaborate'],
+    'existing-website-onboarding':  ['how-to-send-website-access', 'secure-credentials', 'existing-website-page-limit'],
+    'existing-website-page-limit':  ['additional-pages', 'existing-website-onboarding', 'which-plan-should-i-choose'],
+    'existing-website':             ['existing-website-onboarding', 'existing-website-page-limit', 'how-to-send-website-access'],
+    'free-mockup-call':             ['getting-started', 'which-plan-should-i-choose', 'new-website-onboarding'],
+    'when-will-my-website-launch':  ['what-content-do-i-need', 'reviewing-your-draft', 'your-site-is-live'],
+    'your-site-is-live':            ['how-to-request-updates', 'what-counts-as-an-update', 'promote-after-launch'],
+    'how-to-request-updates':       ['turnarounds-and-common-requests', 'what-counts-as-an-update', 'request-confirmation'],
+    'what-counts-as-an-update':     ['how-to-request-updates', 'additional-pages', 'turnarounds-and-common-requests'],
+    'turnarounds-and-common-requests': ['how-to-request-updates', 'request-confirmation', 'response-time'],
+    'additional-pages':             ['what-pages-should-i-have', 'which-plan-should-i-choose', 'multilingual-pages'],
+    'what-pages-should-i-have':     ['about-page-content', 'what-is-a-hero-section', 'additional-pages'],
+    'seo-optimization':             ['google-business-profile', 'geo-pages', 'how-long-does-seo-take'],
+    'google-business-profile':      ['seo-optimization', 'not-showing-on-google-maps', 'get-more-google-reviews'],
+    'geo-pages':                    ['multiple-locations', 'seo-optimization', 'google-business-profile'],
+    'not-showing-on-google':        ['seo-optimization', 'google-search-console', 'website-sitemap'],
+    'not-showing-on-google-maps':   ['google-business-profile', 'not-showing-on-google', 'get-more-google-reviews'],
+    'get-more-google-reviews':      ['google-business-profile', 'bad-google-review', 'what-to-post-on-gbp'],
+    'one-time-web-project':         ['subscribe-after-one-time', 'one-time-project-process', 'options-without-subscription'],
+    'one-time-project-process':     ['subscribe-after-one-time', 'one-time-web-project', 'your-site-is-live'],
+    'subscribe-after-one-time':     ['manage-your-plan', 'annual-vs-monthly', 'one-time-web-project'],
+    'manage-your-plan':             ['change-subscription', 'annual-vs-monthly', 'cancel-your-plan'],
+    'cancel-your-plan':             ['pause-plan', 'manage-your-plan', 'reactivate-plan'],
+    'annual-vs-monthly':            ['which-plan-should-i-choose', 'manage-your-plan', 'one-time-setup-fee'],
+    'refund-policy':                ['cancel-your-plan', 'no-contract', 'money-back-guarantee'],
+    'payment-failed':               ['payment-methods', 'manage-your-plan', 'view-invoices'],
+    'testimonials-section':         ['add-google-reviews', 'team-page', 'promote-after-launch'],
+    'team-page':                    ['testimonials-section', 'about-page-content', 'add-photos-after-launch'],
+    'video-on-website':             ['animations', 'photo-gallery', 'popup-announcement-banner'],
+    'live-chat-widget':             ['crm-booking-integration', 'total-access-support', 'booking-scheduling'],
+    'menu-on-website':              ['update-business-info', 'ecommerce-upgrades', 'photo-gallery'],
+    'email-marketing-connection':   ['newsletter-management', 'crm-booking-integration', 'pixel-google-tag'],
+    'password-protected-page':      ['ecommerce-upgrades', 'legal-pages', 'team-access'],
+    'website-sitemap':              ['google-search-console', 'seo-optimization', 'url-redirects'],
+    'url-redirects':                ['website-sitemap', 'my-site-isnt-updating', 'seo-optimization'],
+    'multiple-locations':           ['geo-pages', 'google-business-profile', 'additional-pages'],
+    'contact-form-not-sending':     ['clear-cache', 'website-error-troubleshooting', 'my-site-isnt-updating'],
+    'contact-form-going-to-spam':   ['contact-form-not-sending', 'custom-email-setup', 'website-security'],
+    'site-is-down':                 ['website-security', 'how-backups-work', 'website-error-troubleshooting'],
+    'my-site-isnt-updating':        ['clear-cache', 'contact-form-not-sending', 'browser-compatibility'],
+    'crm-booking-integration':      ['booking-scheduling', 'email-marketing-connection', 'live-chat-widget'],
+    'ecommerce-upgrades':           ['payment-deposit-form', 'additional-pages', 'crm-booking-integration'],
+    'promote-after-launch':         ['seo-optimization', 'google-business-profile', 'testimonials-section'],
+    'google-search-console':        ['website-sitemap', 'seo-optimization', 'reading-your-analytics'],
+    'connect-google-analytics':     ['google-search-console', 'reading-your-analytics', 'pixel-google-tag'],
+    'domain-and-hosting-credit':    ['connect-your-domain', 'domain-expiry', 'email-hosting'],
+    'connect-your-domain':          ['domain-and-hosting-credit', 'understanding-dns-domains', 'domain-expiry'],
+    'custom-email-setup':           ['connect-your-domain', 'email-hosting', 'domain-and-hosting-credit'],
+  };
+  /* spellchecker:enable */
+
   function injectRelatedArticles(slug, topic) {
     const $view = document.querySelector('.article-view');
     if (!$view || $view.querySelector('.related-section')) return;
-    const others = topic.articles.filter(a => a.slug !== slug);
-    if (!others.length) return;
-    // Pick up to 3: prioritize unread (no LS_TOPICS tracking at article level, so just take first 3)
-    const picks = others.slice(0, 3);
+
+    // Build full article index keyed by slug
+    const allArticles = {};
+    TOPICS.forEach(t => t.articles.forEach(a => { allArticles[a.slug] = a; }));
+
+    let picks = [];
+
+    // 1. Use curated map if available
+    if (RELATED_MAP[slug]) {
+      picks = RELATED_MAP[slug].map(s => allArticles[s]).filter(Boolean).slice(0, 3);
+    }
+
+    // 2. Keyword-score fallback — cross-topic, avoids same boring neighbors
+    if (picks.length < 3) {
+      const current = allArticles[slug];
+      const words = ((current ? current.title + ' ' + current.meta : '') + ' ' + topic.title)
+        .toLowerCase().replace(/[^a-z0-9 ]/g, ' ').split(/\s+/).filter(w => w.length > 3);
+      /* spellchecker:disable */ const stopWords = new Set(['your','with','that','this','have','from','they','will','been','what','when','which','does','more','also','into','over','each','some','most','then','than','just','like','about','after','other','page','site','website','plan','webease','you\'ll','we\'ll','don\'t','can\'t','it\'s']); /* spellchecker:enable */
+      const keywords = words.filter(w => !stopWords.has(w));
+
+      const scored = Object.values(allArticles)
+        .filter(a => a.slug !== slug && !picks.find(p => p.slug === a.slug))
+        .map(a => {
+          const haystack = (a.title + ' ' + (a.meta || '')).toLowerCase();
+          const score = keywords.reduce((n, w) => n + (haystack.includes(w) ? 1 : 0), 0);
+          return { a, score };
+        })
+        .filter(x => x.score > 0)
+        .sort((a, b) => b.score - a.score);
+
+      // Prefer cross-topic picks, fall back to same-topic
+      const crossTopic = scored.filter(x => !topic.articles.find(a => a.slug === x.a.slug));
+      const sameTopic  = scored.filter(x =>  topic.articles.find(a => a.slug === x.a.slug));
+      const pool = [...crossTopic, ...sameTopic];
+      picks = [...picks, ...pool.map(x => x.a)].slice(0, 3);
+    }
+
+    if (!picks.length) return;
+
     const section = document.createElement('div');
     section.className = 'related-section';
     section.innerHTML =
-      '<h4>You might also like</h4>' +
+      '<h4>Related articles</h4>' +
       '<div class="related-list">' +
       picks.map(a =>
         '<a class="related-item" href="#/' + a.slug + '">' +
@@ -8140,36 +8249,7 @@ const LS_SAVED    = 'wz_help_saved';
         '</a>'
       ).join('') +
       '</div>';
-    // Insert before the stuck section if present, otherwise append
-    const $stuck = $view.querySelector('.stuck-section');
-    if ($stuck) { $view.insertBefore(section, $stuck); }
-    else { $view.appendChild(section); }
-  }
-
-  // ---- Still stuck section ----
-  function injectStuckSection(slug) {
-    const $view = document.querySelector('.article-view');
-    if (!$view || $view.querySelector('.stuck-section')) return;
-    const section = document.createElement('div');
-    section.className = 'stuck-section';
-    section.innerHTML =
-      '<button class="stuck-toggle" id="stuckToggle">' +
-        '<i class="fas fa-circle-question stuck-icon"></i>' +
-        ' Still need help?' +
-        '<i class="fas fa-chevron-down chevron"></i>' +
-      '</button>' +
-      '<div class="stuck-body" id="stuckBody">' +
-        '<p class="stuck-note">We are happy to help. Let us know how we can assist you.</p>' +
-        '<div class="stuck-links">' +
-          '<a href="website-request.html"?ref=' + encodeURIComponent(slug) + '" class="stuck-link"><i class="fas fa-envelope"></i> Submit Website Request</a>' +
-          '<a href="portal.html" class="stuck-link"><i class="fas fa-comment-dots"></i> Live chat</a> <style>' +
-        '</div>' +
-      '</div>';
     $view.appendChild(section);
-    document.getElementById('stuckToggle').addEventListener('click', function() {
-      this.classList.toggle('open');
-      document.getElementById('stuckBody').classList.toggle('open');
-    });
   }
 
   // ---- Phase / new visitor banner ----
@@ -8992,7 +9072,7 @@ Growth and Elite clients get priority support with faster turnaround times.
         }
 
         // ── Reactivation ──
-        if (has('reactivat', 'come back', 'rejoin', 'sign up again', 'restart my plan', 're-subscribe', 'start again')) {
+        if (has(/* spellchecker:disable */ 'reactivat' /* spellchecker:enable */, 'come back', 'rejoin', 'sign up again', 'restart my plan', 're-subscribe', 'start again')) {
           resolve(`Welcome back! If you've been away, there may be a reactivation fee depending on how long it's been. Just reach out to us and we'll walk you through getting set up again.
 
 [Contact us to reactivate](contact-us.html)`);
@@ -9125,7 +9205,7 @@ None of the tiers include ongoing maintenance, hosting, or support. Great for on
         }
 
         // ── General domain questions ──
-        if (has('domain', 'dns', 'nameserver', 'registrar', 'godaddy', 'namecheap')) {
+        if (has('domain', 'dns', 'nameserver', 'registrar')) {
           resolve(`We handle all of that! Whether you need a new domain, want to transfer one, or connect an existing one - we take care of the setup, DNS, and everything technical.
 
 [Domain setup](help.html#/connect-your-domain) | [DNS explained](help.html#/understanding-dns-domains)`);
