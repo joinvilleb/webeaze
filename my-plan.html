@@ -182,6 +182,16 @@
       font-size: 13px; font-weight: 600; color: var(--ink-2);
     }
     .support-chip i { color: var(--brand); font-size: 13px; }
+    a.support-chip, button.support-chip {
+      cursor: pointer; text-decoration: none;
+      font-family: 'Poppins', sans-serif;
+      transition: border-color .15s, background .15s, color .15s;
+    }
+    a.support-chip:hover, button.support-chip:hover {
+      border-color: var(--brand);
+      background: rgba(120,81,169,.06);
+      color: var(--ink); text-decoration: none;
+    }
 
     /* ── NEXT TIER HINT ── */
     .tier-hint {
@@ -356,8 +366,8 @@
 
       <span class="section-label">Support Access</span>
       <div class="support-row">
-        <div class="support-chip"><i class="fas fa-envelope"></i> Email</div>
-        <div class="support-chip"><i class="fas fa-file-alt"></i> Request Form</div>
+        <a href="mailto:support@webeaze.io" class="support-chip"><i class="fas fa-envelope"></i> Email</a>
+        <a href="website-request.html" class="support-chip"><i class="fas fa-file-alt"></i> Request Form</a>
       </div>
 
       <div class="tier-hint">
@@ -399,11 +409,11 @@
 
       <span class="section-label">Support Access</span>
       <div class="support-row">
-        <div class="support-chip"><i class="fas fa-envelope"></i> Email</div>
-        <div class="support-chip"><i class="fas fa-file-alt"></i> Request Form</div>
-        <div class="support-chip"><i class="fas fa-phone"></i> Phone</div>
-        <div class="support-chip"><i class="fas fa-video"></i> Video Calls</div>
-        <div class="support-chip"><i class="fas fa-comments"></i> Live Chat</div>
+        <a href="mailto:support@webeaze.io" class="support-chip"><i class="fas fa-envelope"></i> Email</a>
+        <a href="website-request.html" class="support-chip"><i class="fas fa-file-alt"></i> Request Form</a>
+        <a href="tel:+13473772408" class="support-chip"><i class="fas fa-phone"></i> Phone</a>
+        <a href="https://meetings-na2.hubspot.com/webeaze/live-zoom-support?uuid=5a9a4298-400c-439d-a51e-45d3141be551" target="_blank" rel="noopener" class="support-chip"><i class="fas fa-video"></i> Video Calls</a>
+        <button class="support-chip" type="button" onclick="openSupportChat()"><i class="fas fa-comments"></i> Live Chat</button>
       </div>
 
       <span class="section-label">Good to Know</span>
@@ -532,8 +542,15 @@
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript" id="hs-script-loader" async defer src="//js-na2.hs-scripts.com/242171361.js"></script>
 <script>
   document.getElementById('yr').textContent = new Date().getFullYear();
+
+  function openSupportChat() {
+    if (window.HubSpotConversations && window.HubSpotConversations.widget) {
+      window.HubSpotConversations.widget.open();
+    }
+  }
 
   function lsGet(k) { try { return JSON.parse(localStorage.getItem(k)); } catch(e) { return null; } }
   function lsSet(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch(e) {} }
