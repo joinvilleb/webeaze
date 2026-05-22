@@ -547,8 +547,15 @@
   document.getElementById('yr').textContent = new Date().getFullYear();
 
   function openSupportChat() {
-    if (window.HubSpotConversations && window.HubSpotConversations.widget) {
+    function _open() {
+      window.HubSpotConversations.widget.load();
       window.HubSpotConversations.widget.open();
+    }
+    if (window.HubSpotConversations) {
+      _open();
+    } else {
+      window.hsConversationsOnReady = window.hsConversationsOnReady || [];
+      window.hsConversationsOnReady.push(_open);
     }
   }
 
