@@ -352,25 +352,47 @@
 
     /* GROWTH SUPPORT PANEL */
     .growth-panel {
-      margin-top: 28px;
-      background: rgba(120,81,169,.08);
-      border: 1px solid rgba(120,81,169,.22);
-      border-radius: 14px;
-      padding: 20px 22px 18px;
+      margin-top: 22px;
+      border-radius: 12px;
+      border: 1px solid rgba(120,81,169,.28);
+      overflow: hidden;
     }
-    .gp-header {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      margin-bottom: 16px;
+    .gp-trigger {
+      display: flex; align-items: center; gap: 10px;
+      width: 100%; padding: 12px 16px;
+      background: rgba(120,81,169,.1);
+      border: none; cursor: pointer;
+      font-family: inherit; text-align: left;
+      transition: background .15s;
     }
-    .gp-header > i { color: #c084fc; font-size: 14px; margin-top: 2px; flex-shrink: 0; }
-    .gp-title { font-size: 13px; font-weight: 700; color: rgba(255,255,255,.9); line-height: 1.3; }
-    .gp-sub { font-size: 12px; color: rgba(255,255,255,.42); margin-top: 2px; }
+    .gp-trigger:hover { background: rgba(120,81,169,.17); }
+    .gp-badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: rgba(120,81,169,.3);
+      border: 1px solid rgba(192,132,252,.28);
+      border-radius: 6px; padding: 2px 8px;
+      font-size: 11px; font-weight: 700;
+      color: #d8b4fe; white-space: nowrap; flex-shrink: 0;
+    }
+    .gp-badge i { font-size: 9px; }
+    .gp-trigger-text { font-size: 13px; font-weight: 600; color: rgba(255,255,255,.75); flex: 1; }
+    .gp-chevron {
+      font-size: 10px; color: rgba(255,255,255,.3); flex-shrink: 0;
+      transition: transform .25s ease, color .15s;
+    }
+    .growth-panel.open .gp-chevron { transform: rotate(180deg); color: #c084fc; }
+    .gp-body {
+      max-height: 0; overflow: hidden;
+      transition: max-height .35s ease;
+      background: rgba(120,81,169,.06);
+    }
+    .growth-panel.open .gp-body { max-height: 700px; }
+    .gp-body-inner { padding: 18px 18px 16px; }
+    .gp-sub { font-size: 12px; color: rgba(255,255,255,.38); margin-bottom: 14px; }
     .gp-channels { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
     .gp-channel {
       display: flex; align-items: center; gap: 10px;
-      padding: 11px 16px;
+      padding: 11px 15px;
       background: rgba(255,255,255,.05);
       border: 1px solid rgba(255,255,255,.1);
       border-radius: 10px;
@@ -383,16 +405,16 @@
     }
     .gp-channel:hover {
       border-color: rgba(192,132,252,.5);
-      background: rgba(120,81,169,.14);
+      background: rgba(120,81,169,.16);
       text-decoration: none; color: #fff;
     }
     .gp-channel i { color: #c084fc; font-size: 13px; flex-shrink: 0; }
     .gc-name { font-size: 13px; font-weight: 600; line-height: 1.2; }
-    .gc-sub { font-size: 11px; color: rgba(255,255,255,.38); margin-top: 1px; }
+    .gc-sub { font-size: 11px; color: rgba(255,255,255,.36); margin-top: 1px; }
     .gp-divider {
-      font-size: 11px; font-weight: 700;
+      font-size: 10.5px; font-weight: 700;
       text-transform: uppercase; letter-spacing: .07em;
-      color: rgba(255,255,255,.28); margin-bottom: 10px;
+      color: rgba(255,255,255,.25); margin-bottom: 9px;
     }
     .gp-links {
       display: grid;
@@ -405,7 +427,7 @@
       border: 1px solid rgba(255,255,255,.08);
       border-radius: 9px;
       background: rgba(255,255,255,.03);
-      color: rgba(255,255,255,.65);
+      color: rgba(255,255,255,.6);
       font-size: 12.5px; font-weight: 500;
       text-decoration: none;
       transition: border-color .15s, color .15s;
@@ -593,14 +615,20 @@
   .closing-nudge i { color: #d97706 !important; }
   .after-hours-note { background: rgba(99,102,241,.06) !important; border-color: rgba(99,102,241,.18) !important; color: #374151 !important; }
   .after-hours-note i { color: #6366f1 !important; }
-  .growth-panel { background: rgba(120,81,169,.05) !important; border-color: rgba(120,81,169,.2) !important; }
-  .gp-title { color: #1a1a2e !important; }
+  .growth-panel { border-color: rgba(120,81,169,.22) !important; }
+  .gp-trigger { background: rgba(120,81,169,.07) !important; }
+  .gp-trigger:hover { background: rgba(120,81,169,.12) !important; }
+  .gp-badge { background: rgba(120,81,169,.12) !important; border-color: rgba(120,81,169,.25) !important; color: #7851a9 !important; }
+  .gp-trigger-text { color: #374151 !important; }
+  .gp-chevron { color: rgba(0,0,0,.3) !important; }
+  .growth-panel.open .gp-chevron { color: #7851a9 !important; }
+  .gp-body { background: rgba(120,81,169,.04) !important; }
   .gp-sub { color: #6b7280 !important; }
   .gp-channel { background: #fff !important; border-color: rgba(0,0,0,.1) !important; color: #1a1a2e !important; }
   .gp-channel:hover { background: #f5f3ff !important; border-color: rgba(120,81,169,.35) !important; color: #1a1a2e !important; }
   .gp-channel i { color: #7851a9 !important; }
   .gc-sub { color: #6b7280 !important; }
-  .gp-divider { color: rgba(0,0,0,.32) !important; }
+  .gp-divider { color: rgba(0,0,0,.28) !important; }
   .gp-link { background: #fff !important; border-color: rgba(0,0,0,.09) !important; color: #374151 !important; }
   .gp-link:hover { border-color: rgba(120,81,169,.35) !important; color: #1a1a2e !important; }
   .gp-link i { color: #7851a9 !important; }
@@ -775,36 +803,39 @@
       Requests outside <a href="status.html">working hours</a> are handled when we reopen.
     </p>
 
-    <div class="growth-panel">
-      <div class="gp-header">
-        <i class="fas fa-star"></i>
-        <div>
-          <div class="gp-title">Growth Plan &mdash; More ways to reach us</div>
-          <div class="gp-sub">All channels are monitored during business hours, Monday through Friday.</div>
+    <div class="growth-panel" id="growthPanel">
+      <button class="gp-trigger" type="button" onclick="toggleGrowthPanel()" aria-expanded="false" aria-controls="gpBody">
+        <span class="gp-badge"><i class="fas fa-star"></i> Growth Plan</span>
+        <span class="gp-trigger-text">3 more ways to reach us</span>
+        <i class="fas fa-chevron-down gp-chevron"></i>
+      </button>
+      <div class="gp-body" id="gpBody">
+        <div class="gp-body-inner">
+          <p class="gp-sub">All channels are monitored during business hours, Monday through Friday.</p>
+          <div class="gp-channels">
+            <a href="tel:+13473772408" class="gp-channel">
+              <i class="fas fa-phone"></i>
+              <div><div class="gc-name">Call us</div><div class="gc-sub">(347) 377-2408</div></div>
+            </a>
+            <button class="gp-channel" onclick="openGrowthChat()" type="button">
+              <i class="fas fa-comments"></i>
+              <div><div class="gc-name">Live chat</div><div class="gc-sub">Open chat window</div></div>
+            </button>
+            <a href="https://meetings-na2.hubspot.com/webeaze/live-zoom-support?uuid=5a9a4298-400c-439d-a51e-45d3141be551" target="_blank" rel="noopener" class="gp-channel">
+              <i class="fas fa-video"></i>
+              <div><div class="gc-name">Video call</div><div class="gc-sub">Book a Google Meet</div></div>
+            </a>
+          </div>
+          <div class="gp-divider">Quick links from your plan</div>
+          <div class="gp-links">
+            <a href="help.html#/manage-your-plan" class="gp-link"><i class="fas fa-credit-card"></i> Manage your plan</a>
+            <a href="help.html#/annual-vs-monthly" class="gp-link"><i class="fas fa-calendar-alt"></i> Annual vs monthly billing</a>
+            <a href="help.html#/which-plan-should-i-choose" class="gp-link"><i class="fas fa-tag"></i> Choosing the right plan</a>
+            <a href="help.html#/payment-methods" class="gp-link"><i class="fas fa-wallet"></i> Payment methods</a>
+            <a href="help.html#/additional-pages" class="gp-link"><i class="fas fa-plus"></i> Adding more pages</a>
+            <a href="help.html#/no-contract" class="gp-link"><i class="fas fa-handshake"></i> Contracts &amp; commitments</a>
+          </div>
         </div>
-      </div>
-      <div class="gp-channels">
-        <a href="tel:+13473772408" class="gp-channel">
-          <i class="fas fa-phone"></i>
-          <div><div class="gc-name">Call us</div><div class="gc-sub">(347) 377-2408</div></div>
-        </a>
-        <button class="gp-channel" onclick="openGrowthChat()" type="button">
-          <i class="fas fa-comments"></i>
-          <div><div class="gc-name">Live chat</div><div class="gc-sub">Open chat window</div></div>
-        </button>
-        <a href="https://meetings-na2.hubspot.com/webeaze/live-zoom-support?uuid=5a9a4298-400c-439d-a51e-45d3141be551" target="_blank" rel="noopener" class="gp-channel">
-          <i class="fas fa-video"></i>
-          <div><div class="gc-name">Video call</div><div class="gc-sub">Book a Google Meet</div></div>
-        </a>
-      </div>
-      <div class="gp-divider">Quick links from your plan</div>
-      <div class="gp-links">
-        <a href="help.html#/manage-your-plan" class="gp-link"><i class="fas fa-credit-card"></i> Manage your plan</a>
-        <a href="help.html#/annual-vs-monthly" class="gp-link"><i class="fas fa-calendar-alt"></i> Annual vs monthly billing</a>
-        <a href="help.html#/which-plan-should-i-choose" class="gp-link"><i class="fas fa-tag"></i> Choosing the right plan</a>
-        <a href="help.html#/payment-methods" class="gp-link"><i class="fas fa-wallet"></i> Payment methods</a>
-        <a href="help.html#/additional-pages" class="gp-link"><i class="fas fa-plus"></i> Adding more pages</a>
-        <a href="help.html#/no-contract" class="gp-link"><i class="fas fa-handshake"></i> Contracts &amp; commitments</a>
       </div>
     </div>
   </div>
@@ -1220,6 +1251,13 @@
 
   })();
   // ─────────────────────────────────────────────────────────
+
+  function toggleGrowthPanel() {
+    var panel = document.getElementById('growthPanel');
+    var btn   = panel.querySelector('.gp-trigger');
+    var open  = panel.classList.toggle('open');
+    btn.setAttribute('aria-expanded', open);
+  }
 
   function openGrowthChat() {
     if (window.HubSpotConversations && window.HubSpotConversations.widget) {
