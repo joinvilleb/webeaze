@@ -207,6 +207,14 @@
       opacity: .7;
       white-space: nowrap;
     }
+    .banner-countdown {
+      font-size: 13px;
+      font-weight: 600;
+      opacity: .8;
+      white-space: nowrap;
+      font-variant-numeric: tabular-nums;
+      flex-shrink: 0;
+    }
     @media (max-width: 540px) {
       .today-banner {
         flex-wrap: wrap;
@@ -431,6 +439,41 @@
       width: 8px; height: 8px; border-radius: 50%; background: #22c55e;
       animation: pulse-dot 2s ease-in-out infinite;
     }
+    .systems-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .queue-chip {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 999px;
+    }
+    .queue-chip.busy   { background: rgba(245,158,11,.15); color: #d97706; }
+    .queue-chip.high   { background: rgba(239,68,68,.12);  color: #dc2626; }
+
+    /* INCIDENT LOG */
+    .incident-list { list-style: none; padding: 0; margin: 0; }
+    .incident-row {
+      display: flex; align-items: flex-start; gap: 14px;
+      padding: 14px 0; border-bottom: 1px solid var(--line);
+    }
+    .incident-row:last-child { border-bottom: none; }
+    .incident-icon {
+      width: 34px; height: 34px; border-radius: 9px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center; font-size: 14px;
+    }
+    .incident-icon.resolved { background: rgba(34,197,94,.1);  color: #22c55e; }
+    .incident-icon.ongoing  { background: rgba(239,68,68,.1);  color: #ef4444; }
+    .incident-icon.monitor  { background: rgba(245,158,11,.1); color: #f59e0b; }
+    .incident-body { flex: 1; }
+    .incident-title { font-size: 14px; font-weight: 600; }
+    .incident-detail { font-size: 13px; opacity: .65; margin-top: 3px; line-height: 1.5; }
+    .incident-meta { display: flex; align-items: center; gap: 8px; margin-top: 5px; }
+    .incident-date { font-size: 12px; opacity: .5; }
+    .incident-status-badge {
+      font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em;
+      padding: 2px 7px; border-radius: 4px;
+    }
+    .incident-status-badge.resolved { background: rgba(34,197,94,.12); color: #16a34a; }
+    .incident-status-badge.ongoing  { background: rgba(239,68,68,.12);  color: #dc2626; }
+    .incident-status-badge.monitor  { background: rgba(245,158,11,.12); color: #d97706; }
+    .incident-empty { font-size: 14px; opacity: .55; padding: 12px 0; }
 
     /* COMPACT CLOSURES LIST */
     .closures-list {
@@ -611,6 +654,15 @@
   .today-banner.today-closed { color: #dc2626 !important; background: rgba(239,68,68,.07) !important; border-color: rgba(239,68,68,.18) !important; }
   .today-banner.today-away  { color: #d97706 !important; background: rgba(245,158,11,.07) !important; border-color: rgba(245,158,11,.18) !important; }
   .today-banner .banner-date { color: inherit !important; }
+  .queue-chip.busy { background: rgba(245,158,11,.12) !important; color: #b45309 !important; }
+  .queue-chip.high { background: rgba(239,68,68,.1) !important;   color: #dc2626 !important; }
+  .incident-icon.resolved { background: rgba(34,197,94,.1) !important; }
+  .incident-icon.ongoing  { background: rgba(239,68,68,.1) !important; }
+  .incident-icon.monitor  { background: rgba(245,158,11,.1) !important; }
+  .incident-title { color: #1a1a2e !important; }
+  .incident-status-badge.resolved { background: rgba(34,197,94,.1) !important; color: #15803d !important; }
+  .incident-status-badge.ongoing  { background: rgba(239,68,68,.08) !important; color: #dc2626 !important; }
+  .incident-status-badge.monitor  { background: rgba(245,158,11,.1) !important; color: #b45309 !important; }
 
   /* Footer stays dark */
   footer, .site-footer { background: #07070f !important; }
@@ -764,9 +816,12 @@
 <!-- SYSTEMS STATUS -->
 <div class="systems-bar">
   <div class="container container-narrow">
-    <div class="systems-overall">
-      <span class="sys-dot"></span>
-      <strong>All systems operational</strong>
+    <div class="systems-row">
+      <div class="systems-overall">
+        <span class="sys-dot"></span>
+        <strong>All systems operational</strong>
+      </div>
+      <div id="queue-badge"></div>
     </div>
   </div>
 </div>
@@ -1027,6 +1082,21 @@
 </section>
 
 <!-- UPCOMING CLOSURES -->
+<!-- INCIDENT LOG -->
+<section class="page-section" id="incidents">
+  <div class="container container-narrow">
+
+    <div class="section-header">
+      <i class="fas fa-triangle-exclamation"></i>
+      <h2>Incident Log</h2>
+    </div>
+
+    <ul id="incident-list" class="incident-list"></ul>
+
+  </div>
+</section>
+
+<!-- UPCOMING CLOSURES -->
 <section class="page-section" id="holidays">
   <div class="container container-narrow">
 
@@ -1229,22 +1299,24 @@
     const currentHoliday = closures.find(c => now >= c.start && now <= c.end);
     const onHoliday = !!currentHoliday;
 
+    const cdSpan = '<span id="banner-countdown" class="banner-countdown"></span>';
     if (onHoliday) {
       const ret = new Date(currentHoliday.end); ret.setDate(ret.getDate() + 1);
       const retStr = ret.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
       banner.className = 'today-banner today-closed';
-      banner.innerHTML = '<i class="fas fa-moon"></i> <strong>Closed: ' + currentHoliday.name + '</strong> · Resumes ' + retStr + ' <span class="banner-date">' + dateStr + '</span>';
+      banner.innerHTML = '<i class="fas fa-moon"></i> <strong>Closed: ' + currentHoliday.name + '</strong> · Resumes ' + retStr + cdSpan + '<span class="banner-date">' + dateStr + '</span>';
     } else if (isWeekend) {
       banner.className = 'today-banner today-closed';
-      banner.innerHTML = '<i class="fas fa-moon"></i> <strong>Closed today.</strong> Support resumes ' + nextOpenLabel(now) + ' at 9:00am ET <span class="banner-date">' + dateStr + '</span>';
+      banner.innerHTML = '<i class="fas fa-moon"></i> <strong>Closed today.</strong> Support resumes ' + nextOpenLabel(now) + ' at 9:00am ET ' + cdSpan + '<span class="banner-date">' + dateStr + '</span>';
     } else if (isOpen) {
       banner.className = 'today-banner today-open';
-      banner.innerHTML = '<i class="fas fa-circle-check"></i> <strong>Open now</strong> · 9:00am – 5:00pm ET <span class="banner-date">' + dateStr + '</span>';
+      banner.innerHTML = '<i class="fas fa-circle-check"></i> <strong>Open now</strong> · 9:00am – 5:00pm ET ' + cdSpan + '<span class="banner-date">' + dateStr + '</span>';
     } else {
       const opensNext = hour < 9 ? 'today' : nextOpenLabel(now);
       banner.className = 'today-banner today-away';
-      banner.innerHTML = '<i class="fas fa-clock"></i> <strong>Closed now</strong> · Opens ' + opensNext + ' at 9:00am ET <span class="banner-date">' + dateStr + '</span>';
+      banner.innerHTML = '<i class="fas fa-clock"></i> <strong>Closed now</strong> · Opens ' + opensNext + ' at 9:00am ET ' + cdSpan + '<span class="banner-date">' + dateStr + '</span>';
     }
+    tickCountdown();
   }
 
   function buildClosuresList() {
@@ -1311,12 +1383,113 @@
     icon.className     = open ? 'fas fa-chevron-up' : 'fas fa-chevron-down';
   }
 
+  // ---- Queue indicator ----
+  // Change to 'busy' or 'high' to surface a badge in the systems bar.
+  var QUEUE_STATUS = 'normal'; // 'normal' | 'busy' | 'high'
+
+  function renderQueueBadge() {
+    var el = document.getElementById('queue-badge');
+    if (!el) return;
+    if (QUEUE_STATUS === 'normal') { el.innerHTML = ''; return; }
+    var cfg = {
+      busy: { icon: 'fa-fire',                label: 'Busy' },
+      high: { icon: 'fa-triangle-exclamation', label: 'High Volume' }
+    };
+    var c = cfg[QUEUE_STATUS];
+    if (!c) return;
+    el.innerHTML = '<span class="queue-chip ' + QUEUE_STATUS + '"><i class="fas ' + c.icon + '"></i> ' + c.label + '</span>';
+  }
+
+  // ---- Countdown ----
+  function fmtCountdown(secs) {
+    if (secs <= 0) return '';
+    var h = Math.floor(secs / 3600);
+    var m = Math.floor((secs % 3600) / 60);
+    var s = secs % 60;
+    if (h > 0) return h + 'h ' + m + 'm';
+    if (m >= 5) return m + 'm';
+    if (m > 0) return m + 'm ' + s + 's';
+    return s + 's';
+  }
+
+  function secsUntilOpen() {
+    var now = getET();
+    var h = now.getHours(), m = now.getMinutes(), s = now.getSeconds();
+    var day = now.getDay();
+    var closures = getClosures();
+    var onHoliday = closures.some(function(c) { return now >= c.start && now <= c.end; });
+    if (day >= 1 && day <= 5 && !onHoliday && h < 9) {
+      return (9 - h) * 3600 - m * 60 - s;
+    }
+    var secsTilMidnight = (24 - h) * 3600 - m * 60 - s;
+    var check = new Date(now); check.setHours(0,0,0,0); check.setDate(check.getDate() + 1);
+    var extraDays = 0;
+    for (var i = 0; i < 14; i++) {
+      var d = check.getDay();
+      var isHol = closures.some(function(c) { return check >= c.start && check <= c.end; });
+      if (d !== 0 && d !== 6 && !isHol) break;
+      check.setDate(check.getDate() + 1); extraDays++;
+    }
+    return secsTilMidnight + extraDays * 86400 + 9 * 3600;
+  }
+
+  function secsUntilClose() {
+    var now = getET();
+    return Math.max(0, (17 - now.getHours()) * 3600 - now.getMinutes() * 60 - now.getSeconds());
+  }
+
+  function tickCountdown() {
+    var el = document.getElementById('banner-countdown');
+    if (!el) return;
+    var now = getET();
+    var day = now.getDay(), h = now.getHours();
+    var closures = getClosures();
+    var onHoliday = closures.some(function(c) { return now >= c.start && now <= c.end; });
+    var isOpen = day >= 1 && day <= 5 && !onHoliday && h >= 9 && h < 17;
+    var secs = isOpen ? secsUntilClose() : secsUntilOpen();
+    var label = isOpen ? 'Closes in ' : 'Opens in ';
+    var txt = fmtCountdown(secs);
+    el.textContent = txt ? label + txt : '';
+  }
+
+  // ---- Incident log ----
+  // Add entries here to populate the Incident Log section.
+  var INCIDENTS = [
+    { date: 'May 20, 2026', status: 'resolved', title: 'Delayed responses', detail: 'High request volume caused response times to extend to ~48 hours. All requests have been handled.' }
+  ];
+
+  function buildIncidentLog() {
+    var list = document.getElementById('incident-list');
+    if (!list) return;
+    if (!INCIDENTS.length) {
+      list.innerHTML = '<li class="incident-row"><div class="incident-body"><p class="incident-empty">No incidents to report. All systems and support are running normally.</p></div></li>';
+      return;
+    }
+    var icons = { resolved: 'fa-check', ongoing: 'fa-circle-exclamation', monitor: 'fa-eye' };
+    list.innerHTML = INCIDENTS.map(function(inc) {
+      return '<li class="incident-row">' +
+        '<div class="incident-icon ' + inc.status + '"><i class="fas ' + (icons[inc.status] || 'fa-circle') + '"></i></div>' +
+        '<div class="incident-body">' +
+          '<div class="incident-title">' + inc.title + '</div>' +
+          '<div class="incident-detail">' + inc.detail + '</div>' +
+          '<div class="incident-meta">' +
+            '<span class="incident-date">' + inc.date + '</span>' +
+            '<span class="incident-status-badge ' + inc.status + '">' + inc.status.charAt(0).toUpperCase() + inc.status.slice(1) + '</span>' +
+          '</div>' +
+        '</div>' +
+      '</li>';
+    }).join('');
+  }
+
   updateStatus();
   updateClosureBanner();
   updateTodayBanner();
   buildClosuresList();
+  renderQueueBadge();
+  buildIncidentLog();
   setInterval(updateStatus, 60000);
   setInterval(updateTodayBanner, 60000);
+  setInterval(tickCountdown, 1000);
 </script>
 
 </body>

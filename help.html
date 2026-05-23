@@ -689,6 +689,36 @@
       font-size: 13px;
       color: var(--muted);
     }
+    /* TABLE OF CONTENTS */
+    .article-toc {
+      background: var(--dark-2);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 14px 18px;
+      margin: -16px 0 28px;
+      font-size: 14px;
+    }
+    .toc-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .07em;
+      opacity: .45;
+      margin: 0 0 10px;
+    }
+    .article-toc ul { margin: 0; padding: 0; list-style: none; }
+    .article-toc li { margin: 0; }
+    .article-toc a {
+      display: block;
+      padding: 5px 0;
+      color: var(--muted);
+      text-decoration: none;
+      border-bottom: 1px solid var(--line);
+      transition: color .15s;
+    }
+    .article-toc li:last-child a { border-bottom: none; }
+    .article-toc a:hover { color: var(--brand); }
+
     .article-body {
       font-size: 16.5px;
       line-height: 1.85;
@@ -2314,6 +2344,8 @@
           <div class="rec-pills" id="recPills"></div>
         </div>
 
+        <div class="search-shortcut"><span class="kbd">/</span> to search from anywhere</div>
+
         <div class="quick-links-label">Popular topics</div>
         <div class="quick-links">
           <a href="#/getting-started" class="quick-link"><i class="fas fa-rocket"></i> Getting Started</a>
@@ -2436,7 +2468,8 @@
 
 <script>
   // ---- Content Model ----
-  const TODAY = '01-18-2026';
+  const _td = new Date();
+  const TODAY = String(_td.getMonth()+1).padStart(2,'0') + '-' + String(_td.getDate()).padStart(2,'0') + '-' + _td.getFullYear();
   const HELP_DATA = {
     topics: [
       { id: 'before', group: 'journey', title: 'Getting Started', icon: 'fa-flag-checkered', articles: [
@@ -7659,7 +7692,7 @@
         </div>
         <div class="topic-links">
           ${t.articles.map(a => {
-            const isNew = lastVisitTs > 0 && parseArticleDate(a.updated) > lastVisitTs;
+            const isNew = parseArticleDate(a.updated) >= Date.now() - 14 * 24 * 60 * 60 * 1000;
             const badge = isNew ? '<span class="new-badge">New</span>' : popularSlugs.has(a.slug) ? '<span class="popular-badge">Popular</span>' : '';
             return `<a class="topic-link" href="#/${a.slug}">${a.title}${badge}</a>`;
           }).join('')}
@@ -8257,6 +8290,20 @@ const LS_SAVED    = 'wz_help_saved';
   }
 
   // ---- Called by renderArticle after article renders ----
+  function injectToc() {
+    const body = document.querySelector('.article-body');
+    if (!body) return;
+    const headings = Array.from(body.querySelectorAll('h2'));
+    if (headings.length < 3) return;
+    headings.forEach((h, i) => { h.id = 'toc-' + i; });
+    const items = headings.map((h, i) => `<li><a href="#toc-${i}">${h.textContent}</a></li>`).join('');
+    const toc = document.createElement('nav');
+    toc.className = 'article-toc';
+    toc.innerHTML = '<p class="toc-label">On this page</p><ul>' + items + '</ul>';
+    const header = document.querySelector('.article-header');
+    if (header) header.insertAdjacentElement('afterend', toc);
+  }
+
   function onArticleRendered(slug) {
     const found = findArticleBySlug(slug);
     if (!found) return;
@@ -8264,6 +8311,7 @@ const LS_SAVED    = 'wz_help_saved';
     injectBookmarkBtn(slug, article.title);
     injectHelpfulRow(slug);
     injectRelatedArticles(slug, topic);
+    injectToc();
     wrapTables();
 
     // Inject in-body request CTA for articles with a specific template
