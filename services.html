@@ -409,34 +409,58 @@ a { color: inherit; text-decoration: none; }
 .panel-list-item i { flex-shrink: 0; font-size: .8rem; }
 
 /* ── HOW IT WORKS ──────────────────────────────── */
-.steps-stack {
-  display: flex; flex-direction: column;
-  max-width: 520px; margin: 0 auto;
+/* ── HOW IT WORKS ── */
+.how-steps {
+  display: grid;
+  grid-template-columns: 1fr 44px 1fr 44px 1fr;
+  align-items: start;
 }
-.step-item {
-  display: grid; grid-template-columns: 72px 1fr; gap: 28px;
-  position: relative;
-}
-.step-item:not(:last-child) { padding-bottom: 40px; }
-.step-item:not(:last-child)::after {
-  content: ''; position: absolute;
-  left: 31px; top: 68px; bottom: 0;
-  width: 2px;
-  background: linear-gradient(180deg, rgba(120,81,169,.3) 0%, rgba(120,81,169,.06) 100%);
-}
-.step-num {
-  width: 64px; height: 64px; border-radius: 50%; flex-shrink: 0;
-  background: linear-gradient(135deg, var(--brand), #9b6fd4); color: #fff;
-  display: flex; align-items: center; justify-content: center;
-  font-weight: 800; font-size: 1.4rem;
-  box-shadow: 0 8px 24px rgba(120,81,169,.3);
-  position: relative; z-index: 1;
+.how-step {
+  background: var(--surface); border: 1.5px solid var(--line);
+  border-radius: var(--radius-lg); padding: 36px 28px;
+  position: relative; overflow: hidden;
+  box-shadow: var(--shadow-sm);
   transition: transform .25s, box-shadow .25s;
 }
-.step-item:hover .step-num { transform: scale(1.08); box-shadow: 0 12px 32px rgba(120,81,169,.42); }
-.step-body { padding-top: 14px; }
-.step-body h3 { font-size: 1.1rem; font-weight: 700; margin: 0 0 6px; }
-.step-body p { font-size: .96rem; color: var(--muted); margin: 0; line-height: 1.7; }
+.how-step:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); }
+.how-step-bg {
+  position: absolute; top: -14px; right: 8px;
+  font-size: 7.5rem; font-weight: 800; line-height: 1;
+  color: rgba(120,81,169,.055); letter-spacing: -.04em;
+  pointer-events: none; user-select: none;
+}
+.how-step-icon {
+  width: 52px; height: 52px;
+  background: linear-gradient(135deg, var(--brand), #9b6fd4);
+  border-radius: 15px;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-size: 1.15rem;
+  margin-bottom: 20px;
+  box-shadow: 0 6px 18px rgba(120,81,169,.28);
+  position: relative; z-index: 1;
+}
+.how-step-label {
+  display: block; font-size: .7rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .12em;
+  color: var(--brand); margin-bottom: 8px;
+  position: relative; z-index: 1;
+}
+.how-step h3 {
+  font-size: 1.08rem; font-weight: 700; margin: 0 0 10px;
+  position: relative; z-index: 1;
+}
+.how-step p {
+  font-size: .93rem; color: var(--muted); margin: 0; line-height: 1.68;
+  position: relative; z-index: 1;
+}
+.how-step-connector {
+  display: flex; align-items: flex-start; justify-content: center;
+  padding-top: 52px; color: rgba(120,81,169,.25); font-size: 1.05rem;
+}
+@media (max-width: 768px) {
+  .how-steps { grid-template-columns: 1fr; gap: 16px; }
+  .how-step-connector { display: none; }
+}
 
 /* ── REAL WORK ─────────────────────────────────── */
 .work-showcase {
@@ -1031,29 +1055,31 @@ footer { background: #0a0a0f; padding: 56px 20px 36px; border-top: 1px solid rgb
   <div class="container container-narrow px-4">
     <div class="section-header reveal">
       <h2>How it works</h2>
-      <p>Three steps. That's it.</p>
+      <p>From first conversation to a live website in as little as 5 business days.</p>
     </div>
-    <div class="steps-stack">
-      <div class="step-item reveal">
-        <div class="step-num">1</div>
-        <div class="step-body">
-          <h3>Tell us about your business</h3>
-          <p>Fill out a short form. No tech knowledge needed.</p>
-        </div>
+    <div class="how-steps">
+      <div class="how-step reveal">
+        <div class="how-step-bg">01</div>
+        <div class="how-step-icon"><i class="fas fa-clipboard-list"></i></div>
+        <span class="how-step-label">Step 01</span>
+        <h3>Tell us about your business</h3>
+        <p>Fill out a short form. No tech knowledge needed. Just tell us who you are and what you do.</p>
       </div>
-      <div class="step-item reveal d1">
-        <div class="step-num">2</div>
-        <div class="step-body">
-          <h3>Book a free discovery call</h3>
-          <p>A custom design built around your brand. Free, with no obligation to move forward.</p>
-        </div>
+      <div class="how-step-connector reveal d1"><i class="fas fa-arrow-right"></i></div>
+      <div class="how-step reveal d1">
+        <div class="how-step-bg">02</div>
+        <div class="how-step-icon"><i class="fas fa-wand-magic-sparkles"></i></div>
+        <span class="how-step-label">Step 02</span>
+        <h3>We build around your brand</h3>
+        <p>A custom design previewed before anything is finalized. You approve it, we build it.</p>
       </div>
-      <div class="step-item reveal d2">
-        <div class="step-num">3</div>
-        <div class="step-body">
-          <h3>Launch and hand it off</h3>
-          <p>Your site goes live and we manage everything from that point on.</p>
-        </div>
+      <div class="how-step-connector reveal d2"><i class="fas fa-arrow-right"></i></div>
+      <div class="how-step reveal d2">
+        <div class="how-step-bg">03</div>
+        <div class="how-step-icon"><i class="fas fa-rocket"></i></div>
+        <span class="how-step-label">Step 03</span>
+        <h3>Launch and we handle everything</h3>
+        <p>Your site goes live in days. Updates, security, and hosting are managed from that point forward.</p>
       </div>
     </div>
   </div>
