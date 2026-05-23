@@ -302,17 +302,25 @@ a { color: inherit; text-decoration: none; }
 .step-card h5 { font-size: .95rem; font-weight: 700; margin: 0 0 6px; color: var(--text); }
 .step-card p { font-size: .84rem; color: var(--muted); margin: 0; line-height: 1.6; }
 
-/* SECURITY STRIP */
-.security-strip {
-  background: #f0f4ff; border: 1px solid #c7d2fe;
-  border-radius: var(--radius); padding: 28px 32px;
-  display: flex; align-items: flex-start; gap: 18px;
+/* SECURITY GRID */
+.security-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;
 }
-.security-strip-icon { color: #4f46e5; font-size: 1.4rem; flex-shrink: 0; margin-top: 2px; }
-.security-strip h4 { font-size: .95rem; font-weight: 700; color: #1e1b4b; margin: 0 0 8px; }
-.security-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 4px; }
-.security-list li { display: flex; align-items: flex-start; gap: 8px; font-size: .85rem; color: #374151; }
-.security-list li i { color: #4f46e5; font-size: .72rem; margin-top: 4px; flex-shrink: 0; }
+@media (max-width: 600px) { .security-grid { grid-template-columns: 1fr; } }
+.security-card {
+  background: var(--surface); border: 1.5px solid var(--line);
+  border-radius: var(--radius); padding: 24px;
+  display: flex; align-items: flex-start; gap: 16px;
+  box-shadow: var(--shadow-sm);
+}
+.security-card-icon {
+  width: 42px; height: 42px; border-radius: 10px; flex-shrink: 0;
+  background: #eff6ff; border: 1px solid #bfdbfe;
+  display: flex; align-items: center; justify-content: center;
+  color: #2563eb; font-size: .95rem;
+}
+.security-card h5 { font-size: .9rem; font-weight: 700; color: var(--text); margin: 0 0 4px; }
+.security-card p { font-size: .84rem; color: var(--muted); margin: 0; line-height: 1.6; }
 
 /* FAQ */
 .faq-list { max-width: 760px; margin: 0 auto; }
@@ -626,16 +634,38 @@ footer { background: #0a0a0f; padding: 56px 20px 36px; border-top: 1px solid rgb
 <!-- SECURITY -->
 <section class="section section-alt">
   <div class="container-narrow">
-    <div class="security-strip">
-      <i class="fas fa-shield-halved security-strip-icon"></i>
-      <div>
-        <h4>How we keep your domain safe</h4>
-        <ul class="security-list">
-          <li><i class="fas fa-check"></i> <strong>Everything in writing.</strong> We only make domain changes via email, never phone calls to third parties.</li>
-          <li><i class="fas fa-check"></i> <strong>You approve transfers.</strong> You'll receive confirmation emails that only you can authorize.</li>
-          <li><i class="fas fa-check"></i> <strong>Secure code sharing.</strong> We'll contact you directly when we need login info or auth codes.</li>
-          <li><i class="fas fa-check"></i> <strong>SSL certificates included.</strong> Every site gets free HTTPS security, set up automatically.</li>
-        </ul>
+    <div class="section-header">
+      <h2>How we keep your domain safe</h2>
+      <p>We take security seriously at every step, from setup to long-term management.</p>
+    </div>
+    <div class="security-grid">
+      <div class="security-card">
+        <div class="security-card-icon"><i class="fas fa-file-lines"></i></div>
+        <div>
+          <h5>Everything in writing</h5>
+          <p>We only make domain changes via email, never phone calls to third parties.</p>
+        </div>
+      </div>
+      <div class="security-card">
+        <div class="security-card-icon"><i class="fas fa-user-check"></i></div>
+        <div>
+          <h5>You approve transfers</h5>
+          <p>You'll receive confirmation emails that only you can authorize. Nothing moves without your say.</p>
+        </div>
+      </div>
+      <div class="security-card">
+        <div class="security-card-icon"><i class="fas fa-lock"></i></div>
+        <div>
+          <h5>Secure code sharing</h5>
+          <p>We'll contact you directly when we need login info or auth codes -- never through a third party.</p>
+        </div>
+      </div>
+      <div class="security-card">
+        <div class="security-card-icon"><i class="fas fa-shield-halved"></i></div>
+        <div>
+          <h5>SSL certificates included</h5>
+          <p>Every site gets free HTTPS security, set up automatically so your visitors are always protected.</p>
+        </div>
       </div>
     </div>
   </div>
