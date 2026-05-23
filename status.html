@@ -474,6 +474,15 @@
     .incident-status-badge.ongoing  { background: rgba(239,68,68,.12);  color: #dc2626; }
     .incident-status-badge.monitor  { background: rgba(245,158,11,.12); color: #d97706; }
     .incident-empty { font-size: 14px; opacity: .55; padding: 12px 0; }
+    .incident-toggle-row { display: block; padding: 6px 0; border-bottom: none; }
+    .incident-toggle-btn {
+      background: none; border: none; cursor: pointer; padding: 5px 0;
+      font-size: 13px; color: var(--brand); font-weight: 600;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .incident-toggle-btn:hover { opacity: .75; }
+    .incident-older { display: block; padding: 0; border-bottom: none; }
+    .incident-older-list { list-style: none; padding: 0; margin: 0; }
 
     /* COMPACT CLOSURES LIST */
     .closures-list {
@@ -1157,6 +1166,7 @@
         <li><a href="faq.html">FAQ</a></li>
         <li><a href="consultation.html">Book a Free Discovery Call</a></li>
         <li><a href="accessibility.html">Accessibility</a></li>
+        <li><a href="status.html">Current Status</a></li>
       </ul>
     </div>
   </div>
@@ -1304,17 +1314,17 @@
       const ret = new Date(currentHoliday.end); ret.setDate(ret.getDate() + 1);
       const retStr = ret.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
       banner.className = 'today-banner today-closed';
-      banner.innerHTML = '<i class="fas fa-moon"></i> <strong>Closed: ' + currentHoliday.name + '</strong> · Resumes ' + retStr + cdSpan + '<span class="banner-date">' + dateStr + '</span>';
+      banner.innerHTML = '<i class="fas fa-moon"></i> <strong>Closed: ' + currentHoliday.name + '</strong> · Resumes ' + retStr + cdSpan;
     } else if (isWeekend) {
       banner.className = 'today-banner today-closed';
-      banner.innerHTML = '<i class="fas fa-moon"></i> <strong>Closed today.</strong> Support resumes ' + nextOpenLabel(now) + ' at 9:00am ET ' + cdSpan + '<span class="banner-date">' + dateStr + '</span>';
+      banner.innerHTML = '<i class="fas fa-moon"></i> <strong>Closed today.</strong> Support resumes ' + nextOpenLabel(now) + ' at 9:00am ET ' + cdSpan;
     } else if (isOpen) {
       banner.className = 'today-banner today-open';
-      banner.innerHTML = '<i class="fas fa-circle-check"></i> <strong>Open now</strong> · 9:00am – 5:00pm ET ' + cdSpan + '<span class="banner-date">' + dateStr + '</span>';
+      banner.innerHTML = '<i class="fas fa-circle-check"></i> <strong>Open now</strong> · 9:00am – 5:00pm ET ' + cdSpan;
     } else {
       const opensNext = hour < 9 ? 'today' : nextOpenLabel(now);
       banner.className = 'today-banner today-away';
-      banner.innerHTML = '<i class="fas fa-clock"></i> <strong>Closed now</strong> · Opens ' + opensNext + ' at 9:00am ET ' + cdSpan + '<span class="banner-date">' + dateStr + '</span>';
+      banner.innerHTML = '<i class="fas fa-clock"></i> <strong>Closed now</strong> · Opens ' + opensNext + ' at 9:00am ET ' + cdSpan;
     }
     tickCountdown();
   }
@@ -1455,7 +1465,8 @@
   // ---- Incident log ----
   // Add entries here to populate the Incident Log section.
   var INCIDENTS = [
-    { date: 'May 20, 2026', status: 'resolved', title: 'Delayed responses', detail: 'High request volume caused response times to extend to ~48 hours. All requests have been handled.' }
+    { date: 'May 20, 2026', status: 'resolved', title: 'Delayed responses', detail: 'High request volume caused response times to extend to ~48 hours. All requests have been handled.' },
+    { date: 'Apr 9, 2026', status: 'resolved', title: 'Increased request volume', detail: 'Higher than usual request volume caused response times to extend beyond our standard 24-hour window. All requests were handled and response times returned to normal.' }
   ];
 
   function buildIncidentLog() {
@@ -1466,7 +1477,7 @@
       return;
     }
     var icons = { resolved: 'fa-check', ongoing: 'fa-circle-exclamation', monitor: 'fa-eye' };
-    list.innerHTML = INCIDENTS.map(function(inc) {
+    function incRow(inc) {
       return '<li class="incident-row">' +
         '<div class="incident-icon ' + inc.status + '"><i class="fas ' + (icons[inc.status] || 'fa-circle') + '"></i></div>' +
         '<div class="incident-body">' +
@@ -1478,7 +1489,37 @@
           '</div>' +
         '</div>' +
       '</li>';
-    }).join('');
+    }
+    var html = incRow(INCIDENTS[0]);
+    if (INCIDENTS.length > 1) {
+      var olderCount = INCIDENTS.length - 1;
+      var label = olderCount === 1 ? '1 older incident' : olderCount + ' older incidents';
+      html += '<li class="incident-toggle-row">' +
+        '<button class="incident-toggle-btn" onclick="toggleOlderIncidents(this)" aria-expanded="false">' +
+          '<i class="fas fa-chevron-down"></i> Show ' + label +
+        '</button>' +
+      '</li>' +
+      '<li class="incident-older" style="display:none">' +
+        '<ul class="incident-older-list">' + INCIDENTS.slice(1).map(incRow).join('') + '</ul>' +
+      '</li>';
+    }
+    list.innerHTML = html;
+  }
+
+  function toggleOlderIncidents(btn) {
+    var olderLi = btn.closest('li').nextElementSibling;
+    var expanded = btn.getAttribute('aria-expanded') === 'true';
+    var olderCount = INCIDENTS.length - 1;
+    var label = olderCount === 1 ? '1 older incident' : olderCount + ' older incidents';
+    if (expanded) {
+      olderLi.style.display = 'none';
+      btn.setAttribute('aria-expanded', 'false');
+      btn.innerHTML = '<i class="fas fa-chevron-down"></i> Show ' + label;
+    } else {
+      olderLi.style.display = '';
+      btn.setAttribute('aria-expanded', 'true');
+      btn.innerHTML = '<i class="fas fa-chevron-up"></i> Hide older incidents';
+    }
   }
 
   updateStatus();

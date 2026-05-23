@@ -49,10 +49,10 @@
 
     /* Archive notice bar */
     .archive-notice-bar {
-      background: #fffbeb;
-      border-bottom: 2px solid #f59e0b;
+      background: #eff6ff;
+      border-bottom: 2px solid #3b82f6;
       padding: 86px 20px 16px;
-      color: #78350f;
+      color: #1e3a5f;
     }
     .archive-notice-inner {
       max-width: 980px;
@@ -61,10 +61,15 @@
       align-items: flex-start;
       gap: 14px;
     }
-    .archive-notice-bar .arch-icon { color: #d97706; font-size: 1.1rem; flex-shrink: 0; margin-top: 2px; }
-    .arch-text strong { display: block; color: #92400e; font-size: .92rem; margin-bottom: 4px; }
-    .arch-text p { color: #78350f; font-size: .85rem; margin: 0; line-height: 1.55; }
-    .arch-text a { color: #b45309; font-weight: 600; text-decoration: underline; }
+    .archive-notice-bar .arch-icon { color: #2563eb; font-size: 1.1rem; flex-shrink: 0; margin-top: 2px; }
+    .arch-text strong { display: block; color: #1e40af; font-size: .92rem; margin-bottom: 4px; }
+    .arch-text p { color: #1e3a5f; font-size: .85rem; margin: 0; line-height: 1.55; }
+    .arch-text a { color: #1d4ed8; font-weight: 600; text-decoration: underline; }
+    .archive-notice-bar.archived { background: #fffbeb; border-bottom-color: #f59e0b; color: #78350f; }
+    .archive-notice-bar.archived .arch-icon { color: #d97706; }
+    .archive-notice-bar.archived .arch-text strong { color: #92400e; }
+    .archive-notice-bar.archived .arch-text p { color: #78350f; }
+    .archive-notice-bar.archived .arch-text a { color: #b45309; }
 
     /* Hero - no top padding since archive bar handles nav clearance */
     .hero{background:#1a1a1a;border-bottom:1px solid #333;padding-top:0}
@@ -72,6 +77,7 @@
     .eyebrow{display:inline-block;font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;color:#888;margin-bottom:8px}
     .pill{display:inline-block;padding:6px 12px;border-radius:6px;background:rgba(255,255,255,.08);border:1px solid #333;font-size:.8rem;margin:0 6px}
     .pill.archived-pill { border-color: #f59e0b; color: #fbbf24; background: rgba(251,191,36,.08); }
+    .pill.active-pill { border-color: #3b82f6; color: #93c5fd; background: rgba(59,130,246,.08); }
     .hero h1{font-weight:600;letter-spacing:0;font-size:2rem;margin:.25rem 0;color:#fff}
     .hero p.lead{max-width:700px;margin:12px 0 0;line-height:1.6;color:#999;font-size:1rem}
 
@@ -262,12 +268,12 @@
   </div>
 
   <!-- ARCHIVE NOTICE -->
-  <div class="archive-notice-bar">
+  <div class="archive-notice-bar" id="archNoticeBar">
     <div class="archive-notice-inner">
-      <i class="fas fa-box-archive arch-icon"></i>
+      <i class="fas fa-circle-info arch-icon" id="archNoticeIcon"></i>
       <div class="arch-text">
-        <strong>Archived Version</strong>
-        <p>This is the archived Terms of Service and Privacy Policy that was in effect from January 19, 2026 through May 31, 2026. It has been superseded by the updated Terms effective June 1, 2026. <a href="terms.html">View the current Terms of Service.</a></p>
+        <strong id="archNoticeTitle">Currently Active Terms</strong>
+        <p id="archNoticeText">These are the currently active Terms of Service. In effect since January 19, 2026. Updated terms take effect June 1, 2026. <a href="terms.html">View the upcoming terms for June 1, 2026.</a></p>
       </div>
     </div>
   </div>
@@ -275,11 +281,11 @@
   <!-- HERO -->
   <header class="hero">
     <div class="hero-inner container-narrow">
-      <span class="eyebrow">Legal &amp; Privacy / Archived</span>
+      <span class="eyebrow" id="archEyebrow">Legal &amp; Privacy / Current</span>
       <h1>Terms of Service &amp; Privacy Policy</h1>
-      <p class="lead">Archived version. These Terms were in effect from January 19, 2026 through May 31, 2026.</p>
+      <p class="lead" id="archLead">Currently active Terms of Service and Privacy Policy, in effect since January 19, 2026.</p>
       <div class="mt-2">
-        <span class="pill archived-pill"><i class="fas fa-box-archive" style="font-size:.7rem;margin-right:4px;"></i> Archived: <strong>January 19, 2026</strong></span>
+        <span class="pill active-pill" id="archPill">Active since: <strong>January 19, 2026</strong></span>
       </div>
       <div class="cta">
         <a class="btn btn-gold" href="terms.html"><i class="fas fa-arrow-left" style="font-size:.7rem;"></i> View Current Terms</a>
@@ -1351,6 +1357,20 @@
         e.preventDefault();
         window.scrollTo({ top: 0, behavior: 'smooth' });
       });
+    })();
+
+    (function() {
+      if (new Date() >= new Date('2026-06-01T00:00:00')) {
+        document.getElementById('archNoticeBar').classList.add('archived');
+        document.getElementById('archNoticeIcon').className = 'fas fa-box-archive arch-icon';
+        document.getElementById('archNoticeTitle').textContent = 'Archived Version';
+        document.getElementById('archNoticeText').innerHTML = 'This is the archived Terms of Service and Privacy Policy that was in effect from January 19, 2026 through May 31, 2026. It has been superseded by the updated Terms effective June 1, 2026. <a href="terms.html">View the current Terms of Service.</a>';
+        document.getElementById('archEyebrow').textContent = 'Legal & Privacy / Archived';
+        document.getElementById('archLead').textContent = 'Archived version. These Terms were in effect from January 19, 2026 through May 31, 2026.';
+        var pill = document.getElementById('archPill');
+        pill.className = 'pill archived-pill';
+        pill.innerHTML = '<i class="fas fa-box-archive" style="font-size:.7rem;margin-right:4px;"></i> Archived: <strong>January 19, 2026</strong>';
+      }
     })();
   </script>
 </body>
