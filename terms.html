@@ -62,7 +62,7 @@
     .btn-nav { background: var(--gold); color: #1a1a2e; border: none; border-radius: 12px; padding: .6rem .9rem; font-weight: 700; box-shadow: 0 8px 22px rgba(255,215,0,.22); }
 
     /* Hero - Plain style */
-    .hero{background:#1a1a1a;border-bottom:1px solid #333;padding-top:72px}
+    .hero{background:#1a1a1a;border-bottom:1px solid #333;padding-top:0}
     .hero-inner{padding:60px 18px 40px; text-align:left}
     .eyebrow{display:inline-block;font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;color:#888;margin-bottom:8px}
     .pill{display:inline-block;padding:6px 12px;border-radius:6px;background:rgba(255,255,255,.08);border:1px solid #333;font-size:.8rem;margin:0 6px}
@@ -211,7 +211,7 @@
 
     @media print {
       @page { margin: 1.5cm 2cm; }
-      nav, footer, .hero, .pill, .eyebrow, .btn-gold, .btn-ghost, .version-notice, .archive-footer-link { display: none !important; }
+      nav, footer, .hero, .pill, .eyebrow, .btn-gold, .btn-ghost, .version-notice, .prehero-notice, .archive-footer-link { display: none !important; }
       *, *::before, *::after {
         background: #fff !important;
         color: #000 !important;
@@ -227,6 +227,30 @@
       p, li { font-size: 11pt !important; }
       .card-solid { border: .5pt solid #ccc !important; break-inside: avoid !important; }
       a { text-decoration: underline !important; }
+    }
+
+    /* Pre-hero announcement strip (visible until June 1, 2026) */
+    .prehero-notice {
+      background: rgba(245,158,11,.08);
+      border-bottom: 1px solid rgba(245,158,11,.18);
+      padding-top: 64px; /* clears fixed nav */
+    }
+    .prehero-inner {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 11px 24px;
+      font-size: .84rem;
+      color: #fde68a;
+      max-width: 980px;
+      margin: 0 auto;
+    }
+    .prehero-inner i { color: #f59e0b; flex-shrink: 0; font-size: .88rem; }
+    .prehero-inner a { color: #fbbf24; font-weight: 600; text-decoration: underline; }
+    .prehero-inner a:hover { color: #fcd34d; opacity: 1; }
+    @media (max-width: 600px) {
+      .prehero-notice { padding-top: 60px; }
+      .prehero-inner { padding: 10px 18px; font-size: .82rem; }
     }
 
     /* Version notice */
@@ -321,6 +345,14 @@
           </ul>
         </div>
       </nav>
+    </div>
+  </div>
+
+  <!-- PRE-HERO ANNOUNCEMENT (hidden on/after June 1, 2026) -->
+  <div class="prehero-notice" id="preheroNotice">
+    <div class="prehero-inner">
+      <i class="fas fa-calendar-check"></i>
+      <span>Our Terms of Service and Privacy Policy are updating on <strong>June 1, 2026</strong>. <a href="#versionNotice">See what's changing.</a></span>
     </div>
   </div>
 
@@ -1594,8 +1626,12 @@
       if (new Date() >= new Date('2026-06-01T00:00:00')) {
         var notice = document.getElementById('versionNotice');
         if (notice) notice.style.display = 'none';
+        var prehero = document.getElementById('preheroNotice');
+        if (prehero) prehero.style.display = 'none';
         var lead = document.getElementById('heroLead');
         if (lead) lead.textContent = 'Terms of Service and Privacy Policy, currently in effect as of June 1, 2026.';
+        var hero = document.querySelector('.hero');
+        if (hero) hero.style.paddingTop = '72px';
       }
     })();
 
