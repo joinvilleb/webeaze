@@ -304,7 +304,7 @@ p:last-child { margin-bottom: 0; }
 
 /* FOOTNOTES */
 .fn-notes {
-  border-top: 1px solid var(--line); padding: 16px 0 0; margin-top: 0;
+  border-top: 1px solid var(--line); padding: 16px 0 60vh; margin-top: 0;
 }
 .fn-notes ol {
   margin: 0; padding: 0 0 0 14px;
@@ -905,6 +905,20 @@ footer {
 </div>
 
 </div><!-- /section-wrap -->
+
+<script>
+  document.querySelectorAll('a[href^="#fn"]').forEach(function(a) {
+    a.addEventListener('click', function(e) {
+      var target = document.getElementById(this.getAttribute('href').slice(1));
+      if (!target) return;
+      e.preventDefault();
+      var nav = document.querySelector('.nav-wrap');
+      var offset = nav ? nav.getBoundingClientRect().height + 16 : 80;
+      var top = target.getBoundingClientRect().top + window.pageYOffset - offset;
+      window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+    });
+  });
+</script>
 
 <!-- FOOTER -->
 <footer>
