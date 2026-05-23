@@ -8144,6 +8144,8 @@
   }
 
   function onHash() {
+    const hash = location.hash;
+    if (hash && !hash.startsWith('#/')) return;
     const slug = currentSlug();
     if (slug) { renderArticle(slug); }
     else { renderList(searchArticles($search.value.trim()), $search.value.trim()); }
