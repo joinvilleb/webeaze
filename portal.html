@@ -405,6 +405,24 @@
   function isWebEazeClosed(date) {
     return getWebEazeClosures().some(r => date >= r.start && date <= r.end);
   }
+  function nextBusinessDay(et) {
+    const cls = getWebEazeClosures();
+    let d = new Date(et); d.setDate(d.getDate() + 1); d.setHours(0, 0, 0, 0);
+    for (let i = 0; i < 14; i++) {
+      if (d.getDay() !== 0 && d.getDay() !== 6 && !cls.some(c => d >= c.start && d <= c.end)) return d;
+      d.setDate(d.getDate() + 1);
+    }
+    return d;
+  }
+  function nextOpenLabel(et) {
+    const nbd = nextBusinessDay(et);
+    const DAYS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    if (et.getDay() === 0) {
+      const t = new Date(et); t.setDate(t.getDate() + 1); t.setHours(0, 0, 0, 0);
+      if (nbd.toDateString() === t.toDateString()) return 'tomorrow';
+    }
+    return DAYS[nbd.getDay()];
+  }
 
   function updateStatus() {
     const row  = document.getElementById('status-row');
@@ -423,14 +441,16 @@
     if (closed) {
       label = isReturning ? 'Closed for the holiday. We are back the next working day.' : 'Closed for holiday. Back next working day.';
     } else if (day === 0 || day === 6) {
-      label = isReturning ? 'We are offline for the weekend.' : 'Offline. Back Monday at 9 AM ET.';
+      const next = nextOpenLabel(now);
+      label = isReturning ? 'We are offline for the weekend. Back ' + next + ' at 9 AM ET.' : 'Offline. Back ' + next + ' at 9 AM ET.';
     } else if (hour >= 9 && hour < 17) {
       label = isReturning ? 'We\'re here. Good to hear from you.' : 'Online now. We\'re available.';
       online = true;
     } else if (hour >= 17) {
+      const next = nextOpenLabel(now);
       label = isReturning
-        ? (day === 5 ? 'Wrapped up for the week. We are back Monday at 9 AM ET. Submit a request and we\'ll pick it up.' : 'Done for the day. Back tomorrow at 9 AM ET.')
-        : (day === 5 ? 'Offline. Back Monday at 9 AM ET.' : 'Offline. Back tomorrow at 9 AM ET.');
+        ? ('Wrapped up for ' + (day === 5 ? 'the week' : 'the day') + '. Back ' + next + ' at 9 AM ET. Submit a request and we\'ll pick it up.')
+        : ('Offline. Back ' + next + ' at 9 AM ET.');
     } else {
       label = isReturning ? 'We are back today at 9 AM ET. Submit a request and we\'ll get to it.' : 'Offline. Back today at 9 AM ET.';
     }

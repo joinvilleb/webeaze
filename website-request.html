@@ -912,24 +912,44 @@
       { name: 'December Holidays', start: '2026-12-24', end: '2027-01-03' }
     ].map(c => ({ name: c.name, start: new Date(c.start+'T00:00:00'), end: new Date(c.end+'T23:59:59') }));
   }
+  function nextBusinessDay(et) {
+    const cls = getClosures();
+    let d = new Date(et); d.setDate(d.getDate() + 1); d.setHours(0, 0, 0, 0);
+    for (let i = 0; i < 14; i++) {
+      if (d.getDay() !== 0 && d.getDay() !== 6 && !cls.some(c => d >= c.start && d <= c.end)) return d;
+      d.setDate(d.getDate() + 1);
+    }
+    return d;
+  }
+  function nextOpenLabel(et) {
+    const nbd = nextBusinessDay(et);
+    const DAYS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    if (et.getDay() === 0) {
+      const t = new Date(et); t.setDate(t.getDate() + 1); t.setHours(0, 0, 0, 0);
+      if (nbd.toDateString() === t.toDateString()) return 'tomorrow';
+    }
+    return DAYS[nbd.getDay()];
+  }
+
   function updateStatus() {
     const badge = document.getElementById('status-badge');
     const text  = document.getElementById('status-text');
     if (!badge || !text) return;
     const now = getET(), day = now.getDay(), hour = now.getHours();
     const holiday = getClosures().find(c => now >= c.start && now <= c.end);
+    const next = nextOpenLabel(now);
     badge.className = 'status-badge';
     if (holiday) {
       badge.classList.add('holiday');
-      text.textContent = 'Support is closed for ' + holiday.name;
+      text.textContent = 'Closed for ' + holiday.name + '. Back ' + next + ' at 9am ET';
     } else if (day === 0 || day === 6) {
       badge.classList.add('closed');
-      text.textContent = "Support is away for the weekend";
+      text.textContent = 'Support is back ' + next + ' at 9am ET';
     } else if (hour >= 9 && hour < 17) {
-      text.textContent = 'Support is available now'; 
+      text.textContent = 'Support is available now';
     } else {
       badge.classList.add('away');
-      text.textContent = day === 5 && hour >= 17 ? 'Support is back Monday 9am ET' : 'Support returns at 9am ET';
+      text.textContent = 'Support is back ' + next + ' at 9am ET';
     }
   }
   updateStatus();
@@ -1205,11 +1225,12 @@
         } catch(e) { return false; }
       })();
       if (isHoliday) {
-        $note.innerHTML = '<i class="fas fa-mug-hot"></i> We are closed today for a holiday. Submit your request here and we will pick it up first thing on the next business day.';
+        const next = nextOpenLabel(now);
+        $note.innerHTML = '<i class="fas fa-mug-hot"></i> We are closed today for a holiday. Submit your request and we will pick it up ' + next + ' morning.';
         $note.hidden = false;
       } else if (!isWeekend && isEvening) {
-        const nextOpenMsg = day === 5 ? 'Monday morning' : 'tomorrow morning';
-        $note.innerHTML = '<i class="fas fa-moon"></i> We are closed for the night. Submit your request and we will get on it ' + nextOpenMsg + '.';
+        const next = nextOpenLabel(now);
+        $note.innerHTML = '<i class="fas fa-moon"></i> We are closed for the night. Submit your request and we will get on it ' + next + ' morning.';
         $note.hidden = false;
       } else if (!isWeekend && isEarlyMorning) {
         $note.innerHTML = '<i class="fas fa-sun"></i> We are open at 9am ET. Submit your request and we will pick it up shortly.';

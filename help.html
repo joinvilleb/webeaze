@@ -8352,6 +8352,30 @@ const LS_SAVED    = 'wz_help_saved';
     function getHelpET() {
       return new Date(new Date().toLocaleString('en-US', { timeZone: 'America/New_York' }));
     }
+    function helpNextBusinessDay(et) {
+      var cls = [
+        { start: new Date('2026-05-25T00:00:00'), end: new Date('2026-05-25T23:59:59') },
+        { start: new Date('2026-07-03T00:00:00'), end: new Date('2026-07-03T23:59:59') },
+        { start: new Date('2026-09-07T00:00:00'), end: new Date('2026-09-07T23:59:59') },
+        { start: new Date('2026-11-25T00:00:00'), end: new Date('2026-11-29T23:59:59') },
+        { start: new Date('2026-12-24T00:00:00'), end: new Date('2027-01-03T23:59:59') }
+      ];
+      var d = new Date(et); d.setDate(d.getDate() + 1); d.setHours(0, 0, 0, 0);
+      for (var i = 0; i < 14; i++) {
+        if (d.getDay() !== 0 && d.getDay() !== 6 && !cls.some(function(c){ return d >= c.start && d <= c.end; })) return d;
+        d.setDate(d.getDate() + 1);
+      }
+      return d;
+    }
+    function helpNextOpenLabel(et) {
+      var nbd = helpNextBusinessDay(et);
+      var DAYS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+      if (et.getDay() === 0) {
+        var t = new Date(et); t.setDate(t.getDate() + 1); t.setHours(0, 0, 0, 0);
+        if (nbd.toDateString() === t.toDateString()) return 'tomorrow';
+      }
+      return DAYS[nbd.getDay()];
+    }
     function updateSidebarContact() {
       var now = getHelpET();
       var day = now.getDay(), hour = now.getHours();
@@ -8361,17 +8385,14 @@ const LS_SAVED    = 'wz_help_saved';
       if (isOpen) {
         statusClass = 'open';
         statusText = 'Support is open now';
-        
         btnText = 'Send us a message';
       } else if (isWeekend) {
         statusClass = 'closed';
-        statusText = 'Closed — reopens Monday';
-        
+        statusText = 'Closed. Back ' + helpNextOpenLabel(now) + ' at 9am ET';
         btnText = 'Leave a message';
       } else {
         statusClass = 'away';
-        statusText = hour < 9 ? 'Opens today at 9am ET' : 'Closed for today';
-        
+        statusText = hour < 9 ? 'Opens today at 9am ET' : 'Closed. Back ' + helpNextOpenLabel(now) + ' at 9am ET';
         btnText = 'Leave a message';
       }
       card.innerHTML =
@@ -9763,6 +9784,9 @@ window.WZ_CHAT_PAGE = {
   </div>
 </div>
 <script src="chat-widget.js" defer></script>
+<!-- Start of HubSpot Embed Code -->
+<script type="text/javascript" id="hs-script-loader" async defer src="//js-na2.hs-scripts.com/242171361.js"></script>
+<!-- End of HubSpot Embed Code -->
 
 </body>
 </html>

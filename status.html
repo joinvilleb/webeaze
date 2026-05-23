@@ -1167,6 +1167,25 @@
     });
   }
 
+  function nextBusinessDay(et) {
+    const cls = getClosures();
+    let d = new Date(et); d.setDate(d.getDate() + 1); d.setHours(0, 0, 0, 0);
+    for (var i = 0; i < 14; i++) {
+      if (d.getDay() !== 0 && d.getDay() !== 6 && !cls.some(function(c){ return d >= c.start && d <= c.end; })) return d;
+      d.setDate(d.getDate() + 1);
+    }
+    return d;
+  }
+  function nextOpenLabel(et) {
+    var nbd = nextBusinessDay(et);
+    var DAYS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    if (et.getDay() === 0) {
+      var t = new Date(et); t.setDate(t.getDate() + 1); t.setHours(0, 0, 0, 0);
+      if (nbd.toDateString() === t.toDateString()) return 'tomorrow';
+    }
+    return DAYS[nbd.getDay()];
+  }
+
   function updateStatus() {
     // indicator element removed — function kept for setInterval compatibility
   }
@@ -1217,12 +1236,12 @@
       banner.innerHTML = '<i class="fas fa-moon"></i> <strong>Closed: ' + currentHoliday.name + '</strong> · Resumes ' + retStr + ' <span class="banner-date">' + dateStr + '</span>';
     } else if (isWeekend) {
       banner.className = 'today-banner today-closed';
-      banner.innerHTML = '<i class="fas fa-moon"></i> <strong>Closed today.</strong> Support resumes Monday 9:00am ET <span class="banner-date">' + dateStr + '</span>';
+      banner.innerHTML = '<i class="fas fa-moon"></i> <strong>Closed today.</strong> Support resumes ' + nextOpenLabel(now) + ' at 9:00am ET <span class="banner-date">' + dateStr + '</span>';
     } else if (isOpen) {
       banner.className = 'today-banner today-open';
       banner.innerHTML = '<i class="fas fa-circle-check"></i> <strong>Open now</strong> · 9:00am – 5:00pm ET <span class="banner-date">' + dateStr + '</span>';
     } else {
-      const opensNext = hour < 9 ? 'today' : (day === 5 ? 'Monday' : 'tomorrow');
+      const opensNext = hour < 9 ? 'today' : nextOpenLabel(now);
       banner.className = 'today-banner today-away';
       banner.innerHTML = '<i class="fas fa-clock"></i> <strong>Closed now</strong> · Opens ' + opensNext + ' at 9:00am ET <span class="banner-date">' + dateStr + '</span>';
     }
