@@ -439,43 +439,6 @@
     .queue-chip.busy   { background: rgba(245,158,11,.15); color: #d97706; }
     .queue-chip.high   { background: rgba(239,68,68,.12);  color: #dc2626; }
 
-    /* INCIDENT LOG */
-    .incident-list { list-style: none; padding: 0; margin: 0; }
-    .incident-row {
-      display: flex; align-items: flex-start; gap: 14px;
-      padding: 14px 0; border-bottom: 1px solid var(--line);
-    }
-    .incident-row:last-child { border-bottom: none; }
-    .incident-icon {
-      width: 34px; height: 34px; border-radius: 9px; flex-shrink: 0;
-      display: flex; align-items: center; justify-content: center; font-size: 14px;
-    }
-    .incident-icon.resolved { background: rgba(34,197,94,.1);  color: #22c55e; }
-    .incident-icon.ongoing  { background: rgba(239,68,68,.1);  color: #ef4444; }
-    .incident-icon.monitor  { background: rgba(245,158,11,.1); color: #f59e0b; }
-    .incident-body { flex: 1; }
-    .incident-title { font-size: 14px; font-weight: 600; }
-    .incident-detail { font-size: 13px; opacity: .65; margin-top: 3px; line-height: 1.5; }
-    .incident-meta { display: flex; align-items: center; gap: 8px; margin-top: 5px; }
-    .incident-date { font-size: 12px; opacity: .5; }
-    .incident-status-badge {
-      font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em;
-      padding: 2px 7px; border-radius: 4px;
-    }
-    .incident-status-badge.resolved { background: rgba(34,197,94,.12); color: #16a34a; }
-    .incident-status-badge.ongoing  { background: rgba(239,68,68,.12);  color: #dc2626; }
-    .incident-status-badge.monitor  { background: rgba(245,158,11,.12); color: #d97706; }
-    .incident-empty { font-size: 14px; opacity: .55; padding: 12px 0; }
-    .incident-toggle-row { display: block; padding: 6px 0; border-bottom: none; }
-    .incident-toggle-btn {
-      background: none; border: none; cursor: pointer; padding: 5px 0;
-      font-size: 13px; color: var(--brand); font-weight: 600;
-      display: flex; align-items: center; gap: 6px;
-    }
-    .incident-toggle-btn:hover { opacity: .75; }
-    .incident-older { display: block; padding: 0; border-bottom: none; }
-    .incident-older-list { list-style: none; padding: 0; margin: 0; }
-
     /* COMPACT CLOSURES LIST */
     .closures-list {
       list-style: none; padding: 0; margin: 0;
@@ -610,7 +573,7 @@ html { font-size: 17px; }
 
   /* Cards, status items, history rows */
   [class*="card"], [class*="history"],
-  .status-card, .system-item, .history-row, .incident-item,
+  .status-card, .system-item, .history-row,
   .page-section-inner { background: #f5f6fa !important; border-color: rgba(0,0,0,.09) !important; }
   [class*="card"]:hover { background: #eceef8 !important; }
   .nav-item { background: transparent !important; border-color: transparent !important; }
@@ -658,14 +621,6 @@ html { font-size: 17px; }
   .today-banner .banner-date { color: inherit !important; }
   .queue-chip.busy { background: rgba(245,158,11,.12) !important; color: #b45309 !important; }
   .queue-chip.high { background: rgba(239,68,68,.1) !important;   color: #dc2626 !important; }
-  .incident-icon.resolved { background: rgba(34,197,94,.1) !important; }
-  .incident-icon.ongoing  { background: rgba(239,68,68,.1) !important; }
-  .incident-icon.monitor  { background: rgba(245,158,11,.1) !important; }
-  .incident-title { color: #1a1a2e !important; }
-  .incident-status-badge.resolved { background: rgba(34,197,94,.1) !important; color: #15803d !important; }
-  .incident-status-badge.ongoing  { background: rgba(239,68,68,.08) !important; color: #dc2626 !important; }
-  .incident-status-badge.monitor  { background: rgba(245,158,11,.1) !important; color: #b45309 !important; }
-
   /* Footer stays dark */
   footer, .site-footer { background: #07070f !important; }
   footer *, .site-footer * { color: rgba(255,255,255,.75) !important; }
@@ -1084,19 +1039,6 @@ html { font-size: 17px; }
 </section>
 
 <!-- UPCOMING CLOSURES -->
-<!-- INCIDENT LOG -->
-<section class="page-section" id="incidents">
-  <div class="container container-narrow">
-
-    <div class="section-header">
-      <i class="fas fa-triangle-exclamation"></i>
-      <h2>Incident Log</h2>
-    </div>
-
-    <ul id="incident-list" class="incident-list"></ul>
-
-  </div>
-</section>
 
 <!-- UPCOMING CLOSURES -->
 <section class="page-section" id="holidays">
@@ -1401,72 +1343,11 @@ html { font-size: 17px; }
     el.innerHTML = '<span class="queue-chip ' + QUEUE_STATUS + '"><i class="fas ' + c.icon + '"></i> ' + c.label + '</span>';
   }
 
-  // ---- Incident log ----
-  // Add entries here to populate the Incident Log section.
-  var INCIDENTS = [
-    { date: 'May 20, 2026', status: 'resolved', title: 'Delayed responses', detail: 'High request volume caused response times to extend to ~48 hours. All requests have been handled.' },
-    { date: 'Apr 9, 2026', status: 'resolved', title: 'Increased request volume', detail: 'Higher than usual request volume caused response times to extend beyond our standard 24-hour window. All requests were handled and response times returned to normal.' }
-  ];
-
-  function buildIncidentLog() {
-    var list = document.getElementById('incident-list');
-    if (!list) return;
-    if (!INCIDENTS.length) {
-      list.innerHTML = '<li class="incident-row"><div class="incident-body"><p class="incident-empty">No incidents to report. All systems and support are running normally.</p></div></li>';
-      return;
-    }
-    var icons = { resolved: 'fa-check', ongoing: 'fa-circle-exclamation', monitor: 'fa-eye' };
-    function incRow(inc) {
-      return '<li class="incident-row">' +
-        '<div class="incident-icon ' + inc.status + '"><i class="fas ' + (icons[inc.status] || 'fa-circle') + '"></i></div>' +
-        '<div class="incident-body">' +
-          '<div class="incident-title">' + inc.title + '</div>' +
-          '<div class="incident-detail">' + inc.detail + '</div>' +
-          '<div class="incident-meta">' +
-            '<span class="incident-date">' + inc.date + '</span>' +
-            '<span class="incident-status-badge ' + inc.status + '">' + inc.status.charAt(0).toUpperCase() + inc.status.slice(1) + '</span>' +
-          '</div>' +
-        '</div>' +
-      '</li>';
-    }
-    var html = incRow(INCIDENTS[0]);
-    if (INCIDENTS.length > 1) {
-      var olderCount = INCIDENTS.length - 1;
-      var label = olderCount === 1 ? '1 older incident' : olderCount + ' older incidents';
-      html += '<li class="incident-toggle-row">' +
-        '<button class="incident-toggle-btn" onclick="toggleOlderIncidents(this)" aria-expanded="false">' +
-          '<i class="fas fa-chevron-down"></i> Show ' + label +
-        '</button>' +
-      '</li>' +
-      '<li class="incident-older" style="display:none">' +
-        '<ul class="incident-older-list">' + INCIDENTS.slice(1).map(incRow).join('') + '</ul>' +
-      '</li>';
-    }
-    list.innerHTML = html;
-  }
-
-  function toggleOlderIncidents(btn) {
-    var olderLi = btn.closest('li').nextElementSibling;
-    var expanded = btn.getAttribute('aria-expanded') === 'true';
-    var olderCount = INCIDENTS.length - 1;
-    var label = olderCount === 1 ? '1 older incident' : olderCount + ' older incidents';
-    if (expanded) {
-      olderLi.style.display = 'none';
-      btn.setAttribute('aria-expanded', 'false');
-      btn.innerHTML = '<i class="fas fa-chevron-down"></i> Show ' + label;
-    } else {
-      olderLi.style.display = '';
-      btn.setAttribute('aria-expanded', 'true');
-      btn.innerHTML = '<i class="fas fa-chevron-up"></i> Hide older incidents';
-    }
-  }
-
   updateStatus();
   updateClosureBanner();
   updateTodayBanner();
   buildClosuresList();
   renderQueueBadge();
-  buildIncidentLog();
   setInterval(updateStatus, 60000);
   setInterval(updateTodayBanner, 60000);
 </script>
