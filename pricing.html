@@ -193,6 +193,9 @@ a { text-decoration: none; color: inherit; transition: .2s; }
 .plan-price .per { font-size: 16px; font-weight: 500; color: var(--muted); }
 .plan-equiv { font-size: 12px; color: var(--muted); margin-bottom: 4px; }
 .setup-note { font-size: 12px; color: var(--green); font-weight: 600; margin-bottom: 20px; }
+.setup-note del { color: var(--muted); font-weight: 400; text-decoration: line-through; }
+.setup-note .setup-waived { color: var(--green); font-weight: 700; }
+.promo-month-free { font-size: 12px; font-weight: 700; margin-bottom: 8px; }
 .plan-divider { border: none; border-top: 1px solid #e5e7eb; margin: 16px 0; }
 
 .features-list { list-style: none; padding: 0; margin: 0 0 24px; flex: 1; }
@@ -1174,6 +1177,52 @@ window.WB_PAGE_CTX = {
 </script>
 <script src="js/personalize.js"></script>
 <script src="js/promo-banner.js"></script>
+
+<script>
+/* ── Pricing promo reflection ─────────────────────────────────────────────
+   Reads the active promo exposed by promo-banner.js and updates the
+   monthly plan cards to match:
+     - Setup fee waived promos → strike $199, show $0 · Waived
+     - First month free promo  → insert badge below the plan price
+   Annual cards are untouched (setup fee is already included there).
+   Preview works automatically via ?promo-preview= because promo-banner.js
+   sets window.WB_ACTIVE_PROMO before returning.
+──────────────────────────────────────────────────────────────────────── */
+(function () {
+  var promo = window.WB_ACTIVE_PROMO;
+  if (!promo) return;
+
+  var SETUP_WAIVED_IDS = ['memorial', 'laborday', 'thanksgiving', 'christmas'];
+  var isSetupWaived   = SETUP_WAIVED_IDS.indexOf(promo.id) !== -1;
+  var isFirstMonthFree = promo.id === 'july4';
+
+  if (!isSetupWaived && !isFirstMonthFree) return;
+
+  if (isSetupWaived) {
+    // Replace each monthly setup-note with strikethrough $199 → $0 Waived
+    var notes = document.querySelectorAll('#plansMonthly .plan-card:not(.dim) .setup-note');
+    notes.forEach(function (note) {
+      note.innerHTML =
+        '<del>$199 one-time setup fee</del>' +
+        '<span class="setup-waived"> · $0 &mdash; Waived <i class="fas fa-check-circle" style="font-size:10px;"></i></span>';
+    });
+  }
+
+  if (isFirstMonthFree) {
+    // Insert a badge below the price on each monthly Essential/Growth card
+    var cards = document.querySelectorAll('#plansMonthly .plan-card:not(.dim)');
+    cards.forEach(function (card) {
+      var price = card.querySelector('.plan-price');
+      if (!price) return;
+      var badge = document.createElement('div');
+      badge.className = 'promo-month-free';
+      badge.style.color = promo.color;
+      badge.innerHTML = '<i class="' + promo.icon + '" style="margin-right:4px;"></i>First month free';
+      price.insertAdjacentElement('afterend', badge);
+    });
+  }
+})();
+</script>
 
 <!-- ── WebEaze Chat Widget ── -->
 <link rel="stylesheet" href="chat-widget.css">

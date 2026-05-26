@@ -137,6 +137,8 @@
       }
     }
   }
+  // Expose active promo globally so pricing.html can reflect it
+  window.WB_ACTIVE_PROMO = promo;
   if (!promo) return;
 
   var isPreview = !!previewId;
