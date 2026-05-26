@@ -767,21 +767,46 @@ document.getElementById('yr').textContent = new Date().getFullYear();
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" defer></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" defer></script>
 
+<script src="js/promo-banner.js"></script>
+
+<!-- HubSpot Tracking -->
+<script type="text/javascript" id="hs-script-loader" async defer src="//js-na2.hs-scripts.com/242171361.js"></script>
+
+<!-- WebEaze Chat Widget -->
+<link rel="stylesheet" href="chat-widget.css">
 <script>
-window.WB_PAGE_CTX = {
-  facebook:  [{ text: 'Our services', href: 'services.html' }, { text: 'Book a free discovery call', href: 'consultation.html' }],
-  instagram: [{ text: 'See our work', href: 'samples.html' }, { text: 'Book a free discovery call', href: 'consultation.html' }],
-  linkedin:  [{ text: 'Our services', href: 'services.html' }, { text: 'View pricing', href: 'pricing.html' }],
-  google:    [{ text: 'Our services', href: 'services.html' }, { text: 'View pricing', href: 'pricing.html' }],
-  internal: {
-    'index.html':        { msg: "Want to know who's behind WebEaze?", note: "We're a small team in Delaware. Here's our story.", links: [] },
-    'services.html':     { msg: "Want to know who's building your site?", note: "Here's a little more about us and how we work.", links: [{ text: 'Book a free discovery call', href: 'consultation.html' }] },
-    'pricing.html':      { msg: "Curious about who you'd be working with?", note: "We're a small, dedicated team. Here's our story.", links: [{ text: 'Book a free discovery call', href: 'consultation.html' }] },
-    'contact-us.html':   { msg: "Reaching out?", note: "Here's a bit of background about us before we connect.", links: [] },
-    'consultation.html': { msg: "Want to learn more about WebEaze first?", note: "Here's who we are and how we work.", links: [] }
-  }
+window.WZ_CHAT_PAGE = {
+  greeting: "Hi! I'm Eazy. Have questions about who we are or how we work? Ask away.",
+  starters: [
+    { label: "Who is WebEaze?",       msg: "Tell me about WebEaze." },
+    { label: "See examples",           msg: "Can I see websites you have built?" },
+    { label: "How do I start?",        msg: "How do I get started with WebEaze?" },
+    { label: "What do you charge?",    msg: "How much does WebEaze cost?" },
+  ],
 };
 </script>
-<script src="js/personalize.js"></script>
+<button id="wz-chat-btn" aria-label="Chat with us" onclick="wzOpenChat()" hidden>
+  <i class="fas fa-comment-dots"></i>
+  <div class="wz-badge" id="wzBadge"></div>
+</button>
+<div id="wz-chat-panel" role="dialog" aria-label="WebEaze chat" hidden>
+  <div class="wz-chat-head">
+    <div class="wz-chat-avatar"><i class="fas fa-bolt"></i></div>
+    <div class="wz-chat-head-text">
+      <div class="wz-chat-head-name">Eazy</div>
+      <div class="wz-chat-head-sub">Questions about us? Ask away.</div>
+    </div>
+    <button class="wz-chat-close" onclick="wzCloseChat()" aria-label="Close chat"><i class="fas fa-times"></i></button>
+  </div>
+  <div id="wz-chat-msgs"></div>
+  <div class="wz-chat-starters" id="wzStarters"></div>
+  <div class="wz-chat-foot">
+    <textarea id="wz-chat-input" rows="1" placeholder="Ask a question..." aria-label="Your message"
+      onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();wzSend();}"
+      oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,100)+'px'"></textarea>
+    <button id="wz-chat-send" onclick="wzSend()" aria-label="Send"><i class="fas fa-arrow-up"></i></button>
+  </div>
+</div>
+<script src="chat-widget.js" defer></script>
 </body>
 </html>

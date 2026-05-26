@@ -440,24 +440,46 @@ html { font-size: 17px; }
   })();
 </script>
 
+<script src="js/promo-banner.js"></script>
+
+<!-- HubSpot Tracking -->
+<script type="text/javascript" id="hs-script-loader" async defer src="//js-na2.hs-scripts.com/242171361.js"></script>
+
+<!-- WebEaze Chat Widget -->
+<link rel="stylesheet" href="chat-widget.css">
 <script>
-window.WB_PAGE_CTX = {
-  facebook:  [{ text: 'See our work', href: 'samples.html' }, { text: 'Book a free discovery call', href: 'consultation.html' }],
-  instagram: [{ text: 'See our work', href: 'samples.html' }, { text: 'Book a free discovery call', href: 'consultation.html' }],
-  linkedin:  [{ text: 'About WebEaze', href: 'about.html' }, { text: 'View pricing', href: 'pricing.html' }],
-  google:    [{ text: 'Our services', href: 'services.html' }, { text: 'FAQ', href: 'faq' }],
-  internal: {
-    'pricing.html':      { msg: "Thinking about a plan?", note: "We're happy to walk you through everything before you commit.", links: [{ text: 'View pricing', href: 'pricing.html' }, { text: 'FAQ', href: 'faq' }] },
-    'services.html':     { msg: "Have questions about our services?", note: "Drop us a message and we'll get back to you personally.", links: [{ text: 'Help Center', href: 'help.html' }] },
-    'faq':          { msg: "Didn't find your answer in the FAQ?", note: "Maybe our Help Center has what you're looking for.", links: [{ text: 'Browse Help Center', href: 'help.html' }] },
-    'help.html':         { msg: "Still need help?", note: "Send us a message and someone will get back to you directly.", links: [] },
-    'samples.html':      { msg: "Like what you see?", note: "Tell us about your business and we'll put together a free discovery call.", links: [{ text: 'Book a free discovery call', href: 'consultation.html' }] },
-    'about.html':        { msg: "Want to know more about us?", note: "We'd love to chat. Fill out the form and we'll reach out.", links: [] },
-    'consultation.html': { msg: "Just booked a free discovery call?", note: "Feel free to drop any questions here too.", links: [{ text: 'Help Center', href: 'help.html' }] },
-    'referral.html':     { msg: "Interested in our referral program?", note: "Earn $50 for every client you refer who signs up.", links: [{ text: 'Referral Program', href: 'referral.html' }] }
-  }
+window.WZ_CHAT_PAGE = {
+  greeting: "Hi! I'm Eazy. Have a quick question before reaching out? I can help.",
+  starters: [
+    { label: "How do updates work?",  msg: "How do website updates work?" },
+    { label: "Plans and pricing",      msg: "What plans do you offer and how much do they cost?" },
+    { label: "How long to build?",     msg: "How long does it take to get a website?" },
+    { label: "Do I own my site?",      msg: "Do I own my website?" },
+  ],
 };
 </script>
-<script src="js/personalize.js"></script>
+<button id="wz-chat-btn" aria-label="Chat with us" onclick="wzOpenChat()" hidden>
+  <i class="fas fa-comment-dots"></i>
+  <div class="wz-badge" id="wzBadge"></div>
+</button>
+<div id="wz-chat-panel" role="dialog" aria-label="WebEaze chat" hidden>
+  <div class="wz-chat-head">
+    <div class="wz-chat-avatar"><i class="fas fa-bolt"></i></div>
+    <div class="wz-chat-head-text">
+      <div class="wz-chat-head-name">Eazy</div>
+      <div class="wz-chat-head-sub">Quick question? Ask me first.</div>
+    </div>
+    <button class="wz-chat-close" onclick="wzCloseChat()" aria-label="Close chat"><i class="fas fa-times"></i></button>
+  </div>
+  <div id="wz-chat-msgs"></div>
+  <div class="wz-chat-starters" id="wzStarters"></div>
+  <div class="wz-chat-foot">
+    <textarea id="wz-chat-input" rows="1" placeholder="Ask a question..." aria-label="Your message"
+      onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();wzSend();}"
+      oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,100)+'px'"></textarea>
+    <button id="wz-chat-send" onclick="wzSend()" aria-label="Send"><i class="fas fa-arrow-up"></i></button>
+  </div>
+</div>
+<script src="chat-widget.js" defer></script>
 </body>
 </html>

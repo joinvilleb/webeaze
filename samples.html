@@ -639,30 +639,46 @@ html { font-size: 17px; }
 })();
 </script>
 
+<script src="js/promo-banner.js"></script>
+
+<!-- HubSpot Tracking -->
+<script type="text/javascript" id="hs-script-loader" async defer src="//js-na2.hs-scripts.com/242171361.js"></script>
+
+<!-- WebEaze Chat Widget -->
+<link rel="stylesheet" href="chat-widget.css">
 <script>
-window.WB_PAGE_CTX = {
-  facebook:  [{ text: 'Book a free discovery call', href: 'consultation.html' }, { text: 'View pricing', href: 'pricing.html' }],
-  instagram: [{ text: 'Book a free discovery call', href: 'consultation.html' }, { text: 'View pricing', href: 'pricing.html' }],
-  linkedin:  [{ text: 'Our services', href: 'services.html' }, { text: 'Book a free discovery call', href: 'consultation.html' }],
-  google:    [{ text: 'Our services', href: 'services.html' }, { text: 'View pricing', href: 'pricing.html' }],
-  internal: {
-    'index.html':    { msg: "Exploring our work?", note: "These are real sites we've built for real businesses.", links: [{ text: 'Book a free discovery call', href: 'consultation.html' }] },
-    'services.html': { msg: "Want to see what we build?", note: "These are real examples of our design work.", links: [{ text: 'Book a free discovery call', href: 'consultation.html' }] },
-    'pricing.html':  { msg: "Thinking about signing up?", note: "Here's some of what we've built for businesses like yours.", links: [{ text: 'Book a free discovery call', href: 'consultation.html' }] }
-  }
+window.WZ_CHAT_PAGE = {
+  greeting: "Hi! I'm Eazy. Like what you see? I can answer any questions about getting started.",
+  starters: [
+    { label: "Get a site like this",  msg: "How do I get a website like these?" },
+    { label: "How much?",              msg: "How much does a website cost?" },
+    { label: "How long to build?",     msg: "How long does it take to build a website?" },
+    { label: "Can you match my style", msg: "Can you match a specific style or color scheme?" },
+  ],
 };
 </script>
-<script src="js/personalize.js"></script>
-<script>
-document.addEventListener('wbBannerInserted', function(e) {
-  var hero = document.querySelector('.hero');
-  if (!hero) return;
-  var base = window.innerWidth <= 600 ? 110 : 140;
-  hero.style.paddingTop = (base + e.detail.barH) + 'px';
-  document.addEventListener('wbBannerDismissed', function() {
-    hero.style.paddingTop = '';
-  }, { once: true });
-});
-</script>
+<button id="wz-chat-btn" aria-label="Chat with us" onclick="wzOpenChat()" hidden>
+  <i class="fas fa-comment-dots"></i>
+  <div class="wz-badge" id="wzBadge"></div>
+</button>
+<div id="wz-chat-panel" role="dialog" aria-label="WebEaze chat" hidden>
+  <div class="wz-chat-head">
+    <div class="wz-chat-avatar"><i class="fas fa-bolt"></i></div>
+    <div class="wz-chat-head-text">
+      <div class="wz-chat-head-name">Eazy</div>
+      <div class="wz-chat-head-sub">Like what you see? Ask me anything.</div>
+    </div>
+    <button class="wz-chat-close" onclick="wzCloseChat()" aria-label="Close chat"><i class="fas fa-times"></i></button>
+  </div>
+  <div id="wz-chat-msgs"></div>
+  <div class="wz-chat-starters" id="wzStarters"></div>
+  <div class="wz-chat-foot">
+    <textarea id="wz-chat-input" rows="1" placeholder="Ask a question..." aria-label="Your message"
+      onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();wzSend();}"
+      oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,100)+'px'"></textarea>
+    <button id="wz-chat-send" onclick="wzSend()" aria-label="Send"><i class="fas fa-arrow-up"></i></button>
+  </div>
+</div>
+<script src="chat-widget.js" defer></script>
 </body>
 </html>

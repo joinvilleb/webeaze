@@ -1004,5 +1004,46 @@ html { font-size: 17px; }
   updateNavButtons();
 })();
 </script>
+<script src="js/promo-banner.js"></script>
+
+<!-- HubSpot Tracking -->
+<script type="text/javascript" id="hs-script-loader" async defer src="//js-na2.hs-scripts.com/242171361.js"></script>
+
+<!-- WebEaze Chat Widget -->
+<link rel="stylesheet" href="chat-widget.css">
+<script>
+window.WZ_CHAT_PAGE = {
+  greeting: "Hi! I'm Eazy. Not sure which plan fits your business? I can help.",
+  starters: [
+    { label: "What is the difference?", msg: "What is the difference between Essential and Growth?" },
+    { label: "Can I upgrade later?",    msg: "Can I upgrade my plan later?" },
+    { label: "What is the setup fee?",  msg: "What does the setup fee cover?" },
+    { label: "Is there a free trial?",  msg: "Is there a free trial?" },
+  ],
+};
+</script>
+<button id="wz-chat-btn" aria-label="Chat with us" onclick="wzOpenChat()" hidden>
+  <i class="fas fa-comment-dots"></i>
+  <div class="wz-badge" id="wzBadge"></div>
+</button>
+<div id="wz-chat-panel" role="dialog" aria-label="WebEaze chat" hidden>
+  <div class="wz-chat-head">
+    <div class="wz-chat-avatar"><i class="fas fa-bolt"></i></div>
+    <div class="wz-chat-head-text">
+      <div class="wz-chat-head-name">Eazy</div>
+      <div class="wz-chat-head-sub">Not sure which plan? Ask me.</div>
+    </div>
+    <button class="wz-chat-close" onclick="wzCloseChat()" aria-label="Close chat"><i class="fas fa-times"></i></button>
+  </div>
+  <div id="wz-chat-msgs"></div>
+  <div class="wz-chat-starters" id="wzStarters"></div>
+  <div class="wz-chat-foot">
+    <textarea id="wz-chat-input" rows="1" placeholder="Ask a question..." aria-label="Your message"
+      onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();wzSend();}"
+      oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,100)+'px'"></textarea>
+    <button id="wz-chat-send" onclick="wzSend()" aria-label="Send"><i class="fas fa-arrow-up"></i></button>
+  </div>
+</div>
+<script src="chat-widget.js" defer></script>
 </body>
 </html>
