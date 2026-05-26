@@ -207,24 +207,12 @@
       opacity: .7;
       white-space: nowrap;
     }
-    .banner-countdown {
-      font-size: 13px;
-      font-weight: 600;
-      opacity: .8;
-      white-space: nowrap;
-      font-variant-numeric: tabular-nums;
-    }
     @media (max-width: 640px) {
       .today-banner {
         flex-wrap: wrap;
         font-size: 14px;
         padding: 12px 14px;
         gap: 4px 6px;
-      }
-      .banner-countdown {
-        width: 100%;
-        padding-left: 25px;
-        font-size: 12px;
       }
       .today-banner .banner-date {
         width: 100%;
@@ -1314,24 +1302,22 @@ html { font-size: 17px; }
     const currentHoliday = closures.find(c => now >= c.start && now <= c.end);
     const onHoliday = !!currentHoliday;
 
-    const cdSpan = '<span id="banner-countdown" class="banner-countdown"></span>';
     if (onHoliday) {
       const ret = new Date(currentHoliday.end); ret.setDate(ret.getDate() + 1);
       const retStr = ret.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
       banner.className = 'today-banner today-closed';
-      banner.innerHTML = '<i class="fas fa-moon"></i> <strong>Closed: ' + currentHoliday.name + '</strong> · Resumes ' + retStr + cdSpan;
+      banner.innerHTML = '<i class="fas fa-moon"></i> <strong>Closed: ' + currentHoliday.name + '</strong> · Resumes ' + retStr;
     } else if (isWeekend) {
       banner.className = 'today-banner today-closed';
-      banner.innerHTML = '<i class="fas fa-moon"></i> <strong>Closed today.</strong> Support resumes ' + nextOpenLabel(now) + ' at 9:00am ET ' + cdSpan;
+      banner.innerHTML = '<i class="fas fa-moon"></i> <strong>Closed today.</strong> Support resumes ' + nextOpenLabel(now) + ' at 9:00am ET';
     } else if (isOpen) {
       banner.className = 'today-banner today-open';
-      banner.innerHTML = '<i class="fas fa-circle-check"></i> <strong>Open now</strong> · 9:00am – 5:00pm ET ' + cdSpan;
+      banner.innerHTML = '<i class="fas fa-circle-check"></i> <strong>Open now</strong> · 9:00am – 5:00pm ET';
     } else {
       const opensNext = hour < 9 ? 'today' : nextOpenLabel(now);
       banner.className = 'today-banner today-away';
-      banner.innerHTML = '<i class="fas fa-clock"></i> <strong>Closed now</strong> · Opens ' + opensNext + ' at 9:00am ET ' + cdSpan;
+      banner.innerHTML = '<i class="fas fa-clock"></i> <strong>Closed now</strong> · Opens ' + opensNext + ' at 9:00am ET';
     }
-    tickCountdown();
   }
 
   function buildClosuresList() {
@@ -1415,58 +1401,6 @@ html { font-size: 17px; }
     el.innerHTML = '<span class="queue-chip ' + QUEUE_STATUS + '"><i class="fas ' + c.icon + '"></i> ' + c.label + '</span>';
   }
 
-  // ---- Countdown ----
-  function fmtCountdown(secs) {
-    if (secs <= 0) return '';
-    var h = Math.floor(secs / 3600);
-    var m = Math.floor((secs % 3600) / 60);
-    var s = secs % 60;
-    if (h > 0) return h + 'h ' + m + 'm';
-    if (m >= 5) return m + 'm';
-    if (m > 0) return m + 'm ' + s + 's';
-    return s + 's';
-  }
-
-  function secsUntilOpen() {
-    var now = getET();
-    var h = now.getHours(), m = now.getMinutes(), s = now.getSeconds();
-    var day = now.getDay();
-    var closures = getClosures();
-    var onHoliday = closures.some(function(c) { return now >= c.start && now <= c.end; });
-    if (day >= 1 && day <= 5 && !onHoliday && h < 9) {
-      return (9 - h) * 3600 - m * 60 - s;
-    }
-    var secsTilMidnight = (24 - h) * 3600 - m * 60 - s;
-    var check = new Date(now); check.setHours(0,0,0,0); check.setDate(check.getDate() + 1);
-    var extraDays = 0;
-    for (var i = 0; i < 14; i++) {
-      var d = check.getDay();
-      var isHol = closures.some(function(c) { return check >= c.start && check <= c.end; });
-      if (d !== 0 && d !== 6 && !isHol) break;
-      check.setDate(check.getDate() + 1); extraDays++;
-    }
-    return secsTilMidnight + extraDays * 86400 + 9 * 3600;
-  }
-
-  function secsUntilClose() {
-    var now = getET();
-    return Math.max(0, (17 - now.getHours()) * 3600 - now.getMinutes() * 60 - now.getSeconds());
-  }
-
-  function tickCountdown() {
-    var el = document.getElementById('banner-countdown');
-    if (!el) return;
-    var now = getET();
-    var day = now.getDay(), h = now.getHours();
-    var closures = getClosures();
-    var onHoliday = closures.some(function(c) { return now >= c.start && now <= c.end; });
-    var isOpen = day >= 1 && day <= 5 && !onHoliday && h >= 9 && h < 17;
-    var secs = isOpen ? secsUntilClose() : secsUntilOpen();
-    var label = isOpen ? 'Closes in ' : 'Opens in ';
-    var txt = fmtCountdown(secs);
-    el.textContent = txt ? label + txt : '';
-  }
-
   // ---- Incident log ----
   // Add entries here to populate the Incident Log section.
   var INCIDENTS = [
@@ -1535,7 +1469,6 @@ html { font-size: 17px; }
   buildIncidentLog();
   setInterval(updateStatus, 60000);
   setInterval(updateTodayBanner, 60000);
-  setInterval(tickCountdown, 1000);
 </script>
 
 </body>
