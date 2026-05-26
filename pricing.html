@@ -1297,31 +1297,5 @@ window.WZ_CHAT_PAGE = {
 </div>
 <script src="chat-widget.js" defer></script>
 
-<!-- ── Exit Intent (pricing page) ── -->
-<div id="wz-exit" style="display:none;position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,.72);align-items:center;justify-content:center;padding:20px;">
-  <div style="background:#16161f;border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:32px 28px;max-width:400px;width:100%;text-align:center;position:relative;">
-    <button onclick="document.getElementById('wz-exit').style.display='none'" style="position:absolute;top:12px;right:16px;background:none;border:none;color:rgba(255,255,255,.4);font-size:20px;cursor:pointer;line-height:1;">&times;</button>
-    <div style="font-size:32px;margin-bottom:12px;">&#129300;</div>
-    <h3 style="font-size:20px;font-weight:700;margin-bottom:8px;color:#fff;">Not sure which plan fits?</h3>
-    <p style="font-size:14px;color:rgba(255,255,255,.62);margin-bottom:22px;line-height:1.6;">Book a free discovery call. We'll look at your business and tell you exactly what you need, no sales pressure.</p>
-    <a href="consultation.html" style="display:inline-block;background:#ffd700;color:#1a1a1a;font-weight:700;padding:12px 28px;border-radius:10px;font-size:15px;text-decoration:none;">Book Free Discovery Call</a>
-    <div style="margin-top:14px;font-size:12px;color:rgba(255,255,255,.3);">No credit card. No commitment.</div>
-  </div>
-</div>
-<script>
-(function() {
-  if (sessionStorage.getItem('wz_exit_shown')) return;
-  var fired = false;
-  document.documentElement.addEventListener('mouseleave', function(e) {
-    if (fired || e.clientY > 10) return;
-    fired = true;
-    sessionStorage.setItem('wz_exit_shown', '1');
-    document.getElementById('wz-exit').style.display = 'flex';
-  });
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') document.getElementById('wz-exit').style.display = 'none';
-  });
-})();
-</script>
 </body>
 </html>
