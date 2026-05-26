@@ -119,8 +119,11 @@
     /* ── SECTION LABEL ── */
     .section-label {
       font-size: 11px; font-weight: 700; text-transform: uppercase;
-      letter-spacing: .1em; color: var(--ink-3);
-      margin: 32px 0 14px; display: block;
+      letter-spacing: .1em; color: var(--brand);
+      margin: 36px 0 14px; display: flex; align-items: center; gap: 8px;
+    }
+    .section-label::after {
+      content: ''; flex: 1; height: 1px; background: var(--line);
     }
 
     /* ── FEATURE LIST ── */
@@ -142,17 +145,17 @@
     .feature-row:hover { border-color: rgba(120,81,169,.35); }
     .feature-row.open  { border-color: var(--brand); }
     .fr-top {
-      display: flex; align-items: center; gap: 13px;
-      padding: 14px 16px;
+      display: flex; align-items: center; gap: 14px;
+      padding: 16px 18px;
     }
     .fr-icon {
-      width: 36px; height: 36px; border-radius: 9px;
+      width: 38px; height: 38px; border-radius: 10px;
       background: rgba(120,81,169,.09);
       display: flex; align-items: center; justify-content: center;
-      color: var(--brand); font-size: 14px; flex-shrink: 0;
+      color: var(--brand); font-size: 15px; flex-shrink: 0;
     }
     .fr-body { flex: 1; min-width: 0; }
-    .fr-name { font-size: 14.5px; font-weight: 700; color: var(--ink); line-height: 1.3; }
+    .fr-name { font-size: 15.5px; font-weight: 700; color: var(--ink); line-height: 1.3; }
     .fr-chevron {
       font-size: 11px; color: #c8cce0; flex-shrink: 0;
       transition: transform .2s ease, color .15s;
@@ -160,8 +163,8 @@
     .feature-row.open .fr-chevron { transform: rotate(180deg); color: var(--brand); }
     .fr-detail {
       display: none;
-      padding: 12px 16px 14px 65px;
-      font-size: 13.5px; color: var(--ink-2); line-height: 1.6;
+      padding: 13px 18px 16px 70px;
+      font-size: 15px; color: var(--ink-2); line-height: 1.65;
       border-top: 1px solid var(--line);
     }
     .feature-row.open .fr-detail { display: block; }
@@ -178,10 +181,10 @@
     .support-chip {
       display: inline-flex; align-items: center; gap: 7px;
       background: var(--white); border: 1.5px solid var(--line);
-      border-radius: 10px; padding: 9px 14px;
-      font-size: 13px; font-weight: 600; color: var(--ink-2);
+      border-radius: 10px; padding: 11px 16px;
+      font-size: 14.5px; font-weight: 600; color: var(--ink-2);
     }
-    .support-chip i { color: var(--brand); font-size: 13px; }
+    .support-chip i { color: var(--brand); font-size: 14px; }
     a.support-chip, button.support-chip {
       cursor: pointer; text-decoration: none;
       font-family: 'Poppins', sans-serif;
@@ -197,37 +200,63 @@
     .tier-hint {
       display: flex; align-items: flex-start; gap: 12px;
       background: #f8f5ff; border: 1px solid rgba(120,81,169,.15);
-      border-radius: 12px; padding: 16px 18px; margin-top: 28px;
-      font-size: 13px; color: var(--ink-2); line-height: 1.6;
+      border-radius: 12px; padding: 18px 20px; margin-top: 28px;
+      font-size: 15px; color: var(--ink-2); line-height: 1.65;
     }
-    .tier-hint i { color: var(--brand); margin-top: 2px; flex-shrink: 0; font-size: 14px; }
+    .tier-hint i { color: var(--brand); margin-top: 3px; flex-shrink: 0; font-size: 15px; }
     .tier-hint a { color: var(--brand); font-weight: 600; }
 
     /* ── INFO NOTE ── */
     .info-note {
       background: var(--white); border: 1px solid var(--line);
       border-left: 3px solid var(--brand);
-      border-radius: 0 10px 10px 0; padding: 12px 16px; margin: 8px 0;
-      font-size: 13px; color: var(--ink-2); line-height: 1.6;
+      border-radius: 0 10px 10px 0; padding: 14px 18px; margin: 8px 0;
+      font-size: 15px; color: var(--ink-2); line-height: 1.65;
     }
     .info-note strong { color: var(--ink); }
 
     /* ── CTA STRIP ── */
     .cta-strip {
-      background: linear-gradient(135deg, #0f1228, #1e1040);
-      border-radius: 18px; padding: 36px 32px;
+      background: var(--white); border: 1.5px solid rgba(120,81,169,.2);
+      border-radius: 18px; padding: 32px;
       text-align: center; margin-top: 44px;
+      position: relative; overflow: hidden;
     }
-    .cta-strip h3 { color: #fff; font-size: 1.2rem; font-weight: 700; margin: 0 0 8px; }
-    .cta-strip p { color: #8892b8; font-size: .9rem; margin: 0 0 22px; }
+    .cta-strip::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--brand), #a07dd0);
+    }
+    .cta-strip h3 { color: var(--ink); font-size: 1.15rem; font-weight: 700; margin: 0 0 6px; }
+    .cta-strip p { color: var(--ink-2); font-size: 1rem; margin: 0 0 20px; }
     .cta-strip a {
-      display: inline-block; background: var(--gold); color: #2f1e66;
-      border-radius: 12px; padding: 12px 28px; font-weight: 700;
-      font-size: .95rem; text-decoration: none;
-      box-shadow: 0 6px 20px rgba(255,215,0,.22);
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--brand); color: #fff;
+      border-radius: 12px; padding: 12px 26px; font-weight: 700;
+      font-size: 1rem; text-decoration: none;
       transition: opacity .15s;
     }
     .cta-strip a:hover { opacity: .88; text-decoration: none; }
+
+    /* ── QUICK ACTIONS ── */
+    .quick-actions {
+      display: flex; flex-wrap: wrap; gap: 8px;
+      justify-content: center; margin-top: 20px;
+    }
+    .qa-btn {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 9px 18px; border-radius: 10px;
+      font-size: 13.5px; font-weight: 600; text-decoration: none;
+      transition: all .15s; border: 1px solid rgba(255,255,255,.15);
+      color: rgba(255,255,255,.75); background: rgba(255,255,255,.06);
+      font-family: 'Poppins', sans-serif;
+    }
+    .qa-btn:hover { background: rgba(255,255,255,.12); color: #fff; text-decoration: none; }
+    .qa-btn.primary {
+      background: var(--gold); color: #2f1e66;
+      border-color: transparent;
+      box-shadow: 0 4px 14px rgba(255,215,0,.2);
+    }
+    .qa-btn.primary:hover { opacity: .9; color: #2f1e66; }
 
     /* ── HELP PANEL ── */
     .help-panel {
@@ -246,15 +275,15 @@
     }
     .help-panel-link {
       display: flex; align-items: center; gap: 9px;
-      padding: 10px 14px; border-radius: 10px;
+      padding: 12px 16px; border-radius: 10px;
       border: 1px solid var(--line); background: var(--bg);
       color: var(--ink); text-decoration: none;
-      font-size: 13px; font-weight: 600;
+      font-size: 14.5px; font-weight: 600;
       transition: border-color .15s;
     }
     .help-panel-link:hover { border-color: var(--brand); text-decoration: none; color: var(--ink); }
-    .help-panel-link i { color: var(--brand); font-size: 13px; flex-shrink: 0; }
-    .help-panel-footer { margin-top: 14px; font-size: 12px; color: var(--ink-3); }
+    .help-panel-link i { color: var(--brand); font-size: 14px; flex-shrink: 0; }
+    .help-panel-footer { margin-top: 14px; font-size: 13.5px; color: var(--ink-3); }
     .help-panel-footer a { color: var(--brand); font-weight: 600; }
 
     /* ── EMPTY STATE ── */
@@ -304,6 +333,8 @@
     .footer-legal a:hover { color: #ffd700; text-decoration: none; }
     @media (max-width: 600px) { .footer-bottom { flex-direction: column; text-align: center; } }
   
+html { font-size: 17px; }
+
 /* Heading consistency */
 h1 { font-weight: 700 !important; letter-spacing: -.055em !important; }
 h2 { font-weight: 700 !important; letter-spacing: -.03em !important; }
@@ -349,6 +380,11 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
       <button class="plan-tab" data-plan="growth" onclick="selectPlan('growth')">Growth</button>
       <button class="plan-tab" data-plan="onetime" onclick="selectPlan('onetime')">One-Time</button>
     </div>
+    <div class="quick-actions">
+      <a href="website-request.html" class="qa-btn primary"><i class="fas fa-paper-plane"></i> Submit a Request</a>
+      <a href="help.html" class="qa-btn"><i class="fas fa-circle-question"></i> Help Center</a>
+      <a href="status.html" class="qa-btn"><i class="fas fa-circle-dot"></i> Support Status</a>
+    </div>
   </div>
 </header>
 
@@ -386,7 +422,7 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
       <div class="cta-strip">
         <h3>Ready to submit an update?</h3>
         <p>The request form is how all Essential plan updates get submitted.</p>
-        <a href="website-request.html">Go to Website Request &rarr;</a>
+        <a href="website-request.html"><i class="fas fa-paper-plane"></i> Submit a Request</a>
       </div>
 
       <div class="help-panel">
@@ -428,7 +464,7 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
 
       <div class="cta-strip">
         <h3>Ready to submit an update?</h3>
-        <p>Growth clients can reach us through any channel — form, email, phone, or video call.</p>
+        <p>Growth clients can reach us through any channel: form, email, phone, or video call.</p>
         <a href="website-request.html">Go to Website Request &rarr;</a>
       </div>
 
@@ -470,7 +506,7 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
       <div class="cta-strip">
         <h3>Want ongoing support after your project?</h3>
         <p>Subscribe within 14 days and get the setup fee and first month waived.</p>
-        <a href="pricing.html">View Monthly Plans &rarr;</a>
+        <a href="pricing.html"><i class="fas fa-arrow-right"></i> View Monthly Plans</a>
       </div>
 
       <div class="help-panel">
