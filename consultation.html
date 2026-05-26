@@ -65,7 +65,7 @@ a { text-decoration: none; color: inherit; }
 .navbar-dark .nav-link:hover { opacity: 1; background: rgba(255,255,255,.08); }
 .btn-nav { background: var(--gold); color: #2f1e66; border: none; border-radius: 10px; padding: .55rem .85rem; font-weight: 700; font-size: .9rem; }
 
-/* TOP SECTION - quiz + booking */
+/* TOP SECTION */
 .top-wrap {
   padding-top: 80px;
   background: var(--bg-2);
@@ -83,7 +83,7 @@ a { text-decoration: none; color: inherit; }
   .top-inner { grid-template-columns: 1fr; max-width: 640px; gap: 32px; }
   .top-visual { display: none; }
 }
-@media (wmax-width: 640px) {
+@media (max-width: 640px) {
   .top-wrap { padding-top: 56px; }
   .top-inner { padding-top: 36px; padding-bottom: 48px; }
 }
@@ -93,13 +93,25 @@ a { text-decoration: none; color: inherit; }
   letter-spacing: .1em; color: var(--brand); margin-bottom: 14px;
 }
 .top-inner h1 {
-  font-size: clamp(2rem, 4.5vw, 2.8rem);
+  font-size: clamp(1.9rem, 4vw, 2.6rem);
   font-weight: 800; color: var(--text);
   line-height: 1.2; margin-bottom: 12px;
 }
-.top-inner p {
-  font-size: 1.1rem; color: var(--muted); line-height: 1.6; margin-bottom: 0;
+.top-inner > .top-left > p {
+  font-size: 1.05rem; color: var(--muted); line-height: 1.6; margin-bottom: 20px;
 }
+
+/* TRUST CHIPS */
+.trust-row {
+  display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 0;
+}
+.trust-chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: #fff; border: 1px solid var(--line);
+  border-radius: 999px; padding: 5px 13px;
+  font-size: .82rem; font-weight: 600; color: var(--muted);
+}
+.trust-chip i { color: var(--green); font-size: .78rem; }
 
 /* QUIZ CARD */
 .quiz-card {
@@ -112,52 +124,47 @@ a { text-decoration: none; color: inherit; }
   content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
   background: linear-gradient(90deg, var(--brand), #a07dd0);
 }
-.quiz-progress-track {
-  height: 8px; background: #e5e7eb;
-}
-.quiz-progress-fill {
-  height: 100%; background: var(--brand);
-  width: 0%; transition: width .35s ease;
-}
+.quiz-progress-track { height: 6px; background: #e5e7eb; }
+.quiz-progress-fill { height: 100%; background: var(--brand); width: 0%; transition: width .35s ease; }
 .quiz-body { padding: 28px 32px 32px; }
 @media (max-width: 520px) { .quiz-body { padding: 20px 20px 24px; } }
 
 .quiz-step { display: none; }
 .quiz-step.active { display: block; }
 .quiz-q {
-  font-size: 1.2rem; font-weight: 700; color: var(--text);
-  margin-bottom: 18px; line-height: 1.4;
+  font-size: 1.15rem; font-weight: 700; color: var(--text);
+  margin-bottom: 16px; line-height: 1.4;
 }
-.quiz-options { display: flex; flex-direction: column; gap: 10px; }
+.quiz-options { display: flex; flex-direction: column; gap: 9px; }
 .quiz-opt {
-  display: flex; align-items: center; gap: 14px;
-  padding: 15px 20px; border: 1.5px solid var(--line);
+  display: flex; align-items: center; gap: 13px;
+  padding: 13px 18px; border: 1.5px solid var(--line);
   border-radius: 12px; cursor: pointer;
   background: transparent; font-family: 'Poppins', sans-serif;
-  font-size: 1rem; color: var(--text); font-weight: 500;
+  font-size: .95rem; color: var(--text); font-weight: 500;
   transition: all .15s; text-align: left; width: 100%;
 }
-.quiz-opt i { color: var(--brand); font-size: 1rem; flex-shrink: 0; width: 18px; text-align: center; }
+.quiz-opt i { color: var(--brand); font-size: .95rem; flex-shrink: 0; width: 18px; text-align: center; }
 .quiz-opt:hover { border-color: var(--brand); background: rgba(120,81,169,.04); }
 .quiz-opt.selected { border-color: var(--brand); background: rgba(120,81,169,.06); }
 
-/* RESULT */
+/* QUIZ RESULT */
 .quiz-result { display: none; }
 .quiz-result.active { display: block; }
 .result-box {
   background: var(--bg-2); border: 1px solid var(--line);
-  border-radius: 12px; padding: 18px 20px; margin-bottom: 18px;
+  border-radius: 12px; padding: 16px 18px; margin-bottom: 16px;
 }
 .result-label {
   font-size: 11px; font-weight: 700; text-transform: uppercase;
-  letter-spacing: .1em; color: var(--brand); margin-bottom: 7px;
+  letter-spacing: .1em; color: var(--brand); margin-bottom: 6px;
 }
-.result-msg { font-size: 1.05rem; color: var(--text); line-height: 1.6; }
+.result-msg { font-size: 1rem; color: var(--text); line-height: 1.6; }
 .book-btn {
   display: flex; align-items: center; justify-content: center; gap: 9px;
-  width: 100%; padding: 16px 20px;
+  width: 100%; padding: 15px 20px;
   background: var(--brand); color: #fff; border: none; border-radius: 12px;
-  font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 1.05rem;
+  font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 1rem;
   cursor: pointer; transition: background .2s;
 }
 .book-btn:hover { background: #6a45a0; }
@@ -168,9 +175,9 @@ a { text-decoration: none; color: inherit; }
 
 /* BOOKING EMBED */
 .booking-wrap {
-  display: none; margin-top: 28px;
+  display: none; margin-top: 24px;
   background: #fff; border: 1.5px solid var(--line);
-  border-radius: 20px; overflow: hidden;
+  border-radius: 20px; overflow: visible;
   box-shadow: 0 4px 24px rgba(0,0,0,.06);
   position: relative;
   animation: fadeUp .4s ease both;
@@ -181,18 +188,17 @@ a { text-decoration: none; color: inherit; }
 }
 @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 .booking-wrap.visible { display: block; }
-.booking-header { padding: 20px 28px; border-bottom: 1px solid var(--line); text-align: center; }
-.booking-header h3 { font-size: 1rem; font-weight: 700; margin-bottom: 3px; }
-.booking-header p { font-size: .87rem; color: var(--muted); margin: 0; }
+.booking-header { padding: 18px 24px; border-bottom: 1px solid var(--line); text-align: center; }
+.booking-header h3 { font-size: .95rem; font-weight: 700; margin-bottom: 3px; }
+.booking-header p { font-size: .85rem; color: var(--muted); margin: 0; }
 .meetings-iframe-container { height: 1050px; }
 .meetings-iframe-container iframe { height: 1050px !important; min-height: 1050px !important; }
-.booking-wrap { overflow: visible; }
 @media (max-width: 600px) {
   .meetings-iframe-container { height: 1050px !important; }
   .meetings-iframe-container iframe { height: 1050px !important; min-height: 1050px !important; }
 }
 
-/* BELOW SECTIONS */
+/* SECTIONS */
 .section { padding: 72px 20px; }
 .section-alt { background: var(--bg-2); }
 .sec-label {
@@ -201,15 +207,15 @@ a { text-decoration: none; color: inherit; }
   color: var(--brand); margin-bottom: 10px;
 }
 .sec-h2 {
-  text-align: center; font-size: clamp(1.7rem, 3vw, 2.2rem);
+  text-align: center; font-size: clamp(1.6rem, 3vw, 2.1rem);
   font-weight: 800; margin-bottom: 8px; color: var(--text);
 }
 .sec-sub {
-  text-align: center; color: var(--muted); font-size: 1.05rem;
+  text-align: center; color: var(--muted); font-size: 1rem;
   max-width: 440px; margin: 0 auto 40px; line-height: 1.6;
 }
 
-/* Steps */
+/* HOW IT WORKS */
 .steps-grid {
   display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
   max-width: 820px; margin: 0 auto; position: relative;
@@ -223,8 +229,8 @@ a { text-decoration: none; color: inherit; }
 @media (max-width: 640px) { .steps-grid::before { display: none; } }
 .step-card {
   background: #fff; border: 1.5px solid #e9eaf0;
-  border-radius: 20px; padding: 36px 22px 30px; text-align: center;
-  position: relative; z-index: 1; overflow: hidden;
+  border-radius: 20px; padding: 32px 22px 28px; text-align: center;
+  position: relative; z-index: 1;
   box-shadow: 0 2px 12px rgba(0,0,0,.04);
   transition: transform .25s, border-color .25s, box-shadow .25s;
 }
@@ -235,19 +241,24 @@ a { text-decoration: none; color: inherit; }
 .step-card:hover { transform: translateY(-5px); border-color: rgba(120,81,169,.25); box-shadow: 0 12px 36px rgba(120,81,169,.1); }
 .step-card:hover::after { opacity: 1; }
 .step-num {
-  width: 64px; height: 64px; border-radius: 50%;
+  width: 56px; height: 56px; border-radius: 50%;
   background: linear-gradient(135deg, #7c3aed, #7851a9); color: #fff;
-  font-size: 1.4rem; font-weight: 800;
+  font-size: 1.3rem; font-weight: 800;
   display: flex; align-items: center; justify-content: center;
-  margin: 0 auto 20px;
-  box-shadow: 0 8px 24px rgba(120,81,169,.3);
-  position: relative; z-index: 1; transition: transform .25s;
+  margin: 0 auto 16px;
+  box-shadow: 0 6px 18px rgba(120,81,169,.3);
+  transition: transform .25s;
 }
 .step-card:hover .step-num { transform: scale(1.08); }
-.step-card h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 8px; }
-.step-card p { font-size: .95rem; color: var(--muted); line-height: 1.65; margin: 0; }
+.step-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 6px; }
+.step-card p { font-size: .9rem; color: var(--muted); line-height: 1.6; margin: 0; }
+.step-stat {
+  display: inline-block; margin-top: 12px;
+  font-size: .78rem; font-weight: 700; color: var(--brand);
+  background: rgba(120,81,169,.08); border-radius: 6px; padding: 3px 10px;
+}
 
-/* Included */
+/* INCLUDED */
 .included-grid {
   display: grid; grid-template-columns: repeat(2, 1fr);
   gap: 10px; max-width: 620px; margin: 0 auto;
@@ -256,17 +267,17 @@ a { text-decoration: none; color: inherit; }
 .included-item {
   display: flex; align-items: center; gap: 11px;
   background: #fff; border: 1px solid var(--line);
-  border-radius: 10px; padding: 14px 18px;
-  font-size: 1rem; font-weight: 500; color: var(--text);
+  border-radius: 10px; padding: 13px 16px;
+  font-size: .95rem; font-weight: 500; color: var(--text);
 }
 .included-item i { color: var(--green); font-size: .82rem; flex-shrink: 0; }
 .included-note {
-  text-align: center; margin-top: 18px;
+  text-align: center; margin-top: 20px;
   font-size: .88rem; color: var(--muted);
 }
 .included-note a { color: var(--brand); font-weight: 600; }
 
-/* Samples */
+/* SAMPLES */
 .samples-grid {
   display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px;
   max-width: 860px; margin: 0 auto;
@@ -279,9 +290,9 @@ a { text-decoration: none; color: inherit; }
 }
 .sample-card:hover { transform: translateY(-4px); box-shadow: 0 10px 28px rgba(0,0,0,.08); border-color: rgba(120,81,169,.3); }
 .sample-card img { width: 100%; display: block; border-bottom: 1px solid var(--line); }
-.sample-info { padding: 15px; }
-.sample-info h4 { font-size: 1rem; font-weight: 700; margin-bottom: 3px; }
-.sample-info p { font-size: .9rem; color: var(--muted); margin: 0; }
+.sample-info { padding: 14px 16px; }
+.sample-info h4 { font-size: .95rem; font-weight: 700; margin-bottom: 3px; }
+.sample-info p { font-size: .87rem; color: var(--muted); margin: 0; }
 
 /* FOOTER */
 footer { background: #000; padding: 60px 20px 40px; border-top: 1px solid rgba(255,255,255,.08); }
@@ -398,6 +409,418 @@ html { font-size: 17px; }
 }
 </script>
 <script src="js/promo-banner.js"></script>
+</head>
+<body>
+
+<!-- NAV -->
+<div class="nav-wrap">
+  <div class="container">
+    <nav class="navbar navbar-expand-lg navbar-dark webeaze-nav" aria-label="Primary">
+      <a class="navbar-brand d-flex align-items-center" href="index.html">
+        <img loading="eager" class="logo" src="images/webeaze-transparent-copy.png" alt="WebEaze" width="428" height="493" />
+        <strong class="ml-2 brand-word">WebEaze</strong>
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mobileNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div id="mobileNav" class="collapse navbar-collapse">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item"><a class="nav-link" href="services.html">Our Services</a></li>
+          <li class="nav-item"><a class="nav-link" href="pricing.html">Pricing</a></li>
+          <li class="nav-item"><a class="nav-link" href="faq.html">FAQ</a></li>
+          <li class="nav-item"><a class="nav-link" href="help.html">Help</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact-us.html">Contact</a></li>
+          <li class="nav-item ml-1"><a class="btn btn-sm btn-nav" href="consultation.html">Book a Free Call</a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+</div>
+
+<!-- HERO + QUIZ -->
+<div id="main-content" class="top-wrap">
+  <div class="top-inner">
+
+    <!-- LEFT: HEADLINE + TRUST -->
+    <div class="top-left">
+      <div class="top-eyebrow"><i class="fas fa-calendar-check"></i> Free Discovery Call</div>
+      <h1>Book a free call. We'll handle everything else.</h1>
+      <p>Answer 3 quick questions, pick a time, and we'll take it from there. No commitment, no credit card, no pressure.</p>
+      <div class="trust-row">
+        <span class="trust-chip"><i class="fas fa-clock"></i> 15 minutes</span>
+        <span class="trust-chip"><i class="fas fa-credit-card"></i> No credit card</span>
+        <span class="trust-chip"><i class="fas fa-file-contract"></i> No contracts</span>
+        <span class="trust-chip"><i class="fas fa-bolt"></i> Live in 5 days</span>
+      </div>
+      <div class="top-visual">
+        <img src="images/assets/consultation.svg" alt="" aria-hidden="true" loading="eager">
+      </div>
+    </div>
+
+    <!-- RIGHT: QUIZ + BOOKING -->
+    <div class="top-right">
+
+      <!-- QUIZ -->
+      <div class="quiz-card" id="quizCard">
+        <div class="quiz-progress-track">
+          <div class="quiz-progress-fill" id="quizProgress"></div>
+        </div>
+        <div class="quiz-body">
+
+          <div class="quiz-step active" id="q1">
+            <div class="quiz-q">What's your website situation right now?</div>
+            <div class="quiz-options">
+              <button class="quiz-opt" onclick="answer(1,'new',this)">
+                <i class="fas fa-rocket"></i> I don't have one yet
+              </button>
+              <button class="quiz-opt" onclick="answer(1,'redesign',this)">
+                <i class="fas fa-rotate"></i> I have one but it needs work
+              </button>
+              <button class="quiz-opt" onclick="answer(1,'existing',this)">
+                <i class="fas fa-hand-holding-heart"></i> I have one, I just want it off my plate
+              </button>
+            </div>
+          </div>
+
+          <div class="quiz-step" id="q2">
+            <div class="quiz-q">What type of business do you run?</div>
+            <div class="quiz-options">
+              <button class="quiz-opt" onclick="answer(2,'service',this)">
+                <i class="fas fa-briefcase"></i> Service-based (contractor, cleaner, consultant...)
+              </button>
+              <button class="quiz-opt" onclick="answer(2,'food',this)">
+                <i class="fas fa-utensils"></i> Restaurant, cafe, or food-related
+              </button>
+              <button class="quiz-opt" onclick="answer(2,'retail',this)">
+                <i class="fas fa-store"></i> Retail, shop, or product-based
+              </button>
+              <button class="quiz-opt" onclick="answer(2,'other',this)">
+                <i class="fas fa-ellipsis"></i> Something else
+              </button>
+            </div>
+          </div>
+
+          <div class="quiz-step" id="q3">
+            <div class="quiz-q">What matters most to you?</div>
+            <div class="quiz-options">
+              <button class="quiz-opt" onclick="answer(3,'leads',this)">
+                <i class="fas fa-bullseye"></i> More customers finding me online
+              </button>
+              <button class="quiz-opt" onclick="answer(3,'credibility',this)">
+                <i class="fas fa-star"></i> Looking more professional and trustworthy
+              </button>
+              <button class="quiz-opt" onclick="answer(3,'simple',this)">
+                <i class="fas fa-check"></i> Handing it off so I stop worrying about it
+              </button>
+              <button class="quiz-opt" onclick="answer(3,'fast',this)">
+                <i class="fas fa-bolt"></i> Getting something live as fast as possible
+              </button>
+            </div>
+          </div>
+
+          <div class="quiz-result" id="quizResult">
+            <div class="result-box">
+              <div class="result-label"><i class="fas fa-check-circle" style="margin-right:4px;"></i> Here's what we're thinking</div>
+              <div class="result-msg" id="resultMsg"></div>
+            </div>
+            <button class="book-btn" onclick="showBooking()">
+              <i class="fas fa-calendar-check"></i> Book My Free Discovery Call
+            </button>
+            <p class="book-note"><i class="fas fa-shield-alt"></i> No credit card. No commitment. Just 15 minutes.</p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- BOOKING EMBED (shown after quiz) -->
+      <div class="booking-wrap" id="bookingWrap">
+        <div class="booking-header">
+          <h3>Pick a time that works for you</h3>
+          <p>15 minutes, completely free. We'll follow up within 48 hours with next steps.</p>
+        </div>
+        <div class="meetings-iframe-container"
+             data-src="https://meetings-na2.hubspot.com/webeaze/free-consultation?embed=true">
+        </div>
+        <script src="https://static.hsappstatic.net/MeetingsEmbed/ex/MeetingsEmbedCode.js"></script>
+      </div>
+
+    </div><!-- /top-right -->
+
+  </div><!-- /top-inner -->
+</div><!-- /top-wrap -->
+
+<!-- HOW IT WORKS -->
+<section class="section">
+  <div class="container">
+    <div class="sec-label">The process</div>
+    <h2 class="sec-h2">From first call to live website</h2>
+    <p class="sec-sub">Three steps, fully handled. You show up for the call. We do the rest.</p>
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-num">1</div>
+        <h3>Free discovery call</h3>
+        <p>We spend 15 minutes learning your business, your goals, and who you want to reach.</p>
+        <span class="step-stat">Free. No strings.</span>
+      </div>
+      <div class="step-card">
+        <div class="step-num">2</div>
+        <h3>We build your site</h3>
+        <p>Send us your logo and photos. We design, build, and launch. Most sites go live in 5 business days.</p>
+        <span class="step-stat">5-day average launch</span>
+      </div>
+      <div class="step-card">
+        <div class="step-num">3</div>
+        <h3>We manage it ongoing</h3>
+        <p>Unlimited updates, SEO monitoring, and support. It's completely off your plate after launch.</p>
+        <span class="step-stat">Ongoing, all included</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT'S INCLUDED -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="sec-label">What you get</div>
+    <h2 class="sec-h2">Everything included. One flat price.</h2>
+    <p class="sec-sub">No hourly billing. No surprise invoices. No juggling multiple vendors.</p>
+    <div class="included-grid">
+      <div class="included-item"><i class="fas fa-check-circle"></i> Custom website built for you</div>
+      <div class="included-item"><i class="fas fa-check-circle"></i> Unlimited edits, no extra charges</div>
+      <div class="included-item"><i class="fas fa-check-circle"></i> Hosting, domain, and SSL managed</div>
+      <div class="included-item"><i class="fas fa-check-circle"></i> Local SEO so you rank on Google</div>
+      <div class="included-item"><i class="fas fa-check-circle"></i> Google Business Profile setup</div>
+      <div class="included-item"><i class="fas fa-check-circle"></i> Mobile-optimized and fast</div>
+      <div class="included-item"><i class="fas fa-check-circle"></i> Real support from people who know your site</div>
+      <div class="included-item"><i class="fas fa-check-circle"></i> Cancel anytime, no contract</div>
+    </div>
+    <p class="included-note">Starting at $169/month. <a href="pricing.html">Compare all plans &rarr;</a></p>
+  </div>
+</section>
+
+<!-- OUR WORK -->
+<section class="section">
+  <div class="container">
+    <div class="sec-label">Our work</div>
+    <h2 class="sec-h2">Real businesses, real results</h2>
+    <p class="sec-sub">Every site below is live, built by WebEaze, and actively bringing in clients.</p>
+    <div class="samples-grid">
+      <a href="https://bearcarpetcare.com" target="_blank" rel="noopener" class="sample-card">
+        <img src="images/samples/bear-carpet-care.webp" alt="Bear Carpet Care website" width="624" height="486" loading="lazy">
+        <div class="sample-info">
+          <h4>Bear Carpet Care</h4>
+          <p>Service business with booking and trust signals.</p>
+        </div>
+      </a>
+      <a href="https://ibisprep.com" target="_blank" rel="noopener" class="sample-card">
+        <img src="images/samples/ibisprep.png" alt="Ibis Prep website" width="618" height="472" loading="lazy">
+        <div class="sample-info">
+          <h4>Ibis Prep</h4>
+          <p>Clean, credibility-focused tutoring site.</p>
+        </div>
+      </a>
+      <a href="https://galaxygymnast.com" target="_blank" rel="noopener" class="sample-card">
+        <img src="images/galaxy-gymnast-home.webp" alt="Galaxy Gymnastics website" width="624" height="487" loading="lazy">
+        <div class="sample-info">
+          <h4>Galaxy Gymnastics</h4>
+          <p>Dynamic design for an athletic training program.</p>
+        </div>
+      </a>
+    </div>
+    <p style="text-align:center;margin-top:28px;font-size:.9rem;"><a href="samples.html" style="color:var(--brand);font-weight:600;">See all our work &rarr;</a></p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand">
+        <img src="images/webeaze-transparent-copy.png" alt="WebEaze" width="428" height="493" loading="eager">
+        <span>WebEaze</span>
+      </div>
+      <p class="footer-tagline">Your entire digital presence, managed for you. We handle the tech so you can focus on running your business.</p>
+      <div class="footer-social">
+        <a href="https://facebook.com/61568824951084" target="_blank" rel="noopener" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://www.linkedin.com/company/webeaze" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+        <a href="https://instagram.com/webeaze.io" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h5>Services</h5>
+      <ul>
+        <li><a href="services.html">Our Services</a></li>
+        <li><a href="pricing.html">Pricing</a></li>
+        <li><a href="plan-guide.html">Plan Guide</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Company</h5>
+      <ul>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="samples.html">Our Work</a></li>
+        <li><a href="referral.html">Referral Program</a></li>
+        <li><a href="contact-us.html">Contact Us</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Support</h5>
+      <ul>
+        <li><a href="help.html">Help Center</a></li>
+        <li><a href="faq.html">FAQ</a></li>
+        <li><a href="consultation.html">Book a Free Discovery Call</a></li>
+        <li><a href="accessibility.html">Accessibility</a></li>
+        <li><a href="status.html">Current Status</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p style="color:#fff;margin:0">&copy; <span id="yr"></span> WebEaze. Made in Delaware, USA &#127482;&#127480;</p>
+    <div class="footer-legal">
+      <a href="terms.html#privacy">Privacy Policy</a>
+      <a href="terms.html">Terms of Service</a>
+      <a href="sitemap.xml">Site Map</a>
+    </div>
+  </div>
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js" defer></script>
+
+<script>
+document.getElementById('yr').textContent = new Date().getFullYear();
+
+// Nav scroll shadow
+var navEl = document.querySelector('.nav-wrap');
+window.addEventListener('scroll', function() {
+  navEl.style.boxShadow = window.scrollY > 10 ? '0 2px 20px rgba(0,0,0,.35)' : '';
+}, { passive: true });
+
+// Quiz
+var answers = {};
+
+function answer(q, val, btn) {
+  answers[q] = val;
+  btn.classList.add('selected');
+  setTimeout(function() {
+    if (q < 3) {
+      showQ(q + 1);
+    } else {
+      showResult();
+    }
+  }, 260);
+}
+
+function showQ(n) {
+  document.querySelectorAll('.quiz-step').forEach(function(s) { s.classList.remove('active'); });
+  document.getElementById('q' + n).classList.add('active');
+  document.getElementById('quizProgress').style.width = Math.round(((n - 1) / 3) * 100) + '%';
+}
+
+function showResult() {
+  document.getElementById('quizProgress').style.width = '100%';
+  document.querySelectorAll('.quiz-step').forEach(function(s) { s.classList.remove('active'); });
+
+  var a1 = answers[1], a2 = answers[2], a3 = answers[3];
+  var biz = { service: 'service business', food: 'restaurant', retail: 'shop', other: 'business' }[a2] || 'business';
+
+  var s1 = {
+    new:       "Starting fresh is the best way to get it exactly right for your " + biz + ".",
+    redesign:  "We'll take what you have, fix what's holding it back, and make it something that actually works.",
+    existing:  "Once we take over, your " + biz + "'s site is completely off your plate. Updates, hosting, everything."
+  }[a1] || '';
+
+  var s2 = {
+    leads:       " We'll build for local SEO and conversion from day one so the right people find you.",
+    credibility: " We'll design something that builds trust before anyone picks up the phone.",
+    simple:      " After launch, just message us when something needs changing. We handle the rest.",
+    fast:        " Most sites go live within 5 business days of your approval. We move fast."
+  }[a3] || '';
+
+  document.getElementById('resultMsg').textContent = s1 + s2;
+  document.getElementById('quizResult').classList.add('active');
+}
+
+function showBooking() {
+  var wrap = document.getElementById('bookingWrap');
+  wrap.classList.add('visible');
+  setTimeout(function() { wrap.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 100);
+}
+</script>
+
+<!-- Plan context bar: shown when arriving from pricing page with ?plan= -->
+<script>
+(function() {
+  try {
+    var plan = new URLSearchParams(window.location.search).get('plan');
+    if (!plan) return;
+    var label = plan === 'growth' ? 'Growth Plan' : 'Essential Plan';
+    function insertBar() {
+      var navEl = document.querySelector('.nav-wrap');
+      var bar = document.createElement('div');
+      bar.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:9998;' +
+        'background:#f0ebfa;border-bottom:1px solid rgba(120,81,169,.3);' +
+        'padding:9px 16px;text-align:center;' +
+        'font-family:Poppins,sans-serif;font-size:13.5px;line-height:1.5;color:#4a2d8a;';
+      bar.innerHTML = '<i class="fas fa-tag" style="color:#7851a9;margin-right:6px;"></i>' +
+        'You selected the <strong style="color:#7851a9;">' + label + '</strong> on the pricing page. Mention it on your call.';
+      document.body.appendChild(bar);
+      function reposition() {
+        var navH = navEl ? navEl.getBoundingClientRect().height : 60;
+        bar.style.top = navH + 'px';
+        var bh = bar.getBoundingClientRect().height || 38;
+        var tw = document.querySelector('.top-wrap');
+        if (tw) tw.style.paddingTop = (navH + bh) + 'px';
+      }
+      reposition();
+      window.addEventListener('load', reposition, { once: true });
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', insertBar);
+    } else {
+      insertBar();
+    }
+  } catch(e) {}
+})();
+</script>
+
+<!-- WebEaze Chat Widget -->
+<link rel="stylesheet" href="chat-widget.css">
+<script>
+window.WZ_CHAT_PAGE = {
+  greeting: "Hi! I'm Eazy. Quick question before your call? I can answer anything about plans, process, or what to expect.",
+  sub: "Ask anything before you book.",
+  starters: [
+    { label: "What happens on the call?", msg: "What happens on the free discovery call?" },
+    { label: "How fast is the build?",    msg: "How long does the website build take?" },
+    { label: "Essential vs Growth",       msg: "What is the difference between Essential and Growth?" },
+    { label: "No credit card?",           msg: "Do I need a credit card to book the call?" }
+  ]
+};
+</script>
+<button id="wz-chat-btn" aria-label="Chat with us" onclick="wzOpenChat()" hidden>
+  <i class="fas fa-comment-dots"></i>
+  <div class="wz-badge" id="wzBadge"></div>
+</button>
+<div id="wz-chat-panel" role="dialog" aria-label="WebEaze chat" hidden>
+  <div class="wz-chat-head">
+    <div class="wz-chat-avatar"><i class="fas fa-bolt"></i></div>
+    <div class="wz-chat-head-text">
+      <div class="wz-chat-head-name">Eazy</div>
+      <div class="wz-chat-head-sub">Questions before your call?</div>
+    </div>
+    <button class="wz-chat-close" onclick="wzCloseChat()" aria-label="Close chat"><i class="fas fa-times"></i></button>
+  </div>
+  <div id="wz-chat-msgs"></div>
+  <div class="wz-chat-starters" id="wzStarters"></div>
+  <div class="wz-chat-foot">
+    <textarea id="wz-chat-input" rows="1" placeholder="Ask a question..." aria-label="Your message"
+      onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();wzSend();}"
+      oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,100)+'px'"></textarea>
+    <button id="wz-chat-send" onclick="wzSend()" aria-label="Send"><i class="fas fa-arrow-up"></i></button>
+  </div>
+</div>
+<script src="chat-widget.js" defer></script>
 
 <!-- HubSpot Tracking -->
 <script type="text/javascript" id="hs-script-loader" async defer src="//js-na2.hs-scripts.com/242171361.js"></script>
