@@ -1946,28 +1946,6 @@
   }
   #read-progress.active { display: block; }
 
-  /* SIDEBAR CONTACT CARD */
-  .sidebar-contact-card {
-    background: var(--dark-2); border: 1px solid var(--line);
-    border-radius: 16px; padding: 18px; margin-top: 12px;
-  }
-  .scc-label {
-    font-size: 11px; font-weight: 700; text-transform: uppercase;
-    letter-spacing: .08em; color: var(--muted); margin-bottom: 12px;
-  }
-  .scc-status-row {
-    display: flex; align-items: center; gap: 8px;
-    font-size: 14px; font-weight: 600; margin-bottom: 8px;
-  }
-  .scc-dot {
-    width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
-  }
-  .scc-dot.open { background: #22c55e; animation: pulse-dot 2s ease-in-out infinite; }
-  .scc-dot.closed { background: #ef4444; }
-  .scc-dot.away { background: #f59e0b; }
-  .scc-hours {
-    font-size: 12.5px; color: var(--muted); margin-bottom: 14px; line-height: 1.55;
-  }
   .scc-btn {
     display: flex; align-items: center; justify-content: center; gap: 8px;
     width: 100%; padding: 10px; border-radius: 10px;
@@ -2195,14 +2173,6 @@
   /* Reading progress bar */
   #read-progress { background: #7851a9 !important; }
 
-  /* Sidebar contact card */
-  .sidebar-contact-card { background: #f5f6fa !important; border-color: rgba(0,0,0,.09) !important; }
-  .scc-label { color: #9ca3b0 !important; }
-  .scc-status-row { color: #1a1a2e !important; }
-  .scc-hours { color: #6b7280 !important; }
-  .scc-dot.open { background: #22c55e !important; }
-  .scc-dot.closed { background: #ef4444 !important; }
-  .scc-dot.away { background: #f59e0b !important; }
   .scc-btn { background: #7851a9 !important; color: #fff !important; }
 
   /* Mobile topics toggle in light mode */
@@ -2389,7 +2359,6 @@
           <div class="sidebar-title">Browse by Topic</div>
           <div id="browseBody"></div>
         </div>
-        <div class="sidebar-contact-card" id="sidebarContactCard"></div>
       </aside>
 
       <!-- CONTENT AREA -->
@@ -8623,74 +8592,6 @@ const LS_SAVED    = 'wz_help_saved';
     }, { passive: true });
   }
 
-  // ---- Sidebar contact card ----
-  function initSidebarContact() {
-    var card = document.getElementById('sidebarContactCard');
-    if (!card) return;
-    function getHelpET() {
-      return new Date(new Date().toLocaleString('en-US', { timeZone: 'America/New_York' }));
-    }
-    function helpNextBusinessDay(et) {
-      var cls = getHelpClosures();
-      var d = new Date(et); d.setDate(d.getDate() + 1); d.setHours(0, 0, 0, 0);
-      for (var i = 0; i < 14; i++) {
-        if (d.getDay() !== 0 && d.getDay() !== 6 && !cls.some(function(c){ return d >= c.start && d <= c.end; })) return d;
-        d.setDate(d.getDate() + 1);
-      }
-      return d;
-    }
-    function helpNextOpenLabel(et) {
-      var nbd = helpNextBusinessDay(et);
-      var DAYS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-      if (et.getDay() === 0) {
-        var t = new Date(et); t.setDate(t.getDate() + 1); t.setHours(0, 0, 0, 0);
-        if (nbd.toDateString() === t.toDateString()) return 'tomorrow';
-      }
-      return DAYS[nbd.getDay()];
-    }
-    function getHelpClosures() {
-      return [
-        { name: 'Memorial Day',      start: new Date('2026-05-25T00:00:00'), end: new Date('2026-05-25T23:59:59') },
-        { name: 'Independence Day',  start: new Date('2026-07-03T00:00:00'), end: new Date('2026-07-03T23:59:59') },
-        { name: 'Labor Day',         start: new Date('2026-09-07T00:00:00'), end: new Date('2026-09-07T23:59:59') },
-        { name: 'Thanksgiving',      start: new Date('2026-11-25T00:00:00'), end: new Date('2026-11-29T23:59:59') },
-        { name: 'December Holidays', start: new Date('2026-12-24T00:00:00'), end: new Date('2027-01-03T23:59:59') }
-      ];
-    }
-    function updateSidebarContact() {
-      var now = getHelpET();
-      var day = now.getDay(), hour = now.getHours();
-      var holiday = getHelpClosures().find(function(c){ return now >= c.start && now <= c.end; });
-      var isWeekend = day === 0 || day === 6;
-      var isOpen = !holiday && !isWeekend && hour >= 9 && hour < 17;
-      var statusClass, statusText, btnText;
-      if (holiday) {
-        statusClass = 'closed';
-        statusText = 'Closed for ' + holiday.name + '. Back ' + helpNextOpenLabel(now) + ' at 9am ET';
-        btnText = 'Leave a message';
-      } else if (isOpen) {
-        statusClass = 'open';
-        statusText = 'Support is open now';
-        btnText = 'Send us a message';
-      } else if (isWeekend) {
-        statusClass = 'closed';
-        statusText = 'Closed. Back ' + helpNextOpenLabel(now) + ' at 9am ET';
-        btnText = 'Leave a message';
-      } else {
-        statusClass = 'away';
-        statusText = hour < 9 ? 'Opens today at 9am ET' : 'Closed. Back ' + helpNextOpenLabel(now) + ' at 9am ET';
-        btnText = 'Leave a message';
-      }
-      card.innerHTML =
-        '<div class="scc-label">Need more help?</div>' +
-        '<div class="scc-status-row"><span class="scc-dot ' + statusClass + '"></span><span>' + statusText + '</span></div>' +
-        '<div class="scc-hours">' + '</div>' +
-        '<a href="website-request.html" class="scc-btn"><i class="fas fa-envelope" style="color: white!important;"></i> ' + btnText + '</a>';
-    }
-    updateSidebarContact();
-    setInterval(updateSidebarContact, 60000);
-  }
-
   function boot() {
     if (!lsGet('wz_first_visit')) lsSet('wz_first_visit', Date.now());
     lastVisitTs = lsGet('wz_help_last_visit') || 0;
@@ -8705,7 +8606,6 @@ const LS_SAVED    = 'wz_help_saved';
     initSearch();
     initTypeahead();
     initReadProgress();
-    initSidebarContact();
     window.addEventListener('hashchange', onHash);
     onHash();
   }
