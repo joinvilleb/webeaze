@@ -816,7 +816,7 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
       </div>
     </details>
 
-    <details class="update-item" open>
+    <details class="update-item" id="oldPackageUpdate" open>
       <summary>
         <span class="update-title">Website Setup Package Ending May 31, 2026</span>
         <span class="update-meta">
@@ -1143,10 +1143,12 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
 <!-- JS -->
 <script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
 <script>
-// Show "agreements ended" status update on June 1, 2026+
+// On June 1, 2026+: show the "ended" update and collapse the old "ending" one
 if (new Date() >= new Date('2026-06-01')) {
   var el = document.getElementById('endedUpdate');
   if (el) el.style.display = '';
+  var old = document.getElementById('oldPackageUpdate');
+  if (old) old.removeAttribute('open');
 }
 </script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
