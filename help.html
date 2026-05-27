@@ -121,6 +121,14 @@
       margin: 0 0 20px;
       color: #0f172a;
     }
+    #heroGreeting {
+      display: inline-block;
+      transition: opacity .35s ease, transform .35s ease;
+    }
+    #heroGreeting.fade-out {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
     .hero p {
       display: none;
     }
@@ -2227,7 +2235,7 @@
   background: rgba(0,0,0,.55);
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
-  z-index: 9998;
+  z-index: 10000;
   display: none;
   align-items: center;
   justify-content: center;
@@ -2488,7 +2496,7 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
 <header id="main-content" class="hero">
   <div class="container container-narrow">
     <div class="hero-content">
-      <h1>How can we help?</h1>
+      <h1><span id="heroGreeting">How can we help?</span></h1>
       <p id="heroSub">Search our help articles or browse by topic below.</p>
       <div class="hero-search-wrap">
         <div class="search-wrap">
@@ -9097,6 +9105,21 @@ const LS_SAVED    = 'wz_help_saved';
 
     // Escape key
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape') gsClose(); });
+
+    // Hero greeting rotator
+    const $heroGreeting = document.getElementById('heroGreeting');
+    if ($heroGreeting) {
+      const phrases = ['How can we help?', "What's on your mind?", 'Find what you need.'];
+      let idx = 0;
+      setInterval(() => {
+        $heroGreeting.classList.add('fade-out');
+        setTimeout(() => {
+          idx = (idx + 1) % phrases.length;
+          $heroGreeting.textContent = phrases[idx];
+          $heroGreeting.classList.remove('fade-out');
+        }, 360);
+      }, 3500);
+    }
   }
 
   document.addEventListener('DOMContentLoaded', boot);
