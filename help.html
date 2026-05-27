@@ -2474,9 +2474,14 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
   <div class="container container-narrow">
 
     <div class="gs-hub-header">
-      <p class="gs-eyebrow"><i class="fas fa-seedling"></i> New to WebEaze?</p>
-      <h2>Start here</h2>
-      <p>Here's how the whole process works, from sign-up to going live.</p>
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;">
+        <div>
+          <p class="gs-eyebrow"><i class="fas fa-seedling"></i> New to WebEaze?</p>
+          <h2>Start here</h2>
+          <p>Here's how the whole process works, from sign-up to going live.</p>
+        </div>
+        <button id="gsHubDismiss" title="Dismiss" style="background:none;border:none;cursor:pointer;color:#94a3b8;font-size:13px;padding:4px 6px;border-radius:6px;white-space:nowrap;flex-shrink:0;margin-top:4px;transition:color .15s;" onmouseover="this.style.color='#475569'" onmouseout="this.style.color='#94a3b8'"><i class="fas fa-xmark"></i> Dismiss</button>
+      </div>
     </div>
 
     <div class="gs-steps">
@@ -8290,7 +8295,11 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
     $article.hidden = true;
     $article.innerHTML = '';
     $categoriesSection.style.display = q.trim() ? 'none' : 'block';
-    if ($gsHub) $gsHub.style.display = q.trim() ? 'none' : '';
+    if ($gsHub) {
+      const _gsHasHistory = (lsGet(LS_READ) || []).length > 0;
+      const _gsDismissed = lsGet('wz_gs_dismissed');
+      $gsHub.style.display = (q.trim() || _gsHasHistory || _gsDismissed) ? 'none' : '';
+    }
 
     const readSlugs = new Set((lsGet(LS_READ) || []).map(r => r.slug));
 
@@ -8997,6 +9006,15 @@ const LS_SAVED    = 'wz_help_saved';
     initReadProgress();
     window.addEventListener('hashchange', onHash);
     onHash();
+
+    // Getting Started hub dismiss
+    const $dismissBtn = document.getElementById('gsHubDismiss');
+    if ($dismissBtn) {
+      $dismissBtn.addEventListener('click', () => {
+        lsSet('wz_gs_dismissed', true);
+        if ($gsHub) $gsHub.style.display = 'none';
+      });
+    }
   }
 
   document.addEventListener('DOMContentLoaded', boot);
