@@ -489,6 +489,7 @@
     .update-badge.feature      { background: rgba(120,81,169,.1);   color: #7851a9; }
     .update-badge.policy       { background: rgba(59,130,246,.1);   color: #2563eb; }
     .update-badge.announcement { background: rgba(245,158,11,.1);   color: #d97706; }
+    .update-badge.ended        { background: rgba(239,68,68,.1);    color: #ef4444; }
 
     /* HOLIDAY DAYS CHIP */
     .holiday-days-chip {
@@ -718,6 +719,7 @@ html { font-size: 17px; }
   .update-badge.feature      { color: #7851a9 !important; background: rgba(120,81,169,.1) !important; }
   .update-badge.policy       { color: #1d4ed8 !important; background: rgba(59,130,246,.1) !important; }
   .update-badge.announcement { color: #b45309 !important; background: rgba(245,158,11,.1) !important; }
+  .update-badge.ended        { color: #dc2626 !important; background: rgba(239,68,68,.1)  !important; }
 
   /* HOLIDAY CHIP in light mode */
   .holiday-days-chip { color: #7851a9 !important; background: rgba(120,81,169,.1) !important; }
@@ -796,6 +798,23 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
       <i class="fas fa-bullhorn"></i>
       <h2>Recent Updates</h2>
     </div>
+
+    <!-- Shown June 1, 2026+ -->
+    <details class="update-item" id="endedUpdate" open style="display:none">
+      <summary>
+        <span class="update-title">Website Setup Package Agreements Have Ended</span>
+        <span class="update-meta">
+          <span class="update-badge ended">Ended</span>
+          <span class="update-date">Jun 1, 2026</span>
+          <i class="fas fa-chevron-down update-arrow"></i>
+        </span>
+      </summary>
+      <div class="update-body">
+        <p>All Website Setup Package agreements ended on <strong>May 31, 2026</strong>. The Website Setup Package is now obsolete and is no longer available to new or existing clients.</p>
+        <p>If you were on the Website Setup Package and didn't switch to a current WebEaze plan before the deadline, your service has ended and your website has been disconnected from our servers.</p>
+        <p>For details on what this means for your site, domain, and files, see the <a href="cancellation-policy.html">Cancellation Policy</a> or visit the <a href="website-setup-package.html">Website Setup Package page</a>. If you'd like to get your site back online, you can still sign up for a current plan.</p>
+      </div>
+    </details>
 
     <details class="update-item" open>
       <summary>
@@ -1123,6 +1142,13 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
 
 <!-- JS -->
 <script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
+<script>
+// Show "agreements ended" status update on June 1, 2026+
+if (new Date() >= new Date('2026-06-01')) {
+  var el = document.getElementById('endedUpdate');
+  if (el) el.style.display = '';
+}
+</script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

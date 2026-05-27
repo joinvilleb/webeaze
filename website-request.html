@@ -84,6 +84,18 @@
     .notice-referral strong { color: var(--gold); }
     .notice-referral a { color: var(--gold); font-weight: 700; text-decoration: underline; margin-left: 4px; }
 
+    .notice-ended {
+      background: rgba(239,68,68,.1);
+      border-bottom: 1px solid rgba(239,68,68,.25);
+      padding: 10px 20px;
+      font-size: 13px;
+      font-weight: 500;
+      text-align: center;
+      color: #fca5a5;
+    }
+    .notice-ended i { color: #ef4444; margin-right: 5px; font-size: 12px; }
+    .notice-ended a { color: #fca5a5; font-weight: 700; text-decoration: underline; }
+
     /* HEADER */
     .page-header {
       padding: 36px 0 28px;
@@ -567,6 +579,14 @@
   .notice-busy i { color: #d97706 !important; }
   .notice-busy a { color: #b45309 !important; }
 
+  .notice-ended {
+    background: rgba(239,68,68,.06) !important;
+    border-bottom: 1px solid rgba(239,68,68,.2) !important;
+    color: #7f1d1d !important;
+  }
+  .notice-ended i { color: #dc2626 !important; }
+  .notice-ended a { color: #b91c1c !important; text-decoration: underline !important; }
+
   .notice-referral {
     background: rgba(120,81,169,.07) !important;
     border-bottom: 2px solid rgba(120,81,169,.3) !important;
@@ -725,6 +745,21 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
   // May 12 2026 12:00am ET (EDT = UTC-4) → 2026-05-12T04:00:00Z
   if (new Date() < new Date('2026-05-12T04:00:00Z')) {
     document.getElementById('volumeNotice').style.display = '';
+  }
+})();
+</script>
+
+<!-- WEBSITE SETUP PACKAGE ENDED BANNER (June 1–7, 2026) -->
+<div id="endedNotice" class="notice-ended" style="display:none;">
+  <i class="fas fa-circle-xmark"></i> The Website Setup Package has ended. If you didn't switch to a current plan, your service is no longer active and your site has been disconnected. <a href="website-setup-package.html">See what happened</a> or review the <a href="cancellation-policy.html">Cancellation Policy</a>.
+</div>
+<script>
+(function() {
+  var now = new Date();
+  // June 1 2026 00:00 ET (EDT = UTC-4) → 2026-06-01T04:00:00Z
+  // June 8 2026 00:00 ET → 2026-06-08T04:00:00Z
+  if (now >= new Date('2026-06-01T04:00:00Z') && now < new Date('2026-06-08T04:00:00Z')) {
+    document.getElementById('endedNotice').style.display = '';
   }
 })();
 </script>
