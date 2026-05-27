@@ -2509,7 +2509,7 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
 
         <div class="quick-links-label">Popular topics</div>
         <div class="quick-links">
-          <a href="#/getting-started" class="quick-link"><i class="fas fa-rocket"></i> Getting Started</a>
+          <a href="#/getting-started" class="quick-link gs-open-trigger"><i class="fas fa-rocket"></i> Getting Started</a>
           <a href="#/which-plan-should-i-choose" class="quick-link"><i class="fas fa-tag"></i> Choosing a Plan</a>
           <a href="#/how-to-request-updates" class="quick-link"><i class="fas fa-edit"></i> Request Changes</a>
           <a href="#/manage-your-plan" class="quick-link"><i class="fas fa-credit-card"></i> Billing</a>
@@ -9080,6 +9080,12 @@ const LS_SAVED    = 'wz_help_saved';
     function gsClose() { if ($gsOverlay) { $gsOverlay.classList.remove('open'); document.body.style.overflow = ''; } }
 
     if ($gsOpenBtn)  $gsOpenBtn.addEventListener('click', gsOpen);
+
+    // "Getting Started" popular topic link also opens the modal
+    document.querySelectorAll('.gs-open-trigger').forEach(el => {
+      el.addEventListener('click', (e) => { e.preventDefault(); gsOpen(); });
+    });
+
     if ($gsClose)    $gsClose.addEventListener('click', gsClose);
     if ($gsDismiss)  $gsDismiss.addEventListener('click', () => {
       lsSet('wz_gs_dismissed', true);
