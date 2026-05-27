@@ -756,9 +756,10 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
 <script>
 (function() {
   var now = new Date();
+  var preview = location.search.indexOf('preview=june1') !== -1;
   // June 1 2026 00:00 ET (EDT = UTC-4) → 2026-06-01T04:00:00Z
   // June 8 2026 00:00 ET → 2026-06-08T04:00:00Z
-  if (now >= new Date('2026-06-01T04:00:00Z') && now < new Date('2026-06-08T04:00:00Z')) {
+  if (preview || (now >= new Date('2026-06-01T04:00:00Z') && now < new Date('2026-06-08T04:00:00Z'))) {
     document.getElementById('endedNotice').style.display = '';
   }
 })();
