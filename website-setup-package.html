@@ -439,10 +439,66 @@
       color: var(--text-muted);
       text-align: center;
       padding-bottom: 30px !important;
-
     }
 
-  
+    /* Post-deadline styles */
+    .ended-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      background: rgba(239,68,68,.12);
+      border: 1px solid rgba(239,68,68,.3);
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--red);
+      margin-bottom: 20px;
+    }
+    .ended-card {
+      background: var(--bg-card);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 28px;
+      margin: 32px 0;
+    }
+    .ended-card h2 {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: #fff;
+    }
+    .ended-card h2 i { font-size: 1rem; }
+    .ended-card.red-card { border-color: rgba(239,68,68,.3); }
+    .ended-card.red-card h2 { color: var(--red); }
+    .ended-card.gold-card { border-color: var(--line-gold); }
+    .ended-card.gold-card h2 { color: var(--gold); }
+    .ended-card ul { list-style: none; margin: 0; }
+    .ended-card li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 9px 0;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      border-bottom: 1px solid var(--line);
+    }
+    .ended-card li:last-child { border-bottom: none; }
+    .ended-card li i { margin-top: 3px; font-size: 0.8rem; }
+    .ended-card li i.fa-xmark { color: var(--red); }
+    .ended-card li i.fa-check { color: var(--green); }
+    .ended-card li i.fa-circle-info { color: var(--gold); }
+    .ended-policy-note {
+      margin: 24px 0 48px;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+    .ended-policy-note a { color: var(--gold); }
+
 /* Heading consistency */
 h1 { font-weight: 700 !important; letter-spacing: -.055em !important; }
 h2 { font-weight: 700 !important; letter-spacing: -.03em !important; }
@@ -471,6 +527,9 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
     <a href="pricing.html" class="nav-link">View Current Plans</a>
   </div>
 </nav>
+
+<!-- PRE-DEADLINE CONTENT (hidden on June 1, 2026+) -->
+<div id="pre-deadline">
 
 <!-- HERO -->
 <header class="hero">
@@ -654,6 +713,49 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
   </div>
 </section> -->
 
+</div><!-- /pre-deadline -->
+
+<!-- POST-DEADLINE CONTENT (shown on June 1, 2026+) -->
+<div id="post-deadline" style="display:none">
+
+  <header class="hero">
+    <div class="container">
+      <div class="ended-badge"><i class="fas fa-circle-xmark"></i> Agreement Ended</div>
+      <h1>All Website Setup Package Agreements Have Ended</h1>
+      <p class="hero-sub">The transition period closed on May 31, 2026. If you didn't switch to a current WebEaze plan before the deadline, your service is no longer active.</p>
+    </div>
+  </header>
+
+  <div class="container">
+
+    <div class="ended-card red-card">
+      <h2><i class="fas fa-plug-circle-xmark"></i> What Happened to Your Site</h2>
+      <ul>
+        <li><i class="fas fa-xmark"></i> <span>Your Website Setup Package agreement ended on May 31, 2026</span></li>
+        <li><i class="fas fa-xmark"></i> <span>Your website has been disconnected from WebEaze servers</span></li>
+        <li><i class="fas fa-xmark"></i> <span>WebEaze support, maintenance, and updates are no longer available to you</span></li>
+        <li><i class="fas fa-xmark"></i> <span>Your account is now subject to our <a href="cancellation-policy.html">Cancellation Policy</a></span></li>
+      </ul>
+    </div>
+
+    <div class="ended-card gold-card">
+      <h2><i class="fas fa-rotate-right"></i> You Can Still Get Back Online</h2>
+      <ul>
+        <li><i class="fas fa-check"></i> <span>You can still sign up for a current WebEaze plan to restore your website</span></li>
+        <li><i class="fas fa-check"></i> <span>A new <a href="pricing.html">Essential or Growth plan</a> gets your site reconnected and actively maintained</span></li>
+        <li><i class="fas fa-check"></i> <span>Want to take your files to another provider? A $99 transfer fee applies — <a href="contact-us.html">contact us</a> to arrange it</span></li>
+        <li><i class="fas fa-circle-info"></i> <span>Have questions about your account status? <a href="contact-us.html">Reach out</a> and we'll help</span></li>
+      </ul>
+    </div>
+
+    <p class="ended-policy-note">
+      For full details on what happens after a plan ends, including domain ownership, data access, and reinstatement terms, see our <a href="cancellation-policy.html">Cancellation Policy</a>.
+    </p>
+
+  </div>
+
+</div><!-- /post-deadline -->
+
 <!-- FOOTER -->
  <p class="footnote">* Hosting costs included if website is hosted via GitHub Pages.</p>
 <footer>
@@ -713,7 +815,15 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
   </div>
 </footer>
 
-<script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
+<script>
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  // On June 1, 2026 and after, swap to the "agreements ended" page
+  if (new Date() >= new Date('2026-06-01')) {
+    document.getElementById('pre-deadline').style.display = 'none';
+    document.getElementById('post-deadline').style.display = '';
+  }
+</script>
 
 </body>
 </html>
