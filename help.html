@@ -2188,9 +2188,68 @@
   background: #faf9ff;
   border-top: 3px solid;
   border-image: linear-gradient(90deg, #7851a9, #a07dd0) 1;
-  padding: 52px 0 44px;
 }
-.gs-hub-header { margin-bottom: 32px; }
+/* Toggle bar — always visible */
+.gs-hub-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 11px 0;
+  cursor: pointer;
+  user-select: none;
+  gap: 12px;
+}
+.gs-toggle-left {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-width: 0;
+}
+.gs-toggle-icon { font-size: 12px; color: var(--brand); flex-shrink: 0; }
+.gs-toggle-text { font-size: 13.5px; color: #374151; white-space: nowrap; }
+.gs-toggle-text strong { color: #1e293b; }
+.gs-toggle-hint {
+  font-size: 12px;
+  color: #94a3b8;
+  white-space: nowrap;
+}
+@media (max-width: 520px) { .gs-toggle-hint { display: none; } }
+.gs-toggle-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.gs-expand-icon {
+  font-size: 11px;
+  color: #94a3b8;
+  transition: transform .22s ease;
+  pointer-events: none;
+}
+.gs-hub.expanded .gs-expand-icon { transform: rotate(180deg); }
+.gs-dismiss-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #cbd5e1;
+  font-size: 12px;
+  padding: 4px 6px;
+  border-radius: 5px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color .15s, background .15s;
+}
+.gs-dismiss-btn:hover { color: #64748b; background: #f1f5f9; }
+/* Expandable body */
+.gs-hub-body {
+  display: none;
+  border-top: 1px solid #e8eaf0;
+  padding: 32px 0 44px;
+}
+.gs-hub.expanded .gs-hub-body { display: block; }
+.gs-hub-header { margin-bottom: 28px; }
 .gs-eyebrow {
   font-size: 11px;
   font-weight: 700;
@@ -2211,11 +2270,7 @@
   margin: 0 0 6px;
   line-height: 1.2;
 }
-.gs-hub-header p {
-  font-size: 15px;
-  color: #64748b;
-  margin: 0;
-}
+.gs-hub-header p { font-size: 15px; color: #64748b; margin: 0; }
 .gs-steps {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -2241,53 +2296,14 @@
   box-shadow: 0 6px 20px rgba(120,81,169,.1);
   transform: translateY(-2px);
 }
-.gs-step-num {
-  font-size: 10px;
-  font-weight: 800;
-  letter-spacing: .07em;
-  color: var(--brand);
-  opacity: .55;
-  text-transform: uppercase;
-}
-.gs-step-title {
-  font-size: 14px;
-  font-weight: 700;
-  color: #0f172a;
-  line-height: 1.3;
-}
-.gs-step-desc {
-  font-size: 12.5px;
-  color: #64748b;
-  line-height: 1.6;
-  flex: 1;
-}
-.gs-step-arrow {
-  font-size: 11px;
-  color: var(--brand);
-  opacity: 0;
-  align-self: flex-end;
-  transition: opacity .2s, transform .2s;
-}
+.gs-step-num { font-size: 10px; font-weight: 800; letter-spacing: .07em; color: var(--brand); opacity: .55; text-transform: uppercase; }
+.gs-step-title { font-size: 14px; font-weight: 700; color: #0f172a; line-height: 1.3; }
+.gs-step-desc { font-size: 12.5px; color: #64748b; line-height: 1.6; flex: 1; }
+.gs-step-arrow { font-size: 11px; color: var(--brand); opacity: 0; align-self: flex-end; transition: opacity .2s, transform .2s; }
 .gs-step:hover .gs-step-arrow { opacity: 1; transform: translateX(2px); }
-.gs-divider {
-  border: none;
-  border-top: 1px solid #e8eaf0;
-  margin: 0 0 24px;
-}
-.gs-reads-label {
-  font-size: 10.5px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: .09em;
-  color: #94a3b8;
-  display: block;
-  margin-bottom: 12px;
-}
-.gs-chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
+.gs-divider { border: none; border-top: 1px solid #e8eaf0; margin: 0 0 24px; }
+.gs-reads-label { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .09em; color: #94a3b8; display: block; margin-bottom: 12px; }
+.gs-chips { display: flex; flex-wrap: wrap; gap: 8px; }
 .gs-chip {
   display: inline-flex;
   align-items: center;
@@ -2303,11 +2319,7 @@
   transition: border-color .15s, color .15s, background .15s;
   cursor: pointer;
 }
-.gs-chip:hover {
-  border-color: rgba(120,81,169,.35);
-  color: var(--brand);
-  background: rgba(120,81,169,.04);
-}
+.gs-chip:hover { border-color: rgba(120,81,169,.35); color: var(--brand); background: rgba(120,81,169,.04); }
 .gs-chip i { font-size: 11px; color: var(--brand); }
 
 /* Heading consistency */
@@ -2473,57 +2485,69 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
 <section class="gs-hub" id="gettingStartedHub">
   <div class="container container-narrow">
 
-    <div class="gs-hub-header">
-      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;">
-        <div>
-          <p class="gs-eyebrow"><i class="fas fa-seedling"></i> New to WebEaze?</p>
-          <h2>Start here</h2>
-          <p>Here's how the whole process works, from sign-up to going live.</p>
-        </div>
-        <button id="gsHubDismiss" title="Dismiss" style="background:none;border:none;cursor:pointer;color:#94a3b8;font-size:13px;padding:4px 6px;border-radius:6px;white-space:nowrap;flex-shrink:0;margin-top:4px;transition:color .15s;" onmouseover="this.style.color='#475569'" onmouseout="this.style.color='#94a3b8'"><i class="fas fa-xmark"></i> Dismiss</button>
+    <!-- Always-visible toggle bar -->
+    <div class="gs-hub-toggle" id="gsHubToggle" role="button" tabindex="0" aria-expanded="false" aria-controls="gsHubBody">
+      <div class="gs-toggle-left">
+        <i class="fas fa-seedling gs-toggle-icon"></i>
+        <span class="gs-toggle-text">New to WebEaze? <strong>Start here</strong></span>
+        <span class="gs-toggle-hint">4 steps to going live</span>
+      </div>
+      <div class="gs-toggle-right">
+        <i class="fas fa-chevron-down gs-expand-icon"></i>
+        <button id="gsHubDismiss" class="gs-dismiss-btn" title="Dismiss this guide" aria-label="Dismiss getting started guide"><i class="fas fa-xmark"></i></button>
       </div>
     </div>
 
-    <div class="gs-steps">
-      <a href="pricing.html" class="gs-step">
-        <div class="gs-step-num">Step 01</div>
-        <div class="gs-step-title">Choose a plan</div>
-        <div class="gs-step-desc">Pick Essential or Growth depending on how many pages and how much support you need. No contract required.</div>
-        <i class="fas fa-chevron-right gs-step-arrow"></i>
-      </a>
-      <a href="#/what-to-prepare" class="gs-step">
-        <div class="gs-step-num">Step 02</div>
-        <div class="gs-step-title">Gather what you need</div>
-        <div class="gs-step-desc">Logo, brand colors, a rough page list, photos, and your business info. Rough notes are fine.</div>
-        <i class="fas fa-chevron-right gs-step-arrow"></i>
-      </a>
-      <a href="#/how-long-does-it-take" class="gs-step">
-        <div class="gs-step-num">Step 03</div>
-        <div class="gs-step-title">We build your draft</div>
-        <div class="gs-step-desc">Most first drafts are ready within 7 to 14 days after you submit your content. We'll email you when it's ready to review.</div>
-        <i class="fas fa-chevron-right gs-step-arrow"></i>
-      </a>
-      <a href="#/how-revisions-work" class="gs-step">
-        <div class="gs-step-num">Step 04</div>
-        <div class="gs-step-title">Review, revise, go live</div>
-        <div class="gs-step-desc">Up to 3 revision rounds before launch. You approve the final draft, we connect your domain and publish it.</div>
-        <i class="fas fa-chevron-right gs-step-arrow"></i>
-      </a>
-    </div>
+    <!-- Collapsible body -->
+    <div class="gs-hub-body" id="gsHubBody">
 
-    <hr class="gs-divider">
-    <span class="gs-reads-label">Helpful reads for new clients</span>
-    <div class="gs-chips">
-      <a href="#/getting-started" class="gs-chip"><i class="fas fa-circle-dot"></i> How WebEaze works</a>
-      <a href="#/which-plan-should-i-choose" class="gs-chip"><i class="fas fa-tag"></i> Which plan should I choose?</a>
-      <a href="#/what-to-prepare" class="gs-chip"><i class="fas fa-list-check"></i> What to have ready</a>
-      <a href="#/what-content-do-i-need" class="gs-chip"><i class="fas fa-file-lines"></i> What content to provide</a>
-      <a href="#/how-long-does-it-take" class="gs-chip"><i class="fas fa-clock"></i> How long does it take?</a>
-      <a href="#/no-contract" class="gs-chip"><i class="fas fa-handshake"></i> No contracts</a>
-      <a href="#/one-time-setup-fee" class="gs-chip"><i class="fas fa-circle-dollar-to-slot"></i> Setup fee explained</a>
-      <a href="#/free-mockup-call" class="gs-chip"><i class="fas fa-phone"></i> Free discovery call</a>
-    </div>
+      <div class="gs-hub-header">
+        <p class="gs-eyebrow"><i class="fas fa-seedling"></i> New to WebEaze?</p>
+        <h2>Start here</h2>
+        <p>Here's how the whole process works, from sign-up to going live.</p>
+      </div>
 
+      <div class="gs-steps">
+        <a href="pricing.html" class="gs-step">
+          <div class="gs-step-num">Step 01</div>
+          <div class="gs-step-title">Choose a plan</div>
+          <div class="gs-step-desc">Pick Essential or Growth depending on how many pages and how much support you need. No contract required.</div>
+          <i class="fas fa-chevron-right gs-step-arrow"></i>
+        </a>
+        <a href="#/what-to-prepare" class="gs-step">
+          <div class="gs-step-num">Step 02</div>
+          <div class="gs-step-title">Gather what you need</div>
+          <div class="gs-step-desc">Logo, brand colors, a rough page list, photos, and your business info. Rough notes are fine.</div>
+          <i class="fas fa-chevron-right gs-step-arrow"></i>
+        </a>
+        <a href="#/how-long-does-it-take" class="gs-step">
+          <div class="gs-step-num">Step 03</div>
+          <div class="gs-step-title">We build your draft</div>
+          <div class="gs-step-desc">Most first drafts are ready within 7 to 14 days after you submit your content. We'll email you when it's ready to review.</div>
+          <i class="fas fa-chevron-right gs-step-arrow"></i>
+        </a>
+        <a href="#/how-revisions-work" class="gs-step">
+          <div class="gs-step-num">Step 04</div>
+          <div class="gs-step-title">Review, revise, go live</div>
+          <div class="gs-step-desc">Up to 3 revision rounds before launch. You approve the final draft, we connect your domain and publish it.</div>
+          <i class="fas fa-chevron-right gs-step-arrow"></i>
+        </a>
+      </div>
+
+      <hr class="gs-divider">
+      <span class="gs-reads-label">Helpful reads for new clients</span>
+      <div class="gs-chips">
+        <a href="#/getting-started" class="gs-chip"><i class="fas fa-circle-dot"></i> How WebEaze works</a>
+        <a href="#/which-plan-should-i-choose" class="gs-chip"><i class="fas fa-tag"></i> Which plan should I choose?</a>
+        <a href="#/what-to-prepare" class="gs-chip"><i class="fas fa-list-check"></i> What to have ready</a>
+        <a href="#/what-content-do-i-need" class="gs-chip"><i class="fas fa-file-lines"></i> What content to provide</a>
+        <a href="#/how-long-does-it-take" class="gs-chip"><i class="fas fa-clock"></i> How long does it take?</a>
+        <a href="#/no-contract" class="gs-chip"><i class="fas fa-handshake"></i> No contracts</a>
+        <a href="#/one-time-setup-fee" class="gs-chip"><i class="fas fa-circle-dollar-to-slot"></i> Setup fee explained</a>
+        <a href="#/free-mockup-call" class="gs-chip"><i class="fas fa-phone"></i> Free discovery call</a>
+      </div>
+
+    </div><!-- /gs-hub-body -->
   </div>
 </section>
 
@@ -8295,10 +8319,7 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
     $article.hidden = true;
     $article.innerHTML = '';
     $categoriesSection.style.display = q.trim() ? 'none' : 'block';
-    if ($gsHub) {
-      const _gsDismissed = lsGet('wz_gs_dismissed');
-      $gsHub.style.display = (q.trim() || _gsDismissed) ? 'none' : '';
-    }
+    if ($gsHub) $gsHub.classList.remove('expanded');
 
     const readSlugs = new Set((lsGet(LS_READ) || []).map(r => r.slug));
 
@@ -8489,7 +8510,7 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
 
     $results.innerHTML = '';
     $categoriesSection.style.display = 'none';
-    if ($gsHub) $gsHub.style.display = 'none';
+    if ($gsHub) $gsHub.classList.remove('expanded');
     $article.hidden = false;
     $article.setAttribute('tabindex', '-1');
     $article.innerHTML = `
@@ -9006,10 +9027,27 @@ const LS_SAVED    = 'wz_help_saved';
     window.addEventListener('hashchange', onHash);
     onHash();
 
-    // Getting Started hub dismiss
+    // Getting Started hub: hide permanently if dismissed
+    if ($gsHub && lsGet('wz_gs_dismissed')) $gsHub.style.display = 'none';
+
+    // Toggle expand/collapse
+    const $hubToggle = document.getElementById('gsHubToggle');
+    if ($hubToggle) {
+      $hubToggle.addEventListener('click', (e) => {
+        if (e.target.closest('#gsHubDismiss')) return;
+        $gsHub.classList.toggle('expanded');
+        $hubToggle.setAttribute('aria-expanded', $gsHub.classList.contains('expanded'));
+      });
+      $hubToggle.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); $hubToggle.click(); }
+      });
+    }
+
+    // Dismiss button
     const $dismissBtn = document.getElementById('gsHubDismiss');
     if ($dismissBtn) {
-      $dismissBtn.addEventListener('click', () => {
+      $dismissBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
         lsSet('wz_gs_dismissed', true);
         if ($gsHub) $gsHub.style.display = 'none';
       });
@@ -9030,7 +9068,7 @@ function renderTopicResults(topicId) {
   $article.innerHTML = '';
   $categoriesSection.style.display = 'none';
   const $gsHubEl = document.getElementById('gettingStartedHub');
-  if ($gsHubEl) $gsHubEl.style.display = 'none';
+  if ($gsHubEl) $gsHubEl.classList.remove('expanded');
 
   const readSlugs = new Set((lsGet(LS_READ) || []).map(r => r.slug));
   const items = topic.articles.map(a => INDEX.find(x => x.slug === a.slug)).filter(Boolean);
