@@ -2183,6 +2183,133 @@
   /* Table scroll wrapper */
   .table-scroll { background: transparent !important; border: none !important; }
   
+/* ---- GETTING STARTED HUB ---- */
+.gs-hub {
+  background: #faf9ff;
+  border-top: 3px solid;
+  border-image: linear-gradient(90deg, #7851a9, #a07dd0) 1;
+  padding: 52px 0 44px;
+}
+.gs-hub-header { margin-bottom: 32px; }
+.gs-eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .11em;
+  color: var(--brand);
+  margin: 0 0 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.gs-eyebrow i { font-size: 11px; }
+.gs-hub-header h2 {
+  font-size: clamp(20px, 2.8vw, 26px);
+  font-weight: 700 !important;
+  letter-spacing: -.03em !important;
+  color: #0f172a;
+  margin: 0 0 6px;
+  line-height: 1.2;
+}
+.gs-hub-header p {
+  font-size: 15px;
+  color: #64748b;
+  margin: 0;
+}
+.gs-steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 32px;
+}
+@media (max-width: 860px) { .gs-steps { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 480px) { .gs-steps { grid-template-columns: 1fr; } }
+.gs-step {
+  background: #fff;
+  border: 1.5px solid #e8eaf0;
+  border-radius: 14px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-decoration: none !important;
+  cursor: pointer;
+  transition: border-color .2s, box-shadow .2s, transform .2s;
+}
+.gs-step:hover {
+  border-color: rgba(120,81,169,.4);
+  box-shadow: 0 6px 20px rgba(120,81,169,.1);
+  transform: translateY(-2px);
+}
+.gs-step-num {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .07em;
+  color: var(--brand);
+  opacity: .55;
+  text-transform: uppercase;
+}
+.gs-step-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #0f172a;
+  line-height: 1.3;
+}
+.gs-step-desc {
+  font-size: 12.5px;
+  color: #64748b;
+  line-height: 1.6;
+  flex: 1;
+}
+.gs-step-arrow {
+  font-size: 11px;
+  color: var(--brand);
+  opacity: 0;
+  align-self: flex-end;
+  transition: opacity .2s, transform .2s;
+}
+.gs-step:hover .gs-step-arrow { opacity: 1; transform: translateX(2px); }
+.gs-divider {
+  border: none;
+  border-top: 1px solid #e8eaf0;
+  margin: 0 0 24px;
+}
+.gs-reads-label {
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .09em;
+  color: #94a3b8;
+  display: block;
+  margin-bottom: 12px;
+}
+.gs-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.gs-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 13px;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #374151;
+  text-decoration: none !important;
+  transition: border-color .15s, color .15s, background .15s;
+  cursor: pointer;
+}
+.gs-chip:hover {
+  border-color: rgba(120,81,169,.35);
+  color: var(--brand);
+  background: rgba(120,81,169,.04);
+}
+.gs-chip i { font-size: 11px; color: var(--brand); }
+
 /* Heading consistency */
 h1 { font-weight: 700 !important; letter-spacing: -.055em !important; }
 h2 { font-weight: 700 !important; letter-spacing: -.03em !important; }
@@ -2341,6 +2468,59 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
 
 <!-- LIVE REGION -->
 <div id="live" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+
+<!-- GETTING STARTED HUB -->
+<section class="gs-hub" id="gettingStartedHub">
+  <div class="container container-narrow">
+
+    <div class="gs-hub-header">
+      <p class="gs-eyebrow"><i class="fas fa-seedling"></i> New to WebEaze?</p>
+      <h2>Start here</h2>
+      <p>Here's how the whole process works, from sign-up to going live.</p>
+    </div>
+
+    <div class="gs-steps">
+      <a href="pricing.html" class="gs-step">
+        <div class="gs-step-num">Step 01</div>
+        <div class="gs-step-title">Choose a plan</div>
+        <div class="gs-step-desc">Pick Essential or Growth depending on how many pages and how much support you need. No contract required.</div>
+        <i class="fas fa-chevron-right gs-step-arrow"></i>
+      </a>
+      <a href="#/what-to-prepare" class="gs-step">
+        <div class="gs-step-num">Step 02</div>
+        <div class="gs-step-title">Gather what you need</div>
+        <div class="gs-step-desc">Logo, brand colors, a rough page list, photos, and your business info. Rough notes are fine.</div>
+        <i class="fas fa-chevron-right gs-step-arrow"></i>
+      </a>
+      <a href="#/how-long-does-it-take" class="gs-step">
+        <div class="gs-step-num">Step 03</div>
+        <div class="gs-step-title">We build your draft</div>
+        <div class="gs-step-desc">Most first drafts are ready within 7 to 14 days after you submit your content. We'll email you when it's ready to review.</div>
+        <i class="fas fa-chevron-right gs-step-arrow"></i>
+      </a>
+      <a href="#/how-revisions-work" class="gs-step">
+        <div class="gs-step-num">Step 04</div>
+        <div class="gs-step-title">Review, revise, go live</div>
+        <div class="gs-step-desc">Up to 3 revision rounds before launch. You approve the final draft, we connect your domain and publish it.</div>
+        <i class="fas fa-chevron-right gs-step-arrow"></i>
+      </a>
+    </div>
+
+    <hr class="gs-divider">
+    <span class="gs-reads-label">Helpful reads for new clients</span>
+    <div class="gs-chips">
+      <a href="#/getting-started" class="gs-chip"><i class="fas fa-circle-dot"></i> How WebEaze works</a>
+      <a href="#/which-plan-should-i-choose" class="gs-chip"><i class="fas fa-tag"></i> Which plan should I choose?</a>
+      <a href="#/what-to-prepare" class="gs-chip"><i class="fas fa-list-check"></i> What to have ready</a>
+      <a href="#/what-content-do-i-need" class="gs-chip"><i class="fas fa-file-lines"></i> What content to provide</a>
+      <a href="#/how-long-does-it-take" class="gs-chip"><i class="fas fa-clock"></i> How long does it take?</a>
+      <a href="#/no-contract" class="gs-chip"><i class="fas fa-handshake"></i> No contracts</a>
+      <a href="#/one-time-setup-fee" class="gs-chip"><i class="fas fa-circle-dollar-to-slot"></i> Setup fee explained</a>
+      <a href="#/free-mockup-call" class="gs-chip"><i class="fas fa-phone"></i> Free discovery call</a>
+    </div>
+
+  </div>
+</section>
 
 <!-- MAIN CONTENT -->
 <main>
@@ -7834,6 +8014,7 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
   const $live = document.getElementById('live');
   const $categoriesSection = document.getElementById('categoriesSection');
   const $categoriesGrid = document.getElementById('categoriesGrid');
+  const $gsHub = document.getElementById('gettingStartedHub');
 
   // ---- Renderers ----
   const GROUP_META = [
@@ -8070,6 +8251,7 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
     $article.hidden = true;
     $article.innerHTML = '';
     $categoriesSection.style.display = q.trim() ? 'none' : 'block';
+    if ($gsHub) $gsHub.style.display = q.trim() ? 'none' : '';
 
     const readSlugs = new Set((lsGet(LS_READ) || []).map(r => r.slug));
 
@@ -8260,6 +8442,7 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
 
     $results.innerHTML = '';
     $categoriesSection.style.display = 'none';
+    if ($gsHub) $gsHub.style.display = 'none';
     $article.hidden = false;
     $article.setAttribute('tabindex', '-1');
     $article.innerHTML = `
@@ -8790,6 +8973,8 @@ function renderTopicResults(topicId) {
   $article.hidden = true;
   $article.innerHTML = '';
   $categoriesSection.style.display = 'none';
+  const $gsHubEl = document.getElementById('gettingStartedHub');
+  if ($gsHubEl) $gsHubEl.style.display = 'none';
 
   const readSlugs = new Set((lsGet(LS_READ) || []).map(r => r.slug));
   const items = topic.articles.map(a => INDEX.find(x => x.slug === a.slug)).filter(Boolean);
