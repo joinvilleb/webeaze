@@ -121,15 +121,7 @@
       margin: 0 0 20px;
       color: #0f172a;
     }
-    #heroGreeting {
-      display: inline-block;
-      transition: opacity .35s ease, transform .35s ease;
-    }
-    #heroGreeting.fade-out {
-      opacity: 0;
-      transform: translateY(-8px);
-    }
-    .hero p {
+.hero p {
       display: none;
     }
     .hero-search-wrap {
@@ -9106,19 +9098,11 @@ const LS_SAVED    = 'wz_help_saved';
     // Escape key
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape') gsClose(); });
 
-    // Hero greeting rotator
+    // Hero greeting — pick one phrase randomly on page load
     const $heroGreeting = document.getElementById('heroGreeting');
     if ($heroGreeting) {
       const phrases = ['How can we help?', "What's on your mind?", 'Find what you need.'];
-      let idx = 0;
-      setInterval(() => {
-        $heroGreeting.classList.add('fade-out');
-        setTimeout(() => {
-          idx = (idx + 1) % phrases.length;
-          $heroGreeting.textContent = phrases[idx];
-          $heroGreeting.classList.remove('fade-out');
-        }, 360);
-      }, 3500);
+      $heroGreeting.textContent = phrases[Math.floor(Math.random() * phrases.length)];
     }
   }
 
