@@ -115,6 +115,14 @@
     .back-top.visible { opacity: 1; pointer-events: auto; transform: translateY(0); }
     .back-top:hover { background: #222; color: #ffd700; border-color: rgba(255,215,0,0.3); text-decoration: none; }
 
+    /* Doc tabs */
+    .doc-tabs { display:flex; gap:5px; background:#ebe8f5; border-radius:12px; padding:5px; margin-bottom:22px; }
+    .doc-tab { flex:1; text-align:center; padding:10px 16px; border-radius:9px; font-size:.9rem; font-weight:600; color:#6b6f86; cursor:pointer; border:none; background:transparent; font-family:inherit; transition:background .18s, color .18s, box-shadow .18s; }
+    .doc-tab.active { background:#fff; color:#1e1a29; box-shadow:0 2px 8px rgba(16,18,37,.1); }
+    .doc-tab:hover:not(.active) { background:rgba(255,255,255,.5); color:#3c4260; }
+    .doc-panel { display:none; }
+    .doc-panel.active { display:block; }
+
     /* Footer */
     footer {
       background: #000;
@@ -371,8 +379,8 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
         <span class="pill" id="effectivePill">Taking effect: <strong>June 1, 2026</strong></span>
       </div>
       <div class="cta">
-        <a class="btn btn-gold" href="#tos"><i class="fas fa-arrow-down" style="font-size:.7rem;"></i> Terms of Service</a>
-        <a class="btn btn-ghost" href="#privacy"><i class="fas fa-arrow-down" style="font-size:.7rem;"></i> Privacy Policy</a>
+        <a class="btn btn-gold" href="#tos" data-switchtab="tos"><i class="fas fa-arrow-down" style="font-size:.7rem;"></i> Terms of Service</a>
+        <a class="btn btn-ghost" href="#privacy" data-switchtab="privacy"><i class="fas fa-arrow-down" style="font-size:.7rem;"></i> Privacy Policy</a>
       </div>
     </div>
   </header>
@@ -381,8 +389,14 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
   <!-- TERMS & PRIVACY -->
   <section class="section-light" id="legal">
     <div class="container-narrow">
-        <!-- TERMS -->
-        <article id="tos" class="card-solid">
+      <!-- TAB BAR -->
+      <div class="doc-tabs" role="tablist">
+        <button class="doc-tab" data-tab="tos" role="tab" aria-selected="true">Terms of Service</button>
+        <button class="doc-tab" data-tab="privacy" role="tab" aria-selected="false">Privacy Policy</button>
+      </div>
+      <!-- TERMS PANEL -->
+      <div class="doc-panel" id="tos" data-panel="tos">
+        <article class="card-solid">
           <h2>Terms of Service</h2>
           <p>
             <strong>PLEASE READ THESE TERMS OF SERVICE CAREFULLY BEFORE USING OUR SERVICES.</strong>
@@ -1252,10 +1266,11 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
             <strong>ACKNOWLEDGMENT OF AGREEMENT:</strong> BY ACCESSING, SUBSCRIBING TO, PURCHASING, OR OTHERWISE USING THE SERVICES IN ANY MANNER, CLIENT EXPRESSLY REPRESENTS AND WARRANTS THAT THEY HAVE READ, UNDERSTOOD, AND AGREE TO BE LEGALLY BOUND BY ALL PROVISIONS OF THESE TERMS OF SERVICE, INCLUDING THE MANDATORY ARBITRATION CLAUSE IN SECTION 14.3, THE CLASS ACTION WAIVER IN SECTION 14.4, AND THE LIMITATIONS ON LIABILITY SET FORTH IN SECTION 11. IF CLIENT DOES NOT AGREE TO THESE TERMS IN THEIR ENTIRETY, CLIENT MUST IMMEDIATELY CEASE ALL USE OF AND ACCESS TO THE SERVICES.
           </p>
         </article>
+      </div><!-- /tos panel -->
 
-
-        <!-- PRIVACY -->
-        <article id="privacy" class="card-solid mt-4">
+      <!-- PRIVACY PANEL -->
+      <div class="doc-panel" id="privacy" data-panel="privacy">
+        <article class="card-solid">
           <h2>Privacy Policy</h2>
           <p style="font-size:.8rem; color:#888; margin-bottom:16px; margin-top:-6px;">Effective: June 1, 2026</p>
           <p>
@@ -1541,6 +1556,7 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
             Email: legal@webeaze.io
           </p>
         </article>
+      </div><!-- /privacy panel -->
     </div>
   </section>
 
@@ -1637,6 +1653,41 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
         else { nav.classList.remove('nav-hidden'); }
         last = y;
       }, { passive: true });
+    })();
+
+    // Doc tabs
+    (function() {
+      function switchTab(name) {
+        document.querySelectorAll('.doc-tab').forEach(function(t) {
+          var on = t.dataset.tab === name;
+          t.classList.toggle('active', on);
+          t.setAttribute('aria-selected', on ? 'true' : 'false');
+        });
+        document.querySelectorAll('.doc-panel').forEach(function(p) {
+          p.classList.toggle('active', p.dataset.panel === name);
+        });
+      }
+      var hash = location.hash === '#privacy' ? 'privacy' : 'tos';
+      switchTab(hash);
+      document.querySelectorAll('.doc-tab').forEach(function(tab) {
+        tab.addEventListener('click', function() {
+          var name = this.dataset.tab;
+          switchTab(name);
+          history.replaceState(null, '', '#' + name);
+        });
+      });
+      document.querySelectorAll('[data-switchtab]').forEach(function(el) {
+        el.addEventListener('click', function(e) {
+          e.preventDefault();
+          var name = this.dataset.switchtab;
+          switchTab(name);
+          history.replaceState(null, '', '#' + name);
+          document.getElementById('legal').scrollIntoView({ behavior: 'smooth' });
+        });
+      });
+      window.addEventListener('hashchange', function() {
+        switchTab(location.hash === '#privacy' ? 'privacy' : 'tos');
+      });
     })();
 
     // Back to top
