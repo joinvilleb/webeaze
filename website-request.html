@@ -486,6 +486,35 @@
     .footer-legal a { color: #6b7280; font-size: .8rem; transition: color .2s; }
     .footer-legal a:hover { color: var(--gold); }
     @media (max-width: 600px) { .footer-bottom { flex-direction: column; text-align: center; } }
+
+    /* SUBMIT SUCCESS PANEL */
+    .submit-success {
+      margin-top: 28px;
+      background: rgba(34,197,94,.07);
+      border: 1px solid rgba(34,197,94,.22);
+      border-radius: 16px;
+      padding: 28px 24px;
+      text-align: center;
+    }
+    .ss-icon { font-size: 36px; color: #22c55e; margin-bottom: 14px; }
+    .submit-success h3 { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+    .ss-sub { font-size: 14px; color: rgba(255,255,255,.55); margin-bottom: 24px; }
+    .ss-articles-label {
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .08em; color: rgba(255,255,255,.35); margin-bottom: 12px; text-align: left;
+    }
+    .ss-links { display: flex; flex-direction: column; gap: 10px; text-align: left; }
+    .ss-link {
+      display: flex; align-items: center; gap: 14px;
+      padding: 12px 16px; background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.1); border-radius: 12px;
+      color: rgba(255,255,255,.85); text-decoration: none;
+      transition: border-color .15s, background .15s;
+    }
+    .ss-link:hover { background: rgba(255,255,255,.09); border-color: rgba(255,255,255,.2); color: #fff; text-decoration: none; }
+    .ss-link > i { color: #22c55e; font-size: 16px; flex-shrink: 0; }
+    .ss-link-title { font-size: 14px; font-weight: 600; }
+    .ss-link-sub { font-size: 12px; color: rgba(255,255,255,.4); margin-top: 2px; }
   </style>
 
 
@@ -658,6 +687,17 @@
 h1 { font-weight: 700 !important; letter-spacing: -.055em !important; }
 h2 { font-weight: 700 !important; letter-spacing: -.03em !important; }
 h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
+
+/* Submit success panel — light mode */
+.submit-success { background: rgba(34,197,94,.05) !important; border-color: rgba(34,197,94,.2) !important; }
+.submit-success h3 { color: #065f46 !important; }
+.ss-sub { color: #374151 !important; }
+.ss-articles-label { color: rgba(0,0,0,.38) !important; }
+.ss-link { background: #fff !important; border-color: rgba(0,0,0,.09) !important; color: #374151 !important; }
+.ss-link:hover { background: #f0fdf4 !important; border-color: rgba(34,197,94,.3) !important; color: #1a1a2e !important; }
+.ss-link-title { color: #1a1a2e !important; }
+.ss-link-sub { color: #6b7280 !important; }
+.ss-link > i { color: #16a34a !important; }
 </style>
 
 
@@ -877,6 +917,38 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
         </div>
       </div>
     </div>
+
+    <!-- SUBMIT SUCCESS PANEL -->
+    <div id="submitSuccess" class="submit-success" hidden>
+      <div class="ss-icon"><i class="fas fa-circle-check"></i></div>
+      <h3>We've got your request!</h3>
+      <p class="ss-sub">Your request is in our queue. We'll follow up by email, usually within one business day.</p>
+      <p class="ss-articles-label">While you wait</p>
+      <div class="ss-links">
+        <a href="help.html#/turnarounds-and-common-requests" class="ss-link">
+          <i class="fas fa-clock"></i>
+          <div>
+            <div class="ss-link-title">When will it be done?</div>
+            <div class="ss-link-sub">View current completion windows by request type</div>
+          </div>
+        </a>
+        <a href="help.html#/how-to-request-updates" class="ss-link">
+          <i class="fas fa-edit"></i>
+          <div>
+            <div class="ss-link-title">Submitting future requests</div>
+            <div class="ss-link-sub">Best practices for faster turnaround</div>
+          </div>
+        </a>
+        <a href="help.html#/what-counts-as-an-update" class="ss-link">
+          <i class="fas fa-list-check"></i>
+          <div>
+            <div class="ss-link-title">What counts as an update?</div>
+            <div class="ss-link-sub">What's included in your plan at no extra charge</div>
+          </div>
+        </a>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -943,19 +1015,36 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
   function getET() {
     return new Date(new Date().toLocaleString('en-US', { timeZone: 'America/New_York' }));
   }
-  function getClosures() {
+  function computeHolidayClosures(year) {
+    function nth(n, dow, mo, y) {
+      var d = new Date(y, mo, 1), diff = (dow - d.getDay() + 7) % 7;
+      d.setDate(1 + diff + (n - 1) * 7); return d;
+    }
+    function lastMon(mo, y) {
+      var d = new Date(y, mo + 1, 0), diff = (d.getDay() - 1 + 7) % 7;
+      d.setDate(d.getDate() - diff); return d;
+    }
+    function obs(mo, day, y) {
+      var d = new Date(y, mo, day);
+      if (d.getDay() === 6) d.setDate(d.getDate() - 1);
+      if (d.getDay() === 0) d.setDate(d.getDate() + 1);
+      return d;
+    }
+    function iso(d) { return d.toISOString().slice(0, 10); }
+    var tg = nth(4, 4, 10, year), tgEnd = new Date(tg);
+    tgEnd.setDate(tg.getDate() + 3);
     return [
-      { name: 'Memorial Day',      start: '2026-05-25', end: '2026-05-25' },
-      { name: 'Independence Day',  start: '2026-07-03', end: '2026-07-03' },
-      { name: 'Labor Day',         start: '2026-09-07', end: '2026-09-07' },
-      { name: 'Thanksgiving',      start: '2026-11-25', end: '2026-11-29' },
-      { name: 'December Holidays', start: '2026-12-24', end: '2027-01-03' },
-      { name: 'Memorial Day',      start: '2027-05-31', end: '2027-05-31' },
-      { name: 'Independence Day',  start: '2027-07-05', end: '2027-07-05' },
-      { name: 'Labor Day',         start: '2027-09-06', end: '2027-09-06' },
-      { name: 'Thanksgiving',      start: '2027-11-25', end: '2027-11-28' },
-      { name: 'December Holidays', start: '2027-12-24', end: '2028-01-02' }
-    ].map(c => ({ name: c.name, start: new Date(c.start+'T00:00:00'), end: new Date(c.end+'T23:59:59') }));
+      { name: 'Memorial Day',      start: iso(lastMon(4, year)),    end: iso(lastMon(4, year)) },
+      { name: 'Independence Day',  start: iso(obs(6, 4, year)),     end: iso(obs(6, 4, year)) },
+      { name: 'Labor Day',         start: iso(nth(1, 1, 8, year)),  end: iso(nth(1, 1, 8, year)) },
+      { name: 'Thanksgiving',      start: iso(tg),                  end: iso(tgEnd) },
+      { name: 'December Holidays', start: year + '-12-24',          end: (year + 1) + '-01-02' }
+    ];
+  }
+  function getClosures() {
+    var yr = getET().getFullYear();
+    return computeHolidayClosures(yr).concat(computeHolidayClosures(yr + 1))
+      .map(function(c) { return { name: c.name, start: new Date(c.start + 'T00:00:00'), end: new Date(c.end + 'T23:59:59') }; });
   }
   function nextBusinessDay(et) {
     const cls = getClosures();
@@ -1117,23 +1206,14 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
       const $notice = document.getElementById('smartNotice');
       if (!$notice) return;
 
-      // Pre-holiday: show warning the day before any closure
-      const closures = [
-        { name: 'Memorial Day',      start: '2026-05-25' },
-        { name: 'Independence Day',  start: '2026-07-03' },
-        { name: 'Labor Day',         start: '2026-09-07' },
-        { name: 'Thanksgiving',      start: '2026-11-25' },
-        { name: 'the holidays',      start: '2026-12-24' },
-        { name: 'Memorial Day',      start: '2027-05-31' },
-        { name: 'Independence Day',  start: '2027-07-05' },
-        { name: 'Labor Day',         start: '2027-09-06' },
-        { name: 'Thanksgiving',      start: '2027-11-25' },
-        { name: 'the holidays',      start: '2027-12-24' }
-      ];
+      // Pre-holiday: show warning the day before any closure (auto-computed, no manual updates needed)
+      const yr = now.getFullYear();
+      const allHols = computeHolidayClosures(yr).concat(computeHolidayClosures(yr + 1))
+        .map(function(c) { return { name: c.name === 'December Holidays' ? 'the holidays' : c.name, start: c.start }; });
       const tomorrow = new Date(now);
       tomorrow.setDate(tomorrow.getDate() + 1);
       const tomorrowStr = tomorrow.toISOString().slice(0, 10);
-      const upcomingClosure = closures.find(c => c.start === tomorrowStr);
+      const upcomingClosure = allHols.find(c => c.start === tomorrowStr);
 
       if (upcomingClosure) {
         $notice.className = 'notice-busy';
@@ -1312,12 +1392,51 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
                 lsSet('wz_req_submitted', n);
                 lsSet('wz_req_last_submit', Date.now());
                 obs.disconnect();
+                const sp = document.getElementById('submitSuccess');
+                if (sp) {
+                  sp.hidden = false;
+                  setTimeout(function() { sp.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }, 500);
+                }
               }
             }
           }
         });
         obs.observe(formFrame, { childList: true, subtree: true });
       } catch(e) {}
+    })();
+
+    // ── 18. Plan-type awareness ──
+    (function() {
+      const planParam = new URLSearchParams(window.location.search).get('plan');
+      if (planParam) lsSet('wz_plan_type', planParam);
+      const plan = planParam || lsGet('wz_plan_type');
+      if (!plan) return;
+
+      const $gpanel = document.getElementById('growthPanel');
+      const $sub    = document.getElementById('headerSub');
+
+      if (plan === 'growth') {
+        if ($gpanel) {
+          $gpanel.classList.add('open');
+          const btn = $gpanel.querySelector('.gp-trigger');
+          if (btn) btn.setAttribute('aria-expanded', 'true');
+        }
+      } else if (plan === 'essential') {
+        if ($gpanel) {
+          const badge = $gpanel.querySelector('.gp-badge');
+          const text  = $gpanel.querySelector('.gp-trigger-text');
+          if (badge) badge.innerHTML = '<i class="fas fa-circle-up"></i> Essential Plan';
+          if (text)  text.textContent = 'Want phone, chat & video support? Upgrade to Growth';
+        }
+      }
+
+      if ($sub && planParam) {
+        const copy = {
+          growth:    'Growth plan — priority turnaround and direct support included.',
+          essential: 'Unlimited updates are included in your Essential plan.'
+        };
+        if (copy[plan]) $sub.textContent = copy[plan];
+      }
     })();
 
   })();

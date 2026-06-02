@@ -2518,6 +2518,11 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
           <a href="#/how-to-request-updates" class="quick-link"><i class="fas fa-edit"></i> Request Changes</a>
           <a href="#/manage-your-plan" class="quick-link"><i class="fas fa-credit-card"></i> Billing</a>
         </div>
+
+        <div id="recentRow" hidden>
+          <div class="quick-links-label" style="margin-top:18px;">Recently read</div>
+          <div id="recentPills" class="quick-links"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -8760,7 +8765,7 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
     if (hash && !hash.startsWith('#/')) return;
     const slug = currentSlug();
     if (slug) { renderArticle(slug); }
-    else { renderList(searchArticles($search.value.trim()), $search.value.trim()); }
+    else { renderList(searchArticles($search.value.trim()), $search.value.trim()); renderRecentRow(); }
   }
 
   function initSearch() {
@@ -8835,6 +8840,22 @@ const LS_SAVED    = 'wz_help_saved';
       </div>
     `).join('');
   }
+  function renderRecentRow() {
+    const history = lsGet(LS_READ) || [];
+    if (history.length < 2) return;
+    const $row   = document.getElementById('recentRow');
+    const $pills = document.getElementById('recentPills');
+    if (!$row || !$pills) return;
+    const cur = currentSlug();
+    const items = history.filter(r => r.slug !== cur).slice(0, 4);
+    if (!items.length) return;
+    $pills.innerHTML = items.map(r => {
+      const label = r.title.length > 36 ? r.title.slice(0, 36) + '...' : r.title;
+      return `<a href="#/${r.slug}" class="quick-link"><i class="fas fa-clock-rotate-left"></i> ${label}</a>`;
+    }).join('');
+    $row.hidden = false;
+  }
+
   window.removeSaved = function(slug) {
     let saved = getSaved();
     lsSet(LS_SAVED, saved.filter(s => s.slug !== slug));
@@ -9190,6 +9211,7 @@ const LS_SAVED    = 'wz_help_saved';
     renderRecommended();
     initReturnVisitor();
     renderSavedSidebar();
+    renderRecentRow();
     initPhaseBanner();
     bindInternalLinks();
     initSearch();
