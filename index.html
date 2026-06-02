@@ -1761,18 +1761,46 @@ fee-tooltip {
   100% { opacity: 1; transform: translateX(0) rotateY(0); }
 }
 
-.hero-svg-illo {
+/* Browser stack */
+.hero-browser-stack {
+  position: relative;
   width: 100%;
-  max-width: 540px;
-  height: auto;
-  display: block;
-  transform: perspective(1000px) rotateY(-3deg) rotateX(2deg);
-  transition: transform 0.4s ease;
-  filter: drop-shadow(0 24px 48px rgba(0,0,0,.35));
+  max-width: 500px;
+  height: 400px;
 }
-.hero-svg-illo:hover {
-  transform: perspective(1000px) rotateY(0deg) rotateX(0deg);
+.browser-frame {
+  position: absolute;
+  width: 290px;
+  background: #fff;
+  border: 2.5px solid #1a1a2e;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 5px 6px 0 #1a1a2e;
+  transition: transform 0.3s cubic-bezier(0.34,1.4,0.64,1);
 }
+.browser-chrome {
+  background: #ede9e0;
+  border-bottom: 2px solid #1a1a2e;
+  padding: 7px 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.bc-dots { display: flex; gap: 5px; }
+.bc-dot { width: 9px; height: 9px; border-radius: 50%; border: 1px solid rgba(0,0,0,.12); }
+.bc-dot.red { background: #ed6a5e; }
+.bc-dot.yellow { background: #f5bf4f; }
+.bc-dot.green { background: #61c554; }
+.bc-bar { flex: 1; height: 12px; background: rgba(0,0,0,.1); border-radius: 6px; }
+.browser-screen { height: 188px; overflow: hidden; }
+.browser-screen img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
+/* Frame positions */
+.bframe-1 { top: 0; right: 30px; z-index: 3; transform: rotate(5deg); }
+.bframe-2 { bottom: 0; left: 0; z-index: 4; transform: rotate(-8deg); }
+.bframe-3 { bottom: 24px; left: 110px; z-index: 2; transform: rotate(2deg); }
+.hero-browser-stack:hover .bframe-1 { transform: rotate(5deg) translateY(-8px); }
+.hero-browser-stack:hover .bframe-2 { transform: rotate(-8deg) translateY(-8px); }
+.hero-browser-stack:hover .bframe-3 { transform: rotate(2deg) translateY(-6px); }
 
 /* Floating elements */
 .hero-float-badge {
@@ -1791,14 +1819,14 @@ fee-tooltip {
 }
 
 .hero-float-badge.badge-1 {
-  top: 10%;
-  right: -20px;
+  top: 6%;
+  right: -18px;
   animation-delay: 0s;
 }
 
 .hero-float-badge.badge-2 {
-  bottom: 15%;
-  left: -30px;
+  bottom: 8%;
+  left: -24px;
   animation-delay: 1.5s;
 }
 
@@ -1820,10 +1848,8 @@ fee-tooltip {
 }
 
 @media (max-width: 992px) {
-  .hero-svg-illo {
-    transform: none;
-    max-width: 360px;
-    margin: 0 auto;
+  .hero-browser-stack {
+    display: none;
   }
   .hero-float-badge {
     display: none;
@@ -2873,7 +2899,6 @@ fee-tooltip {
 }
 
 /* Hero illustration */
-.hero-svg-illo { filter: drop-shadow(0 16px 32px rgba(0,0,0,.14)) !important; }
 
 /* highlight-secondary — keep original gradient */
 .highlight-secondary {
@@ -3171,7 +3196,38 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
             <span>Fast Loading</span>
           </div>
 
-          <img src="images/assets/interactive-website.svg" alt="Interactive website illustration" class="hero-svg-illo" loading="eager" fetchpriority="high">
+          <div class="hero-browser-stack">
+            <!-- back frame -->
+            <div class="browser-frame bframe-3">
+              <div class="browser-chrome">
+                <div class="bc-dots"><span class="bc-dot red"></span><span class="bc-dot yellow"></span><span class="bc-dot green"></span></div>
+                <div class="bc-bar"></div>
+              </div>
+              <div class="browser-screen">
+                <img src="images/samples/bake350.webp" alt="Bake 350 website by WebEaze" loading="eager">
+              </div>
+            </div>
+            <!-- top-right frame -->
+            <div class="browser-frame bframe-1">
+              <div class="browser-chrome">
+                <div class="bc-dots"><span class="bc-dot red"></span><span class="bc-dot yellow"></span><span class="bc-dot green"></span></div>
+                <div class="bc-bar"></div>
+              </div>
+              <div class="browser-screen">
+                <img src="images/ibis-prep-home.webp" alt="Ibis Prep website by WebEaze" loading="eager">
+              </div>
+            </div>
+            <!-- front bottom-left frame -->
+            <div class="browser-frame bframe-2">
+              <div class="browser-chrome">
+                <div class="bc-dots"><span class="bc-dot red"></span><span class="bc-dot yellow"></span><span class="bc-dot green"></span></div>
+                <div class="bc-bar"></div>
+              </div>
+              <div class="browser-screen">
+                <img src="images/samples/bear-carpet-care.webp" alt="Bear Carpet Care website by WebEaze" loading="eager">
+              </div>
+            </div>
+          </div>
         </div>
 
       </div>
