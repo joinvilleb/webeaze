@@ -371,6 +371,58 @@ footer {
 .footer-legal a:hover { color: var(--gold); }
 @media (max-width: 600px) { .footer-bottom { flex-direction: column; text-align: center; } }
 
+/* SEARCH RESULTS MODE */
+body.search-results-mode .content-section,
+body.search-results-mode .cta-section,
+body.search-results-mode .fn-notes { display: none !important; }
+#searchResults { display: none; padding: 48px 0 56px; }
+body.search-results-mode #searchResults { display: block; }
+
+.results-header {
+  font-size: 1rem; color: var(--dim);
+  margin-bottom: 20px; padding-bottom: 16px;
+  border-bottom: 1px solid var(--line);
+}
+.results-header strong { color: var(--text); font-size: 1.05rem; }
+.results-header em { font-style: normal; color: var(--brand); font-weight: 600; }
+.results-list { display: flex; flex-direction: column; gap: 12px; }
+.result-item {
+  background: var(--bg); border: 1px solid var(--line);
+  border-radius: var(--radius); padding: 22px 26px;
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 24px;
+  transition: border-color .2s, box-shadow .2s;
+}
+.result-item:hover { border-color: var(--brand-border); box-shadow: 0 4px 20px rgba(120,81,169,.07); }
+.result-left { flex: 1; min-width: 0; }
+.result-cat {
+  font-size: .7rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .11em; color: var(--brand); display: block; margin-bottom: 5px;
+}
+.result-name { font-size: 1.05rem; font-weight: 700; color: var(--text); margin-bottom: 6px; line-height: 1.3; }
+.result-desc { font-size: .9rem; color: var(--muted); line-height: 1.65; }
+.result-note { font-size: .82rem; color: var(--dim); margin-top: 7px; display: flex; align-items: center; gap: 5px; }
+.result-note i { color: var(--brand); font-size: .75rem; flex-shrink: 0; }
+.result-right {
+  display: flex; flex-direction: column; align-items: flex-end;
+  gap: 12px; flex-shrink: 0; min-width: 130px; text-align: right;
+}
+.result-price {
+  font-size: 1.55rem; font-weight: 800; color: var(--text);
+  letter-spacing: -.035em; display: block; line-height: 1.1;
+}
+.result-price.monthly { color: var(--brand); }
+.result-period { font-size: .78rem; color: var(--dim); display: block; margin-top: 3px; }
+.result-actions { display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; }
+mark {
+  background: rgba(120,81,169,.12); color: var(--brand);
+  border-radius: 3px; padding: 0 2px; font-style: normal;
+}
+@media (max-width: 580px) {
+  .result-item { flex-direction: column; gap: 14px; }
+  .result-right { align-items: flex-start; text-align: left; min-width: unset; width: 100%; }
+  .result-actions { justify-content: flex-start; }
+}
+
 @media print {
   .nav-wrap, .cta-section, footer { display: none !important; }
   *, *::before, *::after {
@@ -906,6 +958,8 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
     </div>
   </div>
 
+<div id="searchResults"></div>
+
 <div class="fee-no-results" id="feeNoResults">
   <i class="fas fa-magnifying-glass"></i>
   <p>No services matched your search. <a href="website-request.html" style="color:var(--brand);text-decoration:underline;">Send us a message</a> and we'll help.</p>
@@ -997,50 +1051,144 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
   var searchInput = document.getElementById('feeSearch');
   var clearBtn    = document.getElementById('feeSearchClear');
   var noResults   = document.getElementById('feeNoResults');
-  var sections    = document.querySelectorAll('.content-section');
+  var resultsBox  = document.getElementById('searchResults');
 
-  function filter(q) {
-    q = q.toLowerCase().trim();
-    var totalVisible = 0;
+  // Build index at load time
+  var INDEX = [];
+  document.querySelectorAll('.content-section').forEach(function(section) {
+    var catEl = section.querySelector('h2');
+    var cat   = catEl ? catEl.textContent.trim() : '';
 
-    sections.forEach(function(section) {
-      var cards = section.querySelectorAll('.svc-card, .util-row');
-      if (!cards.length) {
-        section.style.display = '';
-        return;
-      }
-      var visible = 0;
-      cards.forEach(function(card) {
-        var haystack = (card.textContent + ' ' + (card.dataset.search || '')).toLowerCase();
-        var match = !q || haystack.includes(q);
-        card.style.display = match ? '' : 'none';
-        if (match) visible++;
+    section.querySelectorAll('.svc-card').forEach(function(card) {
+      var nameEl  = card.querySelector('.svc-card-name');
+      var descEl  = card.querySelector('.svc-card-desc');
+      var amtEl   = card.querySelector('.svc-amount');
+      var perEl   = card.querySelector('.svc-period');
+      var actEl   = card.querySelector('.svc-actions');
+      var noteEl  = card.querySelector('.svc-card-note');
+      var perClone = perEl ? perEl.cloneNode(true) : null;
+      if (perClone) perClone.querySelectorAll('.fn-ref').forEach(function(n) { n.remove(); });
+      INDEX.push({
+        name:     nameEl  ? nameEl.textContent.trim()  : '',
+        desc:     descEl  ? descEl.textContent.trim()  : '',
+        note:     noteEl  ? noteEl.textContent.trim()  : '',
+        price:    amtEl   ? amtEl.textContent.trim()   : '',
+        period:   perClone ? perClone.textContent.trim() : '',
+        actions:  actEl   ? actEl.innerHTML : '',
+        search:   (card.dataset.search || '').toLowerCase(),
+        category: cat,
+        monthly:  !!card.querySelector('.svc-amount.monthly')
       });
-      section.style.display = (visible > 0 || !q) ? '' : 'none';
-      totalVisible += visible;
     });
 
-    noResults.style.display = (q && totalVisible === 0) ? 'block' : 'none';
+    section.querySelectorAll('.util-row').forEach(function(row) {
+      var nameEl  = row.querySelector('.util-name');
+      var descEl  = row.querySelector('.util-desc');
+      var noteEl  = row.querySelector('.util-note');
+      var priceEl = row.querySelector('.util-price');
+      var perEl   = row.querySelector('.util-period');
+      INDEX.push({
+        name:     nameEl  ? nameEl.textContent.trim()  : '',
+        desc:     descEl  ? descEl.textContent.trim()  : '',
+        note:     noteEl  ? noteEl.textContent.trim()  : '',
+        price:    priceEl ? priceEl.textContent.trim() : '',
+        period:   perEl   ? perEl.textContent.trim()   : '',
+        actions:  '<a href="website-request.html" class="btn-brand"><i class="fas fa-paper-plane"></i> Request</a>',
+        search:   (row.dataset.search || '').toLowerCase(),
+        category: cat,
+        monthly:  false
+      });
+    });
+  });
+
+  function score(item, ql) {
+    var name = item.name.toLowerCase();
+    if (name === ql)         return 10;
+    if (name.startsWith(ql)) return 7;
+    if (name.includes(ql))   return 5;
+    if (item.search.includes(ql)) return 3;
+    if (item.desc.toLowerCase().includes(ql)) return 1;
+    return 0;
+  }
+
+  function esc(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+
+  function highlight(text, q) {
+    if (!q || !text) return text;
+    return text.replace(new RegExp('(' + esc(q) + ')', 'gi'), '<mark>$1</mark>');
+  }
+
+  function showResults(q) {
+    var ql = q.toLowerCase().trim();
+
+    if (!ql) {
+      document.body.classList.remove('search-results-mode');
+      resultsBox.innerHTML = '';
+      noResults.style.display = 'none';
+      return;
+    }
+
+    var matches = INDEX.filter(function(item) {
+      return (item.name + ' ' + item.desc + ' ' + item.search).toLowerCase().includes(ql);
+    }).sort(function(a, b) { return score(b, ql) - score(a, ql); });
+
+    document.body.classList.add('search-results-mode');
+
+    if (!matches.length) {
+      resultsBox.innerHTML = '';
+      noResults.style.display = 'block';
+      return;
+    }
+
+    noResults.style.display = 'none';
+    var qt = q.trim();
+
+    var html = '<div class="results-header"><strong>' +
+      matches.length + ' result' + (matches.length !== 1 ? 's' : '') +
+      '</strong> for <em>"' + qt + '"</em></div>' +
+      '<div class="results-list">';
+
+    matches.forEach(function(item) {
+      html += '<div class="result-item">' +
+        '<div class="result-left">' +
+          '<span class="result-cat">' + item.category + '</span>' +
+          '<div class="result-name">' + highlight(item.name, qt) + '</div>' +
+          '<div class="result-desc">' + highlight(item.desc, qt) + '</div>' +
+          (item.note ? '<div class="result-note"><i class="fas fa-circle-info"></i> ' + item.note + '</div>' : '') +
+        '</div>' +
+        '<div class="result-right">' +
+          '<div>' +
+            '<span class="result-price' + (item.monthly ? ' monthly' : '') + '">' + item.price + '</span>' +
+            '<span class="result-period">' + item.period + '</span>' +
+          '</div>' +
+          '<div class="result-actions">' + item.actions + '</div>' +
+        '</div>' +
+      '</div>';
+    });
+
+    html += '</div>';
+    resultsBox.innerHTML = html;
   }
 
   searchInput.addEventListener('input', function() {
     var v = this.value;
     clearBtn.style.display = v ? 'flex' : 'none';
-    filter(v);
+    showResults(v);
   });
 
   clearBtn.addEventListener('click', function() {
     searchInput.value = '';
     clearBtn.style.display = 'none';
-    filter('');
+    showResults('');
     searchInput.focus();
   });
 
   document.querySelectorAll('.fee-chip').forEach(function(chip) {
     chip.addEventListener('click', function() {
-      searchInput.value = this.dataset.text;
+      var t = this.dataset.text;
+      searchInput.value = t;
       clearBtn.style.display = 'flex';
-      filter(this.dataset.text);
+      showResults(t);
       searchInput.focus();
     });
   });
