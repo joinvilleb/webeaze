@@ -2373,50 +2373,73 @@ fee-tooltip {
   font-weight: 800; line-height: 1.2; letter-spacing: -.02em;
   margin-bottom: 48px; max-width: 620px; color: #0d0d18;
 }
+.pain-header h2 {
+  font-size: clamp(32px, 4.5vw, 54px);
+  font-weight: 800; line-height: 1.15; letter-spacing: -.02em;
+  margin-bottom: 48px; max-width: 640px; color: #0d0d18;
+}
 .pain-bento {
   display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  gap: 16px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
 }
 .pain-tile {
-  border-radius: 24px;
-  padding: 44px 38px;
+  border-radius: 20px;
+  padding: 38px 34px;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 20px;
   transition: transform 0.22s ease, box-shadow 0.22s ease;
 }
-.pain-tile:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,.11); }
-.pain-tile-a { grid-column: 1 / 8; background: #fff; border: 1px solid rgba(0,0,0,.07); box-shadow: 0 2px 16px rgba(0,0,0,.06); }
-.pain-tile-b { grid-column: 8 / 13; background: #fff; border: 1px solid rgba(0,0,0,.07); box-shadow: 0 2px 16px rgba(0,0,0,.06); }
-.pain-tile-c { grid-column: 1 / 6; background: #fff; border: 1px solid rgba(0,0,0,.07); box-shadow: 0 2px 16px rgba(0,0,0,.06); }
-.pain-tile-d { grid-column: 6 / 13; background: linear-gradient(135deg,#1a1025,#0c0c14); border: 1px solid rgba(255,215,0,.22); box-shadow: 0 2px 16px rgba(0,0,0,.14); }
-.pain-tile-illo { display: block; }
-.pain-tile-illo img {
-  display: block;
-  width: 96px;
-  height: 96px;
-  object-fit: contain;
+.pain-tile:hover { transform: translateY(-5px); box-shadow: 0 16px 44px rgba(0,0,0,.12); }
+.pain-tile-a, .pain-tile-b, .pain-tile-c {
+  background: #fff;
+  border: 1px solid rgba(0,0,0,.07);
+  box-shadow: 0 2px 16px rgba(0,0,0,.06);
+}
+.pain-tile-d {
+  grid-column: 1 / -1;
+  background: linear-gradient(135deg,#1a1025,#0c0c14);
+  border: 1px solid rgba(255,215,0,.22);
+  box-shadow: 0 2px 16px rgba(0,0,0,.14);
+  flex-direction: row;
+  align-items: center;
+  gap: 48px;
+}
+.pain-icon {
+  width: 52px; height: 52px; flex-shrink: 0;
+  background: rgba(120,81,169,.1);
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; color: #7851a9;
+}
+.pain-tile-d .pain-icon {
+  background: rgba(255,215,0,.12);
+  color: #ffd700;
+  width: 56px; height: 56px; font-size: 24px;
 }
 .pain-tile h3 { font-size: 22px; font-weight: 700; color: #0d0d18; margin: 0 0 10px; }
-.pain-tile p { font-size: 16px; color: #374151; line-height: 1.75; margin: 0; }
-.pain-tile-d h3 { color: #ffd700; }
-.pain-tile-d p { color: rgba(255,255,255,.82); }
-.pain-tile-a.reveal:not(.in-view) { transform: translateX(-24px) translateY(10px); }
-.pain-tile-b.reveal:not(.in-view) { transform: translateX(24px) translateY(10px); }
-.pain-tile-c.reveal:not(.in-view) { transform: translateX(-24px) translateY(10px); }
-.pain-tile-d.reveal:not(.in-view) { transform: translateX(24px) translateY(10px); }
+.pain-tile p { font-size: 17px; color: #374151; line-height: 1.75; margin: 0; }
+.pain-tile-d h3 { font-size: 26px; color: #ffd700; }
+.pain-tile-d p { font-size: 18px; color: rgba(255,255,255,.82); }
+.pain-tile-a.reveal:not(.in-view) { transform: translateY(20px); }
+.pain-tile-b.reveal:not(.in-view) { transform: translateY(20px); }
+.pain-tile-c.reveal:not(.in-view) { transform: translateY(20px); }
+.pain-tile-d.reveal:not(.in-view) { transform: translateY(20px); }
 .pain-tile-cta {
   display: inline-flex; align-items: center; gap: 8px;
-  color: #ffd700; font-weight: 600; font-size: 14px;
+  color: #ffd700; font-weight: 600; font-size: 15px;
   border-bottom: 1px solid rgba(255,215,0,.35);
-  padding-bottom: 2px; margin-top: 4px;
+  padding-bottom: 2px; margin-top: 8px;
   text-decoration: none; transition: border-color .15s;
 }
 .pain-tile-cta:hover { border-color: #ffd700; text-decoration: none; color: #ffd700; }
-@media (max-width: 768px) {
+@media (max-width: 860px) {
+  .pain-bento { grid-template-columns: 1fr 1fr; }
+  .pain-tile-d { flex-direction: column; gap: 20px; }
+}
+@media (max-width: 560px) {
   .pain-bento { grid-template-columns: 1fr; }
-  .pain-tile-a, .pain-tile-b, .pain-tile-c, .pain-tile-d { grid-column: 1; }
 }
 
 /* ===== HOW IT WORKS ===== */
@@ -3287,7 +3310,7 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
       <div class="pain-bento">
 
         <div class="pain-tile pain-tile-a reveal">
-          <div class="pain-tile-illo"><img src="images/assets/notfound.svg" alt="" aria-hidden="true"></div>
+          <div class="pain-icon"><i class="fas fa-magnifying-glass"></i></div>
           <div>
             <h3>Invisible on Google</h3>
             <p>Your competitors show up first. Potential clients search for exactly what you offer and never find you.</p>
@@ -3295,23 +3318,23 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
         </div>
 
         <div class="pain-tile pain-tile-b reveal reveal-delay-1">
-          <div class="pain-tile-illo"><img src="images/assets/analytics.svg" alt="" aria-hidden="true"></div>
+          <div class="pain-icon"><i class="fas fa-chart-line"></i></div>
           <div>
             <h3>A site that doesn't convert</h3>
-            <p>You have a website, but it is not bringing in calls or leads. Visitors leave without taking action.</p>
+            <p>You have a website, but it's not bringing in calls or leads. Visitors leave without taking action.</p>
           </div>
         </div>
 
         <div class="pain-tile pain-tile-c reveal reveal-delay-2">
-          <div class="pain-tile-illo"><img src="images/assets/overwhelmed.svg" alt="" aria-hidden="true"></div>
+          <div class="pain-icon"><i class="fas fa-clock"></i></div>
           <div>
             <h3>No time for the tech</h3>
-            <p>You are running a business. You should not have to think about SSL certificates, page speed, or software updates.</p>
+            <p>You're running a business. You shouldn't have to think about SSL certificates, page speed, or software updates.</p>
           </div>
         </div>
 
         <div class="pain-tile pain-tile-d reveal reveal-delay-3">
-          <div class="pain-tile-illo"><img src="images/assets/multitask.svg" alt="" aria-hidden="true"></div>
+          <div class="pain-icon"><i class="fas fa-bolt"></i></div>
           <div>
             <h3>WebEaze handles all of it</h3>
             <p>Website, SEO, AI tools, and more. Your business shows up, stands out, and grows without you lifting a finger.</p>
@@ -3328,27 +3351,59 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
     <div class="container container-narrow">
 
       <div class="why-header reveal">
-        <h2><span class="why-gold">Pay one price, </span>not several.</h2>
-        <p class="why-header-sub">Most businesses pay five or six vendors to get what WebEaze bundles into one plan.</p>
+        <div class="why-kicker"><i class="fas fa-trophy"></i> How we compare</div>
+        <h2>Everything included. <span class="why-gold">One price.</span></h2>
+        <p class="why-header-sub">Most businesses pay five or six separate vendors for what WebEaze bundles into one flat monthly plan.</p>
       </div>
 
-      <div class="vsplit reveal reveal-delay-1">
-
-        <div class="vsplit-before">
-          <div class="vsplit-label">Without WebEaze</div>
-          <div class="vsplit-price">~$500<span>/mo</span></div>
-          <div class="vsplit-desc">Design, Updates, Hosting<br>SEO, Security, GBP<br>Six separate vendors to manage.</div>
+      <div class="comp-table reveal reveal-delay-1">
+        <div class="comp-head">
+          <div class="comp-cell comp-label-col"></div>
+          <div class="comp-cell comp-other-col">Freelancer / Agency</div>
+          <div class="comp-cell comp-other-col">DIY (Wix / Squarespace)</div>
+          <div class="comp-cell comp-we-col"><img src="images/webeaze-transparent-copy.png" alt="WebEaze" style="height:22px;margin-bottom:4px;display:block;margin-left:auto;margin-right:auto;"> WebEaze</div>
         </div>
-
-        <div class="vsplit-after">
-          <div class="vsplit-label">With WebEaze</div>
-          <div class="vsplit-price">$169<span>/mo</span></div>
-          <div class="vsplit-desc">All of the above in one plan.<br>No contracts, no surprises.</div>
-          <a href="pricing.html" class="vsplit-btn">See plans <i class="fas fa-arrow-right" style="font-size:11px;"></i></a>
+        <div class="comp-row">
+          <div class="comp-cell comp-label-col">Custom design</div>
+          <div class="comp-cell comp-other-col"><i class="fas fa-check comp-yes-other"></i></div>
+          <div class="comp-cell comp-other-col"><i class="fas fa-minus comp-no"></i> Templates only</div>
+          <div class="comp-cell comp-we-col"><i class="fas fa-check comp-yes"></i></div>
         </div>
-
+        <div class="comp-row">
+          <div class="comp-cell comp-label-col">Unlimited updates</div>
+          <div class="comp-cell comp-other-col"><i class="fas fa-minus comp-no"></i> Hourly billing</div>
+          <div class="comp-cell comp-other-col"><i class="fas fa-minus comp-no"></i> DIY only</div>
+          <div class="comp-cell comp-we-col"><i class="fas fa-check comp-yes"></i></div>
+        </div>
+        <div class="comp-row">
+          <div class="comp-cell comp-label-col">Hosting &amp; SSL</div>
+          <div class="comp-cell comp-other-col"><i class="fas fa-minus comp-no"></i> Extra cost</div>
+          <div class="comp-cell comp-other-col"><i class="fas fa-check comp-yes-other"></i></div>
+          <div class="comp-cell comp-we-col"><i class="fas fa-check comp-yes"></i></div>
+        </div>
+        <div class="comp-row">
+          <div class="comp-cell comp-label-col">Local SEO</div>
+          <div class="comp-cell comp-other-col"><i class="fas fa-minus comp-no"></i> Separate contract</div>
+          <div class="comp-cell comp-other-col"><i class="fas fa-minus comp-no"></i></div>
+          <div class="comp-cell comp-we-col"><i class="fas fa-check comp-yes"></i></div>
+        </div>
+        <div class="comp-row">
+          <div class="comp-cell comp-label-col">Ongoing support</div>
+          <div class="comp-cell comp-other-col"><i class="fas fa-minus comp-no"></i> Hourly rates</div>
+          <div class="comp-cell comp-other-col"><i class="fas fa-minus comp-no"></i> Self-serve only</div>
+          <div class="comp-cell comp-we-col"><i class="fas fa-check comp-yes"></i></div>
+        </div>
+        <div class="comp-row comp-row-price">
+          <div class="comp-cell comp-label-col">Monthly price</div>
+          <div class="comp-cell comp-other-col comp-price-other">$800<span>+/mo</span></div>
+          <div class="comp-cell comp-other-col comp-price-other">$30<span>-60/mo</span></div>
+          <div class="comp-cell comp-we-col comp-price-we">$169<span>/mo</span></div>
+        </div>
       </div>
 
+      <div class="comp-cta reveal reveal-delay-2">
+        <a href="pricing.html" class="vsplit-btn">See our plans <i class="fas fa-arrow-right" style="font-size:11px;"></i></a>
+      </div>
 
     </div>
   </section>
@@ -4172,49 +4227,85 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
       -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     }
 
-    /* VALUE VS CARD */
-    .vsplit {
-      display: flex; align-items: stretch;
-      max-width: 520px; margin: 0 auto;
-      border-radius: 18px; overflow: hidden;
-      border: 1px solid #e8eaf0;
-      box-shadow: 0 4px 20px rgba(0,0,0,.06);
+    /* COMPARISON TABLE */
+    .comp-table {
+      border: 1px solid #e5e7eb;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 24px rgba(0,0,0,.07);
+      margin-bottom: 28px;
     }
-    .vsplit-before {
-      flex: 1; padding: 28px 24px;
-      background: #f8f9fc; border-right: 1px solid #e8eaf0;
+    .comp-head, .comp-row {
+      display: grid;
+      grid-template-columns: 1.6fr 1.2fr 1.2fr 1.2fr;
     }
-    .vsplit-after {
-      flex: 1; padding: 28px 24px;
-      background: #fff;
+    .comp-head {
+      background: #0f0f1a;
     }
-    .vsplit-label {
-      font-size: 11px; font-weight: 700; text-transform: uppercase;
-      letter-spacing: .08em; color: #9ca3af; margin-bottom: 10px;
+    .comp-row { border-top: 1px solid #e5e7eb; }
+    .comp-row:nth-child(odd) { background: #fafbfc; }
+    .comp-row:nth-child(even) { background: #fff; }
+    .comp-cell {
+      padding: 16px 20px;
+      font-size: 15px;
+      display: flex; align-items: center; gap: 8px;
     }
-    .vsplit-price {
-      font-size: clamp(30px, 5vw, 38px); font-weight: 800;
-      letter-spacing: -.03em; line-height: 1; margin-bottom: 10px;
+    .comp-label-col {
+      font-weight: 600; color: #374151;
     }
-    .vsplit-before .vsplit-price { color: #dc2626; }
-    .vsplit-after .vsplit-price { color: #0f1228; }
-    .vsplit-price span { font-size: 14px; font-weight: 500; color: #9ca3af; letter-spacing: 0; }
-    .vsplit-desc {
-      font-size: 12px; color: #9ca3af; line-height: 1.6;
+    .comp-head .comp-label-col { color: transparent; }
+    .comp-other-col {
+      color: #6b7280;
+      border-left: 1px solid #e5e7eb;
+      justify-content: center; text-align: center;
     }
-    .vsplit-after .vsplit-desc { color: #6b7280; }
+    .comp-head .comp-other-col {
+      color: rgba(255,255,255,.7);
+      font-size: 13px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .06em;
+      border-left: 1px solid rgba(255,255,255,.1);
+      justify-content: center; text-align: center;
+      padding: 18px 16px;
+    }
+    .comp-we-col {
+      background: #7851a9;
+      border-left: 1px solid rgba(255,255,255,.12);
+      color: #fff;
+      justify-content: center; text-align: center;
+      font-weight: 600;
+    }
+    .comp-head .comp-we-col {
+      font-size: 15px; font-weight: 800;
+      letter-spacing: .01em;
+      padding: 18px 16px;
+    }
+    .comp-yes { color: #22c55e; font-size: 17px; }
+    .comp-yes-other { color: #22c55e; font-size: 17px; }
+    .comp-no { color: #9ca3af; font-size: 14px; }
+    .comp-row-price .comp-label-col { font-size: 16px; font-weight: 700; color: #0f1228; }
+    .comp-price-other { font-size: 20px; font-weight: 800; color: #6b7280; }
+    .comp-price-other span { font-size: 13px; font-weight: 500; }
+    .comp-price-we { font-size: 26px; font-weight: 800; color: #ffd700 !important; }
+    .comp-price-we span { font-size: 14px; font-weight: 500; color: rgba(255,215,0,.7); }
+    .comp-row-price { background: #faf5ff !important; }
+    .comp-row-price .comp-we-col { background: #6040a0; }
+    .comp-cta { text-align: center; }
     .vsplit-btn {
       display: inline-flex; align-items: center; gap: 6px;
-      margin-top: 18px; background: #7851a9; color: #fff;
-      border-radius: 10px; padding: 10px 18px;
-      font-size: 13px; font-weight: 700; text-decoration: none;
+      background: #7851a9; color: #fff;
+      border-radius: 10px; padding: 12px 24px;
+      font-size: 15px; font-weight: 700; text-decoration: none;
       transition: background .2s;
     }
     .vsplit-btn:hover { background: #6040a0; color: #fff; text-decoration: none; }
+    @media (max-width: 680px) {
+      .comp-head, .comp-row { grid-template-columns: 1.2fr 1fr 1fr; }
+      .comp-other-col:first-of-type { display: none; }
+    }
     @media (max-width: 480px) {
-      .vsplit { flex-direction: column; }
-      .vsplit-before { border-right: none; border-bottom: 1px solid #e8eaf0; }
-      .vsplit-btn { width: 100%; justify-content: center; }
+      .comp-head, .comp-row { grid-template-columns: 1fr 1fr; }
+      .comp-other-col { display: none; }
+      .comp-cell { padding: 14px 16px; font-size: 14px; }
     }
 
     /* SIMPLIFIED PRICING (homepage) */
