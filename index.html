@@ -1802,22 +1802,23 @@ fee-tooltip {
 .hero-browser-stack:hover .bframe-1 { transform: rotate(6deg) translateY(-8px); }
 .hero-browser-stack:hover .bframe-2 { transform: rotate(-7deg) translateY(-8px); }
 .hero-browser-stack:hover .bframe-3 { transform: rotate(1deg) translateY(-6px); }
-/* Mobile 2-frame browser preview */
+/* Mobile single browser preview */
 .hero-browser-mobile {
   display: none;
-  position: relative;
-  width: 268px;
-  height: 200px;
-  margin: 20px auto 6px;
+  width: 100%;
+  max-width: 340px;
+  margin: 22px auto 4px;
 }
 .hero-browser-mobile .browser-frame {
-  width: 232px;
+  position: relative;
+  width: 100%;
+  transform: none;
 }
 .hero-browser-mobile .browser-screen {
-  height: 154px;
+  height: 190px;
 }
-.hbm-back  { position: absolute; top: 0; right: 0; z-index: 2; transform: rotate(5deg); }
-.hbm-front { position: absolute; bottom: 0; left: 0; z-index: 3; transform: rotate(-5deg); }
+.hbm-back  { display: none; }
+.hbm-front { display: block; }
 
 /* Floating elements */
 .hero-float-badge {
@@ -2406,17 +2407,12 @@ fee-tooltip {
   align-items: center;
   gap: 48px;
 }
-.pain-icon {
-  width: 52px; height: 52px; flex-shrink: 0;
-  background: rgba(120,81,169,.1);
-  border-radius: 14px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 22px; color: #7851a9;
-}
-.pain-tile-d .pain-icon {
-  background: rgba(255,215,0,.12);
-  color: #ffd700;
-  width: 56px; height: 56px; font-size: 24px;
+.pain-tile-illo { display: block; }
+.pain-tile-illo img {
+  display: block;
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
 }
 .pain-tile h3 { font-size: 22px; font-weight: 700; color: #0d0d18; margin: 0 0 10px; }
 .pain-tile p { font-size: 17px; color: #374151; line-height: 1.75; margin: 0; }
@@ -3310,7 +3306,7 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
       <div class="pain-bento">
 
         <div class="pain-tile pain-tile-a reveal">
-          <div class="pain-icon"><i class="fas fa-magnifying-glass"></i></div>
+          <div class="pain-tile-illo"><img src="images/assets/notfound.svg" alt="" aria-hidden="true"></div>
           <div>
             <h3>Invisible on Google</h3>
             <p>Your competitors show up first. Potential clients search for exactly what you offer and never find you.</p>
@@ -3318,7 +3314,7 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
         </div>
 
         <div class="pain-tile pain-tile-b reveal reveal-delay-1">
-          <div class="pain-icon"><i class="fas fa-chart-line"></i></div>
+          <div class="pain-tile-illo"><img src="images/assets/analytics.svg" alt="" aria-hidden="true"></div>
           <div>
             <h3>A site that doesn't convert</h3>
             <p>You have a website, but it's not bringing in calls or leads. Visitors leave without taking action.</p>
@@ -3326,7 +3322,7 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
         </div>
 
         <div class="pain-tile pain-tile-c reveal reveal-delay-2">
-          <div class="pain-icon"><i class="fas fa-clock"></i></div>
+          <div class="pain-tile-illo"><img src="images/assets/overwhelmed.svg" alt="" aria-hidden="true"></div>
           <div>
             <h3>No time for the tech</h3>
             <p>You're running a business. You shouldn't have to think about SSL certificates, page speed, or software updates.</p>
@@ -3334,7 +3330,7 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
         </div>
 
         <div class="pain-tile pain-tile-d reveal reveal-delay-3">
-          <div class="pain-icon"><i class="fas fa-bolt"></i></div>
+          <div class="pain-tile-illo"><img src="images/assets/multitask.svg" alt="" aria-hidden="true"></div>
           <div>
             <h3>WebEaze handles all of it</h3>
             <p>Website, SEO, AI tools, and more. Your business shows up, stands out, and grows without you lifting a finger.</p>
@@ -4268,8 +4264,8 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
       padding: 18px 16px;
     }
     .comp-we-col {
-      background: #7851a9;
-      border-left: 1px solid rgba(255,255,255,.12);
+      background: #0f1228;
+      border-left: 1px solid rgba(255,255,255,.1);
       color: #fff;
       justify-content: center; text-align: center;
       font-weight: 600;
@@ -4278,17 +4274,19 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
       font-size: 15px; font-weight: 800;
       letter-spacing: .01em;
       padding: 18px 16px;
+      color: #ffd700;
     }
     .comp-yes { color: #22c55e; font-size: 17px; }
     .comp-yes-other { color: #22c55e; font-size: 17px; }
-    .comp-no { color: #9ca3af; font-size: 14px; }
+    .comp-no { color: #ef4444; font-size: 14px; }
+    .comp-other-col { color: #374151; }
     .comp-row-price .comp-label-col { font-size: 16px; font-weight: 700; color: #0f1228; }
-    .comp-price-other { font-size: 20px; font-weight: 800; color: #6b7280; }
-    .comp-price-other span { font-size: 13px; font-weight: 500; }
+    .comp-price-other { font-size: 20px; font-weight: 800; color: #374151; }
+    .comp-price-other span { font-size: 13px; font-weight: 500; color: #9ca3af; }
     .comp-price-we { font-size: 26px; font-weight: 800; color: #ffd700 !important; }
     .comp-price-we span { font-size: 14px; font-weight: 500; color: rgba(255,215,0,.7); }
-    .comp-row-price { background: #faf5ff !important; }
-    .comp-row-price .comp-we-col { background: #6040a0; }
+    .comp-row-price { background: #f8f9fc !important; }
+    .comp-row-price .comp-we-col { background: #1a1a2e; }
     .comp-cta { text-align: center; }
     .vsplit-btn {
       display: inline-flex; align-items: center; gap: 6px;
