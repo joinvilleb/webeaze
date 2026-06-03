@@ -119,6 +119,47 @@
     .status-indicator.offline .status-text { color: var(--danger); }
     .status-indicator.away    .status-text { color: var(--warning); }
 
+    /* HERO ACTIONS */
+    .hero-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 26px;
+    }
+    .hero-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border-radius: 999px;
+      font-size: 13.5px;
+      font-weight: 600;
+      background: #fff;
+      border: 1px solid rgba(0,0,0,.1);
+      color: #1a1a2e;
+      transition: all .18s;
+      text-decoration: none;
+    }
+    .hero-btn:hover {
+      border-color: var(--brand);
+      color: var(--brand);
+      background: rgba(120,81,169,.06);
+      text-decoration: none;
+    }
+    .hero-btn i { font-size: 12px; color: var(--brand); }
+    .hero-btn-primary {
+      background: var(--brand);
+      color: #fff;
+      border-color: var(--brand);
+    }
+    .hero-btn-primary i { color: #fff; }
+    .hero-btn-primary:hover {
+      background: #6a3f9a;
+      border-color: #6a3f9a;
+      color: #fff;
+    }
+
     /* STICKY IN-PAGE NAV */
     .page-nav-wrap {
       position: sticky;
@@ -715,6 +756,14 @@ html { font-size: 17px; }
   #hero-status.offline .status-text     { color: #dc2626 !important; }
   #hero-status.away    .status-text     { color: #d97706 !important; }
 
+  /* HERO ACTION BUTTONS in light mode */
+  .hero-btn { background: #fff !important; color: #1a1a2e !important; border-color: rgba(0,0,0,.1) !important; }
+  .hero-btn i { color: #7851a9 !important; }
+  .hero-btn:hover { color: #7851a9 !important; border-color: rgba(120,81,169,.35) !important; background: rgba(120,81,169,.06) !important; }
+  .hero-btn-primary { background: #7851a9 !important; color: #fff !important; border-color: #7851a9 !important; }
+  .hero-btn-primary i { color: #fff !important; }
+  .hero-btn-primary:hover { background: #6a3f9a !important; border-color: #6a3f9a !important; color: #fff !important; }
+
   /* UPDATE BADGES in light mode */
   .update-badge.feature      { color: #7851a9 !important; background: rgba(120,81,169,.1) !important; }
   .update-badge.policy       { color: #1d4ed8 !important; background: rgba(59,130,246,.1) !important; }
@@ -771,21 +820,19 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
 <!-- HERO -->
 <header class="hero">
   <div class="container container-narrow">
+    <div id="hero-status" class="status-indicator">
+      <span class="status-dot"></span>
+      <span id="hero-status-text" class="status-text">Checking...</span>
+    </div>
     <h1>Support Hours &amp; Updates</h1>
-    <p class="subtitle">We're here Mon–Fri, 9am–5pm ET. </p>
-  </div>
-</header>
-
-<!-- QUICK STRIP -->
-<div class="quick-strip">
-  <div class="container container-narrow">
-    <div class="quick-links">
-      <a href="website-request.html" class="quick-link"><i class="fas fa-paper-plane"></i> Submit a Request</a>
-      <a href="help.html" class="quick-link"><i class="fas fa-book-open"></i> Help Center</a>
-      <a href="https://billing.stripe.com/p/login/7sI3gfaO14CEdlm144" target="_blank" rel="noopener" class="quick-link"><i class="fas fa-credit-card"></i> Billing Portal</a>
+    <p class="subtitle">Mon–Fri, 9:00am – 5:00pm ET</p>
+    <div class="hero-actions">
+      <a href="website-request.html" class="hero-btn hero-btn-primary"><i class="fas fa-paper-plane"></i> Submit a Request</a>
+      <a href="help.html" class="hero-btn"><i class="fas fa-book-open"></i> Help Center</a>
+      <a href="https://billing.stripe.com/p/login/7sI3gfaO14CEdlm144" target="_blank" rel="noopener" class="hero-btn"><i class="fas fa-credit-card"></i> Billing Portal</a>
     </div>
   </div>
-</div>
+</header>
 
 <!-- SYSTEMS STATUS -->
 <div class="systems-bar">
@@ -1244,7 +1291,25 @@ if (new Date() >= new Date('2026-06-01')) {
   }
 
   function updateStatus() {
-    // indicator element removed — function kept for setInterval compatibility
+    var badge = document.getElementById('hero-status');
+    var text  = document.getElementById('hero-status-text');
+    if (!badge || !text) return;
+    var now = getET();
+    var day = now.getDay(), hour = now.getHours();
+    var isWeekend = day === 0 || day === 6;
+    var isOpen = !isWeekend && hour >= 9 && hour < 17;
+    var onHoliday = getClosures().some(function(c) { return now >= c.start && now <= c.end; });
+    if (onHoliday || isWeekend) {
+      badge.className = 'status-indicator offline';
+      text.textContent = 'Closed today';
+    } else if (isOpen) {
+      badge.className = 'status-indicator';
+      text.textContent = 'Open now · closes 5:00pm ET';
+    } else {
+      badge.className = 'status-indicator away';
+      var opensNext = hour < 9 ? 'today' : nextOpenLabel(now);
+      text.textContent = 'Opens ' + opensNext + ' at 9:00am ET';
+    }
   }
 
   function updateClosureBanner() {
@@ -1390,6 +1455,17 @@ if (new Date() >= new Date('2026-06-01')) {
     var cnt = document.querySelectorAll('#older-updates .update-item').length;
     var lbl = document.getElementById('older-label');
     if (lbl && cnt) lbl.textContent = 'Show ' + cnt + ' older update' + (cnt !== 1 ? 's' : '');
+  })();
+
+  // Reorder sections: Hours → Closures → Updates
+  (function() {
+    var updates  = document.getElementById('updates');
+    var hours    = document.getElementById('hours');
+    var holidays = document.getElementById('holidays');
+    if (updates && hours && holidays) {
+      updates.parentNode.insertBefore(hours,    updates);
+      updates.parentNode.insertBefore(holidays, updates);
+    }
   })();
 
   updateStatus();
