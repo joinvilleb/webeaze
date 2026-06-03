@@ -92,7 +92,7 @@
       gap: 10px;
     }
     .link-card {
-      display: flex; align-items: center; gap: 11px;
+      display: block;
       background: #ffffff;
       border: 1px solid rgba(0,0,0,.08);
       border-radius: 12px;
@@ -104,13 +104,6 @@
       border-color: #7851a9;
       box-shadow: 0 3px 14px rgba(120,81,169,.12);
       transform: translateY(-1px);
-    }
-    .link-card-icon {
-      width: 30px; height: 30px; border-radius: 8px; flex-shrink: 0;
-      background: rgba(120,81,169,.08);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 13px; color: #7851a9;
-      font-weight: 600;
     }
     .link-card-text { min-width: 0; }
     .link-card-name {
@@ -191,10 +184,10 @@
     var SVCS = ['/seo', '/google-business-management', '/maintenance', '/ai', '/ads', '/plan-guide', '/providers', '/benefits', '/reports', '/website-setup-package', '/domains'];
 
     var CATS = [
-      { label: 'Core Pages',               icon: '&#127968;', match: function(p) { return CORE.indexOf(p) !== -1; } },
-      { label: 'Services',                  icon: '&#9889;',   match: function(p) { return SVCS.indexOf(p) !== -1; } },
-      { label: 'Web Design by Location',    icon: '&#128205;', match: function(p) { return p.indexOf('/web-design-') === 0; } },
-      { label: 'Support &amp; Policies',   icon: '&#128203;', match: function(p) { return true; } }
+      { label: 'Core Pages',            match: function(p) { return CORE.indexOf(p) !== -1; } },
+      { label: 'Services',              match: function(p) { return SVCS.indexOf(p) !== -1; } },
+      { label: 'Web Design by Location',match: function(p) { return p.indexOf('/web-design-') === 0; } },
+      { label: 'Support &amp; Policies',match: function(p) { return true; } }
     ];
 
     function toName(p) {
@@ -204,20 +197,13 @@
               .replace(/\b\w/g, function(c) { return c.toUpperCase(); });
     }
 
-    function toInitial(name) {
-      return name.charAt(0).toUpperCase();
-    }
-
     var buckets = CATS.map(function(c) { return { cat: c, items: [] }; });
 
     URLS.forEach(function(u) {
       var p = u.loc.replace('https://webeaze.io', '') || '/';
-      for (var i = 0; i < buckets.length; i++) {
-        if (buckets[i].cat.match(p)) {
-          buckets[i].items.push({ loc: u.loc, path: p });
-          return;
-        }
-      }
+      buckets.some(function(b) {
+        if (b.cat.match(p)) { b.items.push({ loc: u.loc, path: p }); return true; }
+      });
     });
 
     var html = '';
@@ -225,7 +211,6 @@
       if (!b.items.length) return;
       html += '<div class="cat-section">';
       html += '<div class="cat-header">';
-      html += '<div class="cat-icon">' + b.cat.icon + '</div>';
       html += '<span class="cat-title">' + b.cat.label + '</span>';
       html += '<span class="cat-count">' + b.items.length + '</span>';
       html += '</div>';
@@ -233,7 +218,6 @@
       b.items.forEach(function(item) {
         var name = toName(item.path);
         html += '<a class="link-card" href="' + item.loc + '">';
-        html += '<div class="link-card-icon">' + toInitial(name) + '</div>';
         html += '<div class="link-card-text">';
         html += '<span class="link-card-name">' + name + '</span>';
         html += '<span class="link-card-path">' + item.path + '</span>';
