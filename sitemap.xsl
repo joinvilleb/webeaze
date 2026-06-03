@@ -11,7 +11,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Sitemap — WebEaze</title>
+  <title>Sitemap &#8212; WebEaze</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; }
@@ -64,15 +64,9 @@
 
     .cat-section { margin-bottom: 44px; }
     .cat-header {
-      display: flex; align-items: center; gap: 10px;
+      display: flex; align-items: center; gap: 8px;
       margin-bottom: 14px; padding-bottom: 12px;
       border-bottom: 1px solid rgba(0,0,0,.07);
-    }
-    .cat-icon {
-      width: 30px; height: 30px; border-radius: 8px;
-      background: rgba(120,81,169,.1);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 13px; flex-shrink: 0;
     }
     .cat-title {
       font-size: .72rem; font-weight: 700;
@@ -80,7 +74,6 @@
       color: #7851a9;
     }
     .cat-count {
-      margin-left: 4px;
       font-size: .72rem; color: #9ca3af;
       background: #eceef8; border: 1px solid rgba(0,0,0,.07);
       border-radius: 20px; padding: 2px 9px;
@@ -105,13 +98,12 @@
       box-shadow: 0 3px 14px rgba(120,81,169,.12);
       transform: translateY(-1px);
     }
-    .link-card-text { min-width: 0; }
     .link-card-name {
       display: block; font-size: 13px; font-weight: 600;
       color: #1a1a2e; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
     .link-card-path {
-      display: block; font-size: 11px; color: #9ca3af; margin-top: 1px;
+      display: block; font-size: 11px; color: #9ca3af; margin-top: 3px;
       white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
 
@@ -150,6 +142,13 @@
     </div>
   </div>
 
+  <!-- URL data rendered by XSLT, read by JS -->
+  <ul id="url-data" style="display:none">
+    <xsl:for-each select="sm:urlset/sm:url">
+      <li><a href="{sm:loc}">&#160;</a></li>
+    </xsl:for-each>
+  </ul>
+
   <div class="page-wrap" id="pageWrap"></div>
 
   <div class="sitemap-footer">
@@ -157,11 +156,13 @@
   </div>
 
   <script>
+  //<![CDATA[
   (function() {
-    var URLS = [
-      <xsl:for-each select="sm:urlset/sm:url">{"loc":"<xsl:value-of select="sm:loc"/>","pri":"<xsl:value-of select="sm:priority"/>"}<xsl:if test="position() != last()">,</xsl:if>
-      </xsl:for-each>
-    ];
+    var links = document.querySelectorAll('#url-data a');
+    var URLS  = [];
+    for (var n = 0; n < links.length; n++) {
+      URLS.push(links[n].getAttribute('href'));
+    }
 
     var NAMES = {
       '/': 'Home', '/pricing': 'Pricing', '/services': 'Services',
@@ -184,10 +185,10 @@
     var SVCS = ['/seo', '/google-business-management', '/maintenance', '/ai', '/ads', '/plan-guide', '/providers', '/benefits', '/reports', '/website-setup-package', '/domains'];
 
     var CATS = [
-      { label: 'Core Pages',            match: function(p) { return CORE.indexOf(p) !== -1; } },
-      { label: 'Services',              match: function(p) { return SVCS.indexOf(p) !== -1; } },
-      { label: 'Web Design by Location',match: function(p) { return p.indexOf('/web-design-') === 0; } },
-      { label: 'Support &amp; Policies',match: function(p) { return true; } }
+      { label: 'Core Pages',             match: function(p) { return CORE.indexOf(p) !== -1; } },
+      { label: 'Services',               match: function(p) { return SVCS.indexOf(p) !== -1; } },
+      { label: 'Web Design by Location', match: function(p) { return p.indexOf('/web-design-') === 0; } },
+      { label: 'Support and Policies',   match: function(p) { return true; } }
     ];
 
     function toName(p) {
@@ -199,35 +200,44 @@
 
     var buckets = CATS.map(function(c) { return { cat: c, items: [] }; });
 
-    URLS.forEach(function(u) {
-      var p = u.loc.replace('https://webeaze.io', '') || '/';
+    URLS.forEach(function(loc) {
+      var p = loc.replace('https://webeaze.io', '') || '/';
       buckets.some(function(b) {
-        if (b.cat.match(p)) { b.items.push({ loc: u.loc, path: p }); return true; }
+        if (b.cat.match(p)) { b.items.push({ loc: loc, path: p }); return true; }
       });
     });
 
-    var html = '';
+    var wrap = document.getElementById('pageWrap');
     buckets.forEach(function(b) {
       if (!b.items.length) return;
-      html += '<div class="cat-section">';
-      html += '<div class="cat-header">';
-      html += '<span class="cat-title">' + b.cat.label + '</span>';
-      html += '<span class="cat-count">' + b.items.length + '</span>';
-      html += '</div>';
-      html += '<div class="link-grid">';
+
+      var sec = document.createElement('div');
+      sec.className = 'cat-section';
+
+      var hdr = document.createElement('div');
+      hdr.className = 'cat-header';
+      hdr.innerHTML = '<span class="cat-title">' + b.cat.label + '</span>'
+                    + '<span class="cat-count">' + b.items.length + '</span>';
+      sec.appendChild(hdr);
+
+      var grid = document.createElement('div');
+      grid.className = 'link-grid';
+
       b.items.forEach(function(item) {
         var name = toName(item.path);
-        html += '<a class="link-card" href="' + item.loc + '">';
-        html += '<div class="link-card-text">';
-        html += '<span class="link-card-name">' + name + '</span>';
-        html += '<span class="link-card-path">' + item.path + '</span>';
-        html += '</div></a>';
+        var card = document.createElement('a');
+        card.className = 'link-card';
+        card.href = item.loc;
+        card.innerHTML = '<span class="link-card-name">' + name + '</span>'
+                       + '<span class="link-card-path">' + item.path + '</span>';
+        grid.appendChild(card);
       });
-      html += '</div></div>';
-    });
 
-    document.getElementById('pageWrap').innerHTML = html;
+      sec.appendChild(grid);
+      wrap.appendChild(sec);
+    });
   })();
+  //]]>
   </script>
 
 </body>
