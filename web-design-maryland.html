@@ -15,302 +15,150 @@
 
 <style>
 :root {
-  --gold: #ffd700;
-  --gold-soft: rgba(255,215,0,0.12);
-  --gold-border: rgba(255,215,0,0.28);
-  --purple: #7851a9;
-  --green: #22c55e;
-  --ink: #ffffff;
-  --muted: #a0a6c0;
-  --bg: #050509;
-  --card: #0c0c14;
-  --card-2: #0f0f1a;
-  --surface: #121420;
-  --line: rgba(255,255,255,0.08);
-  --radius-sm: 12px;
-  --radius-md: 18px;
-  --radius-lg: 24px;
+  --brand: #7851a9; --brand-light: #9b7bc7; --brand-soft: rgba(120,81,169,.08); --brand-border: rgba(120,81,169,.18);
+  --green: #22c55e; --ink: #0f172a; --muted: #64748b;
+  --bg: #ffffff; --surface: #f7f8fc; --card: #ffffff;
+  --line: rgba(0,0,0,.07); --radius-sm: 12px; --radius-md: 18px; --radius-lg: 24px;
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
-body {
-  font-family: 'Poppins', sans-serif;
-  background: var(--bg);
-  color: var(--ink);
-  padding-top: 72px;
-  line-height: 1.6;
-}
-
-/* NAV */
-.nav-wrap {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-  background: rgba(5,5,9,0.88);
-  backdrop-filter: saturate(140%) blur(16px);
-  -webkit-backdrop-filter: saturate(140%) blur(16px);
-  border-bottom: 1px solid var(--line);
-  transition: box-shadow .3s;
-}
-.nav-wrap.scrolled { box-shadow: 0 4px 32px rgba(0,0,0,.45); }
+body { font-family: 'Poppins', sans-serif; background: var(--bg); color: var(--ink); padding-top: 0; line-height: 1.6; }
+.nav-wrap { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: rgba(255,255,255,0.95); backdrop-filter: saturate(140%) blur(16px); -webkit-backdrop-filter: saturate(140%) blur(16px); border-bottom: 1px solid var(--line); transition: box-shadow .3s; }
+.nav-wrap.scrolled { box-shadow: 0 4px 24px rgba(0,0,0,.08); }
 .nav-wrap { transition: transform .28s ease, box-shadow .3s; }
 .nav-wrap.nav-hidden { transform: translateY(-100%); }
 .webeaze-nav { padding: 10px 0; }
 .navbar-brand .logo { height: 32px; width: auto; }
-.brand-word { font-size: 1.18rem; font-weight: 700; letter-spacing: -.01em; color: #fff; }
-.main-nav .nav-link { color: rgba(255,255,255,.75) !important; font-size: .88rem; font-weight: 500; padding: 6px 14px !important; transition: color .2s; }
-.main-nav .nav-link:hover { color: var(--gold) !important; }
-.btn-nav {
-  background: var(--gold); color: #1a1a2e !important; border-radius: 10px;
-  font-size: .84rem; font-weight: 700; padding: 7px 18px !important;
-  transition: opacity .2s, transform .2s;
-}
-.btn-nav:hover { opacity: .88; transform: translateY(-1px); color: #1a1a2e !important; }
+.brand-word { font-size: 1.18rem; font-weight: 700; letter-spacing: -.01em; color: var(--ink); }
+.main-nav .nav-link { color: var(--muted) !important; font-size: .88rem; font-weight: 500; padding: 6px 14px !important; transition: color .2s; }
+.main-nav .nav-link:hover { color: var(--brand) !important; }
+.btn-nav { background: var(--brand); color: #fff !important; border-radius: 10px; font-size: .84rem; font-weight: 700; padding: 7px 18px !important; transition: opacity .2s, transform .2s; }
+.btn-nav:hover { opacity: .88; transform: translateY(-1px); color: #fff !important; }
 .container-narrow { max-width: 1160px; }
-
-/* GOLD TEXT */
-.gold {
-  background: linear-gradient(135deg, var(--gold) 0%, #ffe97a 100%);
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-/* EYEBROW */
-.eyebrow {
-  display: inline-flex; align-items: center; gap: 7px;
-  background: var(--gold-soft); border: 1px solid var(--gold-border);
-  border-radius: 50px; color: var(--gold);
-  font-size: .77rem; font-weight: 600; text-transform: uppercase; letter-spacing: .06em;
-  padding: 5px 14px; margin-bottom: 18px;
-}
-
-/* HERO */
-.hero {
-  background: var(--bg);
-  padding: calc(62px + clamp(32px, 6vh, 72px)) 0 clamp(56px, 10vh, 96px);
-  position: relative; overflow: hidden;
-}
-.hero::before {
-  content: ''; position: absolute; inset: 0; pointer-events: none;
-  background:
-    radial-gradient(ellipse 55% 55% at 80% 20%, rgba(120,81,169,.28), transparent 60%),
-    radial-gradient(ellipse 40% 40% at 10% 80%, rgba(255,215,0,.13), transparent 55%);
-}
+.gold { color: var(--brand); font-weight: 800; }
+.hero { background: var(--bg); padding: calc(62px + clamp(32px, 6vh, 72px)) 0 clamp(56px, 10vh, 96px); position: relative; overflow: hidden; }
+.hero::before { content: ''; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse 55% 55% at 80% 20%, rgba(120,81,169,.07), transparent 60%), radial-gradient(ellipse 40% 40% at 10% 80%, rgba(120,81,169,.05), transparent 55%); }
 .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 52px; align-items: center; }
 @media (max-width: 768px) { .hero-grid { grid-template-columns: 1fr; gap: 40px; } }
-.hero h1 {
-  font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 600;
-  letter-spacing: -.035em; line-height: 1.15; margin-bottom: 18px;
-}
+.hero h1 { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 600; letter-spacing: -.055em; line-height: 1.15; margin-bottom: 18px; }
 .hero-sub { font-size: clamp(.95rem, 1.8vw, 1.08rem); color: var(--muted); margin-bottom: 28px; max-width: 520px; }
-.btn-gold {
-  display: inline-flex; align-items: center; gap: 8px;
-  background: var(--gold); color: #1a1a2e; border-radius: var(--radius-sm);
-  padding: 13px 24px; font-weight: 700; font-size: .95rem;
-  box-shadow: 0 8px 24px rgba(255,215,0,.22);
-  text-decoration: none; transition: transform .2s, box-shadow .2s;
-  border: none; cursor: pointer;
-}
-.btn-gold:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(255,215,0,.32); color: #1a1a2e; text-decoration: none; }
-.btn-ghost {
-  display: inline-flex; align-items: center; gap: 8px;
-  background: transparent; color: #fff; border: 1.5px solid rgba(255,255,255,.2);
-  border-radius: var(--radius-sm); padding: 12px 22px; font-weight: 600; font-size: .95rem;
-  text-decoration: none; transition: border-color .2s, color .2s;
-}
-.btn-ghost:hover { border-color: var(--gold-border); color: var(--gold); text-decoration: none; }
+.btn-gold { display: inline-flex; align-items: center; gap: 8px; background: var(--brand); color: #fff; border-radius: var(--radius-sm); padding: 13px 24px; font-weight: 700; font-size: .95rem; box-shadow: 0 8px 24px rgba(120,81,169,.22); text-decoration: none; transition: transform .2s, box-shadow .2s; border: none; cursor: pointer; }
+.btn-gold:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(120,81,169,.32); color: #fff; text-decoration: none; }
+.btn-ghost { display: inline-flex; align-items: center; gap: 8px; background: transparent; color: var(--brand); border: 1.5px solid var(--brand-border); border-radius: var(--radius-sm); padding: 12px 22px; font-weight: 600; font-size: .95rem; text-decoration: none; transition: border-color .2s, background .2s, color .2s; }
+.btn-ghost:hover { border-color: var(--brand); background: var(--brand-soft); color: var(--brand); text-decoration: none; }
 .hero-btns { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 28px; }
 .trust-pills { display: flex; flex-wrap: wrap; gap: 18px; }
-.trust-pill { display: flex; align-items: center; gap: 6px; font-size: .83rem; color: rgba(255,255,255,.65); }
+.trust-pill { display: flex; align-items: center; gap: 6px; font-size: .83rem; color: var(--muted); }
 .trust-pill i { color: var(--green); }
-
-/* STAT GRID */
 .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-.stat-card {
-  background: var(--surface); border: 1px solid var(--line);
-  border-radius: var(--radius-md); padding: 22px 20px;
-  transition: border-color .25s, transform .25s;
-}
-.stat-card:hover { border-color: var(--gold-border); transform: translateY(-3px); }
+.stat-card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius-md); padding: 22px 20px; transition: border-color .25s, transform .25s; box-shadow: 0 2px 12px rgba(0,0,0,.04); }
+.stat-card:hover { border-color: var(--brand-border); transform: translateY(-3px); box-shadow: 0 8px 24px rgba(120,81,169,.1); }
 .stat-card .s-icon { font-size: 1.4rem; margin-bottom: 8px; }
-.stat-card .num { font-size: 1.9rem; font-weight: 800; letter-spacing: -.03em; line-height: 1; margin-bottom: 4px; }
+.stat-card .num { font-size: 1.9rem; font-weight: 800; letter-spacing: -.03em; line-height: 1; margin-bottom: 4px; color: var(--brand); }
 .stat-card .lbl { font-size: .78rem; color: var(--muted); font-weight: 500; }
-
-/* SECTIONS */
 section { padding: clamp(60px, 10vh, 96px) 0; }
-section.alt { background: var(--card); }
+section.alt { background: var(--surface); }
 .section-head { text-align: center; margin-bottom: 52px; }
 .section-head h2 { font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 600; letter-spacing: -.025em; margin-bottom: 12px; }
 .section-head p { color: var(--muted); max-width: 520px; margin: 0 auto; font-size: 1.06rem; }
-
-/* FEATURE CARDS */
 .feat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
 @media (max-width: 900px) { .feat-grid { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 580px) { .feat-grid { grid-template-columns: 1fr; } }
-.feat-card {
-  background: var(--surface); border: 1px solid var(--line);
-  border-radius: var(--radius-md); padding: 26px 22px;
-  position: relative; overflow: hidden;
-  transition: transform .25s, border-color .25s;
-}
-.feat-card::after {
-  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
-  background: linear-gradient(90deg, var(--gold), #ffe97a);
-  transform: scaleX(0); transform-origin: left; transition: transform .3s;
-}
-.feat-card:hover { transform: translateY(-4px); border-color: var(--gold-border); }
+.feat-card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius-md); padding: 26px 22px; position: relative; overflow: hidden; transition: transform .25s, border-color .25s, box-shadow .25s; box-shadow: 0 2px 12px rgba(0,0,0,.04); }
+.feat-card::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--brand), var(--brand-light)); transform: scaleX(0); transform-origin: left; transition: transform .3s; }
+.feat-card:hover { transform: translateY(-4px); border-color: var(--brand-border); box-shadow: 0 8px 28px rgba(120,81,169,.1); }
 .feat-card:hover::after { transform: scaleX(1); }
-.feat-icon {
-  width: 46px; height: 46px; border-radius: var(--radius-sm);
-  background: var(--gold-soft); color: var(--gold);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 1.2rem; margin-bottom: 14px;
-}
+.feat-icon { width: 46px; height: 46px; border-radius: var(--radius-sm); background: var(--brand-soft); color: var(--brand); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; margin-bottom: 14px; }
 .feat-card h3 { font-size: 1.06rem; font-weight: 600; margin-bottom: 8px; }
 .feat-card p { font-size: 1.02rem; color: var(--muted); line-height: 1.65; }
-
-/* WHAT YOU GET — 6 features */
 .get-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
 @media (max-width: 900px) { .get-grid { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 580px) { .get-grid { grid-template-columns: 1fr; } }
-
-/* STEPS */
 .steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; max-width: 900px; margin: 0 auto; position: relative; }
 @media (max-width: 720px) { .steps-grid { grid-template-columns: 1fr; max-width: 480px; gap: 20px; } }
-.steps-grid::before { content: ''; position: absolute; top: 44px; left: calc(33.333% + 16px); right: calc(33.333% + 16px); height: 1px; background: linear-gradient(90deg, rgba(255,215,0,.4), rgba(120,81,169,.4)); z-index: 0; pointer-events: none; }
+.steps-grid::before { content: ''; position: absolute; top: 44px; left: calc(33.333% + 16px); right: calc(33.333% + 16px); height: 1px; background: linear-gradient(90deg, var(--brand-border), rgba(120,81,169,.3)); z-index: 0; pointer-events: none; }
 @media (max-width: 720px) { .steps-grid::before { display: none; } }
-.step { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 36px 24px 32px; text-align: center; position: relative; z-index: 1; overflow: hidden; transition: transform .25s, border-color .25s, box-shadow .25s; }
-.step::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--gold), var(--purple)); opacity: 0; transition: opacity .25s; }
-.step:hover { transform: translateY(-5px); border-color: rgba(255,215,0,.25); box-shadow: 0 16px 40px rgba(0,0,0,.35); }
+.step { background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 36px 24px 32px; text-align: center; position: relative; z-index: 1; overflow: hidden; transition: transform .25s, border-color .25s, box-shadow .25s; box-shadow: 0 2px 12px rgba(0,0,0,.04); }
+.step::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--brand), var(--brand-light)); opacity: 0; transition: opacity .25s; }
+.step:hover { transform: translateY(-5px); border-color: var(--brand-border); box-shadow: 0 16px 40px rgba(120,81,169,.12); }
 .step:hover::after { opacity: 1; }
-.step-num { width: 64px; height: 64px; border-radius: 50%; margin: 0 auto 20px; background: linear-gradient(135deg, var(--gold), #ffe97a); color: #1a1a2e; font-size: 1.4rem; font-weight: 800; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 24px rgba(255,215,0,.25); position: relative; z-index: 1; transition: transform .25s; }
+.step-num { width: 64px; height: 64px; border-radius: 50%; margin: 0 auto 20px; background: linear-gradient(135deg, var(--brand), var(--brand-light)); color: #fff; font-size: 1.4rem; font-weight: 800; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 24px rgba(120,81,169,.25); position: relative; z-index: 1; transition: transform .25s; }
 .step:hover .step-num { transform: scale(1.08); }
 .step h3 { font-size: 1.1rem; font-weight: 700; margin: 0 0 10px; }
 .step p { font-size: .95rem; color: var(--muted); line-height: 1.7; margin: 0; }
-
-/* AREA BAND */
-.area-band {
-  background:
-    radial-gradient(40% 60% at 12% -10%, rgba(120,81,169,.42), transparent 45%),
-    radial-gradient(36% 60% at 88% -12%, rgba(255,215,0,.32), transparent 45%),
-    linear-gradient(180deg, #2b2355 0%, #201a46 100%);
-  color: #fff;
-  padding: clamp(48px, 7vw, 84px) 0;
-  text-align: center;
-}
+.area-band { background: linear-gradient(135deg, #5c3d8a 0%, #7851a9 50%, #9b7bc7 100%); color: #fff; padding: clamp(48px, 7vw, 84px) 0; text-align: center; }
 .area-band h2 { font-size: clamp(1.6rem, 3.5vw, 2.3rem); font-weight: 700; margin-bottom: 16px; }
-.area-band p { color: rgba(255,255,255,.72); max-width: 640px; margin: 0 auto 28px; font-size: 1.02rem; }
+.area-band p { color: rgba(255,255,255,.82); max-width: 640px; margin: 0 auto 28px; font-size: 1.02rem; }
 .city-chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 28px; }
-.chip {
-  background: rgba(255,215,0,.07); border: 1px solid var(--gold-border);
-  color: rgba(255,255,255,.8); padding: 6px 14px; border-radius: 999px;
-  font-size: .82rem; font-weight: 600;
-}
-a.chip { color: rgba(255,215,0,.9); text-decoration: none; }
-a.chip:hover { background: rgba(255,215,0,.18); color: #ffd700; }
-
-/* PLANS */
+.chip { background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.22); color: rgba(255,255,255,.9); padding: 6px 14px; border-radius: 999px; font-size: .82rem; font-weight: 600; }
+a.chip { color: rgba(255,255,255,.9); text-decoration: none; }
+a.chip:hover { background: rgba(255,255,255,.22); color: #fff; }
 .plans-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
 @media (max-width: 900px) { .plans-grid { grid-template-columns: 1fr; max-width: 420px; margin: 0 auto; } }
-.plan-card {
-  background: var(--surface); border: 1px solid var(--line);
-  border-radius: var(--radius-lg); padding: 32px 28px;
-  position: relative; transition: transform .25s, border-color .25s;
-}
-.plan-card:hover { transform: translateY(-4px); }
-.plan-card.popular { border-color: var(--gold-border); }
-.popular-badge {
-  position: absolute; top: -13px; left: 50%; transform: translateX(-50%);
-  background: var(--gold); color: #1a1a2e; font-size: .73rem; font-weight: 700;
-  text-transform: uppercase; letter-spacing: .06em; padding: 4px 14px; border-radius: 999px;
-  white-space: nowrap;
-}
+.plan-card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 32px 28px; position: relative; transition: transform .25s, border-color .25s, box-shadow .25s; box-shadow: 0 2px 12px rgba(0,0,0,.04); }
+.plan-card:hover { transform: translateY(-4px); box-shadow: 0 12px 36px rgba(120,81,169,.1); }
+.plan-card.popular { border-color: var(--brand-border); }
+.popular-badge { position: absolute; top: -13px; left: 50%; transform: translateX(-50%); background: var(--brand); color: #fff; font-size: .73rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; padding: 4px 14px; border-radius: 999px; white-space: nowrap; }
 .plan-name { font-size: .82rem; font-weight: 600; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); margin-bottom: 10px; }
-.plan-price {
-  font-size: 2.4rem; font-weight: 800; letter-spacing: -.04em; line-height: 1;
-  margin-bottom: 4px;
-}
+.plan-price { font-size: 2.4rem; font-weight: 800; letter-spacing: -.04em; line-height: 1; margin-bottom: 4px; color: var(--brand); }
 .plan-period { font-size: .82rem; color: var(--muted); margin-bottom: 6px; }
 .plan-annual { font-size: .8rem; color: var(--green); margin-bottom: 20px; }
 .plan-divider { border: none; border-top: 1px solid var(--line); margin: 18px 0; }
 .plan-features { list-style: none; padding: 0; margin: 0 0 24px; }
-.plan-features li { display: flex; align-items: flex-start; gap: 10px; font-size: .96rem; margin-bottom: 10px; color: rgba(255,255,255,.8); }
+.plan-features li { display: flex; align-items: flex-start; gap: 10px; font-size: .96rem; margin-bottom: 10px; color: var(--ink); }
 .plan-features li i { color: var(--green); margin-top: 2px; flex-shrink: 0; }
 .plan-cta { display: block; text-align: center; }
-
-/* FAQ */
 #faq { scroll-margin-top: 90px; }
 .faq-list { max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; }
-details.faq-item {
-  background: var(--card); border: 1px solid var(--line);
-  border-radius: var(--radius-md); overflow: hidden;
-  transition: border-color .2s;
-}
-details.faq-item[open] { border-color: var(--gold-border); }
-details.faq-item summary {
-  padding: 18px 22px; font-size: 1.02rem; font-weight: 600;
-  cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center;
-  user-select: none;
-}
+details.faq-item { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius-md); overflow: hidden; transition: border-color .2s; box-shadow: 0 2px 8px rgba(0,0,0,.03); }
+details.faq-item[open] { border-color: var(--brand-border); }
+details.faq-item summary { padding: 18px 22px; font-size: 1.02rem; font-weight: 600; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; user-select: none; color: var(--ink); }
 details.faq-item summary::-webkit-details-marker { display: none; }
-details.faq-item summary::after {
-  content: '+'; font-size: 1.3rem; font-weight: 400; color: var(--gold);
-  flex-shrink: 0; margin-left: 12px; transition: transform .2s;
-}
+details.faq-item summary::after { content: '+'; font-size: 1.3rem; font-weight: 400; color: var(--brand); flex-shrink: 0; margin-left: 12px; transition: transform .2s; }
 details.faq-item[open] summary::after { content: '−'; }
 .faq-body { padding: 0 22px 18px; font-size: 1.02rem; color: var(--muted); line-height: 1.72; }
-
-/* CTA SECTION */
-.cta-section {
-  background: var(--card-2); text-align: center;
-  padding: clamp(60px, 10vh, 96px) 0;
-}
-.cta-section h2 { font-size: clamp(1.7rem, 3.5vw, 2.5rem); font-weight: 700; margin-bottom: 14px; }
-.cta-section p { color: var(--muted); margin-bottom: 28px; font-size: 1.02rem; max-width: 480px; margin-left: auto; margin-right: auto; }
-
-/* FOOTER */
-.site-footer {
-  background: #030307; border-top: 1px solid var(--line);
-  padding: clamp(48px, 7vw, 72px) 0 28px;
-  color: var(--muted); font-size: .87rem;
-}
+.cta-section { background: linear-gradient(135deg, #5c3d8a 0%, #7851a9 60%, #9b7bc7 100%); color: #fff; text-align: center; padding: clamp(60px, 10vh, 96px) 0; }
+.cta-section h2 { font-size: clamp(1.7rem, 3.5vw, 2.5rem); font-weight: 700; margin-bottom: 14px; color: #fff; }
+.cta-section p { color: rgba(255,255,255,.82); margin-bottom: 28px; font-size: 1.02rem; max-width: 480px; margin-left: auto; margin-right: auto; }
+.cta-section .btn-gold { background: #fff; color: var(--brand); box-shadow: 0 8px 24px rgba(0,0,0,.15); }
+.cta-section .btn-gold:hover { background: #fff; color: var(--brand); box-shadow: 0 12px 32px rgba(0,0,0,.2); }
+.site-footer { background: #0c0c14; border-top: 1px solid rgba(255,255,255,.07); padding: clamp(48px, 7vw, 72px) 0 28px; color: #a0a6c0; font-size: .87rem; }
 .footer-grid { display: grid; grid-template-columns: 1.8fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 48px; }
 @media (max-width: 900px) { .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; } }
 @media (max-width: 520px) { .footer-grid { grid-template-columns: 1fr; } }
 .footer-brand .logo { height: 30px; margin-bottom: 10px; }
 .footer-brand .brand-word { font-size: 1.1rem; font-weight: 700; color: #fff; }
-.footer-brand p { font-size: .84rem; color: var(--muted); margin-top: 10px; max-width: 240px; line-height: 1.6; }
+.footer-brand p { font-size: .84rem; color: #a0a6c0; margin-top: 10px; max-width: 240px; line-height: 1.6; }
 .footer-socials { display: flex; gap: 12px; margin-top: 18px; }
-.footer-socials a {
-  width: 36px; height: 36px; border-radius: 10px;
-  background: var(--surface); border: 1px solid var(--line);
-  display: flex; align-items: center; justify-content: center;
-  color: var(--muted); font-size: .9rem; text-decoration: none;
-  transition: border-color .2s, color .2s;
-}
-.footer-socials a:hover { border-color: var(--gold-border); color: var(--gold); }
+.footer-socials a { width: 36px; height: 36px; border-radius: 10px; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.08); display: flex; align-items: center; justify-content: center; color: #a0a6c0; font-size: .9rem; text-decoration: none; transition: border-color .2s, color .2s; }
+.footer-socials a:hover { border-color: var(--brand-border); color: var(--brand-light); }
 .footer-col h4 { font-size: .82rem; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: rgba(255,255,255,.45); margin-bottom: 14px; }
 .footer-col ul { list-style: none; padding: 0; margin: 0; }
 .footer-col ul li { margin-bottom: 9px; }
-.footer-col ul li a { color: var(--muted); text-decoration: none; font-size: .87rem; transition: color .2s; }
-.footer-col ul li a:hover { color: var(--gold); }
-.footer-bottom { border-top: 1px solid var(--line); padding-top: 22px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+.footer-col ul li a { color: #a0a6c0; text-decoration: none; font-size: .87rem; transition: color .2s; }
+.footer-col ul li a:hover { color: var(--brand-light); }
+.footer-bottom { border-top: 1px solid rgba(255,255,255,.07); padding-top: 22px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
 .footer-bottom p { font-size: .82rem; color: rgba(255,255,255,.3); margin: 0; }
 .footer-bottom a { color: rgba(255,255,255,.3); text-decoration: none; transition: color .2s; }
-.footer-bottom a:hover { color: var(--gold); }
-
-/* REVEAL */
+.footer-bottom a:hover { color: var(--brand-light); }
 .feat-card h3 a { color: inherit; text-decoration: none; transition: color .2s; }
-.feat-card h3 a:hover { color: var(--gold); }
+.feat-card h3 a:hover { color: var(--brand); }
 .reveal { opacity: 0; transform: translateY(20px); transition: opacity .65s cubic-bezier(.4,0,.2,1), transform .65s cubic-bezier(.4,0,.2,1); }
 .reveal.in { opacity: 1; transform: translateY(0); }
-.d1 { transition-delay: .1s; }
-.d2 { transition-delay: .18s; }
-.d3 { transition-delay: .26s; }
-.d4 { transition-delay: .34s; }
-
-/* Heading consistency */
+.d1 { transition-delay: .1s; } .d2 { transition-delay: .18s; } .d3 { transition-delay: .26s; } .d4 { transition-delay: .34s; }
 h1 { font-weight: 700 !important; letter-spacing: -.055em !important; }
 h2 { font-weight: 700 !important; letter-spacing: -.03em !important; }
 h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
+.nearby-areas-section { background: var(--surface); border-top: 1px solid var(--line); padding: 16px 0; }
+.nearby-areas-text { margin: 0; font-size: .9rem; color: var(--muted); }
+.nearby-areas-text a { color: var(--brand); text-decoration: none; }
+.nearby-areas-text a:hover { text-decoration: underline; }
+.trust-strip { background: var(--surface); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 20px 0; }
+.trust-strip-inner { display: flex; flex-wrap: wrap; justify-content: center; gap: 0; }
+.trust-strip-item { display: flex; align-items: center; gap: 8px; padding: 8px 28px; font-size: .88rem; font-weight: 600; color: var(--ink); border-right: 1px solid var(--line); }
+.trust-strip-item:last-child { border-right: none; }
+.trust-strip-item i { color: var(--brand); font-size: 1rem; }
+@media (max-width: 640px) { .trust-strip-item { border-right: none; padding: 6px 16px; } }
 </style>
 
 <script type="application/ld+json">
@@ -318,8 +166,8 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
   "@context": "https://schema.org",
   "@type": "ProfessionalService",
   "@id": "https://webeaze.io/web-design-maryland#service",
-  "name": "WebEaze — Web Design for Maryland Small Businesses",
-  "description": "WebEaze builds and manages professional websites for small businesses across Maryland — including Baltimore, Columbia, Annapolis, Frederick, and the Eastern Shore. Custom design, hosting, unlimited updates, and local SEO, starting at $169/month.",
+  "name": "WebEaze   Web Design for Maryland Small Businesses",
+  "description": "WebEaze builds and manages professional websites for small businesses across Maryland   including Baltimore, Columbia, Annapolis, Frederick, and the Eastern Shore. Custom design, hosting, unlimited updates, and local SEO, starting at $169/month.",
   "provider": {"@id": "https://webeaze.io/#organization"},
   "url": "https://webeaze.io/web-design-maryland",
   "areaServed": [
@@ -338,7 +186,7 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
     {"@type": "City", "name": "Hagerstown", "containedInPlace": {"@type": "State", "name": "Maryland"}}
   ],
   "serviceType": ["Web Design", "Website Management", "Local SEO", "Website Hosting"],
-  "priceRange": "$169–$249/month",
+  "priceRange": "$169 to $249/month",
   "hasOfferCatalog": {
     "@type": "OfferCatalog",
     "name": "Maryland Website Plans",
@@ -359,7 +207,7 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
   "description": "Affordable web design and ongoing maintenance for Maryland small businesses. From Baltimore and Columbia to the Eastern Shore, WebEaze launches fast, SEO-ready sites with real human support.",
   "isPartOf": {"@id": "https://webeaze.io/#website"},
   "about": {"@id": "https://webeaze.io/#organization"},
-  "speakable": {"@type": "SpeakableSpecification", "cssSelector": ["h1", ".eyebrow", "#faq"]},
+  "speakable": {"@type": "SpeakableSpecification", "cssSelector": ["h1", "#faq"]},
   "mainEntity": {"@id": "https://webeaze.io/web-design-maryland#service"}
 }
 </script>
@@ -372,7 +220,7 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
     {
       "@type": "Question",
       "name": "Does WebEaze build websites for contractors and trades in Maryland?",
-      "acceptedAnswer": {"@type": "Answer", "text": "Yes. Many Maryland clients are in home services — roofing, landscaping, HVAC, painting, and cleaning. We set up services pages, proof of work, reviews, and clear contact options so customers act."}
+      "acceptedAnswer": {"@type": "Answer", "text": "Yes. Many Maryland clients are in home services   roofing, landscaping, HVAC, painting, and cleaning. We set up services pages, proof of work, reviews, and clear contact options so customers act."}
     },
     {
       "@type": "Question",
@@ -382,7 +230,7 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
     {
       "@type": "Question",
       "name": "Can WebEaze update hours and seasonal content for Maryland businesses?",
-      "acceptedAnswer": {"@type": "Answer", "text": "Yes. Send a quick message. We update hours, promotions, seasonal services, and new photos — all included in your monthly plan."}
+      "acceptedAnswer": {"@type": "Answer", "text": "Yes. Send a quick message. We update hours, promotions, seasonal services, and new photos   all included in your monthly plan."}
     },
     {
       "@type": "Question",
@@ -402,7 +250,7 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
   "@context": "https://schema.org",
   "@type": "HowTo",
   "name": "How to get a website for your Maryland small business",
-  "description": "WebEaze builds and maintains professional websites for Maryland small businesses in 3 simple steps — starting at $169/month with no long-term contract.",
+  "description": "WebEaze builds and maintains professional websites for Maryland small businesses in 3 simple steps   starting at $169/month with no long-term contract.",
   "provider": {"@id": "https://webeaze.io/#organization"},
   "step": [
     {"@type": "HowToStep", "position": 1, "name": "Kickoff chat", "text": "Tell us the pages you want, who you serve, and a few examples you like. We keep it simple."},
@@ -450,10 +298,9 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
 </head>
 <body>
 
-<!-- NAV -->
 <div class="nav-wrap" id="navWrap">
   <div class="container container-narrow">
-    <nav class="navbar navbar-expand-lg navbar-dark webeaze-nav" role="navigation" aria-label="Primary">
+    <nav class="navbar navbar-expand-lg navbar-light webeaze-nav" role="navigation" aria-label="Primary">
       <a class="navbar-brand d-flex align-items-center" href="index.html">
         <img loading="eager" class="logo" src="images/webeaze-transparent-copy.png" alt="WebEaze" />
         <strong class="ml-2 brand-word">WebEaze</strong>
@@ -476,7 +323,6 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
   </div>
 </div>
 
-<!-- HERO -->
 <section class="hero">
   <div class="container container-narrow">
     <div class="hero-grid">
@@ -488,7 +334,7 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
           <a href="pricing.html" class="btn-ghost">See Pricing</a>
         </div>
         <div class="trust-pills">
-          <span class="trust-pill"><i class="fas fa-check-circle"></i> Live in 7–14 days</span>
+          <span class="trust-pill"><i class="fas fa-check-circle"></i> Live in 7 to 14 days</span>
           <span class="trust-pill"><i class="fas fa-check-circle"></i> Unlimited updates</span>
           <span class="trust-pill"><i class="fas fa-check-circle"></i> Cancel anytime</span>
         </div>
@@ -496,23 +342,23 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
       <div class="reveal d1">
         <div class="stat-grid">
           <div class="stat-card">
-            <div class="s-icon" style="color:var(--gold)"><i class="fas fa-rocket"></i></div>
-            <div class="num gold">7</div>
+            <div class="s-icon" style="color:var(--brand)"><i class="fas fa-rocket"></i></div>
+            <div class="num">7</div>
             <div class="lbl">Days to go live</div>
           </div>
           <div class="stat-card">
             <div class="s-icon" style="color:var(--green)"><i class="fas fa-infinity"></i></div>
-            <div class="num" style="background:linear-gradient(135deg,var(--green),#4ade80);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">&#8734;</div>
+            <div class="num" style="color:var(--green)">&#8734;</div>
             <div class="lbl">Updates included</div>
           </div>
           <div class="stat-card">
-            <div class="s-icon" style="color:#c4a8ff"><i class="fas fa-shield-halved"></i></div>
-            <div class="num" style="background:linear-gradient(135deg,#c4a8ff,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">$0</div>
+            <div class="s-icon" style="color:var(--brand)"><i class="fas fa-shield-halved"></i></div>
+            <div class="num">$0</div>
             <div class="lbl">Surprise fees</div>
           </div>
           <div class="stat-card">
-            <div class="s-icon" style="color:var(--gold)"><i class="fas fa-star"></i></div>
-            <div class="num gold">50+</div>
+            <div class="s-icon" style="color:var(--brand)"><i class="fas fa-star"></i></div>
+            <div class="num">50+</div>
             <div class="lbl">Happy clients</div>
           </div>
         </div>
@@ -521,7 +367,17 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
   </div>
 </section>
 
-<!-- MADE FOR MARYLAND -->
+<div class="trust-strip">
+  <div class="container container-narrow">
+    <div class="trust-strip-inner">
+      <div class="trust-strip-item"><i class="fas fa-bolt"></i> Live in 7 to 14 days</div>
+      <div class="trust-strip-item"><i class="fas fa-infinity"></i> Unlimited updates included</div>
+      <div class="trust-strip-item"><i class="fas fa-circle-xmark"></i> Cancel anytime</div>
+      <div class="trust-strip-item"><i class="fas fa-star"></i> 50+ businesses served</div>
+    </div>
+  </div>
+</div>
+
 <section class="alt">
   <div class="container container-narrow">
     <div class="section-head reveal">
@@ -548,7 +404,6 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
   </div>
 </section>
 
-<!-- WHAT YOU GET -->
 <section>
   <div class="container container-narrow">
     <div class="section-head reveal">
@@ -559,7 +414,7 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
       <div class="feat-card reveal d1">
         <div class="feat-icon"><i class="fas fa-palette"></i></div>
         <h3>Custom design</h3>
-        <p>A site built for your brand — not a generic template. Fast, clean, and yours.</p>
+        <p>A site built for your brand   not a generic template. Fast, clean, and yours.</p>
       </div>
       <div class="feat-card reveal d2">
         <div class="feat-icon"><i class="fas fa-pen-to-square"></i></div>
@@ -584,13 +439,12 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
       <div class="feat-card reveal d3">
         <div class="feat-icon"><i class="fas fa-headset"></i></div>
         <h3><a href="help.html">Real human support</a></h3>
-        <p>You talk to a real person who knows your site — not a support ticket queue.</p>
+        <p>You talk to a real person who knows your site   not a support ticket queue.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- HOW IT WORKS -->
 <section class="alt">
   <div class="container container-narrow">
     <div class="section-head reveal">
@@ -617,12 +471,11 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
   </div>
 </section>
 
-<!-- AREA BAND -->
 <div class="area-band">
   <div class="container container-narrow">
     <h2 class="reveal">Serving businesses across Maryland.</h2>
     <p class="reveal d1">Baltimore City and County. Montgomery, Prince George's, Anne Arundel, Howard, Frederick, Harford, Carroll. Western Maryland. Southern Maryland. The Eastern Shore and Ocean City.</p>
-    <a href="consultation.html" class="btn-gold reveal d2" style="display:inline-flex;"><i class="fas fa-calendar-check"></i> Book a Free Discovery Call</a>
+    <a href="consultation.html" class="btn-gold reveal d2" style="display:inline-flex;background:#fff;color:var(--brand);box-shadow:0 8px 24px rgba(0,0,0,.15);"><i class="fas fa-calendar-check"></i> Book a Free Discovery Call</a>
     <div class="city-chips reveal d3">
       <a class="chip chip-link" href="web-design-baltimore.html">Baltimore</a>
       <span class="chip">Columbia</span>
@@ -638,7 +491,6 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
   </div>
 </div>
 
-<!-- PLANS -->
 <section>
   <div class="container container-narrow">
     <div class="section-head reveal">
@@ -646,12 +498,12 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
       <p>No setup fees. No long-term contracts. Cancel anytime.</p>
     </div>
     <div class="plans-grid">
-      <!-- Essential -->
+      
       <div class="plan-card reveal d1">
         <div class="plan-name">Essential</div>
-        <div class="plan-price gold">$169</div>
+        <div class="plan-price">$169</div>
         <div class="plan-period">per month</div>
-        <div class="plan-annual">or $1,690/yr — save 2 months</div>
+        <div class="plan-annual">or $1,690/yr (save 2 months)</div>
         <hr class="plan-divider">
         <ul class="plan-features">
           <li><i class="fas fa-check"></i> Custom design (up to 3 pages)</li>
@@ -663,13 +515,13 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
         </ul>
         <a href="consultation.html" class="btn-gold plan-cta">Get Started</a>
       </div>
-      <!-- Growth -->
+      
       <div class="plan-card popular reveal d2">
         <div class="popular-badge">Most Popular</div>
         <div class="plan-name">Growth</div>
-        <div class="plan-price gold">$249</div>
+        <div class="plan-price">$249</div>
         <div class="plan-period">per month</div>
-        <div class="plan-annual">or $2,490/yr — save 2 months</div>
+        <div class="plan-annual">or $2,490/yr (save 2 months)</div>
         <hr class="plan-divider">
         <ul class="plan-features">
           <li><i class="fas fa-check"></i> Custom design (up to 6 pages)</li>
@@ -682,10 +534,10 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
         </ul>
         <a href="consultation.html" class="btn-gold plan-cta">Get Started</a>
       </div>
-      <!-- Custom -->
+      
       <div class="plan-card reveal d3">
         <div class="plan-name">Custom Projects</div>
-        <div class="plan-price gold" style="font-size:1.6rem;line-height:1.2;">Let's talk</div>
+        <div class="plan-price" style="font-size:1.6rem;line-height:1.2;">Let's talk</div>
         <div class="plan-period">contact for quote</div>
         <div class="plan-annual" style="color:var(--muted);">Tailored to your needs</div>
         <hr class="plan-divider">
@@ -703,7 +555,6 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
   </div>
 </section>
 
-<!-- FAQ -->
 <section class="alt" id="faq">
   <div class="container container-narrow">
     <div class="section-head reveal">
@@ -712,7 +563,7 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
     <div class="faq-list">
       <details class="faq-item reveal d1">
         <summary>Do you build websites for Maryland contractors and trades?</summary>
-        <div class="faq-body">Yes. Many Maryland clients are in home services — roofing, HVAC, landscaping, painting, cleaning. We set up services pages, photos, reviews, and a clear call button.</div>
+        <div class="faq-body">Yes. Many Maryland clients are in home services   roofing, HVAC, landscaping, painting, cleaning. We set up services pages, photos, reviews, and a clear call button.</div>
       </details>
       <details class="faq-item reveal d2">
         <summary>How fast can WebEaze launch a Maryland website?</summary>
@@ -720,7 +571,7 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
       </details>
       <details class="faq-item reveal d3">
         <summary>Can you update hours and seasonal content?</summary>
-        <div class="faq-body">Yes. Send a message and we update hours, promos, seasonal services, and photos — all included.</div>
+        <div class="faq-body">Yes. Send a message and we update hours, promos, seasonal services, and photos   all included.</div>
       </details>
       <details class="faq-item reveal d4">
         <summary>What if I already have a website?</summary>
@@ -734,7 +585,6 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
   </div>
 </section>
 
-<!-- CTA -->
 <section class="cta-section">
   <div class="container container-narrow">
     <div class="reveal">
@@ -745,7 +595,6 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
   </div>
 </section>
 
-<!-- FOOTER -->
 <footer class="site-footer">
   <div class="container container-narrow">
     <div class="footer-grid">
