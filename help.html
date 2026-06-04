@@ -2374,118 +2374,45 @@ h1 { font-weight: 700 !important; letter-spacing: -.055em !important; }
 h2 { font-weight: 700 !important; letter-spacing: -.03em !important; }
 h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
 
-/* Quick paths + pinned articles */
-.quick-paths-section {
-  background: var(--dark-2);
-  border-bottom: 1px solid var(--line);
-  padding: 32px 0 28px;
-}
-.qp-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-bottom: 28px;
-}
-@media (max-width: 600px) {
-  .qp-grid { grid-template-columns: 1fr; }
-}
-.qp-card {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  background: #fff;
-  border: 1.5px solid var(--line);
-  border-radius: 14px;
-  padding: 18px 20px;
-  text-decoration: none !important;
-  color: inherit;
-  transition: border-color .18s, box-shadow .18s, transform .15s;
-}
-.qp-card:hover {
-  border-color: rgba(120,81,169,.4);
-  box-shadow: 0 4px 16px rgba(120,81,169,.1);
-  transform: translateY(-2px);
-  color: inherit;
-  text-decoration: none;
-}
-.qp-icon {
-  width: 44px; height: 44px;
-  background: var(--gold-dim);
-  border-radius: 12px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 18px; color: var(--gold);
-  flex-shrink: 0;
-}
-.qp-icon.purple {
-  background: rgba(120,81,169,.1);
-  color: var(--brand);
-}
-.qp-body { flex: 1; min-width: 0; }
-.qp-label {
+/* Hero most-asked pills */
+.hero-pinned { margin-top: 20px; }
+.hero-pinned-label {
   font-size: 10.5px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: .08em;
   color: var(--muted);
-  margin-bottom: 2px;
+  margin-bottom: 8px;
 }
-.qp-title {
-  font-size: 15px;
-  font-weight: 700;
-  color: #0f172a;
-  line-height: 1.25;
-  margin-bottom: 3px;
-}
-.qp-desc {
-  font-size: 12.5px;
-  color: var(--muted);
-  line-height: 1.45;
-}
-.qp-arrow { color: rgba(120,81,169,.45); font-size: 13px; flex-shrink: 0; }
-.pinned-label {
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: .08em;
-  color: var(--muted);
-  margin-bottom: 10px;
-}
-.pinned-list {
+.hero-pinned-pills {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
 }
-.pinned-pill {
+.h-pill {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: #fff;
+  background: var(--dark-2);
   border: 1px solid var(--line);
   border-radius: 999px;
   padding: 6px 14px 6px 10px;
   font-size: 13px;
-  font-weight: 600;
-  color: #1e293b;
+  font-weight: 500;
+  color: #374151;
   text-decoration: none !important;
   transition: background .15s, border-color .15s, color .15s;
+  white-space: nowrap;
 }
-.pinned-pill i { font-size: 12px; color: var(--brand); }
-.pinned-pill:hover {
+.h-pill i { font-size: 11px; color: var(--brand); }
+.h-pill:hover {
   background: rgba(120,81,169,.07);
   border-color: rgba(120,81,169,.35);
   color: var(--brand);
-  text-decoration: none;
 }
 @media (max-width: 600px) {
-  .quick-paths-section { padding: 20px 0 18px; }
-  .qp-grid { gap: 8px; margin-bottom: 20px; }
-  .qp-card { padding: 14px 16px; gap: 12px; }
-  .qp-icon { width: 36px; height: 36px; font-size: 15px; border-radius: 10px; }
-  .qp-desc { display: none; }
-  .qp-title { font-size: 14px; margin-bottom: 0; }
-  .pinned-list { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 4px; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
-  .pinned-list::-webkit-scrollbar { display: none; }
-  .pinned-pill { flex-shrink: 0; white-space: nowrap; }
+  .hero-pinned-pills { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 4px; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  .hero-pinned-pills::-webkit-scrollbar { display: none; }
 }
 </style>
 
@@ -2625,6 +2552,17 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
 
         <div class="search-shortcut"><span class="kbd">/</span> to search from anywhere</div>
 
+        <div class="hero-pinned">
+          <div class="hero-pinned-label">Most asked</div>
+          <div class="hero-pinned-pills">
+            <a href="#/how-to-request-updates" class="h-pill"><i class="fas fa-edit"></i> Request a change</a>
+            <a href="#/manage-your-plan" class="h-pill"><i class="fas fa-receipt"></i> Billing</a>
+            <a href="#/cancel-your-plan" class="h-pill"><i class="fas fa-times-circle"></i> Cancel plan</a>
+            <a href="#/which-plan-should-i-choose" class="h-pill"><i class="fas fa-tag"></i> Choose a plan</a>
+            <a href="#/how-long-does-it-take" class="h-pill"><i class="fas fa-clock"></i> Timeline</a>
+          </div>
+        </div>
+
         <div id="recentRow" hidden>
           <div class="quick-links-label" style="margin-top:18px;">Recently read</div>
           <div id="recentPills" class="quick-links"></div>
@@ -2635,40 +2573,6 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
 </header>
 
 
-
-<!-- QUICK PATHS -->
-<section class="quick-paths-section">
-  <div class="container container-narrow">
-    <div class="qp-grid">
-      <a href="#/getting-started" class="qp-card gs-open-trigger">
-        <div class="qp-icon"><i class="fas fa-seedling"></i></div>
-        <div class="qp-body">
-          <div class="qp-label">New to WebEaze?</div>
-          <div class="qp-title">Start here</div>
-          <div class="qp-desc">How it works, what's included, and how to get your site live.</div>
-        </div>
-        <i class="fas fa-chevron-right qp-arrow"></i>
-      </a>
-      <a href="#/how-to-request-updates" class="qp-card">
-        <div class="qp-icon purple"><i class="fas fa-life-ring"></i></div>
-        <div class="qp-body">
-          <div class="qp-label">Already a client?</div>
-          <div class="qp-title">Find your answer</div>
-          <div class="qp-desc">Requests, billing, domains, and getting support.</div>
-        </div>
-        <i class="fas fa-chevron-right qp-arrow"></i>
-      </a>
-    </div>
-    <div class="pinned-label">Most asked</div>
-    <div class="pinned-list">
-      <a href="#/how-to-request-updates" class="pinned-pill"><i class="fas fa-edit"></i> How do I request a change?</a>
-      <a href="#/manage-your-plan" class="pinned-pill"><i class="fas fa-receipt"></i> How does billing work?</a>
-      <a href="#/cancel-your-plan" class="pinned-pill"><i class="fas fa-pause-circle"></i> Can I cancel my plan?</a>
-      <a href="#/which-plan-should-i-choose" class="pinned-pill"><i class="fas fa-tag"></i> Which plan is right for me?</a>
-      <a href="#/how-long-does-it-take" class="pinned-pill"><i class="fas fa-clock"></i> How long does it take?</a>
-    </div>
-  </div>
-</section>
 
 <!-- LIVE REGION -->
 <div id="live" class="sr-only" aria-live="polite" aria-atomic="true"></div>
