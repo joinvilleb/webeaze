@@ -8851,6 +8851,7 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
     if (parentGroup) parentGroup.classList.add('open');
 
     $live.textContent = `Opened: ${article.title}`;
+    document.title = `${article.title} | Help Center - WebEaze`;
 
     if (typeof onArticleRendered === 'function') onArticleRendered(slug);
   }
@@ -8873,7 +8874,7 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
     if (hash && !hash.startsWith('#/')) return;
     const slug = currentSlug();
     if (slug) { renderArticle(slug); }
-    else { renderList(searchArticles($search.value.trim()), $search.value.trim()); renderRecentRow(); }
+    else { document.title = 'Help Center | WebEaze'; renderList(searchArticles($search.value.trim()), $search.value.trim()); renderRecentRow(); }
   }
 
   function initSearch() {
