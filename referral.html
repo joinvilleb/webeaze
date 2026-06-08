@@ -326,6 +326,7 @@
       .reward-or { padding: 6px 0 }
       .who-grid { grid-template-columns: 1fr }
     }
+    .reward-layout.reward-solo { grid-template-columns: 1fr; max-width: 360px; margin-left: auto; margin-right: auto }
     @media (max-width: 560px) {
       .say-card { padding: 20px 14px }
       .footer-grid { grid-template-columns: 1fr; gap: 20px }
@@ -442,7 +443,7 @@
         <h1 class="reveal">
           Refer a business.<br><span class="accent">Earn $50 cash.</span>
         </h1>
-        <p class="hero-sub reveal reveal-delay-1">
+        <p id="heroSub" class="hero-sub reveal reveal-delay-1">
           Know a business that needs a website? Send them our way and earn $50 cash — sent straight to Venmo, Cash App, PayPal, or Zelle. No client account required. <strong>Existing clients can also swap their $50 for a free month on their plan</strong> through August 1, 2026.
         </p>
         <div class="hero-ctas reveal reveal-delay-2">
@@ -469,7 +470,7 @@
 </header>
 
 <!-- COUNTDOWN TIMER -->
-<section class="countdown-section">
+<section id="countdownSection" class="countdown-section">
   <div class="countdown-inner">
     <div class="countdown-headline">Client bonus: swap $50 for 1 free month</div>
     <div class="countdown-nudge" id="countdownNudge"></div>
@@ -496,12 +497,12 @@
 <section class="reward-section">
   <div class="container container-narrow">
     <div class="section-header reveal">
-      <h2>Two ways to get rewarded</h2>
-      <p>Everyone earns $50 cash. Existing clients can swap that cash for something worth even more through August 1.</p>
+      <h2 id="rewardH2">Two ways to get rewarded</h2>
+      <p id="rewardP">Everyone earns $50 cash. Existing clients can swap that cash for something worth even more through August 1.</p>
     </div>
 
     <div class="reward-layout reveal reveal-delay-1">
-      <div class="reward-card featured">
+      <div id="rewardFreeCard" class="reward-card featured">
         <div class="reward-icon purple"><i class="fas fa-calendar-check"></i></div>
         <h3>1 Month Free</h3>
         <div class="reward-value">$169+</div>
@@ -514,7 +515,7 @@
         </ul>
       </div>
 
-      <div class="reward-or">
+      <div id="rewardOr" class="reward-or">
         <div class="reward-or-badge">OR</div>
       </div>
 
@@ -531,7 +532,7 @@
       </div>
     </div>
 
-    <p class="reward-choose-note reveal reveal-delay-2">
+    <p id="rewardChooseNote" class="reward-choose-note reveal reveal-delay-2">
       <strong>You pick after we confirm the signup.</strong> We'll reach out, you tell us which you want, and we handle the rest.
     </p>
   </div>
@@ -766,9 +767,41 @@
     els.forEach(function(el){ io.observe(el); });
   })();
 
-  // Countdown timer + urgency nudges
+  // Countdown timer + urgency nudges + post-expiry page cleanup
   (function() {
     var deadline = new Date('2026-08-01T23:59:59-04:00');
+
+    function applyExpiry() {
+      // Hide the entire countdown section
+      var cs = document.getElementById('countdownSection');
+      if (cs) cs.style.display = 'none';
+      // Hide 1-Month-Free card and OR badge
+      var freeCard = document.getElementById('rewardFreeCard');
+      var rewardOr = document.getElementById('rewardOr');
+      if (freeCard) freeCard.style.display = 'none';
+      if (rewardOr) rewardOr.style.display = 'none';
+      // Center the remaining cash card
+      var layout = document.querySelector('.reward-layout');
+      if (layout) layout.classList.add('reward-solo');
+      // Update reward section heading
+      var h2 = document.getElementById('rewardH2');
+      var rp = document.getElementById('rewardP');
+      if (h2) h2.textContent = 'Your reward';
+      if (rp) rp.textContent = 'Refer a business that signs up and we\'ll send you $50 cash. No account required.';
+      // Simplify hero sub to standard offer only
+      var heroSub = document.getElementById('heroSub');
+      if (heroSub) heroSub.innerHTML = 'Know a business that needs a website? Send them our way and earn $50 cash — sent straight to Venmo, Cash App, PayPal, or Zelle. No client account required.';
+      // Hide the "you pick" note (only relevant when two options exist)
+      var cn = document.getElementById('rewardChooseNote');
+      if (cn) cn.style.display = 'none';
+    }
+
+    // Check expiry immediately on load — no need to wait for first tick
+    if (deadline - Date.now() <= 0) {
+      applyExpiry();
+      return; // skip timer entirely
+    }
+
     var nudgeEl   = document.getElementById('countdownNudge');
     var displayEl = document.getElementById('timerDisplay');
     var expiredEl = document.getElementById('timerExpired');
@@ -783,6 +816,7 @@
         expiredEl.style.display = 'block';
         endNoteEl.style.display = 'none';
         nudgeEl.textContent = '';
+        applyExpiry();
         return;
       }
       var days  = Math.floor(diff / 86400000);
