@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DeBloois Landscaping — Lawn Care &amp; Turf Health | Camden, DE</title>
+<meta name="description" content="Custom fertilization, weed control, and turf-health programs for homes across Kent & Sussex County, Delaware. Built on real soil testing. Licensed, certified, free estimates.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --turf-900:#0C2017;
+    --turf-800:#123F28;
+    --turf-700:#185236;
+    --turf-600:#236B45;
+    --turf-500:#2F8556;
+    --cut:#A4E04B;
+    --cut-deep:#7BB518;
+    --paper:#F6F9F0;
+    --paper-2:#E9F0DF;
+    --white:#FFFFFF;
+    --ink:#0C2017;
+    --muted:#5C6E60;
+    --line:rgba(12,32,23,.12);
+    --line-d:rgba(246,249,240,.16);
+    --maxw:1160px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'DM Sans',system-ui,sans-serif;background:var(--paper);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  h1,h2,h3,.display{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;line-height:1.02;letter-spacing:-.015em}
+  .eyebrow{font-weight:700;text-transform:uppercase;letter-spacing:.16em;font-size:.76rem;color:var(--turf-600)}
+  a{color:inherit;text-decoration:none}
+  img{max-width:100%;display:block}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+  .btn{display:inline-flex;align-items:center;gap:.5rem;font-weight:700;font-size:1rem;padding:.9rem 1.6rem;border-radius:999px;border:2px solid transparent;cursor:pointer;transition:transform .15s,box-shadow .15s,background .15s,color .15s}
+  .btn-cut{background:var(--cut);color:var(--turf-900);box-shadow:0 6px 18px rgba(123,181,24,.35)}
+  .btn-cut:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(123,181,24,.45)}
+  .btn-ghost-light{background:transparent;color:var(--white);border-color:rgba(255,255,255,.45)}
+  .btn-ghost-light:hover{border-color:var(--cut);color:var(--cut)}
+  .btn-dark{background:var(--turf-800);color:var(--white)}
+  .btn-dark:hover{background:var(--turf-700);transform:translateY(-2px)}
+  .btn-outline{background:transparent;color:var(--turf-700);border-color:var(--turf-600)}
+  .btn-outline:hover{background:var(--turf-700);color:var(--white)}
+
+  /* strip */
+  .strip{background:var(--turf-900);color:rgba(246,249,240,.85);font-size:.84rem;font-weight:500}
+  .strip .wrap{display:flex;justify-content:space-between;align-items:center;height:40px;gap:1rem}
+  .strip .lic{display:inline-flex;align-items:center;gap:.5rem}
+  .strip .lic svg{width:15px;height:15px}
+  .strip a{color:var(--cut);font-weight:700}
+
+  /* header */
+  header{position:sticky;top:0;z-index:60;background:rgba(255,255,255,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:74px}
+  .brand{display:flex;align-items:center;gap:.7rem}
+  .leaf{width:44px;height:44px;border-radius:12px;background:linear-gradient(150deg,var(--turf-600),var(--turf-800));display:grid;place-items:center;flex:none;box-shadow:0 4px 10px rgba(18,63,40,.25)}
+  .leaf svg{width:26px;height:26px}
+  .brand-txt b{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.28rem;display:block;line-height:1;color:var(--ink)}
+  .brand-txt span{font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;color:var(--turf-600);font-weight:700}
+  .menu{display:flex;align-items:center;gap:2rem}
+  .menu a.lnk{font-weight:600;font-size:.96rem;color:var(--ink);position:relative}
+  .menu a.lnk::after{content:"";position:absolute;left:0;bottom:-6px;width:0;height:2px;background:var(--cut-deep);transition:width .2s}
+  .menu a.lnk:hover::after{width:100%}
+  .burger{display:none;flex-direction:column;gap:5px;background:none;border:0;cursor:pointer;padding:6px}
+  .burger span{width:26px;height:3px;background:var(--ink);border-radius:2px}
+
+  /* hero */
+  .hero{position:relative;background:linear-gradient(165deg,var(--turf-800) 0%,var(--turf-900) 100%);color:var(--white);overflow:hidden;padding-top:70px}
+  .hero-inner{position:relative;z-index:5;max-width:740px;margin:0 auto;text-align:center;padding-bottom:230px}
+  .hero .eyebrow{color:var(--cut)}
+  .hero h1{font-size:clamp(2.6rem,6.6vw,4.7rem);color:var(--white);margin:18px 0}
+  .hero h1 em{font-style:normal;color:var(--cut)}
+  .hero p.lead{font-size:1.18rem;color:rgba(246,249,240,.82);max-width:48ch;margin:0 auto 32px}
+  .hero-cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+  .badges{display:flex;justify-content:center;flex-wrap:wrap;gap:10px 26px;margin-top:40px}
+  .badge{display:inline-flex;align-items:center;gap:.5rem;font-size:.9rem;font-weight:600;color:rgba(246,249,240,.9)}
+  .badge svg{width:18px;height:18px;color:var(--cut)}
+  /* striped lawn field signature */
+  .field{position:absolute;left:-12%;right:-12%;bottom:-2px;height:340px;z-index:2;
+    background:repeating-linear-gradient(90deg,var(--turf-700) 0 7%,var(--turf-600) 7% 14%);
+    transform:perspective(520px) rotateX(62deg);transform-origin:bottom center;pointer-events:none}
+  .field::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(12,32,23,0) 40%,var(--turf-900) 100%)}
+  .hero-fade{position:absolute;left:0;right:0;bottom:0;height:90px;background:linear-gradient(to top,var(--paper),rgba(246,249,240,0));z-index:4}
+
+  /* section base */
+  .pad{padding:88px 0}
+  .sec-head{max-width:620px;margin-bottom:48px}
+  .sec-head.center{margin-left:auto;margin-right:auto;text-align:center}
+  .sec-head h2{font-size:clamp(2rem,4.6vw,3.1rem);margin-top:12px}
+  .sec-head p{margin-top:14px;font-size:1.08rem;color:var(--muted)}
+
+  /* program cards */
+  .prog{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .card{background:var(--white);border:1px solid var(--line);border-radius:18px;padding:30px;position:relative;transition:transform .2s,box-shadow .2s;overflow:hidden}
+  .card:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(18,63,40,.12)}
+  .card .num{position:absolute;top:18px;right:22px;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:2.6rem;color:var(--paper-2);line-height:1}
+  .card .ico{width:52px;height:52px;border-radius:14px;background:var(--paper-2);display:grid;place-items:center;margin-bottom:18px}
+  .card .ico svg{width:26px;height:26px;color:var(--turf-600)}
+  .card h3{font-size:1.32rem;margin-bottom:8px}
+  .card p{color:var(--muted);font-size:.97rem}
+
+  /* science / why */
+  .why{background:var(--turf-900);color:var(--white)}
+  .why .eyebrow{color:var(--cut)}
+  .why .sec-head h2{color:var(--white)}
+  .why .sec-head p{color:rgba(246,249,240,.78)}
+  .why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:34px}
+  .why-item{border-top:2px solid var(--cut);padding-top:22px}
+  .why-item .k{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.05rem;color:var(--cut);letter-spacing:.04em;text-transform:uppercase;margin-bottom:10px}
+  .why-item h3{font-size:1.4rem;color:var(--white);margin-bottom:10px}
+  .why-item p{color:rgba(246,249,240,.78);font-size:.98rem}
+
+  /* service area */
+  .area-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:48px;align-items:center}
+  .towns{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
+  .towns span{background:var(--white);border:1px solid var(--line);border-radius:999px;padding:.5rem 1rem;font-weight:600;font-size:.95rem;color:var(--turf-700);display:inline-flex;align-items:center;gap:.45rem}
+  .towns span::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--cut-deep)}
+  .map{position:relative;border-radius:20px;overflow:hidden;min-height:360px;background:var(--turf-800);border:1px solid var(--line)}
+  .map svg.bg{position:absolute;inset:0;width:100%;height:100%}
+  .map .pin{position:absolute;left:46%;top:48%;transform:translate(-50%,-100%);z-index:3;text-align:center}
+  .map .pin .dot{width:26px;height:26px;background:var(--cut);border:4px solid var(--turf-900);border-radius:50% 50% 50% 0;transform:rotate(-45deg);margin:0 auto;box-shadow:0 8px 18px rgba(0,0,0,.4)}
+  .map .pin .lbl{margin-top:14px;font-weight:700;color:var(--white);font-size:.9rem;background:rgba(12,32,23,.7);padding:.3rem .7rem;border-radius:8px;display:inline-block}
+
+  /* reviews */
+  .reviews{background:var(--paper-2)}
+  .stats{display:flex;justify-content:center;flex-wrap:wrap;gap:0;margin-bottom:46px}
+  .stats div{text-align:center;padding:0 38px;border-right:1px solid var(--line)}
+  .stats div:last-child{border:0}
+  .stats b{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:2.6rem;color:var(--turf-700);display:block;line-height:1}
+  .stats small{font-size:.85rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:600}
+  .rev-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .rev{background:var(--white);border:1px solid var(--line);border-radius:18px;padding:26px}
+  .stars{color:var(--cut-deep);font-size:1.05rem;letter-spacing:2px;margin-bottom:12px}
+  .rev p{font-size:1rem;color:var(--ink);margin-bottom:16px}
+  .rev .who{display:flex;align-items:center;gap:.7rem}
+  .rev .av{width:38px;height:38px;border-radius:50%;background:var(--turf-600);color:#fff;display:grid;place-items:center;font-weight:700;flex:none}
+  .rev .who b{font-size:.95rem}
+  .rev .who small{color:var(--muted);font-size:.82rem;display:block}
+  .placeholder-tag{display:inline-block;margin-top:14px;font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--cut-deep);border:1px dashed var(--cut-deep);padding:.35rem .7rem;border-radius:8px}
+
+  /* gallery */
+  .gal{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:190px;gap:14px}
+  .shot{position:relative;border-radius:14px;overflow:hidden;display:flex;align-items:center;justify-content:center;text-align:center}
+  .shot.big{grid-column:span 2;grid-row:span 2}
+  .gA{background:linear-gradient(135deg,#185236,#0C2017)}
+  .gB{background:linear-gradient(135deg,#236B45,#123F28)}
+  .gC{background:linear-gradient(135deg,#2F8556,#185236)}
+  .gD{background:linear-gradient(135deg,#123F28,#236B45)}
+  .gE{background:linear-gradient(135deg,#185236,#2F8556)}
+  .shot .stripes{position:absolute;inset:0;background:repeating-linear-gradient(105deg,rgba(255,255,255,.05) 0 18px,rgba(255,255,255,.0) 18px 36px)}
+  .shot .ph-in{position:relative;z-index:2;color:rgba(246,249,240,.9);padding:14px}
+  .shot .ph-in svg{width:32px;height:32px;opacity:.85;margin:0 auto 8px;display:block}
+  .shot .ph-in small{font-size:.78rem;text-transform:uppercase;letter-spacing:.07em;font-weight:700}
+  .shot .corner{position:absolute;top:0;right:0;background:var(--cut);color:var(--turf-900);font-size:.6rem;font-weight:800;letter-spacing:.08em;padding:.22rem .55rem;border-radius:0 0 0 10px;text-transform:uppercase;z-index:3}
+
+  /* estimate / contact */
+  .estimate{background:linear-gradient(165deg,var(--turf-700),var(--turf-900));color:var(--white)}
+  .est-grid{display:grid;grid-template-columns:1fr 1fr;gap:54px;align-items:start}
+  .estimate .eyebrow{color:var(--cut)}
+  .estimate h2{font-size:clamp(2rem,4.6vw,3.1rem);color:var(--white);margin-top:12px}
+  .estimate p.sub{color:rgba(246,249,240,.82);font-size:1.08rem;margin-top:16px;max-width:42ch}
+  .contact-list{margin-top:30px}
+  .contact-list a, .contact-list div{display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--line-d);color:var(--white);font-weight:600}
+  .contact-list .ic{width:40px;height:40px;border-radius:11px;background:rgba(164,224,75,.15);display:grid;place-items:center;flex:none}
+  .contact-list .ic svg{width:20px;height:20px;color:var(--cut)}
+  .form{background:var(--white);border-radius:20px;padding:32px;color:var(--ink)}
+  .form h3{font-size:1.5rem;margin-bottom:6px}
+  .form .fhint{color:var(--muted);font-size:.95rem;margin-bottom:18px}
+  .field-row{margin-bottom:14px}
+  .field-row label{display:block;font-weight:600;font-size:.85rem;margin-bottom:6px;color:var(--turf-800)}
+  .field-row input,.field-row select,.field-row textarea{width:100%;padding:.8rem .9rem;border:1px solid var(--line);border-radius:10px;font-family:inherit;font-size:1rem;background:var(--paper);color:var(--ink)}
+  .field-row input:focus,.field-row select:focus,.field-row textarea:focus{outline:2px solid var(--cut-deep);outline-offset:1px;background:#fff}
+  .form .btn-cut{width:100%;justify-content:center;margin-top:6px}
+  .form .fnote{font-size:.78rem;color:var(--muted);text-align:center;margin-top:12px}
+
+  /* footer */
+  footer{background:var(--turf-900);color:rgba(246,249,240,.7);padding:50px 0 30px}
+  .foot-grid{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:30px;padding-bottom:30px;border-bottom:1px solid var(--line-d)}
+  .foot-grid .brand-txt b{color:#fff}
+  .foot-links{display:flex;gap:26px;flex-wrap:wrap}
+  .foot-links a{color:rgba(246,249,240,.7);font-weight:600}
+  .foot-links a:hover{color:var(--cut)}
+  .foot-bot{padding-top:22px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font-size:.82rem}
+  .foot-bot .by a{color:var(--cut);font-weight:700}
+
+  /* mobile call bar */
+  .callbar{display:none;position:fixed;left:0;right:0;bottom:0;z-index:80;background:var(--cut);box-shadow:0 -4px 16px rgba(0,0,0,.25)}
+  .callbar a{display:flex;align-items:center;justify-content:center;gap:.5rem;height:58px;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.2rem;color:var(--turf-900)}
+
+  .reveal{opacity:0;transform:translateY(22px);transition:opacity .6s ease,transform .6s ease}
+  .reveal.in{opacity:1;transform:none}
+
+  @media(max-width:920px){
+    .prog{grid-template-columns:1fr 1fr}
+    .why-grid{grid-template-columns:1fr;gap:26px}
+    .area-grid{grid-template-columns:1fr;gap:30px}
+    .rev-grid{grid-template-columns:1fr;gap:14px}
+    .est-grid{grid-template-columns:1fr;gap:30px}
+    .gal{grid-template-columns:repeat(2,1fr);grid-auto-rows:170px}
+    .menu{display:none}
+    .burger{display:flex}
+    .menu.open{display:flex;position:absolute;top:74px;left:0;right:0;flex-direction:column;background:#fff;padding:18px 24px;gap:16px;border-bottom:1px solid var(--line)}
+    .menu.open .btn{display:none}
+    .callbar{display:block}
+    body{padding-bottom:58px}
+    .hero-inner{padding-bottom:180px}
+    .field{height:280px}
+  }
+  @media(max-width:560px){
+    .prog{grid-template-columns:1fr}
+    .stats div{padding:0 20px}
+    .gal{grid-template-columns:1fr 1fr;grid-auto-rows:140px}
+    .shot.big{grid-column:span 2;grid-row:span 1}
+  }
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}.reveal{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+
+<div class="strip">
+  <div class="wrap">
+    <span class="lic"><svg viewBox="0 0 24 24" fill="none" stroke="#A4E04B" stroke-width="2"><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6z"/><path d="M9 12l2 2 4-4"/></svg> Licensed &amp; Insured · DE Dept. of Agriculture Certified</span>
+    <a href="tel:13026987648">302&#8209;698&#8209;7648</a>
+  </div>
+</div>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="#top">
+      <span class="leaf">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M5 19c0-8 6-14 14-14 0 8-6 14-14 14z" fill="#A4E04B"/><path d="M5 19C8 14 12 11 17 9" stroke="#123F28" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </span>
+      <span class="brand-txt"><b>DeBloois</b><span>Landscaping · Camden, DE</span></span>
+    </a>
+    <nav class="menu" id="menu">
+      <a class="lnk" href="#program">The Program</a>
+      <a class="lnk" href="#why">Why Us</a>
+      <a class="lnk" href="#area">Service Area</a>
+      <a class="lnk" href="#reviews">Reviews</a>
+      <a class="btn btn-dark" href="#estimate">Free Estimate</a>
+    </nav>
+    <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<!-- hero -->
+<section class="hero" id="top">
+  <div class="wrap hero-inner">
+    <span class="eyebrow">Kent &amp; Sussex County Lawn Care</span>
+    <h1>A greener lawn<br>starts in the <em>soil.</em></h1>
+    <p class="lead">Custom fertilization, weed control, and turf-health programs for Delaware homes — built on real soil testing, not guesswork. Thicker grass, fewer weeds, that fresh-striped look.</p>
+    <div class="hero-cta">
+      <a class="btn btn-cut" href="#estimate">Get your free estimate</a>
+      <a class="btn btn-ghost-light" href="tel:13026987648">Call 302-698-7648</a>
+    </div>
+    <div class="badges">
+      <span class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6z"/><path d="M9 12l2 2 4-4"/></svg>Licensed &amp; Insured</span>
+      <span class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="5"/><path d="M8.5 12.5L7 22l5-3 5 3-1.5-9.5"/></svg>DE Dept. of Ag Certified</span>
+      <span class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l2.9 6.3L22 9.2l-5 4.7 1.2 7.1L12 17.8 5.8 21l1.2-7.1-5-4.7 7.1-.9z"/></svg>92% Recommend</span>
+      <span class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Free Estimates</span>
+    </div>
+  </div>
+  <div class="field" aria-hidden="true"></div>
+  <div class="hero-fade" aria-hidden="true"></div>
+</section>
+
+<!-- program -->
+<section class="pad" id="program">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Your Lawn Program</span>
+      <h2>Treatments that build a healthier lawn</h2>
+      <p>We don't just spray and go. Each property gets a plan based on what your lawn actually needs through the season.</p>
+    </div>
+    <div class="prog">
+      <article class="card reveal"><span class="num">01</span>
+        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M9 3h6v4l3 5v7a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2v-7l3-5z"/><path d="M6 14h12"/></svg></span>
+        <h3>Soil Testing</h3>
+        <p>We test pH and nutrients first, so every treatment is targeted — not guesswork on your dime.</p>
+      </article>
+      <article class="card reveal"><span class="num">02</span>
+        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 2v6M12 22v-4"/><path d="M5 9c0 4 3 7 7 9 4-2 7-5 7-9 0-2-1-4-3-5l-4 2-4-2c-2 1-3 3-3 5z"/></svg></span>
+        <h3>Custom Fertilization</h3>
+        <p>Season-timed feeding programs that thicken the turf and bring out deep, even color.</p>
+      </article>
+      <article class="card reveal"><span class="num">03</span>
+        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M4 20s2-8 8-8 8 8 8 8"/><path d="M12 12V4M9 7l3-3 3 3"/></svg></span>
+        <h3>Weed Control</h3>
+        <p>Pre- and post-emergent control that knocks out crabgrass, dandelions, and broadleaf weeds.</p>
+      </article>
+      <article class="card reveal"><span class="num">04</span>
+        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>
+        <h3>Turf Health &amp; Disease</h3>
+        <p>We catch fungus, grubs, and stress early and treat before they take over your yard.</p>
+      </article>
+      <article class="card reveal"><span class="num">05</span>
+        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M3 17h18M3 12h18M3 7h18"/></svg></span>
+        <h3>Mowing &amp; Striping</h3>
+        <p>Sharp blades, the right height, and those clean stripes that make the whole street look.</p>
+      </article>
+      <article class="card reveal"><span class="num">06</span>
+        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 3v18M5 8l7-5 7 5M5 8v8l7 5 7-5V8"/></svg></span>
+        <h3>Aeration &amp; Seeding</h3>
+        <p>Core aeration and overseeding to relieve compaction and fill in thin, worn areas.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- why -->
+<section class="why pad" id="why">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Why DeBloois</span>
+      <h2>We treat the lawn like it's our own</h2>
+      <p>The difference between a lawn that's "cut" and a lawn that's healthy comes down to the details we don't skip.</p>
+    </div>
+    <div class="why-grid">
+      <div class="why-item reveal">
+        <div class="k">Test, then treat</div>
+        <h3>Real soil testing</h3>
+        <p>Healthy grass starts underground. We test your soil so we feed exactly what it's missing — and stop wasting product on what it isn't.</p>
+      </div>
+      <div class="why-item reveal">
+        <div class="k">Certified</div>
+        <h3>Licensed applicators</h3>
+        <p>We're licensed, insured, and certified through the Delaware Department of Agriculture. Your lawn — and your family — are handled by pros.</p>
+      </div>
+      <div class="why-item reveal">
+        <div class="k">Every visit</div>
+        <h3>A clean, sharp cut</h3>
+        <p>Sharp blades make a clean cut on every blade of grass, so the turf recovers fast and stays healthy. Little things, big difference.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- service area -->
+<section class="pad" id="area">
+  <div class="wrap">
+    <div class="area-grid">
+      <div class="reveal">
+        <span class="eyebrow">Where We Work</span>
+        <h2 style="font-size:clamp(1.9rem,4.4vw,2.9rem);margin-top:12px">Serving Central &amp; Southern Delaware</h2>
+        <p style="color:var(--muted);margin-top:14px;font-size:1.05rem">Based in Camden and on lawns across Kent and Sussex County. If you're nearby and not listed, just ask.</p>
+        <div class="towns">
+          <span>Camden</span><span>Wyoming</span><span>Dover</span><span>Smyrna</span>
+          <span>Felton</span><span>Milford</span><span>Milton</span><span>Seaford</span>
+          <span>Bridgeville</span><span>Bowers Beach</span><span>Slaughter Beach</span>
+        </div>
+      </div>
+      <div class="map reveal">
+        <svg class="bg" viewBox="0 0 400 360" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+          <rect width="400" height="360" fill="#123F28"/>
+          <g stroke="#2F8556" stroke-width="2" opacity="0.5" fill="none">
+            <path d="M-20 90 L 420 70"/><path d="M-20 180 L 420 200"/><path d="M-20 270 L 420 250"/>
+            <path d="M120 -20 L 100 380"/><path d="M250 -20 L 280 380"/>
+          </g>
+          <path d="M150 -20 C 180 80 140 180 200 280 C 240 340 220 380 240 400" stroke="#A4E04B" stroke-width="3" opacity="0.45" fill="none"/>
+        </svg>
+        <div class="pin"><div class="dot"></div><div class="lbl">Camden, DE 19934</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- reviews -->
+<section class="reviews pad" id="reviews">
+  <div class="wrap">
+    <div class="stats reveal">
+      <div><b>92%</b><small>Recommend</small></div>
+      <div><b>★★★★★</b><small>10 Reviews</small></div>
+      <div><b>1.4K</b><small>Followers</small></div>
+    </div>
+    <div class="sec-head center">
+      <span class="eyebrow">What Neighbors Say</span>
+      <h2>Lawns they're proud of</h2>
+    </div>
+    <div class="rev-grid">
+      <div class="rev reveal">
+        <div class="stars">★★★★★</div>
+        <p>Sample review — swap in a real one from your Facebook reviews. Plenty of strong ones to choose from.</p>
+        <div class="who"><span class="av">R</span><div><b>Customer Name</b><small>Dover, DE</small></div></div>
+      </div>
+      <div class="rev reveal">
+        <div class="stars">★★★★★</div>
+        <p>Sample review — a line or two about results: greener lawn, weeds gone, easy to work with.</p>
+        <div class="who"><span class="av">M</span><div><b>Customer Name</b><small>Camden, DE</small></div></div>
+      </div>
+      <div class="rev reveal">
+        <div class="stars">★★★★★</div>
+        <p>Sample review — pull your best testimonial here. Real names and towns build local trust.</p>
+        <div class="who"><span class="av">J</span><div><b>Customer Name</b><small>Milford, DE</small></div></div>
+      </div>
+    </div>
+    <div style="text-align:center"><span class="placeholder-tag">↑ Drop in your real Facebook reviews</span></div>
+  </div>
+</section>
+
+<!-- gallery -->
+<section class="pad" id="gallery">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">The Work</span>
+      <h2>Lawns we've dialed in</h2>
+      <p>Your striped lawns and before/afters from Facebook drop straight into these slots.</p>
+    </div>
+    <div class="gal">
+      <div class="shot big gA"><div class="stripes"></div><div class="ph-in"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="12" cy="12" r="3.2"/><path d="M7 5l1.5-2h7L17 5"/></svg><small>Striped front lawn</small></div><span class="corner">Your photo</span></div>
+      <div class="shot gB"><div class="stripes"></div><div class="ph-in"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="12" cy="12" r="3.2"/><path d="M7 5l1.5-2h7L17 5"/></svg><small>Before / after</small></div><span class="corner">Your photo</span></div>
+      <div class="shot gC"><div class="stripes"></div><div class="ph-in"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="12" cy="12" r="3.2"/><path d="M7 5l1.5-2h7L17 5"/></svg><small>Healthy turf close-up</small></div><span class="corner">Your photo</span></div>
+      <div class="shot gD"><div class="stripes"></div><div class="ph-in"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="12" cy="12" r="3.2"/><path d="M7 5l1.5-2h7L17 5"/></svg><small>The team at work</small></div><span class="corner">Your photo</span></div>
+      <div class="shot gE"><div class="stripes"></div><div class="ph-in"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="12" cy="12" r="3.2"/><path d="M7 5l1.5-2h7L17 5"/></svg><small>Equipment / truck</small></div><span class="corner">Your photo</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- estimate -->
+<section class="estimate pad" id="estimate">
+  <div class="wrap est-grid">
+    <div class="reveal">
+      <span class="eyebrow">Free Estimate</span>
+      <h2>Let's get your lawn on a plan</h2>
+      <p class="sub">Tell us a little about your property and we'll come take a look — no cost, no pressure. Most estimates within a day or two.</p>
+      <div class="contact-list">
+        <a href="tel:13026987648"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#A4E04B" stroke-width="1.9"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.6A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg></span>302-698-7648</a>
+        <a href="mailto:deblooislandscaping@gmail.com"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#A4E04B" stroke-width="1.9"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></span>deblooislandscaping@gmail.com</a>
+        <div><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#A4E04B" stroke-width="1.9"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span>Camden, DE 19934</div>
+      </div>
+    </div>
+    <div class="form reveal">
+      <h3>Request your estimate</h3>
+      <p class="fhint">Fill this out and we'll be in touch.</p>
+      <div class="field-row"><label for="name">Name</label><input id="name" type="text" placeholder="Your name"></div>
+      <div class="field-row"><label for="phone">Phone</label><input id="phone" type="tel" placeholder="(302) 000-0000"></div>
+      <div class="field-row"><label for="town">Town</label>
+        <select id="town"><option>Camden</option><option>Dover</option><option>Smyrna</option><option>Felton</option><option>Milford</option><option>Milton</option><option>Seaford</option><option>Bridgeville</option><option>Other</option></select>
+      </div>
+      <div class="field-row"><label for="msg">What does your lawn need?</label><textarea id="msg" rows="3" placeholder="Weeds, color, full program, mowing..."></textarea></div>
+      <button class="btn btn-cut" id="sendBtn">Request free estimate</button>
+      <p class="fnote">Or call 302-698-7648 — we answer fast.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <a class="brand" href="#top">
+        <span class="leaf"><svg viewBox="0 0 24 24" fill="none"><path d="M5 19c0-8 6-14 14-14 0 8-6 14-14 14z" fill="#A4E04B"/><path d="M5 19C8 14 12 11 17 9" stroke="#123F28" stroke-width="1.6" stroke-linecap="round"/></svg></span>
+        <span class="brand-txt"><b>DeBloois</b><span>Landscaping · Camden, DE</span></span>
+      </a>
+      <nav class="foot-links">
+        <a href="#program">The Program</a><a href="#why">Why Us</a><a href="#area">Service Area</a>
+        <a href="#reviews">Reviews</a><a href="tel:13026987648">302-698-7648</a>
+      </nav>
+    </div>
+    <div class="foot-bot">
+      <span>© 2026 DeBloois Landscaping · Camden, DE 19934 · Licensed &amp; Insured</span>
+      <span class="by">Mockup by <a href="https://webeaze.io" target="_blank" rel="noopener">WebEaze</a></span>
+    </div>
+  </div>
+</footer>
+
+<div class="callbar"><a href="tel:13026987648">Call 302-698-7648</a></div>
+
+<script>
+  var burger=document.getElementById('burger'),menu=document.getElementById('menu');
+  burger.addEventListener('click',function(){menu.classList.toggle('open');});
+  menu.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){menu.classList.remove('open');});});
+
+  // estimate -> mailto fallback (works anywhere; swap for Netlify Forms on deploy)
+  document.getElementById('sendBtn').addEventListener('click',function(){
+    var n=document.getElementById('name').value||'',p=document.getElementById('phone').value||'',
+        t=document.getElementById('town').value||'',m=document.getElementById('msg').value||'';
+    var body='Name: '+n+'%0D%0APhone: '+p+'%0D%0ATown: '+t+'%0D%0ALawn needs: '+m;
+    window.location.href='mailto:deblooislandscaping@gmail.com?subject=Free%20Estimate%20Request&body='+body;
+  });
+
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:0.12});
+  document.querySelectorAll('.reveal').forEach(function(el){io.observe(el);});
+</script>
+</body>
+</html>
