@@ -1345,6 +1345,60 @@
   }
 }
 
+/* ── Phase step list ── */
+.phase-steps { margin: 24px 0; }
+.phase-step { display: flex; gap: 16px; padding: 16px 0; border-bottom: 1px solid rgba(255,255,255,.08); }
+.phase-step:last-child { border-bottom: none; padding-bottom: 0; }
+.phase-step__num { flex-shrink: 0; width: 32px; height: 32px; border-radius: 50%; background: rgba(120,81,169,.25); border: 1px solid rgba(120,81,169,.45); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; color: #c4a8ff; }
+.phase-step__info { flex: 1; min-width: 0; }
+.phase-step__name { display: block; font-weight: 600; color: rgba(255,255,255,.92); margin-bottom: 6px; }
+.phase-step__badges { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
+.phase-badge { font-size: 12px; padding: 2px 9px; border-radius: 20px; font-weight: 600; }
+.phase-badge--us { background: rgba(120,81,169,.22); color: #c4a8ff; border: 1px solid rgba(120,81,169,.35); }
+.phase-badge--you { background: rgba(249,115,22,.18); color: #fdb97d; border: 1px solid rgba(249,115,22,.28); }
+.phase-badge--both { background: rgba(255,255,255,.09); color: rgba(255,255,255,.72); border: 1px solid rgba(255,255,255,.16); }
+.phase-badge--days { background: rgba(255,255,255,.06); color: rgba(255,255,255,.6); border: 1px solid rgba(255,255,255,.12); }
+.phase-step__desc { font-size: 14px; color: rgba(255,255,255,.65); margin: 0; line-height: 1.55; }
+
+/* ── Plan compare columns ── */
+.plan-compare { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 16px 0 24px; }
+@media (max-width: 520px) { .plan-compare { grid-template-columns: 1fr; } }
+.plan-col { border: 1px solid rgba(255,255,255,.12); border-radius: 12px; overflow: hidden; }
+.plan-col--growth { border-color: rgba(249,180,0,.28); }
+.plan-col__head { padding: 11px 16px; font-weight: 700; font-size: 14px; background: rgba(255,255,255,.06); border-bottom: 1px solid rgba(255,255,255,.10); color: rgba(255,255,255,.92); }
+.plan-col--growth .plan-col__head { background: rgba(249,180,0,.1); border-bottom-color: rgba(249,180,0,.2); color: #ffd700; }
+.plan-col__feats { list-style: none; margin: 0; padding: 6px 0; }
+.plan-col__feats li { padding: 7px 16px; font-size: 13.5px; display: flex; gap: 9px; align-items: flex-start; color: rgba(255,255,255,.78); border-bottom: 1px solid rgba(255,255,255,.05); }
+.plan-col__feats li:last-child { border-bottom: none; }
+.feat-icon { flex-shrink: 0; font-size: 12px; margin-top: 2px; }
+.feat-yes .feat-icon { color: #4ade80; }
+.feat-no .feat-icon { color: rgba(255,255,255,.28); }
+.feat-addon .feat-icon { color: #fbbf24; }
+.feat-note { font-size: 12px; opacity: .7; }
+
+/* ── Term/definition list ── */
+.term-list { margin: 16px 0 24px; }
+.term-item { display: flex; gap: 14px; padding: 11px 0; border-bottom: 1px solid rgba(255,255,255,.07); align-items: flex-start; }
+.term-item:last-child { border-bottom: none; }
+.term-item dt { font-weight: 600; color: rgba(255,255,255,.9); font-size: 14px; flex-shrink: 0; width: 150px; }
+.term-item dd { margin: 0; font-size: 14px; color: rgba(255,255,255,.65); line-height: 1.5; }
+@media (max-width: 480px) { .term-item { flex-direction: column; gap: 3px; } .term-item dt { width: auto; } }
+
+/* ── Tier list (one-time pricing) ── */
+.tier-list { margin: 16px 0 24px; display: flex; flex-direction: column; gap: 10px; }
+.tier-item { display: flex; gap: 14px; padding: 14px 16px; border: 1px solid rgba(255,255,255,.10); border-radius: 10px; background: rgba(255,255,255,.03); align-items: flex-start; }
+.tier-item__price { font-weight: 700; font-size: 14px; color: rgba(255,255,255,.92); white-space: nowrap; min-width: 120px; flex-shrink: 0; }
+.tier-item__desc { font-size: 14px; color: rgba(255,255,255,.65); line-height: 1.5; margin: 0; }
+@media (max-width: 480px) { .tier-item { flex-direction: column; gap: 4px; } .tier-item__price { min-width: auto; } }
+
+/* ── Error list ── */
+.error-list { margin: 16px 0 24px; display: flex; flex-direction: column; gap: 10px; }
+.error-item { padding: 14px 16px; border: 1px solid rgba(255,255,255,.10); border-radius: 10px; background: rgba(255,255,255,.03); }
+.error-item__code { font-weight: 700; font-size: 14px; color: rgba(255,255,255,.92); margin-bottom: 4px; }
+.error-item__meaning { font-size: 13px; color: rgba(255,255,255,.6); margin-bottom: 8px; }
+.error-item__action { font-size: 13px; color: rgba(255,255,255,.78); background: rgba(120,81,169,.14); border-radius: 6px; padding: 6px 10px; display: flex; gap: 6px; }
+.error-item__action i { color: #c4a8ff; flex-shrink: 0; margin-top: 1px; }
+
 
 .btn-brand {
   color: #14141a !important;            
@@ -2186,6 +2240,28 @@
 
   /* Table scroll wrapper */
   .table-scroll { background: transparent !important; border: none !important; }
+
+  /* Phase steps */
+  .phase-step { border-bottom-color: rgba(0,0,0,.08) !important; }
+  .phase-step__num { background: rgba(120,81,169,.1) !important; border-color: rgba(120,81,169,.25) !important; }
+  .phase-badge--us { background: rgba(120,81,169,.1) !important; border-color: rgba(120,81,169,.2) !important; }
+  .phase-badge--you { background: rgba(249,115,22,.1) !important; border-color: rgba(249,115,22,.18) !important; }
+  .phase-badge--both { background: rgba(0,0,0,.06) !important; border-color: rgba(0,0,0,.12) !important; }
+  .phase-badge--days { background: rgba(0,0,0,.05) !important; border-color: rgba(0,0,0,.1) !important; }
+  /* Plan compare */
+  .plan-col { border-color: rgba(0,0,0,.1) !important; }
+  .plan-col--growth { border-color: rgba(180,130,0,.3) !important; }
+  .plan-col__head { background: rgba(0,0,0,.04) !important; border-bottom-color: rgba(0,0,0,.09) !important; }
+  .plan-col--growth .plan-col__head { background: rgba(180,130,0,.07) !important; border-bottom-color: rgba(180,130,0,.18) !important; }
+  .plan-col__feats li { border-bottom-color: rgba(0,0,0,.05) !important; }
+  .feat-no .feat-icon { color: rgba(0,0,0,.22) !important; }
+  /* Term list */
+  .term-item { border-bottom-color: rgba(0,0,0,.07) !important; }
+  /* Tier list */
+  .tier-item { border-color: rgba(0,0,0,.09) !important; background: rgba(0,0,0,.02) !important; }
+  /* Error list */
+  .error-item { border-color: rgba(0,0,0,.09) !important; background: rgba(0,0,0,.02) !important; }
+  .error-item__action { background: rgba(120,81,169,.08) !important; }
   
 /* ---- GETTING STARTED SIDEBAR BUTTON ---- */
 .gs-sidebar-btn {
@@ -2823,20 +2899,36 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
           <p><strong>$249/month.</strong> Includes everything in Essential plus all of the above.</p>
 
           <h2>Quick comparison</h2>
-          <table class="table table-bordered mt-2">
-            <thead><tr><th></th><th>Essential</th><th>Growth</th></tr></thead>
-            <tbody>
-              <tr><td>Pages at launch</td><td>Up to 3</td><td>Up to 6</td></tr>
-              <tr><td>Unlimited updates</td><td>Yes</td><td>Yes</td></tr>
-              <tr><td>Basic SEO</td><td>Yes</td><td>Yes</td></tr>
-              <tr><td>Email support</td><td>Yes</td><td>Yes</td></tr>
-              <tr><td>Priority turnaround</td><td>No</td><td>Yes</td></tr>
-              <tr><td>Phone and video support</td><td>No</td><td>Yes</td></tr>
-              <tr><td>Google Business Profile</td><td>Add-on ($79/mo)</td><td>Included</td></tr>
-              <tr><td>Review management</td><td>No</td><td>Yes</td></tr>
-              <tr><td>Hosting &amp; domain credit</td><td>GitHub Pages covered</td><td>$100/year credit</td></tr>
-            </tbody>
-          </table>
+          <div class="plan-compare mt-2">
+            <div class="plan-col">
+              <div class="plan-col__head">Essential</div>
+              <ul class="plan-col__feats">
+                <li class="feat-yes"><i class="fas fa-check feat-icon"></i>Up to 3 pages at launch</li>
+                <li class="feat-yes"><i class="fas fa-check feat-icon"></i>Unlimited updates</li>
+                <li class="feat-yes"><i class="fas fa-check feat-icon"></i>Basic SEO</li>
+                <li class="feat-yes"><i class="fas fa-check feat-icon"></i>Email support</li>
+                <li class="feat-no"><i class="fas fa-xmark feat-icon"></i>Priority turnaround</li>
+                <li class="feat-no"><i class="fas fa-xmark feat-icon"></i>Phone &amp; video support</li>
+                <li class="feat-addon"><i class="fas fa-plus feat-icon"></i>Google Business Profile <span class="feat-note">(add-on $79/mo)</span></li>
+                <li class="feat-no"><i class="fas fa-xmark feat-icon"></i>Review management</li>
+                <li class="feat-yes"><i class="fas fa-check feat-icon"></i>GitHub Pages hosting</li>
+              </ul>
+            </div>
+            <div class="plan-col plan-col--growth">
+              <div class="plan-col__head">Growth</div>
+              <ul class="plan-col__feats">
+                <li class="feat-yes"><i class="fas fa-check feat-icon"></i>Up to 6 pages at launch</li>
+                <li class="feat-yes"><i class="fas fa-check feat-icon"></i>Unlimited updates</li>
+                <li class="feat-yes"><i class="fas fa-check feat-icon"></i>Basic SEO</li>
+                <li class="feat-yes"><i class="fas fa-check feat-icon"></i>Email support</li>
+                <li class="feat-yes"><i class="fas fa-check feat-icon"></i>Priority turnaround</li>
+                <li class="feat-yes"><i class="fas fa-check feat-icon"></i>Phone &amp; video support</li>
+                <li class="feat-yes"><i class="fas fa-check feat-icon"></i>Google Business Profile</li>
+                <li class="feat-yes"><i class="fas fa-check feat-icon"></i>Review management</li>
+                <li class="feat-yes"><i class="fas fa-check feat-icon"></i>$100/year domain credit</li>
+              </ul>
+            </div>
+          </div>
 
           <h2>Not sure yet?</h2>
           <p>Start with Essential. You can upgrade to Growth at any time and billing adjusts at the start of your next cycle. Most clients upgrade because they want Google Business Profile management or faster turnaround. You can also book a free discovery call and we will walk through your needs together before you commit to anything.</p>
@@ -3703,7 +3795,7 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
 
           <h2>Email 5: Your Website is Live</h2>
           <p>Sent when your approved site is published at your domain and fully accessible. This is the final launch confirmation. It includes a summary of what was built and set up, and transitions you into ongoing website management under your plan.</p>
-          <p><strong>What to do:</strong> Visit your site to confirm everything looks correct on your end. Propagation is usually complete within a few minutes, but can take up to 24 hours in rare cases. If anything looks off, reply to the email or submit a request and we will sort it right away.</p>
+          <p><strong>What to do:</strong> Visit your site to confirm everything looks correct on your end. Propagation is usually complete within a few minutes, but can take up to 24 hours in rare cases. If anything looks off, reply to the email or submit a request and we'll sort it right away.</p>
 
           <div class="cta-row mt-2">
             <a class="btn-brand" href="https://406km9.share-na2.hsforms.com/2BrG2FrkxQX6to17RxtyS5g" target="_blank">Submit Your Content</a>
@@ -3773,7 +3865,7 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
         </ol>
 
         <h2>Your information is 100% confidential</h2>
-        <p>Any credentials you share are <strong>strictly confidential</strong> and are only viewed by WebEaze for the sole purpose of logging in and completing necessary website updates on your behalf. We will never share, store beyond what is needed, or use your credentials for any other purpose.</p>
+        <p>Any credentials you share are <strong>strictly confidential</strong> and are only viewed by WebEaze for the sole purpose of logging in and completing necessary website updates on your behalf. We'll never share, store beyond what is needed, or use your credentials for any other purpose.</p>
 
         <h2>Two-factor authentication (2FA)</h2>
         <p>If you have two-factor authentication enabled on your account, please either temporarily disable it before we log in, or be available to provide the verification code when we attempt to access the platform. We'll coordinate timing with you so the process is smooth.</p>
@@ -3795,7 +3887,7 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
         ` },
         { slug: 'reviewing-your-draft', title: 'How do I review my draft and give feedback?', updated: '05-26-2026', meta: 'How the revision process works and how to give clear, actionable feedback.', body: `
 
-        <p>Once your first draft is ready, we will send you an email with a link to preview your website. Here is how to make the most of the review process.</p>
+        <p>Once your first draft is ready, we'll send you an email with a link to preview your website. Here is how to make the most of the review process.</p>
 
         <h2>How to review your draft</h2>
         <ol>
@@ -3829,7 +3921,7 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
         <p>Yes, absolutely. You will always have the opportunity to review your website before it goes live. We never launch a site without your approval.</p>
 
         <h2>How previews work</h2>
-        <p>When your first draft is ready, we will send you a preview link via email. This is a live version of your website hosted on a temporary URL so you can see exactly how it will look and function.</p>
+        <p>When your first draft is ready, we'll send you a preview link via email. This is a live version of your website hosted on a temporary URL so you can see exactly how it will look and function.</p>
 
         <h2>What you can do with the preview</h2>
         <ul>
@@ -3990,54 +4082,74 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
 
           <p>Most websites launch within <strong>7 to 14 business days</strong> from when you submit your content. The timeline depends almost entirely on how quickly content comes in and how fast you reply to revision notes. Here is what each phase looks like.</p>
 
-          <table class="table table-bordered mt-3">
-            <thead>
-              <tr>
-                <th style="width:22%">Phase</th>
-                <th style="width:45%">What happens</th>
-                <th style="width:18%">Who acts</th>
-                <th style="width:15%">Days</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><strong>1. Onboarding</strong></td>
-                <td>You receive a welcome email with next steps. We set up your project in our system.</td>
-                <td>Us</td>
-                <td>Same day</td>
-              </tr>
-              <tr>
-                <td><strong>2. Content submission</strong></td>
-                <td>You fill out the Content Submission Form with your logo, text, photos, and business details. The faster this comes in, the sooner we start.</td>
-                <td>You</td>
-                <td>1-3</td>
-              </tr>
-              <tr>
-                <td><strong>3. Build</strong></td>
-                <td>We design and develop your site. Homepage, inner pages, mobile layout, and basic SEO.</td>
-                <td>Us</td>
-                <td>2-5</td>
-              </tr>
-              <tr>
-                <td><strong>4. Your review</strong></td>
-                <td>We send you a preview link. You check all pages, text, and links, then send us one consolidated list of changes via the Website Request page.</td>
-                <td>You</td>
-                <td>1-2</td>
-              </tr>
-              <tr>
-                <td><strong>5. Revisions</strong></td>
-                <td>We apply your feedback. Repeat up to 3 rounds until you are satisfied.</td>
-                <td>Us</td>
-                <td>1-3</td>
-              </tr>
-              <tr>
-                <td><strong>6. Launch</strong></td>
-                <td>You approve the final version. We run QA, connect your domain, and publish the site. You receive a confirmation email when it is live.</td>
-                <td>Both</td>
-                <td>1-2</td>
-              </tr>
-            </tbody>
-          </table>
+          <div class="phase-steps mt-3">
+            <div class="phase-step">
+              <div class="phase-step__num">1</div>
+              <div class="phase-step__info">
+                <strong class="phase-step__name">Onboarding</strong>
+                <div class="phase-step__badges">
+                  <span class="phase-badge phase-badge--us">Us</span>
+                  <span class="phase-badge phase-badge--days">Same day</span>
+                </div>
+                <p class="phase-step__desc">You receive a welcome email with next steps. We set up your project in our system.</p>
+              </div>
+            </div>
+            <div class="phase-step">
+              <div class="phase-step__num">2</div>
+              <div class="phase-step__info">
+                <strong class="phase-step__name">Content submission</strong>
+                <div class="phase-step__badges">
+                  <span class="phase-badge phase-badge--you">You</span>
+                  <span class="phase-badge phase-badge--days">1–3 days</span>
+                </div>
+                <p class="phase-step__desc">You fill out the Content Submission Form with your logo, text, photos, and business details. The faster this comes in, the sooner we start.</p>
+              </div>
+            </div>
+            <div class="phase-step">
+              <div class="phase-step__num">3</div>
+              <div class="phase-step__info">
+                <strong class="phase-step__name">Build</strong>
+                <div class="phase-step__badges">
+                  <span class="phase-badge phase-badge--us">Us</span>
+                  <span class="phase-badge phase-badge--days">2–5 days</span>
+                </div>
+                <p class="phase-step__desc">We design and develop your site. Homepage, inner pages, mobile layout, and basic SEO.</p>
+              </div>
+            </div>
+            <div class="phase-step">
+              <div class="phase-step__num">4</div>
+              <div class="phase-step__info">
+                <strong class="phase-step__name">Your review</strong>
+                <div class="phase-step__badges">
+                  <span class="phase-badge phase-badge--you">You</span>
+                  <span class="phase-badge phase-badge--days">1–2 days</span>
+                </div>
+                <p class="phase-step__desc">We send you a preview link. You check all pages, text, and links, then send us one consolidated list of changes via the Website Request page.</p>
+              </div>
+            </div>
+            <div class="phase-step">
+              <div class="phase-step__num">5</div>
+              <div class="phase-step__info">
+                <strong class="phase-step__name">Revisions</strong>
+                <div class="phase-step__badges">
+                  <span class="phase-badge phase-badge--us">Us</span>
+                  <span class="phase-badge phase-badge--days">1–3 days</span>
+                </div>
+                <p class="phase-step__desc">We apply your feedback. Repeat up to 3 rounds until you are satisfied.</p>
+              </div>
+            </div>
+            <div class="phase-step">
+              <div class="phase-step__num">6</div>
+              <div class="phase-step__info">
+                <strong class="phase-step__name">Launch</strong>
+                <div class="phase-step__badges">
+                  <span class="phase-badge phase-badge--both">Both</span>
+                  <span class="phase-badge phase-badge--days">1–2 days</span>
+                </div>
+                <p class="phase-step__desc">You approve the final version. We run QA, connect your domain, and publish the site. You receive a confirmation email when it is live.</p>
+              </div>
+            </div>
+          </div>
 
           <h2>What speeds things up</h2>
           <p>The biggest factor is your turnaround on steps 2 and 4. Clients who submit content within the first day or two and reply to revision notes within 24 to 48 hours consistently launch in under 10 business days.</p>
@@ -4132,7 +4244,7 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
             <li>On GitHub Pages: the credit covers your domain registration and renewal, with the remainder available for any additional domain-related costs.</li>
             <li>On another hosting provider: the credit applies toward hosting and domain costs at that provider, up to $100/year. Costs beyond the credit are your responsibility. The credit is added to your regular subscription payment.</li>
           </ul>
-          <p>The credit doesn't carry over between plan years and cannot be converted to cash.</p>
+          <p>The credit doesn't carry over between plan years and can't be converted to cash.</p>
 
           <div class="alert alert-info mt-2"><strong>Note:</strong> Email hosting (like Google Workspace or Microsoft 365) is separate from website hosting and isn't covered by this credit. See <a href="#/custom-email-setup">Setting up a custom email address</a> for details.</div>
 
@@ -4224,17 +4336,14 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
         <p>DNS (Domain Name System) is like the internet's phone book. It translates your domain name (like yourbusiness.com) into the IP address that computers use to find your website. Understanding the basics can help you make informed decisions about your site.</p>
 
         <h2>Common DNS terms explained</h2>
-        <table class="table table-bordered">
-          <thead><tr><th>Term</th><th>What It Does</th></tr></thead>
-          <tbody>
-            <tr><td><strong>Domain Name</strong></td><td>Your website's address (e.g., yourbusiness.com)</td></tr>
-            <tr><td><strong>Nameservers</strong></td><td>Tell the internet where to find your DNS records</td></tr>
-            <tr><td><strong>A Record</strong></td><td>Points your domain to a specific IP address (your hosting server)</td></tr>
-            <tr><td><strong>CNAME Record</strong></td><td>Points one domain to another (like www to your main domain)</td></tr>
-            <tr><td><strong>MX Record</strong></td><td>Directs email to your email provider</td></tr>
-            <tr><td><strong>TXT Record</strong></td><td>Verifies domain ownership and email security settings</td></tr>
-          </tbody>
-        </table>
+        <dl class="term-list">
+          <div class="term-item"><dt>Domain Name</dt><dd>Your website's address (e.g., yourbusiness.com)</dd></div>
+          <div class="term-item"><dt>Nameservers</dt><dd>Tell the internet where to find your DNS records</dd></div>
+          <div class="term-item"><dt>A Record</dt><dd>Points your domain to a specific IP address (your hosting server)</dd></div>
+          <div class="term-item"><dt>CNAME Record</dt><dd>Points one domain to another (like www to your main domain)</dd></div>
+          <div class="term-item"><dt>MX Record</dt><dd>Directs email to your email provider</dd></div>
+          <div class="term-item"><dt>TXT Record</dt><dd>Verifies domain ownership and email security settings</dd></div>
+        </dl>
 
         <h2>Where to manage your domain</h2>
         <p>Your domain is managed at your <strong>domain registrar</strong>—the company where you purchased it. Common registrars include:</p>
@@ -4276,7 +4385,7 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
           <div class="alert alert-warning mt-2"><strong>Act fast:</strong> If your domain has expired or is close to expiring, log into your registrar and renew it immediately. A lapsed domain can result in your site and email going down, and recovering a dropped domain can be expensive.</div>
 
           <h2>Not sure who your registrar is?</h2>
-          <p>You can look up any domain at <a href="https://lookup.icann.org" target="_blank" style="color:var(--gold);text-decoration:underline;">lookup.icann.org</a> to see who it is registered through. If you need help tracking it down, contact us and we will assist.</p>
+          <p>You can look up any domain at <a href="https://lookup.icann.org" target="_blank" style="color:var(--gold);text-decoration:underline;">lookup.icann.org</a> to see who it is registered through. If you need help tracking it down, contact us and we'll assist.</p>
 
           <div class="cta-row mt-2">
             <a class="btn-brand" href="website-request.html">Get Help with My Domain</a>
@@ -4314,20 +4423,20 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
         <p>A One-Time Web Project is a standalone service for businesses that need a new website built or updates made to an existing site, without a monthly subscription. Choose the tier that fits your needs.</p>
 
         <h2>Pricing tiers</h2>
-        <table style="width:100%;border-collapse:collapse;margin:16px 0 24px;">
-          <tr style="border-bottom:1px solid rgba(255,255,255,.1);">
-            <td style="padding:12px 8px;"><strong>Basic ($149) </strong></td>
-            <td style="padding:12px 8px;color:var(--muted);">Small, focused changes. Text edits, image swaps, layout tweaks, minor bug fixes, or single-page updates. Covers one page. If edits are needed on additional pages, each additional page is invoiced separately at $149.</td>
-          </tr>
-          <tr style="border-bottom:1px solid rgba(255,255,255,.1);">
-            <td style="padding:12px 8px;"><strong>Standard ($299) </strong></td>
-            <td style="padding:12px 8px;color:var(--muted);">Updates across existing pages. Content changes, layout adjustments, and section redesigns. Covers up to 2 pages. If edits are needed on more than 2 pages, each additional 2-page scope is invoiced at $299.</td>
-          </tr>
-          <tr>
-            <td style="padding:12px 8px;"><strong>Full Build ($449)</strong></td>
-            <td style="padding:12px 8px;color:var(--muted);">A complete new website designed and developed from scratch. Includes up to 3 pages plus a contact page, custom design, and mobile optimization. Each additional page beyond the included pages is <strong>$199</strong>, invoiced separately.</td>
-          </tr>
-        </table>
+        <div class="tier-list">
+          <div class="tier-item">
+            <p class="tier-item__price">Basic — $149</p>
+            <p class="tier-item__desc">Small, focused changes. Text edits, image swaps, layout tweaks, minor bug fixes, or single-page updates. Covers one page. If edits are needed on additional pages, each additional page is invoiced separately at $149.</p>
+          </div>
+          <div class="tier-item">
+            <p class="tier-item__price">Standard — $299</p>
+            <p class="tier-item__desc">Updates across existing pages. Content changes, layout adjustments, and section redesigns. Covers up to 2 pages. If edits are needed on more than 2 pages, each additional 2-page scope is invoiced at $299.</p>
+          </div>
+          <div class="tier-item">
+            <p class="tier-item__price">Full Build — $449</p>
+            <p class="tier-item__desc">A complete new website designed and developed from scratch. Includes up to 3 pages plus a contact page, custom design, and mobile optimization. Each additional page beyond the included pages is <strong>$199</strong>, invoiced separately.</p>
+          </div>
+        </div>
 
         <h2>What's included</h2>
         <ul>
@@ -4349,7 +4458,7 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
         <h2>Who is this for?</h2>
         <p>This option is ideal if you need a one-time update to your existing website or want a new site built without ongoing services. It's perfect for businesses that handle their own hosting, maintenance, and updates.</p>
 
-        <p>Existing WebEaze clients are not eligible for one-time projects. One-time projects cannot be substituted for another add-on at a different price or discount. Refunds follow our <a href="refund-policy.html">Refund Policy</a>.</p>
+        <p>Existing WebEaze clients are not eligible for one-time projects. One-time projects can't be substituted for another add-on at a different price or discount. Refunds follow our <a href="refund-policy.html">Refund Policy</a>.</p>
 
         <h2>How to get started</h2>
         <p>Select the tier that fits your needs and pay through our secure checkout. Enter a valid email address during checkout and we'll follow up with next steps once payment is received.</p>
@@ -4467,20 +4576,20 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
 
           <h2>Option 1: One-Time Web Project</h2>
           <p>A One-Time Web Project lets you pay once for exactly what you need, with no recurring charge. There are three tiers depending on the scope of work:</p>
-          <table style="width:100%;border-collapse:collapse;margin:16px 0 24px;">
-            <tr style="border-bottom:1px solid rgba(255,255,255,.1);">
-              <td style="padding:12px 8px;"><strong>Basic ($149)</strong></td>
-              <td style="padding:12px 8px;color:var(--muted);">Small, focused changes on a single page. Text edits, image swaps, layout tweaks, or minor bug fixes.</td>
-            </tr>
-            <tr style="border-bottom:1px solid rgba(255,255,255,.1);">
-              <td style="padding:12px 8px;"><strong>Standard ($299)</strong></td>
-              <td style="padding:12px 8px;color:var(--muted);">Updates across up to two existing pages. Content changes, layout adjustments, and section redesigns.</td>
-            </tr>
-            <tr>
-              <td style="padding:12px 8px;"><strong>Full Build ($449)</strong></td>
-              <td style="padding:12px 8px;color:var(--muted);">A complete new website built from scratch. Includes up to 3 pages plus a contact page, custom design, and mobile optimization.</td>
-            </tr>
-          </table>
+          <div class="tier-list">
+            <div class="tier-item">
+              <p class="tier-item__price">Basic — $149</p>
+              <p class="tier-item__desc">Small, focused changes on a single page. Text edits, image swaps, layout tweaks, or minor bug fixes.</p>
+            </div>
+            <div class="tier-item">
+              <p class="tier-item__price">Standard — $299</p>
+              <p class="tier-item__desc">Updates across up to two existing pages. Content changes, layout adjustments, and section redesigns.</p>
+            </div>
+            <div class="tier-item">
+              <p class="tier-item__price">Full Build — $449</p>
+              <p class="tier-item__desc">A complete new website built from scratch. Includes up to 3 pages plus a contact page, custom design, and mobile optimization.</p>
+            </div>
+          </div>
           <p>These are standalone purchases. You won't be enrolled in a subscription automatically.</p>
 
           <div class="alert alert-info mt-2"><strong>Good to know:</strong> If you decide to subscribe within 14 days of your one-time project delivery, the $199 setup fee and your first month are both waived. <a href="#/subscribe-after-one-time" style="color:var(--gold);text-decoration:underline;">Learn more about subscribing after a one-time project.</a></div>
@@ -4502,7 +4611,7 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
           <p>Have something specific in mind that doesn't fit the standard tiers? Reach out and describe what you need. We can quote larger or more complex projects outside of the standard one-time tiers.</p>
 
           <h2>Who isn't eligible for one-time projects</h2>
-          <p>Existing WebEaze subscribers are not eligible to purchase one-time projects. One-time project pricing cannot be applied as a discount or credit toward a subscription plan.</p>
+          <p>Existing WebEaze subscribers are not eligible to purchase one-time projects. One-time project pricing can't be applied as a discount or credit toward a subscription plan.</p>
 
           <div class="cta-row mt-2">
             <a class="btn-brand" href="https://buy.stripe.com/3cI7sK2Yu227cg0e51c3m0i" target="_blank">Basic — $149</a>
@@ -4625,7 +4734,7 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
 
         { slug: 'update-business-info', title: 'How do I update my business hours, address, or phone number?', updated: '04-10-2026', meta: 'How to request changes to your basic business information like hours, address, and contact details.', body: `
 
-          <p>Updating your business hours, address, phone number, or any other basic contact information is a standard website update and is included in all plans. Just submit a request and we will take care of it.</p>
+          <p>Updating your business hours, address, phone number, or any other basic contact information is a standard website update and is included in all plans. Just submit a request and we'll take care of it.</p>
 
           <h2>How to submit the change</h2>
           <ol>
@@ -4653,7 +4762,7 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
           <p>Yes, photos can be added or updated at any time after launch. How you go about it depends on how your website is hosted.</p>
 
           <h2>If WebEaze built and hosts your site (e.g., GitHub Pages)</h2>
-          <p>You don't have direct access to the files or the editor. To add or replace photos, submit a <a href="website-request.html">Website Request</a> with the images attached and tell us where they should go. We will place them and make sure they are optimized and correctly sized.</p>
+          <p>You don't have direct access to the files or the editor. To add or replace photos, submit a <a href="website-request.html">Website Request</a> with the images attached and tell us where they should go. We'll place them and make sure they are optimized and correctly sized.</p>
           <p>This applies to the majority of WebEaze-built websites.</p>
 
           <h2>If your site is on Wix, Squarespace, or a similar platform</h2>
@@ -4789,8 +4898,8 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
             <li>Available Monday to Friday, 9 AM to 5 PM ET, excluding public holidays</li>
             <li>Your Growth plan will be verified before accessing these services</li>
             <li>Cancel or reschedule Google Meet or Phone sessions at least 12 hours in advance</li>
-            <li>Live Chat response times may vary; if an agent is unavailable we will follow up by email</li>
-            <li>If a phone call cannot fully resolve your issue, we will continue via email</li>
+            <li>Live Chat response times may vary; if an agent is unavailable we'll follow up by email</li>
+            <li>If a phone call can't fully resolve your issue, we'll continue via email</li>
           </ul>
         </div>
 
@@ -4888,12 +4997,12 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
           <p>Yes, design changes after launch are possible. Whether you want to update your color scheme, adjust the layout, refresh your fonts, or give the site a new look, you can request these changes at any time.</p>
 
           <h2>Minor design updates</h2>
-          <p>Small changes like updating a color, swapping a font, or tweaking a section layout are handled as standard updates. Submit a request describing what you want changed and we will take care of it.</p>
+          <p>Small changes like updating a color, swapping a font, or tweaking a section layout are handled as standard updates. Submit a request describing what you want changed and we'll take care of it.</p>
 
           <h2>Full redesigns</h2>
           <p>A full redesign involves rebuilding large portions of the site with a new look and structure. This goes beyond standard updates and is scoped as a one-time project. Pricing depends on the scope.</p>
 
-          <div class="alert alert-info mt-2"><strong>Tip:</strong> If you are not sure whether your request counts as a minor update or a redesign, just submit it. We will review it and let you know before any charges apply.</div>
+          <div class="alert alert-info mt-2"><strong>Tip:</strong> If you are not sure whether your request counts as a minor update or a redesign, just submit it. We'll review it and let you know before any charges apply.</div>
 
           <div class="cta-row mt-2">
             <a class="btn-brand" href="website-request.html">Request a Design Change</a>
@@ -4932,7 +5041,7 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
           <p>Dark themes are fully supported on our custom GitHub Pages builds. If you request a dark design during the initial build, it is included as part of your standard build scope. If you want to switch an existing light-themed site to a dark theme after launch, that is a significant redesign and counts as additional scope. Check the <a href="fee-schedule.html">Fee Schedule</a> to see if a matching project tier applies.</p>
 
           <h2>WordPress</h2>
-          <p>Dark theme support depends on the theme currently installed on your site. Some themes include a dark mode option or a dark color variant that can be enabled. Others require switching to a different theme entirely, which counts as a redesign. Submit a Website Request and mention your current theme and what you are looking for. We will review and let you know what is possible.</p>
+          <p>Dark theme support depends on the theme currently installed on your site. Some themes include a dark mode option or a dark color variant that can be enabled. Others require switching to a different theme entirely, which counts as a redesign. Submit a Website Request and mention your current theme and what you are looking for. We'll review and let you know what is possible.</p>
 
           <h2>Wix and Squarespace</h2>
           <p>Both platforms offer dark-styled templates. Switching from a light template to a dark one is a template change, which is considered a redesign. If this is something you want, raise it before your initial build so it can be incorporated from the start rather than changed afterwards.</p>
@@ -5075,7 +5184,7 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
 
           <h2>Option 2 — Embedded Google review widget</h2>
           <p>For Wix, Squarespace, WordPress, and similar platforms, third-party apps like <strong>Elfsight</strong> or <strong>EmbedSocial</strong> can pull your live Google reviews and display them automatically. These tools typically have a free tier with limited reviews and paid plans for more. We can install and configure the widget for you — submit a request and let us know which tool you prefer.</p>
-          <p>For custom-coded (GitHub Pages) sites, we can build a static testimonials section but cannot pull live reviews automatically without a backend service.</p>
+          <p>For custom-coded (GitHub Pages) sites, we can build a static testimonials section but can't pull live reviews automatically without a backend service.</p>
 
           <h2>Keeping reviews current</h2>
           <p>If you use the manual method, submit a request whenever you want to add or update reviews. We recommend refreshing your testimonials section every few months with your newest 5-star reviews.</p>
@@ -5782,11 +5891,11 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
           </ul>
 
           <h2>If your edits are not saving or keep reverting</h2>
-          <p>Google sometimes allows users to suggest edits to business listings, and those suggestions can override your own information. If changes you made were reversed, you may have a user edit pending. Check the "Suggestions" section in your profile dashboard and reject any incorrect ones. If the problem continues, submit a <a href="website-request.html">Website Request</a> and we will investigate.</p>
+          <p>Google sometimes allows users to suggest edits to business listings, and those suggestions can override your own information. If changes you made were reversed, you may have a user edit pending. Check the "Suggestions" section in your profile dashboard and reject any incorrect ones. If the problem continues, submit a <a href="website-request.html">Website Request</a> and we'll investigate.</p>
 
           <h2>If you don't have access to your Google Business Profile</h2>
           <p>You will need to claim and verify your listing first. Go to google.com/business and search for your business. If it appears as "unclaimed," click it and follow the verification steps. Verification usually takes a few days and involves a phone call or postcard from Google.</p>
-          <p>If you are on the Growth plan and we manage your GBP, submit a <a href="website-request.html">Website Request</a> with the correct information and we will make the update for you.</p>
+          <p>If you're on the Growth plan and we manage your GBP, submit a <a href="website-request.html">Website Request</a> with the correct information and we'll make the update for you.</p>
 
           <div class="alert alert-warning mt-2"><strong>Important:</strong> Make sure your business name, address, and phone number are identical across your website, Google listing, and any other directories. Inconsistencies can hurt your local search rankings.</div>
 
@@ -6043,7 +6152,7 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
         </ul>
 
         <h2>What to do if you suspect a security issue</h2>
-        <p>If you notice anything unusual on your website, such as content you did not add, broken pages, or security warnings in the browser, contact us immediately. Select "URGENT, site down" on the <a href="website-request.html">Website Request</a> form and we will prioritize the issue.</p>
+        <p>If you notice anything unusual on your website, such as content you did not add, broken pages, or security warnings in the browser, contact us immediately. Select "URGENT, site down" on the <a href="website-request.html">Website Request</a> form we'll prioritize the issue.</p>
 
         <div class="cta-row mt-2">
           <a class="btn-brand" href="website-request.html?from=help&amp;article=Security+issue+on+my+website&amp;quote=I+am+seeing+something+suspicious+on+my+website.%0A%0ASite+URL%3A+%0AWhat+you+noticed+(unexpected+content%2C+broken+pages%2C+browser+warning%2C+etc.)%3A+%0AWhen+you+first+noticed+it%3A+%0APlease+attach+a+screenshot+if+possible.">Report a Security Issue</a>
@@ -6073,7 +6182,7 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
           <p>We don't test on outdated browsers such as Internet Explorer or very old versions of any browser. These browsers represent a very small share of web traffic and have technical limitations that are not worth engineering around for most small businesses.</p>
 
           <h2>If something looks off on your device</h2>
-          <p>If you spot a layout issue or something that doesn't render correctly, submit a <a href="website-request.html">Website Request</a> with a screenshot and the browser or device you are using. We will investigate and fix it.</p>
+          <p>If you spot a layout issue or something that doesn't render correctly, submit a <a href="website-request.html">Website Request</a> with a screenshot and the browser or device you are using. We'll investigate and fix it.</p>
 
           <div class="cta-row mt-2">
             <a class="btn-brand" href="website-request.html?from=help&amp;article=Website+display+issue+on+browser+or+device&amp;quote=My+website+is+not+displaying+correctly+on+a+specific+browser+or+device.%0A%0ABrowser+and+version%3A+%0ADevice+type%3A+%0APage+with+the+issue%3A+%0APlease+attach+a+screenshot+if+possible.">Report a Display Issue</a>
@@ -6325,15 +6434,12 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
           <p>Your WebEaze invoice is processed through Stripe, our secure payment provider. Here's a breakdown of what you might see on your invoice and what each item means.</p>
 
           <h2>Common line items you might see</h2>
-          <table class="table table-bordered">
-            <thead><tr><th>Line Item</th><th>What It Covers</th></tr></thead>
-            <tbody>
-              <tr><td><strong>Your Plan (Essential/Growth/Elite)</strong></td><td>Your recurring subscription fee for website maintenance, hosting, and support</td></tr>
-              <tr><td><strong>Website Setup & Onboarding Fee</strong></td><td>One-time $199 charge for initial website design and launch. Added to 1st invoice only</td></tr>
-              <tr><td><strong>Additional Domain Fee</strong></td><td>Applied for domain renewals or setup/management of additional domain name</td></tr>
-              <tr><td><strong>Add-Ons</strong></td><td>Optional services as described in our <a href="fee-schedule.html">Fee Schedule</a></td></tr>
-            </tbody>
-          </table>
+          <dl class="term-list">
+            <div class="term-item"><dt>Your Plan</dt><dd>Your recurring subscription fee for website maintenance, hosting, and support</dd></div>
+            <div class="term-item"><dt>Setup &amp; Onboarding Fee</dt><dd>One-time $199 charge for initial website design and launch. Added to 1st invoice only</dd></div>
+            <div class="term-item"><dt>Additional Domain Fee</dt><dd>Applied for domain renewals or setup/management of additional domain name</dd></div>
+            <div class="term-item"><dt>Add-Ons</dt><dd>Optional services as described in our <a href="fee-schedule.html">Fee Schedule</a></dd></div>
+          </dl>
 
           <h2>Billing cycle</h2>
           <p>Your billing date is set when you first subscribe. For monthly plans, you'll be charged on the same date each month. For annual plans, you'll be charged once per year on your subscription anniversary.</p>
@@ -6417,7 +6523,7 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
             <li>Switching between monthly and annual billing</li>
             <li>Changing your plan tier</li>
           </ul>
-          <p>Once a billing date change has been made on your account, it cannot be changed again under any circumstances.</p>
+          <p>Once a billing date change has been made on your account, it can't be changed again under any circumstances.</p>
 
           <h2>How to request a change</h2>
           <ul>
@@ -6558,7 +6664,7 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
           </ul>
 
           <h2>How to request a transfer</h2>
-          <p>Submit a <a href="website-request.html">Website Request</a> with the request type "Account & Billing" and include the new owner's contact details. We will confirm the steps from there. Don't cancel the plan before reaching out, as cancellation removes access and may result in file deletion.</p>
+          <p>Submit a <a href="website-request.html">Website Request</a> with the request type "Account & Billing" and include the new owner's contact details. We'll confirm the steps from there. Don't cancel the plan before reaching out, as cancellation removes access and may result in file deletion.</p>
 
           <div class="cta-row mt-2">
             <a class="btn-brand" href="website-request.html">Submit a Request</a>
@@ -6573,12 +6679,12 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
           <h2>What you own and can always take</h2>
           <ul>
             <li><strong>Your content:</strong> Any text, images, logos, and brand assets you provided to us. These are yours and were yours from the start.</li>
-            <li><strong>Your domain (if you registered it yourself):</strong> If you brought your own domain to WebEaze, it remains yours. We will disconnect it from our servers upon cancellation.</li>
+            <li><strong>Your domain (if you registered it yourself):</strong> If you brought your own domain to WebEaze, it remains yours. We'll disconnect it from our servers upon cancellation.</li>
           </ul>
 
           <h2>What stays with WebEaze by default</h2>
           <ul>
-            <li><strong>The website design and code:</strong> The custom layouts, design work, and code we built remain WebEaze property unless transferred. You cannot copy or deploy our design elsewhere without a transfer.</li>
+            <li><strong>The website design and code:</strong> The custom layouts, design work, and code we built remain WebEaze property unless transferred. You can't copy or deploy our design elsewhere without a transfer.</li>
           </ul>
 
           <h2>Transferring the site to another provider</h2>
@@ -6610,7 +6716,7 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
           </ul>
 
           <h2>Your website after cancellation</h2>
-          <p>After cancellation, your website files are held for a period of time before being removed. If you reactivate within that window, we may be able to restore your previous site. If files have already been removed, we will need to rebuild from scratch. See the <a href="cancellation-policy.html">Cancellation Policy</a> for exact retention timelines.</p>
+          <p>After cancellation, your website files are held for a period of time before being removed. If you reactivate within that window, we may be able to restore your previous site. If files have already been removed, we'll need to rebuild from scratch. See the <a href="cancellation-policy.html">Cancellation Policy</a> for exact retention timelines.</p>
 
           <h2>Your domain</h2>
           <p>If WebEaze registered your domain on your behalf, reactivating your plan doesn't automatically reconnect it. Reach out to us before reactivating so we can confirm the status of your domain before you proceed.</p>
@@ -6836,7 +6942,7 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
             <li>Updating images or media content</li>
           </ul>
 
-          <h2>What you should not manage</h2>
+          <h2>What you shouldn't manage</h2>
 
           <ul>
             <li>Editing products in your store (if an eCommerce site)</li>
@@ -6934,7 +7040,7 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
 
 
 
-          <p>In extremely rare cases, WebEaze may contact you after you join to explain that we cannot fulfill your project or website request. Common reasons include the following:</p>
+          <p>In extremely rare cases, WebEaze may contact you after you join to explain that we can't fulfill your project or website request. Common reasons include the following:</p>
           <ul>
             <li>New additions or custom features discussed after the project starts that change the scope in a major way.</li>
             <li>Security issues that we cannot correct or implement safely.</li>
@@ -7007,7 +7113,7 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
                 <li><strong>Prohibited Promotion:</strong> You may not promote WebEaze using spam, misleading claims, paid advertising, fake reviews, or by misrepresenting our services, pricing, or guarantees in any way. Violations will result in disqualification and forfeiture of any pending payouts.</li>
                 <li><strong>No Referral Limits:</strong> There is no limit to how many qualified referrals you can make. However, WebEaze reserves the right to review and deny payouts if referrals appear fraudulent or violate the intent of the program.</li>
                 <li><strong>Verification:</strong> You must use the referral form to notify WebEaze of a referral. Both parties must mention the referring name or business at the time of signup to qualify. We are not responsible for untracked or unverifiable referrals.</li>
-                <li><strong>Payment Methods:</strong> Payouts are issued via Venmo, PayPal, Cash App, or Zelle only. You must provide accurate payment details. All payment communication will be done via secure email. We will not ask for information beyond your account username or phone number.</li>
+                <li><strong>Payment Methods:</strong> Payouts are issued via Venmo, PayPal, Cash App, or Zelle only. You must provide accurate payment details. All payment communication will be done via secure email. We won't ask for information beyond your account username or phone number.</li>
                 <li><strong>Program Changes &amp; Termination:</strong> WebEaze reserves the right to modify, pause, or cancel this program at any time without prior notice. If the program is terminated, referrals already verified and earned but not yet paid will still be honored. Referrals submitted but not yet verified at the time of termination will not qualify.</li>
                 <li><strong>No Employment Relationship:</strong> Participating in this referral program does not establish an employee, contractor, or partnership relationship with WebEaze.</li>
                 <li><strong>Governing Law:</strong> This referral program is governed by the laws of the State of Delaware, USA. Any disputes arising from this program shall be resolved in the courts of Delaware.</li>
@@ -7068,7 +7174,7 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
           <p>Each website is custom-built for your specific business. Once work begins, time and resources are committed to your project regardless of whether you remain a subscriber. Because of this, payments are non-refundable.</p>
 
           <h2>What if WebEaze cancels the project?</h2>
-          <p>In the rare case that we are unable to complete your project due to scope or technical limitations on our end, we will work with you to find a resolution. If we end a project before delivery, we review the situation on a case-by-case basis. Please see our <a href="#/unfinished-work-policy">Unfinished Work policy</a> for details.</p>
+          <p>In the rare case that we are unable to complete your project due to scope or technical limitations on our end, we'll work with you to find a resolution. If we end a project before delivery, we review the situation on a case-by-case basis. Please see our <a href="#/unfinished-work-policy">Unfinished Work policy</a> for details.</p>
 
           <h2>What if I'm unhappy with the result?</h2>
           <p>We include revision rounds in every build and will continue making changes until you approve the site. If you have concerns, reach out before canceling. See <a href="#/not-happy-with-website">What if I'm not happy with my website?</a> for more on how we handle this.</p>
@@ -7092,7 +7198,7 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
           <p>If you cancel and want to use those images on a site hosted elsewhere, you would need to verify the license of each image independently and re-download them from the original source if allowed.</p>
 
           <h2>What happens at cancellation</h2>
-          <p>When your subscription ends, your site goes offline. We don't automatically provide a package of your website's image assets. If you want copies of the images used on your site before cancellation, submit a request before your subscription ends and we will put together what we can.</p>
+          <p>When your subscription ends, your site goes offline. We don't automatically provide a package of your website's image assets. If you want copies of the images used on your site before cancellation, submit a request before your subscription ends and we'll put together what we can.</p>
 
           <div class="cta-row mt-2">
             <a class="btn-brand" href="website-request.html">Request My Assets</a>
@@ -7172,16 +7278,33 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
           <p>Seeing an error on your website can be alarming, but most issues have simple explanations. Here's a guide to common errors and what they mean.</p>
 
           <h2>Common error messages</h2>
-          <table class="table table-bordered">
-            <thead><tr><th>Error</th><th>What It Means</th><th>What To Do</th></tr></thead>
-            <tbody>
-              <tr><td><strong>404 Not Found</strong></td><td>The page doesn't exist or was moved</td><td>Check the URL for typos. If correct, the page may have been deleted or renamed.</td></tr>
-              <tr><td><strong>500 Internal Server Error</strong></td><td>Something went wrong on the server</td><td>Usually temporary. Wait a few minutes and refresh. If it persists, contact us.</td></tr>
-              <tr><td><strong>503 Service Unavailable</strong></td><td>Server is temporarily overloaded or under maintenance</td><td>Wait a few minutes and try again. We may be performing updates.</td></tr>
-              <tr><td><strong>"Connection Not Private"</strong></td><td>SSL certificate issue</td><td>Contact us immediately—this affects site security and trust.</td></tr>
-              <tr><td><strong>Blank White Page</strong></td><td>Code error or plugin conflict</td><td>Try refreshing. If it persists, contact us for investigation.</td></tr>
-            </tbody>
-          </table>
+          <div class="error-list">
+            <div class="error-item">
+              <div class="error-item__code">404 Not Found</div>
+              <div class="error-item__meaning">The page doesn't exist or was moved</div>
+              <div class="error-item__action"><i class="fas fa-arrow-right"></i>Check the URL for typos. If correct, the page may have been deleted or renamed.</div>
+            </div>
+            <div class="error-item">
+              <div class="error-item__code">500 Internal Server Error</div>
+              <div class="error-item__meaning">Something went wrong on the server</div>
+              <div class="error-item__action"><i class="fas fa-arrow-right"></i>Usually temporary. Wait a few minutes and refresh. If it persists, contact us.</div>
+            </div>
+            <div class="error-item">
+              <div class="error-item__code">503 Service Unavailable</div>
+              <div class="error-item__meaning">Server is temporarily overloaded or under maintenance</div>
+              <div class="error-item__action"><i class="fas fa-arrow-right"></i>Wait a few minutes and try again. We may be performing updates.</div>
+            </div>
+            <div class="error-item">
+              <div class="error-item__code">"Connection Not Private"</div>
+              <div class="error-item__meaning">SSL certificate issue</div>
+              <div class="error-item__action"><i class="fas fa-arrow-right"></i>Contact us immediately — this affects site security and trust.</div>
+            </div>
+            <div class="error-item">
+              <div class="error-item__code">Blank White Page</div>
+              <div class="error-item__meaning">Code error or plugin conflict</div>
+              <div class="error-item__action"><i class="fas fa-arrow-right"></i>Try refreshing. If it persists, contact us for investigation.</div>
+            </div>
+          </div>
 
           <h2>Before contacting us, try these steps</h2>
           <ol>
@@ -7433,7 +7556,7 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
           <h2>Is a 404 bad for my business?</h2>
           <p>An occasional 404 is normal and nothing to panic about. However, 404 errors that happen frequently can:</p>
           <ul>
-            <li>Frustrate visitors who cannot find what they are looking for</li>
+            <li>Frustrate visitors who can't find what they are looking for</li>
             <li>Hurt your search engine rankings if Google finds many broken pages on your site</li>
             <li>Make your business look less professional</li>
           </ul>
@@ -7441,13 +7564,13 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
 
           <h2>What does WebEaze do about 404 errors?</h2>
           <p>Your WebEaze site includes a custom 404 page that is friendly and branded to your business. Instead of a generic browser error, visitors who hit a broken link will see a helpful page that directs them back to your homepage or contact page so they are not just stranded.</p>
-          <p>If you suspect a page on your site has a broken link, or if a visitor reports that a page isn't working, send us a request and we will investigate and fix it at no extra charge as part of your plan.</p>
+          <p>If you suspect a page on your site has a broken link, or if a visitor reports that a page isn't working, send us a request and we'll investigate and fix it at no extra charge as part of your plan.</p>
 
           <h2>How do I find broken links on my site?</h2>
           <p>You don't need to manually check your site for broken links. If you notice one, or a visitor mentions one, let us know. We can also run a link audit if you suspect there are multiple broken URLs, especially after a site update or page rename.</p>
 
           <h2>What if I moved a page or changed its URL?</h2>
-          <p>If a page's address changes, any old links pointing to it will create a 404 error. We can set up a redirect, which automatically sends visitors from the old URL to the new one. Redirects also help preserve any search engine rankings the old page had built up. Just let us know if a page was renamed or moved and we will handle it.</p>
+          <p>If a page's address changes, any old links pointing to it will create a 404 error. We can set up a redirect, which automatically sends visitors from the old URL to the new one. Redirects also help preserve any search engine rankings the old page had built up. Just let us know if a page was renamed or moved and we'll handle it.</p>
 
           <div class="alert alert-info mt-2"><strong>Quick tip:</strong> Check your Google Business Profile, social media bios, and any marketing materials that link to your website. These are common sources of outdated links that cause 404 errors.</div>
 
@@ -7540,15 +7663,12 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
           <p>We typically respond to all requests and messages within one business day. Here is a more detailed breakdown.</p>
 
           <h2>Response times by request type</h2>
-          <table class="table table-bordered">
-            <thead><tr><th>Type</th><th>First response</th></tr></thead>
-            <tbody>
-              <tr><td>Standard update requests</td><td>Within 1 business day</td></tr>
-              <tr><td>Questions and general inquiries</td><td>Within 1 business day</td></tr>
-              <tr><td>Urgent issues (site down, critical error)</td><td>Within a few hours during business hours</td></tr>
-              <tr><td>After-hours and weekend submissions</td><td>Next business day</td></tr>
-            </tbody>
-          </table>
+          <dl class="term-list">
+            <div class="term-item"><dt>Standard update requests</dt><dd>Within 1 business day</dd></div>
+            <div class="term-item"><dt>Questions and general inquiries</dt><dd>Within 1 business day</dd></div>
+            <div class="term-item"><dt>Urgent issues (site down, critical error)</dt><dd>Within a few hours during business hours</dd></div>
+            <div class="term-item"><dt>After-hours and weekend submissions</dt><dd>Next business day</dd></div>
+          </dl>
 
           <h2>Business hours</h2>
           <p>Our team operates Monday through Friday, 9am to 5pm Eastern Time. Requests submitted outside those hours are handled when we reopen. We are closed on major US holidays.</p>
@@ -7609,7 +7729,7 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
           <div class="alert alert-warning mt-2"><strong>Why you have to do this yourself:</strong> Payment accounts are legally tied to your business identity, tax information, and bank account. The processor needs to verify that you're the business owner. We're not able to create or verify an account on your behalf.</div>
 
           <h2>What's a payment or merchant account?</h2>
-          <p>A payment account is what allows your store to actually collect money. When a customer checks out on your site, the payment processor (like Stripe or PayPal) collects the payment and deposits it into your bank account. Without one, the store cannot accept payments.</p>
+          <p>A payment account is what allows your store to actually collect money. When a customer checks out on your site, the payment processor (like Stripe or PayPal) collects the payment and deposits it into your bank account. Without one, the store can't accept payments.</p>
 
           <h2>Which platform should I use?</h2>
           <p>The right choice depends on your store setup. The most common options are:</p>
@@ -7630,7 +7750,7 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
             <li>Link a bank account where payments will be deposited</li>
             <li>Complete Stripe's identity verification if prompted</li>
           </ol>
-          <p>Once your account is verified, Stripe gives you API keys. Send those to us and we will connect your store to your account so payments start flowing to you directly.</p>
+          <p>Once your account is verified, Stripe gives you API keys. Send those to us and we'll connect your store to your account so payments start flowing to you directly.</p>
 
           <h2>What happens if I already have a Stripe or PayPal account?</h2>
           <p>Great, you are ahead of the game. Just let us know during setup and provide your API keys (Stripe) or your merchant email (PayPal) and we'll plug it in.</p>
@@ -7691,7 +7811,7 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
           <ol>
             <li>Submit a <a href="website-request.html">Website Request</a></li>
             <li>Describe the page you need and what content should be on it</li>
-            <li>We will send you an invoice for $199 before starting</li>
+            <li>We'll send you an invoice for $199 before starting</li>
             <li>Once payment is confirmed, the page is typically completed within 3 to 5 business days</li>
           </ol>
 
@@ -7771,7 +7891,7 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
         <h2>How it works</h2>
         <p>We design a blog page that matches your website and set it up so posts are easy to manage. You can:</p>
         <ul>
-          <li><strong>Send us the content:</strong> Write your posts and submit them through the <a href="website-request.html">Website Request</a> page. We will format and publish them for you.</li>
+          <li><strong>Send us the content:</strong> Write your posts and submit them through the <a href="website-request.html">Website Request</a> page. We'll format and publish them for you.</li>
           <li><strong>Manage it yourself:</strong> If your site is on a platform like WordPress, you can add and edit posts directly from your dashboard.</li>
         </ul>
 
@@ -9052,7 +9172,7 @@ const LS_SAVED    = 'wz_help_saved';
     const row = document.createElement('div');
     row.className = 'helpful-row';
     if (voted) {
-      row.innerHTML = `<p class="helpful-thanks">${voted === 'yes' ? 'Glad it helped.' : 'Thanks for the feedback we will use it to improve.'}</p>`;
+      row.innerHTML = `<p class="helpful-thanks">${voted === 'yes' ? 'Glad it helped.' : 'Thanks for the feedback. We will use it to improve.'}</p>`;
     } else {
       row.innerHTML = `
         <p class="helpful-label">Was this helpful?</p>
