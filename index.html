@@ -1421,7 +1421,7 @@ fee-tooltip {
   display: flex;
   align-items: center;
   padding: 32px 0 48px;
-  overflow: clip;
+  overflow: hidden;
 }
 
 .hero-glow-new {
@@ -3296,9 +3296,9 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
     </div>
 
     <!-- Scroll indicator -->
-    <button class="scroll-down-btn" id="scrollDownBtn" aria-label="Scroll down" onclick="scrollDownDismiss()">
+    <a class="scroll-down-btn" id="scrollDownBtn" href="#pain-section" aria-label="Scroll down" onclick="this.classList.add('hidden')">
       <i class="fas fa-chevron-down"></i>
-    </button>
+    </a>
 
   </section>
 
@@ -3310,7 +3310,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
   
 
   <!-- PAIN POINTS -->
-  <section class="pain-section">
+  <section class="pain-section" id="pain-section">
     <div class="container container-narrow">
 
       <div class="pain-header reveal">
@@ -4849,12 +4849,6 @@ document.querySelectorAll('#home-faq details').forEach(function(d) {
 </script>
 
 <script>
-function scrollDownDismiss() {
-  var btn = document.getElementById('scrollDownBtn');
-  btn.classList.add('hidden');
-  var target = document.querySelector('.pain-section');
-  if (target) target.scrollIntoView({ behavior: 'smooth' });
-}
 
 function whyTab(btn, panelId) {
   document.querySelectorAll('.why-tab').forEach(b => b.classList.remove('active'));
