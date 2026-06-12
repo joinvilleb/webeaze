@@ -1,541 +1,412 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>One-Time Web Projects | WebEaze</title>
-  <meta name="description" content="Get a professional website or update to your existing site with no monthly subscription. Three tiers starting at $149. Pay once, keep what we build." />
-  <link rel="canonical" href="https://webeaze.io/one-time-project" />
-  <link rel="shortcut icon" href="images/webeaze-transparent-copy.png" type="image/png" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-
-  <style>
-    :root {
-      --brand: #7851a9;
-      --gold:  #ffd700;
-      --ink:   #0f1228;
-      --ink-2: #4a4f6a;
-      --ink-3: #6b7094;
-      --line:  #e4e7f1;
-      --bg:    #f8f9fc;
-      --white: #fff;
-      --green: #16a34a;
-      --red:   #dc2626;
-    }
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; font-size: 17px; }
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: var(--bg);
-      color: var(--ink);
-      -webkit-font-smoothing: antialiased;
-      line-height: 1.65;
-    }
-    a { color: var(--brand); text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    .container { max-width: 780px; margin: 0 auto; padding: 0 20px; }
-
-    /* NAV */
-    .nav-wrap {
-      position: sticky; top: 0; z-index: 9999;
-      background: #000;
-      border-bottom: 1px solid rgba(255,255,255,.1);
-      padding: 14px 0;
-    }
-    .nav-inner {
-      max-width: 780px; margin: 0 auto; padding: 0 20px;
-      display: flex; align-items: center; justify-content: space-between;
-    }
-    .logo-group {
-      display: flex; align-items: center; gap: 10px; text-decoration: none;
-    }
-    .logo-group img { height: 30px; }
-    .logo-group span { font-weight: 700; font-size: .95rem; color: #fff; }
-    .nav-cta {
-      display: inline-flex; align-items: center; gap: 7px;
-      background: var(--gold); color: #2f1e66;
-      padding: 9px 18px; border-radius: 10px;
-      font-weight: 700; font-size: .85rem; text-decoration: none;
-      transition: opacity .15s;
-    }
-    .nav-cta:hover { opacity: .9; text-decoration: none; }
-
-    /* HERO */
-    .hero {
-      background: var(--white);
-      border-bottom: 1px solid var(--line);
-      padding: 52px 20px 44px;
-    }
-    .hero-eyebrow {
-      display: inline-flex; align-items: center; gap: 7px;
-      font-size: 11px; font-weight: 700; text-transform: uppercase;
-      letter-spacing: .1em; color: var(--brand); margin-bottom: 14px;
-    }
-    .hero h1 {
-      font-size: clamp(1.7rem, 4vw, 2.4rem);
-      font-weight: 700; letter-spacing: -.055em; line-height: 1.15;
-      color: var(--ink); margin-bottom: 12px;
-    }
-    .hero-sub {
-      font-size: 1.05rem; color: var(--ink-2); line-height: 1.65;
-      max-width: 580px; margin-bottom: 24px;
-    }
-    .hero-chips {
-      display: flex; flex-wrap: wrap; gap: 8px;
-    }
-    .hero-chip {
-      display: inline-flex; align-items: center; gap: 6px;
-      font-size: .8rem; font-weight: 600; color: var(--ink-2);
-      background: var(--bg); border: 1px solid var(--line);
-      border-radius: 999px; padding: 5px 12px;
-    }
-    .hero-chip i { color: var(--green); font-size: .75rem; }
-
-    /* CONTENT */
-    .content { padding: 0 20px 80px; }
-    .section { padding: 44px 0; border-bottom: 1px solid var(--line); }
-    .section:last-of-type { border-bottom: none; }
-
-    .section-label {
-      font-size: 11px; font-weight: 700; text-transform: uppercase;
-      letter-spacing: .1em; color: var(--brand);
-      display: flex; align-items: center; gap: 8px; margin-bottom: 20px;
-    }
-    .section-label::after { content: ''; flex: 1; height: 1px; background: var(--line); }
-
-    .section h2 {
-      font-size: clamp(1.15rem, 2.5vw, 1.4rem);
-      font-weight: 700; letter-spacing: -.03em;
-      color: var(--ink); margin-bottom: 12px;
-    }
-    .section p {
-      font-size: 1rem; color: var(--ink-2); line-height: 1.65; margin-bottom: 14px;
-    }
-    .section p:last-child { margin-bottom: 0; }
-
-    /* TIER CARDS */
-    .tiers-grid {
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
-      margin-top: 4px;
-    }
-    @media (max-width: 640px) { .tiers-grid { grid-template-columns: 1fr; } }
-    .tier-card {
-      background: var(--white); border: 1.5px solid var(--line);
-      border-radius: 16px; padding: 24px 20px; position: relative;
-      overflow: hidden;
-    }
-    .tier-card::before {
-      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-      background: linear-gradient(90deg, var(--brand), #a07dd0);
-    }
-    .tier-card.featured { border-color: var(--brand); }
-    .tier-card.featured::before { background: linear-gradient(90deg, #6a35c2, var(--brand)); }
-    .tier-badge {
-      display: inline-block; font-size: 10px; font-weight: 700;
-      text-transform: uppercase; letter-spacing: .08em;
-      color: #fff; background: var(--brand);
-      border-radius: 4px; padding: 2px 7px; margin-bottom: 10px;
-    }
-    .tier-name {
-      font-size: 1.05rem; font-weight: 700; color: var(--ink);
-      margin-bottom: 4px; letter-spacing: -.02em;
-    }
-    .tier-price {
-      font-size: 1.6rem; font-weight: 800; color: var(--ink);
-      letter-spacing: -.04em; line-height: 1; margin-bottom: 12px;
-    }
-    .tier-price span { font-size: .85rem; font-weight: 500; color: var(--ink-3); }
-    .tier-desc {
-      font-size: .9rem; color: var(--ink-2); line-height: 1.6; margin-bottom: 16px;
-    }
-    .tier-timeline {
-      display: flex; align-items: center; gap: 6px;
-      font-size: .82rem; font-weight: 600; color: var(--ink-3);
-    }
-    .tier-timeline i { color: var(--brand); font-size: .78rem; }
-    .tier-btn {
-      display: block; width: 100%; text-align: center;
-      background: var(--brand); color: #fff;
-      border-radius: 10px; padding: 11px 16px;
-      font-weight: 700; font-size: .9rem; text-decoration: none;
-      margin-top: 18px; transition: opacity .15s;
-    }
-    .tier-btn:hover { opacity: .88; text-decoration: none; color: #fff; }
-
-    /* CHECKLIST */
-    .check-list { list-style: none; display: flex; flex-direction: column; gap: 2px; }
-    .check-list li {
-      display: flex; align-items: flex-start; gap: 12px;
-      background: var(--white); border: 1px solid var(--line);
-      border-radius: 10px; padding: 13px 16px;
-      font-size: 1rem; color: var(--ink);
-    }
-    .check-list li i { flex-shrink: 0; margin-top: 3px; font-size: .85rem; }
-    .check-list li i.yes { color: var(--green); }
-    .check-list li i.no  { color: var(--red); }
-    .check-list li span { color: var(--ink-2); line-height: 1.55; }
-    .check-list li strong { color: var(--ink); }
-
-    /* STEPS */
-    .steps { display: flex; flex-direction: column; gap: 0; }
-    .step {
-      display: flex; gap: 18px; padding: 20px 0;
-      border-bottom: 1px solid var(--line);
-    }
-    .step:last-child { border-bottom: none; }
-    .step-num {
-      width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0;
-      background: rgba(120,81,169,.1); color: var(--brand);
-      font-size: .9rem; font-weight: 800;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .step-body h3 {
-      font-size: 1rem; font-weight: 700; color: var(--ink);
-      letter-spacing: -.02em; margin-bottom: 5px;
-    }
-    .step-body p { font-size: .95rem; color: var(--ink-2); line-height: 1.6; margin: 0; }
-    .step-body .step-note {
-      display: inline-flex; align-items: center; gap: 6px;
-      font-size: .82rem; font-weight: 600; color: var(--ink-3);
-      background: var(--bg); border: 1px solid var(--line);
-      border-radius: 6px; padding: 4px 10px; margin-top: 8px;
-    }
-    .step-body .step-note i { color: var(--brand); font-size: .78rem; }
-
-    /* SUBSCRIBE OFFER */
-    .subscribe-offer {
-      background: var(--white); border: 1.5px solid rgba(120,81,169,.2);
-      border-radius: 16px; padding: 28px 24px; position: relative; overflow: hidden;
-    }
-    .subscribe-offer::before {
-      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-      background: linear-gradient(90deg, var(--brand), #a07dd0);
-    }
-    .subscribe-offer h3 {
-      font-size: 1.1rem; font-weight: 700; color: var(--ink);
-      letter-spacing: -.025em; margin-bottom: 8px;
-    }
-    .subscribe-offer p { font-size: .98rem; color: var(--ink-2); margin-bottom: 16px; line-height: 1.65; }
-    .offer-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
-    .offer-chip {
-      display: inline-flex; align-items: center; gap: 6px;
-      font-size: .82rem; font-weight: 700; color: var(--green);
-      background: rgba(22,163,74,.08); border: 1px solid rgba(22,163,74,.2);
-      border-radius: 6px; padding: 5px 12px;
-    }
-    .offer-chip i { font-size: .75rem; }
-    .subscribe-btns { display: flex; flex-wrap: wrap; gap: 10px; }
-    .btn-brand {
-      display: inline-flex; align-items: center; gap: 7px;
-      background: var(--brand); color: #fff;
-      border-radius: 10px; padding: 11px 22px; font-weight: 700;
-      font-size: .92rem; text-decoration: none; transition: opacity .15s;
-    }
-    .btn-brand:hover { opacity: .88; text-decoration: none; color: #fff; }
-    .btn-ghost {
-      display: inline-flex; align-items: center; gap: 7px;
-      background: transparent; color: var(--ink-2);
-      border: 1.5px solid var(--line); border-radius: 10px;
-      padding: 11px 22px; font-weight: 600; font-size: .92rem;
-      text-decoration: none; transition: border-color .15s, color .15s;
-    }
-    .btn-ghost:hover { border-color: var(--brand); color: var(--brand); text-decoration: none; }
-
-    /* ELIGIBILITY */
-    .eligibility-note {
-      background: rgba(220,38,38,.05); border: 1px solid rgba(220,38,38,.15);
-      border-radius: 12px; padding: 16px 18px;
-      font-size: .95rem; color: var(--ink-2); line-height: 1.6;
-    }
-    .eligibility-note i { color: var(--red); margin-right: 6px; }
-
-    /* FOOTER */
-    footer { background: #000; padding: 60px 20px 40px; border-top: 1px solid rgba(255,255,255,.08); }
-    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; max-width: 1100px; margin: 0 auto 48px; }
-    @media (max-width: 768px) { .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; } }
-    @media (max-width: 480px) { .footer-grid { grid-template-columns: 1fr; gap: 28px; } }
-    .footer-brand { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
-    .footer-brand img { height: 32px; }
-    .footer-brand span { font-weight: 700; font-size: 1.1rem; color: #fff; }
-    .footer-tagline { color: #a0a6c0; font-size: .9rem; line-height: 1.6; margin-bottom: 20px; max-width: 280px; }
-    .footer-social { display: flex; gap: 12px; }
-    .footer-social a { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; background: rgba(255,255,255,.06); border-radius: 10px; color: #a0a6c0; transition: all .2s; text-decoration: none; }
-    .footer-social a:hover { background: #ffd700; color: #1a1a2e; }
-    .footer-col h5 { font-size: .85rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: #fff; margin: 0 0 16px; }
-    .footer-col ul { list-style: none; padding: 0; margin: 0; }
-    .footer-col li { margin-bottom: 10px; }
-    .footer-col a { color: #a0a6c0; font-size: .9rem; transition: color .2s; text-decoration: none; }
-    .footer-col a:hover { color: #ffd700; }
-    .footer-bottom { max-width: 1100px; margin: 0 auto; padding-top: 24px; border-top: 1px solid rgba(255,255,255,.08); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
-    .footer-bottom p { color: #6b7280; font-size: .85rem; margin: 0; }
-    .footer-legal { display: flex; gap: 24px; }
-    .footer-legal a { color: #6b7280; font-size: .85rem; transition: color .2s; text-decoration: none; }
-    .footer-legal a:hover { color: #ffd700; }
-    @media (max-width: 600px) { .footer-bottom { flex-direction: column; text-align: center; } }
-
-/* Heading consistency */
-h1 { font-weight: 700 !important; letter-spacing: -.055em !important; }
-h2 { font-weight: 700 !important; letter-spacing: -.03em !important; }
-h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>One-Time Web Projects | WebEaze</title>
+<meta name="description" content="Get professional website work done with no monthly subscription. Three project tiers starting from a flat price. Fast turnaround, you own everything." />
+<link rel="canonical" href="https://webeaze.io/one-time-project" />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="WebEaze" />
-<meta property="og:url" content="https://webeaze.io/one-time-project" />
 <meta property="og:title" content="One-Time Web Projects | WebEaze" />
-<meta property="og:description" content="Get a professional website with no monthly subscription. Three tiers starting at $149. Pay once, keep what we build." />
-<meta property="og:image" content="https://webeaze.io/images/webeaze-transparent.png" />
+<meta property="og:description" content="No subscription needed. Three project tiers for any website job. Flat pricing, fast turnaround, you own everything." />
+<meta property="og:url" content="https://webeaze.io/one-time-project" />
+<meta property="og:image" content="https://webeaze.io/images/default-monochrome.png" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="One-Time Web Projects | WebEaze" />
-<meta name="twitter:description" content="Get a professional website with no monthly subscription. Three tiers starting at $149. Pay once, keep what we build." />
-<meta name="twitter:image" content="https://webeaze.io/images/webeaze-transparent.png" />
-<!-- Meta Pixel Code -->
-<script>
-!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '906444072428558');
-fbq('track', 'PageView');
-</script>
-<noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
-/></noscript>
-<!-- End Meta Pixel Code -->
+<meta name="twitter:description" content="No subscription needed. Three project tiers for any website job. Flat pricing, fast turnaround, you own everything." />
+<!-- Meta Pixel -->
+<script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','906444072428558');fbq('track','PageView');</script>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"/></noscript>
+<link rel="shortcut icon" href="images/webeaze-transparent-copy.png" type="image/png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"></noscript>
+<link rel="preload" as="style" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"></noscript>
+<link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"></noscript>
+<style>.navbar{position:relative;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;}.collapse:not(.show){display:none}.collapsing{position:relative;height:0;overflow:hidden;transition:height .35s ease}@media(min-width:992px){.navbar-expand-lg .navbar-collapse{display:flex!important;flex-basis:auto}.navbar-expand-lg .navbar-nav{flex-direction:row}}.d-flex{display:flex!important}.align-items-center{align-items:center!important}.ml-auto{margin-left:auto!important}.ml-1{margin-left:.25rem!important}.ml-2{margin-left:.5rem!important}@media(min-width:992px){.mt-lg-0{margin-top:0!important}}</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","@id":"https://webeaze.io/one-time-project#webpage","url":"https://webeaze.io/one-time-project","name":"One-Time Web Projects | WebEaze","description":"Get professional website work done with no monthly subscription. Three project tiers starting at $149. Flat pricing, fast turnaround, you own everything.","isPartOf":{"@id":"https://webeaze.io/#website"},"about":{"@id":"https://webeaze.io/#organization"},"speakable":{"@type":"SpeakableSpecification","cssSelector":["h1",".hero-sub"]}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Service","@id":"https://webeaze.io/one-time-project#service","name":"One-Time Web Projects","description":"WebEaze offers one-time website projects at three tiers: Basic (small updates), Standard (multi-page updates or redesigns), and Full Build (complete new website up to 3 pages). Flat pricing, no subscription required.","provider":{"@id":"https://webeaze.io/#organization"},"areaServed":{"@type":"Country","name":"United States"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is included in a one-time project?","acceptedAnswer":{"@type":"Answer","text":"One-time projects include the agreed scope of work, up to 3 minor revisions within 14 days of delivery, and ownership of all files. Projects do not include ongoing hosting, maintenance, or support beyond the 14-day revision window."}},{"@type":"Question","name":"How long does a one-time project take?","acceptedAnswer":{"@type":"Answer","text":"Basic projects take 3 to 5 business days. Standard projects take 5 to 7 business days. Full Build projects take 7 to 14 business days. Timelines begin after all content and information is received."}},{"@type":"Question","name":"Can I switch to a monthly plan after a one-time project?","acceptedAnswer":{"@type":"Answer","text":"Yes. If you transition to a monthly plan within 14 days of project delivery, the setup fee and first month are waived. This is a great option if you want ongoing management after your initial project."}},{"@type":"Question","name":"Do I own the website after a one-time project?","acceptedAnswer":{"@type":"Answer","text":"Yes. You own your domain and all website files. They are yours to keep, host, or transfer however you choose."}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://webeaze.io/"},{"@type":"ListItem","position":2,"name":"Services","item":"https://webeaze.io/services"},{"@type":"ListItem","position":3,"name":"One-Time Projects","item":"https://webeaze.io/one-time-project"}]}</script>
+<style>
+
+:root{
+  --brand:#7851a9;--brand-soft:rgba(120,81,169,.08);--brand-mid:rgba(120,81,169,.15);--brand-border:rgba(120,81,169,.22);
+  --gold:#f59e0b;--gold-soft:rgba(245,158,11,.09);--gold-border:rgba(245,158,11,.28);
+  --green:#16a34a;--green-soft:rgba(22,163,74,.09);--green-border:rgba(22,163,74,.25);
+  --text:#0f1228;--muted:#4b5563;--dim:#6b7280;--bg:#f8f9fc;--surface:#ffffff;--line:#e5e7eb;
+  --shadow-sm:0 2px 12px rgba(15,18,40,.07);--shadow-md:0 6px 28px rgba(15,18,40,.11);
+  --radius-sm:10px;--radius:16px;--radius-lg:22px;
+}
+*,*::before,*::after{box-sizing:border-box;}
+img{max-width:100%;height:auto;}
+html{scroll-behavior:smooth;scroll-padding-top:88px;font-size:17px;}
+body{margin:0;font-family:'Poppins',sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;overflow-x:hidden;line-height:1.65;}
+a{color:inherit;text-decoration:none;}
+.container-narrow{max-width:1080px;width:100%;margin-right:auto;margin-left:auto;padding-right:15px;padding-left:15px;}
+/* NAV */
+.nav-wrap{position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(255,255,255,.92);backdrop-filter:saturate(160%) blur(16px);-webkit-backdrop-filter:saturate(160%) blur(16px);border-bottom:1px solid var(--line);box-shadow:0 1px 12px rgba(15,18,40,.06);}
+.webeaze-nav{background:transparent!important;box-shadow:none!important;padding:.55rem 0;}
+.logo{height:34px;width:auto;flex-shrink:0;}.brand-word{letter-spacing:-.3px;font-weight:700;color:var(--text);}
+.navbar-light .nav-link{color:var(--muted)!important;border-radius:8px;padding:.42rem .7rem;font-weight:600;font-size:.92rem;transition:all .18s;}
+.navbar-light .nav-link:hover{color:var(--brand)!important;background:var(--brand-soft);}
+.navbar-light .nav-link.active-page{color:var(--brand)!important;}
+.btn-nav{background:var(--brand);color:#fff;border:none;border-radius:var(--radius-sm);padding:.52rem .95rem;font-weight:700;font-size:.88rem;transition:background .18s;}
+.btn-nav:hover{background:#6841a0;}
+/* BUTTONS */
+.btn-primary{display:inline-flex;align-items:center;gap:9px;background:var(--brand);color:#fff;border-radius:var(--radius-sm);padding:13px 24px;font-family:'Poppins',sans-serif;font-weight:700;font-size:.92rem;box-shadow:0 4px 18px rgba(120,81,169,.28);transition:all .2s;white-space:nowrap;}
+.btn-primary:hover{background:#6841a0;transform:translateY(-2px);box-shadow:0 8px 28px rgba(120,81,169,.36);color:#fff;}
+.btn-outline{display:inline-flex;align-items:center;gap:8px;background:transparent;color:var(--text);border:1.5px solid var(--line);border-radius:var(--radius-sm);padding:12px 22px;font-family:'Poppins',sans-serif;font-weight:600;font-size:.92rem;transition:all .2s;white-space:nowrap;}
+.btn-outline:hover{border-color:var(--brand-border);color:var(--brand);background:var(--brand-soft);}
+/* SECTIONS */
+.section{padding:clamp(60px,9vh,90px) 0;}.section-white{background:var(--surface);}.section-gray{background:var(--bg);}
+.section-header{text-align:center;max-width:600px;margin:0 auto 52px;}
+
+.section-header h2{font-size:clamp(1.8rem,3.8vw,2.5rem);font-weight:700;letter-spacing:-.03em;margin:0 0 12px;}
+.section-header p{font-size:1.05rem;color:var(--muted);line-height:1.72;margin:0;}
+/* HERO */
+.hero{padding:130px 0 90px;background:linear-gradient(160deg,#fafbff 0%,#f0f1f9 100%);position:relative;overflow:hidden;}
+.hero-accent{position:absolute;pointer-events:none;border-radius:50%;filter:blur(80px);opacity:.55;}
+.ha1{width:560px;height:560px;top:-120px;right:-100px;background:radial-gradient(circle,rgba(120,81,169,.14),transparent 70%);}
+.ha2{width:380px;height:380px;bottom:-80px;left:-80px;background:radial-gradient(circle,rgba(245,158,11,.1),transparent 70%);}
+.hero-inner{max-width:1100px;margin:0 auto;padding:0 40px;position:relative;z-index:2;}
+
+.hero h1{font-size:clamp(2.2rem,4.8vw,3.4rem);font-weight:700;letter-spacing:-.055em;line-height:1.12;margin:0 0 20px;color:var(--text);}
+.hero h1 em{font-style:italic;color:var(--brand);}
+.hero-sub{font-size:1.1rem;color:var(--muted);line-height:1.78;margin:0 0 32px;max-width:560px;}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap;}
+.hero-trust{display:flex;flex-wrap:wrap;gap:18px;margin-top:24px;}
+.trust-pill{display:inline-flex;align-items:center;gap:7px;font-size:.85rem;color:var(--dim);font-weight:500;}
+.trust-pill i{color:var(--green);font-size:.78rem;}
+/* FEATURE GRID */
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+@media(max-width:900px){.feat-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:560px){.feat-grid{grid-template-columns:1fr;}}
+.feat-card{background:var(--surface);border:1.5px solid var(--line);border-radius:var(--radius);padding:26px 24px;transition:border-color .2s,box-shadow .2s;}
+.feat-card:hover{border-color:var(--brand-border);box-shadow:var(--shadow-md);}
+.feat-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;}
+.feat-icon.p{background:var(--brand-soft);}.feat-icon.p i{color:var(--brand);}
+.feat-icon.g{background:var(--gold-soft);}.feat-icon.g i{color:var(--gold);}
+.feat-icon.gr{background:var(--green-soft);}.feat-icon.gr i{color:var(--green);}
+.feat-icon i{font-size:1.05rem;}
+.feat-card h3{font-size:1rem;font-weight:700;margin:0 0 8px;color:var(--text);}
+.feat-card p{font-size:.9rem;color:var(--muted);line-height:1.65;margin:0;}
+/* STEP CARDS */
+.steps-row{display:grid;grid-template-columns:1fr 44px 1fr 44px 1fr;align-items:start;}
+@media(max-width:768px){.steps-row{grid-template-columns:1fr;gap:16px;}.steps-conn{display:none;}}
+.step-card{background:var(--surface);border:1.5px solid var(--line);border-radius:var(--radius-lg);padding:32px 26px;position:relative;overflow:hidden;box-shadow:var(--shadow-sm);}
+.step-bg{position:absolute;top:-14px;right:8px;font-size:7.5rem;font-weight:800;line-height:1;color:rgba(120,81,169,.05);pointer-events:none;}
+.step-icon{width:48px;height:48px;background:linear-gradient(135deg,var(--brand),#9b6fd4);border-radius:14px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.1rem;margin-bottom:18px;box-shadow:0 6px 18px rgba(120,81,169,.28);position:relative;z-index:1;}
+.step-lbl{display:block;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--brand);margin-bottom:7px;position:relative;z-index:1;}
+.step-card h3{font-size:1.05rem;font-weight:700;margin:0 0 10px;position:relative;z-index:1;}
+.step-card p{font-size:.9rem;color:var(--muted);margin:0;line-height:1.65;position:relative;z-index:1;}
+.steps-conn{display:flex;align-items:flex-start;justify-content:center;padding-top:48px;color:rgba(120,81,169,.25);font-size:1rem;}
+/* FINAL CTA */
+.final-cta{padding:clamp(72px,11vh,110px) 0;text-align:center;background:linear-gradient(160deg,var(--brand) 0%,#5c3090 100%);position:relative;overflow:hidden;}
+.final-cta::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 60% at 70% 40%,rgba(255,255,255,.07),transparent 65%);pointer-events:none;}
+.final-cta h2{font-size:clamp(1.9rem,4.5vw,2.8rem);font-weight:700;color:#fff;letter-spacing:-.03em;margin:0 0 14px;position:relative;}
+.final-cta p{font-size:1.05rem;color:rgba(255,255,255,.8);max-width:460px;margin:0 auto 30px;line-height:1.7;position:relative;}
+.final-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;position:relative;}
+.btn-white{display:inline-flex;align-items:center;gap:8px;background:#fff;color:var(--brand);border-radius:var(--radius-sm);padding:13px 24px;font-weight:700;font-size:.92rem;box-shadow:0 4px 18px rgba(0,0,0,.15);transition:all .2s;}
+.btn-white:hover{background:#f0ecf8;transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,0,0,.2);color:var(--brand);}
+.btn-white-outline{display:inline-flex;align-items:center;gap:8px;background:transparent;color:#fff;border:2px solid rgba(255,255,255,.4);border-radius:var(--radius-sm);padding:12px 22px;font-weight:600;font-size:.92rem;transition:all .2s;}
+.btn-white-outline:hover{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.7);color:#fff;}
+/* FOOTER */
+footer{background:#0a0a0f;padding:56px 20px 36px;border-top:1px solid rgba(255,255,255,.08);}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:44px;max-width:1080px;margin:0 auto 44px;}
+@media(max-width:760px){.footer-grid{grid-template-columns:1fr 1fr;gap:28px;}}
+@media(max-width:480px){.footer-grid{grid-template-columns:1fr;}}
+.footer-brand{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+.footer-brand img{height:30px;width:auto;flex-shrink:0;}.footer-brand span{font-weight:700;font-size:1rem;color:#fff;}
+.footer-tagline{color:#a0a6c0;font-size:.88rem;line-height:1.62;margin-bottom:18px;max-width:270px;}
+.footer-social{display:flex;gap:10px;}
+.footer-social a{display:flex;align-items:center;justify-content:center;width:34px;height:34px;background:rgba(255,255,255,.07);border-radius:9px;color:#a0a6c0;font-size:.95rem;transition:all .2s;}
+.footer-social a:hover{background:var(--brand);color:#fff;}
+.footer-col h5{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:#fff;margin:0 0 14px;}
+.footer-col ul{list-style:none;padding:0;margin:0;}.footer-col li{margin-bottom:9px;}
+.footer-col a{color:#a0a6c0;font-size:.86rem;transition:color .18s;}
+.footer-col a:hover{color:#ffd700;}
+.footer-bottom{max-width:1080px;margin:0 auto;padding-top:22px;border-top:1px solid rgba(255,255,255,.08);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;}
+.footer-bottom p{color:#6b7280;font-size:.82rem;margin:0;}
+.footer-legal{display:flex;gap:20px;}
+.footer-legal a{color:#6b7280;font-size:.82rem;transition:color .18s;}
+.footer-legal a:hover{color:#ffd700;}
+/* SKIP NAV */
+.skip-nav{position:absolute;top:-48px;left:0;background:var(--brand);color:#fff;padding:10px 18px;z-index:10001;font-size:14px;font-weight:600;text-decoration:none;border-radius:0 0 8px 0;transition:top .2s;}
+.skip-nav:focus{top:0;}
+/* HEADINGS */
+h1{font-weight:700!important;letter-spacing:-.055em!important;}
+h2{font-weight:700!important;letter-spacing:-.03em!important;}
+h3{font-weight:700!important;letter-spacing:-.02em!important;}
+/* MOBILE */
+@media(max-width:600px){
+  .hero{padding:110px 0 64px;}.hero-inner{padding:0 20px;}
+  .hero-btns,.final-btns{flex-direction:column;align-items:stretch;}
+  .hero-btns a,.final-btns a{justify-content:center;}
+  footer{padding:40px 20px 28px;}
+  .footer-bottom{flex-direction:column;text-align:center;}
+}
+/* DROPDOWN */
+.dropdown-menu-services{border:1.5px solid rgba(120,81,169,.18);border-radius:14px;box-shadow:0 12px 40px rgba(15,18,40,.15);padding:8px;min-width:240px;margin-top:6px!important;background:#fff;}
+.dropdown-menu-services .dropdown-item{border-radius:9px;padding:9px 14px;font-size:.9rem;font-weight:500;color:#374151;display:flex;align-items:center;gap:10px;transition:background .15s,color .15s;white-space:nowrap;}
+.dropdown-menu-services .dropdown-item i{width:16px;text-align:center;color:#7851a9;font-size:.85rem;flex-shrink:0;}
+.dropdown-menu-services .dropdown-item:hover{background:rgba(120,81,169,.08);color:#7851a9;}
+.dropdown-menu-services .dropdown-divider{margin:4px 8px;border-color:rgba(120,81,169,.12);}
+@media(max-width:991px){.dropdown-menu-services{border:none;box-shadow:none;padding:0 0 4px 16px;margin-top:0!important;background:transparent;}}
+@media(max-width:991px){.dropdown-menu-services .dropdown-item{padding:6px 10px;font-size:.87rem;color:inherit;}}
+
+
+.tier-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+@media(max-width:860px){.tier-grid{grid-template-columns:1fr;max-width:420px;margin:0 auto;}}
+.tier-card{background:var(--surface);border:1.5px solid var(--line);border-radius:var(--radius-lg);padding:32px 28px;position:relative;box-shadow:var(--shadow-sm);display:flex;flex-direction:column;transition:border-color .2s,box-shadow .2s,transform .2s;}
+.tier-card:hover{border-color:var(--brand-border);box-shadow:var(--shadow-md);transform:translateY(-4px);}
+.tier-card.pop{border-color:var(--brand-border);}
+.tier-badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--brand);color:#fff;font-size:.7rem;font-weight:700;padding:4px 14px;border-radius:20px;letter-spacing:.05em;text-transform:uppercase;white-space:nowrap;}
+.tier-icon{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;}
+.tier-icon.p{background:var(--brand-soft);}.tier-icon.p i{color:var(--brand);}
+.tier-icon.g{background:var(--gold-soft);}.tier-icon.g i{color:var(--gold);}
+.tier-icon.gr{background:var(--green-soft);}.tier-icon.gr i{color:var(--green);}
+.tier-icon i{font-size:1.2rem;}
+.tier-card h3{font-size:1.1rem;font-weight:700;margin:0 0 6px;}
+.tier-scope{font-size:.8rem;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--dim);margin-bottom:12px;}
+.tier-price{font-size:1.9rem;font-weight:800;color:var(--brand);line-height:1;margin-bottom:4px;}
+.tier-price span{font-size:.9rem;font-weight:500;color:var(--dim);}
+.tier-time{font-size:.82rem;color:var(--muted);margin-bottom:16px;}
+.tier-list{list-style:none;padding:0;margin:0 0 20px;flex:1;}
+.tier-list li{display:flex;align-items:flex-start;gap:8px;padding:7px 0;border-bottom:1px solid var(--line);font-size:.88rem;color:var(--muted);}
+.tier-list li:last-child{border-bottom:none;}
+.tier-list i{color:var(--green);flex-shrink:0;margin-top:3px;font-size:.78rem;}
+.transition-banner{background:linear-gradient(135deg,var(--brand-soft),rgba(245,158,11,.06));border:1.5px solid var(--brand-border);border-radius:var(--radius-lg);padding:32px 36px;display:flex;align-items:center;gap:24px;max-width:720px;margin:0 auto;}
+@media(max-width:640px){.transition-banner{flex-direction:column;text-align:center;padding:24px;}}
+.transition-icon{width:56px;height:56px;background:var(--brand-soft);border-radius:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.transition-icon i{color:var(--brand);font-size:1.4rem;}
+.transition-banner h3{font-size:1.1rem;font-weight:700;margin:0 0 6px;}
+.transition-banner p{font-size:.9rem;color:var(--muted);line-height:1.65;margin:0 0 14px;}
+
+</style>
 </head>
 <body>
-
-<!-- NAV -->
-<nav class="nav-wrap">
-  <div class="nav-inner">
-    <a href="index.html" class="logo-group">
-      <img loading="eager" src="images/webeaze-transparent-copy.png" alt="WebEaze">
-      <span>WebEaze</span>
-    </a>
-    <a href="pricing.html" class="nav-cta"><i class="fas fa-arrow-right"></i> View All Plans</a>
-  </div>
-</nav>
-
-<!-- HERO -->
-<header class="hero">
-  <div class="container">
-    <div class="hero-eyebrow"><i class="fas fa-bolt"></i> One-Time Web Projects</div>
-    <h1>Pay once. Keep what we build.</h1>
-    <p class="hero-sub">A professional website or site update with no monthly subscription. You choose the tier, we do the work, and the finished site is yours.</p>
-    <div class="hero-chips">
-      <span class="hero-chip"><i class="fas fa-check-circle"></i> No subscription required</span>
-      <span class="hero-chip"><i class="fas fa-check-circle"></i> 3 free revisions included</span>
-      <span class="hero-chip"><i class="fas fa-check-circle"></i> QA tested before delivery</span>
-      <span class="hero-chip"><i class="fas fa-check-circle"></i> Starts at $149</span>
-    </div>
-  </div>
-</header>
-
-<!-- CONTENT -->
-<div class="content">
-  <div class="container">
-
-    <!-- TIERS -->
-    <div class="section">
-      <div class="section-label">Pricing tiers</div>
-      <div class="tiers-grid">
-
-        <div class="tier-card">
-          <div class="tier-name">Basic</div>
-          <div class="tier-price">$149<span> one-time</span></div>
-          <p class="tier-desc">Small, focused changes. Text edits, image swaps, layout tweaks, or single-page updates. Covers one page. Additional pages are invoiced at $149 each.</p>
-          <div class="tier-timeline"><i class="fas fa-clock"></i> 3 to 5 business days</div>
-          <a href="https://buy.stripe.com/3cI7sK2Yu227cg0e51c3m0i" target="_blank" rel="noopener" class="tier-btn">Get Started</a>
-        </div>
-
-        <div class="tier-card featured">
-          <div class="tier-badge">Most common</div>
-          <div class="tier-name">Standard</div>
-          <div class="tier-price">$299<span> one-time</span></div>
-          <p class="tier-desc">Updates across existing pages. Content changes, layout adjustments, and section redesigns. Covers up to 2 pages. Additional 2-page scopes at $299 each.</p>
-          <div class="tier-timeline"><i class="fas fa-clock"></i> 5 to 7 business days</div>
-          <a href="https://buy.stripe.com/bJe8wO9mSbCH4Nye51c3m0j" target="_blank" rel="noopener" class="tier-btn">Get Started</a>
-        </div>
-
-        <div class="tier-card">
-          <div class="tier-name">Full Build</div>
-          <div class="tier-price">$449<span> one-time</span></div>
-          <p class="tier-desc">A complete website built from scratch. Includes up to 3 pages plus a contact page, custom design, and mobile optimization. Extra pages are $199 each.</p>
-          <div class="tier-timeline"><i class="fas fa-clock"></i> 7 to 14 business days</div>
-          <a href="https://buy.stripe.com/3cIdR80QmdKPbbW5yvc3m0h" target="_blank" rel="noopener" class="tier-btn">Get Started</a>
-        </div>
-
+<a class="skip-nav" href="#main-content">Skip to main content</a>
+<div class="nav-wrap">
+  <div class="container container-narrow">
+    <nav class="navbar navbar-expand-lg navbar-light webeaze-nav" role="navigation" aria-label="Primary">
+      <a class="navbar-brand d-flex align-items-center" href="index.html">
+        <img loading="eager" class="logo" src="images/webeaze-transparent-copy.png" alt="WebEaze" width="428" height="493" />
+        <strong class="ml-2 brand-word">WebEaze</strong>
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mobileNav"
+              aria-controls="mobileNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div id="mobileNav" class="collapse navbar-collapse">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle active-page" href="services.html" id="servicesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Our Services</a>
+            <div class="dropdown-menu dropdown-menu-services" aria-labelledby="servicesDropdown">
+              <a class="dropdown-item" href="services.html"><i class="fas fa-th-large"></i> All Services</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="manage.html"><i class="fas fa-globe"></i> Website Design &amp; Management</a>
+              <a class="dropdown-item" href="maintenance.html"><i class="fas fa-sync-alt"></i> Unlimited Updates</a>
+              <a class="dropdown-item" href="seo.html"><i class="fas fa-search"></i> Local SEO</a>
+              <a class="dropdown-item" href="google-business-management.html"><i class="fab fa-google"></i> Google Business Profile</a>
+              <a class="dropdown-item" href="ai.html"><i class="fas fa-robot"></i> AI Chatbot</a>
+              <a class="dropdown-item" href="ads.html"><i class="fas fa-ad"></i> Ad Management</a>
+              <a class="dropdown-item" href="one-time-project.html"><i class="fas fa-hammer"></i> One-Time Projects</a>
+            </div>
+          </li>
+          <li class="nav-item"><a class="nav-link" href="pricing.html">Pricing</a></li>
+          <li class="nav-item"><a class="nav-link" href="faq.html">FAQ</a></li>
+          <li class="nav-item"><a class="nav-link" href="help.html">Help</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact-us.html">Contact</a></li>
+          <li class="nav-item ml-1"><a class="btn btn-sm btn-nav" href="consultation.html">Book a Free Discovery Call</a></li>
+        </ul>
       </div>
-    </div>
-
-    <!-- WHAT'S INCLUDED -->
-    <div class="section">
-      <div class="section-label">What's included in every project</div>
-      <ul class="check-list">
-        <li><i class="fas fa-check-circle yes"></i> <span><strong>Professional design and development</strong> built to match your brand, not a template.</span></li>
-        <li><i class="fas fa-check-circle yes"></i> <span><strong>Mobile-responsive</strong> implementation that works on phones, tablets, and desktops.</span></li>
-        <li><i class="fas fa-check-circle yes"></i> <span><strong>QA review before delivery</strong> so you receive something polished and ready to use.</span></li>
-        <li><i class="fas fa-check-circle yes"></i> <span><strong>Up to 3 minor revisions</strong> within 14 calendar days of delivery at no extra charge.</span></li>
-      </ul>
-    </div>
-
-    <!-- WHAT'S NOT INCLUDED -->
-    <div class="section">
-      <div class="section-label">What's not included</div>
-      <p>Since there's no ongoing plan, the following aren't part of a one-time project:</p>
-      <ul class="check-list">
-        <li><i class="fas fa-xmark no"></i> <span>Ongoing maintenance or future updates after delivery</span></li>
-        <li><i class="fas fa-xmark no"></i> <span>Hosting, backups, or security monitoring</span></li>
-        <li><i class="fas fa-xmark no"></i> <span>Priority support, performance reports, or Google Meet sessions</span></li>
-        <li><i class="fas fa-xmark no"></i> <span>Domain registration for full builds (added to your invoice separately if needed)</span></li>
-      </ul>
-      <p style="margin-top:16px;">If you want someone managing the site long-term after delivery, you can subscribe to any monthly plan. See the <a href="#subscribe">14-day offer</a> below.</p>
-    </div>
-
-    <!-- THE PROCESS -->
-    <div class="section">
-      <div class="section-label">How it works</div>
-      <div class="steps">
-
-        <div class="step">
-          <div class="step-num">1</div>
-          <div class="step-body">
-            <h3>You pay and we confirm</h3>
-            <p>Choose the tier that fits and complete checkout. You'll get a payment confirmation from Stripe. Make sure your email address is correct since we'll use it to follow up with next steps.</p>
-          </div>
-        </div>
-
-        <div class="step">
-          <div class="step-num">2</div>
-          <div class="step-body">
-            <h3>We reach out within 1 business day</h3>
-            <p>Our team contacts you to confirm project details and request anything we need to get started: your existing site URL, brand assets, or a description of the changes needed.</p>
-          </div>
-        </div>
-
-        <div class="step">
-          <div class="step-num">3</div>
-          <div class="step-body">
-            <h3>We get to work</h3>
-            <p>Once we have what we need, work begins. Timelines vary by tier: Basic in 3 to 5 days, Standard in 5 to 7 days, Full Build first draft in 7 to 14 days. Complex projects or delays on your end may extend the timeline.</p>
-          </div>
-        </div>
-
-        <div class="step">
-          <div class="step-num">4</div>
-          <div class="step-body">
-            <h3>You review and request revisions</h3>
-            <p>We send you a preview for review. You can request up to 3 minor revisions within 14 calendar days of delivery as long as they fall within the original scope.</p>
-            <span class="step-note"><i class="fas fa-info-circle"></i> The 14-day window starts when you're notified the project is complete, not when you purchased.</span>
-            <p style="margin-top:12px;">Minor revisions include: text changes, image swaps, color or font adjustments, typo or broken link fixes.</p>
-            <p>Revisions outside the original scope (new sections, new features, layout redesigns) are invoiced separately.</p>
-          </div>
-        </div>
-
-        <div class="step">
-          <div class="step-num">5</div>
-          <div class="step-body">
-            <h3>We deliver or go live</h3>
-            <p>For Basic and Standard projects, we apply the changes to your existing site and notify you when complete.</p>
-            <p>For Full Builds, we handle domain setup, QA testing, and launch. You'll receive all files and credentials at delivery. After handoff, we don't retain access unless you subscribe to a plan.</p>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- SUBSCRIBE OFFER -->
-    <div class="section" id="subscribe">
-      <div class="section-label">Subscribe after delivery</div>
-      <div class="subscribe-offer">
-        <h3>Subscribe within 14 days and get two things waived</h3>
-        <p>If you decide you want ongoing support after your project is delivered, subscribe to any monthly plan within 14 calendar days and we'll take care of two things for you:</p>
-        <div class="offer-chips">
-          <span class="offer-chip"><i class="fas fa-check-circle"></i> $199 setup fee waived</span>
-          <span class="offer-chip"><i class="fas fa-check-circle"></i> First month free</span>
-        </div>
-        <p>After the 14-day window, the standard setup fee applies. To subscribe, submit a request through our <a href="website-request.html">Website Request</a> page and let us know which plan you'd like. We'll send a custom link that applies both discounts.</p>
-        <div class="subscribe-btns">
-          <a href="pricing.html" class="btn-brand"><i class="fas fa-arrow-right"></i> View Monthly Plans</a>
-          <a href="consultation.html" class="btn-ghost"><i class="fas fa-calendar-check"></i> Book a Free Discovery Call</a>
-        </div>
-      </div>
-    </div>
-
-    <!-- ELIGIBILITY -->
-    <div class="section">
-      <div class="section-label">Eligibility and policies</div>
-      <div class="eligibility-note">
-        <i class="fas fa-circle-info"></i><strong>Existing WebEaze clients aren't eligible for one-time projects.</strong> If you're already on a monthly plan, submit updates through the standard request process. One-time project pricing can't be applied as a credit or discount toward a subscription.
-      </div>
-      <p style="margin-top:14px;">Refunds follow our <a href="refund-policy.html">Refund Policy</a>. Have a project that doesn't fit the standard tiers? <a href="contact-us.html">Contact us</a> and describe what you need. We can quote larger or more complex projects outside of the standard tiers.</p>
-    </div>
-
-    <!-- QUESTIONS -->
-    <div class="section">
-      <div class="section-label">Questions</div>
-      <h2>Not sure which tier is right?</h2>
-      <p>If you're not sure whether your project is a Basic, Standard, or Full Build, reach out before purchasing and we'll help you figure out the right scope. It's better to ask up front than to be invoiced for extra pages after the fact.</p>
-      <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:20px;">
-        <a href="contact-us.html" class="btn-brand"><i class="fas fa-envelope"></i> Contact Us</a>
-        <a href="help.html#/one-time-web-project" class="btn-ghost"><i class="fas fa-circle-question"></i> Help Center Article</a>
-      </div>
-    </div>
-
+    </nav>
   </div>
 </div>
+<main id="main-content">
 
-<!-- FOOTER -->
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-accent ha1"></div>
+  <div class="hero-accent ha2"></div>
+  <div class="hero-inner">
+    <h1>Get exactly what you need.<br><em>Pay once.</em></h1>
+    <p class="hero-sub">No subscription required. Three project tiers to fit the scope of what you need done. Flat pricing, fast turnaround, and you own everything we build.</p>
+    <div class="hero-btns">
+      <a href="consultation.html" class="btn-primary"><i class="fas fa-arrow-right"></i> Request a Quote</a>
+      <a href="pricing.html" class="btn-outline">See Monthly Plans</a>
+    </div>
+    <div class="hero-trust">
+      <span class="trust-pill"><i class="fas fa-check-circle"></i> Flat pricing, no surprises</span>
+      <span class="trust-pill"><i class="fas fa-check-circle"></i> You own everything</span>
+      <span class="trust-pill"><i class="fas fa-check-circle"></i> 3 revisions included</span>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECT TIERS -->
+<section class="section section-white">
+  <div class="container container-narrow px-4">
+    <div class="section-header">
+      <h2>Three options. Scoped for what you actually need.</h2>
+    </div>
+    <div class="tier-grid">
+      <div class="tier-card">
+        <div class="tier-icon p"><i class="fas fa-pen"></i></div>
+        <h3>Basic</h3>
+        <div class="tier-scope">Small updates</div>
+        <div class="tier-price">Contact us<span> for pricing</span></div>
+        <div class="tier-time"><i class="fas fa-clock" style="color:var(--dim);margin-right:5px;font-size:.8rem;"></i> 3 to 5 business days</div>
+        <ul class="tier-list">
+          <li><i class="fas fa-check-circle"></i> Text edits and copy changes</li>
+          <li><i class="fas fa-check-circle"></i> Image swaps and updates</li>
+          <li><i class="fas fa-check-circle"></i> Layout tweaks and minor fixes</li>
+          <li><i class="fas fa-check-circle"></i> Single-page scope</li>
+          <li><i class="fas fa-check-circle"></i> 3 revisions within 14 days</li>
+        </ul>
+        <a href="consultation.html" class="btn-outline" style="width:100%;justify-content:center;">Get a quote</a>
+      </div>
+      <div class="tier-card pop">
+        <div class="tier-badge">Most Common</div>
+        <div class="tier-icon g"><i class="fas fa-pencil-ruler"></i></div>
+        <h3>Standard</h3>
+        <div class="tier-scope">Broader updates</div>
+        <div class="tier-price">Contact us<span> for pricing</span></div>
+        <div class="tier-time"><i class="fas fa-clock" style="color:var(--dim);margin-right:5px;font-size:.8rem;"></i> 5 to 7 business days</div>
+        <ul class="tier-list">
+          <li><i class="fas fa-check-circle"></i> Up to two pages updated</li>
+          <li><i class="fas fa-check-circle"></i> Section redesigns and restructuring</li>
+          <li><i class="fas fa-check-circle"></i> Content rewrites and new sections</li>
+          <li><i class="fas fa-check-circle"></i> Navigation and layout changes</li>
+          <li><i class="fas fa-check-circle"></i> 3 revisions within 14 days</li>
+        </ul>
+        <a href="consultation.html" class="btn-primary" style="width:100%;justify-content:center;">Get a quote</a>
+      </div>
+      <div class="tier-card">
+        <div class="tier-icon gr"><i class="fas fa-layer-group"></i></div>
+        <h3>Full Build</h3>
+        <div class="tier-scope">Complete new site</div>
+        <div class="tier-price">Contact us<span> for pricing</span></div>
+        <div class="tier-time"><i class="fas fa-clock" style="color:var(--dim);margin-right:5px;font-size:.8rem;"></i> 7 to 14 business days</div>
+        <ul class="tier-list">
+          <li><i class="fas fa-check-circle"></i> Up to 3 pages plus contact page</li>
+          <li><i class="fas fa-check-circle"></i> Custom design built from scratch</li>
+          <li><i class="fas fa-check-circle"></i> Mobile-optimized and SEO-ready</li>
+          <li><i class="fas fa-check-circle"></i> Domain and hosting setup included</li>
+          <li><i class="fas fa-check-circle"></i> 3 revisions within 14 days</li>
+        </ul>
+        <a href="consultation.html" class="btn-outline" style="width:100%;justify-content:center;">Get a quote</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT'S INCLUDED -->
+<section class="section section-gray">
+  <div class="container container-narrow px-4">
+    <div class="section-header">
+      <h2>Straightforward from start to finish.</h2>
+    </div>
+    <div class="feat-grid">
+      <div class="feat-card">
+        <div class="feat-icon p"><i class="fas fa-file-contract"></i></div>
+        <h3>Flat project pricing</h3>
+        <p>You approve the scope and price before we start. No hourly billing, no change order surprises.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon gr"><i class="fas fa-redo"></i></div>
+        <h3>Three revisions included</h3>
+        <p>Up to three rounds of minor revisions within 14 days of delivery. We make sure you're happy with the result.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon g"><i class="fas fa-lock-open"></i></div>
+        <h3>You own everything</h3>
+        <p>All files, code, and content belong to you. Your domain stays yours. Nothing is locked to WebEaze.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon p"><i class="fas fa-bolt"></i></div>
+        <h3>Fast turnaround</h3>
+        <p>Projects start as soon as we have your content and approval. Most deliveries happen ahead of schedule.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon gr"><i class="fas fa-mobile-alt"></i></div>
+        <h3>Mobile-ready by default</h3>
+        <p>Every build is responsive and tested across devices before delivery, no extra charge.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon g"><i class="fas fa-search"></i></div>
+        <h3>Basic SEO included</h3>
+        <p>New builds include page titles, meta descriptions, and proper heading structure ready for Google.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRANSITION OFFER -->
+<section class="section section-white">
+  <div class="container container-narrow px-4">
+    <div class="transition-banner">
+      <div class="transition-icon"><i class="fas fa-arrow-right"></i></div>
+      <div>
+        <h3>Want ongoing management after your project?</h3>
+        <p>If you move to a monthly plan within 14 days of project delivery, the setup fee and first month are waived. Keep your new site updated and maintained without lifting a finger.</p>
+        <a href="pricing.html" class="btn-primary" style="font-size:.88rem;padding:11px 20px;"><i class="fas fa-arrow-right"></i> See monthly plans</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta">
+  <h2>Tell us what you need done.</h2>
+  <p>We'll scope the project, give you a clear price, and get it done fast. No subscription required.</p>
+  <div class="final-btns">
+    <a href="consultation.html" class="btn-white"><i class="fas fa-arrow-right"></i> Request a Free Quote</a>
+    <a href="contact-us.html" class="btn-white-outline">Send us a message</a>
+  </div>
+</section>
+
+</main>
 <footer>
   <div class="footer-grid">
     <div>
       <div class="footer-brand">
-        <img loading="eager" src="images/webeaze-transparent-copy.png" alt="WebEaze">
+        <img src="images/webeaze-transparent-copy.png" alt="WebEaze" width="428" height="493" loading="lazy">
         <span>WebEaze</span>
       </div>
-      <p class="footer-tagline">Your entire digital presence, managed for you. We handle the tech so you can focus on running your business.</p>
+      <p class="footer-tagline">Professional websites for small businesses. We build, host, and manage your site so you can focus on what matters.</p>
       <div class="footer-social">
         <a href="https://facebook.com/61568824951084" target="_blank" rel="noopener" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
         <a href="https://www.linkedin.com/company/webeaze" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
         <a href="https://instagram.com/webeaze.io" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
       </div>
     </div>
-    <div class="footer-col">
-      <h5>Services</h5>
-      <ul>
-        <li><a href="services.html">Our Services</a></li>
-        <li><a href="pricing.html">Pricing</a></li>
-        <li><a href="plan-guide.html">Plan Guide</a></li>
-        <li><a href="one-time-project.html">One-Time Projects</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h5>Company</h5>
-      <ul>
-        <li><a href="about.html">About Us</a></li>
-        <li><a href="samples.html">Our Work</a></li>
-        <li><a href="referral.html">Referral Program</a></li>
-        <li><a href="contact-us.html">Contact Us</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h5>Support</h5>
-      <ul>
-        <li><a href="help.html">Help Center</a></li>
-        <li><a href="faq.html">FAQ</a></li>
-        <li><a href="consultation.html">Book a Free Discovery Call</a></li>
-        <li><a href="status.html">Current Status</a></li>
-      </ul>
-    </div>
+    <div class="footer-col"><h5>Services</h5><ul>
+      <li><a href="services.html">Our Services</a></li>
+      <li><a href="pricing.html">Pricing</a></li>
+      <li><a href="plan-guide.html">Plan Guide</a></li>
+    </ul></div>
+    <div class="footer-col"><h5>Company</h5><ul>
+      <li><a href="about.html">About Us</a></li>
+      <li><a href="samples.html">Our Work</a></li>
+      <li><a href="referral.html">Referral Program</a></li>
+      <li><a href="contact-us.html">Contact</a></li>
+    </ul></div>
+    <div class="footer-col"><h5>Support</h5><ul>
+      <li><a href="help.html">Help Center</a></li>
+      <li><a href="faq.html">FAQ</a></li>
+      <li><a href="consultation.html">Book a Free Discovery Call</a></li>
+      <li><a href="accessibility.html">Accessibility</a></li>
+      <li><a href="status.html">Current Status</a></li>
+    </ul></div>
   </div>
   <div class="footer-bottom">
-    <p style="color:#fff;margin:0">&copy; <span id="yr"></span> WebEaze. Made in Delaware, USA &#127482;&#127480;</p>
+    <p>&copy; <span id="yr"></span> WebEaze. Made in Delaware, USA &#127482;&#127480;</p>
     <div class="footer-legal">
       <a href="terms.html#privacy">Privacy Policy</a>
       <a href="terms.html">Terms of Service</a>
@@ -543,9 +414,47 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
     </div>
   </div>
 </footer>
-
-<!-- HubSpot Tracking -->
+<script>document.getElementById('yr').textContent=new Date().getFullYear();</script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" defer></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" defer></script>
+<!-- WebEaze Chat Widget -->
+<script src="js/promo-banner.js"></script>
+<link rel="stylesheet" href="chat-widget.css">
+<script>
+window.WZ_CHAT_PAGE={
+  greeting:"Hi! I'm Eazy. Have questions about our services or pricing? Ask away.",
+  starters:[
+    {label:"How does it work?",msg:"How does WebEaze work?"},
+    {label:"See pricing",msg:"How much does WebEaze cost?"},
+    {label:"Free mockup?",msg:"How do I get a free mockup?"},
+    {label:"Talk to someone",msg:"Can I speak with someone at WebEaze?"},
+  ],
+};
+</script>
+<button id="wz-chat-btn" aria-label="Chat with us" onclick="wzOpenChat()" hidden>
+  <i class="fas fa-comment-dots"></i>
+  <div class="wz-badge" id="wzBadge"></div>
+</button>
+<div id="wz-chat-panel" role="dialog" aria-label="WebEaze chat" hidden>
+  <div class="wz-chat-head">
+    <div class="wz-chat-avatar"><i class="fas fa-bolt"></i></div>
+    <div class="wz-chat-head-text">
+      <div class="wz-chat-head-name">Eazy</div>
+      <div class="wz-chat-head-sub">Questions? Ask away.</div>
+    </div>
+    <button class="wz-chat-close" onclick="wzCloseChat()" aria-label="Close chat"><i class="fas fa-times"></i></button>
+  </div>
+  <div id="wz-chat-msgs"></div>
+  <div class="wz-chat-starters" id="wzStarters"></div>
+  <div class="wz-chat-foot">
+    <textarea id="wz-chat-input" rows="1" placeholder="Ask a question..." aria-label="Your message"
+      onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();wzSend();}"
+      oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,100)+'px'"></textarea>
+    <button id="wz-chat-send" onclick="wzSend()" aria-label="Send"><i class="fas fa-arrow-up"></i></button>
+  </div>
+</div>
+<script src="chat-widget.js" defer></script>
 <script type="text/javascript" id="hs-script-loader" async defer src="//js-na2.hs-scripts.com/242171361.js"></script>
-<script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
 </body>
 </html>

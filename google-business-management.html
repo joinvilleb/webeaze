@@ -1,904 +1,353 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Google Business Management | WebEaze</title>
-  <meta name="description" content="Show up on Google Search & Maps. Setup, optimization, posts, photos, and reviews—managed for you. Included in Growth & Elite; add-on for Essential." />
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <link rel="shortcut icon" href="images/webeaze-transparent-copy.png" type="image/png"/>
-  <link rel="canonical" href="https://webeaze.io/google-business-management" />
-
-  <style>
-    :root {
-      --gold:      #ffd700;
-      --brand:     #7851a9;
-      --dark:      #0a0a0f;
-      --darker:    #050508;
-      --surface:   #111118;
-      --surface-2: #1a1a24;
-      --line:      rgba(255,255,255,.08);
-      --ink:       #f5f6fa;
-      --muted:     #9ca3af;
-      --g-blue:    #4285f4;
-      --g-red:     #ea4335;
-      --g-yellow:  #fbbc05;
-      --g-green:   #34a853;
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: var(--dark);
-      color: var(--ink);
-      -webkit-font-smoothing: antialiased;
-    }
-
-    a { text-decoration: none; color: inherit; }
-    .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
-
-    /* ── NAV ── */
-    .nav-wrap {
-      position: sticky; top: 0; z-index: 1000;
-      background: rgba(10,10,15,.95);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--line);
-    }
-    .nav {
-      display: flex; justify-content: space-between;
-      align-items: center; padding: 16px 0;
-    }
-    .nav-brand { display: flex; align-items: center; gap: 10px; }
-    .nav-brand img { height: 36px; }
-    .nav-brand span { font-weight: 700; font-size: 1.05rem; }
-    .nav-links { display: flex; align-items: center; gap: 6px; }
-    .nav-links a {
-      padding: 9px 13px; font-size: 14px; font-weight: 500;
-      color: rgba(255,255,255,.8); border-radius: 8px; transition: .2s;
-    }
-    .nav-links a:hover { color: #fff; background: rgba(255,255,255,.07); }
-    .btn-nav {
-      background: var(--gold); color: #1a1200 !important;
-      border-radius: 10px; font-weight: 700 !important;
-      padding: 9px 16px !important;
-    }
-    .btn-nav:hover { background: #ffe033 !important; }
-    .menu-toggle {
-      display: none; font-size: 20px;
-      cursor: pointer; color: #fff; padding: 6px;
-    }
-    .mobile-menu {
-      display: none; flex-direction: column;
-      padding: 12px 24px 16px; gap: 4px;
-      border-top: 1px solid var(--line);
-    }
-    .mobile-menu.active { display: flex; }
-    .mobile-menu a {
-      padding: 10px 12px; font-size: 15px; font-weight: 500;
-      border-radius: 8px; color: rgba(255,255,255,.85); transition: .2s;
-    }
-    .mobile-menu a:hover { background: rgba(255,255,255,.07); }
-    @media (max-width: 900px) {
-      .nav-links { display: none; }
-      .menu-toggle { display: block; }
-    }
-
-    /* ── BUTTONS ── */
-    .btn-primary {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 14px 26px; border-radius: 12px;
-      background: var(--gold); color: #1a1200;
-      font-weight: 700; font-size: 15px; transition: .2s;
-    }
-    .btn-primary:hover { background: #ffe033; transform: translateY(-1px); }
-    .btn-ghost {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 14px 26px; border-radius: 12px;
-      border: 1px solid rgba(255,255,255,.2); color: var(--ink);
-      font-weight: 600; font-size: 15px; transition: .2s;
-    }
-    .btn-ghost:hover { border-color: rgba(255,255,255,.4); background: rgba(255,255,255,.05); }
-
-    /* ── SECTION HELPERS ── */
-    .section-label {
-      display: inline-flex; align-items: center; gap: 7px;
-      font-size: 12px; font-weight: 700; letter-spacing: .1em;
-      text-transform: uppercase; color: var(--gold);
-      margin-bottom: 14px;
-    }
-    .section-label::before, .section-label::after {
-      content: ''; flex: 1; height: 1px; background: rgba(255,215,0,.3);
-    }
-    .section-label.centered { display: flex; }
-    h2.section-title {
-      font-size: clamp(26px, 4vw, 38px); font-weight: 800;
-      line-height: 1.2; letter-spacing: -.02em; margin-bottom: 12px;
-    }
-    .section-sub {
-      font-size: 17px; color: var(--muted); max-width: 560px; line-height: 1.7;
-    }
-    .section-sub.centered { margin: 0 auto; text-align: center; }
-
-    /* ── HERO ── */
-    .hero {
-      position: relative; overflow: hidden;
-      padding: 90px 0 80px;
-    }
-    .hero-glow {
-      position: absolute; inset: 0; pointer-events: none;
-      background:
-        radial-gradient(ellipse 60% 80% at 100% 0%,   rgba(66,133,244,.15), transparent 55%),
-        radial-gradient(ellipse 50% 60% at 0%  100%,  rgba(120,81,169,.18),  transparent 50%),
-        radial-gradient(ellipse 40% 40% at 50%  50%,  rgba(255,215,0,.04),   transparent 60%);
-    }
-    .hero-grid {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 60px; align-items: center; position: relative; z-index: 1;
-    }
-    .hero-badge {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 7px 16px; border-radius: 999px;
-      border: 1px solid rgba(66,133,244,.35);
-      background: rgba(66,133,244,.08);
-      font-size: 13px; font-weight: 600; color: #7fb3ff;
-      margin-bottom: 22px;
-    }
-    .hero-badge .g-dot { display: flex; gap: 3px; align-items: center; }
-    .hero-badge .g-dot span {
-      width: 6px; height: 6px; border-radius: 50%;
-    }
-    .hero h1 {
-      font-size: clamp(34px, 5vw, 52px); font-weight: 900;
-      line-height: 1.1; letter-spacing: -.03em; margin-bottom: 18px;
-    }
-    .hero h1 .google-text {
-      background: linear-gradient(90deg, var(--g-blue), var(--g-red) 33%, var(--g-yellow) 66%, var(--g-green));
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .hero-sub {
-      font-size: 17px; color: var(--muted); line-height: 1.75;
-      max-width: 480px; margin-bottom: 32px;
-    }
-    .hero-btns { display: flex; gap: 12px; flex-wrap: wrap; }
-    .hero-pills {
-      display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px;
-    }
-    .hero-pill {
-      display: inline-flex; align-items: center; gap: 6px;
-      font-size: 13px; color: var(--muted); font-weight: 500;
-    }
-    .hero-pill i { color: var(--g-green); font-size: 11px; }
-
-    /* GBP mock card */
-    .gbp-card {
-      background: #1c1c28; border: 1px solid rgba(255,255,255,.1);
-      border-radius: 20px; padding: 22px;
-      box-shadow: 0 24px 80px rgba(0,0,0,.5);
-    }
-    .gbp-top {
-      display: flex; align-items: flex-start; gap: 14px; margin-bottom: 18px;
-    }
-    .gbp-avatar {
-      width: 52px; height: 52px; border-radius: 12px;
-      background: linear-gradient(135deg, var(--brand), #a87fd4);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 20px; font-weight: 800; color: #fff; flex-shrink: 0;
-    }
-    .gbp-name { font-weight: 700; font-size: 15px; margin-bottom: 3px; }
-    .gbp-category { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
-    .gbp-stars { display: flex; align-items: center; gap: 5px; }
-    .gbp-stars .stars { color: #fbbc05; font-size: 13px; letter-spacing: 1px; }
-    .gbp-stars .rating { font-size: 13px; font-weight: 700; }
-    .gbp-stars .count { font-size: 12px; color: var(--muted); }
-    .gbp-status {
-      display: inline-flex; align-items: center; gap: 5px;
-      font-size: 12px; color: #34d278; font-weight: 600;
-      margin-bottom: 14px;
-    }
-    .gbp-status::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: #34d278; }
-    .gbp-actions {
-      display: grid; grid-template-columns: 1fr 1fr 1fr;
-      gap: 8px; margin-bottom: 18px;
-    }
-    .gbp-action {
-      background: rgba(66,133,244,.1); border: 1px solid rgba(66,133,244,.2);
-      border-radius: 10px; padding: 10px 6px;
-      text-align: center; font-size: 11px; font-weight: 600;
-      color: #7fb3ff;
-    }
-    .gbp-action i { display: block; font-size: 16px; margin-bottom: 5px; }
-    .gbp-divider { height: 1px; background: var(--line); margin-bottom: 14px; }
-    .gbp-post {
-      background: rgba(255,255,255,.04); border-radius: 12px;
-      padding: 12px 14px; font-size: 13px; color: var(--muted); line-height: 1.6;
-    }
-    .gbp-post-label {
-      font-size: 11px; font-weight: 700; letter-spacing: .07em;
-      text-transform: uppercase; color: rgba(255,255,255,.3); margin-bottom: 6px;
-    }
-    .gbp-badge-managed {
-      display: inline-flex; align-items: center; gap: 5px;
-      margin-top: 14px; padding: 6px 12px; border-radius: 999px;
-      background: rgba(52,168,83,.1); border: 1px solid rgba(52,168,83,.25);
-      font-size: 11px; font-weight: 700; color: #5fcf85; letter-spacing: .05em;
-    }
-
-    /* ── STATS STRIP ── */
-    .stats-strip {
-      border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
-      background: rgba(255,255,255,.02); padding: 36px 0;
-    }
-    .stats-inner {
-      display: flex; justify-content: space-around;
-      flex-wrap: wrap; gap: 28px; text-align: center;
-    }
-    .stat-num {
-      font-size: 32px; font-weight: 900; letter-spacing: -.02em;
-      background: linear-gradient(135deg, #fff, rgba(255,255,255,.6));
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .stat-desc { font-size: 13px; color: var(--muted); margin-top: 4px; max-width: 160px; }
-
-    /* ── FEATURES ── */
-    .features { padding: 90px 0; }
-    .features-header { margin-bottom: 56px; }
-    .features-list { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-    .feat {
-      display: flex; gap: 18px; align-items: flex-start;
-      background: var(--surface); border: 1px solid var(--line);
-      border-radius: 16px; padding: 24px; transition: .2s;
-    }
-    .feat:hover { border-color: rgba(255,215,0,.2); background: var(--surface-2); }
-    .feat-icon {
-      width: 46px; height: 46px; flex-shrink: 0; border-radius: 12px;
-      background: rgba(255,215,0,.08); border: 1px solid rgba(255,215,0,.15);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 18px; color: var(--gold);
-    }
-    .feat-body h3 { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
-    .feat-body p { font-size: 14px; color: var(--muted); line-height: 1.65; }
-
-    /* ── PROCESS ── */
-    .process { padding: 90px 0; background: var(--surface); }
-    .process-header { text-align: center; margin-bottom: 60px; }
-    .steps {
-      display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
-      position: relative; max-width: 1000px; margin: 0 auto;
-    }
-    .steps::before {
-      content: ''; position: absolute; top: 44px;
-      left: calc(12.5% + 12px); right: calc(12.5% + 12px);
-      height: 1px; background: linear-gradient(90deg, rgba(255,215,0,.4), rgba(120,81,169,.4));
-      z-index: 0; pointer-events: none;
-    }
-    @media (max-width: 720px) { .steps { grid-template-columns: repeat(2,1fr); gap: 16px; } .steps::before { display: none; } }
-    @media (max-width: 440px) { .steps { grid-template-columns: 1fr; } }
-    .step {
-      background: var(--surface); border: 1px solid var(--line);
-      border-radius: 18px; padding: 32px 18px 28px; text-align: center;
-      position: relative; z-index: 1; overflow: hidden;
-      transition: transform .25s, border-color .25s, box-shadow .25s;
-    }
-    .step::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--gold), var(--gold-soft)); opacity: 0; transition: opacity .25s; }
-    .step:hover { transform: translateY(-5px); border-color: rgba(255,215,0,.25); box-shadow: 0 14px 36px rgba(0,0,0,.3); }
-    .step:hover::after { opacity: 1; }
-    .step-num {
-      width: 64px; height: 64px; border-radius: 50%; margin: 0 auto 18px;
-      background: linear-gradient(135deg, var(--gold), #ffe97a); color: #1a1a2e;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.3rem; font-weight: 800;
-      box-shadow: 0 8px 22px rgba(255,215,0,.28);
-      position: relative; z-index: 1; transition: transform .25s;
-    }
-    .step:hover .step-num { transform: scale(1.08); }
-    .step h3 { font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
-    .step p { font-size: 13.5px; color: var(--muted); line-height: 1.65; margin: 0; }
-
-    /* ── PRICING ── */
-    .pricing { padding: 90px 0; }
-    .pricing-header { text-align: center; margin-bottom: 56px; }
-    .pricing-grid {
-      display: grid; grid-template-columns: repeat(3, 1fr);
-      gap: 16px; margin-bottom: 32px;
-    }
-    .price-card {
-      background: var(--surface); border: 1px solid var(--line);
-      border-radius: 20px; padding: 28px; transition: .2s;
-    }
-    .price-card.featured {
-      border-color: rgba(255,215,0,.4);
-      background: linear-gradient(160deg, rgba(255,215,0,.06) 0%, rgba(120,81,169,.06) 100%);
-      position: relative;
-    }
-    .featured-chip {
-      position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
-      background: var(--gold); color: #1a1200;
-      font-size: 11px; font-weight: 800; letter-spacing: .06em;
-      text-transform: uppercase; padding: 4px 14px; border-radius: 999px;
-    }
-    .price-card-icon {
-      width: 44px; height: 44px; border-radius: 12px; margin-bottom: 16px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 18px;
-    }
-    .price-card.featured .price-card-icon { background: rgba(255,215,0,.1); color: var(--gold); }
-    .price-card:not(.featured) .price-card-icon { background: rgba(255,255,255,.06); color: var(--muted); }
-    .price-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
-    .price-card .desc { font-size: 13px; color: var(--muted); margin-bottom: 20px; line-height: 1.6; }
-    .price-val {
-      font-size: 36px; font-weight: 900; letter-spacing: -.02em;
-      color: var(--gold); margin-bottom: 4px;
-    }
-    .price-card.featured .price-val { font-size: 28px; }
-    .price-val span { font-size: 15px; font-weight: 500; color: var(--muted); }
-    .price-note { font-size: 12px; color: var(--muted); }
-    .price-divider { height: 1px; background: var(--line); margin: 18px 0; }
-    .price-perks { list-style: none; display: flex; flex-direction: column; gap: 10px; }
-    .price-perks li {
-      display: flex; align-items: center; gap: 9px;
-      font-size: 13px; color: rgba(255,255,255,.75);
-    }
-    .price-perks li i { color: var(--g-green); font-size: 11px; flex-shrink: 0; }
-    .pricing-note {
-      text-align: center; font-size: 13px; color: var(--muted);
-      background: var(--surface); border: 1px solid var(--line);
-      border-radius: 12px; padding: 14px 20px;
-    }
-    .pricing-note i { color: var(--gold); margin-right: 6px; }
-
-    /* ── FAQ ── */
-    .faq { padding: 90px 0; background: var(--surface); }
-    .faq-header { text-align: center; margin-bottom: 48px; }
-    .faq-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    .faq-item {
-      background: var(--surface-2); border: 1px solid var(--line);
-      border-radius: 14px; overflow: hidden; transition: border-color .2s;
-    }
-    .faq-item[open] { border-color: rgba(255,215,0,.2); }
-    .faq-item summary {
-      cursor: pointer; padding: 18px 20px;
-      font-size: 15px; font-weight: 600; line-height: 1.45;
-      display: flex; justify-content: space-between; align-items: center;
-      gap: 12px; list-style: none; user-select: none;
-    }
-    .faq-item summary::-webkit-details-marker { display: none; }
-    .faq-item summary::after {
-      content: '\f078'; font-family: 'Font Awesome 6 Free'; font-weight: 900;
-      font-size: 11px; color: var(--muted); flex-shrink: 0;
-      transition: transform .25s;
-    }
-    .faq-item[open] summary::after { transform: rotate(180deg); color: var(--gold); }
-    .faq-answer {
-      padding: 0 20px 18px; font-size: 14px; color: var(--muted); line-height: 1.7;
-    }
-    .faq-answer a { color: var(--gold); text-decoration: underline; }
-
-    /* ── CTA ── */
-    .cta { padding: 90px 0; }
-    .cta-box {
-      background: linear-gradient(135deg, rgba(120,81,169,.2) 0%, rgba(66,133,244,.15) 50%, rgba(255,215,0,.06) 100%);
-      border: 1px solid rgba(255,255,255,.1); border-radius: 24px;
-      padding: 60px 48px; text-align: center; position: relative; overflow: hidden;
-    }
-    .cta-box::before {
-      content: '';
-      position: absolute; inset: 0; border-radius: 24px;
-      background:
-        radial-gradient(ellipse 50% 80% at 80% 20%, rgba(66,133,244,.1), transparent 55%),
-        radial-gradient(ellipse 40% 60% at 20% 80%, rgba(120,81,169,.12), transparent 50%);
-      pointer-events: none;
-    }
-    .cta-box h2 {
-      font-size: clamp(26px, 4vw, 40px); font-weight: 900;
-      letter-spacing: -.02em; margin-bottom: 14px; position: relative;
-    }
-    .cta-box p {
-      font-size: 17px; color: var(--muted); margin-bottom: 32px;
-      max-width: 480px; margin-left: auto; margin-right: auto;
-      position: relative;
-    }
-    .cta-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; position: relative; }
-
-    /* ── FOOTER ── */
-    footer { background: #000; padding: 48px 24px 32px; }
-    .footer-disclaimer {
-      max-width: 1100px; margin: 0 auto 40px;
-      font-size: 11.5px; color: rgba(255,255,255,.3);
-      border: 1px solid rgba(255,255,255,.06); border-radius: 10px;
-      padding: 12px 16px; line-height: 1.6;
-    }
-    .footer-grid {
-      max-width: 1100px; margin: 0 auto;
-      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
-      gap: 40px; margin-bottom: 40px;
-    }
-    .footer-brand { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
-    .footer-brand img { height: 30px; }
-    .footer-brand span { font-weight: 700; font-size: 1rem; }
-    .footer-tagline { color: #a0a6c0; font-size: .85rem; line-height: 1.6; margin-bottom: 16px; max-width: 260px; }
-    .footer-social { display: flex; gap: 10px; }
-    .footer-social a {
-      display: flex; align-items: center; justify-content: center;
-      width: 34px; height: 34px;
-      background: rgba(255,255,255,.06); border-radius: 9px;
-      color: #a0a6c0; font-size: .9rem; transition: .2s;
-    }
-    .footer-social a:hover { background: var(--gold); color: #1a1a2e; }
-    .footer-col h5 { font-size: .8rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: #fff; margin-bottom: 12px; }
-    .footer-col ul { list-style: none; }
-    .footer-col li { margin-bottom: 8px; }
-    .footer-col a { color: #a0a6c0; font-size: .85rem; transition: color .2s; }
-    .footer-col a:hover { color: var(--gold); }
-    .footer-bottom {
-      max-width: 1100px; margin: 0 auto; padding-top: 20px;
-      border-top: 1px solid rgba(255,255,255,.07);
-      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
-    }
-    .footer-bottom p { color: #6b7280; font-size: .8rem; }
-    .footer-legal { display: flex; gap: 20px; }
-    .footer-legal a { color: #6b7280; font-size: .8rem; transition: color .2s; }
-    .footer-legal a:hover { color: var(--gold); }
-
-    /* ── RESPONSIVE ── */
-    @media (max-width: 900px) {
-      .hero-grid { grid-template-columns: 1fr; gap: 40px; }
-      .gbp-card { max-width: 380px; }
-      .features-list { grid-template-columns: 1fr; }
-      .steps { grid-template-columns: 1fr 1fr; gap: 32px; }
-      .steps::before { display: none; }
-      .pricing-grid { grid-template-columns: 1fr; max-width: 420px; margin-left: auto; margin-right: auto; }
-      .faq-grid { grid-template-columns: 1fr; }
-      .footer-grid { grid-template-columns: 1fr 1fr; gap: 28px; }
-      .cta-box { padding: 40px 28px; }
-    }
-    @media (max-width: 600px) {
-      .stats-inner { gap: 20px; }
-      .steps { grid-template-columns: 1fr; }
-      .footer-grid { grid-template-columns: 1fr; }
-      .footer-bottom { flex-direction: column; text-align: center; }
-    }
-html { font-size: 17px; }
-  
-/* Heading consistency */
-h1 { font-weight: 700 !important; letter-spacing: -.055em !important; }
-h2 { font-weight: 700 !important; letter-spacing: -.03em !important; }
-h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
-</style>
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position": 1,
-      "name": "Home",
-      "item": "https://webeaze.io/"
-    },
-    {
-      "@type": "ListItem",
-      "position": 2,
-      "name": "Services",
-      "item": "https://webeaze.io/services"
-    },
-    {
-      "@type": "ListItem",
-      "position": 3,
-      "name": "Google Business Management"
-    }
-  ]
-}
-</script>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Google Business Profile Management | WebEaze</title>
+<meta name="description" content="WebEaze manages your Google Business Profile so your business shows up on Google Search and Maps. Setup, optimization, posts, photos, and review monitoring included." />
+<link rel="canonical" href="https://webeaze.io/google-business-management" />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="WebEaze" />
-<meta property="og:url" content="https://webeaze.io/google-business-management" />
 <meta property="og:title" content="Google Business Profile Management | WebEaze" />
-<meta property="og:description" content="Show up on Google Search and Maps. Setup, optimization, posts, photos, and reviews managed for you." />
-<meta property="og:image" content="https://webeaze.io/images/webeaze-transparent.png" />
+<meta property="og:description" content="Show up on Google Search and Maps. WebEaze handles setup, optimization, posts, photos, and review monitoring for your Google Business Profile." />
+<meta property="og:url" content="https://webeaze.io/google-business-management" />
+<meta property="og:image" content="https://webeaze.io/images/default-monochrome.png" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Google Business Profile Management | WebEaze" />
-<meta name="twitter:description" content="Show up on Google Search and Maps. Setup, optimization, posts, photos, and reviews managed for you." />
-<meta name="twitter:image" content="https://webeaze.io/images/webeaze-transparent.png" />
-<!-- Meta Pixel Code -->
-<script>
-!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '906444072428558');
-fbq('track', 'PageView');
-</script>
-<noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
-/></noscript>
-<!-- End Meta Pixel Code -->
+<meta name="twitter:description" content="Show up on Google Search and Maps. WebEaze handles setup, optimization, posts, photos, and review monitoring for your Google Business Profile." />
+<!-- Meta Pixel -->
+<script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','906444072428558');fbq('track','PageView');</script>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"/></noscript>
+<link rel="shortcut icon" href="images/webeaze-transparent-copy.png" type="image/png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"></noscript>
+<link rel="preload" as="style" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"></noscript>
+<link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"></noscript>
+<style>.navbar{position:relative;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;}.collapse:not(.show){display:none}.collapsing{position:relative;height:0;overflow:hidden;transition:height .35s ease}@media(min-width:992px){.navbar-expand-lg .navbar-collapse{display:flex!important;flex-basis:auto}.navbar-expand-lg .navbar-nav{flex-direction:row}}.d-flex{display:flex!important}.align-items-center{align-items:center!important}.ml-auto{margin-left:auto!important}.ml-1{margin-left:.25rem!important}.ml-2{margin-left:.5rem!important}@media(min-width:992px){.mt-lg-0{margin-top:0!important}}</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://webeaze.io/"},{"@type":"ListItem","position":2,"name":"Services","item":"https://webeaze.io/services"},{"@type":"ListItem","position":3,"name":"Google Business Profile","item":"https://webeaze.io/google-business-management"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","@id":"https://webeaze.io/google-business-management#webpage","url":"https://webeaze.io/google-business-management","name":"Google Business Profile Management | WebEaze","description":"WebEaze handles Google Business Profile setup, optimization, posts, photos, and review management so your business shows up on Google Maps and local search.","isPartOf":{"@id":"https://webeaze.io/#website"},"about":{"@id":"https://webeaze.io/#organization"},"speakable":{"@type":"SpeakableSpecification","cssSelector":["h1",".hero-sub"]}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Service","@id":"https://webeaze.io/google-business-management#service","name":"Google Business Profile Management","serviceType":"Local SEO","description":"Setup, optimization, posts, photos, and review management for Google Business Profiles. Included in the Growth plan and available as a standalone add-on.","provider":{"@id":"https://webeaze.io/#organization"},"areaServed":{"@type":"Country","name":"United States"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is Google Business Profile?","acceptedAnswer":{"@type":"Answer","text":"Google Business Profile (formerly Google My Business) is a free listing that controls how your business appears on Google Search and Google Maps. A well-optimized profile helps you appear in local search results when nearby customers search for your services."}},{"@type":"Question","name":"Is Google Business Profile management included in my plan?","acceptedAnswer":{"@type":"Answer","text":"Google Business Profile management is included in the Growth plan at $249/month. It is available as an add-on for Essential plan clients and as a standalone service for businesses that only need GBP management."}},{"@type":"Question","name":"What does WebEaze do to manage my Google Business Profile?","acceptedAnswer":{"@type":"Answer","text":"WebEaze handles initial setup and verification, category and service area configuration, business description optimization, regular posts, photo uploads, Q&A monitoring, review alerts, and monthly performance reporting."}},{"@type":"Question","name":"How long does it take to see results from Google Business Profile optimization?","acceptedAnswer":{"@type":"Answer","text":"Many clients see improvements in local map rankings within two to four weeks of initial optimization. Ongoing posting and review management compound those results over time."}}]}</script>
+<style>
+
+:root{
+  --brand:#7851a9;--brand-soft:rgba(120,81,169,.08);--brand-mid:rgba(120,81,169,.15);--brand-border:rgba(120,81,169,.22);
+  --gold:#f59e0b;--gold-soft:rgba(245,158,11,.09);--gold-border:rgba(245,158,11,.28);
+  --green:#16a34a;--green-soft:rgba(22,163,74,.09);--green-border:rgba(22,163,74,.25);
+  --text:#0f1228;--muted:#4b5563;--dim:#6b7280;--bg:#f8f9fc;--surface:#ffffff;--line:#e5e7eb;
+  --shadow-sm:0 2px 12px rgba(15,18,40,.07);--shadow-md:0 6px 28px rgba(15,18,40,.11);
+  --radius-sm:10px;--radius:16px;--radius-lg:22px;
+}
+*,*::before,*::after{box-sizing:border-box;}
+img{max-width:100%;height:auto;}
+html{scroll-behavior:smooth;scroll-padding-top:88px;font-size:17px;}
+body{margin:0;font-family:'Poppins',sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;overflow-x:hidden;line-height:1.65;}
+a{color:inherit;text-decoration:none;}
+.container-narrow{max-width:1080px;width:100%;margin-right:auto;margin-left:auto;padding-right:15px;padding-left:15px;}
+/* NAV */
+.nav-wrap{position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(255,255,255,.92);backdrop-filter:saturate(160%) blur(16px);-webkit-backdrop-filter:saturate(160%) blur(16px);border-bottom:1px solid var(--line);box-shadow:0 1px 12px rgba(15,18,40,.06);}
+.webeaze-nav{background:transparent!important;box-shadow:none!important;padding:.55rem 0;}
+.logo{height:34px;width:auto;flex-shrink:0;}.brand-word{letter-spacing:-.3px;font-weight:700;color:var(--text);}
+.navbar-light .nav-link{color:var(--muted)!important;border-radius:8px;padding:.42rem .7rem;font-weight:600;font-size:.92rem;transition:all .18s;}
+.navbar-light .nav-link:hover{color:var(--brand)!important;background:var(--brand-soft);}
+.navbar-light .nav-link.active-page{color:var(--brand)!important;}
+.btn-nav{background:var(--brand);color:#fff;border:none;border-radius:var(--radius-sm);padding:.52rem .95rem;font-weight:700;font-size:.88rem;transition:background .18s;}
+.btn-nav:hover{background:#6841a0;}
+/* BUTTONS */
+.btn-primary{display:inline-flex;align-items:center;gap:9px;background:var(--brand);color:#fff;border-radius:var(--radius-sm);padding:13px 24px;font-family:'Poppins',sans-serif;font-weight:700;font-size:.92rem;box-shadow:0 4px 18px rgba(120,81,169,.28);transition:all .2s;white-space:nowrap;}
+.btn-primary:hover{background:#6841a0;transform:translateY(-2px);box-shadow:0 8px 28px rgba(120,81,169,.36);color:#fff;}
+.btn-outline{display:inline-flex;align-items:center;gap:8px;background:transparent;color:var(--text);border:1.5px solid var(--line);border-radius:var(--radius-sm);padding:12px 22px;font-family:'Poppins',sans-serif;font-weight:600;font-size:.92rem;transition:all .2s;white-space:nowrap;}
+.btn-outline:hover{border-color:var(--brand-border);color:var(--brand);background:var(--brand-soft);}
+/* SECTIONS */
+.section{padding:clamp(60px,9vh,90px) 0;}.section-white{background:var(--surface);}.section-gray{background:var(--bg);}
+.section-header{text-align:center;max-width:600px;margin:0 auto 52px;}
+
+.section-header h2{font-size:clamp(1.8rem,3.8vw,2.5rem);font-weight:700;letter-spacing:-.03em;margin:0 0 12px;}
+.section-header p{font-size:1.05rem;color:var(--muted);line-height:1.72;margin:0;}
+/* HERO */
+.hero{padding:130px 0 90px;background:linear-gradient(160deg,#fafbff 0%,#f0f1f9 100%);position:relative;overflow:hidden;}
+.hero-accent{position:absolute;pointer-events:none;border-radius:50%;filter:blur(80px);opacity:.55;}
+.ha1{width:560px;height:560px;top:-120px;right:-100px;background:radial-gradient(circle,rgba(120,81,169,.14),transparent 70%);}
+.ha2{width:380px;height:380px;bottom:-80px;left:-80px;background:radial-gradient(circle,rgba(245,158,11,.1),transparent 70%);}
+.hero-inner{max-width:1100px;margin:0 auto;padding:0 40px;position:relative;z-index:2;}
+
+.hero h1{font-size:clamp(2.2rem,4.8vw,3.4rem);font-weight:700;letter-spacing:-.055em;line-height:1.12;margin:0 0 20px;color:var(--text);}
+.hero h1 em{font-style:italic;color:var(--brand);}
+.hero-sub{font-size:1.1rem;color:var(--muted);line-height:1.78;margin:0 0 32px;max-width:560px;}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap;}
+.hero-trust{display:flex;flex-wrap:wrap;gap:18px;margin-top:24px;}
+.trust-pill{display:inline-flex;align-items:center;gap:7px;font-size:.85rem;color:var(--dim);font-weight:500;}
+.trust-pill i{color:var(--green);font-size:.78rem;}
+/* FEATURE GRID */
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+@media(max-width:900px){.feat-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:560px){.feat-grid{grid-template-columns:1fr;}}
+.feat-card{background:var(--surface);border:1.5px solid var(--line);border-radius:var(--radius);padding:26px 24px;transition:border-color .2s,box-shadow .2s;}
+.feat-card:hover{border-color:var(--brand-border);box-shadow:var(--shadow-md);}
+.feat-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;}
+.feat-icon.p{background:var(--brand-soft);}.feat-icon.p i{color:var(--brand);}
+.feat-icon.g{background:var(--gold-soft);}.feat-icon.g i{color:var(--gold);}
+.feat-icon.gr{background:var(--green-soft);}.feat-icon.gr i{color:var(--green);}
+.feat-icon i{font-size:1.05rem;}
+.feat-card h3{font-size:1rem;font-weight:700;margin:0 0 8px;color:var(--text);}
+.feat-card p{font-size:.9rem;color:var(--muted);line-height:1.65;margin:0;}
+/* STEP CARDS */
+.steps-row{display:grid;grid-template-columns:1fr 44px 1fr 44px 1fr;align-items:start;}
+@media(max-width:768px){.steps-row{grid-template-columns:1fr;gap:16px;}.steps-conn{display:none;}}
+.step-card{background:var(--surface);border:1.5px solid var(--line);border-radius:var(--radius-lg);padding:32px 26px;position:relative;overflow:hidden;box-shadow:var(--shadow-sm);}
+.step-bg{position:absolute;top:-14px;right:8px;font-size:7.5rem;font-weight:800;line-height:1;color:rgba(120,81,169,.05);pointer-events:none;}
+.step-icon{width:48px;height:48px;background:linear-gradient(135deg,var(--brand),#9b6fd4);border-radius:14px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.1rem;margin-bottom:18px;box-shadow:0 6px 18px rgba(120,81,169,.28);position:relative;z-index:1;}
+.step-lbl{display:block;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--brand);margin-bottom:7px;position:relative;z-index:1;}
+.step-card h3{font-size:1.05rem;font-weight:700;margin:0 0 10px;position:relative;z-index:1;}
+.step-card p{font-size:.9rem;color:var(--muted);margin:0;line-height:1.65;position:relative;z-index:1;}
+.steps-conn{display:flex;align-items:flex-start;justify-content:center;padding-top:48px;color:rgba(120,81,169,.25);font-size:1rem;}
+/* FINAL CTA */
+.final-cta{padding:clamp(72px,11vh,110px) 0;text-align:center;background:linear-gradient(160deg,var(--brand) 0%,#5c3090 100%);position:relative;overflow:hidden;}
+.final-cta::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 60% at 70% 40%,rgba(255,255,255,.07),transparent 65%);pointer-events:none;}
+.final-cta h2{font-size:clamp(1.9rem,4.5vw,2.8rem);font-weight:700;color:#fff;letter-spacing:-.03em;margin:0 0 14px;position:relative;}
+.final-cta p{font-size:1.05rem;color:rgba(255,255,255,.8);max-width:460px;margin:0 auto 30px;line-height:1.7;position:relative;}
+.final-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;position:relative;}
+.btn-white{display:inline-flex;align-items:center;gap:8px;background:#fff;color:var(--brand);border-radius:var(--radius-sm);padding:13px 24px;font-weight:700;font-size:.92rem;box-shadow:0 4px 18px rgba(0,0,0,.15);transition:all .2s;}
+.btn-white:hover{background:#f0ecf8;transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,0,0,.2);color:var(--brand);}
+.btn-white-outline{display:inline-flex;align-items:center;gap:8px;background:transparent;color:#fff;border:2px solid rgba(255,255,255,.4);border-radius:var(--radius-sm);padding:12px 22px;font-weight:600;font-size:.92rem;transition:all .2s;}
+.btn-white-outline:hover{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.7);color:#fff;}
+/* FOOTER */
+footer{background:#0a0a0f;padding:56px 20px 36px;border-top:1px solid rgba(255,255,255,.08);}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:44px;max-width:1080px;margin:0 auto 44px;}
+@media(max-width:760px){.footer-grid{grid-template-columns:1fr 1fr;gap:28px;}}
+@media(max-width:480px){.footer-grid{grid-template-columns:1fr;}}
+.footer-brand{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+.footer-brand img{height:30px;width:auto;flex-shrink:0;}.footer-brand span{font-weight:700;font-size:1rem;color:#fff;}
+.footer-tagline{color:#a0a6c0;font-size:.88rem;line-height:1.62;margin-bottom:18px;max-width:270px;}
+.footer-social{display:flex;gap:10px;}
+.footer-social a{display:flex;align-items:center;justify-content:center;width:34px;height:34px;background:rgba(255,255,255,.07);border-radius:9px;color:#a0a6c0;font-size:.95rem;transition:all .2s;}
+.footer-social a:hover{background:var(--brand);color:#fff;}
+.footer-col h5{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:#fff;margin:0 0 14px;}
+.footer-col ul{list-style:none;padding:0;margin:0;}.footer-col li{margin-bottom:9px;}
+.footer-col a{color:#a0a6c0;font-size:.86rem;transition:color .18s;}
+.footer-col a:hover{color:#ffd700;}
+.footer-bottom{max-width:1080px;margin:0 auto;padding-top:22px;border-top:1px solid rgba(255,255,255,.08);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;}
+.footer-bottom p{color:#6b7280;font-size:.82rem;margin:0;}
+.footer-legal{display:flex;gap:20px;}
+.footer-legal a{color:#6b7280;font-size:.82rem;transition:color .18s;}
+.footer-legal a:hover{color:#ffd700;}
+/* SKIP NAV */
+.skip-nav{position:absolute;top:-48px;left:0;background:var(--brand);color:#fff;padding:10px 18px;z-index:10001;font-size:14px;font-weight:600;text-decoration:none;border-radius:0 0 8px 0;transition:top .2s;}
+.skip-nav:focus{top:0;}
+/* HEADINGS */
+h1{font-weight:700!important;letter-spacing:-.055em!important;}
+h2{font-weight:700!important;letter-spacing:-.03em!important;}
+h3{font-weight:700!important;letter-spacing:-.02em!important;}
+/* MOBILE */
+@media(max-width:600px){
+  .hero{padding:110px 0 64px;}.hero-inner{padding:0 20px;}
+  .hero-btns,.final-btns{flex-direction:column;align-items:stretch;}
+  .hero-btns a,.final-btns a{justify-content:center;}
+  footer{padding:40px 20px 28px;}
+  .footer-bottom{flex-direction:column;text-align:center;}
+}
+/* DROPDOWN */
+.dropdown-menu-services{border:1.5px solid rgba(120,81,169,.18);border-radius:14px;box-shadow:0 12px 40px rgba(15,18,40,.15);padding:8px;min-width:240px;margin-top:6px!important;background:#fff;}
+.dropdown-menu-services .dropdown-item{border-radius:9px;padding:9px 14px;font-size:.9rem;font-weight:500;color:#374151;display:flex;align-items:center;gap:10px;transition:background .15s,color .15s;white-space:nowrap;}
+.dropdown-menu-services .dropdown-item i{width:16px;text-align:center;color:#7851a9;font-size:.85rem;flex-shrink:0;}
+.dropdown-menu-services .dropdown-item:hover{background:rgba(120,81,169,.08);color:#7851a9;}
+.dropdown-menu-services .dropdown-divider{margin:4px 8px;border-color:rgba(120,81,169,.12);}
+@media(max-width:991px){.dropdown-menu-services{border:none;box-shadow:none;padding:0 0 4px 16px;margin-top:0!important;background:transparent;}}
+@media(max-width:991px){.dropdown-menu-services .dropdown-item{padding:6px 10px;font-size:.87rem;color:inherit;}}
+
+
+.gbp-split{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start;}
+@media(max-width:820px){.gbp-split{grid-template-columns:1fr;gap:32px;}}
+.gbp-card{background:var(--surface);border:1.5px solid var(--line);border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-md);}
+.gbp-card-head{background:linear-gradient(135deg,#1a73e8,#0d47a1);padding:18px 20px;display:flex;align-items:center;gap:12px;}
+.gbp-card-head i{color:#fff;font-size:1.3rem;}
+.gbp-card-head span{color:#fff;font-weight:700;font-size:.95rem;}
+.gbp-card-body{padding:20px;}
+.gbp-row{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);font-size:.9rem;color:var(--muted);}
+.gbp-row:last-child{border-bottom:none;}
+.gbp-row i{color:#1a73e8;flex-shrink:0;margin-top:2px;width:16px;text-align:center;}
+.pricing-cards{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+@media(max-width:560px){.pricing-cards{grid-template-columns:1fr;}}
+.pc2{background:var(--surface);border:1.5px solid var(--line);border-radius:var(--radius-lg);padding:28px 26px;box-shadow:var(--shadow-sm);position:relative;transition:border-color .2s,box-shadow .2s;}
+.pc2:hover{border-color:var(--brand-border);box-shadow:var(--shadow-md);}
+.pc2.pop{border-color:var(--brand-border);}
+.pc2-badge{position:absolute;top:-12px;left:24px;background:var(--brand);color:#fff;font-size:.7rem;font-weight:700;padding:4px 12px;border-radius:20px;letter-spacing:.05em;text-transform:uppercase;}
+.pc2 h3{font-size:1.1rem;font-weight:700;margin:0 0 6px;}
+.pc2-price{font-size:2rem;font-weight:800;color:var(--brand);margin-bottom:6px;}
+.pc2-price span{font-size:.9rem;font-weight:500;color:var(--dim);}
+.pc2 p{font-size:.88rem;color:var(--muted);line-height:1.6;margin:0 0 18px;}
+
+</style>
 </head>
 <body>
-
-<!-- NAV -->
+<a class="skip-nav" href="#main-content">Skip to main content</a>
 <div class="nav-wrap">
-  <div class="container">
-    <div class="nav">
-      <a href="index.html" class="nav-brand">
-        <img loading="eager" src="images/webeaze-transparent-copy.png" alt="WebEaze">
-        <span>WebEaze</span>
+  <div class="container container-narrow">
+    <nav class="navbar navbar-expand-lg navbar-light webeaze-nav" role="navigation" aria-label="Primary">
+      <a class="navbar-brand d-flex align-items-center" href="index.html">
+        <img loading="eager" class="logo" src="images/webeaze-transparent-copy.png" alt="WebEaze" width="428" height="493" />
+        <strong class="ml-2 brand-word">WebEaze</strong>
       </a>
-      <div class="nav-links">
-        <a href="services.html">Our Services</a>
-        <a href="pricing.html">Pricing</a>
-        <a href="faq.html">FAQ</a>
-        <a href="help.html">Help</a>
-        <a href="contact-us.html">Contact</a>
-        <a href="consultation.html" class="btn-nav">Book a Free Discovery Call</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mobileNav"
+              aria-controls="mobileNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div id="mobileNav" class="collapse navbar-collapse">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle active-page" href="services.html" id="servicesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Our Services</a>
+            <div class="dropdown-menu dropdown-menu-services" aria-labelledby="servicesDropdown">
+              <a class="dropdown-item" href="services.html"><i class="fas fa-th-large"></i> All Services</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="manage.html"><i class="fas fa-globe"></i> Website Design &amp; Management</a>
+              <a class="dropdown-item" href="maintenance.html"><i class="fas fa-sync-alt"></i> Unlimited Updates</a>
+              <a class="dropdown-item" href="seo.html"><i class="fas fa-search"></i> Local SEO</a>
+              <a class="dropdown-item" href="google-business-management.html"><i class="fab fa-google"></i> Google Business Profile</a>
+              <a class="dropdown-item" href="ai.html"><i class="fas fa-robot"></i> AI Chatbot</a>
+              <a class="dropdown-item" href="ads.html"><i class="fas fa-ad"></i> Ad Management</a>
+              <a class="dropdown-item" href="one-time-project.html"><i class="fas fa-hammer"></i> One-Time Projects</a>
+            </div>
+          </li>
+          <li class="nav-item"><a class="nav-link" href="pricing.html">Pricing</a></li>
+          <li class="nav-item"><a class="nav-link" href="faq.html">FAQ</a></li>
+          <li class="nav-item"><a class="nav-link" href="help.html">Help</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact-us.html">Contact</a></li>
+          <li class="nav-item ml-1"><a class="btn btn-sm btn-nav" href="consultation.html">Book a Free Discovery Call</a></li>
+        </ul>
       </div>
-      <div class="menu-toggle" onclick="toggleMenu()">
-        <i class="fas fa-bars"></i>
-      </div>
-    </div>
-  </div>
-  <div class="mobile-menu" id="mobileMenu">
-    <a href="services.html">Our Services</a>
-    <a href="pricing.html">Pricing</a>
-    <a href="faq.html">FAQ</a>
-    <a href="help.html">Help</a>
-    <a href="contact-us.html">Contact</a>
-    <a href="consultation.html">Book a Free Discovery Call</a>
+    </nav>
   </div>
 </div>
+<main id="main-content">
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-glow"></div>
-  <div class="container">
-    <div class="hero-grid">
+  <div class="hero-accent ha1"></div>
+  <div class="hero-accent ha2"></div>
+  <div class="hero-inner">
+    <h1>Show up when local<br><em>customers search.</em></h1>
+    <p class="hero-sub">Your Google Business Profile controls what people see when they search for you on Google or Google Maps. We set it up, optimize it, and keep it active so it works for you every day.</p>
+    <div class="hero-btns">
+      <a href="consultation.html" class="btn-primary"><i class="fas fa-arrow-right"></i> Get Started</a>
+      <a href="pricing.html" class="btn-outline">See Plans</a>
+    </div>
+    <div class="hero-trust">
+      <span class="trust-pill"><i class="fas fa-check-circle"></i> Included in the Growth plan</span>
+      <span class="trust-pill"><i class="fas fa-check-circle"></i> Available as a standalone add-on</span>
+      <span class="trust-pill"><i class="fas fa-check-circle"></i> No setup fee</span>
+    </div>
+  </div>
+</section>
 
-      <!-- Left -->
-      <div class="hero-left">
-        <div class="hero-badge">
-          <span class="g-dot">
-            <span style="background:var(--g-blue)"></span>
-            <span style="background:var(--g-red)"></span>
-            <span style="background:var(--g-yellow)"></span>
-            <span style="background:var(--g-green)"></span>
-          </span>
-          Included with Growth &amp; Elite Plans
-        </div>
-
-        <h1>Get Found on<br><span class="google-text">Google.</span></h1>
-
-        <p class="hero-sub">We set up, optimize, and manage your Google Business Profile so customers find you first — in Search and Maps. You own it. We handle it.</p>
-
-        <div class="hero-btns">
-          <a href="website-request.html" class="btn-primary">
-            <i class="fas fa-bolt"></i> Activate Now
-          </a>
-          <a href="pricing.html" class="btn-ghost">
-            <i class="fas fa-tag"></i> View Pricing
-          </a>
-        </div>
-
-        <div class="hero-pills">
-          <span class="hero-pill"><i class="fas fa-check-circle"></i> You keep ownership</span>
-          <span class="hero-pill"><i class="fas fa-check-circle"></i> No lock-in</span>
-          <span class="hero-pill"><i class="fas fa-check-circle"></i> Monthly updates</span>
+<!-- WHAT WE MANAGE -->
+<section class="section section-white">
+  <div class="container container-narrow px-4">
+    <div class="section-header">
+      <h2>Your entire Google presence, managed.</h2>
+    </div>
+    <div class="gbp-split">
+      <div>
+        <div class="feat-grid" style="grid-template-columns:1fr 1fr;">
+          <div class="feat-card">
+            <div class="feat-icon p"><i class="fas fa-check-circle"></i></div>
+            <h3>Setup and Verification</h3>
+            <p>We claim and verify your profile if needed, then configure every field correctly from the start.</p>
+          </div>
+          <div class="feat-card">
+            <div class="feat-icon gr"><i class="fas fa-sliders-h"></i></div>
+            <h3>Profile Optimization</h3>
+            <p>Categories, services, service area, business description, and attributes set for maximum visibility.</p>
+          </div>
+          <div class="feat-card">
+            <div class="feat-icon g"><i class="fas fa-images"></i></div>
+            <h3>Posts and Photos</h3>
+            <p>Regular Google posts and photo uploads to keep your profile active and engaging for visitors.</p>
+          </div>
+          <div class="feat-card">
+            <div class="feat-icon p"><i class="fas fa-star"></i></div>
+            <h3>Review Monitoring</h3>
+            <p>We alert you to new reviews and help you stay on top of your online reputation.</p>
+          </div>
+          <div class="feat-card">
+            <div class="feat-icon gr"><i class="fas fa-question-circle"></i></div>
+            <h3>Q&amp;A Monitoring</h3>
+            <p>We watch the Q&amp;A section so visitor questions get accurate, timely responses.</p>
+          </div>
+          <div class="feat-card">
+            <div class="feat-icon g"><i class="fas fa-chart-bar"></i></div>
+            <h3>Monthly Insights</h3>
+            <p>A monthly summary of profile views, search queries, and customer actions from your listing.</p>
+          </div>
         </div>
       </div>
-
-      <!-- Right: GBP mock card -->
       <div>
         <div class="gbp-card">
-          <div class="gbp-top">
-            <div class="gbp-avatar">W</div>
-            <div>
-              <div class="gbp-name">Your Business Name</div>
-              <div class="gbp-category">Local Business · Delaware, USA</div>
-              <div class="gbp-stars">
-                <span class="stars">★★★★★</span>
-                <span class="rating">4.9</span>
-                <span class="count">(84 reviews)</span>
-              </div>
-            </div>
+          <div class="gbp-card-head">
+            <i class="fab fa-google"></i>
+            <span>Google Business Profile</span>
           </div>
-
-          <div class="gbp-status">Open now · Closes 5:00 PM</div>
-
-          <div class="gbp-actions">
-            <div class="gbp-action">
-              <i class="fas fa-phone"></i>Call
-            </div>
-            <div class="gbp-action">
-              <i class="fas fa-directions"></i>Directions
-            </div>
-            <div class="gbp-action">
-              <i class="fas fa-globe"></i>Website
-            </div>
-          </div>
-
-          <div class="gbp-divider"></div>
-
-          <div class="gbp-post">
-            <div class="gbp-post-label">Latest Update</div>
-            Now accepting new clients! Check out our latest packages and reach out today for a free consultation.
-          </div>
-
-          <div class="gbp-badge-managed">
-            <i class="fas fa-shield-check"></i> Managed by WebEaze
+          <div class="gbp-card-body">
+            <div class="gbp-row"><i class="fas fa-map-marker-alt"></i> Shows on Google Maps and local search</div>
+            <div class="gbp-row"><i class="fas fa-star"></i> Displays your reviews and rating</div>
+            <div class="gbp-row"><i class="fas fa-phone"></i> Click-to-call and directions for mobile users</div>
+            <div class="gbp-row"><i class="fas fa-clock"></i> Business hours, holiday hours, and closures</div>
+            <div class="gbp-row"><i class="fas fa-camera"></i> Photos and posts from your business</div>
+            <div class="gbp-row"><i class="fas fa-tag"></i> Services, products, and pricing</div>
           </div>
         </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- STATS STRIP -->
-<div class="stats-strip">
-  <div class="container">
-    <div class="stats-inner">
-      <div class="stat-item">
-        <div class="stat-num">46%</div>
-        <div class="stat-desc">of all Google searches are looking for local information</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-num">2.7×</div>
-        <div class="stat-desc">more likely to be considered reputable with a complete profile</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-num">92%</div>
-        <div class="stat-desc">of people read online reviews before making a purchase decision</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-num">76%</div>
-        <div class="stat-desc">of local mobile searches result in a store visit within 24 hours</div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- FEATURES -->
-<section class="features">
-  <div class="container">
-    <div class="features-header">
-      <div class="section-label"><span>What We Handle</span></div>
-      <h2 class="section-title">Everything Your Profile Needs</h2>
-      <p class="section-sub">From first-time setup to ongoing management, we cover it all so your profile stays accurate, active, and competitive.</p>
-    </div>
-
-    <div class="features-list">
-
-      <div class="feat">
-        <div class="feat-icon"><i class="fas fa-map-marker-alt"></i></div>
-        <div class="feat-body">
-          <h3>Setup &amp; Verification</h3>
-          <p>We create or claim your profile, handle postcard or video verification, and make sure every detail is accurate from day one.</p>
+        <div style="margin-top:16px;background:var(--brand-soft);border:1px solid var(--brand-border);border-radius:var(--radius);padding:18px 20px;">
+          <p style="font-size:.9rem;color:var(--text);line-height:1.65;margin:0;"><strong>Why it matters:</strong> 46% of all Google searches are looking for local information. A fully optimized Google Business Profile is often the first thing a customer sees before ever visiting your website.</p>
         </div>
-      </div>
-
-      <div class="feat">
-        <div class="feat-icon"><i class="fas fa-sliders-h"></i></div>
-        <div class="feat-body">
-          <h3>Profile Optimization</h3>
-          <p>Categories, services, hours, attributes, business description, and links — all dialed in to help you rank higher in local search.</p>
-        </div>
-      </div>
-
-      <div class="feat">
-        <div class="feat-icon"><i class="fas fa-images"></i></div>
-        <div class="feat-body">
-          <h3>Posts &amp; Photos</h3>
-          <p>Fresh content monthly. We publish updates, promotions, and photos to keep your profile active and engaging for visitors.</p>
-        </div>
-      </div>
-
-      <div class="feat">
-        <div class="feat-icon"><i class="fas fa-star"></i></div>
-        <div class="feat-body">
-          <h3>Review Management</h3>
-          <p>We monitor new reviews and craft tone-matched reply suggestions. Full reply management on Growth &amp; Elite plans.</p>
-        </div>
-      </div>
-
-      <div class="feat">
-        <div class="feat-icon"><i class="fas fa-chart-line"></i></div>
-        <div class="feat-body">
-          <h3>Monthly Insights</h3>
-          <p>Simple reports covering searches, profile views, calls, direction requests, and website clicks. Know exactly what's working.</p>
-        </div>
-      </div>
-
-      <div class="feat">
-        <div class="feat-icon"><i class="fas fa-store"></i></div>
-        <div class="feat-body">
-          <h3>Multi-Location Support</h3>
-          <p>Multiple locations? No problem. We manage each one under your brand with transparent, per-location pricing.</p>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- PROCESS -->
-<section class="process">
-  <div class="container">
-    <div class="process-header">
-      <div class="section-label centered"><span>How It Works</span></div>
-      <h2 class="section-title" style="text-align:center">Four Steps. Zero Hassle.</h2>
-      <p class="section-sub centered" style="margin-top:10px">We handle the complexity so you don't have to.</p>
-    </div>
-
-    <div class="steps">
-      <div class="step">
-        <div class="step-num">1</div>
-        <h3>Invite</h3>
-        <p>We send a manager invite to your Google account. One click to approve — that's it.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">2</div>
-        <h3>Verify</h3>
-        <p>Need verification? We guide you through postcard or video verification from start to finish.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">3</div>
-        <h3>Optimize</h3>
-        <p>We fill out every field — categories, services, hours, photos, and links — for maximum visibility.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">4</div>
-        <h3>Maintain</h3>
-        <p>Monthly posts, photos, and review monitoring keep your profile active and your ranking strong.</p>
       </div>
     </div>
   </div>
 </section>
 
 <!-- PRICING -->
-<section class="pricing">
-  <div class="container">
-    <div class="pricing-header">
-      <div class="section-label centered"><span>Pricing</span></div>
-      <h2 class="section-title">Simple, Transparent Pricing</h2>
-      <p class="section-sub centered" style="margin-top:10px">Included free with Growth &amp; Elite. Available as an add-on for Essential clients.</p>
+<section class="section section-gray">
+  <div class="container container-narrow px-4">
+    <div class="section-header">
+      <h2>Included in Growth. Available as an add-on.</h2>
+      <p>Choose the option that fits your situation.</p>
     </div>
-
-    <div class="pricing-grid">
-
-      <div class="price-card featured">
-        <div class="featured-chip">Most Popular</div>
-        <div class="price-card-icon"><i class="fas fa-crown"></i></div>
-        <h3>Growth &amp; Elite Plans</h3>
-        <p class="desc">Full Google Business Management included at no extra charge with your website plan.</p>
-        <div class="price-val">Included</div>
-        <div class="price-note">with your monthly plan</div>
-        <div class="price-divider"></div>
-        <ul class="price-perks">
-          <li><i class="fas fa-check-circle"></i> Profile setup &amp; optimization</li>
-          <li><i class="fas fa-check-circle"></i> Monthly posts &amp; photos</li>
-          <li><i class="fas fa-check-circle"></i> Review reply management</li>
-          <li><i class="fas fa-check-circle"></i> Monthly insights report</li>
-        </ul>
+    <div class="pricing-cards" style="max-width:560px;margin:0 auto;">
+      <div class="pc2 pop">
+        <div class="pc2-badge">Included</div>
+        <h3>Growth Plan</h3>
+        <div class="pc2-price">$249<span>/mo</span></div>
+        <p>Full website management plus Google Business Profile, advanced SEO, priority support, and bi-monthly reports.</p>
+        <a href="consultation.html" class="btn-primary" style="width:100%;justify-content:center;">Get started</a>
       </div>
-
-      <div class="price-card">
-        <div class="price-card-icon"><i class="fas fa-plus-circle"></i></div>
-        <h3>Essential Add-On</h3>
-        <p class="desc">Already on our Essential plan? Add Google Business Management for a flat monthly fee.</p>
-        <div class="price-val">$79<span>/mo</span></div>
-        <div class="price-note">added to your plan</div>
-        <div class="price-divider"></div>
-        <ul class="price-perks">
-          <li><i class="fas fa-check-circle"></i> Profile setup &amp; optimization</li>
-          <li><i class="fas fa-check-circle"></i> Monthly posts &amp; photos</li>
-          <li><i class="fas fa-check-circle"></i> Review suggestions</li>
-          <li><i class="fas fa-check-circle"></i> Monthly insights report</li>
-        </ul>
-      </div>
-
-      <div class="price-card">
-        <div class="price-card-icon"><i class="fas fa-location-dot"></i></div>
-        <h3>Additional Locations</h3>
-        <p class="desc">Managing more than one location? Each extra profile is billed separately.</p>
-        <div class="price-val">$79<span>/each</span></div>
-        <div class="price-note">per additional location</div>
-        <div class="price-divider"></div>
-        <ul class="price-perks">
-          <li><i class="fas fa-check-circle"></i> Same full service</li>
-          <li><i class="fas fa-check-circle"></i> Each profile managed separately</li>
-          <li><i class="fas fa-check-circle"></i> Consistent branding</li>
-          <li><i class="fas fa-check-circle"></i> Clear per-location reporting</li>
-        </ul>
-      </div>
-
-    </div>
-
-    <p class="pricing-note">
-      <i class="fas fa-shield-halved"></i>
-      <strong>You always keep ownership.</strong> We're added as managers and can be removed at any time. Your profile, your control.
-    </p>
-  </div>
-</section>
-
-<!-- FAQ -->
-<section class="faq">
-  <div class="container">
-    <div class="faq-header">
-      <div class="section-label centered"><span>FAQ</span></div>
-      <h2 class="section-title">Questions? Answered.</h2>
-    </div>
-
-    <div class="faq-grid">
-      <details class="faq-item">
-        <summary>Do I keep ownership of my profile?</summary>
-        <div class="faq-answer">Yes, always. You own the profile. We're added as managers and can be removed at any time. Your business, your control.</div>
-      </details>
-
-      <details class="faq-item">
-        <summary>How often do you update my profile?</summary>
-        <div class="faq-answer">We review and update your profile monthly, publishing posts and photos tied to your promotions. Need an urgent update? <a href="website-request.html">Submit a support request</a> and we'll handle it.</div>
-      </details>
-
-      <details class="faq-item">
-        <summary>Do you support multiple locations?</summary>
-        <div class="faq-answer">Yes. We manage each location under your brand. The first location is included with Growth &amp; Elite plans; additional locations are $79/month each.</div>
-      </details>
-
-      <details class="faq-item">
-        <summary>Will you respond to my reviews?</summary>
-        <div class="faq-answer">We provide suggested replies written in your tone. Full reply management is available on Growth and Elite plans — just <a href="website-request.html">submit a request</a> when you receive a new review.</div>
-      </details>
-
-      <details class="faq-item">
-        <summary>What if I already have a Google Business Profile?</summary>
-        <div class="faq-answer">Perfect. We'll send a manager invite to your existing profile. Once you approve, we'll audit it and optimize everything that needs attention.</div>
-      </details>
-
-      <details class="faq-item">
-        <summary>How do I get started?</summary>
-        <div class="faq-answer">If you're on Growth or Elite, <a href="website-request.html">submit a request</a> to activate. On Essential? Add it through your <a href="https://billing.stripe.com/p/login/7sI3gfaO14CEdlm144">billing portal</a> or contact us directly.</div>
-      </details>
-    </div>
-  </div>
-</section>
-
-<!-- CTA -->
-<section class="cta">
-  <div class="container">
-    <div class="cta-box">
-      <h2>Ready to Show Up on Google?</h2>
-      <p>Turn local searches into calls, visits, and customers. Let's get your profile working for you.</p>
-      <div class="cta-btns">
-        <a href="website-request.html" class="btn-primary">
-          <i class="fas fa-bolt"></i> Activate Now
-        </a>
-        <a href="consultation.html" class="btn-ghost">
-          <i class="fas fa-comments"></i> Talk to Us
-        </a>
+      <div class="pc2">
+        <h3>Add-On Service</h3>
+        <div class="pc2-price" style="color:var(--text);font-size:1.6rem;">Contact us</div>
+        <p>Already on the Essential plan or need GBP management without a full website plan? We can add it on.</p>
+        <a href="contact-us.html" class="btn-outline" style="width:100%;justify-content:center;">Talk to us</a>
       </div>
     </div>
   </div>
 </section>
 
-<!-- FOOTER -->
+<!-- FINAL CTA -->
+<section class="final-cta">
+  <h2>Be the business that shows up on the map.</h2>
+  <p>Google Maps is where local customers decide who to call. We make sure that business is yours.</p>
+  <div class="final-btns">
+    <a href="consultation.html" class="btn-white"><i class="fas fa-arrow-right"></i> Book a Free Discovery Call</a>
+    <a href="pricing.html" class="btn-white-outline">Compare plans</a>
+  </div>
+</section>
+
+</main>
 <footer>
-  <div class="footer-disclaimer">
-    Google Business Profile and Google My Business are trademarks of Google LLC. WebEaze is an independent web design service and is not affiliated with or endorsed by Google LLC.
-  </div>
-
   <div class="footer-grid">
     <div>
       <div class="footer-brand">
-        <img loading="eager" src="images/webeaze-transparent-copy.png" alt="WebEaze">
+        <img src="images/webeaze-transparent-copy.png" alt="WebEaze" width="428" height="493" loading="lazy">
         <span>WebEaze</span>
       </div>
       <p class="footer-tagline">Professional websites for small businesses. We build, host, and manage your site so you can focus on what matters.</p>
@@ -908,40 +357,27 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
         <a href="https://instagram.com/webeaze.io" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
       </div>
     </div>
-
-    <div class="footer-col">
-      <h5>Services</h5>
-      <ul>
-        <li><a href="services.html">Our Services</a></li>
-        <li><a href="pricing.html">Pricing</a></li>
-        <li><a href="plan-guide.html">Plan Guide</a></li>
-      </ul>
-    </div>
-
-    <div class="footer-col">
-      <h5>Company</h5>
-      <ul>
-        <li><a href="about.html">About Us</a></li>
-        <li><a href="samples.html">Our Work</a></li>
-        <li><a href="referral.html">Referral Program</a></li>
-        <li><a href="contact-us.html">Contact</a></li>
-      </ul>
-    </div>
-
-    <div class="footer-col">
-      <h5>Support</h5>
-      <ul>
-        <li><a href="help.html">Help Center</a></li>
-        <li><a href="faq.html">FAQ</a></li>
-        <li><a href="consultation.html">Book a Free Discovery Call</a></li>
-        <li><a href="accessibility.html">Accessibility</a></li>
-        <li><a href="status.html">Current Status</a></li>
-      </ul>
-    </div>
+    <div class="footer-col"><h5>Services</h5><ul>
+      <li><a href="services.html">Our Services</a></li>
+      <li><a href="pricing.html">Pricing</a></li>
+      <li><a href="plan-guide.html">Plan Guide</a></li>
+    </ul></div>
+    <div class="footer-col"><h5>Company</h5><ul>
+      <li><a href="about.html">About Us</a></li>
+      <li><a href="samples.html">Our Work</a></li>
+      <li><a href="referral.html">Referral Program</a></li>
+      <li><a href="contact-us.html">Contact</a></li>
+    </ul></div>
+    <div class="footer-col"><h5>Support</h5><ul>
+      <li><a href="help.html">Help Center</a></li>
+      <li><a href="faq.html">FAQ</a></li>
+      <li><a href="consultation.html">Book a Free Discovery Call</a></li>
+      <li><a href="accessibility.html">Accessibility</a></li>
+      <li><a href="status.html">Current Status</a></li>
+    </ul></div>
   </div>
-
   <div class="footer-bottom">
-    <p>&copy; <span id="yr"></span> WebEaze. Made in Delaware, USA 🇺🇸</p>
+    <p>&copy; <span id="yr"></span> WebEaze. Made in Delaware, USA &#127482;&#127480;</p>
     <div class="footer-legal">
       <a href="terms.html#privacy">Privacy Policy</a>
       <a href="terms.html">Terms of Service</a>
@@ -949,78 +385,47 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
     </div>
   </div>
 </footer>
-
+<script>document.getElementById('yr').textContent=new Date().getFullYear();</script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" defer></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" defer></script>
+<!-- WebEaze Chat Widget -->
+<script src="js/promo-banner.js"></script>
+<link rel="stylesheet" href="chat-widget.css">
 <script>
-  document.getElementById('yr').textContent = new Date().getFullYear();
-
-  function toggleMenu() {
-    document.getElementById('mobileMenu').classList.toggle('active');
-  }
+window.WZ_CHAT_PAGE={
+  greeting:"Hi! I'm Eazy. Have questions about our services or pricing? Ask away.",
+  starters:[
+    {label:"How does it work?",msg:"How does WebEaze work?"},
+    {label:"See pricing",msg:"How much does WebEaze cost?"},
+    {label:"Free mockup?",msg:"How do I get a free mockup?"},
+    {label:"Talk to someone",msg:"Can I speak with someone at WebEaze?"},
+  ],
+};
 </script>
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "WebPage",
-  "@id": "https://webeaze.io/google-business-management#webpage",
-  "url": "https://webeaze.io/google-business-management",
-  "name": "Google Business Profile Management | WebEaze",
-  "description": "Show up on Google Search and Maps. WebEaze handles Google Business Profile setup, optimization, posts, photos, and review management — included in the Growth plan.",
-  "isPartOf": {"@id": "https://webeaze.io/#website"},
-  "about": {"@id": "https://webeaze.io/#organization"},
-  "speakable": {"@type": "SpeakableSpecification", "cssSelector": ["h1", ".hero p"]}
-}
-</script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Service",
-  "name": "Google Business Profile Management",
-  "provider": { "@type": "Organization", "name": "WebEaze", "url": "https://webeaze.io" },
-  "serviceType": "Google Business Profile Management",
-  "description": "Setup, optimization, posts, photos, and review management for Google Business Profiles."
-}
-</script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "What is Google Business Profile management?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Google Business Profile management means keeping your business listing on Google accurate, active, and optimized. WebEaze handles setup, profile optimization, regular posts, photo uploads, review monitoring, and Q&A so your listing stands out in local search results and Google Maps."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Does WebEaze manage Google Business Profiles?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. Google Business Profile management is included in the Growth plan at $249 per month and available as a standalone add-on for Essential plan clients. WebEaze handles everything: initial setup, optimization, weekly posts, photo updates, and review strategy."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Why is Google Business Profile important for small businesses?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Your Google Business Profile controls how your business appears in Google Search and Google Maps. An optimized profile with regular posts, accurate information, and strong reviews drives more local customers to your business without paid advertising."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How do I get more Google reviews for my business?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "WebEaze helps you build a review strategy including request templates, timing recommendations, and follow-up systems. We also monitor incoming reviews and help you respond promptly. Consistent 5-star reviews improve your local search ranking significantly."
-      }
-    }
-  ]
-}
-</script>
-
+<button id="wz-chat-btn" aria-label="Chat with us" onclick="wzOpenChat()" hidden>
+  <i class="fas fa-comment-dots"></i>
+  <div class="wz-badge" id="wzBadge"></div>
+</button>
+<div id="wz-chat-panel" role="dialog" aria-label="WebEaze chat" hidden>
+  <div class="wz-chat-head">
+    <div class="wz-chat-avatar"><i class="fas fa-bolt"></i></div>
+    <div class="wz-chat-head-text">
+      <div class="wz-chat-head-name">Eazy</div>
+      <div class="wz-chat-head-sub">Questions? Ask away.</div>
+    </div>
+    <button class="wz-chat-close" onclick="wzCloseChat()" aria-label="Close chat"><i class="fas fa-times"></i></button>
+  </div>
+  <div id="wz-chat-msgs"></div>
+  <div class="wz-chat-starters" id="wzStarters"></div>
+  <div class="wz-chat-foot">
+    <textarea id="wz-chat-input" rows="1" placeholder="Ask a question..." aria-label="Your message"
+      onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();wzSend();}"
+      oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,100)+'px'"></textarea>
+    <button id="wz-chat-send" onclick="wzSend()" aria-label="Send"><i class="fas fa-arrow-up"></i></button>
+  </div>
+</div>
+<script src="chat-widget.js" defer></script>
+<script type="text/javascript" id="hs-script-loader" async defer src="//js-na2.hs-scripts.com/242171361.js"></script>
 </body>
 </html>
