@@ -649,6 +649,37 @@ html { font-size: 17px; }
 h1 { font-weight: 700 !important; letter-spacing: -.055em !important; }
 h2 { font-weight: 700 !important; letter-spacing: -.03em !important; }
 h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
+
+/* ── ALL SERVICES GRID ──────────────────────────── */
+.asvc-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-bottom: 20px; }
+@media (max-width: 900px) { .asvc-grid { grid-template-columns: repeat(2,1fr); } }
+@media (max-width: 540px)  { .asvc-grid { grid-template-columns: 1fr; } }
+.asvc-card {
+  display: flex; align-items: flex-start; gap: 16px;
+  background: var(--surface); border: 1.5px solid var(--line);
+  border-radius: var(--radius); padding: 22px 20px;
+  text-decoration: none; color: inherit;
+  transition: border-color .2s, box-shadow .2s, transform .2s;
+}
+.asvc-card:hover { border-color: var(--brand-border); box-shadow: var(--shadow-md); transform: translateY(-3px); color: inherit; text-decoration: none; }
+.asvc-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.asvc-icon.purple { background: var(--brand-soft); }
+.asvc-icon.purple i { color: var(--brand); }
+.asvc-icon.gold { background: var(--gold-soft); }
+.asvc-icon.gold i { color: var(--gold); }
+.asvc-icon.green { background: var(--green-soft); }
+.asvc-icon.green i { color: var(--green); }
+.asvc-icon.brand { background: var(--brand-soft); }
+.asvc-icon.brand i { color: var(--brand); }
+.asvc-icon i { font-size: 1.1rem; }
+.asvc-body { flex: 1; min-width: 0; }
+.asvc-body h3 { font-size: .97rem; font-weight: 700; margin: 0 0 5px; color: var(--text); }
+.asvc-body p { font-size: .87rem; color: var(--muted); line-height: 1.6; margin: 0; }
+.asvc-arrow { flex-shrink: 0; color: var(--brand); opacity: 0; font-size: .8rem; margin-top: 4px; transition: opacity .2s, transform .2s; }
+.asvc-card:hover .asvc-arrow { opacity: 1; transform: translateX(4px); }
+.asvc-footer { text-align: center; font-size: .92rem; color: var(--muted); margin: 8px 0 0; }
+.asvc-footer a { color: var(--brand); font-weight: 600; display: inline-flex; align-items: center; gap: 6px; transition: gap .18s; }
+.asvc-footer a:hover { gap: 10px; }
 </style>
 <script type="application/ld+json">
 {
@@ -911,6 +942,17 @@ fbq('track', 'PageView');
 src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
 /></noscript>
 <!-- End Meta Pixel Code -->
+<style>
+/* ── SERVICES DROPDOWN ─────────────────────────── */
+.dropdown-menu-services{border:1.5px solid rgba(120,81,169,.18);border-radius:14px;box-shadow:0 12px 40px rgba(15,18,40,.15);padding:8px;min-width:240px;margin-top:6px!important;background:#fff;}
+.dropdown-menu-services .dropdown-item{border-radius:9px;padding:9px 14px;font-size:.9rem;font-weight:500;color:#374151;display:flex;align-items:center;gap:10px;transition:background .15s,color .15s;white-space:nowrap;}
+.dropdown-menu-services .dropdown-item i{width:16px;text-align:center;color:#7851a9;font-size:.85rem;flex-shrink:0;}
+.dropdown-menu-services .dropdown-item:hover{background:rgba(120,81,169,.08);color:#7851a9;}
+.dropdown-menu-services .dropdown-divider{margin:4px 8px;border-color:rgba(120,81,169,.12);}
+.nav-item.dropdown>.nav-link.dropdown-toggle::after{vertical-align:.18em;border-top-width:.32em;}
+@media(max-width:991px){.dropdown-menu-services{border:none;box-shadow:none;padding:0 0 4px 16px;margin-top:0!important;background:transparent;}}
+@media(max-width:991px){.dropdown-menu-services .dropdown-item{padding:6px 10px;font-size:.87rem;color:inherit;}}
+</style>
 </head>
 <body>
 <a class="skip-nav" href="#main-content">Skip to main content</a>
@@ -929,7 +971,20 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
       </button>
       <div id="mobileNav" class="collapse navbar-collapse">
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item"><a class="nav-link active-page" href="services.html">Services</a></li>
+<li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle active-page" href="services.html" id="servicesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Our Services</a>
+            <div class="dropdown-menu dropdown-menu-services" aria-labelledby="servicesDropdown">
+              <a class="dropdown-item" href="services.html"><i class="fas fa-th-large"></i> All Services</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="manage.html"><i class="fas fa-globe"></i> Website Design &amp; Management</a>
+              <a class="dropdown-item" href="maintenance.html"><i class="fas fa-sync-alt"></i> Unlimited Updates</a>
+              <a class="dropdown-item" href="seo.html"><i class="fas fa-search"></i> Local SEO</a>
+              <a class="dropdown-item" href="google-business-management.html"><i class="fab fa-google"></i> Google Business Profile</a>
+              <a class="dropdown-item" href="ai.html"><i class="fas fa-robot"></i> AI Chatbot</a>
+              <a class="dropdown-item" href="ads.html"><i class="fas fa-ad"></i> Ad Management</a>
+              <a class="dropdown-item" href="one-time-project.html"><i class="fas fa-hammer"></i> One-Time Projects</a>
+            </div>
+          </li>
           <li class="nav-item"><a class="nav-link" href="pricing.html">Pricing</a></li>
           <li class="nav-item"><a class="nav-link" href="faq.html">FAQ</a></li>
           <li class="nav-item"><a class="nav-link" href="help.html">Help</a></li>
@@ -1049,6 +1104,77 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
     </div>
   </div>
 </section>
+
+
+<!-- ALL SERVICES GRID -->
+<section class="section section-gray" id="all-services">
+  <div class="container container-narrow px-4">
+    <div class="section-header reveal">
+      <span class="eyebrow"><i class="fas fa-layer-group"></i> Everything included</span>
+      <h2>Every service, under one roof</h2>
+      <p>Whether you need a full website or just one specific service, we've got you covered.</p>
+    </div>
+    <div class="asvc-grid">
+
+      <a href="manage.html" class="asvc-card reveal">
+        <div class="asvc-icon purple"><i class="fas fa-globe"></i></div>
+        <div class="asvc-body">
+          <h3>Website Design &amp; Management</h3>
+          <p>Custom site built from scratch and managed month to month. No templates, no DIY.</p>
+        </div>
+        <i class="fas fa-arrow-right asvc-arrow"></i>
+      </a>
+
+      <a href="maintenance.html" class="asvc-card reveal d1">
+        <div class="asvc-icon gold"><i class="fas fa-sync-alt"></i></div>
+        <div class="asvc-body">
+          <h3>Unlimited Updates</h3>
+          <p>Submit any content change and we handle it within 24–48 hours. Always included.</p>
+        </div>
+        <i class="fas fa-arrow-right asvc-arrow"></i>
+      </a>
+
+      <a href="seo.html" class="asvc-card reveal d2">
+        <div class="asvc-icon green"><i class="fas fa-search"></i></div>
+        <div class="asvc-body">
+          <h3>Local SEO</h3>
+          <p>On-page SEO, schema markup, and Google Search Console setup built into every site.</p>
+        </div>
+        <i class="fas fa-arrow-right asvc-arrow"></i>
+      </a>
+
+      <a href="google-business-management.html" class="asvc-card reveal">
+        <div class="asvc-icon brand"><i class="fab fa-google"></i></div>
+        <div class="asvc-body">
+          <h3>Google Business Profile</h3>
+          <p>Full setup and ongoing management so your business shows up on Google Maps and local search.</p>
+        </div>
+        <i class="fas fa-arrow-right asvc-arrow"></i>
+      </a>
+
+      <a href="ai.html" class="asvc-card reveal d1">
+        <div class="asvc-icon purple"><i class="fas fa-robot"></i></div>
+        <div class="asvc-body">
+          <h3>AI Chatbot</h3>
+          <p>Custom AI trained on your business to answer questions and capture leads 24/7.</p>
+        </div>
+        <i class="fas fa-arrow-right asvc-arrow"></i>
+      </a>
+
+      <a href="ads.html" class="asvc-card reveal d2">
+        <div class="asvc-icon gold"><i class="fas fa-ad"></i></div>
+        <div class="asvc-body">
+          <h3>Ad Management</h3>
+          <p>Google and Facebook ads managed for you — strategy, creative, and monthly reporting.</p>
+        </div>
+        <i class="fas fa-arrow-right asvc-arrow"></i>
+      </a>
+
+    </div>
+    <p class="asvc-footer reveal"><a href="one-time-project.html">Need a one-time project? <i class="fas fa-arrow-right"></i></a></p>
+  </div>
+</section>
+
 
 <!-- FEATURE: MOBILE-READY -->
 <section class="section section-white">
