@@ -212,8 +212,6 @@
 
 /* Process — single column on very small screens */
 @media (max-width: 400px) {
-  .process-grid { grid-template-columns: 1fr; }
-  .step-number { font-size: 2.2rem; }
 }
 
 /* Pricing cards — add space above featured badge */
@@ -1380,38 +1378,82 @@ body {
   margin-bottom: .75rem;
 }
 .process-header p { color: #9ca3af; font-size: 1rem; }
-.process-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 2rem;
+
+.process-steps {
+  display: flex;
+  align-items: flex-start;
   max-width: 1100px;
   margin: 0 auto;
   padding: 0 1.5rem;
 }
-.process-step { text-align: center; }
-.step-number {
-  font-size: 3rem;
-  font-weight: 900;
-  color: var(--brand);
-  line-height: 1;
-  margin-bottom: .75rem;
-  letter-spacing: -.05em;
+.ps-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 0 1.25rem;
 }
-.process-step h3 {
-  font-size: 1rem;
+.ps-circle {
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  background: var(--brand);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: .85rem;
+  flex-shrink: 0;
+  position: relative;
+}
+.ps-circle i { color: #fff; font-size: 1.1rem; }
+.ps-num-badge {
+  position: absolute;
+  top: -6px; right: -6px;
+  width: 20px; height: 20px;
+  background: var(--black);
+  border: 2px solid var(--brand);
+  border-radius: 50%;
+  font-size: .6rem;
+  font-weight: 800;
+  color: var(--brand);
+  display: flex; align-items: center; justify-content: center;
+  line-height: 1;
+}
+.ps-item h3 {
+  font-size: .95rem;
   font-weight: 700;
   color: #fff;
-  margin-bottom: .5rem;
+  margin-bottom: .4rem;
   letter-spacing: -.02em;
 }
-.process-step p { font-size: .875rem; color: #9ca3af; line-height: 1.6; }
+.ps-item p {
+  font-size: .82rem;
+  color: #9ca3af;
+  line-height: 1.55;
+  max-width: 180px;
+}
+.ps-arrow {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  padding-top: 1.5rem;
+  color: rgba(120,81,169,.5);
+  font-size: .9rem;
+}
 
-@media (max-width: 768px) {
-  .process-grid { grid-template-columns: repeat(2, 1fr); }
+@media (max-width: 680px) {
+  .process-steps {
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+  .ps-item { padding: 0 1rem; width: 100%; max-width: 300px; }
+  .ps-item p { max-width: none; }
+  .ps-arrow {
+    padding-top: 0;
+    padding: .5rem 0;
+    transform: rotate(90deg);
+  }
 }
-@media (max-width: 480px) {
-  .process-grid { grid-template-columns: 1fr; }
-}
+
 
 /* ── PRICING ── */
 .pricing-section {
@@ -1801,8 +1843,6 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
 
 /* Process — single column on very small screens */
 @media (max-width: 400px) {
-  .process-grid { grid-template-columns: 1fr; }
-  .step-number { font-size: 2.2rem; }
 }
 
 /* Pricing cards — add space above featured badge */
@@ -2103,8 +2143,6 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
 
 /* Process — single column on very small screens */
 @media (max-width: 400px) {
-  .process-grid { grid-template-columns: 1fr; }
-  .step-number { font-size: 2.2rem; }
 }
 
 /* Pricing cards — add space above featured badge */
@@ -2457,31 +2495,54 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
   <!-- PROCESS -->
   <section class="process-section">
     <div class="process-header container-tight">
-      <span class="section-label" style="color:var(--brand-light)">How it works</span>
       <h2>Four steps. Your site is live.</h2>
       <p>From first conversation to launched website in under a week.</p>
     </div>
-    <div class="process-grid">
-      <div class="process-step">
-        <div class="step-number">01</div>
+
+    <div class="process-steps">
+
+      <div class="ps-item">
+        <div class="ps-circle">
+          <i class="fas fa-phone-alt"></i>
+          <span class="ps-num-badge">1</span>
+        </div>
         <h3>Book a free call</h3>
-        <p>Tell us about your business and what you need. No tech knowledge required.</p>
+        <p>Tell us about your business. No tech knowledge needed.</p>
       </div>
-      <div class="process-step">
-        <div class="step-number">02</div>
+
+      <div class="ps-arrow"><i class="fas fa-chevron-right"></i></div>
+
+      <div class="ps-item">
+        <div class="ps-circle">
+          <i class="fas fa-desktop"></i>
+          <span class="ps-num-badge">2</span>
+        </div>
         <h3>See your mockup</h3>
-        <p>Within 48 hours you receive a custom design mockup &mdash; before paying anything.</p>
+        <p>We deliver a custom design within 48 hours &mdash; before you pay anything.</p>
       </div>
-      <div class="process-step">
-        <div class="step-number">03</div>
+
+      <div class="ps-arrow"><i class="fas fa-chevron-right"></i></div>
+
+      <div class="ps-item">
+        <div class="ps-circle">
+          <i class="fas fa-check-double"></i>
+          <span class="ps-num-badge">3</span>
+        </div>
         <h3>Approve &amp; pay</h3>
-        <p>Love it? Approve the design and we move to build. Adjustments welcome at no charge.</p>
+        <p>Love it? We build it out. Revisions included at no extra charge.</p>
       </div>
-      <div class="process-step">
-        <div class="step-number">04</div>
+
+      <div class="ps-arrow"><i class="fas fa-chevron-right"></i></div>
+
+      <div class="ps-item">
+        <div class="ps-circle">
+          <i class="fas fa-rocket"></i>
+          <span class="ps-num-badge">4</span>
+        </div>
         <h3>Go live</h3>
-        <p>Your site launches within 5 business days. We handle hosting, domain, and everything else.</p>
+        <p>Site launches in 5 business days. Hosting, domain, everything handled.</p>
       </div>
+
     </div>
   </section>
 
@@ -2496,7 +2557,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
       <div class="pricing-card">
         <div class="plan-name">Essential</div>
         <div class="plan-price">$169<span>/mo</span></div>
-        <p class="plan-sub">+ $199 one-time setup &mdash; waived on annual plans</p>
+        <p class="plan-sub">+ $199 one-time setup</p>
         <ul class="plan-features">
           <li><i class="fas fa-check"></i>Custom website design (up to 3 pages)</li>
           <li><i class="fas fa-check"></i>Hosting, SSL &amp; domain setup</li>
@@ -2514,7 +2575,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
         <div class="featured-badge">Most Popular</div>
         <div class="plan-name">Growth</div>
         <div class="plan-price">$249<span>/mo</span></div>
-        <p class="plan-sub">+ $199 one-time setup &mdash; waived on annual plans</p>
+        <p class="plan-sub">+ $199 one-time setup</p>
         <ul class="plan-features">
           <li><i class="fas fa-check"></i>Everything in Essential</li>
           <li><i class="fas fa-check"></i>Up to 6 pages</li>
