@@ -72,7 +72,10 @@ a{color:inherit;text-decoration:none;}
 .hero-accent{position:absolute;pointer-events:none;border-radius:50%;filter:blur(80px);opacity:.55;}
 .ha1{width:560px;height:560px;top:-120px;right:-100px;background:radial-gradient(circle,rgba(120,81,169,.14),transparent 70%);}
 .ha2{width:380px;height:380px;bottom:-80px;left:-80px;background:radial-gradient(circle,rgba(245,158,11,.1),transparent 70%);}
-.hero-inner{max-width:1100px;margin:0 auto;padding:0 40px;position:relative;z-index:2;}
+.hero-inner{max-width:1100px;margin:0 auto;padding:0 40px;position:relative;z-index:2;display:grid;grid-template-columns:1fr 360px;gap:52px;align-items:center;}
+.hero-text{min-width:0;}
+.hero-visual{display:flex;align-items:center;justify-content:center;}
+.hero-visual img{width:100%;max-width:320px;height:auto;}
 
 .hero h1{font-size:clamp(2.2rem,4.8vw,3.4rem);font-weight:700;letter-spacing:-.055em;line-height:1.12;margin:0 0 20px;color:var(--text);}
 .hero h1 em{font-style:italic;color:var(--brand);}
@@ -143,7 +146,7 @@ h2{font-weight:700!important;letter-spacing:-.03em!important;}
 h3{font-weight:700!important;letter-spacing:-.02em!important;}
 /* MOBILE */
 @media(max-width:600px){
-  .hero{padding:110px 0 64px;}.hero-inner{padding:0 20px;}
+  .hero{padding:110px 0 64px;}.hero-inner{padding:0 20px;grid-template-columns:1fr;}.hero-visual{display:none;}
   .hero-btns,.final-btns{flex-direction:column;align-items:center;}
   .hero-btns a,.final-btns a{justify-content:center;min-width:200px;max-width:280px;}
   footer{padding:40px 20px 28px;}
@@ -172,6 +175,17 @@ h3{font-weight:700!important;letter-spacing:-.02em!important;}
 .price-link{text-align:center;margin-top:20px;}
 .price-link a{color:var(--brand);font-weight:600;font-size:.92rem;display:inline-flex;align-items:center;gap:6px;transition:gap .2s;}
 .price-link a:hover{gap:10px;}
+
+.related-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+@media(max-width:640px){.related-grid{grid-template-columns:1fr;}}
+.related-card{background:var(--surface);border:1.5px solid var(--line);border-radius:var(--radius);padding:26px 24px;text-decoration:none;display:flex;flex-direction:column;transition:border-color .2s,box-shadow .2s,transform .2s;}
+.related-card:hover{border-color:var(--brand-border);box-shadow:var(--shadow-md);transform:translateY(-3px);}
+.related-icon{width:44px;height:44px;border-radius:12px;background:var(--brand-soft);display:flex;align-items:center;justify-content:center;margin-bottom:14px;flex-shrink:0;}
+.related-icon i{color:var(--brand);font-size:1.05rem;}
+.related-card h3{font-size:1rem;font-weight:700;color:var(--text);margin:0 0 8px;}
+.related-card p{font-size:.88rem;color:var(--muted);line-height:1.65;margin:0 0 auto;padding-bottom:14px;}
+.related-link{font-size:.85rem;font-weight:600;color:var(--brand);display:flex;align-items:center;gap:6px;margin-top:auto;}
+.related-link i{font-size:.75rem;}
 
 </style>
 </head>
@@ -221,16 +235,21 @@ h3{font-weight:700!important;letter-spacing:-.02em!important;}
   <div class="hero-accent ha1"></div>
   <div class="hero-accent ha2"></div>
   <div class="hero-inner">
-    <h1>Your website, <em>built and run</em> for you.</h1>
-    <p class="hero-sub">We design a custom site for your business, launch it, and keep it running every month. Hosting, updates, SEO, and support are all included in one flat price.</p>
-    <div class="hero-btns">
-      <a href="consultation.html" class="btn-primary"><i class="fas fa-arrow-right"></i> Get Your Free Mockup</a>
-      <a href="pricing.html" class="btn-outline">See Pricing</a>
+    <div class="hero-text">
+      <h1>Your website, <em>built and run</em> for you.</h1>
+      <p class="hero-sub">We design a custom site for your business, launch it, and keep it running every month. Hosting, updates, SEO, and support are all included in one flat price.</p>
+      <div class="hero-btns">
+        <a href="consultation.html" class="btn-primary"><i class="fas fa-arrow-right"></i> Get Your Free Mockup</a>
+        <a href="pricing.html" class="btn-outline">See Pricing</a>
+      </div>
+      <div class="hero-trust">
+        <span class="trust-pill"><i class="fas fa-check-circle"></i> Custom design, not a template</span>
+        <span class="trust-pill"><i class="fas fa-check-circle"></i> Live in 5 business days</span>
+        <span class="trust-pill"><i class="fas fa-check-circle"></i> No contracts</span>
+      </div>
     </div>
-    <div class="hero-trust">
-      <span class="trust-pill"><i class="fas fa-check-circle"></i> Custom design, not a template</span>
-      <span class="trust-pill"><i class="fas fa-check-circle"></i> Live in 5 business days</span>
-      <span class="trust-pill"><i class="fas fa-check-circle"></i> No contracts</span>
+    <div class="hero-visual">
+      <img src="images/assets/interactive-website.svg" alt="Website design and management illustration" width="320" height="320" loading="eager" />
     </div>
   </div>
 </section>
@@ -333,6 +352,36 @@ h3{font-weight:700!important;letter-spacing:-.02em!important;}
       </div>
     </div>
     <div class="price-link"><a href="pricing.html">Compare all plan features in detail <i class="fas fa-arrow-right"></i></a></div>
+  </div>
+</section>
+
+<!-- RELATED SERVICES -->
+<section class="section section-gray">
+  <div class="container container-narrow px-4">
+    <div class="section-header" style="margin-bottom:36px;">
+      <h2>Works best with</h2>
+      <p>Most businesses get the strongest results when these services work together.</p>
+    </div>
+    <div class="related-grid">
+      <a href="maintenance.html" class="related-card">
+        <div class="related-icon"><i class="fas fa-sync-alt"></i></div>
+        <h3>Unlimited Updates</h3>
+        <p>Request as many text, photo, or content changes as you need. No hourly fees, no waiting.</p>
+        <span class="related-link">Learn more <i class="fas fa-arrow-right"></i></span>
+      </a>
+      <a href="seo.html" class="related-card">
+        <div class="related-icon"><i class="fas fa-search"></i></div>
+        <h3>Local SEO</h3>
+        <p>Rank higher in local search results and bring in more organic traffic every month.</p>
+        <span class="related-link">Learn more <i class="fas fa-arrow-right"></i></span>
+      </a>
+      <a href="ai.html" class="related-card">
+        <div class="related-icon"><i class="fas fa-robot"></i></div>
+        <h3>AI Chatbot</h3>
+        <p>Answer visitor questions automatically 24/7 and capture leads while you sleep.</p>
+        <span class="related-link">Learn more <i class="fas fa-arrow-right"></i></span>
+      </a>
+    </div>
   </div>
 </section>
 

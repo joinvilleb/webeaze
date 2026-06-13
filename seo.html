@@ -73,7 +73,10 @@ a{color:inherit;text-decoration:none;}
 .hero-accent{position:absolute;pointer-events:none;border-radius:50%;filter:blur(80px);opacity:.55;}
 .ha1{width:560px;height:560px;top:-120px;right:-100px;background:radial-gradient(circle,rgba(120,81,169,.14),transparent 70%);}
 .ha2{width:380px;height:380px;bottom:-80px;left:-80px;background:radial-gradient(circle,rgba(245,158,11,.1),transparent 70%);}
-.hero-inner{max-width:1100px;margin:0 auto;padding:0 40px;position:relative;z-index:2;}
+.hero-inner{max-width:1100px;margin:0 auto;padding:0 40px;position:relative;z-index:2;display:grid;grid-template-columns:1fr 360px;gap:52px;align-items:center;}
+.hero-text{min-width:0;}
+.hero-visual{display:flex;align-items:center;justify-content:center;}
+.hero-visual img{width:100%;max-width:320px;height:auto;}
 
 .hero h1{font-size:clamp(2.2rem,4.8vw,3.4rem);font-weight:700;letter-spacing:-.055em;line-height:1.12;margin:0 0 20px;color:var(--text);}
 .hero h1 em{font-style:italic;color:var(--brand);}
@@ -144,7 +147,7 @@ h2{font-weight:700!important;letter-spacing:-.03em!important;}
 h3{font-weight:700!important;letter-spacing:-.02em!important;}
 /* MOBILE */
 @media(max-width:600px){
-  .hero{padding:110px 0 64px;}.hero-inner{padding:0 20px;}
+  .hero{padding:110px 0 64px;}.hero-inner{padding:0 20px;grid-template-columns:1fr;}.hero-visual{display:none;}
   .hero-btns,.final-btns{flex-direction:column;align-items:center;}
   .hero-btns a,.final-btns a{justify-content:center;min-width:200px;max-width:280px;}
   footer{padding:40px 20px 28px;}
@@ -180,6 +183,17 @@ h3{font-weight:700!important;letter-spacing:-.02em!important;}
 .pc-no{color:#d1d5db;font-size:.8rem;}
 .pc-last .pc-cell{border-bottom:none;}
 @media(max-width:600px){.plan-compare{grid-template-columns:1.6fr 1fr 1fr;}.pc-cell{padding:11px 12px;font-size:.82rem;}}
+
+.related-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+@media(max-width:640px){.related-grid{grid-template-columns:1fr;}}
+.related-card{background:var(--surface);border:1.5px solid var(--line);border-radius:var(--radius);padding:26px 24px;text-decoration:none;display:flex;flex-direction:column;transition:border-color .2s,box-shadow .2s,transform .2s;}
+.related-card:hover{border-color:var(--brand-border);box-shadow:var(--shadow-md);transform:translateY(-3px);}
+.related-icon{width:44px;height:44px;border-radius:12px;background:var(--brand-soft);display:flex;align-items:center;justify-content:center;margin-bottom:14px;flex-shrink:0;}
+.related-icon i{color:var(--brand);font-size:1.05rem;}
+.related-card h3{font-size:1rem;font-weight:700;color:var(--text);margin:0 0 8px;}
+.related-card p{font-size:.88rem;color:var(--muted);line-height:1.65;margin:0 0 auto;padding-bottom:14px;}
+.related-link{font-size:.85rem;font-weight:600;color:var(--brand);display:flex;align-items:center;gap:6px;margin-top:auto;}
+.related-link i{font-size:.75rem;}
 
 </style>
 </head>
@@ -229,16 +243,21 @@ h3{font-weight:700!important;letter-spacing:-.02em!important;}
   <div class="hero-accent ha1"></div>
   <div class="hero-accent ha2"></div>
   <div class="hero-inner">
-    <h1>Get found on Google.<br><em>And AI search.</em></h1>
-    <p class="hero-sub">Every WebEaze site is built with practical SEO from day one. On-page, technical, local, and Answer Engine Optimization so you show up where your customers are searching.</p>
-    <div class="hero-btns">
-      <a href="consultation.html" class="btn-primary"><i class="fas fa-arrow-right"></i> Start with SEO</a>
-      <a href="pricing.html" class="btn-outline">Compare Plans</a>
+    <div class="hero-text">
+      <h1>Get found on Google.<br><em>And AI search.</em></h1>
+      <p class="hero-sub">Every WebEaze site is built with practical SEO from day one. On-page, technical, local, and Answer Engine Optimization so you show up where your customers are searching.</p>
+      <div class="hero-btns">
+        <a href="consultation.html" class="btn-primary"><i class="fas fa-arrow-right"></i> Start with SEO</a>
+        <a href="pricing.html" class="btn-outline">Compare Plans</a>
+      </div>
+      <div class="hero-trust">
+        <span class="trust-pill"><i class="fas fa-check-circle"></i> Built into every site</span>
+        <span class="trust-pill"><i class="fas fa-check-circle"></i> Google Search Console setup included</span>
+        <span class="trust-pill"><i class="fas fa-check-circle"></i> AI search optimization included</span>
+      </div>
     </div>
-    <div class="hero-trust">
-      <span class="trust-pill"><i class="fas fa-check-circle"></i> Built into every site</span>
-      <span class="trust-pill"><i class="fas fa-check-circle"></i> Google Search Console setup included</span>
-      <span class="trust-pill"><i class="fas fa-check-circle"></i> AI search optimization included</span>
+    <div class="hero-visual">
+      <img src="images/assets/analytics.svg" alt="Local SEO analytics illustration" width="320" height="320" loading="eager" />
     </div>
   </div>
 </section>
@@ -359,6 +378,36 @@ h3{font-weight:700!important;letter-spacing:-.02em!important;}
         <div class="pc-cell"><i class="fas fa-minus pc-no"></i></div>
         <div class="pc-cell"><i class="fas fa-check pc-yes"></i></div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- RELATED SERVICES -->
+<section class="section section-gray">
+  <div class="container container-narrow px-4">
+    <div class="section-header" style="margin-bottom:36px;">
+      <h2>Works best with</h2>
+      <p>Most businesses get the strongest results when these services work together.</p>
+    </div>
+    <div class="related-grid">
+      <a href="google-business-management.html" class="related-card">
+        <div class="related-icon"><i class="fab fa-google"></i></div>
+        <h3>Google Business Profile</h3>
+        <p>Show up on Google Maps and local search when nearby customers are ready to buy.</p>
+        <span class="related-link">Learn more <i class="fas fa-arrow-right"></i></span>
+      </a>
+      <a href="ads.html" class="related-card">
+        <div class="related-icon"><i class="fas fa-ad"></i></div>
+        <h3>Ad Management</h3>
+        <p>Google and Meta ads managed for you. Real budget, real results, no guesswork.</p>
+        <span class="related-link">Learn more <i class="fas fa-arrow-right"></i></span>
+      </a>
+      <a href="manage.html" class="related-card">
+        <div class="related-icon"><i class="fas fa-globe"></i></div>
+        <h3>Website Management</h3>
+        <p>Custom design, hosting, and full site management, all handled for you in one monthly plan.</p>
+        <span class="related-link">Learn more <i class="fas fa-arrow-right"></i></span>
+      </a>
     </div>
   </div>
 </section>

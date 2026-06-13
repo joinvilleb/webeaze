@@ -48,42 +48,72 @@
     .brand-word {
       letter-spacing: -.3px; font-weight: 700;
       background: linear-gradient(90deg,#e8e7ea,#66615f);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
     }
     .logo { height: 36px; }
-    .navbar-dark .nav-link { color: #fff !important; opacity: .92; border-radius: 10px; padding: .45rem .7rem; text-decoration: none; }
-    .navbar-dark .nav-link:hover { opacity: 1; background: rgba(255,255,255,.08); }
+    .navbar-dark .nav-link { color: rgba(255,255,255,.72) !important; border-radius: 10px; padding: .45rem .7rem; text-decoration: none; font-weight: 500; font-size: .9rem; transition: all .18s; }
+    .navbar-dark .nav-link:hover { color: #fff !important; background: rgba(255,255,255,.08); }
+    .navbar-dark .nav-link.active-page { color: #fff !important; background: rgba(255,255,255,.1); font-weight: 700; }
     .btn-nav {
-      background: var(--gold); color: #2f1e66; border: none;
-      border-radius: 12px; padding: .6rem .9rem; font-weight: 700;
-      box-shadow: 0 8px 22px rgba(255,215,0,.22); text-decoration: none;
+      background: var(--brand); color: #fff; border: none;
+      border-radius: 10px; padding: .52rem .95rem; font-weight: 700; font-size: .88rem;
+      text-decoration: none; transition: background .18s;
     }
+    .btn-nav:hover { background: #6841a0; }
     .navbar-brand, .navbar-brand:hover, .navbar-brand:focus,
     .navbar-brand .brand-word { text-decoration: none !important; }
 
     /* ── HERO ── */
     .hero {
-      background: #000;
-      padding: 32px 20px 36px;
+      background: linear-gradient(170deg, #0d0d14 0%, #111118 100%);
+      padding: 36px 20px 40px;
       text-align: center;
       border-bottom: 1px solid rgba(255,255,255,.08);
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse 70% 80% at 50% -10%, rgba(120,81,169,.18), transparent 65%);
+      pointer-events: none;
     }
     .plan-greeting {
-      font-size: 11px; font-weight: 700; text-transform: uppercase;
-      letter-spacing: .12em; color: rgba(255,255,255,.38);
-      margin-bottom: 12px;
+      display: inline-flex; align-items: center; gap: 7px;
+      font-size: .78rem; font-weight: 600; letter-spacing: .04em;
+      color: rgba(255,255,255,.5); background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.1); border-radius: 20px;
+      padding: 5px 14px; margin-bottom: 18px;
     }
     .hero h1 {
       color: #fff;
-      font-size: clamp(22px, 3.5vw, 32px);
-      font-weight: 700; letter-spacing: -.025em;
-      margin: 0 0 6px;
+      font-size: clamp(22px, 3.5vw, 34px);
+      font-weight: 700; letter-spacing: -.03em;
+      margin: 0 0 8px; position: relative;
     }
+    .hero h1 em { font-style: normal; color: var(--brand); }
     .hero-sub {
-      color: rgba(255,255,255,.4);
-      font-size: .88rem; max-width: 380px;
-      margin: 0 auto 24px; line-height: 1.5;
+      color: rgba(255,255,255,.45);
+      font-size: .9rem; max-width: 400px;
+      margin: 0 auto 24px; line-height: 1.55; position: relative;
     }
+
+    /* ── PLAN HIGHLIGHTS ── */
+    .plan-highlights {
+      display: grid; grid-template-columns: repeat(3,1fr); gap: 14px;
+      margin-bottom: 28px;
+    }
+    @media(max-width:560px) { .plan-highlights { grid-template-columns: 1fr 1fr; } }
+    .ph-card {
+      background: var(--white); border: 1.5px solid var(--line);
+      border-radius: 14px; padding: 18px 16px; text-align: center;
+    }
+    .ph-val {
+      font-size: 1.9rem; font-weight: 800; letter-spacing: -.04em;
+      line-height: 1; margin-bottom: 5px; color: var(--brand);
+    }
+    .plan-essential .ph-val { color: #16a34a; }
+    .plan-growth .ph-val { color: var(--brand); }
+    .plan-onetime .ph-val { color: #2563eb; }
+    .ph-label { font-size: .78rem; color: var(--ink-3); font-weight: 500; line-height: 1.35; }
 
     /* ── PLAN TABS ── */
     .plan-tabs {
@@ -390,26 +420,12 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
         <span class="navbar-toggler-icon"></span>
       </button>
       <div id="mobileNav" class="collapse navbar-collapse">
-        <ul class="navbar-nav ml-auto">
-<li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="services.html" id="servicesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Our Services</a>
-            <div class="dropdown-menu dropdown-menu-services" aria-labelledby="servicesDropdown">
-              <a class="dropdown-item" href="services.html"><i class="fas fa-th-large"></i> All Services</a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="manage.html"><i class="fas fa-globe"></i> Website Design &amp; Management</a>
-              <a class="dropdown-item" href="maintenance.html"><i class="fas fa-sync-alt"></i> Unlimited Updates</a>
-              <a class="dropdown-item" href="seo.html"><i class="fas fa-search"></i> Local SEO</a>
-              <a class="dropdown-item" href="google-business-management.html"><i class="fab fa-google"></i> Google Business Profile</a>
-              <a class="dropdown-item" href="ai.html"><i class="fas fa-robot"></i> AI Chatbot</a>
-              <a class="dropdown-item" href="ads.html"><i class="fas fa-ad"></i> Ad Management</a>
-              <a class="dropdown-item" href="one-time-project.html"><i class="fas fa-hammer"></i> One-Time Projects</a>
-            </div>
-          </li>
-          <li class="nav-item"><a class="nav-link" href="pricing.html">Pricing</a></li>
-          <li class="nav-item"><a class="nav-link" href="faq.html">FAQ</a></li>
-          <li class="nav-item"><a class="nav-link" href="help.html">Help</a></li>
-          <li class="nav-item"><a class="nav-link" href="contact-us.html">Contact</a></li>
-          <li class="nav-item ml-1"><a class="btn btn-sm btn-nav" href="consultation.html">Book a Free Discovery Call</a></li>
+        <ul class="navbar-nav ml-auto align-items-center">
+          <li class="nav-item"><a class="nav-link active-page" href="my-plan.html">My Plan</a></li>
+          <li class="nav-item"><a class="nav-link" href="website-request.html">Submit a Request</a></li>
+          <li class="nav-item"><a class="nav-link" href="help.html">Help Center</a></li>
+          <li class="nav-item"><a class="nav-link" href="status.html">Status</a></li>
+          <li class="nav-item ml-2"><a class="btn btn-sm btn-nav" href="contact-us.html">Contact Us</a></li>
         </ul>
       </div>
     </nav>
@@ -462,6 +478,12 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
         <a href="pricing.html" class="plan-summary-link">Compare plans &rarr;</a>
       </div>
 
+      <div class="plan-highlights plan-essential">
+        <div class="ph-card"><div class="ph-val">3</div><div class="ph-label">Website pages included</div></div>
+        <div class="ph-card"><div class="ph-val">&#8734;</div><div class="ph-label">Unlimited content updates</div></div>
+        <div class="ph-card"><div class="ph-val">48h</div><div class="ph-label">Email response target</div></div>
+      </div>
+
       <span class="section-label">What's Included</span>
       <div class="feature-list plan-essential" id="grid-essential"></div>
 
@@ -477,7 +499,7 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
       </div>
 
       <span class="section-label">Good to Know</span>
-      <div class="info-note"><strong>Add-ons available</strong> — AI Chatbot, Ad Management, Newsletter Management, and Google Business Profile can be added without upgrading. See <a href="fee-schedule.html#add-ons">Available Add-Ons</a>.</div>
+      <div class="info-note"><strong>Add-ons available:</strong> AI Chatbot, Ad Management, Newsletter Management, and Google Business Profile can be added without upgrading. See <a href="fee-schedule.html#add-ons">Available Add-Ons</a>.</div>
 
       <div class="cta-strip">
         <h3>Ready to submit an update?</h3>
@@ -516,6 +538,12 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
           <span class="plan-summary-chip"><i class="fas fa-check"></i> Google Business Profile</span>
         </div>
         <a href="pricing.html" class="plan-summary-link">Compare plans &rarr;</a>
+      </div>
+
+      <div class="plan-highlights plan-growth">
+        <div class="ph-card"><div class="ph-val">6</div><div class="ph-label">Website pages included</div></div>
+        <div class="ph-card"><div class="ph-val">1st</div><div class="ph-label">Priority request queue</div></div>
+        <div class="ph-card"><div class="ph-val">5</div><div class="ph-label">Support channels available</div></div>
       </div>
 
       <span class="section-label">What's Included</span>
@@ -573,6 +601,12 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
         <a href="one-time-project.html" class="plan-summary-link">Full project details &rarr;</a>
       </div>
 
+      <div class="plan-highlights plan-onetime">
+        <div class="ph-card"><div class="ph-val">3</div><div class="ph-label">Revisions included at no extra charge</div></div>
+        <div class="ph-card"><div class="ph-val">QA</div><div class="ph-label">Reviewed and tested before delivery</div></div>
+        <div class="ph-card"><div class="ph-val">14d</div><div class="ph-label">Revision window after delivery</div></div>
+      </div>
+
       <span class="section-label">What's Included in Every Project</span>
       <div class="feature-list plan-onetime" id="grid-onetime"></div>
 
@@ -585,8 +619,8 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
       </div>
 
       <span class="section-label">Good to Know</span>
-      <div class="info-note"><strong>After delivery</strong> — Ongoing maintenance, hosting, and support are not included. Monthly plans are available if you want someone managing the site long-term.</div>
-      <div class="info-note"><strong>Add-ons without a subscription</strong> — AI Chatbot, Ad Management, Newsletter Management, and Google Business Profile can be added independently. <a href="fee-schedule.html#add-ons">See add-ons</a>.</div>
+      <div class="info-note"><strong>After delivery:</strong> Ongoing maintenance, hosting, and support are not included. Monthly plans are available if you want someone managing the site long-term.</div>
+      <div class="info-note"><strong>Add-ons without a subscription:</strong> AI Chatbot, Ad Management, Newsletter Management, and Google Business Profile can be added independently. <a href="fee-schedule.html#add-ons">See add-ons</a>.</div>
 
       <div class="cta-strip">
         <h3>Want ongoing support after your project?</h3>
@@ -694,7 +728,7 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
     essential: [
       { icon:'fa-file-lines',         name:'Up to 3 pages',           detail:'Home, service pages, and a contact page. Professionally designed to match your brand and built to convert visitors.' },
       { icon:'fa-envelope-open-text', name:'Contact form',             detail:'A fully working contact form so visitors can reach you directly from your site, included on every build.' },
-      { icon:'fa-pen-to-square',      name:'Unlimited updates',        detail:'Text, images, links, hours, prices — submit updates anytime through the request form and we handle them, no limit.' },
+      { icon:'fa-pen-to-square',      name:'Unlimited updates',        detail:'Text, images, links, hours, prices - submit updates anytime through the request form and we handle them, no limit.' },
       { icon:'fa-mobile-screen',      name:'Mobile-responsive',        detail:'Your site is built to look and work perfectly on phones, tablets, and desktops. No extra work needed from you.' },
       { icon:'fa-lock',               name:'SSL certificate',          detail:'Secure HTTPS is set up automatically on every site. No configuration, no renewals, nothing to manage on your end.' },
       { icon:'fa-server',             name:'Hosting & DNS',            detail:'We manage your hosting environment and domain configuration end-to-end so you never deal with the technical side.' },
@@ -809,7 +843,7 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
     if (greeting) {
       let msg = '';
       if (returning && reqCount >= 5) {
-        msg = '<i class="fas fa-star" style="color:#ffd700;margin-right:6px;"></i> Power user — ' + reqCount + ' requests submitted';
+        msg = '<i class="fas fa-star" style="color:#ffd700;margin-right:6px;"></i> Power user - ' + reqCount + ' requests submitted';
       } else if (returning && reqCount > 0) {
         msg = '<i class="fas fa-check-circle" style="color:#4ade80;margin-right:6px;"></i> ' + reqCount + ' update request' + (reqCount === 1 ? '' : 's') + ' submitted';
       } else if (returning) {
