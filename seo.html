@@ -85,19 +85,25 @@ a{color:inherit;text-decoration:none;}
 .hero-trust{display:flex;flex-wrap:wrap;gap:18px;margin-top:24px;}
 .trust-pill{display:inline-flex;align-items:center;gap:7px;font-size:.85rem;color:var(--dim);font-weight:500;}
 .trust-pill i{color:var(--green);font-size:.78rem;}
-/* FEATURE GRID */
-.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
-@media(max-width:900px){.feat-grid{grid-template-columns:repeat(2,1fr);}}
-@media(max-width:560px){.feat-grid{grid-template-columns:1fr;}}
-.feat-card{background:var(--surface);border:1.5px solid var(--line);border-radius:var(--radius);padding:26px 24px;transition:border-color .2s,box-shadow .2s;}
-.feat-card:hover{border-color:var(--brand-border);box-shadow:var(--shadow-md);}
-.feat-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;}
-.feat-icon.p{background:var(--brand-soft);}.feat-icon.p i{color:var(--brand);}
-.feat-icon.g{background:var(--gold-soft);}.feat-icon.g i{color:var(--gold);}
-.feat-icon.gr{background:var(--green-soft);}.feat-icon.gr i{color:var(--green);}
-.feat-icon i{font-size:1.05rem;}
-.feat-card h3{font-size:1rem;font-weight:700;margin:0 0 8px;color:var(--text);}
-.feat-card p{font-size:.9rem;color:var(--muted);line-height:1.65;margin:0;}
+/* SEO TABS */
+.seo-tabs{display:grid;grid-template-columns:220px 1fr;gap:0;border:1.5px solid var(--line);border-radius:var(--radius-lg);overflow:hidden;background:var(--surface);}
+.seo-tab-nav{border-right:1.5px solid var(--line);background:var(--bg);}
+.seo-tab-btn{display:flex;align-items:center;gap:12px;width:100%;padding:16px 20px;background:none;border:none;border-bottom:1px solid var(--line);font-family:'Poppins',sans-serif;font-size:.88rem;font-weight:600;color:var(--muted);cursor:pointer;text-align:left;transition:all .15s;}
+.seo-tab-btn:last-child{border-bottom:none;}
+.seo-tab-btn i{width:16px;text-align:center;font-size:.8rem;flex-shrink:0;color:var(--muted);}
+.seo-tab-btn:hover{background:var(--surface);color:var(--text);}
+.seo-tab-btn.active{background:var(--surface);color:var(--brand);border-right:2px solid var(--brand);margin-right:-2px;}
+.seo-tab-btn.active i{color:var(--brand);}
+.seo-tab-panels{padding:36px 32px;}
+.seo-panel{display:none;}
+.seo-panel.active{display:block;}
+.seo-panel-icon{width:52px;height:52px;border-radius:14px;background:var(--brand-soft);display:flex;align-items:center;justify-content:center;margin-bottom:18px;}
+.seo-panel-icon i{color:var(--brand);font-size:1.2rem;}
+.seo-panel h3{font-size:1.3rem;font-weight:700;color:var(--text);margin:0 0 10px;letter-spacing:-.02em;}
+.seo-panel p{font-size:.95rem;color:var(--muted);line-height:1.75;margin:0 0 20px;}
+.seo-panel-pills{display:flex;flex-wrap:wrap;gap:8px;}
+.seo-pill{font-size:.78rem;font-weight:600;color:var(--text);background:var(--bg);border:1.5px solid var(--line);border-radius:6px;padding:5px 12px;}
+@media(max-width:700px){.seo-tabs{grid-template-columns:1fr;}.seo-tab-nav{border-right:none;border-bottom:1.5px solid var(--line);display:flex;overflow-x:auto;}.seo-tab-btn{border-bottom:none;border-right:1px solid var(--line);flex-shrink:0;padding:12px 16px;font-size:.8rem;}.seo-tab-btn:last-child{border-right:none;}.seo-tab-btn.active{border-right:none;border-bottom:2px solid var(--brand);margin-right:0;margin-bottom:-2px;}.seo-tab-panels{padding:24px 20px;}}
 /* STEP CARDS */
 .steps-row{display:grid;grid-template-columns:1fr 44px 1fr 44px 1fr;align-items:start;}
 .step-card{background:var(--surface);border:1.5px solid var(--line);border-radius:var(--radius-lg);padding:32px 26px;position:relative;overflow:hidden;box-shadow:var(--shadow-sm);}
@@ -268,40 +274,99 @@ h3{font-weight:700!important;letter-spacing:-.02em!important;}
     <div class="section-header">
       <h2>Four pillars of SEO that actually move the needle.</h2>
     </div>
-    <div class="feat-grid">
-      <div class="feat-card">
-        <div class="feat-icon p"><i class="fas fa-file-code"></i></div>
-        <h3>On-Page SEO</h3>
-        <p>Page titles, meta descriptions, heading structure, image alt tags, canonical URLs, and internal linking done right from the start.</p>
+    <div class="seo-tabs">
+      <div class="seo-tab-nav">
+        <button class="seo-tab-btn active" data-panel="seo-p1"><i class="fas fa-file-lines"></i> On-Page SEO</button>
+        <button class="seo-tab-btn" data-panel="seo-p2"><i class="fas fa-cogs"></i> Technical SEO</button>
+        <button class="seo-tab-btn" data-panel="seo-p3"><i class="fas fa-map-marker-alt"></i> Local SEO</button>
+        <button class="seo-tab-btn" data-panel="seo-p4"><i class="fas fa-robot"></i> Answer Engine</button>
+        <button class="seo-tab-btn" data-panel="seo-p5"><i class="fab fa-google"></i> Search Console</button>
+        <button class="seo-tab-btn" data-panel="seo-p6"><i class="fas fa-chart-bar"></i> Reporting</button>
       </div>
-      <div class="feat-card">
-        <div class="feat-icon gr"><i class="fas fa-cogs"></i></div>
-        <h3>Technical SEO</h3>
-        <p>Clean HTML, fast load times, mobile-first structure, secure HTTPS, structured data markup, and a proper sitemap submitted to Google.</p>
-      </div>
-      <div class="feat-card">
-        <div class="feat-icon g"><i class="fas fa-map-marker-alt"></i></div>
-        <h3>Local SEO</h3>
-        <p>LocalBusiness schema, location-specific pages, and Google Business Profile management so you show up for searches in your area.</p>
-      </div>
-      <div class="feat-card">
-        <div class="feat-icon p"><i class="fas fa-robot"></i></div>
-        <h3>Answer Engine Optimization</h3>
-        <p>FAQ schema, entity definitions, speakable markup, and llms.txt files so AI tools like ChatGPT and Google AI Overviews can cite your business.</p>
-      </div>
-      <div class="feat-card">
-        <div class="feat-icon gr"><i class="fas fa-chart-line"></i></div>
-        <h3>Search Console Setup</h3>
-        <p>Google Search Console is connected and your sitemap is submitted at launch so Google starts indexing your site immediately.</p>
-      </div>
-      <div class="feat-card">
-        <div class="feat-icon g"><i class="fas fa-tachometer-alt"></i></div>
-        <h3>Performance Reporting</h3>
-        <p>Growth plan clients receive bi-monthly reports on traffic, keyword rankings, and visibility improvements over time.</p>
+      <div class="seo-tab-panels">
+        <div class="seo-panel active" id="seo-p1">
+          <div class="seo-panel-icon"><i class="fas fa-file-lines"></i></div>
+          <h3>On-Page SEO</h3>
+          <p>Page titles, meta descriptions, heading structure, image alt tags, canonical URLs, and internal linking done right from the start.</p>
+          <div class="seo-panel-pills">
+            <span class="seo-pill">Page titles</span>
+            <span class="seo-pill">Meta descriptions</span>
+            <span class="seo-pill">Heading structure</span>
+            <span class="seo-pill">Image alt tags</span>
+          </div>
+        </div>
+        <div class="seo-panel" id="seo-p2">
+          <div class="seo-panel-icon"><i class="fas fa-cogs"></i></div>
+          <h3>Technical SEO</h3>
+          <p>Clean HTML, fast load times, mobile-first structure, secure HTTPS, structured data markup, and a proper sitemap submitted to Google.</p>
+          <div class="seo-panel-pills">
+            <span class="seo-pill">Core Web Vitals</span>
+            <span class="seo-pill">HTTPS security</span>
+            <span class="seo-pill">XML sitemap</span>
+            <span class="seo-pill">Structured data</span>
+          </div>
+        </div>
+        <div class="seo-panel" id="seo-p3">
+          <div class="seo-panel-icon"><i class="fas fa-map-marker-alt"></i></div>
+          <h3>Local SEO</h3>
+          <p>LocalBusiness schema, location-specific pages, and Google Business Profile management so you show up for searches in your area.</p>
+          <div class="seo-panel-pills">
+            <span class="seo-pill">LocalBusiness schema</span>
+            <span class="seo-pill">Location pages</span>
+            <span class="seo-pill">Google Maps presence</span>
+            <span class="seo-pill">NAP consistency</span>
+          </div>
+        </div>
+        <div class="seo-panel" id="seo-p4">
+          <div class="seo-panel-icon"><i class="fas fa-robot"></i></div>
+          <h3>Answer Engine Optimization</h3>
+          <p>FAQ schema, entity definitions, speakable markup, and llms.txt files so AI tools like ChatGPT and Google AI Overviews can cite your business.</p>
+          <div class="seo-panel-pills">
+            <span class="seo-pill">FAQ schema</span>
+            <span class="seo-pill">Entity markup</span>
+            <span class="seo-pill">Speakable markup</span>
+            <span class="seo-pill">llms.txt file</span>
+          </div>
+        </div>
+        <div class="seo-panel" id="seo-p5">
+          <div class="seo-panel-icon"><i class="fab fa-google"></i></div>
+          <h3>Search Console Setup</h3>
+          <p>Google Search Console is connected and your sitemap is submitted at launch so Google starts indexing your site immediately.</p>
+          <div class="seo-panel-pills">
+            <span class="seo-pill">GSC connection</span>
+            <span class="seo-pill">Sitemap submission</span>
+            <span class="seo-pill">Index coverage</span>
+            <span class="seo-pill">Crawl error monitoring</span>
+          </div>
+        </div>
+        <div class="seo-panel" id="seo-p6">
+          <div class="seo-panel-icon"><i class="fas fa-chart-bar"></i></div>
+          <h3>Performance Reporting</h3>
+          <p>Growth plan clients receive bi-monthly reports on traffic, keyword rankings, and visibility improvements over time.</p>
+          <div class="seo-panel-pills">
+            <span class="seo-pill">Keyword rankings</span>
+            <span class="seo-pill">Traffic trends</span>
+            <span class="seo-pill">Click-through rates</span>
+            <span class="seo-pill">Visibility score</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </section>
+
+<script>
+(function(){
+  document.querySelectorAll('.seo-tab-btn').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      document.querySelectorAll('.seo-tab-btn').forEach(function(b){b.classList.remove('active');});
+      document.querySelectorAll('.seo-panel').forEach(function(p){p.classList.remove('active');});
+      btn.classList.add('active');
+      document.getElementById(btn.dataset.panel).classList.add('active');
+    });
+  });
+})();
+</script>
 
 <!-- AEO SPLIT -->
 <section class="section section-gray">

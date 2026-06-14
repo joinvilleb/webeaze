@@ -84,19 +84,31 @@ a{color:inherit;text-decoration:none;}
 .hero-trust{display:flex;flex-wrap:wrap;gap:18px;margin-top:24px;}
 .trust-pill{display:inline-flex;align-items:center;gap:7px;font-size:.85rem;color:var(--dim);font-weight:500;}
 .trust-pill i{color:var(--green);font-size:.78rem;}
-/* FEATURE GRID */
-.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
-@media(max-width:900px){.feat-grid{grid-template-columns:repeat(2,1fr);}}
-@media(max-width:560px){.feat-grid{grid-template-columns:1fr;}}
-.feat-card{background:var(--surface);border:1.5px solid var(--line);border-radius:var(--radius);padding:26px 24px;transition:border-color .2s,box-shadow .2s;}
-.feat-card:hover{border-color:var(--brand-border);box-shadow:var(--shadow-md);}
-.feat-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;}
-.feat-icon.p{background:var(--brand-soft);}.feat-icon.p i{color:var(--brand);}
-.feat-icon.g{background:var(--gold-soft);}.feat-icon.g i{color:var(--gold);}
-.feat-icon.gr{background:var(--green-soft);}.feat-icon.gr i{color:var(--green);}
-.feat-icon i{font-size:1.05rem;}
-.feat-card h3{font-size:1rem;font-weight:700;margin:0 0 8px;color:var(--text);}
-.feat-card p{font-size:.9rem;color:var(--muted);line-height:1.65;margin:0;}
+/* BENTO GRID */
+.feat-bento{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+.fb-card{background:var(--surface);border:1.5px solid var(--line);border-radius:var(--radius-lg);padding:28px 26px;display:flex;flex-direction:column;transition:border-color .22s,box-shadow .22s,transform .22s;position:relative;overflow:hidden;}
+.fb-card:hover{border-color:var(--brand-border);box-shadow:0 8px 36px rgba(120,81,169,.12);transform:translateY(-3px);}
+.fb-wide{grid-column:span 2;}
+.fb-full{grid-column:span 3;flex-direction:row;align-items:flex-start;gap:28px;}
+.fb-icon{width:46px;height:46px;border-radius:13px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;flex-shrink:0;}
+.fb-icon.p{background:var(--brand-soft);color:var(--brand);}
+.fb-icon.g{background:var(--gold-soft);color:var(--gold);}
+.fb-icon.gr{background:var(--green-soft);color:var(--green);}
+.fb-icon i{font-size:1.05rem;}
+.fb-tag{display:inline-flex;align-items:center;gap:5px;font-size:.7rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--brand);background:var(--brand-soft);border-radius:20px;padding:3px 10px;margin-bottom:12px;width:fit-content;}
+.fb-card h3{font-size:1rem;font-weight:700;color:var(--text);margin:0 0 8px;}
+.fb-wide h3{font-size:1.12rem;}
+.fb-full h3{font-size:1.12rem;}
+.fb-card p{font-size:.9rem;color:var(--muted);line-height:1.65;margin:0;}
+.fb-body{flex:1;min-width:0;}
+.fb-decor{position:absolute;bottom:-18px;right:10px;font-size:6.5rem;font-weight:800;color:rgba(120,81,169,.045);pointer-events:none;line-height:1;letter-spacing:-.04em;font-family:'Poppins',sans-serif;}
+.fb-channels{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px;}
+.fb-ch{display:inline-flex;align-items:center;gap:7px;font-size:.83rem;font-weight:600;color:var(--text);background:var(--bg);border:1.5px solid var(--line);border-radius:8px;padding:7px 14px;transition:border-color .18s,background .18s,color .18s;}
+.fb-card:hover .fb-ch{border-color:rgba(120,81,169,.28);background:var(--brand-soft);}
+.fb-ch i{color:var(--brand);font-size:.78rem;}
+.fb-ch small{font-size:.72rem;font-weight:500;color:var(--dim);margin-left:2px;}
+@media(max-width:860px){.fb-wide{grid-column:span 1;}.fb-full{grid-column:span 3;flex-direction:column;gap:0;}}
+@media(max-width:600px){.feat-bento{grid-template-columns:1fr;}.fb-full,.fb-wide{grid-column:span 1;}}
 /* STEP CARDS */
 .steps-row{display:grid;grid-template-columns:1fr 44px 1fr 44px 1fr;align-items:start;}
 .step-card{background:var(--surface);border:1.5px solid var(--line);border-radius:var(--radius-lg);padding:32px 26px;position:relative;overflow:hidden;box-shadow:var(--shadow-sm);}
@@ -261,37 +273,71 @@ h3{font-weight:700!important;letter-spacing:-.02em!important;}
       <h2>One price. Everything covered.</h2>
       <p>Every plan includes the full package. No add-ons required for the essentials.</p>
     </div>
-    <div class="feat-grid">
-      <div class="feat-card">
-        <div class="feat-icon p"><i class="fas fa-paint-brush"></i></div>
+    <div class="feat-bento">
+
+      <!-- Wide: Custom Design -->
+      <div class="fb-card fb-wide">
+        <div class="fb-icon p"><i class="fas fa-paint-brush"></i></div>
+        <div class="fb-tag">Built from scratch</div>
         <h3>Custom Website Design</h3>
-        <p>Built from scratch for your specific business. No templates, no drag-and-drop builders. Your brand, your style.</p>
+        <p>Designed specifically for your business. No templates, no drag-and-drop builders. Every page reflects your brand, your voice, and what your customers need to see before they decide to call.</p>
+        <div class="fb-decor">01</div>
       </div>
-      <div class="feat-card">
-        <div class="feat-icon gr"><i class="fas fa-server"></i></div>
+
+      <!-- Hosting & SSL -->
+      <div class="fb-card">
+        <div class="fb-icon gr"><i class="fas fa-server"></i></div>
+        <div class="fb-tag">Always on</div>
         <h3>Hosting and SSL</h3>
-        <p>Fast, reliable hosting with an SSL certificate included. Your site stays online and secure without you touching a thing.</p>
+        <p>Fast, reliable hosting with SSL included. Your site stays online and secure without you touching a thing.</p>
+        <div class="fb-decor">02</div>
       </div>
-      <div class="feat-card">
-        <div class="feat-icon g"><i class="fas fa-sync-alt"></i></div>
-        <h3>Unlimited Content Updates</h3>
-        <p>Text changes, new photos, updated pricing or hours. Submit a request and we handle it within 24 to 48 hours.</p>
+
+      <!-- Updates -->
+      <div class="fb-card">
+        <div class="fb-icon g"><i class="fas fa-sync-alt"></i></div>
+        <div class="fb-tag">24-48 hr turnaround</div>
+        <h3>Unlimited Updates</h3>
+        <p>Text, photos, hours, pricing. Submit a request and we handle it. No limits, no extra fees, ever.</p>
+        <div class="fb-decor">03</div>
       </div>
-      <div class="feat-card">
-        <div class="feat-icon p"><i class="fas fa-search"></i></div>
+
+      <!-- SEO -->
+      <div class="fb-card">
+        <div class="fb-icon p"><i class="fas fa-search"></i></div>
+        <div class="fb-tag">Day one</div>
         <h3>Local SEO Built In</h3>
-        <p>Every site launches with proper page titles, meta descriptions, schema markup, and Google Search Console setup.</p>
+        <p>Page titles, meta descriptions, schema markup, and Search Console setup. Every site launches optimized.</p>
+        <div class="fb-decor">04</div>
       </div>
-      <div class="feat-card">
-        <div class="feat-icon gr"><i class="fas fa-mobile-alt"></i></div>
+
+      <!-- Mobile -->
+      <div class="fb-card">
+        <div class="fb-icon gr"><i class="fas fa-mobile-alt"></i></div>
+        <div class="fb-tag">Every device</div>
         <h3>Mobile Optimized</h3>
-        <p>Looks great on every screen. Designed mobile-first so visitors on phones have the same experience as desktop users.</p>
+        <p>Designed mobile-first so visitors on phones have the same experience as desktop users.</p>
+        <div class="fb-decor">05</div>
       </div>
-      <div class="feat-card">
-        <div class="feat-icon g"><i class="fas fa-headset"></i></div>
-        <h3>Ongoing Support</h3>
-        <p>Real humans you can email. No ticket systems, no chatbots. Questions get answered. Issues get fixed.</p>
+
+      <!-- Full-width: Support -->
+      <div class="fb-card fb-full">
+        <div class="fb-icon g" style="margin-bottom:0;margin-top:4px;"><i class="fas fa-headset"></i></div>
+        <div class="fb-body">
+          <div class="fb-tag">Real humans</div>
+          <h3>Ongoing Support</h3>
+          <p>No ticket systems, no scripted responses. Questions get answered and issues get fixed by the same team that built your site. Reach us the way that works best for you.</p>
+          <div class="fb-channels">
+            <span class="fb-ch"><i class="fas fa-envelope"></i> Email</span>
+            <span class="fb-ch"><i class="fas fa-file-alt"></i> Request Form</span>
+            <span class="fb-ch"><i class="fas fa-comments"></i> Live Chat</span>
+            <span class="fb-ch"><i class="fas fa-phone"></i> Phone <small>(Growth)</small></span>
+            <span class="fb-ch"><i class="fas fa-video"></i> Video Call <small>(Growth)</small></span>
+          </div>
+        </div>
+        <div class="fb-decor">06</div>
       </div>
+
     </div>
   </div>
 </section>
