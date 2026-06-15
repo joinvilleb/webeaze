@@ -209,7 +209,7 @@
       'height:' + BAR_H + 'px;',
       'background:#fff;border-bottom:2px solid ' + promo.border + ';',
       'box-shadow:0 1px 6px rgba(0,0,0,.07);',
-      'transition:transform .35s ease,opacity .3s ease;overflow:hidden;',
+      'transition:transform .35s ease,opacity .3s ease,top .28s ease;overflow:hidden;',
     '}',
     '#wb-promo-spacer{height:' + BAR_H + 'px;flex-shrink:0;transition:height .35s ease;}',
     '.wbpromo-inner{',
@@ -383,6 +383,22 @@
         dismissBar();
         openModal();
       });
+    }
+
+    // Slide bar up/down in sync with the nav hide-on-scroll behavior
+    if (nav) {
+      var barShowing = true;
+      var navSync = new MutationObserver(function () {
+        var navIsHidden = nav.classList.contains('nav-hidden');
+        if (navIsHidden && barShowing) {
+          barShowing = false;
+          bar.style.top = '-' + (bar.offsetHeight + 4) + 'px';
+        } else if (!navIsHidden && !barShowing) {
+          barShowing = true;
+          bar.style.top = (nav.offsetHeight || 64) + 'px';
+        }
+      });
+      navSync.observe(nav, { attributes: true, attributeFilter: ['class'] });
     }
 
   }
