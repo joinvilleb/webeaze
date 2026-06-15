@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Troy's Lawn &amp; Landscape — Lawn Care &amp; Landscaping, Easton PA</title>
+<meta name="description" content="Reliable, affordable lawn care and landscaping in Easton, Bethlehem & the Lehigh Valley. Weekly mowing, landscape installs, mulch, and cleanups. Call (484) 591-9152.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Mulish:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --pine:#114731;
+    --pine-deep:#0c3322;
+    --lime:#9bd442;
+    --lime-deep:#7fb52f;
+    --ink:#16201a;
+    --paper:#f5f6f1;
+    --card:#ffffff;
+    --text:#1d271d;
+    --muted:#5a665a;
+    --line:#e3e7dc;
+    --radius:16px;
+    --shadow:0 18px 42px -24px rgba(17,71,49,.45);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:"Mulish",system-ui,sans-serif;color:var(--text);background:var(--paper);line-height:1.62;-webkit-font-smoothing:antialiased}
+  h1,h2,h3,.disp{font-family:"Space Grotesk",system-ui,sans-serif;line-height:1.05;letter-spacing:-.02em;font-weight:700}
+  a{color:inherit;text-decoration:none}
+  img{max-width:100%;display:block}
+  .wrap{width:min(1150px,92vw);margin:0 auto}
+  .btn{display:inline-flex;align-items:center;gap:.5rem;font-family:"Space Grotesk",sans-serif;font-weight:600;font-size:1rem;padding:.9rem 1.55rem;border-radius:10px;border:2px solid transparent;cursor:pointer;transition:transform .15s ease,background .2s ease,border-color .2s ease;white-space:nowrap}
+  .btn:focus-visible{outline:3px solid var(--lime);outline-offset:3px}
+  .btn-lime{background:var(--lime);color:var(--pine-deep)}
+  .btn-lime:hover{background:var(--lime-deep);transform:translateY(-2px)}
+  .btn-ghost{background:transparent;color:var(--paper);border-color:rgba(245,246,241,.4)}
+  .btn-ghost:hover{border-color:var(--paper);transform:translateY(-2px)}
+  .btn-pine{background:var(--pine);color:#fff}
+  .btn-pine:hover{background:var(--pine-deep);transform:translateY(-2px)}
+
+  /* Header */
+  header{position:sticky;top:0;z-index:50;background:rgba(245,246,241,.93);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  .nav{display:flex;align-items:center;justify-content:space-between;padding:.8rem 0;gap:1rem}
+  .brand{display:flex;align-items:center;gap:.55rem;font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:1.18rem;color:var(--pine)}
+  .brand .leaf{width:36px;height:36px;border-radius:9px;background:var(--pine);display:grid;place-items:center;flex:none}
+  .nav-links{display:flex;align-items:center;gap:1.6rem;font-weight:700}
+  .nav-links a.lnk{color:var(--muted);transition:color .15s}
+  .nav-links a.lnk:hover{color:var(--pine)}
+  .menu-btn{display:none;background:none;border:0;cursor:pointer;color:var(--pine)}
+
+  /* Hero */
+  .hero{background:linear-gradient(155deg,var(--pine),var(--pine-deep));color:var(--paper);position:relative;overflow:hidden}
+  .hero-grid{display:grid;grid-template-columns:1.08fr .92fr;gap:2.4rem;align-items:center;padding:4.2rem 0 4.6rem;position:relative;z-index:2}
+  .eyebrow{display:inline-flex;align-items:center;gap:.5rem;font-weight:700;text-transform:uppercase;letter-spacing:.14em;font-size:.76rem;color:var(--lime);margin-bottom:1.1rem}
+  .eyebrow::before{content:"";width:24px;height:2px;background:var(--lime)}
+  .hero h1{font-size:clamp(2.5rem,5.3vw,4rem);margin-bottom:1.1rem}
+  .hero h1 .hl{color:var(--lime)}
+  .hero p.lede{font-size:1.16rem;color:rgba(245,246,241,.85);max-width:39ch;margin-bottom:1.9rem}
+  .hero-cta{display:flex;gap:.85rem;flex-wrap:wrap;margin-bottom:2.2rem}
+  .trust-strip{display:flex;flex-wrap:wrap;gap:.55rem 1.4rem}
+  .trust-pill{display:flex;align-items:center;gap:.5rem;font-weight:600;font-size:.93rem;color:rgba(245,246,241,.92)}
+  .trust-pill svg{flex:none;color:var(--lime)}
+  .yard-art{width:100%;max-width:430px;margin-left:auto;filter:drop-shadow(0 22px 30px rgba(0,0,0,.32))}
+
+  /* Sections */
+  .section{padding:4.6rem 0}
+  .head{max-width:60ch;margin-bottom:2.6rem}
+  .kicker{font-weight:700;text-transform:uppercase;letter-spacing:.14em;font-size:.76rem;color:var(--lime-deep);margin-bottom:.7rem}
+  .head h2{font-size:clamp(1.95rem,3.7vw,2.7rem);color:var(--pine);margin-bottom:.55rem}
+  .head p{color:var(--muted);font-size:1.08rem}
+
+  /* Services */
+  .svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.3rem}
+  .svc{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:1.8rem 1.6rem;transition:transform .18s ease,box-shadow .18s ease}
+  .svc:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+  .svc .ico{width:52px;height:52px;border-radius:12px;background:rgba(17,71,49,.09);color:var(--pine);display:grid;place-items:center;margin-bottom:1.1rem}
+  .svc h3{font-size:1.26rem;color:var(--pine);margin-bottom:.35rem}
+  .svc p{color:var(--muted);font-size:.97rem}
+
+  /* Why */
+  .why{background:var(--pine);color:var(--paper)}
+  .why .head h2{color:#fff}
+  .why .head p{color:rgba(245,246,241,.8)}
+  .why .kicker{color:var(--lime)}
+  .why-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.3rem}
+  .why-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:13px;padding:1.6rem 1.3rem}
+  .why-card .ico{color:var(--lime);margin-bottom:.7rem}
+  .why-card h3{font-size:1.1rem;margin-bottom:.3rem}
+  .why-card p{color:rgba(245,246,241,.76);font-size:.93rem}
+
+  /* Reviews */
+  .rev-head{display:flex;align-items:center;gap:.8rem;flex-wrap:wrap;margin-bottom:1.8rem}
+  .nd-badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(17,71,49,.08);color:var(--pine);font-weight:700;font-size:.9rem;padding:.5rem .9rem;border-radius:999px}
+  .rev-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem}
+  .quote{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:1.7rem 1.6rem;box-shadow:var(--shadow)}
+  .quote .stars{color:var(--lime-deep);letter-spacing:.08em;margin-bottom:.7rem;font-size:1.05rem}
+  .quote p{font-size:1.01rem;margin-bottom:1rem;color:var(--ink)}
+  .quote .who{font-weight:700;color:var(--pine)}
+  .quote .ph{font-size:.8rem;color:var(--lime-deep);font-weight:600;margin-top:.3rem}
+
+  /* Gallery */
+  .gal{background:#eef1e8}
+  .gal-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+  .tile{aspect-ratio:4/3;border-radius:13px;border:2px dashed var(--line);background:linear-gradient(135deg,rgba(17,71,49,.08),rgba(155,212,66,.16));display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem;color:var(--muted);text-align:center;padding:1rem}
+  .tile svg{color:var(--pine)}
+  .tile span{font-weight:600;font-size:.88rem}
+
+  /* CTA + form */
+  .cta{background:linear-gradient(155deg,var(--pine),var(--pine-deep));color:var(--paper)}
+  .cta-grid{display:grid;grid-template-columns:1fr 1fr;gap:2.6rem;align-items:center;padding:4.2rem 0}
+  .cta h2{font-size:clamp(2rem,4vw,3rem);margin-bottom:1rem}
+  .cta h2 .hl{color:var(--lime)}
+  .phone-big{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:1.9rem;color:var(--lime);display:inline-flex;align-items:center;gap:.6rem;margin:.4rem 0 1.4rem}
+  .cta ul{list-style:none;display:grid;gap:.5rem;color:rgba(245,246,241,.85)}
+  .cta ul li{display:flex;gap:.6rem;align-items:center}
+  .cta ul li svg{flex:none;color:var(--lime)}
+  .form{background:var(--card);color:var(--text);border-radius:var(--radius);padding:2rem;box-shadow:var(--shadow)}
+  .form h3{color:var(--pine);font-size:1.4rem;margin-bottom:1.2rem}
+  .field{margin-bottom:1rem}
+  .field label{display:block;font-weight:700;font-size:.88rem;margin-bottom:.35rem;color:var(--pine)}
+  .field input,.field select,.field textarea{width:100%;padding:.78rem .9rem;border:1px solid var(--line);border-radius:10px;font-family:inherit;font-size:1rem;background:#fff;color:var(--text)}
+  .field input:focus,.field select:focus,.field textarea:focus{outline:2px solid var(--pine);outline-offset:1px;border-color:var(--pine)}
+  .form .btn{width:100%;justify-content:center;margin-top:.3rem}
+  .form-note{text-align:center;font-size:.83rem;color:var(--muted);margin-top:.8rem}
+  .ok-msg{display:none;background:rgba(17,71,49,.09);border:1px solid var(--pine);color:var(--pine);border-radius:10px;padding:1rem;font-weight:600;text-align:center}
+
+  /* Footer */
+  footer{background:var(--pine-deep);color:rgba(245,246,241,.78);padding:3rem 0 2rem}
+  .foot-grid{display:flex;justify-content:space-between;gap:2rem;flex-wrap:wrap;margin-bottom:2rem}
+  .foot-brand{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:1.4rem;color:#fff;margin-bottom:.5rem}
+  .foot-col h4{color:#fff;font-size:.82rem;text-transform:uppercase;letter-spacing:.14em;margin-bottom:.7rem}
+  .foot-col p,.foot-col a{display:block;margin-bottom:.35rem;font-size:.95rem}
+  .foot-col a:hover{color:var(--lime)}
+  .foot-bottom{border-top:1px solid rgba(255,255,255,.12);padding-top:1.3rem;font-size:.84rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:.6rem}
+
+  @media(max-width:880px){
+    .nav-links{position:fixed;inset:60px 0 auto 0;background:var(--paper);flex-direction:column;align-items:flex-start;padding:1.2rem 6vw;gap:1.1rem;border-bottom:1px solid var(--line);transform:translateY(-135%);transition:transform .25s ease;box-shadow:var(--shadow)}
+    .nav-links.open{transform:translateY(0)}
+    .menu-btn{display:block}
+    .hero-grid{grid-template-columns:1fr;gap:1.6rem;padding:3rem 0 3.4rem}
+    .yard-art{max-width:300px;margin:0 auto}
+    .svc-grid,.rev-grid,.gal-grid,.cta-grid{grid-template-columns:1fr}
+    .why-grid{grid-template-columns:1fr 1fr}
+    .rev-grid .quote:nth-child(3){display:none}
+  }
+  @media(max-width:520px){.svc-grid,.why-grid,.gal-grid{grid-template-columns:1fr}}
+  @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a href="#top" class="brand">
+      <span class="leaf"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 21C6 18 4 12 5 5c7 1 13 4 14 11-3 1-5 0-7-2" stroke="#9bd442" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      Troy's Lawn &amp; Landscape
+    </a>
+    <nav class="nav-links" id="navLinks">
+      <a class="lnk" href="#services">Services</a>
+      <a class="lnk" href="#why">Why Us</a>
+      <a class="lnk" href="#reviews">Reviews</a>
+      <a class="lnk" href="#contact">Contact</a>
+      <a class="btn btn-pine" href="tel:+14845919152" style="padding:.55rem 1.1rem;font-size:.95rem">Call (484) 591-9152</a>
+    </nav>
+    <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+  </div>
+</header>
+
+<section class="hero" id="top">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow">Easton, Bethlehem &amp; the Lehigh Valley</span>
+      <h1>Lawn care and landscaping that makes your yard <span class="hl">stand out.</span></h1>
+      <p class="lede">From weekly mowing to full landscape installs — reliable, affordable, and detail-focused. Locally owned.</p>
+      <div class="hero-cta">
+        <a class="btn btn-lime" href="#contact">Get a free estimate</a>
+        <a class="btn btn-ghost" href="tel:+14845919152">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          Call now
+        </a>
+      </div>
+      <div class="trust-strip">
+        <span class="trust-pill"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>Reliable &amp; on schedule</span>
+        <span class="trust-pill"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>Affordable pricing</span>
+        <span class="trust-pill"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>Loved by neighbors</span>
+        <span class="trust-pill"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>Free estimates</span>
+      </div>
+    </div>
+    <div>
+      <svg class="yard-art" viewBox="0 0 420 380" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A landscaped yard with a tree, mulch beds, shrubs, and a freshly mowed lawn">
+        <rect width="420" height="380" rx="20" fill="#cfe6b0"/>
+        <rect width="420" height="150" rx="20" fill="#bfe09a"/>
+        <!-- sun -->
+        <circle cx="340" cy="66" r="30" fill="#f4d35e"/>
+        <!-- tree -->
+        <rect x="78" y="120" width="12" height="70" fill="#5b3a26"/>
+        <circle cx="84" cy="104" r="40" fill="#2f7d46"/>
+        <circle cx="58" cy="116" r="26" fill="#36904f"/>
+        <circle cx="110" cy="116" r="26" fill="#36904f"/>
+        <!-- mowed lawn -->
+        <path d="M0 196 L420 182 L420 380 L0 380 Z" fill="#3a9a52"/>
+        <g fill="#48b462">
+          <path d="M0 196 L60 194 L60 380 L0 380 Z"/>
+          <path d="M120 192 L180 190 L180 380 L120 380 Z"/>
+          <path d="M240 188 L300 186 L300 380 L240 380 Z"/>
+          <path d="M360 184 L420 183 L420 380 L360 380 Z"/>
+        </g>
+        <!-- curved mulch bed with shrubs -->
+        <path d="M150 320 q120 -60 270 -30 v90 h-270 z" fill="#6b4226"/>
+        <circle cx="250" cy="316" r="26" fill="#2f7d46"/>
+        <circle cx="300" cy="322" r="22" fill="#36904f"/>
+        <circle cx="345" cy="314" r="24" fill="#2f7d46"/>
+        <circle cx="250" cy="306" r="6" fill="#e7679a"/>
+        <circle cx="300" cy="314" r="6" fill="#f4d35e"/>
+        <circle cx="345" cy="304" r="6" fill="#e7679a"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="services">
+  <div class="wrap">
+    <div class="head">
+      <p class="kicker">What we do</p>
+      <h2>From mowing to full installs</h2>
+      <p>One local crew for everything your property needs to look its best — and stay that way.</p>
+    </div>
+    <div class="svc-grid">
+      <div class="svc">
+        <div class="ico"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 18h18M5 18a3 3 0 0 1 3-3h2l2-4h4l2 4h2a3 3 0 0 1 3 3"/><circle cx="8" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/></svg></div>
+        <h3>Weekly Lawn Maintenance</h3>
+        <p>Dependable mowing, edging, and trimming on a schedule you can set your clock by.</p>
+      </div>
+      <div class="svc">
+        <div class="ico"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v6M12 8a4 4 0 0 0-4 4v8h8v-8a4 4 0 0 0-4-4zM6 14H4v6h2M18 14h2v6h-2"/></svg></div>
+        <h3>Landscape Installs</h3>
+        <p>New beds, plantings, and designs that transform your yard into something you're proud of.</p>
+      </div>
+      <div class="svc">
+        <div class="ico"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20h16M6 20v-4a6 6 0 0 1 12 0v4M9 10l3-4 3 4"/></svg></div>
+        <h3>Mulch Installs</h3>
+        <p>Fresh mulch that keeps beds healthy, holds moisture, and makes the whole property pop.</p>
+      </div>
+      <div class="svc">
+        <div class="ico"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 4l6 6M3 21l5-5M9 9l6 6M14.5 4.5 19.5 9.5"/><circle cx="6" cy="18" r="3"/></svg></div>
+        <h3>Shrub &amp; Hedge Trimming</h3>
+        <p>Clean, shaped hedges and shrubs that keep your landscaping looking intentional.</p>
+      </div>
+      <div class="svc">
+        <div class="ico"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C9 6 8 9 8 12a4 4 0 0 0 8 0c0-3-1-6-4-10zM4 20s3-2 8-2 8 2 8 2"/></svg></div>
+        <h3>Fall &amp; Leaf Cleanups</h3>
+        <p>Seasonal cleanups and leaf removal so your yard goes into winter clean and tidy.</p>
+      </div>
+      <div class="svc">
+        <div class="ico"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M2 12h20M5 5l14 14M19 5 5 19"/></svg></div>
+        <h3>Spring Refreshes</h3>
+        <p>Get the property dialed in for the season — cleanup, edging, mulch, and a fresh first cut.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section why" id="why">
+  <div class="wrap">
+    <div class="head">
+      <p class="kicker">Why Troy's</p>
+      <h2>Detail-focused, every visit</h2>
+      <p>A newer name in the Lehigh Valley with old-school standards — show up, do it right, treat the yard like our own.</p>
+    </div>
+    <div class="why-grid">
+      <div class="why-card"><div class="ico"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div><h3>Reliable</h3><p>We show up when we say we will — every week, no chasing.</p></div>
+      <div class="why-card"><div class="ico"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div><h3>Affordable</h3><p>Fair, straightforward pricing — no surprises on the invoice.</p></div>
+      <div class="why-card"><div class="ico"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg></div><h3>Detail-focused</h3><p>The edges, the lines, the cleanup — the little things that show.</p></div>
+      <div class="why-card"><div class="ico"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-4.4-7-10a7 7 0 0 1 14 0c0 5.6-7 10-7 10z"/><circle cx="12" cy="11" r="2.5"/></svg></div><h3>Local</h3><p>Owner-operated and rooted right here in the Lehigh Valley.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="reviews">
+  <div class="wrap">
+    <div class="head">
+      <p class="kicker">What neighbors say</p>
+      <h2>Word travels fast around here</h2>
+    </div>
+    <div class="rev-head">
+      <span class="nd-badge"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 4.9 5.4.8-3.9 3.8.9 5.3L12 14.8 7.2 16.6l.9-5.3L4.2 7.7l5.4-.8z"/></svg>Loved by neighbors on Nextdoor</span>
+    </div>
+    <div class="rev-grid">
+      <div class="quote"><div class="stars">★★★★★</div><p>"Extremely reliable and reasonably priced. Used Troy all last year and already looking forward to having him back."</p><div class="who">— Sample (from Nextdoor)</div><div class="ph">Swap in your real Nextdoor reviews</div></div>
+      <div class="quote"><div class="stars">★★★★★</div><p>"Easy to work with and the yard always looks sharp. Exactly the kind of dependable service that's hard to find."</p><div class="who">— Sample review</div><div class="ph">Swap in your real review</div></div>
+      <div class="quote"><div class="stars">★★★★★</div><p>"Did a mulch and bed refresh that completely changed the front of our house. Couldn't be happier."</p><div class="who">— Sample review</div><div class="ph">Swap in your real review</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="section gal" id="work">
+  <div class="wrap">
+    <div class="head">
+      <p class="kicker">Recent work</p>
+      <h2>The yards speak for themselves</h2>
+      <p>Drop in real before/after shots — crisp mow lines, fresh mulch beds, finished installs. This is what makes people call.</p>
+    </div>
+    <div class="gal-grid">
+      <div class="tile"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/></svg><span>Add a yard photo</span></div>
+      <div class="tile"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/></svg><span>Add a yard photo</span></div>
+      <div class="tile"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/></svg><span>Add a yard photo</span></div>
+      <div class="tile"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/></svg><span>Add a yard photo</span></div>
+      <div class="tile"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/></svg><span>Add a yard photo</span></div>
+      <div class="tile"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/></svg><span>Add a yard photo</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="cta" id="contact">
+  <div class="wrap cta-grid">
+    <div>
+      <h2>Get your <span class="hl">free estimate</span></h2>
+      <p style="color:rgba(245,246,241,.85);max-width:38ch">Tell me about your yard and what you're after — I'll get right back to you with a price.</p>
+      <a class="phone-big" href="tel:+14845919152">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        (484) 591-9152
+      </a>
+      <ul>
+        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg>Free, no-pressure estimates</li>
+        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg>Easton, Bethlehem &amp; surrounding</li>
+        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg>Weekly, one-time, or seasonal</li>
+      </ul>
+    </div>
+    <div class="form">
+      <h3>Request a free estimate</h3>
+      <div id="formFields">
+        <div class="field"><label for="name">Name</label><input id="name" type="text" placeholder="Your name"></div>
+        <div class="field"><label for="phone">Phone</label><input id="phone" type="tel" placeholder="(484) 000-0000"></div>
+        <div class="field"><label for="service">What do you need?</label>
+          <select id="service"><option>Weekly lawn maintenance</option><option>Landscape install</option><option>Mulch install</option><option>Shrub / hedge trimming</option><option>Cleanup</option><option>Not sure yet</option></select>
+        </div>
+        <div class="field"><label for="msg">Details</label><textarea id="msg" rows="3" placeholder="Weekly mowing plus a mulch refresh out front…"></textarea></div>
+        <button class="btn btn-pine" id="sendBtn" type="button">Send my request</button>
+        <p class="form-note">Or just call or message — I'll get back to you fast.</p>
+      </div>
+      <div class="ok-msg" id="okMsg">Thanks! This is a demo form — once it's live, requests go straight to Troy.</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div style="max-width:30ch">
+        <div class="foot-brand">Troy's Lawn &amp; Landscape</div>
+        <p>Reliable, affordable lawn care and landscaping that makes your yard stand out. Lehigh Valley, PA.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Services</h4>
+        <a href="#services">Lawn maintenance</a>
+        <a href="#services">Landscape installs</a>
+        <a href="#services">Mulch &amp; cleanups</a>
+        <a href="#contact">Free estimates</a>
+      </div>
+      <div class="foot-col">
+        <h4>Contact</h4>
+        <a href="tel:+14845919152">(484) 591-9152</a>
+        <a href="mailto:troyslawnlandscape@gmail.com">troyslawnlandscape@gmail.com</a>
+        <p>Easton, Bethlehem &amp; surrounding</p>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Troy's Lawn &amp; Landscape</span>
+      <span>Locally owned &amp; operated</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  var menuBtn=document.getElementById('menuBtn'),navLinks=document.getElementById('navLinks');
+  menuBtn.addEventListener('click',function(){var open=navLinks.classList.toggle('open');menuBtn.setAttribute('aria-expanded',open);});
+  navLinks.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){navLinks.classList.remove('open');menuBtn.setAttribute('aria-expanded',false);});});
+  document.getElementById('sendBtn').addEventListener('click',function(){document.getElementById('formFields').style.display='none';document.getElementById('okMsg').style.display='block';});
+</script>
+</body>
+</html>

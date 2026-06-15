@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lush Green Lawn — Lawn Care &amp; Treatments Across Delaware</title>
+<meta name="description" content="Reliable lawn mowing and lawn treatments serving all of Delaware. Free phone estimates, no long-term contracts, easy billing. Call (302) 233-1624.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --grass:#3fa34d;
+    --grass-deep:#1f6b34;
+    --grass-darker:#16542a;
+    --lime:#7cc24a;
+    --sun:#f6c344;
+    --ink:#15241a;
+    --cream:#f4f8ee;
+    --card:#ffffff;
+    --text:#1e2a1d;
+    --muted:#5c6b58;
+    --line:#e2ead6;
+    --radius:16px;
+    --shadow:0 18px 42px -24px rgba(31,107,52,.45);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:"Plus Jakarta Sans",system-ui,sans-serif;color:var(--text);background:var(--cream);line-height:1.62;-webkit-font-smoothing:antialiased}
+  h1,h2,h3,.disp{font-family:"Outfit",system-ui,sans-serif;line-height:1.04;letter-spacing:-.02em;font-weight:800}
+  a{color:inherit;text-decoration:none}
+  img{max-width:100%;display:block}
+  .wrap{width:min(1150px,92vw);margin:0 auto}
+  .btn{display:inline-flex;align-items:center;gap:.5rem;font-family:"Outfit",sans-serif;font-weight:700;font-size:1rem;padding:.9rem 1.55rem;border-radius:999px;border:2px solid transparent;cursor:pointer;transition:transform .15s ease,background .2s ease,border-color .2s ease;white-space:nowrap}
+  .btn:focus-visible{outline:3px solid var(--sun);outline-offset:3px}
+  .btn-grass{background:var(--grass);color:#fff}
+  .btn-grass:hover{background:var(--grass-deep);transform:translateY(-2px)}
+  .btn-sun{background:var(--sun);color:var(--grass-darker)}
+  .btn-sun:hover{background:#e9b32f;transform:translateY(-2px)}
+  .btn-ghost{background:transparent;color:#fff;border-color:rgba(255,255,255,.45)}
+  .btn-ghost:hover{border-color:#fff;transform:translateY(-2px)}
+  .btn-outline{background:transparent;color:var(--grass-deep);border-color:var(--grass)}
+  .btn-outline:hover{background:var(--grass);color:#fff}
+
+  /* Header */
+  header{position:sticky;top:0;z-index:50;background:rgba(244,248,238,.93);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  .nav{display:flex;align-items:center;justify-content:space-between;padding:.8rem 0;gap:1rem}
+  .brand{display:flex;align-items:center;gap:.55rem;font-family:"Outfit",sans-serif;font-weight:800;font-size:1.2rem;color:var(--grass-deep)}
+  .brand .leaf{width:34px;height:34px;flex:none}
+  .nav-links{display:flex;align-items:center;gap:1.5rem;font-weight:600}
+  .nav-links a.lnk{color:var(--muted);transition:color .15s}
+  .nav-links a.lnk:hover{color:var(--grass-deep)}
+  .login{font-weight:700;color:var(--grass-deep);border:2px solid var(--line);border-radius:999px;padding:.45rem 1rem;font-size:.92rem;transition:border-color .15s}
+  .login:hover{border-color:var(--grass)}
+  .menu-btn{display:none;background:none;border:0;cursor:pointer;color:var(--grass-deep)}
+
+  /* Hero */
+  .hero{background:linear-gradient(160deg,var(--grass-deep),var(--grass-darker));color:#fff;position:relative;overflow:hidden}
+  .hero-grid{display:grid;grid-template-columns:1.08fr .92fr;gap:2.4rem;align-items:center;padding:4.2rem 0 4.6rem;position:relative;z-index:2}
+  .eyebrow{display:inline-flex;align-items:center;gap:.5rem;font-weight:700;text-transform:uppercase;letter-spacing:.14em;font-size:.76rem;color:var(--sun);margin-bottom:1.1rem}
+  .eyebrow::before{content:"";width:24px;height:2px;background:var(--sun)}
+  .hero h1{font-size:clamp(2.5rem,5.4vw,4.1rem);margin-bottom:1.1rem}
+  .hero h1 .hl{color:var(--lime)}
+  .hero p.lede{font-size:1.16rem;color:rgba(255,255,255,.86);max-width:38ch;margin-bottom:1.9rem}
+  .hero-cta{display:flex;gap:.85rem;flex-wrap:wrap;margin-bottom:2.2rem}
+  .trust-strip{display:flex;flex-wrap:wrap;gap:.55rem 1.4rem}
+  .trust-pill{display:flex;align-items:center;gap:.5rem;font-weight:600;font-size:.93rem;color:rgba(255,255,255,.92)}
+  .trust-pill svg{flex:none;color:var(--sun)}
+  .lawn-art{width:100%;max-width:430px;margin-left:auto;filter:drop-shadow(0 22px 30px rgba(0,0,0,.3))}
+
+  /* Sections */
+  .section{padding:4.6rem 0}
+  .head{max-width:60ch;margin-bottom:2.6rem}
+  .kicker{font-weight:700;text-transform:uppercase;letter-spacing:.14em;font-size:.76rem;color:var(--grass);margin-bottom:.7rem}
+  .head h2{font-size:clamp(1.95rem,3.7vw,2.7rem);color:var(--grass-deep);margin-bottom:.55rem}
+  .head p{color:var(--muted);font-size:1.08rem}
+
+  /* Services */
+  .svc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.4rem}
+  .svc{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:1.9rem 1.7rem;display:flex;gap:1.2rem;transition:transform .18s ease,box-shadow .18s ease}
+  .svc:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+  .svc .ico{width:54px;height:54px;border-radius:13px;background:rgba(63,163,77,.12);color:var(--grass-deep);display:grid;place-items:center;flex:none}
+  .svc h3{font-size:1.3rem;color:var(--grass-deep);margin-bottom:.35rem}
+  .svc p{color:var(--muted);font-size:.98rem}
+
+  /* Why */
+  .why{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .why-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.4rem}
+  .why-card{text-align:center;padding:1.4rem 1rem}
+  .why-card .badge{width:60px;height:60px;border-radius:50%;background:var(--cream);color:var(--grass);display:grid;place-items:center;margin:0 auto 1rem}
+  .why-card h3{font-size:1.12rem;color:var(--grass-deep);margin-bottom:.3rem}
+  .why-card p{color:var(--muted);font-size:.94rem}
+
+  /* Reviews */
+  .rev-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem}
+  .quote{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:1.7rem 1.6rem;box-shadow:var(--shadow)}
+  .quote .stars{color:var(--sun);letter-spacing:.08em;margin-bottom:.7rem;font-size:1.05rem}
+  .quote p{font-size:1.02rem;margin-bottom:1rem;color:var(--ink)}
+  .quote .who{font-weight:700;color:var(--grass-deep)}
+  .quote .ph{font-size:.8rem;color:var(--grass);font-weight:600;margin-top:.3rem}
+
+  /* Gallery */
+  .gal{background:#fff;border-top:1px solid var(--line)}
+  .gal-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+  .tile{aspect-ratio:4/3;border-radius:13px;border:2px dashed var(--line);background:linear-gradient(135deg,rgba(63,163,77,.1),rgba(246,195,68,.12));display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem;color:var(--muted);text-align:center;padding:1rem}
+  .tile svg{color:var(--grass)}
+  .tile span{font-weight:600;font-size:.88rem}
+
+  /* CTA + form */
+  .cta{background:linear-gradient(160deg,var(--grass-deep),var(--grass-darker));color:#fff}
+  .cta-grid{display:grid;grid-template-columns:1fr 1fr;gap:2.6rem;align-items:center;padding:4.2rem 0}
+  .cta h2{font-size:clamp(2rem,4vw,3rem);margin-bottom:1rem}
+  .phone-big{font-family:"Outfit",sans-serif;font-weight:800;font-size:2rem;color:var(--sun);display:inline-flex;align-items:center;gap:.6rem;margin:.4rem 0 1.4rem}
+  .cta ul{list-style:none;display:grid;gap:.5rem;color:rgba(255,255,255,.85)}
+  .cta ul li{display:flex;gap:.6rem;align-items:center}
+  .cta ul li svg{flex:none;color:var(--sun)}
+  .form{background:var(--card);color:var(--text);border-radius:var(--radius);padding:2rem;box-shadow:var(--shadow)}
+  .form h3{color:var(--grass-deep);font-size:1.4rem;margin-bottom:1.2rem}
+  .field{margin-bottom:1rem}
+  .field label{display:block;font-weight:600;font-size:.88rem;margin-bottom:.35rem;color:var(--grass-deep)}
+  .field input,.field select,.field textarea{width:100%;padding:.78rem .9rem;border:1px solid var(--line);border-radius:10px;font-family:inherit;font-size:1rem;background:#fff;color:var(--text)}
+  .field input:focus,.field select:focus,.field textarea:focus{outline:2px solid var(--grass);outline-offset:1px;border-color:var(--grass)}
+  .form .btn{width:100%;justify-content:center;margin-top:.3rem}
+  .form-note{text-align:center;font-size:.83rem;color:var(--muted);margin-top:.8rem}
+  .ok-msg{display:none;background:rgba(63,163,77,.12);border:1px solid var(--grass);color:var(--grass-deep);border-radius:10px;padding:1rem;font-weight:600;text-align:center}
+
+  /* Footer */
+  footer{background:var(--grass-darker);color:rgba(255,255,255,.8);padding:3rem 0 2rem}
+  .foot-grid{display:flex;justify-content:space-between;gap:2rem;flex-wrap:wrap;margin-bottom:2rem}
+  .foot-brand{font-family:"Outfit",sans-serif;font-weight:800;font-size:1.4rem;color:#fff;margin-bottom:.5rem}
+  .foot-col h4{color:#fff;font-size:.82rem;text-transform:uppercase;letter-spacing:.14em;margin-bottom:.7rem}
+  .foot-col p,.foot-col a{display:block;margin-bottom:.35rem;font-size:.95rem}
+  .foot-col a:hover{color:var(--sun)}
+  .foot-bottom{border-top:1px solid rgba(255,255,255,.12);padding-top:1.3rem;font-size:.84rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:.6rem}
+
+  @media(max-width:880px){
+    .nav-links{position:fixed;inset:60px 0 auto 0;background:var(--cream);flex-direction:column;align-items:flex-start;padding:1.2rem 6vw;gap:1.1rem;border-bottom:1px solid var(--line);transform:translateY(-135%);transition:transform .25s ease;box-shadow:var(--shadow)}
+    .nav-links.open{transform:translateY(0)}
+    .menu-btn{display:block}
+    .hero-grid{grid-template-columns:1fr;gap:1.6rem;padding:3rem 0 3.4rem}
+    .lawn-art{max-width:300px;margin:0 auto}
+    .svc-grid,.rev-grid,.gal-grid,.cta-grid{grid-template-columns:1fr}
+    .why-grid{grid-template-columns:1fr 1fr}
+    .rev-grid .quote:nth-child(3){display:none}
+  }
+  @media(max-width:520px){.why-grid{grid-template-columns:1fr}.gal-grid{grid-template-columns:1fr 1fr}}
+  @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a href="#top" class="brand">
+      <svg class="leaf" viewBox="0 0 32 32" fill="none"><path d="M16 29C7 25 4 17 6 7c9 1 17 6 18 17-4 1-7 0-9-2" stroke="#3fa34d" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 29C12 22 11 14 12 9" stroke="#3fa34d" stroke-width="2.4" stroke-linecap="round"/></svg>
+      Lush Green Lawn
+    </a>
+    <nav class="nav-links" id="navLinks">
+      <a class="lnk" href="#services">Services</a>
+      <a class="lnk" href="#services">Lawn Treatments</a>
+      <a class="lnk" href="#why">Why Us</a>
+      <a class="lnk" href="#contact">Contact</a>
+      <a class="login" href="#">Client Login</a>
+      <a class="btn btn-grass" href="tel:+13022331624" style="padding:.55rem 1.1rem;font-size:.95rem">Call (302) 233-1624</a>
+    </nav>
+    <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+  </div>
+</header>
+
+<section class="hero" id="top">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow">Serving all of Delaware</span>
+      <h1>Is your lawn a <span class="hl">lush green lawn?</span></h1>
+      <p class="lede">Locally owned, detail-focused lawn care and treatments — with no long-term contracts and a free estimate over the phone.</p>
+      <div class="hero-cta">
+        <a class="btn btn-sun" href="#contact">Get a free estimate</a>
+        <a class="btn btn-ghost" href="tel:+13022331624">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          Call now
+        </a>
+      </div>
+      <div class="trust-strip">
+        <span class="trust-pill"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>No long-term contracts</span>
+        <span class="trust-pill"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>Free phone estimates</span>
+        <span class="trust-pill"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>Locally owned</span>
+        <span class="trust-pill"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>Cancel anytime</span>
+      </div>
+    </div>
+    <div>
+      <svg class="lawn-art" viewBox="0 0 420 380" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A freshly mowed striped green lawn under a bright sun">
+        <rect width="420" height="380" rx="20" fill="#9fd9f0"/>
+        <!-- sun -->
+        <circle cx="330" cy="80" r="40" fill="#f6c344"/>
+        <g stroke="#f6c344" stroke-width="5" stroke-linecap="round">
+          <path d="M330 18v-10M330 152v10M268 80h-10M402 80h-10M286 36l-7-7M381 124l7 7M374 36l7-7M286 124l-7 7"/>
+        </g>
+        <!-- house -->
+        <g>
+          <rect x="48" y="120" width="120" height="80" fill="#fff"/>
+          <path d="M40 122 108 78 176 122z" fill="#3fa34d"/>
+          <rect x="92" y="150" width="30" height="50" fill="#1f6b34"/>
+          <rect x="58" y="140" width="24" height="22" fill="#9fd9f0"/>
+          <rect x="134" y="140" width="24" height="22" fill="#9fd9f0"/>
+        </g>
+        <!-- shrubs -->
+        <circle cx="200" cy="200" r="20" fill="#2e8b41"/>
+        <circle cx="222" cy="206" r="16" fill="#3fa34d"/>
+        <!-- mowed lawn stripes -->
+        <path d="M0 198 L420 184 L420 380 L0 380 Z" fill="#3fa34d"/>
+        <g fill="#4fb85b">
+          <path d="M0 198 L52 196 L52 380 L0 380 Z"/>
+          <path d="M104 194 L156 192 L156 380 L104 380 Z"/>
+          <path d="M208 190 L260 188 L260 380 L208 380 Z"/>
+          <path d="M312 186 L364 185 L364 380 L312 380 Z"/>
+        </g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="services">
+  <div class="wrap">
+    <div class="head">
+      <p class="kicker">Our services</p>
+      <h2>Everything your lawn needs</h2>
+      <p>From the weekly mow to a full treatment program — one local team that treats your property with respect.</p>
+    </div>
+    <div class="svc-grid">
+      <div class="svc">
+        <div class="ico"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 18h18M3 18a3 3 0 0 1 3-3h2l2-4h4l2 4h2a3 3 0 0 1 3 3"/><circle cx="7" cy="20" r="1.5"/><circle cx="17" cy="20" r="1.5"/></svg></div>
+        <div><h3>Lawn Mowing &amp; Maintenance</h3><p>Reliable weekly or biweekly mowing, edging, and trimming for a clean, healthy yard all season.</p></div>
+      </div>
+      <div class="svc">
+        <div class="ico"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C8 7 7 11 7 14a5 5 0 0 0 10 0c0-3-1-7-5-12z"/><path d="M12 22v-8"/></svg></div>
+        <div><h3>Lawn Treatments</h3><p>Fertilization, weed control, and seasonal programs to keep your grass thick, green, and weed-free.</p></div>
+      </div>
+      <div class="svc">
+        <div class="ico"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11h18M5 11V7a7 7 0 0 1 14 0v4M9 11v8M15 11v8"/></svg></div>
+        <div><h3>Seasonal Cleanups</h3><p>Spring and fall cleanups, leaf removal, and bed maintenance to keep the property sharp year-round.</p></div>
+      </div>
+      <div class="svc">
+        <div class="ico"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/></svg></div>
+        <div><h3>Aeration &amp; Overseeding</h3><p>Loosen compacted soil and fill in thin spots so your lawn comes back fuller every year.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section why" id="why">
+  <div class="wrap">
+    <div class="head" style="text-align:center;margin-left:auto;margin-right:auto">
+      <p class="kicker">The old-fashioned way</p>
+      <h2>Why neighbors stay with us</h2>
+      <p>We do business on a simple principle: do great work, and you'll want us back. No pressure, no contracts.</p>
+    </div>
+    <div class="why-grid">
+      <div class="why-card"><div class="badge"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div><h3>No contracts</h3><p>Free to cancel anytime. We earn your business every visit.</p></div>
+      <div class="why-card"><div class="badge"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2A19.79 19.79 0 0 1 3.07 4.18 2 2 0 0 1 5 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div><h3>Free estimates</h3><p>Most quotes given right over the phone — no waiting around.</p></div>
+      <div class="why-card"><div class="badge"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg></div><h3>Easy billing</h3><p>Pay online, by phone, or by mail. All major cards accepted.</p></div>
+      <div class="why-card"><div class="badge"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-4.4-7-10a7 7 0 0 1 14 0c0 5.6-7 10-7 10z"/><circle cx="12" cy="11" r="2.5"/></svg></div><h3>Local to Delaware</h3><p>Owner-operated and serving the entire state with care.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="reviews">
+  <div class="wrap">
+    <div class="head">
+      <p class="kicker">Happy customers</p>
+      <h2>Lawns we're proud of</h2>
+    </div>
+    <div class="rev-grid">
+      <div class="quote"><div class="stars">★★★★★</div><p>"My lawn has never looked better. Always on schedule and easy to deal with — exactly what I wanted."</p><div class="who">— Sample review</div><div class="ph">Swap in a real review</div></div>
+      <div class="quote"><div class="stars">★★★★★</div><p>"Got a quote over the phone in minutes and they started the next week. No contract, no hassle. Highly recommend."</p><div class="who">— Sample review</div><div class="ph">Swap in a real review</div></div>
+      <div class="quote"><div class="stars">★★★★★</div><p>"Professional and reasonably priced. They treat my yard like it's their own. Wouldn't go anywhere else."</p><div class="who">— Sample review</div><div class="ph">Swap in a real review</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="section gal" id="work">
+  <div class="wrap">
+    <div class="head">
+      <p class="kicker">Recent work</p>
+      <h2>See the difference</h2>
+      <p>Drop in real before/after photos of your lawns and cleanups here — green stripes and tidy beds sell themselves.</p>
+    </div>
+    <div class="gal-grid">
+      <div class="tile"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/></svg><span>Add a lawn photo</span></div>
+      <div class="tile"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/></svg><span>Add a lawn photo</span></div>
+      <div class="tile"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/></svg><span>Add a lawn photo</span></div>
+      <div class="tile"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/></svg><span>Add a lawn photo</span></div>
+      <div class="tile"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/></svg><span>Add a lawn photo</span></div>
+      <div class="tile"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/></svg><span>Add a lawn photo</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="cta" id="contact">
+  <div class="wrap cta-grid">
+    <div>
+      <h2>Get your free estimate</h2>
+      <p style="color:rgba(255,255,255,.85);max-width:38ch">Tell us about your yard and we'll get back to you fast — most estimates can be given right over the phone.</p>
+      <a class="phone-big" href="tel:+13022331624">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        (302) 233-1624
+      </a>
+      <ul>
+        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg>Office hours: Mon–Fri, 8am–5pm</li>
+        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg>Serving the entire state of Delaware</li>
+        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg>No contracts — cancel anytime</li>
+      </ul>
+    </div>
+    <div class="form">
+      <h3>Request a free estimate</h3>
+      <div id="formFields">
+        <div class="field"><label for="name">Name</label><input id="name" type="text" placeholder="Your name"></div>
+        <div class="field"><label for="phone">Phone</label><input id="phone" type="tel" placeholder="(302) 000-0000"></div>
+        <div class="field"><label for="service">What do you need?</label>
+          <select id="service"><option>Lawn mowing &amp; maintenance</option><option>Lawn treatments</option><option>Seasonal cleanup</option><option>Aeration &amp; overseeding</option><option>Not sure yet</option></select>
+        </div>
+        <div class="field"><label for="msg">Details</label><textarea id="msg" rows="3" placeholder="Quarter-acre yard, weekly mowing…"></textarea></div>
+        <button class="btn btn-grass" id="sendBtn" type="button">Send my request</button>
+        <p class="form-note">Or just call — we'll usually quote you on the spot.</p>
+      </div>
+      <div class="ok-msg" id="okMsg">Thanks! This is a demo form — once it's live, requests go straight to Lush Green Lawn.</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div style="max-width:30ch">
+        <div class="foot-brand">Lush Green Lawn</div>
+        <p>Reliable, affordable lawn care and treatments across Delaware. Is your lawn a lush green lawn?</p>
+      </div>
+      <div class="foot-col">
+        <h4>Services</h4>
+        <a href="#services">Lawn mowing</a>
+        <a href="#services">Lawn treatments</a>
+        <a href="#services">Seasonal cleanups</a>
+        <a href="#contact">Free estimates</a>
+      </div>
+      <div class="foot-col">
+        <h4>Contact</h4>
+        <a href="tel:+13022331624">(302) 233-1624</a>
+        <p>Serving all of Delaware</p>
+        <p>Mon–Fri, 8am–5pm</p>
+        <a href="#">Client Login</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Lush Green Lawn</span>
+      <span>Locally owned &amp; operated</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  var menuBtn=document.getElementById('menuBtn'),navLinks=document.getElementById('navLinks');
+  menuBtn.addEventListener('click',function(){var open=navLinks.classList.toggle('open');menuBtn.setAttribute('aria-expanded',open);});
+  navLinks.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){navLinks.classList.remove('open');menuBtn.setAttribute('aria-expanded',false);});});
+  document.getElementById('sendBtn').addEventListener('click',function(){document.getElementById('formFields').style.display='none';document.getElementById('okMsg').style.display='block';});
+</script>
+</body>
+</html>

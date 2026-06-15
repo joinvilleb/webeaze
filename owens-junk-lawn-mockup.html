@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Owen's Junk Removal &amp; Lawn Care — Dagsboro, DE</title>
+<meta name="description" content="Junk removal and lawn care in Dagsboro and all of Sussex County, DE. Locally owned, 100% recommended, free estimates. Call (302) 569-1266.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --green:#1f4d2e;
+    --green-deep:#163a22;
+    --grass:#6f9a2e;
+    --gold:#f0a830;
+    --gold-deep:#d88f1c;
+    --cream:#f7f3e8;
+    --card:#fffdf7;
+    --ink:#1a2417;
+    --muted:#5b6a55;
+    --line:#e4ddca;
+    --radius:18px;
+    --shadow:0 18px 40px -24px rgba(22,58,34,.55);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:"Hanken Grotesk",system-ui,sans-serif;
+    color:var(--ink);
+    background:var(--cream);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.display{font-family:"Bricolage Grotesque",system-ui,sans-serif;line-height:1.02;letter-spacing:-.02em;font-weight:800}
+  a{color:inherit;text-decoration:none}
+  img{max-width:100%;display:block}
+  .wrap{width:min(1140px,92vw);margin:0 auto}
+  .btn{
+    display:inline-flex;align-items:center;gap:.5rem;
+    font-weight:700;font-size:1.02rem;
+    padding:.95rem 1.6rem;border-radius:999px;border:2px solid transparent;
+    cursor:pointer;transition:transform .15s ease,box-shadow .2s ease,background .2s ease;
+    white-space:nowrap;
+  }
+  .btn:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+  .btn-gold{background:var(--gold);color:var(--green-deep)}
+  .btn-gold:hover{background:var(--gold-deep);transform:translateY(-2px)}
+  .btn-outline{background:transparent;color:var(--cream);border-color:rgba(247,243,232,.45)}
+  .btn-outline:hover{border-color:var(--cream);transform:translateY(-2px)}
+  .btn-green{background:var(--green);color:var(--cream)}
+  .btn-green:hover{background:var(--green-deep);transform:translateY(-2px)}
+
+  /* ---------- Header ---------- */
+  header{position:sticky;top:0;z-index:50;background:rgba(247,243,232,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  .nav{display:flex;align-items:center;justify-content:space-between;padding:.85rem 0;gap:1rem}
+  .brand{display:flex;align-items:center;gap:.6rem;font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:1.25rem;color:var(--green)}
+  .brand .mark{width:38px;height:38px;border-radius:50%;background:var(--green);display:grid;place-items:center;color:var(--gold);font-size:1.1rem;flex:none}
+  .nav-links{display:flex;align-items:center;gap:1.8rem;font-weight:600}
+  .nav-links a.lnk{color:var(--muted);transition:color .15s}
+  .nav-links a.lnk:hover{color:var(--green)}
+  .nav-phone{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;color:var(--green);font-size:1.05rem}
+  .menu-btn{display:none;background:none;border:0;cursor:pointer;color:var(--green)}
+
+  /* ---------- Hero ---------- */
+  .hero{background:var(--green);color:var(--cream);position:relative;overflow:hidden}
+  .hero::after{content:"";position:absolute;inset:0;background:
+     repeating-linear-gradient(115deg,rgba(255,255,255,.035) 0 26px,transparent 26px 52px);pointer-events:none}
+  .hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:2.5rem;align-items:center;padding:4.2rem 0 4.6rem;position:relative;z-index:1}
+  .eyebrow{display:inline-flex;align-items:center;gap:.5rem;font-weight:700;text-transform:uppercase;letter-spacing:.14em;font-size:.78rem;color:var(--gold);margin-bottom:1.1rem}
+  .eyebrow::before{content:"";width:26px;height:2px;background:var(--gold)}
+  .hero h1{font-size:clamp(2.5rem,5.4vw,4.1rem);margin-bottom:1.1rem}
+  .hero h1 .hl{color:var(--gold)}
+  .hero p.lede{font-size:1.18rem;color:rgba(247,243,232,.86);max-width:34ch;margin-bottom:1.9rem}
+  .hero-cta{display:flex;gap:.9rem;flex-wrap:wrap;margin-bottom:2.2rem}
+  .trust-strip{display:flex;flex-wrap:wrap;gap:.6rem 1.4rem}
+  .trust-pill{display:flex;align-items:center;gap:.5rem;font-weight:600;font-size:.95rem;color:rgba(247,243,232,.92)}
+  .trust-pill svg{flex:none}
+  /* hero illustration */
+  .scene{position:relative;aspect-ratio:1/.92;width:100%;max-width:440px;margin-left:auto;filter:drop-shadow(0 22px 30px rgba(0,0,0,.28))}
+
+  /* ---------- Section shells ---------- */
+  .section{padding:4.6rem 0}
+  .section-head{max-width:60ch;margin-bottom:2.6rem}
+  .kicker{font-weight:700;text-transform:uppercase;letter-spacing:.13em;font-size:.78rem;color:var(--grass);margin-bottom:.7rem}
+  .section-head h2{font-size:clamp(1.9rem,3.6vw,2.7rem);color:var(--green);margin-bottom:.6rem}
+  .section-head p{color:var(--muted);font-size:1.08rem}
+
+  /* ---------- Services ---------- */
+  .svc-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.6rem}
+  .svc{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:2rem 1.9rem;box-shadow:var(--shadow);position:relative;overflow:hidden}
+  .svc .ico{width:58px;height:58px;border-radius:14px;display:grid;place-items:center;margin-bottom:1.2rem}
+  .svc.junk .ico{background:rgba(240,168,48,.16);color:var(--gold-deep)}
+  .svc.lawn .ico{background:rgba(111,154,46,.16);color:var(--grass)}
+  .svc h3{font-size:1.5rem;color:var(--green);margin-bottom:.5rem}
+  .svc>p{color:var(--muted);margin-bottom:1.2rem}
+  .svc ul{list-style:none;display:grid;gap:.55rem}
+  .svc li{display:flex;align-items:flex-start;gap:.6rem;font-weight:500}
+  .svc li svg{flex:none;margin-top:.28rem;color:var(--grass)}
+
+  /* ---------- Why ---------- */
+  .why{background:var(--green-deep);color:var(--cream)}
+  .why .section-head h2{color:var(--cream)}
+  .why .section-head p{color:rgba(247,243,232,.78)}
+  .why-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.4rem}
+  .why-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:1.6rem 1.4rem}
+  .why-card .n{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:2.4rem;color:var(--gold);line-height:1;margin-bottom:.4rem}
+  .why-card h3{font-size:1.12rem;margin-bottom:.35rem}
+  .why-card p{color:rgba(247,243,232,.74);font-size:.96rem}
+
+  /* ---------- Reviews ---------- */
+  .rev-top{display:flex;align-items:center;gap:1.6rem;flex-wrap:wrap;margin-bottom:2.4rem}
+  .rev-stat{background:var(--gold);color:var(--green-deep);border-radius:var(--radius);padding:1.4rem 1.8rem;text-align:center;box-shadow:var(--shadow)}
+  .rev-stat .big{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:2.8rem;line-height:1}
+  .rev-stat .lbl{font-weight:700;font-size:.92rem}
+  .rev-intro{flex:1;min-width:240px}
+  .rev-intro .stars{color:var(--gold);font-size:1.3rem;letter-spacing:.1em}
+  .rev-intro h2{font-size:clamp(1.7rem,3vw,2.3rem);color:var(--green);margin:.3rem 0}
+  .rev-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem}
+  .quote{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:1.7rem 1.6rem;box-shadow:var(--shadow)}
+  .quote .stars{color:var(--gold);letter-spacing:.08em;margin-bottom:.7rem}
+  .quote p{font-size:1.02rem;margin-bottom:1rem}
+  .quote .who{font-weight:700;color:var(--green)}
+  .quote .ph{font-size:.82rem;color:var(--gold-deep);font-weight:600;margin-top:.3rem}
+
+  /* ---------- Gallery ---------- */
+  .gal{background:var(--cream)}
+  .gal-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+  .tile{aspect-ratio:4/3;border-radius:14px;border:2px dashed var(--line);background:
+     linear-gradient(135deg,rgba(111,154,46,.1),rgba(240,168,48,.1));
+     display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem;color:var(--muted);text-align:center;padding:1rem}
+  .tile svg{color:var(--grass)}
+  .tile span{font-weight:600;font-size:.9rem}
+
+  /* ---------- CTA band + form ---------- */
+  .cta{background:var(--green);color:var(--cream)}
+  .cta-grid{display:grid;grid-template-columns:1fr 1fr;gap:2.6rem;align-items:center;padding:4.2rem 0}
+  .cta h2{font-size:clamp(2rem,4vw,3rem);margin-bottom:1rem}
+  .cta .phone-big{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:2rem;color:var(--gold);display:inline-flex;align-items:center;gap:.6rem;margin:.4rem 0 1.4rem}
+  .cta ul{list-style:none;display:grid;gap:.5rem;color:rgba(247,243,232,.85)}
+  .cta ul li{display:flex;gap:.6rem;align-items:center}
+  .form{background:var(--card);color:var(--ink);border-radius:var(--radius);padding:2rem;box-shadow:var(--shadow)}
+  .form h3{color:var(--green);font-size:1.4rem;margin-bottom:1.2rem}
+  .field{margin-bottom:1rem}
+  .field label{display:block;font-weight:600;font-size:.9rem;margin-bottom:.35rem;color:var(--green)}
+  .field input,.field select,.field textarea{
+    width:100%;padding:.8rem .9rem;border:1px solid var(--line);border-radius:10px;
+    font-family:inherit;font-size:1rem;background:#fff;color:var(--ink);
+  }
+  .field input:focus,.field select:focus,.field textarea:focus{outline:2px solid var(--grass);outline-offset:1px;border-color:var(--grass)}
+  .form .btn{width:100%;justify-content:center;margin-top:.4rem}
+  .form-note{text-align:center;font-size:.84rem;color:var(--muted);margin-top:.8rem}
+  .ok-msg{display:none;background:rgba(111,154,46,.14);border:1px solid var(--grass);color:var(--green);border-radius:10px;padding:1rem;font-weight:600;text-align:center}
+
+  /* ---------- Footer ---------- */
+  footer{background:var(--green-deep);color:rgba(247,243,232,.8);padding:3rem 0 2rem}
+  .foot-grid{display:flex;justify-content:space-between;gap:2rem;flex-wrap:wrap;margin-bottom:2rem}
+  .foot-brand{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:1.4rem;color:var(--cream);margin-bottom:.5rem}
+  .foot-col h4{color:var(--cream);font-size:.85rem;text-transform:uppercase;letter-spacing:.12em;margin-bottom:.7rem}
+  .foot-col p,.foot-col a{display:block;margin-bottom:.35rem;font-size:.96rem}
+  .foot-col a:hover{color:var(--gold)}
+  .foot-bottom{border-top:1px solid rgba(255,255,255,.12);padding-top:1.4rem;font-size:.85rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:.6rem}
+
+  /* ---------- Responsive ---------- */
+  @media(max-width:860px){
+    .nav-links{position:fixed;inset:62px 0 auto 0;background:var(--cream);flex-direction:column;align-items:flex-start;padding:1.2rem 6vw;gap:1.1rem;border-bottom:1px solid var(--line);transform:translateY(-130%);transition:transform .25s ease;box-shadow:var(--shadow)}
+    .nav-links.open{transform:translateY(0)}
+    .menu-btn{display:block}
+    .hero-grid{grid-template-columns:1fr;gap:1.5rem;padding:3rem 0 3.4rem}
+    .scene{max-width:320px;margin:0 auto}
+    .svc-grid,.rev-grid,.gal-grid,.cta-grid{grid-template-columns:1fr}
+    .why-grid{grid-template-columns:1fr 1fr}
+    .rev-grid .quote:nth-child(3){display:none}
+  }
+  @media(max-width:480px){
+    .why-grid{grid-template-columns:1fr}
+    .gal-grid{grid-template-columns:1fr 1fr}
+  }
+  @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+
+<!-- ===== Header ===== -->
+<header>
+  <div class="wrap nav">
+    <a href="#top" class="brand"><span class="mark">O</span>Owen's Junk &amp; Lawn</a>
+    <nav class="nav-links" id="navLinks">
+      <a class="lnk" href="#services">Services</a>
+      <a class="lnk" href="#reviews">Reviews</a>
+      <a class="lnk" href="#work">Recent Work</a>
+      <a class="lnk" href="#contact">Contact</a>
+      <a class="nav-phone" href="tel:+13025691266">(302) 569-1266</a>
+    </nav>
+    <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+  </div>
+</header>
+
+<!-- ===== Hero ===== -->
+<section class="hero" id="top">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow">Dagsboro &amp; all of Sussex County, DE</span>
+      <h1>Goodbye to unwanted junk. <span class="hl">Hello to a clean yard.</span></h1>
+      <p class="lede">From a single couch haul to weekly mowing — one local crew you can actually count on.</p>
+      <div class="hero-cta">
+        <a class="btn btn-gold" href="#contact">Get a free estimate</a>
+        <a class="btn btn-outline" href="tel:+13025691266">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          Call now
+        </a>
+      </div>
+      <div class="trust-strip">
+        <span class="trust-pill"><svg width="18" height="18" viewBox="0 0 24 24" fill="var(--gold)" stroke="none"><path d="M12 2l2.9 6.1 6.6.6-5 4.4 1.5 6.5L12 16.9 5.5 20.1 7 13.6l-5-4.4 6.6-.6z"/></svg>100% recommended</span>
+        <span class="trust-pill"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>17 five-star reviews</span>
+        <span class="trust-pill"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Always open</span>
+        <span class="trust-pill"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><path d="M12 21s-7-4.4-7-10a7 7 0 0 1 14 0c0 5.6-7 10-7 10z"/><circle cx="12" cy="11" r="2.5"/></svg>Locally owned</span>
+      </div>
+    </div>
+    <div>
+      <!-- Flat illustration: hauling truck on a striped lawn -->
+      <svg class="scene" viewBox="0 0 440 405" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Pickup truck hauling junk over a freshly mowed lawn">
+        <defs>
+          <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#2a6139"/><stop offset="1" stop-color="#1f4d2e"/>
+          </linearGradient>
+        </defs>
+        <rect width="440" height="405" rx="20" fill="url(#sky)"/>
+        <!-- mowed lawn stripes -->
+        <g>
+          <path d="M0 300 L440 270 L440 405 L0 405 Z" fill="#5c8527"/>
+          <path d="M0 300 L70 297 L70 405 L0 405 Z" fill="#6f9a2e"/>
+          <path d="M140 294 L210 291 L210 405 L140 405 Z" fill="#6f9a2e"/>
+          <path d="M280 288 L350 285 L350 405 L280 405 Z" fill="#6f9a2e"/>
+        </g>
+        <!-- sun -->
+        <circle cx="360" cy="80" r="34" fill="#f0a830" opacity=".9"/>
+        <!-- truck -->
+        <g transform="translate(58,150)">
+          <!-- bed load (junk boxes) -->
+          <rect x="14" y="6" width="40" height="40" rx="4" fill="#d88f1c"/>
+          <rect x="50" y="-6" width="34" height="52" rx="4" fill="#c9821a"/>
+          <rect x="80" y="14" width="30" height="32" rx="4" fill="#e0973f"/>
+          <!-- bed -->
+          <rect x="0" y="46" width="150" height="58" rx="8" fill="#163a22"/>
+          <!-- cab -->
+          <path d="M150 46 h64 a12 12 0 0 1 12 12 v46 h-76 z" fill="#f0a830"/>
+          <rect x="158" y="56" width="44" height="30" rx="6" fill="#bfe0ef"/>
+          <!-- body lower -->
+          <rect x="0" y="96" width="226" height="22" rx="6" fill="#d88f1c"/>
+          <!-- wheels -->
+          <circle cx="44" cy="120" r="22" fill="#1a2417"/><circle cx="44" cy="120" r="9" fill="#9aa68f"/>
+          <circle cx="184" cy="120" r="22" fill="#1a2417"/><circle cx="184" cy="120" r="9" fill="#9aa68f"/>
+        </g>
+        <!-- leaf accent -->
+        <path d="M330 250 q26 -34 56 -10 q-10 36 -56 10 z" fill="#6f9a2e"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Services ===== -->
+<section class="section" id="services">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="kicker">What I do</p>
+      <h2>Two jobs, one call</h2>
+      <p>Whether it's hauling away what you don't want or keeping the lawn sharp, you're dealing with the same person start to finish.</p>
+    </div>
+    <div class="svc-grid">
+      <div class="svc junk">
+        <div class="ico"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6M10 11v6M14 11v6M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></div>
+        <h3>Junk Removal</h3>
+        <p>Point at it, and it's gone. Single items or a whole-property clear-out.</p>
+        <ul>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg>Furniture &amp; appliance removal</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg>Garage, attic &amp; shed cleanouts</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg>Yard &amp; storm debris hauling</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg>Construction &amp; renovation debris</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg>Estate &amp; move-out cleanups</li>
+        </ul>
+      </div>
+      <div class="svc lawn">
+        <div class="ico"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C8 7 7 11 7 14a5 5 0 0 0 10 0c0-3-1-7-5-12z"/><path d="M12 22v-6"/></svg></div>
+        <h3>Lawn Care</h3>
+        <p>Reliable, on-schedule yard work that keeps the place looking its best.</p>
+        <ul>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg>Mowing, edging &amp; trimming</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg>Spring &amp; fall cleanups</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg>Leaf removal &amp; weed control</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg>Mulching &amp; bed maintenance</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg>One-time or seasonal plans</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Why ===== -->
+<section class="section why">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="kicker" style="color:var(--gold)">Why folks call Owen</p>
+      <h2>The neighbor with a truck — done right</h2>
+    </div>
+    <div class="why-grid">
+      <div class="why-card"><div class="n">$0</div><h3>Free estimates</h3><p>Know the price before anything moves. No surprises.</p></div>
+      <div class="why-card"><div class="n">100%</div><h3>Recommended</h3><p>Every review so far says the same thing: they'd call again.</p></div>
+      <div class="why-card"><div class="n">24/7</div><h3>Always reachable</h3><p>Call or message anytime — you'll hear back fast.</p></div>
+      <div class="why-card"><div class="n">DE</div><h3>Local &amp; insured</h3><p>Based right here in Dagsboro, serving all of Sussex County.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Reviews ===== -->
+<section class="section" id="reviews">
+  <div class="wrap">
+    <div class="rev-top">
+      <div class="rev-stat">
+        <div class="big">100%</div>
+        <div class="lbl">recommend</div>
+      </div>
+      <div class="rev-intro">
+        <div class="stars">★★★★★</div>
+        <h2>17 reviews. Not a single bad one.</h2>
+        <p style="color:var(--muted)">Here's what people in the area are saying.</p>
+      </div>
+    </div>
+    <div class="rev-grid">
+      <div class="quote">
+        <div class="stars">★★★★★</div>
+        <p>"Showed up when he said he would and hauled off a garage full of junk in one trip. Fair price, super easy."</p>
+        <div class="who">— Sample review</div>
+        <div class="ph">Swap in a real Facebook review</div>
+      </div>
+      <div class="quote">
+        <div class="stars">★★★★★</div>
+        <p>"Been doing my lawn all season. Always looks great and I never have to chase him down. Highly recommend."</p>
+        <div class="who">— Sample review</div>
+        <div class="ph">Swap in a real Facebook review</div>
+      </div>
+      <div class="quote">
+        <div class="stars">★★★★★</div>
+        <p>"Cleared out my late father's place start to finish. Respectful, quick, and reasonably priced. Thank you."</p>
+        <div class="who">— Sample review</div>
+        <div class="ph">Swap in a real Facebook review</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Gallery ===== -->
+<section class="section gal" id="work">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="kicker">Recent work</p>
+      <h2>Before &amp; after speaks for itself</h2>
+      <p>Drop in real photos of your jobs here — loaded trucks, cleared garages, sharp lawns. This is what closes the deal.</p>
+    </div>
+    <div class="gal-grid">
+      <div class="tile"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/></svg><span>Add a job photo</span></div>
+      <div class="tile"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/></svg><span>Add a job photo</span></div>
+      <div class="tile"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/></svg><span>Add a job photo</span></div>
+      <div class="tile"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/></svg><span>Add a job photo</span></div>
+      <div class="tile"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/></svg><span>Add a job photo</span></div>
+      <div class="tile"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/></svg><span>Add a job photo</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA + form ===== -->
+<section class="cta" id="contact">
+  <div class="wrap cta-grid">
+    <div>
+      <h2>Get your free estimate</h2>
+      <p style="color:rgba(247,243,232,.85);max-width:38ch">Tell me what you need gone or mowed and I'll get right back to you with a price.</p>
+      <a class="phone-big" href="tel:+13025691266">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        (302) 569-1266
+      </a>
+      <ul>
+        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg>Free, no-pressure quotes</li>
+        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg>Serving Dagsboro &amp; all of Sussex County</li>
+        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg>Fast response, day or night</li>
+      </ul>
+    </div>
+    <div class="form">
+      <h3>Request a free estimate</h3>
+      <div id="formFields">
+        <div class="field"><label for="name">Name</label><input id="name" type="text" placeholder="Your name"></div>
+        <div class="field"><label for="phone">Phone</label><input id="phone" type="tel" placeholder="(302) 000-0000"></div>
+        <div class="field"><label for="service">What do you need?</label>
+          <select id="service">
+            <option>Junk removal</option>
+            <option>Lawn care</option>
+            <option>Both</option>
+            <option>Not sure yet</option>
+          </select>
+        </div>
+        <div class="field"><label for="msg">Details</label><textarea id="msg" rows="3" placeholder="A couch and some boxes in the garage…"></textarea></div>
+        <button class="btn btn-green" id="sendBtn" type="button">Send my request</button>
+        <p class="form-note">Or just call — Owen usually answers.</p>
+      </div>
+      <div class="ok-msg" id="okMsg">Thanks! This is a demo form — once it's live, requests land straight in Owen's inbox or phone.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Footer ===== -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div style="max-width:30ch">
+        <div class="foot-brand">Owen's Junk Removal &amp; Lawn Care</div>
+        <p>From junk removal to lawn care — I've got you covered. Dagsboro, DE.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Services</h4>
+        <a href="#services">Junk removal</a>
+        <a href="#services">Lawn care</a>
+        <a href="#contact">Free estimates</a>
+      </div>
+      <div class="foot-col">
+        <h4>Contact</h4>
+        <a href="tel:+13025691266">(302) 569-1266</a>
+        <p>Dagsboro, DE 19939</p>
+        <p>Always open</p>
+        <a href="#" id="fbLink">Facebook →</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Owen's Junk Removal &amp; Lawn Care</span>
+      <span>100% recommended · Locally owned</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Mobile menu
+  var menuBtn=document.getElementById('menuBtn'),navLinks=document.getElementById('navLinks');
+  menuBtn.addEventListener('click',function(){
+    var open=navLinks.classList.toggle('open');
+    menuBtn.setAttribute('aria-expanded',open);
+  });
+  navLinks.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){navLinks.classList.remove('open');menuBtn.setAttribute('aria-expanded',false);});});
+  // Demo form
+  document.getElementById('sendBtn').addEventListener('click',function(){
+    document.getElementById('formFields').style.display='none';
+    document.getElementById('okMsg').style.display='block';
+  });
+</script>
+</body>
+</html>
