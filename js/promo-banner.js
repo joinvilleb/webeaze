@@ -205,7 +205,7 @@
   s.textContent = [
     // Banner
     '#wb-promo-bar{',
-      'position:fixed;left:0;right:0;z-index:9990;',
+      'position:fixed;left:0;right:0;z-index:1001;',
       'height:' + BAR_H + 'px;',
       'background:#fff;border-bottom:2px solid ' + promo.border + ';',
       'box-shadow:0 1px 6px rgba(0,0,0,.07);',
@@ -294,7 +294,8 @@
       '.wbpm-head{padding:20px 18px 0;}',
     '}',
     '@keyframes wbpm-fade-in{from{opacity:0}to{opacity:1}}',
-    '@keyframes wbpm-slide-up{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}'
+    '@keyframes wbpm-slide-up{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}',
+    '.nav-wrap{z-index:1030!important;}'
   ].join('');
   document.head.appendChild(s);
 
@@ -337,9 +338,20 @@
 
   function insert() {
     var nav = document.querySelector('.nav-wrap');
-    var navH = nav ? (nav.offsetHeight || 64) : 64;
+    var barShowing = true;
+    var dismissed = false;
 
-    bar.style.top = navH + 'px';
+    function getNavH() {
+      var n = document.querySelector('.nav-wrap');
+      return n ? (n.offsetHeight || 64) : 64;
+    }
+
+    function setBarTop() {
+      if (dismissed || !bar.parentNode) return;
+      bar.style.top = barShowing ? getNavH() + 'px' : '-' + (bar.offsetHeight + 4) + 'px';
+    }
+
+    bar.style.top = getNavH() + 'px';
 
     if (nav && nav.parentNode) {
       nav.parentNode.insertBefore(spacer, nav.nextSibling);
@@ -355,50 +367,49 @@
     requestAnimationFrame(syncSpacerHeight);
 
     window.addEventListener('load', function () {
-      var n = document.querySelector('.nav-wrap');
-      if (n && bar.parentNode) {
-        bar.style.top = n.offsetHeight + 'px';
-        requestAnimationFrame(syncSpacerHeight);
-      }
+      if (bar.parentNode) { setBarTop(); requestAnimationFrame(syncSpacerHeight); }
     }, { once: true });
 
     window.addEventListener('resize', function () {
-      var n = document.querySelector('.nav-wrap');
-      if (n) bar.style.top = n.offsetHeight + 'px';
-      requestAnimationFrame(syncSpacerHeight);
+      setBarTop(); requestAnimationFrame(syncSpacerHeight);
     }, { passive: true });
+
+    // Mirror the nav hide-on-scroll behavior via a parallel scroll listener
+    var lastBarScroll = window.pageYOffset || 0;
+    window.addEventListener('scroll', function () {
+      var cur = window.pageYOffset || document.documentElement.scrollTop || 0;
+      if (cur > lastBarScroll && cur > 80) {
+        if (barShowing) { barShowing = false; setBarTop(); }
+      } else {
+        if (!barShowing) { barShowing = true; setBarTop(); }
+      }
+      lastBarScroll = cur <= 0 ? 0 : cur;
+    }, { passive: true });
+
+    // Hide bar when mobile hamburger menu opens so it doesn't overlap
+    var navCollapse = document.querySelector('.navbar-collapse');
+    if (navCollapse) {
+      var collapseSync = new MutationObserver(function () {
+        var menuOpen = navCollapse.classList.contains('show');
+        if (menuOpen) {
+          if (barShowing) { barShowing = false; setBarTop(); }
+        } else {
+          if (!barShowing && (window.pageYOffset || 0) <= 80) { barShowing = true; setBarTop(); }
+        }
+      });
+      collapseSync.observe(navCollapse, { attributes: true, attributeFilter: ['class'] });
+    }
 
     // Dismiss (X button)
     var closeBtn = document.getElementById('wbpromo-close-btn');
     if (closeBtn) {
-      closeBtn.addEventListener('click', function () {
-        dismissBar();
-      });
+      closeBtn.addEventListener('click', function () { dismissed = true; dismissBar(); });
     }
 
     // Claim offer -- dismiss bar and open modal
     var ctaBtn = document.getElementById('wbpromo-cta-btn');
     if (ctaBtn) {
-      ctaBtn.addEventListener('click', function () {
-        dismissBar();
-        openModal();
-      });
-    }
-
-    // Slide bar up/down in sync with the nav hide-on-scroll behavior
-    if (nav) {
-      var barShowing = true;
-      var navSync = new MutationObserver(function () {
-        var navIsHidden = nav.classList.contains('nav-hidden');
-        if (navIsHidden && barShowing) {
-          barShowing = false;
-          bar.style.top = '-' + (bar.offsetHeight + 4) + 'px';
-        } else if (!navIsHidden && !barShowing) {
-          barShowing = true;
-          bar.style.top = (nav.offsetHeight || 64) + 'px';
-        }
-      });
-      navSync.observe(nav, { attributes: true, attributeFilter: ['class'] });
+      ctaBtn.addEventListener('click', function () { dismissed = true; dismissBar(); openModal(); });
     }
 
   }
