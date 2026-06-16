@@ -375,25 +375,30 @@
       setBarTop(); requestAnimationFrame(syncSpacerHeight);
     }, { passive: true });
 
-    // Hide bar when nav hides on scroll (nav.js fires wbNavVisibility)
-    document.addEventListener('wbNavVisibility', function (e) {
-      var navVisible = e.detail && e.detail.visible;
-      if (!navVisible) {
+    // Hide/show bar on scroll (mirrors the nav hide-on-scroll behavior)
+    var lastBarScroll = window.pageYOffset || 0;
+    window.addEventListener('scroll', function () {
+      var cur = window.pageYOffset || document.documentElement.scrollTop || 0;
+      if (cur > lastBarScroll && cur > 80) {
         if (barShowing) { barShowing = false; setBarTop(); }
-      } else {
-        if (!barShowing && (window.pageYOffset || 0) <= 80) { barShowing = true; setBarTop(); }
+      } else if (cur < lastBarScroll) {
+        if (!barShowing) { barShowing = true; setBarTop(); }
       }
-    });
+      lastBarScroll = cur <= 0 ? 0 : cur;
+    }, { passive: true });
 
-    // Hide bar when mobile menu opens so they don't collide (nav.js fires wbMobileMenu)
-    document.addEventListener('wbMobileMenu', function (e) {
-      var open = e.detail && e.detail.open;
-      if (open) {
-        if (barShowing) { barShowing = false; setBarTop(); }
-      } else {
-        if (!barShowing && (window.pageYOffset || 0) <= 80) { barShowing = true; setBarTop(); }
-      }
-    });
+    // Hide bar when mobile menu opens so they don't collide
+    var mobileMenu = document.getElementById('wb-mobile-menu');
+    if (mobileMenu) {
+      new MutationObserver(function () {
+        var open = mobileMenu.classList.contains('wb-open');
+        if (open) {
+          if (barShowing) { barShowing = false; setBarTop(); }
+        } else {
+          if (!barShowing && (window.pageYOffset || 0) <= 80) { barShowing = true; setBarTop(); }
+        }
+      }).observe(mobileMenu, { attributes: true, attributeFilter: ['class'] });
+    }
 
     // Dismiss (X button)
     var closeBtn = document.getElementById('wbpromo-close-btn');

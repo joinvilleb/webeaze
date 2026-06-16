@@ -21,14 +21,48 @@
       });
     }
 
-    // ── Dropdown (click for touch, hover for mouse — CSS handles hover) ───────
-    document.querySelectorAll('.wb-has-dropdown .wb-dropdown-btn').forEach(function (btn) {
-      btn.addEventListener('click', function (e) {
-        e.stopPropagation();
-        var wrap = btn.closest('.wb-has-dropdown');
-        var open = wrap.classList.toggle('wb-dd-open');
-        btn.setAttribute('aria-expanded', String(open));
-      });
+    // ── Dropdown — hover (desktop) + click (touch/keyboard) ──────────────────
+    // The dropdown is wider than the button and may overflow the parent div,
+    // so we listen for mouseenter/mouseleave on BOTH the wrapper AND the panel,
+    // with a 150ms close delay so the cursor can travel across the gap safely.
+    document.querySelectorAll('.wb-has-dropdown').forEach(function (wrap) {
+      var dropdown = wrap.querySelector('.wb-dropdown');
+      var btn      = wrap.querySelector('.wb-dropdown-btn');
+      var timer    = null;
+
+      function openDrop() {
+        clearTimeout(timer);
+        wrap.classList.add('wb-dd-open');
+        if (btn) btn.setAttribute('aria-expanded', 'true');
+      }
+
+      function scheduledClose() {
+        clearTimeout(timer);
+        timer = setTimeout(function () {
+          wrap.classList.remove('wb-dd-open');
+          if (btn) btn.setAttribute('aria-expanded', 'false');
+        }, 150);
+      }
+
+      wrap.addEventListener('mouseenter', openDrop);
+      wrap.addEventListener('mouseleave', scheduledClose);
+
+      // Also listen on the dropdown panel itself — its overflow may sit outside
+      // the wrapper div's bounding box, causing mouseleave to fire too early.
+      if (dropdown) {
+        dropdown.addEventListener('mouseenter', openDrop);
+        dropdown.addEventListener('mouseleave', scheduledClose);
+      }
+
+      // Click/keyboard toggle (works for touch devices and keyboard nav)
+      if (btn) {
+        btn.addEventListener('click', function (e) {
+          e.stopPropagation();
+          clearTimeout(timer);
+          var isOpen = wrap.classList.toggle('wb-dd-open');
+          btn.setAttribute('aria-expanded', String(isOpen));
+        });
+      }
     });
 
     // ── Close menus on outside click ──────────────────────────────────────────
