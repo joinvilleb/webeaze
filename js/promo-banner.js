@@ -1,36 +1,3 @@
-// ── Active nav highlight ─────────────────────────────────────────────────────
-(function () {
-  var s = document.createElement('style');
-  s.textContent = '.navbar-nav .nav-link.active{color:#7851a9!important;}';
-  document.head.appendChild(s);
-
-  var pathname = window.location.pathname;
-  var path = (pathname.split('/').pop() || 'index.html').split('?')[0];
-  var inBlog = pathname.indexOf('/blog/') !== -1 || path === 'blog.html';
-  var svcPages = ['services.html','manage.html','maintenance.html','seo.html',
-    'google-business-management.html','ai.html','ads.html','one-time-project.html','plan-guide.html'];
-
-  function setActive() {
-    document.querySelectorAll('.navbar-nav .nav-link').forEach(function (link) {
-      var href = (link.getAttribute('href') || '').split('?')[0];
-      var bare = href.replace(/^\.\.\//, '');
-      if (href === path || bare === path) {
-        link.classList.add('active');
-      } else if (link.classList.contains('dropdown-toggle') && svcPages.indexOf(path) !== -1) {
-        link.classList.add('active');
-      } else if (inBlog && (bare === 'blog.html' || href === 'blog.html')) {
-        link.classList.add('active');
-      }
-    });
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', setActive);
-  } else {
-    setActive();
-  }
-})();
-
 /**
  * WebEaze Promotional Banner
  * Slim fixed bar shown below the nav. Dismissed state resets each calendar day.
@@ -48,6 +15,11 @@
 (function () {
   'use strict';
 
+  // Don't show promo on blog pages
+  var _pathname = window.location.pathname;
+  if (_pathname.indexOf('/blog') !== -1) return;
+
+  var NAV_H = 64; // wb-header is always 64px tall
   var BAR_H = 40; // px
 
   // ── Date helpers ─────────────────────────────────────────────────────────────
@@ -370,24 +342,20 @@
   // ── Insert banner and spacer ──────────────────────────────────────────────────
 
   function insert() {
-    var nav = document.querySelector('.nav-wrap');
     var barShowing = true;
     var dismissed = false;
 
-    function getNavH() {
-      var n = document.querySelector('.nav-wrap');
-      return n ? (n.offsetHeight || 64) : 64;
-    }
-
     function setBarTop() {
       if (dismissed || !bar.parentNode) return;
-      bar.style.top = barShowing ? getNavH() + 'px' : '-' + (bar.offsetHeight + 4) + 'px';
+      bar.style.top = barShowing ? NAV_H + 'px' : '-' + (bar.offsetHeight + 4) + 'px';
     }
 
-    bar.style.top = getNavH() + 'px';
+    bar.style.top = NAV_H + 'px';
 
-    if (nav && nav.parentNode) {
-      nav.parentNode.insertBefore(spacer, nav.nextSibling);
+    // Insert spacer after the wb-header-spacer so promo height is accounted for
+    var headerSpacer = document.querySelector('.wb-header-spacer');
+    if (headerSpacer && headerSpacer.parentNode) {
+      headerSpacer.parentNode.insertBefore(spacer, headerSpacer.nextSibling);
     } else {
       document.body.insertBefore(spacer, document.body.firstChild);
     }
@@ -407,31 +375,25 @@
       setBarTop(); requestAnimationFrame(syncSpacerHeight);
     }, { passive: true });
 
-    // Mirror the nav hide-on-scroll behavior via a parallel scroll listener
-    var lastBarScroll = window.pageYOffset || 0;
-    window.addEventListener('scroll', function () {
-      var cur = window.pageYOffset || document.documentElement.scrollTop || 0;
-      if (cur > lastBarScroll && cur > 80) {
+    // Hide bar when nav hides on scroll (nav.js fires wbNavVisibility)
+    document.addEventListener('wbNavVisibility', function (e) {
+      var navVisible = e.detail && e.detail.visible;
+      if (!navVisible) {
         if (barShowing) { barShowing = false; setBarTop(); }
       } else {
-        if (!barShowing) { barShowing = true; setBarTop(); }
+        if (!barShowing && (window.pageYOffset || 0) <= 80) { barShowing = true; setBarTop(); }
       }
-      lastBarScroll = cur <= 0 ? 0 : cur;
-    }, { passive: true });
+    });
 
-    // Hide bar when mobile hamburger menu opens so it doesn't overlap
-    var navCollapse = document.querySelector('.navbar-collapse');
-    if (navCollapse) {
-      var collapseSync = new MutationObserver(function () {
-        var menuOpen = navCollapse.classList.contains('show');
-        if (menuOpen) {
-          if (barShowing) { barShowing = false; setBarTop(); }
-        } else {
-          if (!barShowing && (window.pageYOffset || 0) <= 80) { barShowing = true; setBarTop(); }
-        }
-      });
-      collapseSync.observe(navCollapse, { attributes: true, attributeFilter: ['class'] });
-    }
+    // Hide bar when mobile menu opens so they don't collide (nav.js fires wbMobileMenu)
+    document.addEventListener('wbMobileMenu', function (e) {
+      var open = e.detail && e.detail.open;
+      if (open) {
+        if (barShowing) { barShowing = false; setBarTop(); }
+      } else {
+        if (!barShowing && (window.pageYOffset || 0) <= 80) { barShowing = true; setBarTop(); }
+      }
+    });
 
     // Dismiss (X button)
     var closeBtn = document.getElementById('wbpromo-close-btn');
@@ -444,7 +406,6 @@
     if (ctaBtn) {
       ctaBtn.addEventListener('click', function () { dismissed = true; dismissBar(); openModal(); });
     }
-
   }
 
   if (document.readyState === 'loading') {

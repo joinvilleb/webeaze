@@ -1,36 +1,3 @@
-// ── Active nav highlight ─────────────────────────────────────────────────────
-(function () {
-  var s = document.createElement('style');
-  s.textContent = '.navbar-nav .nav-link.active{color:#7851a9!important;}';
-  document.head.appendChild(s);
-
-  var pathname = window.location.pathname;
-  var path = (pathname.split('/').pop() || 'index.html').split('?')[0];
-  var inBlog = pathname.indexOf('/blog/') !== -1 || path === 'blog.html';
-  var svcPages = ['services.html','manage.html','maintenance.html','seo.html',
-    'google-business-management.html','ai.html','ads.html','one-time-project.html','plan-guide.html'];
-
-  function setActive() {
-    document.querySelectorAll('.navbar-nav .nav-link').forEach(function (link) {
-      var href = (link.getAttribute('href') || '').split('?')[0];
-      var bare = href.replace(/^\.\.\//, '');
-      if (href === path || bare === path) {
-        link.classList.add('active');
-      } else if (link.classList.contains('dropdown-toggle') && svcPages.indexOf(path) !== -1) {
-        link.classList.add('active');
-      } else if (inBlog && (bare === 'blog.html' || href === 'blog.html')) {
-        link.classList.add('active');
-      }
-    });
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', setActive);
-  } else {
-    setActive();
-  }
-})();
-
 /**
  * WebEaze Personalization Engine
  * Inserts a contextual banner below the nav based on:
