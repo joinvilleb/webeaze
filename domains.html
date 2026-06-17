@@ -193,10 +193,7 @@ h3 { font-weight: 700 !important; letter-spacing: -.03em  !important; }
   background: var(--surface);
 }
 .section-hd { text-align: center; margin-bottom: 48px; }
-.eyebrow {
-  display: inline-block; font-size: .72rem; font-weight: 700; letter-spacing: .1em;
-  text-transform: uppercase; color: var(--brand); margin-bottom: 10px;
-}
+
 .section-hd h2 { font-size: clamp(1.7rem, 3.5vw, 2.4rem); margin: 0 0 12px; color: var(--text); }
 .section-hd p { font-size: 1rem; color: var(--muted); max-width: 520px; margin: 0 auto; line-height: 1.7; }
 
@@ -261,62 +258,41 @@ h3 { font-weight: 700 !important; letter-spacing: -.03em  !important; }
 }
 .paths-note a { color: var(--brand); text-decoration: underline; }
 
-/* ---- EXPLAINER ---- */
-.explainer-section {
-  padding: clamp(56px, 7vh, 80px) 0;
-  background: var(--bg);
-  border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
-}
-.explainer {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center;
-}
-.explainer-text h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); margin: 0 0 16px; color: var(--text); }
-.explainer-text p { font-size: .95rem; color: var(--muted); line-height: 1.78; margin: 0 0 14px; }
-.explainer-text p:last-child { margin: 0; }
-
-.domain-anatomy {
-  background: linear-gradient(135deg, var(--brand) 0%, #9b6dff 100%);
-  border-radius: var(--r-lg); padding: 40px 32px; text-align: center;
-  box-shadow: var(--sh-lg);
-}
-.domain-string {
-  font-size: clamp(1.5rem, 3.5vw, 2.1rem); font-weight: 800; color: #fff;
-  letter-spacing: -.02em; margin-bottom: 32px; line-height: 1;
-}
-.domain-string .ext { color: rgba(255,255,255,.65); }
-.anatomy-row { display: flex; justify-content: center; gap: 0; }
-.anatomy-part {
-  flex: 1; padding: 16px 18px;
-  border-top: 2px solid rgba(255,255,255,.28);
-  font-size: .82rem; color: rgba(255,255,255,.85); line-height: 1.5;
-  font-weight: 500;
-}
-.anatomy-part strong { display: block; color: #fff; font-size: .95rem; margin-bottom: 5px; }
-.anatomy-part i { display: block; font-size: 1.1rem; margin-bottom: 9px; color: rgba(255,255,255,.75); }
-
 /* ---- REGISTRARS ---- */
 .registrars-section {
   padding: clamp(56px, 7vh, 80px) 0;
   background: var(--surface);
 }
-.registrars-grid {
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px;
+.registrar-table {
+  border: 1.5px solid var(--line);
+  border-radius: var(--r-lg);
+  overflow: hidden;
 }
-.registrar-card {
-  background: var(--bg); border: 1.5px solid var(--line);
-  border-radius: var(--r); padding: 22px 20px;
-  display: flex; flex-direction: column; align-items: center; gap: 10px;
-  text-align: center; transition: border-color .18s, box-shadow .18s, background .18s;
+.reg-row {
+  display: grid; grid-template-columns: repeat(4, 1fr);
 }
-.registrar-card:hover { border-color: var(--brand-border); background: var(--surface); box-shadow: var(--sh-sm); }
-.registrar-logo {
-  width: 48px; height: 48px; border-radius: 13px;
+.reg-item {
+  display: flex; align-items: center; gap: 14px;
+  padding: 20px 22px;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  transition: background .15s;
+}
+.reg-item:hover { background: var(--bg); }
+.reg-row:last-child .reg-item { border-bottom: none; }
+.reg-item:nth-child(4n) { border-right: none; }
+.reg-logo {
+  width: 32px; height: 32px; border-radius: 7px;
+  flex-shrink: 0; display: block; object-fit: contain;
+}
+.reg-logo-help {
+  width: 32px; height: 32px; border-radius: 7px; flex-shrink: 0;
   display: flex; align-items: center; justify-content: center;
-  font-size: 1.15rem; font-weight: 800; flex-shrink: 0;
+  background: var(--brand-soft); color: var(--brand); font-size: 1rem;
 }
-.registrar-name { font-size: .9rem; font-weight: 700; color: var(--text); }
-.registrar-note { font-size: .82rem; color: var(--muted); line-height: 1.55; }
+.reg-info { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.reg-name { font-size: .9rem; font-weight: 700; color: var(--text); white-space: nowrap; }
+.reg-note { font-size: .8rem; color: var(--muted); line-height: 1.5; }
 
 .registrar-tip {
   margin-top: 24px;
@@ -647,7 +623,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
 <section class="paths-section" id="options">
   <div class="wrap">
     <div class="section-hd">
-      <span class="eyebrow">Your options</span>
+
       <h2>Three ways to set up your domain</h2>
       <p>Pick what fits your situation. We handle the technical side no matter which path you take.</p>
     </div>
@@ -727,88 +703,76 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
   </div>
 </section>
 
-<!-- WHAT IS A DOMAIN -->
-<section class="explainer-section">
-  <div class="wrap">
-    <div class="explainer">
-      <div class="explainer-text">
-        <h2>What exactly is a domain name?</h2>
-        <p>A domain is the address people type to find your website, like <strong>yourbusiness.com</strong>. Think of it as your business's street address on the internet.</p>
-        <p>You rent a domain annually from a company called a registrar. Common ones include GoDaddy, Namecheap, and Cloudflare. We can work with any registrar, or get you a new domain if you're starting from scratch.</p>
-        <p>Connecting a domain to your website means updating a couple of settings called DNS records to point your domain to where your site lives. We handle all of that for you, from start to finish.</p>
-      </div>
-      <div class="domain-anatomy">
-        <div class="domain-string">yourbusiness<span class="ext">.com</span></div>
-        <div class="anatomy-row">
-          <div class="anatomy-part">
-            <i class="fas fa-building"></i>
-            <strong>yourbusiness</strong>
-            Your chosen name
-          </div>
-          <div class="anatomy-part">
-            <i class="fas fa-globe"></i>
-            <strong>.com</strong>
-            The extension
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- REGISTRARS -->
 <section class="registrars-section">
   <div class="wrap">
     <div class="section-hd">
-      <span class="eyebrow">Where is my domain?</span>
-      <h2>Common places domains are registered</h2>
-      <p>Not sure who you registered your domain with? Check your email for renewal notices. It's probably at one of these.</p>
+      <h2>Where is my domain registered?</h2>
+      <p>Not sure who holds your domain? Search your email for renewal notices. It's probably at one of these.</p>
     </div>
-    <div class="registrars-grid">
-      <div class="registrar-card">
-        <div class="registrar-logo" style="background:#fef9ec;color:#b45309;"><i class="fas fa-globe" style="font-size:1.3rem;"></i></div>
-        <div class="registrar-name">GoDaddy</div>
-        <div class="registrar-note">Most common registrar. Check godaddy.com or search your email.</div>
-      </div>
-      <div class="registrar-card">
-        <div class="registrar-logo" style="background:#eff6ff;color:#2563eb;"><i class="fas fa-tag" style="font-size:1.2rem;"></i></div>
-        <div class="registrar-name">Namecheap</div>
-        <div class="registrar-note">Popular with small businesses and freelancers.</div>
-      </div>
-      <div class="registrar-card">
-        <div class="registrar-logo" style="background:#fff7ed;color:#ea580c;"><i class="fas fa-cloud" style="font-size:1.2rem;"></i></div>
-        <div class="registrar-name">Cloudflare</div>
-        <div class="registrar-note">Often used for DNS management and free security features.</div>
-      </div>
-      <div class="registrar-card">
-        <div class="registrar-logo" style="background:#faf5ff;color:#7c3aed;"><i class="fas fa-square" style="font-size:1.2rem;"></i></div>
-        <div class="registrar-name">Squarespace</div>
-        <div class="registrar-note">Formerly Google Domains, now managed by Squarespace.</div>
-      </div>
-      <div class="registrar-card">
-        <div class="registrar-logo" style="background:#f0fdf4;color:#15803d;"><i class="fab fa-wordpress" style="font-size:1.3rem;"></i></div>
-        <div class="registrar-name">WordPress.com</div>
-        <div class="registrar-note">Common if you previously had a WordPress-hosted site.</div>
-      </div>
-      <div class="registrar-card">
-        <div class="registrar-logo" style="background:#f0f9ff;color:#0284c7;"><i class="fas fa-server" style="font-size:1.1rem;"></i></div>
-        <div class="registrar-name">Network Solutions</div>
-        <div class="registrar-note">One of the oldest registrars, common for long-held domains.</div>
-      </div>
-      <div class="registrar-card">
-        <div class="registrar-logo" style="background:#fdf4ff;color:#a21caf;"><i class="fas fa-box" style="font-size:1.2rem;"></i></div>
-        <div class="registrar-name">Bluehost / HostGator</div>
-        <div class="registrar-note">Domain often bundled with web hosting from these providers.</div>
-      </div>
-      <div class="registrar-card">
-        <div class="registrar-logo" style="background:var(--brand-soft);color:var(--brand);"><i class="fas fa-question" style="font-size:1.2rem;"></i></div>
-        <div class="registrar-name">Not sure?</div>
-        <div class="registrar-note">Give us your domain name and we'll look it up for you.</div>
+    <div class="registrar-table">
+      <div class="reg-row">
+        <div class="reg-item">
+          <img class="reg-logo" src="https://www.google.com/s2/favicons?sz=64&domain=godaddy.com" alt="GoDaddy" loading="lazy">
+          <div class="reg-info">
+            <span class="reg-name">GoDaddy</span>
+            <span class="reg-note">Most common. Search your email for "GoDaddy".</span>
+          </div>
+        </div>
+        <div class="reg-item">
+          <img class="reg-logo" src="https://www.google.com/s2/favicons?sz=64&domain=namecheap.com" alt="Namecheap" loading="lazy">
+          <div class="reg-info">
+            <span class="reg-name">Namecheap</span>
+            <span class="reg-note">Popular with small businesses and freelancers.</span>
+          </div>
+        </div>
+        <div class="reg-item">
+          <img class="reg-logo" src="https://www.google.com/s2/favicons?sz=64&domain=cloudflare.com" alt="Cloudflare" loading="lazy">
+          <div class="reg-info">
+            <span class="reg-name">Cloudflare</span>
+            <span class="reg-note">Often used for DNS management and security features.</span>
+          </div>
+        </div>
+        <div class="reg-item">
+          <img class="reg-logo" src="https://www.google.com/s2/favicons?sz=64&domain=squarespace.com" alt="Squarespace" loading="lazy">
+          <div class="reg-info">
+            <span class="reg-name">Squarespace</span>
+            <span class="reg-note">Formerly Google Domains, now run by Squarespace.</span>
+          </div>
+        </div>
+        <div class="reg-item">
+          <img class="reg-logo" src="https://www.google.com/s2/favicons?sz=64&domain=wordpress.com" alt="WordPress.com" loading="lazy">
+          <div class="reg-info">
+            <span class="reg-name">WordPress.com</span>
+            <span class="reg-note">Common if you previously had a WordPress-hosted site.</span>
+          </div>
+        </div>
+        <div class="reg-item">
+          <img class="reg-logo" src="https://www.google.com/s2/favicons?sz=64&domain=networksolutions.com" alt="Network Solutions" loading="lazy">
+          <div class="reg-info">
+            <span class="reg-name">Network Solutions</span>
+            <span class="reg-note">One of the oldest registrars, common for long-held domains.</span>
+          </div>
+        </div>
+        <div class="reg-item">
+          <img class="reg-logo" src="https://www.google.com/s2/favicons?sz=64&domain=bluehost.com" alt="Bluehost" loading="lazy">
+          <div class="reg-info">
+            <span class="reg-name">Bluehost / HostGator</span>
+            <span class="reg-note">Domain often bundled with hosting from these providers.</span>
+          </div>
+        </div>
+        <div class="reg-item reg-item-help">
+          <div class="reg-logo-help"><i class="fas fa-circle-question"></i></div>
+          <div class="reg-info">
+            <span class="reg-name">Not sure?</span>
+            <span class="reg-note">Give us your domain name and we'll look it up for you.</span>
+          </div>
+        </div>
       </div>
     </div>
     <div class="registrar-tip">
       <i class="fas fa-lightbulb"></i>
-      <p><strong>Quick tip:</strong> Search your email inbox for "domain renewal" or "domain registration." The company that sends those notices is your registrar. You can also search for your domain name at who.is to see who holds it.</p>
+      <p><strong>Quick tip:</strong> Search your email for "domain renewal" or "domain registration." The company sending those notices is your registrar. You can also look up any domain at who.is to see who holds it.</p>
     </div>
   </div>
 </section>
@@ -817,7 +781,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
 <section class="steps-section">
   <div class="wrap">
     <div class="section-hd">
-      <span class="eyebrow">The process</span>
+
       <h2>What happens after you reach out</h2>
       <p>No matter which path you take, here's how we get your domain sorted.</p>
     </div>
@@ -850,7 +814,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
 <section class="security-section">
   <div class="wrap">
     <div class="section-hd">
-      <span class="eyebrow">Security</span>
+
       <h2>How we keep your domain safe</h2>
       <p>Your domain is one of your most valuable business assets. We treat it that way.</p>
     </div>
@@ -891,7 +855,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
 <section class="faq-section">
   <div class="wrap">
     <div class="section-hd">
-      <span class="eyebrow">FAQ</span>
+
       <h2>Common questions about domains</h2>
       <p>Plain-English answers to what we hear most from small business owners.</p>
     </div>
