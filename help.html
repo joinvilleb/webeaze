@@ -111,32 +111,41 @@
 
     /* HERO */
     .hero {
-      padding: 64px 0 52px;
-      background: linear-gradient(160deg, #fafbff 0%, #f0f1f9 100%);
+      padding: 32px 0 28px;
+      background: #fff;
       border-bottom: 1px solid var(--line);
     }
     .hero-content {
-      max-width: 640px;
+      max-width: 560px;
       margin: 0 auto;
       text-align: center;
     }
-    .hero h1 {
-      font-size: clamp(26px, 4vw, 40px);
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      font-size: .68rem;
       font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: #7851a9;
+      background: rgba(120,81,169,.09);
+      border-radius: 100px;
+      padding: .28rem .85rem;
+      margin-bottom: .85rem;
+    }
+    .hero h1 {
+      font-size: clamp(24px, 3.5vw, 36px);
+      font-weight: 800;
       letter-spacing: -.04em;
-      margin: 0 0 12px;
+      margin: 0 0 20px;
       color: #0f172a;
     }
-    .hero p {
-      font-size: .98rem;
-      color: #4b5563;
-      margin: 0 0 28px;
-      line-height: 1.65;
-    }
+    .hero p { display: none; }
     .hero-search-wrap {
-      max-width: 560px;
+      max-width: 520px;
       margin: 0 auto;
-      padding: 0 0 24px;
+      padding: 0;
       text-align: left;
     }
 
@@ -663,13 +672,13 @@
       .search-wrap { margin-bottom: 24px; }
       .recommended-row { margin-bottom: 24px; padding-bottom: 24px; }
       .quick-links-label { margin-top: 24px; }
-      .hero { padding: 44px 0 36px; }
+      .hero { padding: 24px 0 20px; }
       main { padding: 32px 0 56px; }
       .categories-section { padding: 40px 0; }
     }
     @media (max-width: 480px) {
-      .hero { padding: 32px 0 28px; }
-      .hero-search-wrap { padding: 0 0 16px; }
+      .hero { padding: 20px 0 16px; }
+      .hero-search-wrap { padding: 0; }
       .article-view { padding: 18px; }
       .categories-section { padding: 28px 0; }
       main { padding: 20px 0 40px; }
@@ -2156,11 +2165,11 @@
   .categories-heading { color: #9ca3b0 !important; }
   .contact-cta { background: #eceef8 !important; }
   .hero {
-    background: linear-gradient(160deg, #fafbff 0%, #f0f1f9 100%) !important;
+    background: #fff !important;
     border-bottom: 1px solid rgba(0,0,0,.07) !important;
   }
   .hero h1 { color: #0f172a !important; }
-  .hero p { color: #4b5563 !important; }
+  .hero-eyebrow { color: #7851a9 !important; background: rgba(120,81,169,.09) !important; }
 
   /* Notice banners — website-request.html */
   .notice {
@@ -2678,7 +2687,6 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
   <div class="container container-narrow">
     <div class="hero-content">
       <h1><span id="heroGreeting">How can we help?</span></h1>
-      <p id="heroSub">Search our help articles or browse by topic below.</p>
       <div class="hero-search-wrap">
         <div class="search-wrap">
           <i class="fas fa-search icon"></i>
@@ -2705,10 +2713,6 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
           </div>
         </div>
 
-        <div id="recentRow" hidden>
-          <div class="quick-links-label" style="margin-top:18px;">Recently read</div>
-          <div id="recentPills" class="quick-links"></div>
-        </div>
       </div>
     </div>
   </div>
@@ -9186,21 +9190,7 @@ const LS_SAVED    = 'wz_help_saved';
       </div>
     `).join('');
   }
-  function renderRecentRow() {
-    const history = lsGet(LS_READ) || [];
-    if (history.length < 2) return;
-    const $row   = document.getElementById('recentRow');
-    const $pills = document.getElementById('recentPills');
-    if (!$row || !$pills) return;
-    const cur = currentSlug();
-    const items = history.filter(r => r.slug !== cur).slice(0, 4);
-    if (!items.length) return;
-    $pills.innerHTML = items.map(r => {
-      const label = r.title.length > 36 ? r.title.slice(0, 36) + '...' : r.title;
-      return `<a href="#/${r.slug}" class="quick-link"><i class="fas fa-clock-rotate-left"></i> ${label}</a>`;
-    }).join('');
-    $row.hidden = false;
-  }
+  function renderRecentRow() {}
 
   window.removeSaved = function(slug) {
     let saved = getSaved();
