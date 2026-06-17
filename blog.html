@@ -62,11 +62,25 @@ img { max-width: 100%; height: auto; }
 .navbar-light .navbar-toggler-icon { background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(10,10,10,0.8)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e"); }
 .container-page { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; }
 
-/* BLOG HERO */
-.blog-hero { background: var(--surface); padding: 4.5rem 0 3.5rem; text-align: center; border-bottom: 1px solid var(--line); }
-.blog-eyebrow { display: inline-block; font-size: .72rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--brand); background: var(--brand-soft); border-radius: 100px; padding: .35rem .9rem; margin-bottom: 1rem; }
-.blog-h1 { font-size: clamp(1.9rem, 4vw, 2.6rem); font-weight: 800; letter-spacing: -.035em; color: #0a0a0a; margin-bottom: .75rem; line-height: 1.15; }
-.blog-sub { font-size: 1.05rem; color: var(--muted); max-width: 500px; margin: 0 auto; line-height: 1.65; }
+/* BLOG HERO — featured post */
+.blog-hero { background: #fff; padding: 3rem 0 0; border-bottom: 1px solid var(--line); }
+.featured-post { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; padding-bottom: 3rem; }
+.featured-label { font-size: .7rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: 1.1rem; }
+.featured-post-text h1 { font-size: clamp(1.5rem, 2.8vw, 2rem); font-weight: 800; letter-spacing: -.035em; color: #0a0a0a; margin: .7rem 0 1rem; line-height: 1.2; }
+.featured-post-text p { font-size: .97rem; color: var(--muted); line-height: 1.72; margin-bottom: 1.4rem; }
+.featured-meta { display: flex; align-items: center; gap: 1rem; font-size: .8rem; color: #9ca3af; margin-bottom: 1.5rem; }
+.featured-meta i { font-size: .73rem; margin-right: .2rem; }
+.featured-read-link { display: inline-flex; align-items: center; gap: .4rem; color: var(--brand); font-size: .92rem; font-weight: 700; text-decoration: none; transition: gap .2s; }
+.featured-read-link:hover { gap: .65rem; color: var(--brand); text-decoration: none; }
+.featured-post-img img { width: 100%; height: 340px; object-fit: cover; border-radius: 16px; display: block; }
+@media (max-width: 768px) {
+  .featured-post { grid-template-columns: 1fr; gap: 1.5rem; }
+  .featured-post-img { order: -1; }
+  .featured-post-img img { height: 220px; border-radius: 12px; }
+}
+@media (max-width: 640px) {
+  .blog-hero { padding: 2rem 0 0; }
+}
 
 /* POSTS SECTION */
 .posts-section { padding: 3.5rem 0 5rem; }
@@ -98,8 +112,8 @@ img { max-width: 100%; height: auto; }
 .blog-cta { padding: 1rem 1.25rem 3.5rem; text-align: center; }
 .blog-cta h2 { font-size: clamp(1.6rem, 3.5vw, 2.2rem); font-weight: 800; color: #fff; letter-spacing: -.03em; margin-bottom: .75rem; line-height: 1.2; }
 .blog-cta p { font-size: 1.05rem; color: rgba(255,255,255,.8); margin-bottom: 1.75rem; max-width: 480px; margin-left: auto; margin-right: auto; }
-.btn-white { display: inline-flex; align-items: center; gap: .5rem; background: #fff; color: var(--brand); border-radius: 10px; padding: .85rem 1.85rem; font-size: 1rem; font-weight: 700; transition: box-shadow .2s, transform .2s; }
-.btn-white:hover { box-shadow: 0 8px 28px rgba(0,0,0,.2); transform: translateY(-2px); color: var(--brand); }
+.btn-white { display: inline-flex; align-items: center; gap: .5rem; background: #fff; color: var(--brand); border-radius: 10px; padding: .85rem 1.85rem; font-size: 1rem; font-weight: 700; text-decoration: none; transition: box-shadow .2s, transform .2s; }
+.btn-white:hover { box-shadow: 0 8px 28px rgba(0,0,0,.2); transform: translateY(-2px); color: var(--brand); text-decoration: none; }
 
 /* FOOTER */
 footer { background: #0a0a0a; color: #9ca3af; padding: 4rem 0 0; }
@@ -131,7 +145,6 @@ footer { background: #0a0a0a; color: #9ca3af; padding: 4rem 0 0; }
 
 /* RESPONSIVE */
 @media (max-width: 640px) {
-  .blog-hero { padding: 3rem 0 2.5rem; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
   .footer-grid > div:first-child { grid-column: 1 / -1; }
 }
@@ -223,8 +236,22 @@ footer { background: #0a0a0a; color: #9ca3af; padding: 4rem 0 0; }
 
   <section class="blog-hero">
     <div class="container-page">
-      <h1 class="blog-h1">Tips and guides for small business owners</h1>
-      <p class="blog-sub">No jargon. Just practical answers on web design, local SEO, and how to get more customers finding you online.</p>
+      <div class="featured-post">
+        <div class="featured-post-text">
+          <div class="featured-label">Latest article</div>
+          <span class="post-cat cat-seo">Local SEO</span>
+          <h1>Why Is My Business Not Showing Up on Google?</h1>
+          <p>If your competitors appear on Google and you do not, there is a specific reason. Here are the most common causes and exactly how to fix each one.</p>
+          <div class="featured-meta">
+            <span><i class="far fa-calendar"></i> Jun 14, 2026</span>
+            <span><i class="far fa-clock"></i> 7 min read</span>
+          </div>
+          <a href="blog/why-not-showing-on-google.html" class="featured-read-link">Read article <i class="fas fa-arrow-right"></i></a>
+        </div>
+        <div class="featured-post-img">
+          <img src="https://plus.unsplash.com/premium_photo-1681842372477-2118187afa07?w=860&h=680&fit=crop&auto=format&q=80" alt="Person looking frustrated at a laptop screen" loading="eager">
+        </div>
+      </div>
     </div>
   </section>
 
