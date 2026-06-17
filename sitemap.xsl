@@ -26,62 +26,72 @@
     .site-header {
       background: #ffffff;
       border-bottom: 1px solid rgba(0,0,0,.08);
-      padding: 16px 32px;
-      display: flex; align-items: center; gap: 12px;
+      padding: 14px 24px;
+      display: flex; align-items: center; gap: 10px;
       box-shadow: 0 1px 4px rgba(0,0,0,.05);
+      position: sticky; top: 0; z-index: 10;
     }
-    .site-header img { height: 32px; }
-    .site-header span { font-weight: 700; font-size: 1.1rem; color: #1a1a2e; }
+    .site-header img { height: 28px; }
+    .site-header span { font-weight: 700; font-size: 1rem; color: #1a1a2e; }
+    .site-header-back {
+      margin-left: auto;
+      font-size: .82rem; font-weight: 600; color: #7851a9;
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 7px 14px; border: 1.5px solid rgba(120,81,169,.25);
+      border-radius: 8px; transition: background .15s;
+      white-space: nowrap;
+    }
+    .site-header-back:hover { background: rgba(120,81,169,.07); }
 
     .hero-strip {
       background: #ffffff;
       border-bottom: 1px solid rgba(0,0,0,.07);
-      padding: 52px 32px 44px;
+      padding: 44px 24px 36px;
       text-align: center;
     }
     .hero-strip h1 {
-      font-size: clamp(1.75rem, 4vw, 2.5rem);
-      font-weight: 700; letter-spacing: -.04em; margin: 0 0 10px;
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      font-weight: 700; letter-spacing: -.04em; margin: 0 0 8px;
       color: #1a1a2e;
     }
     .hero-strip h1 span {
       background: linear-gradient(135deg, #7851a9, #a07dd0);
       -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
     }
-    .hero-strip p { color: #6b7280; font-size: .97rem; margin: 0; }
+    .hero-strip p { color: #6b7280; font-size: .93rem; margin: 0; }
     .count-badge {
       display: inline-flex; align-items: center; gap: 6px;
-      margin-top: 18px;
+      margin-top: 16px;
       background: rgba(120,81,169,.07); border: 1px solid rgba(120,81,169,.18);
       border-radius: 50px; padding: 7px 18px;
-      font-size: .85rem; color: #6b7280;
+      font-size: .83rem; color: #6b7280;
     }
     .count-badge strong { color: #7851a9; }
 
     .page-wrap {
-      max-width: 940px; margin: 0 auto; padding: 44px 24px 72px;
+      max-width: 940px; margin: 0 auto; padding: 40px 20px 64px;
     }
 
-    .cat-section { margin-bottom: 44px; }
+    .cat-section { margin-bottom: 40px; }
     .cat-header {
       display: flex; align-items: center; gap: 8px;
-      margin-bottom: 14px; padding-bottom: 12px;
+      margin-bottom: 12px; padding-bottom: 10px;
       border-bottom: 1px solid rgba(0,0,0,.07);
     }
     .cat-title {
-      font-size: .72rem; font-weight: 700;
+      font-size: .71rem; font-weight: 700;
       text-transform: uppercase; letter-spacing: .1em;
       color: #7851a9;
     }
     .cat-count {
-      font-size: .72rem; color: #9ca3af;
+      font-size: .71rem; color: #9ca3af;
       background: #eceef8; border: 1px solid rgba(0,0,0,.07);
       border-radius: 20px; padding: 2px 9px;
     }
 
     .link-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
       gap: 10px;
     }
     .link-card {
@@ -89,9 +99,10 @@
       background: #ffffff;
       border: 1px solid rgba(0,0,0,.08);
       border-radius: 12px;
-      padding: 13px 15px;
+      padding: 14px 16px;
       transition: border-color .18s, box-shadow .18s, transform .18s;
       text-decoration: none;
+      min-height: 56px;
     }
     .link-card:hover {
       border-color: #7851a9;
@@ -108,7 +119,7 @@
     }
 
     .sitemap-footer {
-      text-align: center; padding: 24px 20px 36px;
+      text-align: center; padding: 22px 20px 36px;
       border-top: 1px solid rgba(0,0,0,.07);
       color: #9ca3af; font-size: .82rem;
     }
@@ -116,21 +127,23 @@
     .sitemap-footer a:hover { text-decoration: underline; }
 
     @media (max-width: 640px) {
-      .site-header { padding: 14px 20px; }
-      .hero-strip { padding: 36px 20px 32px; }
-      .page-wrap { padding: 28px 16px 52px; }
+      .hero-strip { padding: 32px 16px 28px; }
+      .page-wrap { padding: 24px 14px 48px; }
       .link-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+      .link-card { padding: 13px 14px; min-height: 52px; }
     }
-    @media (max-width: 380px) {
+    @media (max-width: 400px) {
       .link-grid { grid-template-columns: 1fr; }
+      .link-card { min-height: 48px; }
     }
   </style>
 </head>
 <body>
 
   <header class="site-header">
-    <img src="images/webeaze-transparent copy.png" alt="WebEaze"/>
+    <img src="images/webeaze-transparent-copy.png" alt="WebEaze"/>
     <span>WebEaze</span>
+    <a class="site-header-back" href="/">&#8592; Back to site</a>
   </header>
 
   <div class="hero-strip">
@@ -165,28 +178,58 @@
     }
 
     var NAMES = {
-      '/': 'Home', '/pricing': 'Pricing', '/services': 'Services',
-      '/consultation': 'Free Consultation', '/faq': 'FAQ', '/about': 'About Us',
-      '/contact-us': 'Contact', '/samples': 'Our Work',
-      '/seo': 'SEO', '/google-business-management': 'Google Business',
-      '/maintenance': 'Maintenance', '/ai': 'AI Chatbot', '/ads': 'Ad Management',
-      '/plan-guide': 'Plan Guide', '/providers': 'Providers', '/benefits': 'Benefits',
-      '/reports': 'Reports', '/website-setup-package': 'Website Setup Package',
+      '/': 'Home',
+      '/pricing': 'Pricing',
+      '/services': 'Services',
+      '/consultation': 'Free Consultation',
+      '/faq': 'FAQ',
+      '/about': 'About Us',
+      '/contact-us': 'Contact',
+      '/samples': 'Our Work',
+      '/manage': 'Website Management',
+      '/one-time-project': 'One-Time Projects',
+      '/seo': 'Local SEO',
+      '/google-business-management': 'Google Business Profile',
+      '/maintenance': 'Unlimited Updates',
+      '/ai': 'AI Chatbot',
+      '/ads': 'Ad Management',
+      '/plan-guide': 'Plan Guide',
+      '/providers': 'Providers',
+      '/benefits': 'Benefits',
+      '/reports': 'Reports',
+      '/website-setup-package': 'Website Setup Package',
       '/domains': 'Domains',
-      '/website-request': 'Submit a Request', '/help': 'Help Center',
-      '/referral': 'Referral Program', '/my-plan': 'My Plan', '/status': 'Support Status',
-      '/fee-schedule': 'Fee Schedule', '/documents': 'Documents',
-      '/refund-policy': 'Refund Policy', '/cancellation-policy': 'Cancellation Policy',
-      '/acceptable-use-policy': 'Acceptable Use', '/cookies': 'Cookie Policy',
-      '/terms': 'Terms of Service', '/accessibility': 'Accessibility'
+      '/blog': 'Blog Home',
+      '/blog/does-my-small-business-need-a-website': 'Do I Need a Website?',
+      '/blog/small-business-website-cost': 'Website Cost Guide',
+      '/blog/what-is-local-seo': 'What Is Local SEO?',
+      '/blog/web-design-for-restaurants': 'Web Design for Restaurants',
+      '/blog/google-business-profile-vs-website': 'Google Business vs Website',
+      '/blog/how-to-get-on-google-maps': 'How to Get on Google Maps',
+      '/blog/small-business-website-checklist': 'Website Checklist',
+      '/blog/why-not-showing-on-google': 'Why Not Showing on Google',
+      '/website-request': 'Submit a Request',
+      '/help': 'Help Center',
+      '/referral': 'Referral Program',
+      '/my-plan': 'My Plan',
+      '/status': 'Support Status',
+      '/fee-schedule': 'Fee Schedule',
+      '/documents': 'Documents',
+      '/refund-policy': 'Refund Policy',
+      '/cancellation-policy': 'Cancellation Policy',
+      '/acceptable-use-policy': 'Acceptable Use',
+      '/cookies': 'Cookie Policy',
+      '/terms': 'Terms of Service',
+      '/accessibility': 'Accessibility'
     };
 
     var CORE = ['/', '/pricing', '/services', '/consultation', '/faq', '/about', '/contact-us', '/samples'];
-    var SVCS = ['/seo', '/google-business-management', '/maintenance', '/ai', '/ads', '/plan-guide', '/providers', '/benefits', '/reports', '/website-setup-package', '/domains'];
+    var SVCS = ['/manage', '/one-time-project', '/seo', '/google-business-management', '/maintenance', '/ai', '/ads', '/plan-guide', '/providers', '/benefits', '/reports', '/website-setup-package', '/domains'];
 
     var CATS = [
       { label: 'Core Pages',             match: function(p) { return CORE.indexOf(p) !== -1; } },
       { label: 'Services',               match: function(p) { return SVCS.indexOf(p) !== -1; } },
+      { label: 'Blog',                   match: function(p) { return p.indexOf('/blog') === 0; } },
       { label: 'Web Design by Location', match: function(p) { return p.indexOf('/web-design-') === 0; } },
       { label: 'Support and Policies',   match: function(p) { return true; } }
     ];
