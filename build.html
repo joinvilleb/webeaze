@@ -1016,6 +1016,53 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
 .nav-item.dropdown>.nav-link.dropdown-toggle::after{vertical-align:.18em;border-top-width:.32em;}
 @media(max-width:991px){.dropdown-menu-services{border:1px solid rgba(120,81,169,.18);border-radius:10px;box-shadow:0 4px 16px rgba(0,0,0,.13);padding:4px 8px;margin:4px 0 8px 8px!important;background:#fff;}}
 @media(max-width:991px){.dropdown-menu-services .dropdown-item{padding:7px 10px;font-size:.87rem;color:#374151!important;}}
+
+/* ── Build demo section ───────────────────── */
+.build-demo{padding:clamp(72px,10vh,110px) 0;background:#070711;}
+.bd-wrap{max-width:1100px;margin:0 auto;padding:0 40px;display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;}
+@media(max-width:860px){.bd-wrap{grid-template-columns:1fr;padding:0 24px;}}
+.bd-browser{border-radius:16px;overflow:hidden;box-shadow:0 32px 80px rgba(0,0,0,.55);transform:perspective(1000px) rotateY(-5deg) rotateX(2deg);transition:transform .5s ease;}
+.bd-browser:hover{transform:perspective(1000px) rotateY(0deg) rotateX(0deg);}
+.bd-top{display:flex;align-items:center;gap:8px;padding:10px 14px;background:#0a0a14;border-bottom:1px solid rgba(255,255,255,.06);}
+.bd-dots-row{display:flex;gap:5px;}
+.bd-dots-row span{width:11px;height:11px;border-radius:50%;}
+.bd-dots-row span:nth-child(1){background:#ff5f57;}
+.bd-dots-row span:nth-child(2){background:#febc2e;}
+.bd-dots-row span:nth-child(3){background:#28c840;}
+.bd-url-bar{flex:1;background:rgba(255,255,255,.06);border-radius:6px;padding:5px 12px;font-size:.73rem;color:rgba(255,255,255,.38);text-align:center;}
+.bd-screen{background:#0e0e1c;padding:0;}
+/* animated rows */
+.bdr{opacity:0;transform:translateY(6px);transition:opacity .4s ease,transform .4s ease;}
+.bd-browser.bd-go .bdr{opacity:1;transform:none;}
+.bd-browser.bd-go .bdr:nth-child(1){transition-delay:.15s;}
+.bd-browser.bd-go .bdr:nth-child(2){transition-delay:.45s;}
+.bd-browser.bd-go .bdr:nth-child(3){transition-delay:.7s;}
+.bd-browser.bd-go .bdr:nth-child(4){transition-delay:.95s;}
+.bd-browser.bd-go .bdr:nth-child(5){transition-delay:1.25s;}
+.bd-browser.bd-go .bdr:nth-child(6){transition-delay:1.55s;}
+.bd-nav-bar{height:38px;background:rgba(120,81,169,.15);display:flex;align-items:center;padding:0 14px;gap:10px;}
+.bd-nav-bar::before{content:'';width:50px;height:9px;border-radius:3px;background:var(--gold);display:block;}
+.bd-nav-bar::after{content:'';flex:1;border-bottom:none;}
+.bd-nav-links{display:flex;gap:8px;margin-left:auto;}
+.bd-nav-links span{width:36px;height:7px;border-radius:3px;background:rgba(255,255,255,.12);}
+.bd-hero-zone{padding:22px 16px 14px;display:flex;flex-direction:column;gap:10px;}
+.bd-h1{height:18px;width:72%;border-radius:4px;background:rgba(255,255,255,.2);}
+.bd-h2{height:18px;width:52%;border-radius:4px;background:rgba(255,255,255,.13);}
+.bd-sub{height:8px;width:88%;border-radius:3px;background:rgba(255,255,255,.08);}
+.bd-sub.s2{width:70%;}
+.bd-cta-btn{height:26px;width:110px;border-radius:6px;background:var(--gold);margin-top:4px;opacity:.85;}
+.bd-cards-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:0 14px 14px;}
+.bd-mini-card{height:56px;border-radius:9px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);}
+.bd-footer-bar{height:32px;background:rgba(0,0,0,.35);border-top:1px solid rgba(255,255,255,.04);}
+/* copy side */
+.bd-copy .bd-kicker{display:inline-flex;align-items:center;gap:8px;padding:7px 14px;background:rgba(255,215,0,.08);border:1px solid rgba(255,215,0,.22);border-radius:50px;font-size:.78rem;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.06em;margin-bottom:20px;}
+.bd-copy h2{font-size:clamp(1.9rem,4vw,2.6rem);font-weight:800;margin:0 0 14px;letter-spacing:-.04em;}
+.bd-copy h2 .gold{background:linear-gradient(135deg,var(--gold),#ffea80);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.bd-copy p{color:var(--ink-2);font-size:1rem;line-height:1.7;margin:0 0 24px;}
+.bd-list{list-style:none;padding:0;margin:0 0 32px;display:flex;flex-direction:column;gap:11px;}
+.bd-list li{display:flex;align-items:center;gap:10px;font-size:.93rem;color:rgba(255,255,255,.78);}
+.bd-list li i{color:var(--success);font-size:.85rem;flex-shrink:0;}
+
 </style>
 </head>
 <body>
@@ -1125,6 +1172,52 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
     </div>
   </div>
 </div>
+
+<!-- BUILD DEMO -->
+<section class="build-demo">
+  <div class="bd-wrap">
+    <div class="bd-browser" id="bdBrowser" aria-hidden="true">
+      <div class="bd-top">
+        <div class="bd-dots-row"><span></span><span></span><span></span></div>
+        <div class="bd-url-bar">yourbusiness.com</div>
+      </div>
+      <div class="bd-screen">
+        <div class="bdr bd-nav-bar"><div class="bd-nav-links"><span></span><span></span><span></span></div></div>
+        <div class="bdr bd-hero-zone">
+          <div class="bd-h1"></div>
+          <div class="bd-h2"></div>
+        </div>
+        <div class="bdr bd-hero-zone" style="padding-top:0">
+          <div class="bd-sub"></div>
+          <div class="bd-sub s2"></div>
+          <div class="bd-cta-btn"></div>
+        </div>
+        <div class="bdr bd-cards-row">
+          <div class="bd-mini-card"></div>
+          <div class="bd-mini-card"></div>
+          <div class="bd-mini-card"></div>
+        </div>
+        <div class="bdr bd-hero-zone" style="padding-top:0;padding-bottom:4px;">
+          <div class="bd-sub"></div>
+          <div class="bd-sub s2"></div>
+        </div>
+        <div class="bdr bd-footer-bar"></div>
+      </div>
+    </div>
+    <div class="bd-copy">
+      <div class="bd-kicker"><i class="fas fa-bolt"></i> Built fast</div>
+      <h2>Your site, live in <span class="gold">7 days.</span></h2>
+      <p>We handle design, copywriting, mobile optimization, and launch. You review and approve — no technical experience needed.</p>
+      <ul class="bd-list">
+        <li><i class="fas fa-check-circle"></i> Custom design built around your business</li>
+        <li><i class="fas fa-check-circle"></i> Mobile-optimized and fast-loading</li>
+        <li><i class="fas fa-check-circle"></i> Hosting, domain setup, and SSL included</li>
+        <li><i class="fas fa-check-circle"></i> Unlimited updates included after launch</li>
+      </ul>
+      <a href="consultation.html" class="btn-gold">Book a Free Discovery Call <i class="fas fa-arrow-right"></i></a>
+    </div>
+  </div>
+</section>
 
 <!-- THE WEBEAZE DIFFERENCE -->
 <section class="difference-section">
@@ -1436,5 +1529,20 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
   });
 </script>
 <script src="js/nav.js" defer></script>
+<script>
+(function(){
+  var browser=document.getElementById('bdBrowser');
+  if(!browser)return;
+  var fired=false;
+  var io=new IntersectionObserver(function(entries){
+    if(entries[0].isIntersecting&&!fired){
+      fired=true;
+      browser.classList.add('bd-go');
+      io.disconnect();
+    }
+  },{threshold:0.25});
+  io.observe(browser);
+})();
+</script>
 </body>
 </html>

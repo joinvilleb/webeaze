@@ -160,6 +160,29 @@ h3{font-weight:700!important;letter-spacing:-.02em!important;}
 @media(max-width:991px){.dropdown-menu-services{border:1px solid rgba(120,81,169,.18);border-radius:10px;box-shadow:0 4px 16px rgba(0,0,0,.13);padding:4px 8px;margin:4px 0 8px 8px!important;background:#fff;}}
 @media(max-width:991px){.dropdown-menu-services .dropdown-item{padding:7px 10px;font-size:.87rem;color:#374151!important;}}
 
+/* ── Chat demo visual ─────────────────────── */
+.demo-chat{background:var(--surface);border-radius:var(--radius-lg);box-shadow:0 24px 60px rgba(15,18,40,.15),0 4px 18px rgba(15,18,40,.06);border:1.5px solid var(--line);overflow:hidden;width:100%;max-width:340px;font-size:.9rem;user-select:none;}
+.dc-head{display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:1px solid var(--line);}
+.dc-av{width:40px;height:40px;border-radius:50%;background:var(--brand-soft);display:flex;align-items:center;justify-content:center;color:var(--brand);font-size:.9rem;flex-shrink:0;}
+.dc-info .dc-name{font-weight:700;font-size:.88rem;color:var(--text);display:block;}
+.dc-status{display:flex;align-items:center;gap:5px;font-size:.74rem;color:var(--green);}
+.dc-dot{width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulseDot 2s infinite;}
+@keyframes pulseDot{0%,100%{opacity:1}50%{opacity:.35}}
+.dc-body{padding:16px;display:flex;flex-direction:column;gap:10px;min-height:210px;background:#f4f5fb;}
+.dc-bubble{max-width:82%;padding:9px 13px;border-radius:16px;font-size:.84rem;line-height:1.48;animation:bubUp .32s ease;}
+@keyframes bubUp{from{opacity:0;transform:translateY(8px) scale(.97)}to{opacity:1;transform:none}}
+.dc-bubble.me{background:var(--brand);color:#fff;align-self:flex-end;border-bottom-right-radius:4px;}
+.dc-bubble.wb{background:var(--surface);color:var(--text);align-self:flex-start;border:1px solid var(--line);border-bottom-left-radius:4px;}
+.dc-typing{display:flex;gap:4px;align-items:center;padding:9px 13px;background:var(--surface);border:1px solid var(--line);border-radius:16px;border-bottom-left-radius:4px;align-self:flex-start;}
+.dc-typing span{width:7px;height:7px;border-radius:50%;background:var(--muted);animation:tdot 1.2s infinite;}
+.dc-typing span:nth-child(2){animation-delay:.2s;}
+.dc-typing span:nth-child(3){animation-delay:.4s;}
+@keyframes tdot{0%,80%,100%{transform:scale(.65);opacity:.35}40%{transform:scale(1);opacity:1}}
+.dc-foot{display:flex;align-items:center;gap:10px;padding:11px 16px;border-top:1px solid var(--line);}
+.dc-inp{flex:1;font-size:.83rem;color:var(--dim);font-style:italic;}
+.dc-send-btn{width:32px;height:32px;border-radius:50%;border:none;background:var(--brand);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.78rem;flex-shrink:0;cursor:default;}
+@media(max-width:600px){.hero-visual{display:flex!important;justify-content:center;margin-top:28px;}.demo-chat{max-width:100%;}}
+
 
 .examples-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
 @media(max-width:760px){.examples-grid{grid-template-columns:repeat(2,1fr);}}
@@ -265,7 +288,20 @@ h3{font-weight:700!important;letter-spacing:-.02em!important;}
       </div>
     </div>
     <div class="hero-visual">
-      <img src="images/assets/in-sync.svg" alt="Website updates illustration" width="320" height="320" loading="eager" />
+      <div class="demo-chat" aria-hidden="true">
+        <div class="dc-head">
+          <div class="dc-av"><i class="fas fa-sync-alt"></i></div>
+          <div class="dc-info">
+            <span class="dc-name">WebEaze Support</span>
+            <span class="dc-status"><span class="dc-dot"></span>Online now</span>
+          </div>
+        </div>
+        <div class="dc-body" id="dcBody"></div>
+        <div class="dc-foot">
+          <span class="dc-inp">Send a request...</span>
+          <button class="dc-send-btn" tabindex="-1"><i class="fas fa-paper-plane"></i></button>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -540,5 +576,45 @@ window.WZ_CHAT_PAGE={
 <script src="chat-widget.js" defer></script>
 <script type="text/javascript" id="hs-script-loader" async defer src="//js-na2.hs-scripts.com/242171361.js"></script>
 <script src="js/nav.js" defer></script>
+<script>
+(function(){
+  var msgs=[
+    {t:'me',  txt:'Hey, can you update my holiday hours on the website?'},
+    {t:'dots'},
+    {t:'wb',  txt:'On it! Your updated hours are live now. Give it a refresh.'},
+    {t:'me',  txt:'Perfect. Can you also swap out the hero photo?'},
+    {t:'dots'},
+    {t:'wb',  txt:'Done! New photo is live. Let me know if you want any tweaks.'}
+  ];
+  var delays=[600,1700,3200,5400,6400,8000];
+  var body=document.getElementById('dcBody');
+  var timers=[],dotEl=null;
+  function clear(){timers.forEach(clearTimeout);timers=[];if(body)body.innerHTML='';dotEl=null;}
+  function run(){
+    clear();
+    msgs.forEach(function(m,i){
+      timers.push(setTimeout(function(){
+        if(!body)return;
+        if(m.t==='dots'){
+          dotEl=document.createElement('div');
+          dotEl.className='dc-typing';
+          dotEl.innerHTML='<span></span><span></span><span></span>';
+          body.appendChild(dotEl);
+        } else {
+          if(dotEl){dotEl.remove();dotEl=null;}
+          var el=document.createElement('div');
+          el.className='dc-bubble '+m.t;
+          el.textContent=m.txt;
+          body.appendChild(el);
+        }
+        body.scrollTop=body.scrollHeight;
+      },delays[i]));
+    });
+    timers.push(setTimeout(run,delays[delays.length-1]+3200));
+  }
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',function(){setTimeout(run,500);});}
+  else{setTimeout(run,500);}
+})();
+</script>
 </body>
 </html>
