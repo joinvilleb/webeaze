@@ -279,7 +279,7 @@ h3 { font-weight: 700 !important; letter-spacing: -.03em  !important; }
   transition: background .15s;
 }
 .reg-item:hover { background: var(--bg); }
-.reg-row:last-child .reg-item { border-bottom: none; }
+.reg-item:nth-child(n+5) { border-bottom: none; }
 .reg-item:nth-child(4n) { border-right: none; }
 .reg-logo {
   width: 32px; height: 32px; border-radius: 7px;
@@ -441,10 +441,13 @@ footer { background: #0a0a0f; padding: 56px 20px 36px; border-top: 1px solid rgb
 /* ---- RESPONSIVE ---- */
 @media (max-width: 900px) {
   .paths-grid { grid-template-columns: 1fr; }
-  .explainer { grid-template-columns: 1fr; gap: 40px; }
-  .registrars-grid { grid-template-columns: repeat(2, 1fr); }
   .security-grid { grid-template-columns: 1fr; }
   .footer-grid { grid-template-columns: 1fr 1fr; gap: 28px; }
+  .reg-row { grid-template-columns: repeat(2, 1fr); }
+  .reg-item:nth-child(4n) { border-right: 1px solid var(--line); }
+  .reg-item:nth-child(2n) { border-right: none; }
+  .reg-item:nth-child(n+5) { border-bottom: 1px solid var(--line); }
+  .reg-item:nth-child(n+7) { border-bottom: none; }
 }
 @media (max-width: 700px) {
   .steps-row { grid-template-columns: repeat(2, 1fr); }
@@ -453,13 +456,17 @@ footer { background: #0a0a0f; padding: 56px 20px 36px; border-top: 1px solid rgb
 }
 @media (max-width: 480px) {
   .steps-row { grid-template-columns: 1fr; }
-  .registrars-grid { grid-template-columns: repeat(2, 1fr); }
   .footer-grid { grid-template-columns: 1fr; }
   .footer-bottom { flex-direction: column; text-align: center; }
   .hero-btns { flex-direction: column; align-items: stretch; }
   .hero-btns a { justify-content: center; }
   .cta-btns { flex-direction: column; align-items: stretch; }
   .cta-btns a { justify-content: center; }
+  .reg-row { grid-template-columns: 1fr; }
+  .reg-item:nth-child(2n) { border-right: 1px solid var(--line); }
+  .reg-item { border-right: none; }
+  .reg-item:nth-child(n+7) { border-bottom: 1px solid var(--line); }
+  .reg-item:last-child { border-bottom: none; }
 }
 </style>
 <!-- Meta Pixel Code -->
@@ -589,7 +596,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
 <!-- HERO -->
 <section class="hero">
   <div class="wrap">
-    <div class="hero-kicker"><i class="fas fa-globe"></i> Domain Management</div>
+    
     <h1>Your domain,<br>handled for you.</h1>
     <p class="hero-sub">Already have a domain, need a new one, or want us to manage it forever? We take care of every detail so you never have to touch a DNS setting.</p>
     <div class="hero-pills">
@@ -678,7 +685,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
       <div class="path-card">
         <div class="path-header">
           <div class="path-icon-row">
-            <div class="path-icon purple"><i class="fas fa-sparkles"></i></div>
+            <div class="path-icon purple"><i class="fas fa-plus-circle"></i></div>
             <div class="path-time"><i class="fas fa-clock"></i> Same day</div>
           </div>
           <h3>Get a New Domain</h3>
