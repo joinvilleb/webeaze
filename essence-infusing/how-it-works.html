@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How it works | Essence Infusing</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Hanken+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    /* ── Variables ───────────────────────────────── */
+    :root {
+      --paper:       #F2F3EC;
+      --paper-2:     #E9EBE0;
+      --ink:         #1B2A20;
+      --ink-soft:    #3A4A3E;
+      --herb:        #4A7355;
+      --amber:       #A96A22;
+      --amber-soft:  #E7C48A;
+      --line:        #D6D8CA;
+      --stone:       #7C7E70;
+
+      --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
+      --font-body:    'Hanken Grotesk', system-ui, -apple-system, sans-serif;
+      --font-mono:    'IBM Plex Mono', ui-monospace, 'SFMono-Regular', monospace;
+    }
+
+    /* ── Reset ───────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html  { scroll-behavior: smooth; }
+    body  {
+      font-family: var(--font-body);
+      background: var(--paper);
+      color: var(--ink);
+      line-height: 1.7;
+      font-size: 17px;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+    h1, h2, h3 {
+      font-family: var(--font-display);
+      font-weight: 400;
+      letter-spacing: -0.02em;
+      line-height: 1.08;
+    }
+
+    /* ── Layout ──────────────────────────────────── */
+    .wrap { max-width: 1120px; margin: 0 auto; padding: 0 28px; }
+    section { padding: 88px 0; }
+    .lead { font-size: 19px; color: var(--ink-soft); max-width: 54ch; margin-top: 20px; }
+
+    /* ── Eyebrow label ───────────────────────────── */
+    .eyebrow {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--amber);
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+    }
+    .eyebrow::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      background: var(--amber);
+      border-radius: 1px;
+      transform: rotate(45deg);
+      flex: none;
+    }
+
+    /* ── Proto banner ────────────────────────────── */
+    .proto {
+      background: var(--paper-2);
+      border-bottom: 1px solid var(--line);
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--stone);
+    }
+    .proto .wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      padding: 8px 28px;
+      position: relative;
+    }
+    .proto button {
+      position: absolute;
+      right: 24px;
+      background: none;
+      border: none;
+      color: var(--stone);
+      cursor: pointer;
+      font-size: 15px;
+      line-height: 1;
+      padding: 4px;
+    }
+
+    /* ── Nav ─────────────────────────────────────── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: rgba(242, 243, 236, 0.82);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid transparent;
+      transition: border-color .3s, background .3s;
+    }
+    nav.scrolled { border-bottom-color: var(--line); }
+    nav .wrap {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 72px;
+    }
+
+    .brand {
+      font-family: var(--font-display);
+      font-size: 21px;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .brand .mark { width: 22px; height: 22px; flex: none; }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+      font-size: 15px;
+    }
+    .nav-links a {
+      color: var(--ink-soft);
+      transition: color .2s;
+      position: relative;
+    }
+    .nav-links a:hover  { color: var(--ink); }
+    .nav-links a.active { color: var(--ink); }
+    .nav-links a.active::after {
+      content: "";
+      position: absolute;
+      left: 0; right: 0;
+      bottom: -6px;
+      height: 2px;
+      background: var(--amber);
+      border-radius: 2px;
+    }
+
+    /* ── Buttons ─────────────────────────────────── */
+    .btn {
+      font-family: var(--font-body);
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      border-radius: 999px;
+      padding: 11px 22px;
+      transition: transform .15s, background .2s, box-shadow .2s;
+    }
+    .btn-solid { background: var(--ink); color: var(--paper); }
+    .btn-solid:hover { background: #13201a; transform: translateY(-1px); }
+    .btn:focus-visible { outline: 2.5px solid var(--amber); outline-offset: 3px; }
+    .nav-cta { padding: 9px 18px; font-size: 14px; }
+
+    /* ── Email capture ───────────────────────────── */
+    .capture {
+      display: flex;
+      gap: 9px;
+      max-width: 430px;
+      flex-wrap: wrap;
+    }
+    .capture input {
+      flex: 1;
+      min-width: 200px;
+      font-family: var(--font-body);
+      font-size: 15px;
+      padding: 13px 17px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--paper);
+      color: var(--ink);
+      transition: border-color .2s;
+    }
+    .capture input:focus { outline: none; border-color: var(--herb); }
+    .form-note {
+      font-size: 13.5px;
+      color: var(--herb);
+      margin-top: 14px;
+      font-weight: 500;
+      min-height: 0;
+    }
+
+    /* ── Page hero ───────────────────────────────── */
+    .page-hero { padding: 60px 0 22px; }
+    .page-hero h1 { font-size: clamp(2.2rem, 4.6vw, 3.4rem); margin-top: 18px; max-width: 18ch; }
+    .page-hero .lead { margin-top: 20px; }
+
+    /* ── Machine image ───────────────────────────── */
+    .machine-img {
+      width: 100%;
+      border-radius: 20px;
+      display: block;
+      height: auto;
+    }
+
+    /* ── Comparison columns ──────────────────────── */
+    .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 14px; }
+    .compare .col {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 30px 28px;
+      background: #FBFBF6;
+    }
+    .compare .col.hand { background: var(--paper-2); }
+    .compare .col .k {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--stone);
+      margin-bottom: 6px;
+      display: block;
+    }
+    .compare .col.eloh .k { color: var(--amber); }
+    .compare .col h3 { font-size: 22px; margin-bottom: 18px; }
+    .compare ul { list-style: none; }
+    .compare li {
+      display: flex;
+      gap: 11px;
+      padding: 12px 0;
+      border-top: 1px solid var(--line);
+      font-size: 15.5px;
+      color: var(--ink-soft);
+    }
+    .compare li:first-child { border-top: none; }
+    .compare .ic { flex: none; width: 19px; height: 19px; margin-top: 2px; }
+    .compare .hand .ic { color: #B07A52; }
+    .compare .eloh .ic  { color: var(--herb); }
+
+    /* ── Steps ───────────────────────────────────── */
+    .steps { margin-top: 18px; }
+    .step {
+      display: grid;
+      grid-template-columns: 64px 1fr;
+      gap: 22px;
+      padding: 26px 0;
+      border-top: 1px solid var(--line);
+      align-items: start;
+    }
+    .step:first-child { border-top: none; }
+    .step .num {
+      font-family: var(--font-display);
+      font-size: 34px;
+      color: var(--amber);
+      line-height: 1;
+    }
+    .step h3 { font-size: 21px; margin-bottom: 6px; }
+    .step p  { color: var(--ink-soft); font-size: 16px; max-width: 56ch; }
+
+    /* ── Use cases ───────────────────────────────── */
+    .uses { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 18px; }
+    .use {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 28px;
+      background: #FBFBF6;
+    }
+    .use .ic { width: 28px; height: 28px; color: var(--herb); margin-bottom: 14px; }
+    .use h3  { font-size: 19px; margin-bottom: 7px; }
+    .use p   { font-size: 15px; color: var(--ink-soft); }
+
+    /* ── CTA band ────────────────────────────────── */
+    .band {
+      background: var(--ink);
+      color: var(--paper);
+      text-align: center;
+      border-radius: 24px;
+      padding: 64px 28px;
+      margin: 40px auto 0;
+      max-width: 1064px;
+    }
+    .band .eyebrow { color: var(--amber-soft); justify-content: center; }
+    .band .eyebrow::before { background: var(--amber-soft); }
+    .band h2 {
+      color: var(--paper);
+      font-size: clamp(1.7rem, 3.4vw, 2.4rem);
+      margin: 16px auto 26px;
+      max-width: 18ch;
+    }
+    .band .capture { margin: 0 auto; justify-content: center; }
+    .band .capture input { background: #243528; border-color: #3A4A3E; color: var(--paper); }
+    .band .capture input::placeholder { color: #8FA08C; }
+    .band .btn-amber { background: var(--amber-soft); color: #3A2606; }
+    .band .btn-amber:hover { background: #efd29e; transform: translateY(-1px); }
+    .band .form-note { color: var(--amber-soft); text-align: center; }
+
+    /* ── Footer ──────────────────────────────────── */
+    footer {
+      background: var(--ink);
+      color: var(--paper);
+      padding: 74px 0 40px;
+    }
+    .foot-top {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 48px;
+      align-items: end;
+      padding-bottom: 44px;
+      border-bottom: 1px solid rgba(199, 206, 196, 0.2);
+    }
+    footer h3 {
+      font-family: var(--font-display);
+      font-size: clamp(1.6rem, 3vw, 2.1rem);
+      color: var(--paper);
+      max-width: 16ch;
+    }
+    footer .capture input { background: #243528; border-color: #3A4A3E; color: var(--paper); }
+    footer .capture input::placeholder { color: #8FA08C; }
+    footer .btn-amber { background: var(--amber-soft); color: #3A2606; }
+    footer .btn-amber:hover { background: #efd29e; transform: translateY(-1px); }
+    footer .form-note { color: var(--amber-soft); }
+
+    .foot-bot {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      padding-top: 28px;
+      font-size: 13.5px;
+      color: #A6B2A4;
+    }
+    .foot-bot .links { display: flex; gap: 24px; }
+    .foot-bot a:hover { color: var(--paper); }
+
+    /* ── Modal ───────────────────────────────────── */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(20, 30, 24, 0.55);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 60;
+      padding: 24px;
+    }
+    .overlay.show { display: flex; }
+    .modal {
+      background: var(--paper);
+      border-radius: 20px;
+      max-width: 430px;
+      width: 100%;
+      padding: 38px 34px;
+      position: relative;
+    }
+    .modal h3 { font-size: 26px; margin-bottom: 10px; }
+    .modal p  { color: var(--ink-soft); font-size: 15.5px; margin-bottom: 22px; }
+    .modal .capture { max-width: none; }
+    .modal .x {
+      position: absolute;
+      top: 16px; right: 18px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--stone);
+      width: 26px;
+      height: 26px;
+    }
+
+    /* ── Scroll reveal ───────────────────────────── */
+    .rv { opacity: 0; transform: translateY(22px); transition: opacity .7s ease, transform .7s ease; }
+    .rv.in { opacity: 1; transform: none; }
+
+    /* ── Responsive ──────────────────────────────── */
+    @media (max-width: 880px) {
+      .compare,
+      .uses { grid-template-columns: 1fr; }
+      .nav-links a:not(.nav-cta) { display: none; }
+      .foot-top { grid-template-columns: 1fr; }
+      section { padding: 64px 0; }
+      .step { grid-template-columns: 46px 1fr; gap: 16px; }
+      .step .num { font-size: 28px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .rv { opacity: 1; transform: none; transition: none; }
+      * { animation: none !important; }
+      html { scroll-behavior: auto; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Proto notice -->
+  <div class="proto" id="proto">
+    <div class="wrap">
+      <span>Early preview · still in progress</span>
+      <button aria-label="Dismiss notice" onclick="document.getElementById('proto').style.display='none'">&times;</button>
+    </div>
+  </div>
+
+  <!-- Nav -->
+  <nav id="nav">
+    <div class="wrap">
+      <a class="brand" href="essence-infusing.html">
+        <svg class="mark" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M12 22c5-3 8-7 8-12 0-1.6-.4-3-1-4-1.5 2.2-4 3-7 3.5C9 10 7 11.5 7 15c0 3 2 5.5 5 7z" stroke="#4A7355" stroke-width="1.4" stroke-linejoin="round"/>
+          <path d="M12 22V9" stroke="#A96A22" stroke-width="1.4" stroke-linecap="round"/>
+        </svg>
+        Essence Infusing
+      </a>
+      <div class="nav-links">
+        <a href="how-it-works.html" class="active">How it works</a>
+        <a href="insights.html">Insights</a>
+        <a href="about.html">About</a>
+        <button class="btn btn-solid nav-cta" data-modal>Get launch updates</button>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+
+    <!-- Page hero -->
+    <section class="page-hero">
+      <div class="wrap rv">
+        <span class="eyebrow">How it works</span>
+        <h1>The careful part, handled.</h1>
+        <p class="lead">ELOH runs the infusing, melting, mixing, and activation from one touchscreen, built for precise, low-temperature preparation across culinary, wellness, and craft.</p>
+      </div>
+    </section>
+
+    <!-- By hand vs. ELOH comparison -->
+    <section style="padding-top: 24px;">
+      <div class="wrap">
+        <div class="rv">
+          <span class="eyebrow">The difference</span>
+          <h2 style="font-family: var(--font-display); font-size: clamp(1.8rem, 3.4vw, 2.5rem); margin-top: 14px;">By hand, or handled.</h2>
+        </div>
+        <div class="compare rv">
+          <div class="col hand">
+            <span class="k">Doing it by hand</span>
+            <h3>You manage every variable</h3>
+            <ul>
+              <li>
+                <svg class="ic" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+                Watching the heat instead of letting it run
+              </li>
+              <li>
+                <svg class="ic" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+                Timing and stirring by approximation
+              </li>
+              <li>
+                <svg class="ic" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+                Easy to miss when something's off
+              </li>
+              <li>
+                <svg class="ic" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+                One batch great, the next one flat
+              </li>
+            </ul>
+          </div>
+          <div class="col eloh">
+            <span class="k">With ELOH</span>
+            <h3>The system holds it steady</h3>
+            <ul>
+              <li>
+                <svg class="ic" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12l5 5 9-11" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Indirect radiant heat, set and held automatically
+              </li>
+              <li>
+                <svg class="ic" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12l5 5 9-11" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Timing tuned to what you're making
+              </li>
+              <li>
+                <svg class="ic" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12l5 5 9-11" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Automated mixing, no hovering
+              </li>
+              <li>
+                <svg class="ic" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12l5 5 9-11" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Repeatable results, batch after batch
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Product photo -->
+    <section style="padding-top: 24px;">
+      <div class="wrap">
+        <img
+          src="images/ELOH-compound-preparation-smart-infusing-machine.jpg"
+          alt="ELOH smart infuser system"
+          class="machine-img rv"
+          loading="lazy"
+        >
+      </div>
+    </section>
+
+    <!-- Steps -->
+    <section style="padding-top: 24px;">
+      <div class="wrap">
+        <div class="rv">
+          <span class="eyebrow">Start to finish</span>
+          <h2 style="font-family: var(--font-display); font-size: clamp(1.8rem, 3.4vw, 2.5rem); margin-top: 14px;">How a session goes.</h2>
+        </div>
+        <div class="steps rv">
+          <div class="step">
+            <div class="num">1</div>
+            <div>
+              <h3>Choose your program</h3>
+              <p>Pick what you're making on the touchscreen. It loads the right temperature, timing, and motion. No settings to figure out.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="num">2</div>
+            <div>
+              <h3>Add your ingredients</h3>
+              <p>Your botanicals and a carrier: oil, honey, butter, whatever the recipe calls for. Close it up and start.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="num">3</div>
+            <div>
+              <h3>Let it run</h3>
+              <p>Indirect radiant heat, timing, and mixing are handled automatically. The fragile compounds are protected while you do something else.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="num">4</div>
+            <div>
+              <h3>Use what you made</h3>
+              <p>Pour, jar, or bottle it. Repeat the exact result next time, or change one thing and explore.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Use cases -->
+    <section style="padding-top: 24px;">
+      <div class="wrap">
+        <div class="rv">
+          <span class="eyebrow">Made for</span>
+          <h2 style="font-family: var(--font-display); font-size: clamp(1.8rem, 3.4vw, 2.5rem); margin-top: 14px;">Culinary, wellness, and craft.</h2>
+        </div>
+        <div class="uses rv">
+          <div class="use">
+            <svg class="ic" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 3v8a3 3 0 006 0V3M8 3v18M19 3c-1.5 0-3 1.5-3 5s1.5 4 3 4v9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <h3>Culinary</h3>
+            <p>Infused oils, hot sauces, syrups, and seasonings, with full flavor and nutrients intact.</p>
+          </div>
+          <div class="use">
+            <svg class="ic" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 21C7 17 4 13 4 9a4 4 0 018-1 4 4 0 018 1c0 4-3 8-8 12z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+            <h3>Wellness</h3>
+            <p>Herbal extracts, tinctures, and honeys made gently enough to keep the compounds that matter.</p>
+          </div>
+          <div class="use">
+            <svg class="ic" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 3h6l-1 5h-4L9 3zM8 8h8l1 11a2 2 0 01-2 2H9a2 2 0 01-2-2L8 8z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+            <h3>Craft &amp; beauty</h3>
+            <p>Balms, creams, and salves, with the careful melting and mixing done for you.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA band -->
+    <section style="padding-top: 24px;">
+      <div class="band rv">
+        <span class="eyebrow">Coming soon</span>
+        <h2>Want to know when it's ready?</h2>
+        <form class="capture" data-capture>
+          <input type="email" placeholder="Your email" aria-label="Email address" required>
+          <button class="btn btn-amber" type="submit">Get launch updates</button>
+        </form>
+        <p class="form-note" data-note></p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="wrap">
+      <div class="foot-top">
+        <h3 class="rv">Be first to know when ELOH launches.</h3>
+        <div class="rv">
+          <form class="capture" data-capture>
+            <input type="email" placeholder="Your email" aria-label="Email address" required>
+            <button class="btn btn-amber" type="submit">Get updates</button>
+          </form>
+          <p class="form-note" data-note></p>
+        </div>
+      </div>
+      <div class="foot-bot">
+        <span>&copy; <span id="copy-year"></span> Essence Infusing &middot; Made in Delaware</span>
+        <span class="links">
+          <a href="how-it-works.html">How it works</a>
+          <a href="insights.html">Insights</a>
+          <a href="about.html">About</a>
+        </span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Modal -->
+  <div class="overlay" id="overlay">
+    <div class="modal" role="dialog" aria-modal="true" aria-label="Get launch updates">
+      <button class="x" id="modalX" aria-label="Close">
+        <svg viewBox="0 0 24 24" fill="none" width="22" height="22">
+          <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <h3>Get launch updates</h3>
+      <p>We'll send a note when the system is ready, and the occasional insight worth reading. No spam.</p>
+      <form class="capture" data-capture>
+        <input type="email" placeholder="Your email" aria-label="Email address" required>
+        <button class="btn btn-solid" type="submit">Notify me</button>
+      </form>
+      <p class="form-note" data-note></p>
+    </div>
+  </div>
+
+  <script>
+    var cy = document.getElementById('copy-year');
+    if (cy) cy.textContent = new Date().getFullYear();
+
+    var nav = document.getElementById('nav');
+    if (nav) addEventListener('scroll', function () {
+      nav.classList.toggle('scrolled', scrollY > 12);
+    }, { passive: true });
+
+    document.querySelectorAll('[data-capture]').forEach(function (form) {
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var input = form.querySelector('input');
+        var note  = form.parentElement.querySelector('[data-note]');
+        if (input.value && input.value.indexOf('@') > 0) {
+          if (note) note.textContent = "Thanks, you're on the list. We'll be in touch.";
+          input.value = '';
+        } else if (note) {
+          note.textContent = "Please enter a valid email.";
+        }
+      });
+    });
+
+    var ov = document.getElementById('overlay');
+    function openM() {
+      if (!ov) return;
+      ov.classList.add('show');
+      setTimeout(function () { ov.querySelector('input').focus(); }, 60);
+    }
+    function closeM() {
+      if (ov) ov.classList.remove('show');
+    }
+    document.querySelectorAll('[data-modal]').forEach(function (b) { b.addEventListener('click', openM); });
+    var mx = document.getElementById('modalX');
+    if (mx) mx.addEventListener('click', closeM);
+    if (ov) ov.addEventListener('click', function (e) { if (e.target === ov) closeM(); });
+    addEventListener('keydown', function (e) { if (e.key === 'Escape') closeM(); });
+
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.rv').forEach(function (el) { io.observe(el); });
+  </script>
+
+</body>
+</html>

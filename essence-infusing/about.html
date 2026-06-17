@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About | Essence Infusing</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Hanken+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    /* ── Variables ───────────────────────────────── */
+    :root {
+      --paper:       #F2F3EC;
+      --paper-2:     #E9EBE0;
+      --ink:         #1B2A20;
+      --ink-soft:    #3A4A3E;
+      --herb:        #4A7355;
+      --amber:       #A96A22;
+      --amber-soft:  #E7C48A;
+      --line:        #D6D8CA;
+      --stone:       #7C7E70;
+
+      --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
+      --font-body:    'Hanken Grotesk', system-ui, -apple-system, sans-serif;
+      --font-mono:    'IBM Plex Mono', ui-monospace, 'SFMono-Regular', monospace;
+    }
+
+    /* ── Reset ───────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html  { scroll-behavior: smooth; }
+    body  {
+      font-family: var(--font-body);
+      background: var(--paper);
+      color: var(--ink);
+      line-height: 1.7;
+      font-size: 17px;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+    h1, h2, h3 {
+      font-family: var(--font-display);
+      font-weight: 400;
+      letter-spacing: -0.02em;
+      line-height: 1.08;
+    }
+
+    /* ── Layout ──────────────────────────────────── */
+    .wrap { max-width: 1120px; margin: 0 auto; padding: 0 28px; }
+    section { padding: 88px 0; }
+
+    /* ── Eyebrow label ───────────────────────────── */
+    .eyebrow {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--amber);
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+    }
+    .eyebrow::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      background: var(--amber);
+      border-radius: 1px;
+      transform: rotate(45deg);
+      flex: none;
+    }
+
+    /* ── Proto banner ────────────────────────────── */
+    .proto {
+      background: var(--paper-2);
+      border-bottom: 1px solid var(--line);
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--stone);
+    }
+    .proto .wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      padding: 8px 28px;
+      position: relative;
+    }
+    .proto button {
+      position: absolute;
+      right: 24px;
+      background: none;
+      border: none;
+      color: var(--stone);
+      cursor: pointer;
+      font-size: 15px;
+      line-height: 1;
+      padding: 4px;
+    }
+
+    /* ── Nav ─────────────────────────────────────── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: rgba(242, 243, 236, 0.82);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid transparent;
+      transition: border-color .3s, background .3s;
+    }
+    nav.scrolled { border-bottom-color: var(--line); }
+    nav .wrap {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 72px;
+    }
+
+    .brand {
+      font-family: var(--font-display);
+      font-size: 21px;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .brand .mark { width: 22px; height: 22px; flex: none; }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+      font-size: 15px;
+    }
+    .nav-links a {
+      color: var(--ink-soft);
+      transition: color .2s;
+      position: relative;
+    }
+    .nav-links a:hover  { color: var(--ink); }
+    .nav-links a.active { color: var(--ink); }
+    .nav-links a.active::after {
+      content: "";
+      position: absolute;
+      left: 0; right: 0;
+      bottom: -6px;
+      height: 2px;
+      background: var(--amber);
+      border-radius: 2px;
+    }
+
+    /* ── Buttons ─────────────────────────────────── */
+    .btn {
+      font-family: var(--font-body);
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      border-radius: 999px;
+      padding: 11px 22px;
+      transition: transform .15s, background .2s, box-shadow .2s;
+    }
+    .btn-solid { background: var(--ink); color: var(--paper); }
+    .btn-solid:hover { background: #13201a; transform: translateY(-1px); }
+    .btn:focus-visible { outline: 2.5px solid var(--amber); outline-offset: 3px; }
+    .btn-ghost { background: none; color: var(--ink); border: 1px solid var(--line); }
+    .btn-ghost:hover { border-color: var(--herb); transform: translateY(-1px); }
+    .nav-cta { padding: 9px 18px; font-size: 14px; }
+
+    /* ── Shared section pieces ───────────────────── */
+    .lead {
+      font-size: 19px;
+      color: var(--ink-soft);
+      max-width: 54ch;
+      margin-top: 20px;
+    }
+
+    /* ── Email capture ───────────────────────────── */
+    .capture {
+      display: flex;
+      gap: 9px;
+      max-width: 430px;
+      flex-wrap: wrap;
+    }
+    .capture input {
+      flex: 1;
+      min-width: 200px;
+      font-family: var(--font-body);
+      font-size: 15px;
+      padding: 13px 17px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--paper);
+      color: var(--ink);
+      transition: border-color .2s;
+    }
+    .capture input:focus { outline: none; border-color: var(--herb); }
+    .capture .btn-solid  { padding: 13px 24px; }
+    .form-note {
+      font-size: 13.5px;
+      color: var(--herb);
+      margin-top: 14px;
+      font-weight: 500;
+      min-height: 0;
+    }
+
+    /* ── Page hero ───────────────────────────────── */
+    .page-hero { padding: 60px 0 22px; }
+    .page-hero h1 { font-size: clamp(2.2rem, 4.6vw, 3.4rem); margin-top: 18px; max-width: 18ch; }
+    .page-hero .lead { margin-top: 20px; }
+    .page-hero.center { text-align: center; }
+    .page-hero.center .eyebrow { justify-content: center; }
+    .page-hero.center h1 { margin-left: auto; margin-right: auto; max-width: 20ch; }
+    .page-hero.center .lead { margin-left: auto; margin-right: auto; }
+
+    /* ── About body ──────────────────────────────── */
+    .about-body { max-width: 40rem; margin: 0 auto; }
+    .about-body > p {
+      font-size: 18px;
+      color: var(--ink-soft);
+      margin-bottom: 18px;
+      line-height: 1.78;
+    }
+    .about-body .k {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--amber);
+      display: block;
+      margin: 50px 0 8px;
+    }
+    .about-body h2 { font-size: clamp(1.5rem, 2.6vw, 2rem); margin-bottom: 16px; }
+
+    .pull {
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem, 3vw, 2.05rem);
+      line-height: 1.32;
+      color: var(--ink);
+      border-left: 3px solid var(--amber);
+      padding-left: 26px;
+      margin: 44px 0;
+    }
+    .sign {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 20px;
+      color: var(--ink);
+      margin-top: 46px;
+      padding-top: 24px;
+      border-top: 1px solid var(--line);
+    }
+
+    /* ── CTA band ────────────────────────────────── */
+    .band {
+      background: var(--ink);
+      color: var(--paper);
+      text-align: center;
+      border-radius: 24px;
+      padding: 64px 28px;
+      margin: 40px auto 0;
+      max-width: 1064px;
+    }
+    .band .eyebrow { color: var(--amber-soft); justify-content: center; }
+    .band .eyebrow::before { background: var(--amber-soft); }
+    .band h2 {
+      color: var(--paper);
+      font-size: clamp(1.7rem, 3.4vw, 2.4rem);
+      margin: 16px auto 26px;
+      max-width: 18ch;
+    }
+    .band .capture { margin: 0 auto; justify-content: center; }
+    .band .capture input { background: #243528; border-color: #3A4A3E; color: var(--paper); }
+    .band .capture input::placeholder { color: #8FA08C; }
+    .band .btn-amber { background: var(--amber-soft); color: #3A2606; }
+    .band .btn-amber:hover { background: #efd29e; transform: translateY(-1px); }
+    .band .form-note { color: var(--amber-soft); text-align: center; }
+
+    /* ── Footer ──────────────────────────────────── */
+    footer {
+      background: var(--ink);
+      color: var(--paper);
+      padding: 74px 0 40px;
+    }
+    .foot-top {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 48px;
+      align-items: end;
+      padding-bottom: 44px;
+      border-bottom: 1px solid rgba(199, 206, 196, 0.2);
+    }
+    footer h3 {
+      font-family: var(--font-display);
+      font-size: clamp(1.6rem, 3vw, 2.1rem);
+      color: var(--paper);
+      max-width: 16ch;
+    }
+    footer .capture input { background: #243528; border-color: #3A4A3E; color: var(--paper); }
+    footer .capture input::placeholder { color: #8FA08C; }
+    footer .btn-amber { background: var(--amber-soft); color: #3A2606; }
+    footer .btn-amber:hover { background: #efd29e; transform: translateY(-1px); }
+    footer .form-note { color: var(--amber-soft); }
+
+    .foot-bot {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      padding-top: 28px;
+      font-size: 13.5px;
+      color: #A6B2A4;
+    }
+    .foot-bot .links { display: flex; gap: 24px; }
+    .foot-bot a:hover { color: var(--paper); }
+
+    /* ── Modal ───────────────────────────────────── */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(20, 30, 24, 0.55);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 60;
+      padding: 24px;
+    }
+    .overlay.show { display: flex; }
+    .modal {
+      background: var(--paper);
+      border-radius: 20px;
+      max-width: 430px;
+      width: 100%;
+      padding: 38px 34px;
+      position: relative;
+    }
+    .modal h3 { font-size: 26px; margin-bottom: 10px; }
+    .modal p  { color: var(--ink-soft); font-size: 15.5px; margin-bottom: 22px; }
+    .modal .capture { max-width: none; }
+    .modal .x {
+      position: absolute;
+      top: 16px; right: 18px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--stone);
+      width: 26px;
+      height: 26px;
+    }
+
+    /* ── Scroll reveal ───────────────────────────── */
+    .rv { opacity: 0; transform: translateY(22px); transition: opacity .7s ease, transform .7s ease; }
+    .rv.in { opacity: 1; transform: none; }
+
+    /* ── Responsive ──────────────────────────────── */
+    @media (max-width: 880px) {
+      .foot-top { grid-template-columns: 1fr; }
+      .nav-links a:not(.nav-cta) { display: none; }
+      section { padding: 64px 0; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .rv { opacity: 1; transform: none; transition: none; }
+      * { animation: none !important; }
+      html { scroll-behavior: auto; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Proto notice -->
+  <div class="proto" id="proto">
+    <div class="wrap">
+      <span>Early preview · still in progress</span>
+      <button aria-label="Dismiss notice" onclick="document.getElementById('proto').style.display='none'">&times;</button>
+    </div>
+  </div>
+
+  <!-- Nav -->
+  <nav id="nav">
+    <div class="wrap">
+      <a class="brand" href="essence-infusing.html">
+        <svg class="mark" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M12 22c5-3 8-7 8-12 0-1.6-.4-3-1-4-1.5 2.2-4 3-7 3.5C9 10 7 11.5 7 15c0 3 2 5.5 5 7z" stroke="#4A7355" stroke-width="1.4" stroke-linejoin="round"/>
+          <path d="M12 22V9" stroke="#A96A22" stroke-width="1.4" stroke-linecap="round"/>
+        </svg>
+        Essence Infusing
+      </a>
+      <div class="nav-links">
+        <a href="how-it-works.html">How it works</a>
+        <a href="insights.html">Insights</a>
+        <a href="about.html" class="active">About</a>
+        <button class="btn btn-solid nav-cta" data-modal>Get launch updates</button>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+
+    <!-- Page hero -->
+    <section class="page-hero center">
+      <div class="wrap rv">
+        <span class="eyebrow">About</span>
+        <h1>The story behind Essence Infusing.</h1>
+      </div>
+    </section>
+
+    <!-- About body -->
+    <section style="padding-top: 8px;">
+      <div class="wrap">
+        <div class="about-body rv">
+
+          <p>Herbs, roots, spices, fungi, and plants are the foundation of both flavor and health. Through infusion, their distinctive flavors, aromas, and beneficial compounds are drawn into carriers like oils, honeys, syrups, and sauces, where they can be used and enjoyed in everyday life.</p>
+
+          <p>Inside these plants is real value, and that value is fragile. Too much heat, aggressive processing, or careless handling breaks it down quickly. Once it's gone, there's no getting it back.</p>
+
+          <p>What frustrated me was how hard it was to work with botanicals while preserving what mattered, especially when I wanted to use them more often and in more forms. The methods available made that harder than it needed to be.</p>
+
+          <div class="pull">I wasn't looking for novelty or scale. I was looking for a simple way to unlock more of what these ingredients already offer.</div>
+
+          <span class="k">Why tools fail us</span>
+          <h2>The kitchen made careful work complicated.</h2>
+          <p>Most kitchens are built for speed and intensity, not care and control. High heat is easy. Low-temperature precision is not. When you're working with botanicals, small differences in temperature, timing, and mixing decide whether you end up with something vibrant or something flat and degraded.</p>
+          <p>One batch might turn out great and the next might not. Not because the ingredients were bad, but because the process was fragile.</p>
+
+          <span class="k">A better way</span>
+          <h2>So I started building what I needed.</h2>
+          <p>When I looked for tools that could support this, nothing came close. Existing options were too crude, too large, too narrow, or too dependent on guesswork. They solved one task at a time and made it hard to expand beyond that.</p>
+          <p>ELOH is the system that came out of that work. It was designed to handle the fragile parts of infusion so people can focus on what they want to make. Along the way, that vision has taken shape through a Delaware EDGE STEM grant, expanding patent claims, and building a foundation that brings careful infusion into everyday kitchens.</p>
+
+          <div class="pull">Ease doesn't mean cutting corners. It means removing unnecessary barriers.</div>
+
+          <span class="k">Ease without sacrifice</span>
+          <h2>Do things well, not just more.</h2>
+          <p>Timing, temperature, and mixing shouldn't require constant attention or a rotation of pots, burners, and thermometers. The system handles those variables when you want, while leaving room for hands-on control when you don't. It's sized for experimentation and real meals, not giant batches you don't need.</p>
+
+          <span class="k">Doing it yourself</span>
+          <h2>It should feel better, not harder.</h2>
+          <p>Whether better means health, creativity, enjoyment, or saving money, making things yourself should feel easy, without guesswork or research. Too many products lean on heavy processing and fillers that strip away the natural benefits. What we eat should reflect personal taste while preserving what makes the ingredients worth using.</p>
+
+          <span class="k">Grounded in science</span>
+          <h2>Built for real life.</h2>
+          <p>There's a growing body of research around heat sensitivity, compound preservation, and extraction. ELOH is built so people can benefit from that science as it evolves, without having to study and manage the process themselves. The complexity lives in the system, not in the steps.</p>
+
+          <span class="k">Where this is going</span>
+          <h2>An infrastructure for making.</h2>
+          <p>Essence Infusing is growing into an ecosystem: tools and guidance that help people make more of what they care about, in ways they understand and trust. Over time, this becomes an infrastructure for making, not just consuming. One that lets people rely less on finished products and more on their own curiosity, taste, and intent.</p>
+
+          <p class="sign">&mdash; Dennis W., Founder of Essence Infusing</p>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA band -->
+    <section style="padding-top: 24px;">
+      <div class="band rv">
+        <span class="eyebrow">Coming soon</span>
+        <h2>Follow along as it comes to life.</h2>
+        <form class="capture" data-capture>
+          <input type="email" placeholder="Your email" aria-label="Email address" required>
+          <button class="btn btn-amber" type="submit">Get launch updates</button>
+        </form>
+        <p class="form-note" data-note></p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="wrap">
+      <div class="foot-top">
+        <h3 class="rv">Be first to know when ELOH launches.</h3>
+        <div class="rv">
+          <form class="capture" data-capture>
+            <input type="email" placeholder="Your email" aria-label="Email address" required>
+            <button class="btn btn-amber" type="submit">Get updates</button>
+          </form>
+          <p class="form-note" data-note></p>
+        </div>
+      </div>
+      <div class="foot-bot">
+        <span>&copy; <span id="copy-year"></span> Essence Infusing &middot; Made in Delaware</span>
+        <span class="links">
+          <a href="how-it-works.html">How it works</a>
+          <a href="insights.html">Insights</a>
+          <a href="about.html">About</a>
+        </span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Modal -->
+  <div class="overlay" id="overlay">
+    <div class="modal" role="dialog" aria-modal="true" aria-label="Get launch updates">
+      <button class="x" id="modalX" aria-label="Close">
+        <svg viewBox="0 0 24 24" fill="none" width="22" height="22">
+          <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <h3>Get launch updates</h3>
+      <p>We'll send a note when the system is ready, and the occasional insight worth reading. No spam.</p>
+      <form class="capture" data-capture>
+        <input type="email" placeholder="Your email" aria-label="Email address" required>
+        <button class="btn btn-solid" type="submit">Notify me</button>
+      </form>
+      <p class="form-note" data-note></p>
+    </div>
+  </div>
+
+  <script>
+    var cy = document.getElementById('copy-year');
+    if (cy) cy.textContent = new Date().getFullYear();
+
+    var nav = document.getElementById('nav');
+    if (nav) addEventListener('scroll', function () {
+      nav.classList.toggle('scrolled', scrollY > 12);
+    }, { passive: true });
+
+    document.querySelectorAll('[data-capture]').forEach(function (form) {
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var input = form.querySelector('input');
+        var note  = form.parentElement.querySelector('[data-note]');
+        if (input.value && input.value.indexOf('@') > 0) {
+          if (note) note.textContent = "Thanks, you're on the list. We'll be in touch.";
+          input.value = '';
+        } else if (note) {
+          note.textContent = "Please enter a valid email.";
+        }
+      });
+    });
+
+    var ov = document.getElementById('overlay');
+    function openM() {
+      if (!ov) return;
+      ov.classList.add('show');
+      setTimeout(function () { ov.querySelector('input').focus(); }, 60);
+    }
+    function closeM() {
+      if (ov) ov.classList.remove('show');
+    }
+    document.querySelectorAll('[data-modal]').forEach(function (b) { b.addEventListener('click', openM); });
+    var mx = document.getElementById('modalX');
+    if (mx) mx.addEventListener('click', closeM);
+    if (ov) ov.addEventListener('click', function (e) { if (e.target === ov) closeM(); });
+    addEventListener('keydown', function (e) { if (e.key === 'Escape') closeM(); });
+
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.rv').forEach(function (el) { io.observe(el); });
+  </script>
+
+</body>
+</html>
