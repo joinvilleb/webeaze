@@ -1387,10 +1387,18 @@ if (new Date() >= new Date('2026-06-01')) {
       message.textContent = 'We\'re closed for ' + current.name + '. We\'ll be back ' + ret.toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric' }) + '. Requests will be handled when we reopen.';
       banner.classList.add('visible');
     } else if (upcoming) {
-      const s = upcoming.start.toLocaleDateString('en-US', { month:'long', day:'numeric' });
-      const e = upcoming.end.toLocaleDateString('en-US',   { month:'long', day:'numeric' });
+      const sameDay   = upcoming.start.toDateString() === upcoming.end.toDateString();
+      const sameMonth = upcoming.start.getMonth() === upcoming.end.getMonth() && upcoming.start.getFullYear() === upcoming.end.getFullYear();
+      let dateRange;
+      if (sameDay) {
+        dateRange = upcoming.start.toLocaleDateString('en-US', { month: 'long', day: 'numeric' });
+      } else if (sameMonth) {
+        dateRange = upcoming.start.toLocaleDateString('en-US', { month: 'long', day: 'numeric' }) + '–' + upcoming.end.getDate();
+      } else {
+        dateRange = upcoming.start.toLocaleDateString('en-US', { month: 'long', day: 'numeric' }) + '–' + upcoming.end.toLocaleDateString('en-US', { month: 'long', day: 'numeric' });
+      }
       title.textContent   = 'Upcoming Closure: ' + upcoming.name;
-      message.textContent = 'We\'ll be closed ' + s + '-' + e + ' for ' + upcoming.name + '. Submit any urgent requests before then.';
+      message.textContent = 'We\'ll be closed ' + dateRange + ' for ' + upcoming.name + '. Submit any urgent requests before then.';
       banner.classList.add('visible');
     }
   }
