@@ -708,22 +708,6 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
 <script>
   document.getElementById('yr').textContent = new Date().getFullYear();
 
-  const navWrap = document.getElementById('navWrap');
-
-  function syncNavPadding() { document.body.style.paddingTop = navWrap.offsetHeight + 'px'; }
-  syncNavPadding();
-  window.addEventListener('resize', syncNavPadding, { passive: true });
-
-  var lastScroll = 0;
-  window.addEventListener('scroll', function() {
-    var cur = window.scrollY || window.pageYOffset;
-    navWrap.classList.toggle('scrolled', cur > 30);
-    if (cur < 80) { navWrap.classList.remove('nav-hidden'); lastScroll = cur; return; }
-    if (cur > lastScroll + 4) navWrap.classList.add('nav-hidden');
-    else if (cur < lastScroll - 4) navWrap.classList.remove('nav-hidden');
-    lastScroll = cur <= 0 ? 0 : cur;
-  }, { passive: true });
-
   const revealEls = document.querySelectorAll('.reveal');
   const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); revealObserver.unobserve(e.target); } });
