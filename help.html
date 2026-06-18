@@ -3468,26 +3468,33 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
 
         ` },
 
-        { slug: 'how-long-does-it-take', title: 'How long until I see a draft of my website?', updated: '05-26-2026', meta: 'Typical timeline if content is ready.', body: `
+        { slug: 'how-long-does-it-take', title: 'How long until my website is live?', updated: '05-26-2026', meta: 'Typical timeline if content is ready.', body: `
 
-          <p>Most first drafts are ready within <strong>7 to 14 days</strong> from when we receive your content. After you approve the draft, final launch typically takes another 3 to 5 business days.</p>
+        <p>We aim to complete your website within <strong>5-14 working days</strong> from the time you subscribe to WebEaze. The exact day varies based on your individual website scope and your timely responses to our requests. </p>
 
+        
           <h2>The two phases</h2>
+
+          <p>There's two phases to the timeline. </p>
           <ul>
-            <li><strong>First draft:</strong> We design and build your site. You review and send feedback. Most drafts land within 7 to 14 days of receiving your content.</li>
-            <li><strong>Final launch:</strong> After you approve, we handle QA testing, domain setup, and publish the site. Usually 3 to 5 business days from approval.</li>
+            <li><strong>First draft:</strong> We design, build, and connect your site to your website URL. You'll then receive an email with a link or file to review. <i>It's important that you review and send feedback as soon as possible.  </i></li>
+
+            <li><strong>Final launch:</strong> After you review and we <a href="#/how-many-revisions">refine</a>, we'll test your website on other devices and verify domain & hosting setup are complete. Then, your website launches and you'll be notified. </li>
+            
           </ul>
 
-          <h2>What speeds things up</h2>
+          <h2>Efficiency is key</h2>
+
+          <p>Delays in content submission and revision feedback are the most common reasons for timeline extensions. To help ensure a smooth and timely process, we recommend:</p>
           <ul>
-            <li>Submitting complete content upfront through the Content Submission Form</li>
-            <li>Replying to revision notes within 2 to 3 days</li>
-            <li>Providing domain access early so it is ready when we need it</li>
+            <li>Submitting complete content through the Content Submission Form</li>
+            <li>Replying to revision notes in a timely manner, ASAP if you can</li>
+            <li>Providing requested info promptly</li>
           </ul>
 
-          <p>See the full <a href="#/when-will-my-website-launch">project timeline breakdown</a> for a phase-by-phase view with a detailed table.</p>
+          <p>See the full <a href="#/when-will-my-website-launch">project timeline breakdown</a> to see a detailed breakdown of the entire launch process.</p>
 
-          <div class="alert alert-info mt-2"><strong>Good to know:</strong> If your project involves complex features or there are delays in content submission, the timeline may extend. We'll always keep you updated by email if anything shifts.</div>
+          <div class="alert alert-info mt-2"><strong>Good to know:</strong> Occasionally, we may be building your website while handling a high volume of website requests from existing clients. If that's the case, we'll notify you via email with an updated completion date.</div>
 
         ` },
 
@@ -5605,16 +5612,19 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
           <p>If you're sending a new image, document, or logo, attach it directly to the request. Include a note about where it goes and what it replaces. For example: "Attached is the new team headshot for Sarah. Replace her current photo on the Team page."</p>
 
           <h2>Multiple changes in one request</h2>
-          <p>It's fine to include several updates in one request - just list each one clearly. Use a numbered list or separate each change with a blank line so nothing gets missed.</p>
+          <p>It's fine to include several updates in one request We just recommend you to organize them. Here's an example:
+            <ul>
+              <p> - On the homepage, update the hero heading to say 'Trusted by Tampa Families Since 2010'. Keep the subheading as-is.</p>
+              <p> - Replace the About photo with the attached image. It should go in the same spot as the current photo.</p>
+              <p> - Add a new service card after 'Window Cleaning' called 'Gutter Cleaning'. Use the same layout as the others. I'll write the description below.</p>
+           </ul>
 
           <h2>Not sure how to describe something?</h2>
-          <p>If you're having trouble putting it into words, a screenshot with an annotation or a quick voice note works too. Just drop it in the request with a short note explaining what you're trying to accomplish and we'll figure it out together.</p>
+          <p>If you're having trouble putting it into words, <a href="https://meetings-na2.hubspot.com/webeaze/phone-support">schedule a call with us</a>*.</p>
 
-          <p>If you're on our Growth Plan, you can also hop on a quick call or schedule a Google Meet to explain your request if that's easier. </p>
+          <p class="mt-2 small text-muted">*Available for Growth plan clients only.</p>
 
-          <div class="cta-row mt-2">
-            <a class="btn-brand" href="website-request.html">Submit a Request</a>
-          </div>
+        
 
         ` }
 
@@ -9298,27 +9308,7 @@ const LS_SAVED    = 'wz_help_saved';
     injectToc();
     wrapTables();
 
-    // Inject in-body request CTA for articles with a specific template
-    const reqTemplate = REQUEST_TEMPLATES[slug];
-    if (reqTemplate) {
-      const $body = document.querySelector('.article-body');
-      if ($body && !$body.querySelector('.article-request-cta')) {
-        const cta = document.createElement('div');
-        cta.className = 'article-request-cta';
-        cta.innerHTML = `
-          <p class="article-request-cta__label"><i class="fas fa-circle-info"></i> Ready to make this change?</p>
-          <button class="btn-brand article-request-cta__btn" type="button">
-            <i class="fas fa-paper-plane"></i> Submit this request
-          </button>
-          <p class="article-request-cta__hint">Copy and paste the template, add your details, and submit.</p>
-        `;
-        cta.querySelector('button').addEventListener('click', function() {
-          const url = 'website-request.html?from=help&article=' + encodeURIComponent(article.title) + '&quote=' + encodeURIComponent(reqTemplate);
-          window.location.href = url;
-        });
-        $body.appendChild(cta);
-      }
-    }
+  
 
     // Track topic reads
     if (topic && topic.id) {
