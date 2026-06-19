@@ -141,6 +141,7 @@ p:last-child { margin-bottom: 0; }
   position: sticky;
   top: 64px;
   z-index: 100;
+  transition: top .28s ease;
 }
 .fee-tabs-track {
   max-width: 1100px; margin: 0 auto;
@@ -1186,6 +1187,12 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
   if (inner) inner.addEventListener('scroll', syncArrows, { passive: true });
 
   syncArrows();
+
+  // Track the nav sliding up/down and move the tab bar with it
+  var tabBar = document.querySelector('.fee-tabs-bar');
+  document.addEventListener('wbNavVisibility', function(e) {
+    if (tabBar) tabBar.style.top = e.detail.visible ? '64px' : '0px';
+  });
 })();
 </script>
 
