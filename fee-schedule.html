@@ -130,8 +130,31 @@ p:last-child { margin-bottom: 0; }
 
 /* SECTION LAYOUT */
 .section-wrap { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
-.content-section { padding: 72px 0 0; }
-.content-section + .content-section { border-top: 1px solid var(--line); margin-top: 72px; }
+.content-section { padding: 52px 0 72px; }
+.content-section + .content-section { border-top: none; margin-top: 0; }
+.tab-panel[hidden] { display: none !important; }
+
+/* TAB BAR */
+.fee-tabs-bar {
+  background: var(--bg);
+  border-bottom: 2px solid var(--line);
+}
+.fee-tabs-inner {
+  max-width: 1100px; margin: 0 auto; padding: 0 20px;
+  display: flex; overflow-x: auto; -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.fee-tabs-inner::-webkit-scrollbar { display: none; }
+.fee-tab {
+  font-family: inherit; font-size: .875rem; font-weight: 600;
+  color: var(--dim); background: none; border: none;
+  border-bottom: 2px solid transparent; margin-bottom: -2px;
+  padding: 14px 18px; cursor: pointer; white-space: nowrap; flex-shrink: 0;
+  transition: color .15s, border-color .15s;
+}
+.fee-tab:hover { color: var(--text); }
+.fee-tab.active { color: var(--brand); border-bottom-color: var(--brand); }
+body.search-results-mode .fee-tabs-bar { display: none; }
 .section-eyebrow {
   font-size: .72rem; font-weight: 700; text-transform: uppercase;
   letter-spacing: .12em; color: var(--brand); margin-bottom: 8px;
@@ -578,10 +601,22 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
   </div>
 </section>
 
-<!-- OVERVIEW -->
+<!-- TAB BAR -->
+<div class="fee-tabs-bar">
+  <div class="fee-tabs-inner">
+    <button class="fee-tab active" data-tab="overview">Overview</button>
+    <button class="fee-tab" data-tab="projects">Website Builds</button>
+    <button class="fee-tab" data-tab="add-ons">Ongoing Services</button>
+    <button class="fee-tab" data-tab="custom-dev">Integrations</button>
+    <button class="fee-tab" data-tab="other">Add-ons &amp; Fees</button>
+    <button class="fee-tab" data-tab="policies">Policies</button>
+  </div>
+</div>
+
+<!-- CONTENT -->
 <div class="section-wrap">
 
-  <section class="content-section" id="overview">
+  <section class="content-section tab-panel" id="overview">
     <div class="section-header">
       <h2>What's already included in your plan</h2>
       <p>The services below only apply to requests outside your plan's scope. Most routine changes cost nothing extra.</p>
@@ -615,7 +650,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
   </section>
 
   <!-- ONE-TIME PROJECTS -->
-  <section class="content-section" id="projects">
+  <section class="content-section tab-panel" id="projects" hidden>
     <div class="section-header">
       <h2>Website builds &amp; updates</h2>
       <p>Flat-rate projects. Purchase instantly with the Stripe links below, or submit a request and we'll confirm the scope first.</p>
@@ -715,7 +750,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
   </section>
 
   <!-- MONTHLY ADD-ONS -->
-  <section class="content-section" id="add-ons">
+  <section class="content-section tab-panel" id="add-ons" hidden>
     <div class="section-header">
       <h2>Ongoing services</h2>
       <p>Billed alongside your monthly subscription. Can be added or removed at any time. Setup fees are charged once; recurring charges start the next billing cycle.</p>
@@ -789,7 +824,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
   </section>
 
   <!-- CUSTOM DEVELOPMENT -->
-  <section class="content-section" id="custom-dev">
+  <section class="content-section tab-panel" id="custom-dev" hidden>
     <div class="section-header">
       <h2>Integrations &amp; builds</h2>
       <p>Specialized work beyond standard updates. Prices are starting points. Complex requests may be quoted higher after a quick review. We confirm everything before starting.</p>
@@ -861,7 +896,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
   </section>
 
   <!-- LIVE CHAT -->
-  <section class="content-section" id="other">
+  <section class="content-section tab-panel" id="other" hidden>
     <div class="section-header">
       <h2>Add-ons, utilities &amp; rush fees</h2>
       <p>Smaller one-time and recurring services. Submit a request to add any of these to your account.</p>
@@ -995,31 +1030,36 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
   </section>
 
   <!-- BILLING POLICIES -->
-  <section class="content-section" id="policies">
+  <section class="content-section tab-panel" id="policies" hidden>
     <div class="section-header">
       <h2>How fees are applied</h2>
       <p>No fee on this page is ever charged without your prior approval.</p>
     </div>
     <div class="policies-stack">
 
-      <div class="policy-card">
-        <h3><i class="fas fa-credit-card"></i> How billing works</h3>
-        <p>Every fee requires your approval before work begins. One-time charges appear as separate invoices from your subscription. Monthly add-ons are added to your regular billing starting the next cycle after activation.</p>
-        <p>Invoices are delivered by email with a secure payment link. We do not store card information. Purchases made directly through the Stripe links on this page are processed immediately, and work begins once payment clears.</p>
-      </div>
+      <h4>Billing information</h4>
 
-      <div class="policy-card">
-        <h3><i class="fas fa-scale-balanced"></i> Fair use</h3>
-        <p>Fair-use limits protect service quality for all clients, not to restrict normal work. Most clients never reach them.</p>
-        <p>If usage consistently approaches a limit, we will reach out before any fee is applied. Minor overages for heavy image editing may be waived at our discretion.</p>
-      </div>
+      <p>
+        Every fee requires your approval before work begins. One-time charged appear as separate invoices from your subscription. Monthly add-ons are added to your regular billing starting the next cycle after activation. 
+      </p>
 
-      <div class="policy-card">
-        <h3><i class="fas fa-circle-info"></i> Other things to know</h3>
-        <p>Requests not listed here are quoted individually based on scope, with a written estimate provided before any work begins.</p>
-        <p>Fees may be updated with at least 30 days' notice to affected accounts. All fees are subject to our <a href="refund-policy.html">Refund Policy</a>; generally, completed work is non-refundable.</p>
-        <p>Questions about a specific fee? <a href="website-request.html">Send us a message</a> before committing.</p>
-      </div>
+      <p>
+        Invoices are delivered by email with a secure payment link. We do not store card information. Purchases made directly through the Stripe links on this page are processed immediately, and work begins once payment clears.
+      </p>
+
+       <h4>Fair-use limits</h4>
+
+       <p>
+        Our fair-use limits are designed to protect service quality for all clients, not to restrict normal work. Most clients never approach these limits. There's more information about this <a href="help.html#/fair-use" style="color:var(--brand);text-decoration:underline;">in the Help Center</a>.
+       </p>
+
+       <h4>Custom quotes & fee updates</h4>
+
+       <p><i>The minimum fee for custom quotes is $99.00 USD.</i> </p>
+       <p>
+        Requests are not listed here are quoted individually based on scope, with a written estimate provided before any work begins. Fees may be updated with at least 30 days' notice to affected accounts. All fees are subject to our <a href="refund-policy.html" style="color:var(--brand);text-decoration:underline;">Refund Policy</a>.
+       </p>
+    
 
     </div>
   </section>
@@ -1068,6 +1108,25 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
       window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
     });
   });
+</script>
+
+<script>
+(function() {
+  var tabs   = document.querySelectorAll('.fee-tab[data-tab]');
+  var panels = document.querySelectorAll('.tab-panel');
+
+  tabs.forEach(function(tab) {
+    tab.addEventListener('click', function() {
+      var target = this.dataset.tab;
+      tabs.forEach(function(t) { t.classList.remove('active'); });
+      panels.forEach(function(p) { p.hidden = true; });
+      this.classList.add('active');
+      var panel = document.getElementById(target);
+      if (panel) panel.hidden = false;
+      window.scrollTo({ top: document.querySelector('.fee-tabs-bar').offsetTop - 80, behavior: 'smooth' });
+    });
+  });
+})();
 </script>
 
 <!-- FOOTER -->
