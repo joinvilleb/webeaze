@@ -138,19 +138,29 @@ p:last-child { margin-bottom: 0; }
 .fee-tabs-bar {
   background: var(--bg);
   border-bottom: 2px solid var(--line);
-  position: sticky;
+  position: fixed;
   top: 64px;
+  left: 0; right: 0;
   z-index: 100;
-  transition: top .28s ease;
+  opacity: 0;
+  pointer-events: none;
+  transition: top .28s ease, opacity .18s ease;
 }
+.fee-tabs-bar.is-pinned {
+  opacity: 1;
+  pointer-events: auto;
+}
+.fee-tabs-spacer { height: 49px; }
 .fee-tabs-track {
   max-width: 1100px; margin: 0 auto;
   display: flex; align-items: stretch;
 }
 .fee-tabs-inner {
   flex: 1; min-width: 0;
-  display: flex; overflow-x: auto; -webkit-overflow-scrolling: touch;
+  display: flex; overflow-x: auto; overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
   scrollbar-width: none; padding: 0 20px;
+  touch-action: pan-x;
 }
 .fee-tabs-inner::-webkit-scrollbar { display: none; }
 .fee-tab {
@@ -647,6 +657,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
     </button>
   </div>
 </div>
+<div class="fee-tabs-spacer" id="feeTabsSpacer"></div>
 
 <!-- CONTENT -->
 <div class="section-wrap">
@@ -1188,11 +1199,30 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
 
   syncArrows();
 
-  // Track the nav sliding up/down and move the tab bar with it
+  // Match spacer height to actual rendered tab bar height
   var tabBar = document.querySelector('.fee-tabs-bar');
-  document.addEventListener('wbNavVisibility', function(e) {
-    if (tabBar) tabBar.style.top = e.detail.visible ? '64px' : '0px';
-  });
+  var spacer  = document.getElementById('feeTabsSpacer');
+  var hero    = document.querySelector('.page-hero');
+  var wbHeader = document.getElementById('wb-header');
+  if (tabBar && spacer) spacer.style.height = tabBar.offsetHeight + 'px';
+
+  function getNavH() {
+    return (wbHeader && wbHeader.classList.contains('wb-nav-hidden')) ? 0 : 64;
+  }
+
+  function updateTabBar() {
+    if (!tabBar) return;
+    var navH = getNavH();
+    tabBar.style.top = navH + 'px';
+    if (hero) {
+      var heroBottom = hero.getBoundingClientRect().bottom;
+      tabBar.classList.toggle('is-pinned', heroBottom <= navH + 4);
+    }
+  }
+
+  window.addEventListener('scroll', updateTabBar, { passive: true });
+  document.addEventListener('wbNavVisibility', updateTabBar);
+  updateTabBar();
 })();
 </script>
 
