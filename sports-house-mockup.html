@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sports House Training Center — Indoor Baseball &amp; Softball Training | Millsboro, DE &amp; Salisbury, MD</title>
+<meta name="description" content="Indoor baseball & softball training on Delmarva. Private lessons, cage rentals, clinics & camps led by college and pro-level coaches. Two locations: Millsboro, DE & Salisbury, MD.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --red:#e0252b;
+    --red-deep:#b81d22;
+    --ink:#161519;
+    --ink-2:#23222a;
+    --paper:#f6f5f3;
+    --card:#ffffff;
+    --text:#26262c;
+    --muted:#6e6e77;
+    --line:#e7e4e1;
+    --radius:14px;
+    --shadow:0 24px 52px -28px rgba(22,21,25,.55);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:"Inter",system-ui,sans-serif;color:var(--text);background:var(--paper);line-height:1.62;-webkit-font-smoothing:antialiased}
+  h1,h2,h3,.disp{font-family:"Saira Condensed",system-ui,sans-serif;line-height:1;letter-spacing:.01em;font-weight:800;text-transform:uppercase}
+  a{color:inherit;text-decoration:none}
+  img{max-width:100%;display:block}
+  .wrap{width:min(1180px,92vw);margin:0 auto}
+  .btn{display:inline-flex;align-items:center;gap:.5rem;font-family:"Saira Condensed",sans-serif;font-weight:700;font-size:1rem;letter-spacing:.04em;text-transform:uppercase;padding:.85rem 1.7rem;border-radius:7px;border:2px solid transparent;cursor:pointer;transition:transform .15s ease,background .2s ease,color .2s ease,border-color .2s ease;white-space:nowrap}
+  .btn:focus-visible{outline:3px solid var(--red);outline-offset:3px}
+  .btn-red{background:var(--red);color:#fff}
+  .btn-red:hover{background:var(--red-deep);transform:translateY(-2px)}
+  .btn-dark{background:var(--ink);color:#fff}
+  .btn-dark:hover{background:var(--ink-2);transform:translateY(-2px)}
+  .btn-outline{background:transparent;color:var(--ink);border-color:var(--ink)}
+  .btn-outline:hover{background:var(--ink);color:#fff}
+  .btn-ghost{background:transparent;color:#fff;border-color:rgba(255,255,255,.5)}
+  .btn-ghost:hover{border-color:var(--red);color:#fff;background:var(--red)}
+
+  /* Header */
+  header{position:sticky;top:0;z-index:60;background:rgba(22,21,25,.97);backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,255,255,.08)}
+  .nav{display:flex;align-items:center;justify-content:space-between;padding:.7rem 0;gap:1rem}
+  .brand{display:flex;align-items:center;gap:.6rem;font-family:"Saira Condensed",sans-serif;font-weight:800;font-size:1.4rem;color:#fff;letter-spacing:.02em;text-transform:uppercase;cursor:pointer}
+  .brand .sh{width:38px;height:38px;flex:none}
+  .nav-links{display:flex;align-items:center;gap:1.6rem;font-family:"Saira Condensed",sans-serif;font-weight:700;font-size:1.02rem;letter-spacing:.03em;text-transform:uppercase}
+  .nav-links a.lnk{color:rgba(255,255,255,.82);transition:color .15s}
+  .nav-links a.lnk:hover{color:var(--red)}
+  .menu-btn{display:none;background:none;border:0;cursor:pointer;color:#fff}
+
+  /* Hero */
+  .hero{background:radial-gradient(120% 120% at 78% 0%,#2f2d37 0%,var(--ink) 52%,#0c0b0f 100%);color:#fff;position:relative;overflow:hidden}
+  .hero::before{content:"";position:absolute;top:-60px;right:-60px;width:340px;height:340px;border:24px solid rgba(224,37,43,.16);border-radius:50%}
+  .hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:2.6rem;align-items:center;padding:4.2rem 0 4.6rem;position:relative;z-index:1}
+  .eyebrow{display:inline-flex;align-items:center;gap:.55rem;font-family:"Saira Condensed",sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.1em;font-size:.92rem;color:var(--red);margin-bottom:1.1rem}
+  .hero h1{font-size:clamp(3rem,7vw,5.6rem);margin-bottom:1.1rem}
+  .hero h1 .hl{color:var(--red)}
+  .hero p.lede{font-size:1.16rem;color:rgba(255,255,255,.82);max-width:46ch;margin-bottom:2rem;line-height:1.6}
+  .hero-cta{display:flex;gap:.85rem;flex-wrap:wrap;margin-bottom:2rem}
+  .trust-strip{display:flex;flex-wrap:wrap;gap:.6rem 1.5rem}
+  .trust-pill{display:flex;align-items:center;gap:.5rem;font-weight:600;font-size:.9rem;color:#fff}
+  .trust-pill svg{flex:none;color:var(--red)}
+  .hero-photo{aspect-ratio:4/5;border-radius:var(--radius);background:linear-gradient(150deg,rgba(224,37,43,.3),rgba(22,21,25,.5));border:1px solid rgba(255,255,255,.18);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.6rem;color:rgba(255,255,255,.85);text-align:center;padding:1.4rem;position:relative}
+  .hero-photo::after{content:"";position:absolute;inset:14px;border:2px dashed rgba(255,255,255,.3);border-radius:12px}
+  .hero-photo span{font-weight:600;font-size:.9rem;position:relative;z-index:1}
+
+  /* Stat bar */
+  .stats{background:var(--red)}
+  .stats-inner{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;padding:1.7rem 0;text-align:center}
+  .stat .n{font-family:"Saira Condensed",sans-serif;font-weight:800;font-size:2.4rem;color:#fff;line-height:1}
+  .stat .t{font-size:.85rem;color:rgba(255,255,255,.92);font-weight:600;margin-top:.15rem;text-transform:uppercase;letter-spacing:.04em}
+
+  /* Sections */
+  .section{padding:4.8rem 0}
+  .head{max-width:60ch;margin-bottom:2.6rem}
+  .head.center{margin-left:auto;margin-right:auto;text-align:center}
+  .kicker{font-family:"Saira Condensed",sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.12em;font-size:.92rem;color:var(--red);margin-bottom:.5rem}
+  .head h2{font-size:clamp(2.2rem,4.6vw,3.4rem);color:var(--ink);margin-bottom:.4rem}
+  .head p{color:var(--muted);font-size:1.07rem}
+
+  /* Services */
+  .svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.3rem}
+  .svc{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:1.8rem 1.6rem;transition:transform .16s ease,box-shadow .16s ease,border-color .16s}
+  .svc:hover{transform:translateY(-4px);box-shadow:var(--shadow);border-color:var(--red)}
+  .svc .ico{width:54px;height:54px;border-radius:12px;background:rgba(224,37,43,.1);color:var(--red);display:grid;place-items:center;margin-bottom:1.1rem}
+  .svc h3{font-size:1.4rem;color:var(--ink);margin-bottom:.3rem}
+  .svc p{color:var(--muted);font-size:.95rem}
+  .svc .price{font-family:"Saira Condensed",sans-serif;font-weight:700;color:var(--red);font-size:.95rem;margin-top:.6rem;text-transform:uppercase;letter-spacing:.03em}
+
+  /* Camps band */
+  .camps{background:var(--ink);color:#fff}
+  .camps-grid{display:grid;grid-template-columns:1fr 1fr;gap:2.6rem;align-items:center;padding:4rem 0}
+  .camps h2{font-size:clamp(2.2rem,4.6vw,3.4rem);margin-bottom:1rem;color:#fff}
+  .camps h2 .hl{color:var(--red)}
+  .camps p{color:rgba(255,255,255,.82);margin-bottom:1.3rem}
+  .camp-feats{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-bottom:1.6rem}
+  .camp-feat{display:flex;gap:.5rem;align-items:center;font-size:.95rem;color:rgba(255,255,255,.9)}
+  .camp-feat svg{flex:none;color:var(--red)}
+  .camp-card{background:var(--card);color:var(--text);border-radius:var(--radius);padding:2rem;box-shadow:var(--shadow);text-align:center}
+  .camp-card .big{font-family:"Saira Condensed",sans-serif;font-weight:800;font-size:3.4rem;color:var(--red);line-height:1}
+  .camp-card .lbl{font-weight:600;color:var(--muted);margin-bottom:1.2rem}
+  .camp-card .btn{width:100%;justify-content:center}
+
+  /* Locations */
+  .loc{background:var(--paper)}
+  .loc-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.6rem}
+  .loc-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;transition:transform .16s ease,box-shadow .16s}
+  .loc-card:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+  .loc-photo{aspect-ratio:16/7;background:linear-gradient(150deg,#2a2830,var(--ink));display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.7);font-weight:600;font-size:.85rem;gap:.5rem}
+  .loc-photo svg{color:var(--red)}
+  .loc-body{padding:1.7rem}
+  .loc-body .tag{font-family:"Saira Condensed",sans-serif;font-weight:700;color:var(--red);font-size:.9rem;text-transform:uppercase;letter-spacing:.06em}
+  .loc-body h3{font-size:1.7rem;color:var(--ink);margin:.1rem 0 .8rem}
+  .loc-feats{list-style:none;display:grid;gap:.4rem;margin:1rem 0 1.2rem}
+  .loc-feats li{display:flex;gap:.5rem;align-items:center;font-size:.93rem;color:var(--text)}
+  .loc-feats li svg{flex:none;color:var(--red)}
+  .loc-contact{display:flex;flex-direction:column;gap:.3rem;font-size:.93rem;color:var(--muted);border-top:1px solid var(--line);padding-top:1rem;margin-bottom:1.2rem}
+  .loc-contact a{color:var(--ink);font-weight:600}
+
+  /* Coaches */
+  .lead-coach{display:grid;grid-template-columns:.7fr 1.3fr;gap:2.4rem;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:2rem;box-shadow:var(--shadow);margin-bottom:2.6rem}
+  .lead-coach .photo{aspect-ratio:1;border-radius:14px;background:linear-gradient(150deg,#2a2830,var(--ink));display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.7);text-align:center;font-weight:600;font-size:.82rem;padding:1rem}
+  .lead-coach .tag{font-family:"Saira Condensed",sans-serif;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:.06em;font-size:.92rem}
+  .lead-coach h3{font-size:1.9rem;color:var(--ink);margin:.1rem 0 .6rem}
+  .lead-coach p{color:var(--text);font-size:1rem}
+  .coach-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.3rem}
+  .coach{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:1.5rem;display:flex;gap:1rem;align-items:center;transition:transform .16s ease,box-shadow .16s}
+  .coach:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+  .coach .av{width:56px;height:56px;flex:none;border-radius:50%;background:linear-gradient(150deg,#2a2830,var(--ink));display:grid;place-items:center;color:var(--red)}
+  .coach h4{font-family:"Saira Condensed",sans-serif;font-weight:700;font-size:1.2rem;color:var(--ink);text-transform:uppercase;letter-spacing:.02em}
+  .coach p{font-size:.86rem;color:var(--muted)}
+
+  /* Reviews */
+  .rev-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.3rem}
+  .quote{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:1.7rem 1.5rem}
+  .quote .stars{color:var(--red);letter-spacing:.08em;margin-bottom:.7rem}
+  .quote p{font-size:1rem;margin-bottom:1rem;color:var(--ink)}
+  .quote .who{font-family:"Saira Condensed",sans-serif;font-weight:700;color:var(--ink);text-transform:uppercase;letter-spacing:.03em}
+  .quote .ph{font-size:.78rem;color:var(--muted);font-weight:600}
+
+  /* CTA */
+  .cta{background:var(--red);color:#fff;text-align:center}
+  .cta .inner{padding:4.2rem 0}
+  .cta h2{font-size:clamp(2.4rem,5vw,3.6rem);margin-bottom:.6rem}
+  .cta p{max-width:46ch;margin:0 auto 1.7rem;color:rgba(255,255,255,.92)}
+  .cta .btn-white{background:#fff;color:var(--red);border-color:#fff}
+  .cta .btn-white:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
+
+  /* Footer */
+  footer{background:var(--ink);color:rgba(255,255,255,.7);padding:3rem 0 2rem}
+  .foot-top{display:grid;grid-template-columns:2.4fr 1.2fr 1.2fr;gap:2rem;margin-bottom:2rem}
+  .foot-brand{display:flex;align-items:center;gap:.55rem;font-family:"Saira Condensed",sans-serif;font-weight:800;font-size:1.4rem;color:#fff;margin-bottom:.6rem;text-transform:uppercase}
+  .foot-col h4{font-family:"Saira Condensed",sans-serif;color:#fff;font-size:1rem;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.7rem}
+  .foot-col a,.foot-col p{display:block;margin-bottom:.4rem;font-size:.93rem}
+  .foot-col a:hover{color:var(--red)}
+  .foot-bottom{border-top:1px solid rgba(255,255,255,.12);padding-top:1.3rem;font-size:.83rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:.6rem;color:rgba(255,255,255,.5)}
+
+  @media(max-width:920px){
+    .nav-links{position:fixed;inset:58px 0 auto 0;background:var(--ink);flex-direction:column;align-items:flex-start;padding:1.3rem 6vw;gap:1.2rem;border-bottom:1px solid rgba(255,255,255,.1);transform:translateY(-150%);transition:transform .25s ease;box-shadow:var(--shadow)}
+    .nav-links.open{transform:translateY(0)}
+    .menu-btn{display:block}
+    .hero-grid,.camps-grid,.loc-grid,.lead-coach{grid-template-columns:1fr;gap:1.9rem}
+    .hero-photo{aspect-ratio:4/3;max-width:420px;margin:0 auto}
+    .stats-inner{grid-template-columns:1fr 1fr;gap:1.6rem}
+    .svc-grid,.coach-grid,.rev-grid{grid-template-columns:1fr 1fr}
+    .foot-top{grid-template-columns:1fr 1fr}
+    .rev-grid .quote:nth-child(3){display:none}
+  }
+  @media(max-width:540px){.svc-grid,.coach-grid,.rev-grid,.camp-feats{grid-template-columns:1fr}.foot-top{grid-template-columns:1fr}}
+  @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a href="#top" class="brand">
+      <svg class="sh" viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="18" fill="#fff" stroke="#e0252b" stroke-width="2"/><path d="M9 11c4 3 4 15 0 18M31 11c-4 3-4 15 0 18" stroke="#e0252b" stroke-width="1.5" fill="none"/><path d="M15 13v14M25 13v14M15 20h10" stroke="#161519" stroke-width="3"/></svg>
+      SPORTS HOUSE
+    </a>
+    <nav class="nav-links" id="navLinks">
+      <a class="lnk" href="#training">Training</a>
+      <a class="lnk" href="#camps">Camps</a>
+      <a class="lnk" href="#locations">Locations</a>
+      <a class="lnk" href="#coaches">Coaches</a>
+      <a class="btn btn-red" href="#contact" style="padding:.5rem 1.2rem">Book a Lesson</a>
+    </nav>
+    <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+  </div>
+</header>
+
+<section class="hero" id="top">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow">Indoor Baseball &amp; Softball · Millsboro, DE + Salisbury, MD</span>
+      <h1>Where Delmarva <span class="hl">ballplayers</span> train.</h1>
+      <p class="lede">Private lessons, cage rentals, clinics, and camps led by college and pro-level athletes. Year-round, rain or shine, at two indoor facilities.</p>
+      <div class="hero-cta">
+        <a class="btn btn-red" href="#contact">Book a Lesson</a>
+        <a class="btn btn-ghost" href="#camps">Summer Camps</a>
+      </div>
+      <div class="trust-strip">
+        <span class="trust-pill"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>10+ years on Delmarva</span>
+        <span class="trust-pill"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>College &amp; pro coaches</span>
+        <span class="trust-pill"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>All ages &amp; levels</span>
+      </div>
+    </div>
+    <div class="hero-photo"><span>Drop in a cage / training<br>action photo</span></div>
+  </div>
+</section>
+
+<section class="stats">
+  <div class="wrap stats-inner">
+    <div class="stat"><div class="n">10+</div><div class="t">Years training athletes</div></div>
+    <div class="stat"><div class="n">2</div><div class="t">Indoor locations</div></div>
+    <div class="stat"><div class="n">7</div><div class="t">Batting cages</div></div>
+    <div class="stat"><div class="n">$35</div><div class="t">Lessons &amp; rentals from</div></div>
+  </div>
+</section>
+
+<section class="section" id="training">
+  <div class="wrap">
+    <div class="head center">
+      <p class="kicker">What We Offer</p>
+      <h2>Everything your athlete needs</h2>
+      <p>Baseball and softball training for every age and skill level — all under one roof, all year long.</p>
+    </div>
+    <div class="svc-grid">
+      <div class="svc"><div class="ico"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M5 7c4 3 4 7 0 10M19 7c-4 3-4 7 0 10"/></svg></div><h3>Private Lessons</h3><p>1-on-1 hitting, pitching, fielding, and catching with instructors who've played at the next level.</p><div class="price">From $35</div></div>
+      <div class="svc"><div class="ico"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v18H3zM3 9h18M9 3v18"/></svg></div><h3>Cage Rentals</h3><p>Reserve a batting cage and get your reps in on your schedule, rain or shine.</p><div class="price">From $35</div></div>
+      <div class="svc"><div class="ico"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-8 0v2M13 7a3 3 0 1 1-6 0 3 3 0 0 1 6 0M23 21v-2a4 4 0 0 0-3-3.87"/></svg></div><h3>Small-Group Clinics</h3><p>Focused clinics capped at 10 athletes, so every player gets real coaching attention.</p><div class="price">Seasonal</div></div>
+      <div class="svc"><div class="ico"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 21V7l7-4 7 4v14M9 21v-6h6v6"/></svg></div><h3>Summer Camps</h3><p>Multi-day baseball and softball camps packed with skills, games, and prizes.</p><div class="price">$150 · Ages 6-14</div></div>
+      <div class="svc"><div class="ico"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12h16M4 12a2 2 0 0 1-2-2V8M20 12a2 2 0 0 0 2-2V8M7 12v4M17 12v4"/></svg></div><h3>Team Training</h3><p>Bring your whole team in for practice space, cages, and structured group sessions.</p><div class="price">Inquire</div></div>
+      <div class="svc"><div class="ico"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 7v10M18 7v10M4 9h4M16 9h4M8 12h8"/></svg></div><h3>Strength &amp; Conditioning</h3><p>On-site weight room to build the speed, power, and durability the game demands.</p><div class="price">Inquire</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="camps" id="camps">
+  <div class="wrap camps-grid">
+    <div>
+      <p class="kicker">Summer Camps</p>
+      <h2>Summer <span class="hl">camps</span> are here</h2>
+      <p>Four camps across both locations, baseball and softball, beginners to advanced. Players sharpen batting, pitching, and fielding while having a blast.</p>
+      <div class="camp-feats">
+        <div class="camp-feat"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg>Batting, pitching &amp; fielding</div>
+        <div class="camp-feat"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg>Custom shirt included</div>
+        <div class="camp-feat"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg>Lunch provided</div>
+        <div class="camp-feat"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg>Prizes &amp; awards</div>
+      </div>
+      <a class="btn btn-red" href="#contact">Register for camp</a>
+    </div>
+    <div class="camp-card">
+      <div class="big">$150</div>
+      <div class="lbl">per camper · ages 6-14</div>
+      <a class="btn btn-dark" href="#contact">See camp dates</a>
+      <p style="font-size:.82rem;color:var(--muted);margin-top:.9rem">Held indoors at both Millsboro &amp; Salisbury — beat the heat.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section loc" id="locations">
+  <div class="wrap">
+    <div class="head center">
+      <p class="kicker">Two Locations</p>
+      <h2>Find the house near you</h2>
+      <p>Two fully-equipped indoor facilities serving athletes across Delmarva.</p>
+    </div>
+    <div class="loc-grid">
+      <div class="loc-card">
+        <div class="loc-photo"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/></svg> Facility photo</div>
+        <div class="loc-body">
+          <div class="tag">Delaware</div>
+          <h3>Millsboro, DE</h3>
+          <ul class="loc-feats">
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg>3 batting cages + bullpen</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg>Large tee / soft-toss area</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg>Weight room + open turf</li>
+          </ul>
+          <div class="loc-contact">
+            <span>29215 Conaway Rd, Millsboro, DE 19966</span>
+            <a href="tel:+13023395068">(302) 339-5068</a>
+          </div>
+          <a class="btn btn-outline" href="#contact" style="width:100%;justify-content:center">Book at Millsboro</a>
+        </div>
+      </div>
+      <div class="loc-card">
+        <div class="loc-photo"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/></svg> Facility photo</div>
+        <div class="loc-body">
+          <div class="tag">Maryland</div>
+          <h3>Salisbury, MD <span style="font-size:1rem;color:var(--muted)">(SBY)</span></h3>
+          <ul class="loc-feats">
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg>4 batting cages</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg>Weight room</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg>Large open training area</li>
+          </ul>
+          <div class="loc-contact">
+            <span>110 Williamsport Circle, Salisbury, MD 21804</span>
+            <a href="tel:+14433593174">(443) 359-3174</a>
+          </div>
+          <a class="btn btn-outline" href="#contact" style="width:100%;justify-content:center">Book at Salisbury</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="coaches">
+  <div class="wrap">
+    <div class="head center">
+      <p class="kicker">Our Coaches</p>
+      <h2>Trained by athletes who've been there</h2>
+      <p>Our instructors have played college and pro ball — and they coach like it.</p>
+    </div>
+    <div class="lead-coach">
+      <div class="photo">Cody's photo</div>
+      <div>
+        <div class="tag">Owner &amp; Operator</div>
+        <h3>Cody</h3>
+        <p>Cody opened the Sports House over 10 years ago and has become one of the top instructors on Delmarva. He specializes in softball batting, fielding, and youth pitching, along with baseball pitching, batting, and fielding, and built the whole program around treating every athlete like a top priority.</p>
+      </div>
+    </div>
+    <div class="coach-grid">
+      <div class="coach"><div class="av"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></div><div><h4>Brandon</h4><p>Baseball pitching · pitched at East Carolina &amp; Marshall</p></div></div>
+      <div class="coach"><div class="av"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></div><div><h4>Noah</h4><p>Hitting &amp; pitching · Salisbury U, 1st Team All-Region</p></div></div>
+      <div class="coach"><div class="av"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></div><div><h4>Brianna</h4><p>Softball · 2x super-regional champ, 2 World Series appearances</p></div></div>
+      <div class="coach"><div class="av"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></div><div><h4>Kara</h4><p>Softball batting &amp; fielding · top slap-hitting instructor</p></div></div>
+      <div class="coach"><div class="av"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></div><div><h4>Raegan</h4><p>Softball pitching, catching &amp; batting · McDaniel College</p></div></div>
+      <div class="coach"><div class="av"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></div><div><h4>Xavier</h4><p>Baseball batting, pitching &amp; fielding · plays at Del Tech</p></div></div>
+    </div>
+    <p style="text-align:center;color:var(--muted);margin-top:1.6rem;font-size:.95rem">…and a full roster of baseball, softball, and soccer instructors across both locations.</p>
+  </div>
+</section>
+
+<section class="section" style="background:var(--paper)">
+  <div class="wrap">
+    <div class="head center">
+      <p class="kicker">Reviews</p>
+      <h2>Parents &amp; players love it here</h2>
+    </div>
+    <div class="rev-grid">
+      <div class="quote"><div class="stars">★★★★★</div><p>"Absolutely top-notch. The progress my son has made working with Cody has been incredible — professional, well-run, and focused on developing talent the right way."</p><div class="who">Real Google review</div><div class="ph">Swap in the full one</div></div>
+      <div class="quote"><div class="stars">★★★★★</div><p>"Exactly what I was looking for. 1-on-1 training in a positive atmosphere, and you won't have to take out a loan to pay for it. My son already booked his next two lessons."</p><div class="who">Real Google review</div><div class="ph">Swap in the full one</div></div>
+      <div class="quote"><div class="stars">★★★★★</div><p>"Friendly, knowledgeable coaches who clearly care about the kids. Our go-to for serious training on Delmarva."</p><div class="who">Sample review</div><div class="ph">Add more real ones</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="cta" id="contact">
+  <div class="wrap inner">
+    <h2>Ready to get to work?</h2>
+    <p>Book a lesson, reserve a cage, or sign up for camp. Reach out and we'll get your athlete started.</p>
+    <div style="display:flex;gap:.85rem;flex-wrap:wrap;justify-content:center;margin-bottom:1.6rem">
+      <a class="btn btn-white" href="tel:+13023395068">Call Millsboro</a>
+      <a class="btn btn-white" href="tel:+14433593174">Call Salisbury</a>
+    </div>
+    <p style="font-size:.95rem"><a href="mailto:sportshousetraining@gmail.com" style="color:#fff;border-bottom:1px solid rgba(255,255,255,.5)">sportshousetraining@gmail.com</a></p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div>
+        <div class="foot-brand">
+          <svg width="30" height="30" viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="18" fill="#fff" stroke="#e0252b" stroke-width="2"/><path d="M15 13v14M25 13v14M15 20h10" stroke="#161519" stroke-width="3"/></svg>
+          SPORTS HOUSE
+        </div>
+        <p style="max-width:34ch">Indoor baseball &amp; softball training on Delmarva. Lessons, cages, clinics, and camps for every athlete.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Millsboro, DE</h4>
+        <p>29215 Conaway Rd<br>Millsboro, DE 19966</p>
+        <a href="tel:+13023395068">(302) 339-5068</a>
+      </div>
+      <div class="foot-col">
+        <h4>Salisbury, MD</h4>
+        <p>110 Williamsport Circle<br>Salisbury, MD 21804</p>
+        <a href="tel:+14433593174">(443) 359-3174</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Sports House Training Center</span>
+      <span>Millsboro, DE · Salisbury, MD</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  var menuBtn=document.getElementById('menuBtn'),navLinks=document.getElementById('navLinks');
+  menuBtn.addEventListener('click',function(){var open=navLinks.classList.toggle('open');menuBtn.setAttribute('aria-expanded',open);});
+  navLinks.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){navLinks.classList.remove('open');menuBtn.setAttribute('aria-expanded',false);});});
+</script>
+</body>
+</html>
