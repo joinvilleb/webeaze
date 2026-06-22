@@ -147,7 +147,7 @@ a { color: inherit; text-decoration: none; }
 .story-section a { color: var(--brand); }
 .story-section a:hover { text-decoration: underline; }
 
-/* VALUES */
+/* VALUES SLIDESHOW */
 .values-section {
   padding: 88px 0;
   background: var(--bg-2);
@@ -156,28 +156,73 @@ a { color: inherit; text-decoration: none; }
 .section-heading {
   font-size: clamp(1.5rem, 3vw, 2rem);
   font-weight: 800; letter-spacing: -.03em;
-  color: var(--text); margin-bottom: 48px; text-align: center;
+  color: var(--text); margin-bottom: 40px; text-align: center;
 }
-.values-grid {
-  display: grid; grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+.values-slider {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(0,0,0,.06);
 }
-@media (max-width: 680px) { .values-grid { grid-template-columns: 1fr; } }
-.value-card {
-  background: #fff; border: 1px solid var(--line);
-  border-radius: 20px; padding: 36px 28px;
+.values-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--line);
+  background: var(--bg-2);
 }
-.value-icon {
-  width: 52px; height: 52px; border-radius: 14px;
-  background: rgba(120,81,169,.1); border: 1px solid rgba(120,81,169,.15);
+.vtab {
+  flex: 1; padding: 16px 12px;
+  background: none; border: none;
+  border-bottom: 2px solid transparent;
+  font-family: 'Poppins', sans-serif;
+  font-size: .85rem; font-weight: 600; color: var(--muted);
+  cursor: pointer; margin-bottom: -1px;
+  transition: color .2s, border-color .2s, background .2s;
+}
+.vtab.active { color: var(--brand); border-bottom-color: var(--brand); background: #fff; }
+.vtab:hover:not(.active) { color: var(--text); background: rgba(0,0,0,.02); }
+.values-body {
+  display: grid; grid-template-columns: 260px 1fr;
+}
+@media (max-width: 680px) { .values-body { grid-template-columns: 1fr; } }
+.values-visual {
+  background: #0d0d14;
+  display: grid; align-items: center; justify-items: center;
+  min-height: 280px; padding: 40px 24px;
+}
+.vvisual {
+  grid-area: 1 / 1;
+  opacity: 0; transition: opacity .35s ease;
   display: flex; align-items: center; justify-content: center;
-  font-size: 1.2rem; color: var(--brand); margin-bottom: 18px;
+  pointer-events: none;
 }
-.value-card h3 {
-  font-size: 1rem; font-weight: 700; color: var(--text);
-  margin-bottom: 10px; letter-spacing: -.01em;
+.vvisual.active { opacity: 1; pointer-events: auto; }
+.vsvg { width: 200px; height: 200px; object-fit: contain; }
+.values-content {
+  display: grid; padding: 0;
 }
-.value-card p { font-size: .95rem; color: var(--muted); line-height: 1.7; margin: 0; }
+.vslide {
+  grid-area: 1 / 1;
+  padding: 40px 36px;
+  opacity: 0; transition: opacity .35s ease;
+  pointer-events: none;
+}
+.vslide.active { opacity: 1; pointer-events: auto; }
+@media (max-width: 680px) { .vslide { padding: 32px 24px; } }
+.vslide h3 {
+  font-size: 1.25rem; font-weight: 800;
+  letter-spacing: -.025em; color: var(--text); margin-bottom: 10px;
+}
+.vslide > p {
+  font-size: .97rem; color: var(--muted);
+  line-height: 1.75; margin-bottom: 24px;
+}
+.vlist { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
+.vlist li {
+  display: flex; align-items: flex-start; gap: 10px;
+  font-size: .9rem; color: var(--text); font-weight: 500; line-height: 1.5;
+}
+.vlist li i { color: var(--brand); font-size: .78rem; margin-top: 3px; flex-shrink: 0; }
 
 /* FOUNDER */
 .founder-section { padding: 88px 0; border-bottom: 1px solid var(--line); }
@@ -533,21 +578,53 @@ footer { background: #000; padding: 60px 20px 40px; border-top: 1px solid rgba(2
 <section class="values-section">
   <div class="container-mid">
     <h2 class="section-heading reveal">What makes us different</h2>
-    <div class="values-grid">
-      <div class="value-card reveal">
-        <div class="value-icon"><i class="fas fa-handshake"></i></div>
-        <h3>A real person, not a portal</h3>
-        <p>Same person from day one. No ticket queues, no rotating agents, no holding music.</p>
+    <div class="values-slider reveal">
+      <div class="values-tabs" role="tablist">
+        <button class="vtab active" data-slide="0" role="tab" aria-selected="true">Real Support</button>
+        <button class="vtab" data-slide="1" role="tab" aria-selected="false">Simple Pricing</button>
+        <button class="vtab" data-slide="2" role="tab" aria-selected="false">Long-Term Partner</button>
       </div>
-      <div class="value-card reveal">
-        <div class="value-icon"><i class="fas fa-dollar-sign"></i></div>
-        <h3>One flat monthly price</h3>
-        <p>Updates, fixes, and support included. No hourly billing, no project overages, no surprises.</p>
-      </div>
-      <div class="value-card reveal">
-        <div class="value-icon"><i class="fas fa-chart-line"></i></div>
-        <h3>We stay invested</h3>
-        <p>Monthly check-ins and <a href="reports.html" style="color:var(--brand);">SEO reviews</a>. We actually care whether your site is working for you.</p>
+      <div class="values-body">
+        <div class="values-visual">
+          <div class="vvisual active" data-slide="0">
+            <img src="images/assets/consultation.svg" alt="" aria-hidden="true" class="vsvg">
+          </div>
+          <div class="vvisual" data-slide="1">
+            <img src="images/assets/calculator.svg" alt="" aria-hidden="true" class="vsvg">
+          </div>
+          <div class="vvisual" data-slide="2">
+            <img src="images/assets/analytics.svg" alt="" aria-hidden="true" class="vsvg">
+          </div>
+        </div>
+        <div class="values-content">
+          <div class="vslide active" data-slide="0">
+            <h3>A real person, not a portal</h3>
+            <p>Same person from day one. You know who to reach, and they already know your business.</p>
+            <ul class="vlist">
+              <li><i class="fas fa-check"></i> Direct line to your account manager</li>
+              <li><i class="fas fa-check"></i> No ticket queues or rotating support agents</li>
+              <li><i class="fas fa-check"></i> Response within one business day, guaranteed</li>
+            </ul>
+          </div>
+          <div class="vslide" data-slide="1">
+            <h3>One flat monthly price</h3>
+            <p>Updates, fixes, and support are all included. See the exact price before you commit, with nothing hidden.</p>
+            <ul class="vlist">
+              <li><i class="fas fa-check"></i> One price covers design, hosting, and updates</li>
+              <li><i class="fas fa-check"></i> No hourly billing or project overages</li>
+              <li><i class="fas fa-check"></i> Full <a href="fee-schedule.html" style="color:var(--brand);">fee schedule</a> published online</li>
+            </ul>
+          </div>
+          <div class="vslide" data-slide="2">
+            <h3>We stay invested</h3>
+            <p>We don't disappear after launch. We track what's working, make improvements, and keep your site growing.</p>
+            <ul class="vlist">
+              <li><i class="fas fa-check"></i> Monthly performance check-ins</li>
+              <li><i class="fas fa-check"></i> Ongoing SEO improvements included</li>
+              <li><i class="fas fa-check"></i> We adjust based on what the data shows</a></li>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -580,7 +657,7 @@ footer { background: #000; padding: 60px 20px 40px; border-top: 1px solid rgba(2
     <blockquote>
       "Every small business deserves a website that makes them&nbsp;proud, backed by someone who actually <span>cares about their&nbsp;success.</span>"
     </blockquote>
-    <cite>Billy Joinville &nbsp;&middot;&nbsp; Founder, WebEaze</cite>
+    
   </div>
 </section>
 
@@ -601,7 +678,7 @@ footer { background: #000; padding: 60px 20px 40px; border-top: 1px solid rgba(2
             <span class="browser-dot"></span>
             <span class="browser-url">webeaze.io/samples</span>
           </div>
-          <img src="images/showcase/desktop.webp" alt="WebEaze client website showcase" width="480" height="368" loading="lazy" />
+          <img src="images/galaxy-gymnast-home.webp" alt="WebEaze client website showcase" width="480" height="368" loading="lazy" />
         </div>
       </div>
     </div>
@@ -672,6 +749,21 @@ footer { background: #000; padding: 60px 20px 40px; border-top: 1px solid rgba(2
 document.getElementById('yr').textContent = new Date().getFullYear();
 
 (function(){
+  var tabs     = document.querySelectorAll('.vtab');
+  var visuals  = document.querySelectorAll('.vvisual');
+  var slides   = document.querySelectorAll('.vslide');
+  function goTo(i) {
+    tabs.forEach(function(t, idx) {
+      t.classList.toggle('active', idx === i);
+      t.setAttribute('aria-selected', idx === i ? 'true' : 'false');
+    });
+    visuals.forEach(function(v, idx) { v.classList.toggle('active', idx === i); });
+    slides.forEach(function(s, idx)  { s.classList.toggle('active', idx === i); });
+  }
+  tabs.forEach(function(tab, i) { tab.addEventListener('click', function(){ goTo(i); }); });
+})();
+
+(function(){
   var els = document.querySelectorAll('.reveal');
   if (!('IntersectionObserver' in window)) { els.forEach(function(e){ e.classList.add('in'); }); return; }
   var io = new IntersectionObserver(function(entries){
@@ -686,42 +778,6 @@ document.getElementById('yr').textContent = new Date().getFullYear();
 <!-- HubSpot Tracking -->
 <script type="text/javascript" id="hs-script-loader" async defer src="//js-na2.hs-scripts.com/242171361.js"></script>
 
-<!-- WebEaze Chat Widget -->
-<link rel="stylesheet" href="chat-widget.css">
-<script>
-window.WZ_CHAT_PAGE = {
-  greeting: "Hi! I'm Eazy. Have questions about who we are or how we work? Ask away.",
-  starters: [
-    { label: "Who is WebEaze?",       msg: "Tell me about WebEaze." },
-    { label: "See examples",           msg: "Can I see websites you have built?" },
-    { label: "How do I start?",        msg: "How do I get started with WebEaze?" },
-    { label: "What do you charge?",    msg: "How much does WebEaze cost?" },
-  ],
-};
-</script>
-<button id="wz-chat-btn" aria-label="Chat with us" onclick="wzOpenChat()" hidden>
-  <i class="fas fa-comment-dots"></i>
-  <div class="wz-badge" id="wzBadge"></div>
-</button>
-<div id="wz-chat-panel" role="dialog" aria-label="WebEaze chat" hidden>
-  <div class="wz-chat-head">
-    <div class="wz-chat-avatar"><i class="fas fa-bolt"></i></div>
-    <div class="wz-chat-head-text">
-      <div class="wz-chat-head-name">Eazy</div>
-      <div class="wz-chat-head-sub">Questions about us? Ask away.</div>
-    </div>
-    <button class="wz-chat-close" onclick="wzCloseChat()" aria-label="Close chat"><i class="fas fa-times"></i></button>
-  </div>
-  <div id="wz-chat-msgs"></div>
-  <div class="wz-chat-starters" id="wzStarters"></div>
-  <div class="wz-chat-foot">
-    <textarea id="wz-chat-input" rows="1" placeholder="Ask a question..." aria-label="Your message"
-      onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();wzSend();}"
-      oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,100)+'px'"></textarea>
-    <button id="wz-chat-send" onclick="wzSend()" aria-label="Send"><i class="fas fa-arrow-up"></i></button>
-  </div>
-</div>
-<script src="chat-widget.js" defer></script>
 <script src="js/nav.js" defer></script>
 </body>
 </html>
