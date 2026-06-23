@@ -94,7 +94,7 @@
 
     .card-solid {
       background: transparent; border: none; border-radius: 0;
-      padding: 28px 32px; color: #1e1a29; margin-bottom: 20px;
+      padding: 0; color: #1e1a29; margin-bottom: 40px;
       font-size: 1rem; line-height: 1.85;
     }
     .card-solid:last-child { margin-bottom: 0; }
@@ -318,6 +318,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
   <div class="container-narrow">
 
     <article class="card-solid" id="commitment">
+      <p style="font-size:.8rem;color:#888;margin-bottom:20px;">Last reviewed: <strong><span id="lastReviewed"></span></strong></p>
       <span class="section-label">1. Commitment</span>
       <h2>Our Commitment</h2>
       <p>WebEaze Web Design ("WebEaze," "we," "our," or "us") is committed to providing an accessible and inclusive digital experience for all users, including individuals with disabilities. We believe the internet should be usable by everyone, and we apply accessibility principles to every website we design and deliver.</p>
@@ -556,8 +557,11 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
   const fmt = { month: 'long', year: 'numeric' };
   const reviewMonth = Math.floor(now.getMonth() / 2) * 2;
   const reviewDate = new Date(now.getFullYear(), reviewMonth, 1);
-  document.getElementById('lastReviewed').textContent = reviewDate.toLocaleDateString(undefined, fmt);
-  document.getElementById('reviewDateText').textContent = reviewDate.toLocaleDateString(undefined, fmt);
+  var reviewStr = reviewDate.toLocaleDateString(undefined, fmt);
+  var elLR = document.getElementById('lastReviewed');
+  if (elLR) elLR.textContent = reviewStr;
+  var elRDT = document.getElementById('reviewDateText');
+  if (elRDT) elRDT.textContent = reviewStr;
   document.getElementById('yr').textContent = now.getFullYear();
 
   // Hide-on-scroll nav
