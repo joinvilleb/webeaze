@@ -86,21 +86,51 @@ a { color: inherit; text-decoration: none; }
 
 /* HERO */
 .hero {
-  padding: 88px 24px 96px;
-  background: linear-gradient(160deg, #fafbff 0%, #eeeef8 100%);
-  border-bottom: 1px solid var(--line);
-  text-align: center;
+  position: relative;
+  padding: 110px 24px 96px;
+  background-image: url('images/webeaze-about-hero.png');
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+  border-bottom: none;
+  text-align: left;
+}
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(110deg, rgba(10,6,20,.96) 0%, rgba(10,6,20,.75) 60%, rgba(10,6,20,.50) 100%);
+  z-index: 1;
+}
+.hero::after {
+  content: '';
+  position: absolute; bottom: 0; left: 0; right: 0; height: 96px;
+  background: linear-gradient(to bottom, transparent, #0d0d14);
+  z-index: 2;
+}
+.hero-inner {
+  position: relative; z-index: 3;
+  max-width: 1100px; margin: 0 auto;
 }
 .hero h1 {
-  font-size: clamp(2.1rem, 5vw, 3.1rem);
-  font-weight: 800; letter-spacing: -.05em; line-height: 1.1;
-  color: var(--text); margin: 0 auto 20px; max-width: 700px;
+  font-size: clamp(2.6rem, 5.5vw, 3.9rem);
+  font-weight: 800; letter-spacing: -.055em; line-height: 1.07;
+  color: #fff; margin: 0 0 22px; max-width: 680px;
 }
 .hero p {
-  font-size: 1.1rem; color: var(--muted); line-height: 1.75;
-  max-width: 540px; margin: 0 auto 36px;
+  font-size: 1.1rem; color: rgba(255,255,255,.88); line-height: 1.75;
+  max-width: 520px; margin: 0 0 38px;
 }
-.hero-btns { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+.hero-btns { display: flex; flex-wrap: wrap; gap: 12px; justify-content: flex-start; }
+.hero .btn-outlined {
+  color: #fff;
+  border-color: rgba(255,255,255,.28);
+  background: transparent;
+}
+.hero .btn-outlined:hover {
+  background: rgba(255,255,255,.10);
+  border-color: rgba(255,255,255,.55);
+  color: #fff;
+}
 
 /* STATS BAND */
 .stats-band {
@@ -374,6 +404,24 @@ footer { background: #000; padding: 60px 20px 40px; border-top: 1px solid rgba(2
 .footer-legal a:hover { color: #ffd700; }
 @media (max-width: 600px) { .footer-bottom { flex-direction: column; text-align: center; } }
 
+/* HERO TYPING */
+.hero-cursor {
+  display: inline-block; width: 2px; height: 1em;
+  background: rgba(255,255,255,.9); margin-left: 2px; vertical-align: -.1em;
+  animation: heroBlink .75s step-end infinite;
+}
+.hero-cursor.done { animation: none; opacity: 0; }
+@keyframes heroBlink { 0%,100%{opacity:1} 50%{opacity:0} }
+#hero-code-wrap {
+  display: none;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: .98rem; line-height: 1.75;
+  max-width: 520px; margin: 0 0 38px;
+  color: rgba(255,255,255,.88);
+  word-break: break-word;
+}
+.hero-code-tag { color: #67e8f9; }
+
 /* REVEAL */
 .reveal { opacity: 0; transform: translateY(16px); transition: opacity .5s ease, transform .5s ease; }
 .reveal.in { opacity: 1; transform: none; }
@@ -535,11 +583,16 @@ footer { background: #000; padding: 60px 20px 40px; border-top: 1px solid rgba(2
 
 <!-- HERO -->
 <section class="hero" id="main-content">
-  <h1>We handle your website.<br>You handle your business.</h1>
-  <p>Custom design, hosting, SEO, and ongoing management, all from one flat monthly price. No contracts, no surprise bills, no tech headaches.</p>
-  <div class="hero-btns">
-    <a href="consultation.html" class="btn-filled"><i class="fas fa-calendar-check"></i> Get a Free Mockup</a>
-    <a href="samples.html" class="btn-outlined">See Our Work <i class="fas fa-arrow-right"></i></a>
+  <div class="hero-inner">
+    <h1><span id="hero-h1-typed"></span><span class="hero-cursor" id="h1-cursor"></span></h1>
+    <div id="hero-code-wrap">
+      <span class="hero-code-tag">&lt;p&gt;</span><span id="hero-code-typed"></span><span class="hero-code-tag" id="hero-close-tag" style="display:none;">&lt;/p&gt;</span><span class="hero-cursor" id="code-cursor"></span>
+    </div>
+    <p id="hero-para">We build and manage websites for small businesses, with a focus on simplicity, transparency, and real support. Anything you've heard about the web design industry doesn't exist here.</p>
+    <div class="hero-btns" id="hero-btns">
+      <a href="consultation.html" class="btn-filled"><i class="fas fa-calendar-check"></i> Get a Free Mockup</a>
+      <a href="samples.html" class="btn-outlined">See Our Work <i class="fas fa-arrow-right"></i></a>
+    </div>
   </div>
 </section>
 
@@ -570,7 +623,6 @@ footer { background: #000; padding: 60px 20px 40px; border-top: 1px solid rgba(2
   <div class="container-narrow reveal">
     <h2>Your business's digital team, not just a one-time hire.</h2>
     <p>WebEaze is a web presence company built for small business owners who are great at what they do but don't have time to deal with websites, SEO, Google rankings, or any of the tech that comes with it. We handle all of it: website design, <a href="seo.html">SEO optimization</a>, hosting, and <a href="maintenance.html">ongoing management</a>, all under one flat monthly price.</p>
-    <p>No agencies to chase. No surprise invoices. No tech headaches. Just a business that's easier to find and harder to ignore.</p>
   </div>
 </section>
 
@@ -640,12 +692,13 @@ footer { background: #000; padding: 60px 20px 40px; border-top: 1px solid rgba(2
       <div class="reveal">
         <div class="founder-name">Hi, I'm Billy Joinville</div>
         <div class="founder-role">Founder, WebEaze</div>
-        <p class="founder-bio">I'm a Computer Science student at the University of Miami. I started WebEaze because I kept seeing the same problem: small businesses were paying thousands upfront to agencies, getting a site built, and then left completely on their own with no updates, no support, no results.</p>
-        <p class="founder-bio">I specialize in frontend development, UI design, SEO, analytics, and automation. Through WebEaze I've shipped 70+ production websites, working directly with business owners to build a digital presence they're genuinely proud of. We now serve businesses across Delaware, Maryland, Pennsylvania, New Jersey, and beyond.</p>
-        <p class="founder-bio">WebEaze stays small by choice. I'd rather know every client's business deeply and deliver real, measurable results than scale up and become just another agency that disappears after launch.</p>
-        <div class="founder-pullquote">
-          "Every small business deserves a website that makes them proud, backed by someone who actually cares about their success."
-        </div>
+        <p class="founder-bio">I graduated with a Bachelor's in Computer Science from the University of Miami. I started WebEaze in 2024 after taking a web design course - I kept seeing the same problem where small businesses were paying thousands upfront to agencies, getting a website built, and left completely on their own.</p>
+        <p class="founder-bio"> I wanted to change that, creating a service that would give small business owners a website they could be proud of, without the stress, tech headaches, or surprise bills.</p>
+
+        <p class="founder-bio">The team is small, with just me and Jason Wakin who shares my vision for delivering exceptional web experiences for our 40+ clients.</p>
+
+        <p class="founder-bio">WebEaze stays small by choice. I'd rather know every client's business deeply and deliver real, measurable results than scale up and become just another agency that disappears after launch. I'm happy you're here reading this. </p>
+        
       </div>
     </div>
   </div>
@@ -666,8 +719,8 @@ footer { background: #000; padding: 60px 20px 40px; border-top: 1px solid rgba(2
   <div class="container-mid">
     <div class="showcase-grid">
       <div class="showcase-text reveal">
-        <h2>See what we've built for real businesses.</h2>
-        <p>Every site we ship is custom designed, fast, and something the owner is genuinely proud to share. Browse our showcase to see the kind of work we do for businesses just like yours.</p>
+        <h2>The proof is in our work.</h2>
+        <p>Every website we create is custom designed, fast, and something the owner is truly proud to share. See our list of websites we've built for clients like you.</p>
         <a href="samples.html" class="btn-filled"><i class="fas fa-arrow-right"></i> View Full Showcase</a>
       </div>
       <div class="reveal">
@@ -687,9 +740,9 @@ footer { background: #000; padding: 60px 20px 40px; border-top: 1px solid rgba(2
 
 <!-- FINAL CTA -->
 <section class="final-cta">
-  <h2>Ready to make your business easier to find?</h2>
-  <p>See what your site could look like. Free mockup, no commitment.</p>
-  <a href="consultation.html" class="btn-gold"><i class="fas fa-calendar-check"></i> Book a Free Consultation</a>
+  <h2>Did we convince you?</h2>
+  <p>Let's start with a no-pressure call to see if we're the right fit for your business. It doesn't get better than $169/month for a fully managed website.</p>
+  <a href="consultation.html" class="btn-gold"><i class="fas fa-calendar-check"></i> Book a Free Call</a>
 </section>
 
 <!-- FOOTER -->
@@ -747,6 +800,67 @@ footer { background: #000; padding: 60px 20px 40px; border-top: 1px solid rgba(2
 
 <script>
 document.getElementById('yr').textContent = new Date().getFullYear();
+
+// ── HERO TYPING ANIMATION ──
+(function() {
+  var h1Typed    = document.getElementById('hero-h1-typed');
+  var h1Cursor   = document.getElementById('h1-cursor');
+  var codeWrap   = document.getElementById('hero-code-wrap');
+  var codeTyped  = document.getElementById('hero-code-typed');
+  var closeTag   = document.getElementById('hero-close-tag');
+  var codeCursor = document.getElementById('code-cursor');
+  var para       = document.getElementById('hero-para');
+  var btns       = document.getElementById('hero-btns');
+
+  if (!h1Typed) return;
+
+  // Hide para + btns immediately via JS (graceful fallback if JS off)
+  para.style.opacity = '0';
+  para.style.transition = 'opacity .5s';
+  btns.style.opacity = '0';
+  btns.style.transition = 'opacity .5s';
+
+  var H1_TEXT   = "Hi, we're WebEaze.";
+  var PARA_TEXT = "We build and manage websites for small businesses, with a focus on simplicity, transparency, and real support. Anything you’ve heard about the web design industry doesn’t exist here.";
+
+  function wait(ms) { return new Promise(function(r){ setTimeout(r, ms); }); }
+
+  async function typeInto(el, text, speed) {
+    for (var i = 0; i < text.length; i++) {
+      el.textContent += text[i];
+      await wait(speed);
+    }
+  }
+
+  async function run() {
+    await wait(350);
+
+    // Phase 1: type the h1
+    await typeInto(h1Typed, H1_TEXT, 55);
+    await wait(550);
+    h1Cursor.classList.add('done');
+
+    // Phase 2: show code block, type <p>content</p>
+    codeWrap.style.display = 'block';
+    await wait(180);
+    await typeInto(codeTyped, PARA_TEXT, 14);
+    closeTag.style.display = 'inline';
+    codeCursor.classList.add('done');
+
+    await wait(850);
+
+    // Phase 3: fade code out, fade plain text in
+    codeWrap.style.transition = 'opacity .4s';
+    codeWrap.style.opacity = '0';
+    await wait(420);
+    codeWrap.style.display = 'none';
+
+    para.style.opacity = '1';
+    btns.style.opacity = '1';
+  }
+
+  run();
+})();
 
 (function(){
   var tabs     = document.querySelectorAll('.vtab');
