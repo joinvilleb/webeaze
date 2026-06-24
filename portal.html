@@ -5,38 +5,46 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Client Portal | WebEaze</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="shortcut icon" href="images/webeaze-transparent-copy.png" type="image/png" />
   <style>
     :root {
-      --bg: #0a0a0f;
-      --surface: #111118;
-      --surface2: #1a1a24;
-      --border: #2a2a3a;
-      --purple: #A855F7;
-      --purple-dim: #7c3aed33;
-      --purple-mid: #7c3aed;
-      --text: #f0f0f8;
-      --muted: #8888aa;
-      --success: #22c55e;
-      --warning: #f59e0b;
-      --radius: 10px;
+      --bg:         #f8f9fc;
+      --surface:    #ffffff;
+      --surface2:   #f1f3f9;
+      --border:     #e4e7f1;
+      --brand:      #7851a9;
+      --brand-dim:  rgba(120,81,169,.08);
+      --brand-glow: rgba(120,81,169,.18);
+      --text:       #0f1228;
+      --muted:      #6b7094;
+      --muted2:     #a0a6c4;
+      --success:    #16a34a;
+      --warning:    #d97706;
+      --danger:     #dc2626;
+      --radius:     12px;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-family: 'Poppins', system-ui, sans-serif;
       background: var(--bg);
       color: var(--text);
       min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
     }
 
-    /* ── AUTH SCREEN ── */
+    /* ─── AUTH SCREEN ─── */
     #auth-screen {
       display: flex;
       align-items: center;
       justify-content: center;
       min-height: 100vh;
       padding: 24px;
+      background: var(--bg);
     }
 
     .auth-card {
@@ -44,38 +52,50 @@
       max-width: 400px;
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 16px;
+      border-radius: 20px;
       padding: 40px 36px;
     }
 
     .auth-logo {
-      font-size: 22px;
-      font-weight: 800;
-      letter-spacing: -0.5px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
       margin-bottom: 6px;
     }
 
-    .auth-logo span { color: var(--purple); }
+    .auth-logo img {
+      width: 32px;
+      height: 32px;
+      object-fit: contain;
+    }
+
+    .auth-logo-word {
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -.04em;
+      color: var(--text);
+    }
 
     .auth-subtitle {
       color: var(--muted);
-      font-size: 14px;
+      font-size: 13px;
       margin-bottom: 32px;
     }
 
     label {
       display: block;
-      font-size: 13px;
-      font-weight: 500;
+      font-size: 11px;
+      font-weight: 700;
       color: var(--muted);
       margin-bottom: 6px;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: .08em;
     }
 
     input[type="email"],
     input[type="password"],
     input[type="text"],
+    input[type="url"],
     textarea,
     select {
       width: 100%;
@@ -83,37 +103,36 @@
       border: 1px solid var(--border);
       border-radius: var(--radius);
       color: var(--text);
-      font-size: 15px;
+      font-size: 14px;
       padding: 11px 14px;
       outline: none;
-      transition: border-color 0.15s;
-      font-family: inherit;
+      transition: border-color .15s;
+      font-family: 'Poppins', sans-serif;
     }
 
-    input:focus, textarea:focus, select:focus {
-      border-color: var(--purple);
-    }
+    input:focus, textarea:focus, select:focus { border-color: var(--brand); }
+    select option { background: var(--surface); color: var(--text); }
+    textarea { resize: vertical; min-height: 110px; }
 
-    textarea { resize: vertical; min-height: 100px; }
-
-    .field { margin-bottom: 18px; }
+    .field { margin-bottom: 16px; }
 
     .btn {
       width: 100%;
-      background: var(--purple);
+      background: var(--brand);
       color: #fff;
       border: none;
       border-radius: var(--radius);
-      font-size: 15px;
-      font-weight: 600;
+      font-size: 14px;
+      font-weight: 700;
       padding: 13px;
       cursor: pointer;
-      transition: opacity 0.15s;
-      font-family: inherit;
+      transition: opacity .15s;
+      font-family: 'Poppins', sans-serif;
+      letter-spacing: .01em;
     }
 
-    .btn:hover { opacity: 0.88; }
-    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn:hover { opacity: .88; }
+    .btn:disabled { opacity: .45; cursor: not-allowed; }
 
     .btn-ghost {
       background: transparent;
@@ -121,35 +140,35 @@
       color: var(--text);
     }
 
-    .btn-ghost:hover { border-color: var(--purple); opacity: 1; }
+    .btn-ghost:hover { border-color: var(--brand); opacity: 1; }
 
     .btn-sm {
       width: auto;
-      padding: 8px 16px;
+      padding: 9px 18px;
       font-size: 13px;
     }
 
     .error-msg {
-      background: #ff444422;
-      border: 1px solid #ff444455;
+      background: rgba(239,68,68,.1);
+      border: 1px solid rgba(239,68,68,.25);
       border-radius: var(--radius);
-      color: #ff8888;
+      color: #fca5a5;
       font-size: 13px;
       padding: 10px 14px;
       margin-bottom: 16px;
     }
 
     .success-msg {
-      background: #22c55e22;
-      border: 1px solid #22c55e55;
+      background: rgba(34,197,94,.1);
+      border: 1px solid rgba(34,197,94,.25);
       border-radius: var(--radius);
-      color: var(--success);
+      color: #86efac;
       font-size: 13px;
       padding: 10px 14px;
       margin-bottom: 16px;
     }
 
-    /* ── PORTAL LAYOUT ── */
+    /* ─── TOPBAR ─── */
     #portal-screen { display: none; }
 
     .topbar {
@@ -159,29 +178,52 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      height: 60px;
+      height: 58px;
       position: sticky;
       top: 0;
       z-index: 100;
     }
 
     .topbar-logo {
-      font-size: 18px;
-      font-weight: 800;
-      letter-spacing: -0.5px;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      text-decoration: none;
     }
 
-    .topbar-logo span { color: var(--purple); }
+    .topbar-logo img {
+      width: 28px;
+      height: 28px;
+      object-fit: contain;
+    }
+
+    .topbar-logo-word {
+      font-size: 17px;
+      font-weight: 800;
+      letter-spacing: -.04em;
+      color: var(--text);
+    }
 
     .topbar-right {
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 12px;
     }
 
-    .client-name {
-      font-size: 13px;
-      color: var(--muted);
+    .avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: var(--brand-dim);
+      border: 1.5px solid var(--brand-glow);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--brand);
+      letter-spacing: .02em;
+      flex-shrink: 0;
     }
 
     .signout-btn {
@@ -191,76 +233,83 @@
       border-radius: 8px;
       padding: 6px 12px;
       font-size: 12px;
+      font-weight: 600;
       cursor: pointer;
-      font-family: inherit;
-      transition: border-color 0.15s, color 0.15s;
+      font-family: 'Poppins', sans-serif;
+      transition: border-color .15s, color .15s;
     }
 
-    .signout-btn:hover { border-color: var(--purple); color: var(--text); }
+    .signout-btn:hover { border-color: var(--brand); color: var(--text); }
 
+    /* ─── PORTAL BODY ─── */
     .portal-body {
-      max-width: 860px;
+      max-width: 840px;
       margin: 0 auto;
-      padding: 36px 24px 60px;
+      padding: 40px 24px 80px;
     }
 
     .greeting {
-      font-size: 24px;
-      font-weight: 700;
-      letter-spacing: -0.5px;
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -.05em;
       margin-bottom: 4px;
     }
 
     .greeting-sub {
       color: var(--muted);
-      font-size: 14px;
+      font-size: 13px;
       margin-bottom: 32px;
     }
 
-    /* ── CARDS ── */
-    .card {
+    /* ─── OVERVIEW ROW ─── */
+    .overview-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    @media(max-width:600px) { .overview-row { grid-template-columns: 1fr 1fr; } }
+
+    .stat-tile {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 14px;
-      padding: 24px;
-      margin-bottom: 20px;
-    }
-
-    .card-title {
-      font-size: 12px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--muted);
-      margin-bottom: 16px;
-    }
-
-    .stat-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 14px;
-      margin-bottom: 20px;
-    }
-
-    .stat-tile {
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
       padding: 18px 20px;
     }
 
     .stat-label {
-      font-size: 11px;
+      font-size: 10px;
+      font-weight: 700;
       color: var(--muted);
       text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 6px;
+      letter-spacing: .1em;
+      margin-bottom: 8px;
     }
 
     .stat-value {
-      font-size: 17px;
+      font-size: 15px;
       font-weight: 700;
+      line-height: 1.2;
     }
+
+    /* ─── PLAN BADGES ─── */
+    .plan-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 100px;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+
+    .plan-essential { background: #f1f1f5; color: #6b7094; border: 1px solid #d8daea; }
+    .plan-growth    { background: rgba(120,81,169,.1); color: #6435a0; border: 1px solid rgba(120,81,169,.25); }
+    .plan-elite     { background: rgba(180,130,0,.08); color: #a07000; border: 1px solid rgba(180,130,0,.2); }
+    .plan-default   { background: #f1f1f5; color: #6b7094; border: 1px solid #d8daea; }
 
     .badge {
       display: inline-block;
@@ -269,15 +318,60 @@
       padding: 3px 10px;
       border-radius: 100px;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: .04em;
     }
 
-    .badge-active { background: #22c55e22; color: var(--success); border: 1px solid #22c55e44; }
-    .badge-pending { background: #f59e0b22; color: var(--warning); border: 1px solid #f59e0b44; }
-    .badge-purple { background: var(--purple-dim); color: var(--purple); border: 1px solid #a855f744; }
+    .badge-active  { background: rgba(22,163,74,.1);   color: #15803d; border: 1px solid rgba(22,163,74,.25); }
+    .badge-pending { background: rgba(217,119,6,.1);  color: #b45309; border: 1px solid rgba(217,119,6,.25); }
+    .badge-purple  { background: rgba(120,81,169,.1); color: #6435a0; border: 1px solid rgba(120,81,169,.25); }
+
+    /* ─── PROGRESS BAR ─── */
+    .progress-wrap { margin-top: 10px; }
+    .progress-track {
+      height: 5px;
+      background: #e4e7f1;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-top: 6px;
+    }
+    .progress-fill {
+      height: 100%;
+      background: var(--brand);
+      border-radius: 10px;
+      transition: width .4s ease;
+    }
+    .progress-label {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 5px;
+    }
+
+    /* ─── CARDS ─── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 16px;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+    }
+
+    .card-title {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: var(--muted);
+    }
 
     .site-link {
-      color: var(--purple);
+      color: var(--brand);
       text-decoration: none;
       font-size: 14px;
       font-weight: 500;
@@ -286,58 +380,43 @@
 
     .site-link:hover { text-decoration: underline; }
 
-    /* ── CHANGELOG ── */
-    .changelog-list { list-style: none; }
-
-    .changelog-item {
-      display: flex;
-      gap: 14px;
-      padding: 14px 0;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .changelog-item:last-child { border-bottom: none; }
-
-    .changelog-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--purple);
-      margin-top: 6px;
-      flex-shrink: 0;
-    }
-
-    .changelog-text { font-size: 14px; line-height: 1.5; }
-    .changelog-date { font-size: 12px; color: var(--muted); margin-top: 2px; }
-
-    .empty-state {
-      text-align: center;
-      color: var(--muted);
-      font-size: 14px;
-      padding: 30px 0;
-    }
-
-    /* ── REQUEST FORM ── */
-    .request-form { display: none; }
+    /* ─── REQUEST FORM ─── */
+    .request-form { display: none; margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--border); }
     .request-form.open { display: block; }
 
     .toggle-form-btn {
-      background: var(--purple-dim);
-      border: 1px solid #a855f744;
-      color: var(--purple);
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: var(--brand-dim);
+      border: 1px solid rgba(120,81,169,.3);
+      color: #c4a0f0;
       border-radius: var(--radius);
-      padding: 10px 18px;
+      padding: 9px 18px;
       font-size: 13px;
-      font-weight: 600;
+      font-weight: 700;
       cursor: pointer;
-      font-family: inherit;
-      transition: background 0.15s;
-      margin-bottom: 16px;
+      font-family: 'Poppins', sans-serif;
+      transition: background .15s;
     }
 
-    .toggle-form-btn:hover { background: #a855f733; }
+    .toggle-form-btn:hover { background: rgba(120,81,169,.22); }
 
-    /* ── REQUEST HISTORY ── */
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    @media(max-width:560px) { .form-row { grid-template-columns: 1fr; } }
+
+    .form-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    /* ─── REQUEST HISTORY ─── */
     .request-item {
       padding: 14px 0;
       border-bottom: 1px solid var(--border);
@@ -352,23 +431,45 @@
       margin-bottom: 4px;
     }
 
-    .request-type {
-      font-size: 13px;
-      font-weight: 600;
+    .request-type { font-size: 13px; font-weight: 700; }
+    .request-note { font-size: 13px; color: var(--muted); margin-top: 4px; line-height: 1.5; }
+    .request-date { font-size: 11px; color: var(--muted2); margin-top: 5px; }
+
+    /* ─── CHANGELOG ─── */
+    .changelog-list { list-style: none; }
+
+    .changelog-item {
+      display: flex;
+      gap: 14px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border);
     }
 
-    .request-note {
-      font-size: 13px;
-      color: var(--muted);
-      margin-top: 4px;
+    .changelog-item:last-child { border-bottom: none; }
+
+    .changelog-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--brand);
+      margin-top: 7px;
+      flex-shrink: 0;
     }
 
-    .request-date { font-size: 11px; color: var(--muted); }
+    .changelog-text { font-size: 14px; line-height: 1.55; }
+    .changelog-date { font-size: 11px; color: var(--muted); margin-top: 3px; }
 
-    @media (max-width: 500px) {
+    .empty-state {
+      text-align: center;
+      color: var(--muted2);
+      font-size: 13px;
+      padding: 28px 0;
+    }
+
+    @media(max-width:500px) {
       .auth-card { padding: 28px 20px; }
-      .portal-body { padding: 24px 16px 48px; }
-      .stat-grid { grid-template-columns: 1fr 1fr; }
+      .portal-body { padding: 28px 16px 60px; }
+      .topbar { padding: 0 16px; }
     }
   </style>
 </head>
@@ -379,13 +480,15 @@
 ══════════════════════════════════ -->
 <div id="auth-screen">
   <div class="auth-card">
-    <div class="auth-logo">Web<span>Eaze</span></div>
+    <div class="auth-logo">
+      <img src="images/webeaze-transparent-copy.png" alt="WebEaze" />
+      <span class="auth-logo-word">WebEaze</span>
+    </div>
     <div class="auth-subtitle">Sign in to your client portal</div>
 
     <div id="auth-error" class="error-msg" style="display:none;"></div>
     <div id="auth-success" class="success-msg" style="display:none;"></div>
 
-    <!-- Login form -->
     <div id="login-form">
       <div class="field">
         <label>Email</label>
@@ -397,11 +500,10 @@
       </div>
       <button class="btn" id="login-btn" onclick="login()">Sign in</button>
       <p style="text-align:center; margin-top:16px; font-size:13px; color:var(--muted);">
-        Forgot your password? <a href="#" onclick="showReset()" style="color:var(--purple);">Reset it</a>
+        Forgot your password? <a href="#" onclick="showReset()" style="color:var(--brand); font-weight:600;">Reset it</a>
       </p>
     </div>
 
-    <!-- Reset password form -->
     <div id="reset-form" style="display:none;">
       <div class="field">
         <label>Email</label>
@@ -409,7 +511,7 @@
       </div>
       <button class="btn" onclick="sendReset()">Send reset link</button>
       <p style="text-align:center; margin-top:16px; font-size:13px; color:var(--muted);">
-        <a href="#" onclick="showLogin()" style="color:var(--purple);">Back to sign in</a>
+        <a href="#" onclick="showLogin()" style="color:var(--brand); font-weight:600;">Back to sign in</a>
       </p>
     </div>
   </div>
@@ -420,22 +522,25 @@
 ══════════════════════════════════ -->
 <div id="portal-screen">
   <div class="topbar">
-    <div class="topbar-logo">Web<span>Eaze</span></div>
+    <a class="topbar-logo" href="index.html">
+      <img src="images/webeaze-transparent-copy.png" alt="WebEaze" />
+      <span class="topbar-logo-word">WebEaze</span>
+    </a>
     <div class="topbar-right">
-      <span class="client-name" id="client-email-display"></span>
+      <div class="avatar" id="client-avatar">??</div>
       <button class="signout-btn" onclick="signOut()">Sign out</button>
     </div>
   </div>
 
   <div class="portal-body">
     <div class="greeting" id="greeting-text">Welcome back</div>
-    <div class="greeting-sub">Here's a look at your website and account.</div>
+    <div class="greeting-sub" id="greeting-sub">Here's a look at your website and account.</div>
 
-    <!-- Stats -->
-    <div class="stat-grid">
+    <!-- Overview tiles -->
+    <div class="overview-row">
       <div class="stat-tile">
         <div class="stat-label">Your plan</div>
-        <div class="stat-value" id="client-plan">--</div>
+        <div class="stat-value" id="client-plan-display">--</div>
       </div>
       <div class="stat-tile">
         <div class="stat-label">Status</div>
@@ -447,44 +552,87 @@
       </div>
     </div>
 
-    <!-- Site info -->
-    <div class="card">
-      <div class="card-title">Your website</div>
-      <div id="client-site-url" style="margin-bottom:10px;"></div>
-      <div id="client-site-notes" style="font-size:13px; color:var(--muted);"></div>
+    <!-- Requests progress -->
+    <div class="card" id="progress-card" style="display:none;">
+      <div class="card-title">Update requests</div>
+      <div class="progress-wrap">
+        <div style="display:flex; justify-content:space-between; align-items:baseline;">
+          <span style="font-size:22px; font-weight:800; letter-spacing:-.04em;" id="progress-done">0</span>
+          <span style="font-size:12px; color:var(--muted);" id="progress-total-label">of 0 completed</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+        </div>
+        <div class="progress-label" id="progress-label"></div>
+      </div>
     </div>
 
-    <!-- Request update -->
+    <!-- Site info -->
     <div class="card">
-      <div class="card-title">Request an update</div>
-      <p style="font-size:14px; color:var(--muted); margin-bottom:16px;">
-        Need something changed on your site? Submit it here and we'll take care of it.
+      <div class="card-title" style="margin-bottom:12px;">Your website</div>
+      <div id="client-site-url" style="margin-bottom:8px;"></div>
+      <div id="client-site-notes" style="font-size:13px; color:var(--muted); line-height:1.6;"></div>
+    </div>
+
+    <!-- Submit a request -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Submit a request</div>
+      </div>
+      <p style="font-size:13px; color:var(--muted); margin-bottom:16px; margin-top:-6px;">
+        Need something changed? Submit it below and we'll take care of it.
       </p>
 
-      <button class="toggle-form-btn" id="toggle-btn" onclick="toggleRequestForm()">+ New request</button>
+      <button class="toggle-form-btn" id="toggle-btn" onclick="toggleRequestForm()">
+        <svg width="13" height="13" viewBox="0 0 12 12" fill="none" style="flex-shrink:0"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        New request
+      </button>
 
       <div class="request-form" id="request-form">
         <div id="req-error" class="error-msg" style="display:none;"></div>
         <div id="req-success" class="success-msg" style="display:none;"></div>
 
+        <div class="form-row">
+          <div class="field">
+            <label>Type of update</label>
+            <select id="req-type">
+              <option value="">Select one...</option>
+              <option value="Content update">Content update (text, images, hours, prices)</option>
+              <option value="New page or section">New page or section</option>
+              <option value="Design or layout change">Design or layout change</option>
+              <option value="Contact form or functionality">Contact form or functionality</option>
+              <option value="SEO or metadata">SEO or metadata</option>
+              <option value="Bug or broken element">Bug or broken element</option>
+              <option value="Performance or speed">Performance or speed issue</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Priority</label>
+            <select id="req-priority">
+              <option value="Normal">Normal</option>
+              <option value="Urgent">Urgent — site is broken or unusable</option>
+              <option value="Low">Low — whenever you get to it</option>
+            </select>
+          </div>
+        </div>
+
         <div class="field">
-          <label>Type of update</label>
-          <select id="req-type">
-            <option value="">Select one...</option>
-            <option value="Content update">Content update (text, photos)</option>
-            <option value="New page">New page</option>
-            <option value="Design change">Design change</option>
-            <option value="Bug or issue">Bug or issue</option>
-            <option value="Other">Other</option>
-          </select>
+          <label>Which page or area?</label>
+          <input type="text" id="req-page" placeholder="e.g. Home page, About section, Contact form..." />
         </div>
 
         <div class="field">
           <label>Details</label>
-          <textarea id="req-notes" placeholder="Describe what you need..."></textarea>
+          <textarea id="req-notes" placeholder="Describe exactly what you need changed. The more detail, the faster we can get it done."></textarea>
         </div>
 
-        <div style="display:flex; gap:10px;">
+        <div class="field">
+          <label>Reference link or file URL <span style="font-weight:400; text-transform:none; letter-spacing:0;">(optional)</span></label>
+          <input type="url" id="req-url" placeholder="https://..." />
+        </div>
+
+        <div class="form-actions">
           <button class="btn btn-sm" onclick="submitRequest()">Submit request</button>
           <button class="btn btn-sm btn-ghost" onclick="toggleRequestForm()">Cancel</button>
         </div>
@@ -493,13 +641,13 @@
 
     <!-- Past requests -->
     <div class="card">
-      <div class="card-title">Past requests</div>
+      <div class="card-title" style="margin-bottom:16px;">Past requests</div>
       <div id="requests-list"><div class="empty-state">No requests yet.</div></div>
     </div>
 
     <!-- Changelog -->
     <div class="card">
-      <div class="card-title">Recent updates</div>
+      <div class="card-title" style="margin-bottom:16px;">Recent updates to your site</div>
       <ul class="changelog-list" id="changelog-list">
         <li class="empty-state">Nothing logged yet.</li>
       </ul>
@@ -508,10 +656,7 @@
 </div>
 
 <script>
-// ══════════════════════════════════
-// SUPABASE CONFIG — replace these
-// ══════════════════════════════════
-const SUPABASE_URL = 'https://gmgzhjxfypuyzzgqwona.supabase.co';
+const SUPABASE_URL     = 'https://gmgzhjxfypuyzzgqwona.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdtZ3poanhmeXB1eXp6Z3F3b25hIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIyNDM4NjYsImV4cCI6MjA5NzgxOTg2Nn0.zJf-NwVN5J7sRpk4FcthQQIgn60f3g1k34FabMTjN1U';
 
 const { createClient } = supabase;
@@ -531,38 +676,29 @@ function showReset() {
 }
 
 function clearMsgs() {
-  document.getElementById('auth-error').style.display = 'none';
+  document.getElementById('auth-error').style.display  = 'none';
   document.getElementById('auth-success').style.display = 'none';
 }
 
 function authError(msg) {
   const el = document.getElementById('auth-error');
-  el.textContent = msg;
-  el.style.display = 'block';
+  el.textContent = msg; el.style.display = 'block';
 }
 
 function authSuccess(msg) {
   const el = document.getElementById('auth-success');
-  el.textContent = msg;
-  el.style.display = 'block';
+  el.textContent = msg; el.style.display = 'block';
 }
 
 async function login() {
-  const email = document.getElementById('login-email').value.trim();
+  const email    = document.getElementById('login-email').value.trim();
   const password = document.getElementById('login-password').value;
-  const btn = document.getElementById('login-btn');
-
+  const btn      = document.getElementById('login-btn');
   if (!email || !password) return authError('Please enter your email and password.');
-
-  btn.disabled = true;
-  btn.textContent = 'Signing in...';
+  btn.disabled = true; btn.textContent = 'Signing in...';
   clearMsgs();
-
   const { error } = await sb.auth.signInWithPassword({ email, password });
-
-  btn.disabled = false;
-  btn.textContent = 'Sign in';
-
+  btn.disabled = false; btn.textContent = 'Sign in';
   if (error) return authError(error.message);
 }
 
@@ -570,11 +706,7 @@ async function sendReset() {
   const email = document.getElementById('reset-email').value.trim();
   if (!email) return authError('Enter your email address.');
   clearMsgs();
-
-  const { error } = await sb.auth.resetPasswordForEmail(email, {
-    redirectTo: window.location.href
-  });
-
+  const { error } = await sb.auth.resetPasswordForEmail(email, { redirectTo: window.location.href });
   if (error) return authError(error.message);
   authSuccess('Check your inbox for a reset link.');
 }
@@ -582,27 +714,45 @@ async function sendReset() {
 async function signOut() {
   await sb.auth.signOut();
   document.getElementById('portal-screen').style.display = 'none';
-  document.getElementById('auth-screen').style.display = 'flex';
+  document.getElementById('auth-screen').style.display   = 'flex';
 }
 
-// ── SESSION LISTENER ──
+// ── SESSION ──
 sb.auth.onAuthStateChange(async (event, session) => {
   if (session) {
-    document.getElementById('auth-screen').style.display = 'none';
+    document.getElementById('auth-screen').style.display   = 'none';
     document.getElementById('portal-screen').style.display = 'block';
     await loadPortal(session.user);
   } else {
-    document.getElementById('auth-screen').style.display = 'flex';
+    document.getElementById('auth-screen').style.display   = 'flex';
     document.getElementById('portal-screen').style.display = 'none';
   }
 });
 
-// ── LOAD PORTAL DATA ──
-async function loadPortal(user) {
-  document.getElementById('client-email-display').textContent = user.email;
+// ── PLAN BADGE HELPER ──
+function planBadgeHtml(plan) {
+  if (!plan) return '<span class="plan-badge plan-default">--</span>';
+  const p = plan.toLowerCase();
+  if (p.includes('elite'))     return `<span class="plan-badge plan-elite">${plan}</span>`;
+  if (p.includes('growth'))    return `<span class="plan-badge plan-growth">${plan}</span>`;
+  if (p.includes('essential')) return `<span class="plan-badge plan-essential">${plan}</span>`;
+  return `<span class="plan-badge plan-default">${plan}</span>`;
+}
 
-  // Pull client record from `clients` table
-  const { data: client, error } = await sb
+// ── INITIALS HELPER ──
+function getInitials(name, email) {
+  if (name && name.trim()) {
+    const parts = name.trim().split(/\s+/);
+    return parts.length >= 2
+      ? (parts[0][0] + parts[parts.length - 1][0]).toUpperCase()
+      : parts[0].slice(0, 2).toUpperCase();
+  }
+  return email ? email.slice(0, 2).toUpperCase() : '??';
+}
+
+// ── LOAD PORTAL ──
+async function loadPortal(user) {
+  const { data: client } = await sb
     .from('clients')
     .select('*')
     .eq('user_id', user.id)
@@ -611,71 +761,92 @@ async function loadPortal(user) {
   if (client) {
     const firstName = client.name ? client.name.split(' ')[0] : '';
     document.getElementById('greeting-text').textContent =
-      firstName ? `Hey, ${firstName}` : 'Welcome back';
+      firstName ? `Welcome back, ${firstName}` : 'Welcome back';
+    document.getElementById('greeting-sub').textContent =
+      `Here's a look at your website and account.`;
 
-    document.getElementById('client-plan').textContent = client.plan || '--';
+    // Avatar
+    document.getElementById('client-avatar').textContent = getInitials(client.name, user.email);
 
+    // Plan badge
+    document.getElementById('client-plan-display').innerHTML = planBadgeHtml(client.plan);
+
+    // Member since
     const since = client.created_at
       ? new Date(client.created_at).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
       : '--';
     document.getElementById('client-since').textContent = since;
 
+    // Site URL
     const urlEl = document.getElementById('client-site-url');
     if (client.site_url) {
-      urlEl.innerHTML = `<a class="site-link" href="${client.site_url}" target="_blank">${client.site_url}</a>`;
+      urlEl.innerHTML = `<a class="site-link" href="${client.site_url}" target="_blank" rel="noopener">${client.site_url} ↗</a>`;
     } else {
-      urlEl.textContent = 'Site URL not set yet.';
+      urlEl.innerHTML = `<span style="color:var(--muted2); font-size:13px;">Site URL not set yet.</span>`;
     }
 
     if (client.notes) {
       document.getElementById('client-site-notes').textContent = client.notes;
     }
+  } else {
+    // No client record — still show avatar from email
+    document.getElementById('client-avatar').textContent = getInitials('', user.email);
   }
 
   await loadRequests(user.id);
   await loadChangelog(user.id);
 }
 
-// ── REQUESTS ──
+// ── REQUEST FORM ──
 function toggleRequestForm() {
   const form = document.getElementById('request-form');
-  const btn = document.getElementById('toggle-btn');
+  const btn  = document.getElementById('toggle-btn');
   const open = form.classList.toggle('open');
-  btn.textContent = open ? 'Cancel' : '+ New request';
-
-  document.getElementById('req-error').style.display = 'none';
+  btn.innerHTML = open
+    ? '<svg width="13" height="13" viewBox="0 0 12 12" fill="none" style="flex-shrink:0"><path d="M1 6h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg> Cancel'
+    : '<svg width="13" height="13" viewBox="0 0 12 12" fill="none" style="flex-shrink:0"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg> New request';
+  document.getElementById('req-error').style.display   = 'none';
   document.getElementById('req-success').style.display = 'none';
 }
 
 async function submitRequest() {
-  const type = document.getElementById('req-type').value;
-  const notes = document.getElementById('req-notes').value.trim();
-  const errEl = document.getElementById('req-error');
-  const okEl = document.getElementById('req-success');
+  const type     = document.getElementById('req-type').value;
+  const priority = document.getElementById('req-priority').value;
+  const page     = document.getElementById('req-page').value.trim();
+  const notes    = document.getElementById('req-notes').value.trim();
+  const url      = document.getElementById('req-url').value.trim();
+  const errEl    = document.getElementById('req-error');
+  const okEl     = document.getElementById('req-success');
 
   errEl.style.display = 'none';
-  okEl.style.display = 'none';
+  okEl.style.display  = 'none';
 
-  if (!type) { errEl.textContent = 'Please select a type.'; errEl.style.display = 'block'; return; }
-  if (!notes) { errEl.textContent = 'Please describe what you need.'; errEl.style.display = 'block'; return; }
+  if (!type)  { errEl.textContent = 'Please select a type of update.'; errEl.style.display = 'block'; return; }
+  if (!notes) { errEl.textContent = 'Please describe what you need.';  errEl.style.display = 'block'; return; }
 
   const { data: { user } } = await sb.auth.getUser();
 
-  const { error } = await sb
-    .from('update_requests')
-    .insert({ user_id: user.id, type, notes, status: 'Received' });
+  const payload = { user_id: user.id, type, priority, notes, status: 'Received' };
+  if (page) payload.page = page;
+  if (url)  payload.reference_url = url;
+
+  const { error } = await sb.from('update_requests').insert(payload);
 
   if (error) { errEl.textContent = error.message; errEl.style.display = 'block'; return; }
 
-  okEl.textContent = 'Request sent! We will be in touch soon.';
+  okEl.textContent = 'Request submitted! We\'ll be in touch soon.';
   okEl.style.display = 'block';
 
-  document.getElementById('req-type').value = '';
-  document.getElementById('req-notes').value = '';
+  document.getElementById('req-type').value     = '';
+  document.getElementById('req-priority').value = 'Normal';
+  document.getElementById('req-page').value     = '';
+  document.getElementById('req-notes').value    = '';
+  document.getElementById('req-url').value      = '';
 
   await loadRequests(user.id);
 }
 
+// ── LOAD REQUESTS ──
 async function loadRequests(userId) {
   const { data } = await sb
     .from('update_requests')
@@ -687,27 +858,42 @@ async function loadRequests(userId) {
 
   if (!data || data.length === 0) {
     container.innerHTML = '<div class="empty-state">No requests yet.</div>';
+    document.getElementById('progress-card').style.display = 'none';
     return;
   }
 
+  // Progress
+  const total = data.length;
+  const done  = data.filter(r => r.status === 'Done').length;
+  const pct   = total > 0 ? Math.round((done / total) * 100) : 0;
+
+  document.getElementById('progress-card').style.display    = 'block';
+  document.getElementById('progress-done').textContent      = done;
+  document.getElementById('progress-total-label').textContent = `of ${total} completed`;
+  document.getElementById('progress-fill').style.width      = pct + '%';
+  document.getElementById('progress-label').textContent     =
+    done === total ? 'All caught up!' : `${total - done} request${total - done !== 1 ? 's' : ''} in progress or pending`;
+
   const statusBadge = (s) => {
-    if (s === 'Done') return `<span class="badge badge-active">${s}</span>`;
+    if (s === 'Done')        return `<span class="badge badge-active">${s}</span>`;
     if (s === 'In progress') return `<span class="badge badge-purple">${s}</span>`;
-    return `<span class="badge badge-pending">${s}</span>`;
+    return `<span class="badge badge-pending">${s || 'Received'}</span>`;
   };
 
   container.innerHTML = data.map(r => `
     <div class="request-item">
       <div class="request-header">
-        <div class="request-type">${r.type}</div>
+        <div class="request-type">${r.type}${r.priority === 'Urgent' ? ' <span style="color:#fca5a5; font-size:11px; font-weight:600;">&middot; Urgent</span>' : ''}</div>
         ${statusBadge(r.status || 'Received')}
       </div>
+      ${r.page ? `<div style="font-size:11px; color:var(--muted); margin-top:2px;">${r.page}</div>` : ''}
       <div class="request-note">${r.notes}</div>
       <div class="request-date">${new Date(r.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</div>
     </div>
   `).join('');
 }
 
+// ── LOAD CHANGELOG ──
 async function loadChangelog(userId) {
   const { data } = await sb
     .from('changelog')
