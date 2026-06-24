@@ -365,7 +365,9 @@ async function doSignOut() {
 }
 
 // ── SESSION LISTENER ──
-sb.auth.onAuthStateChange(async (event, session) => {
+// Check existing session on page load
+(async () => {
+  const { data: { session } } = await sb.auth.getSession();
   document.getElementById('loading-screen').style.display = 'none';
   if (session) {
     document.getElementById('auth-screen').style.display   = 'none';
@@ -374,6 +376,19 @@ sb.auth.onAuthStateChange(async (event, session) => {
   } else {
     document.getElementById('auth-screen').style.display   = 'flex';
     document.getElementById('portal-screen').style.display = 'none';
+  }
+})();
+
+// Handle future auth changes (login/logout)
+sb.auth.onAuthStateChange(async (event, session) => {
+  if (event === 'SIGNED_IN') {
+    document.getElementById('auth-screen').style.display   = 'none';
+    document.getElementById('portal-screen').style.display = 'block';
+    await loadPortal(session.user);
+  }
+  if (event === 'SIGNED_OUT') {
+    document.getElementById('portal-screen').style.display = 'none';
+    document.getElementById('auth-screen').style.display   = 'flex';
   }
 });
 

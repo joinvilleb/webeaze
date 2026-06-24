@@ -3,19 +3,19 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>About WebEaze | Small Business Website Design</title>
-  <meta name="description" content="WebEaze builds and manages websites for small businesses. Custom design, SEO, and ongoing support from $169/month. Serving Delaware, Maryland, Pennsylvania, and the Mid-Atlantic." />
+  <title>About WebEaze | Small Business Web Design Company</title>
+  <meta name="description" content="WebEaze is a small business web design and management company based in Delaware, founded by Billy Joinville. Plans from $169/month, no contracts." />
   <link rel="canonical" href="https://webeaze.io/about" />
 
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="WebEaze" />
-  <meta property="og:title" content="About WebEaze | Small Business Website Design" />
-  <meta property="og:description" content="WebEaze is your dedicated digital partner for small businesses. We handle your website, SEO, and online presence so clients find you and reach out." />
+  <meta property="og:title" content="About WebEaze | Small Business Web Design Company" />
+  <meta property="og:description" content="WebEaze is a Delaware-based web design company that builds and manages websites for small businesses across the Mid-Atlantic. Founded by Billy Joinville. Plans from $169/month." />
   <meta property="og:url" content="https://webeaze.io/about" />
   <meta property="og:image" content="https://webeaze.io/images/default-monochrome.png" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="About WebEaze | Small Business Website Design" />
-  <meta name="twitter:description" content="WebEaze builds and manages websites for small businesses. Custom design, SEO, and support from $169/month." />
+  <meta name="twitter:title" content="About WebEaze | Small Business Web Design Company" />
+  <meta name="twitter:description" content="WebEaze builds and manages websites for small businesses in Delaware, Maryland, PA, and the Mid-Atlantic. Founded by Billy Joinville. Plans from $169/month." />
   <meta name="twitter:image" content="https://webeaze.io/images/webeaze-transparent.png" />
 
   <link rel="stylesheet" href="css/nav.css">
@@ -118,7 +118,7 @@ a { color: inherit; text-decoration: none; }
 }
 .hero p {
   font-size: 1.1rem; color: rgba(255,255,255,.88); line-height: 1.75;
-  max-width: 520px; margin: 0 0 38px;
+  max-width: 520px; margin: 0;
 }
 .hero-btns { display: flex; flex-wrap: wrap; gap: 12px; justify-content: flex-start; }
 .hero .btn-outlined {
@@ -412,14 +412,19 @@ footer { background: #000; padding: 60px 20px 40px; border-top: 1px solid rgba(2
 }
 .hero-cursor.done { animation: none; opacity: 0; }
 @keyframes heroBlink { 0%,100%{opacity:1} 50%{opacity:0} }
+.hero-text-wrap {
+  display: grid;
+  max-width: 520px; margin: 0 0 38px;
+}
+.hero-text-wrap > * { grid-area: 1 / 1; }
 #hero-code-wrap {
-  display: none;
   font-family: 'Courier New', Courier, monospace;
   font-size: .98rem; line-height: 1.75;
-  max-width: 520px; margin: 0 0 38px;
   color: rgba(255,255,255,.88);
   word-break: break-word;
+  opacity: 0; transition: opacity .4s;
 }
+#hero-para { opacity: 0; transition: opacity .5s; margin: 0; }
 .hero-code-tag { color: #67e8f9; }
 
 /* REVEAL */
@@ -585,10 +590,12 @@ footer { background: #000; padding: 60px 20px 40px; border-top: 1px solid rgba(2
 <section class="hero" id="main-content">
   <div class="hero-inner">
     <h1><span id="hero-h1-typed"></span><span class="hero-cursor" id="h1-cursor"></span></h1>
-    <div id="hero-code-wrap">
-      <span class="hero-code-tag">&lt;p&gt;</span><span id="hero-code-typed"></span><span class="hero-code-tag" id="hero-close-tag" style="display:none;">&lt;/p&gt;</span><span class="hero-cursor" id="code-cursor"></span>
+    <div class="hero-text-wrap">
+      <div id="hero-code-wrap">
+        <span class="hero-code-tag">&lt;p&gt;</span><span id="hero-code-typed"></span><span class="hero-code-tag" id="hero-close-tag" style="display:none;">&lt;/p&gt;</span><span class="hero-cursor" id="code-cursor"></span>
+      </div>
+      <p id="hero-para">We build and manage websites for small businesses, with a focus on simplicity, transparency, and real support. Anything you've heard about the web design industry doesn't exist here.</p>
     </div>
-    <p id="hero-para">We build and manage websites for small businesses, with a focus on simplicity, transparency, and real support. Anything you've heard about the web design industry doesn't exist here.</p>
     <div class="hero-btns" id="hero-btns">
       <a href="consultation.html" class="btn-filled"><i class="fas fa-calendar-check"></i> Get a Free Mockup</a>
       <a href="samples.html" class="btn-outlined">See Our Work <i class="fas fa-arrow-right"></i></a>
@@ -814,9 +821,7 @@ document.getElementById('yr').textContent = new Date().getFullYear();
 
   if (!h1Typed) return;
 
-  // Hide para + btns immediately via JS (graceful fallback if JS off)
-  para.style.opacity = '0';
-  para.style.transition = 'opacity .5s';
+  // Hide btns immediately via JS (para opacity is set in CSS)
   btns.style.opacity = '0';
   btns.style.transition = 'opacity .5s';
 
@@ -840,8 +845,8 @@ document.getElementById('yr').textContent = new Date().getFullYear();
     await wait(550);
     h1Cursor.classList.add('done');
 
-    // Phase 2: show code block, type <p>content</p>
-    codeWrap.style.display = 'block';
+    // Phase 2: fade in code block, type <p>content</p>
+    codeWrap.style.opacity = '1';
     await wait(180);
     await typeInto(codeTyped, PARA_TEXT, 14);
     closeTag.style.display = 'inline';
@@ -849,13 +854,10 @@ document.getElementById('yr').textContent = new Date().getFullYear();
 
     await wait(850);
 
-    // Phase 3: fade code out, fade plain text in
-    codeWrap.style.transition = 'opacity .4s';
+    // Phase 3: cross-fade code out, plain text in (no layout shift)
     codeWrap.style.opacity = '0';
-    await wait(420);
-    codeWrap.style.display = 'none';
-
     para.style.opacity = '1';
+    await wait(500);
     btns.style.opacity = '1';
   }
 
