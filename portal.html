@@ -122,8 +122,15 @@
 </head>
 <body>
 
+<div id="loading-screen" style="display:flex; align-items:center; justify-content:center; min-height:100vh; background:var(--bg);">
+  <div style="text-align:center;">
+    <div style="font-size:18px; font-weight:800; letter-spacing:-.04em; color:var(--text); margin-bottom:8px;">WebEaze</div>
+    <div style="font-size:13px; color:var(--muted);">Loading your portal...</div>
+  </div>
+</div>
+
 <!-- AUTH -->
-<div id="auth-screen">
+<div id="auth-screen" style="display:none;">
   <div class="auth-card">
     <div class="auth-logo">
       <img src="images/webeaze-transparent-copy.png" alt="WebEaze" />
@@ -290,7 +297,13 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 const RESEND_API_KEY    = 're_6dwU9cHh_HwGxCFmxg3jpuyHGChUxtFab';
 const NOTIFY_EMAIL      = 'billy@webeaze.io';
 
-const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+  auth: {
+    persistSession: true,
+    detectSessionInUrl: true,
+    autoRefreshToken: true
+  }
+});
 
 let currentClientName  = '';
 let currentClientEmail = '';
@@ -353,6 +366,7 @@ async function doSignOut() {
 
 // ── SESSION LISTENER ──
 sb.auth.onAuthStateChange(async (event, session) => {
+  document.getElementById('loading-screen').style.display = 'none';
   if (session) {
     document.getElementById('auth-screen').style.display   = 'none';
     document.getElementById('portal-screen').style.display = 'block';
