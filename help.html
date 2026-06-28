@@ -8469,6 +8469,8 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
           nMeta:     normalize(a.meta || ''),
           nTopic:    normalize(t.title),
           nBody:     normalize(bodyText),
+          wTitle:    normalize(a.title).split(/[^a-z0-9]+/).filter(Boolean),
+          wMeta:     normalize(a.meta || '').split(/[^a-z0-9]+/).filter(Boolean),
         });
       });
     });
@@ -8500,10 +8502,24 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
     transfer:['move','ownership'],deposit:['payment','form','stripe'],
   };
 
-  function expandTerms(terms) {
-    const expanded = new Set(terms);
-    terms.forEach(t => { if (SYNONYMS[t]) SYNONYMS[t].forEach(s => expanded.add(s)); });
-    return Array.from(expanded);
+  // Field hit strength for one term against a field:
+  // 3 = exact word, 2 = word prefix (≥4 chars), 1 = substring (≥4 chars), 0 = none.
+  // Substring matching is restricted to longer terms so short queries like "seo"
+  // or "dns" don't match the middle of unrelated words.
+  function fieldHit(term, words, str) {
+    if (words.indexOf(term) !== -1) return 3;
+    if (term.length >= 4) {
+      for (let i = 0; i < words.length; i++) if (words[i].startsWith(term)) return 2;
+      if (str.indexOf(term) !== -1) return 1;
+    }
+    return 0;
+  }
+  // Count body occurrences, capped so a single long article can't dominate.
+  function bodyCount(term, body) {
+    if (term.length < 3) return 0;
+    let n = 0, i = 0;
+    while ((i = body.indexOf(term, i)) !== -1) { n++; i += term.length; }
+    return Math.min(n, 5);
   }
 
   function searchArticles(q) {
@@ -8511,67 +8527,75 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
     if (!raw.length) return INDEX.slice(0, 12);
     const baseTerms = raw.filter(t => t.length > 1 && !STOP_WORDS.has(t));
     if (!baseTerms.length) return INDEX.slice(0, 12);
-    const synTerms = expandTerms(baseTerms).filter(t => !baseTerms.includes(t));
+    const multi = baseTerms.length >= 2;
 
-    // Returns 3=exact word, 2=prefix (≥4 chars), 1=substring, 0=none
-    function hitType(term, words, str) {
-      if (words.some(w => w === term)) return 3;
-      if (term.length >= 4 && words.some(w => w.startsWith(term))) return 2;
-      if (str.includes(term)) return 1;
-      return 0;
-    }
-    // Count occurrences in body, capped to reduce noise from long articles
-    function bodyCount(term, body) {
-      let n = 0, i = 0;
-      while ((i = body.indexOf(term, i)) !== -1) { n++; i += term.length; }
-      return Math.min(n, 6);
-    }
-
-    return INDEX.map(doc => {
+    const scored = INDEX.map(doc => {
       let score = 0;
-      const titleWords = doc.nTitle.split(/[^a-z0-9]+/).filter(Boolean);
-      const metaWords  = doc.nMeta.split(/[^a-z0-9]+/).filter(Boolean);
-      let matched = 0;
+      let matched = 0;      // distinct query terms that hit this doc at all
+      let strong  = 0;      // distinct query terms that hit title or meta
 
       baseTerms.forEach(t => {
-        const th = hitType(t, titleWords, doc.nTitle); // title hit type
-        const mh = hitType(t, metaWords,  doc.nMeta);  // meta hit type
-        const tpHit = doc.nTopic.includes(t) ? 1 : 0;
-        const bHits = bodyCount(t, doc.nBody);
+        const th = fieldHit(t, doc.wTitle, doc.nTitle);
+        const mh = fieldHit(t, doc.wMeta,  doc.nMeta);
+        const tp = doc.nTopic.indexOf(t) !== -1 ? 1 : 0;
+        const bh = bodyCount(t, doc.nBody);
 
-        // title: exact=18, prefix=12, substring=6
-        score += th * 6;
-        // meta: exact=9, prefix=6, substring=3
-        score += mh * 3;
-        // topic section name
-        score += tpHit * 2;
-        // body occurrences (1 pt each, max 6)
-        score += bHits;
+        // High-signal fields dominate; body is a weak tie-breaker.
+        let termScore = th * 10 + mh * 4 + tp * 2 + bh;
 
-        if (th > 0 || mh > 0 || tpHit || bHits) matched++;
+        // Synonyms support this term's coverage, but only via high-signal fields
+        // (title/meta) so they can't drag in random body-only matches.
+        let synStrong = 0;
+        const syns = SYNONYMS[t];
+        if (syns) {
+          for (const s of syns) {
+            const sth = fieldHit(s, doc.wTitle, doc.nTitle);
+            const smh = fieldHit(s, doc.wMeta,  doc.nMeta);
+            termScore += sth * 3 + smh * 1.5;
+            if (sth || smh) synStrong = 1;
+          }
+        }
+
+        score += termScore;
+        if (th || mh || tp || bh || synStrong) matched++;
+        if (th || mh || synStrong) strong++;
       });
 
-      // Strong bonus when every query term matched — rewards precision
-      if (matched === baseTerms.length && baseTerms.length >= 2) score += 22;
+      if (!matched) return { doc, score: 0, matched, strong };
 
-      // Adjacent phrase bonus (base terms together, in order) in title/meta
-      if (baseTerms.length >= 2) {
+      // Reward covering more of the query. Partial matches are heavily damped so a
+      // doc that only hits one word of a multi-word query sinks far down the list.
+      const coverage = matched / baseTerms.length;
+      score *= (0.3 + 0.7 * coverage);
+
+      // Every term matched — strong precision signal.
+      if (matched === baseTerms.length && multi) score += 25;
+
+      // Adjacent phrase appearing verbatim in title/meta.
+      if (multi) {
         const phrase = baseTerms.join(' ');
-        if (doc.nTitle.includes(phrase)) score += 16;
-        else if (doc.nMeta.includes(phrase)) score += 8;
+        if (doc.nTitle.indexOf(phrase) !== -1) score += 20;
+        else if (doc.nMeta.indexOf(phrase) !== -1) score += 10;
       }
 
-      // Synonym scoring (lower weight)
-      synTerms.forEach(t => {
-        const th = hitType(t, titleWords, doc.nTitle);
-        const mh = hitType(t, metaWords,  doc.nMeta);
-        score += th * 2;
-        score += mh;
-        score += doc.nBody.includes(t) ? 0.5 : 0;
-      });
+      return { doc, score, matched, strong };
+    }).filter(x => x.score > 0);
 
-      return { doc, score };
-    }).filter(x => x.score > 0).sort((a, b) => b.score - a.score).map(x => x.doc).slice(0, 20);
+    // For multi-word queries, drop weak single-term matches — the main source of
+    // "random" results. A doc qualifies only if it covers ≥2 terms, or matches one
+    // term strongly in the title/meta. Fall back to the loose set if this empties.
+    let kept = scored;
+    if (multi) {
+      const strict = scored.filter(x => x.matched >= 2 || x.strong >= 1);
+      if (strict.length) kept = strict;
+    }
+
+    kept.sort((a, b) => b.score - a.score);
+
+    // Trim the long tail of barely-relevant results relative to the best match.
+    const top = kept.length ? kept[0].score : 0;
+    const cutoff = top * 0.18;
+    return kept.filter(x => x.score >= cutoff).map(x => x.doc).slice(0, 20);
   }
 
   // ---- Router ----
