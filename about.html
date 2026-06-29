@@ -19,6 +19,8 @@
   <meta name="twitter:image" content="https://webeaze.io/images/webeaze-transparent.png" />
 
   <link rel="stylesheet" href="css/nav.css">
+  <!-- Preload the hero background so it starts downloading immediately -->
+  <link rel="preload" as="image" href="images/webeaze-about-hero.webp" type="image/webp" fetchpriority="high">
   <link rel="shortcut icon" href="images/webeaze-transparent-copy.png" type="image/png" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -89,6 +91,12 @@ a { color: inherit; text-decoration: none; }
   position: relative;
   padding: 110px 24px 96px;
   background-image: url('images/webeaze-about-hero.png');
+  background-image: -webkit-image-set(
+    url('images/webeaze-about-hero.webp') 1x,
+    url('images/webeaze-about-hero.png') 1x);
+  background-image: image-set(
+    url('images/webeaze-about-hero.webp') type('image/webp'),
+    url('images/webeaze-about-hero.png') type('image/png'));
   background-size: cover;
   background-position: center;
   overflow: hidden;
