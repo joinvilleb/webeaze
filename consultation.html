@@ -87,19 +87,20 @@ img { max-width: 100%; height: auto; }
 }
 .container-page { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; }
 
-/* ── HERO ── */
-.consult-hero {
-  background: #fff;
-  padding: 4rem 0 2.5rem;
-  text-align: center;
-}
-.consult-center {
-  max-width: 580px;
+/* ── TWO-COLUMN LAYOUT: title left, scheduler right ── */
+.consult-section { background: #fff; padding: 4rem 0 3.5rem; }
+.consult-inner {
+  max-width: 1080px;
   margin: 0 auto;
   padding: 0 1.5rem;
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+  gap: 56px;
+  align-items: start;
 }
+.consult-left { padding-top: 8px; }
 .consult-h1 {
-  font-size: clamp(2.2rem, 5vw, 3.2rem);
+  font-size: clamp(2rem, 4.5vw, 3.1rem);
   font-weight: 700;
   letter-spacing: -.03em;
   line-height: 1.1;
@@ -111,72 +112,37 @@ img { max-width: 100%; height: auto; }
   font-size: 1.05rem;
   color: var(--muted);
   margin-bottom: 1.5rem;
-  line-height: 1.65;
+  line-height: 1.7;
 }
-.consult-trust {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: .4rem .8rem;
-  font-size: .87rem;
-  font-weight: 600;
-  color: var(--muted);
-}
-.consult-trust i { color: var(--brand); margin-right: .25rem; }
-.consult-trust .dot { color: var(--border); font-weight: 400; }
+.consult-steps { margin-top: 1.75rem; }
+/* "What happens after" lives in the left column on desktop, and under the
+   scheduler on mobile. Each version shows for only one breakpoint. */
+.consult-mobile-only { display: none; }
 
-/* ── CALENDAR SECTION ── */
-.consult-cal-section {
-  background: #fff;
-  padding: 0 0 3rem;
-}
-.consult-cal-wrap {
-  max-width: 860px;
-  margin: 0 auto;
-  padding: 0 1.5rem;
-}
-.calendar-card {
-  background: #fff;
-  border: 1.5px solid var(--border);
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 0 8px 40px rgba(0,0,0,.08);
-}
-.calendar-card-head {
-  background: var(--brand);
-  padding: 1.25rem 1.5rem;
-  display: flex;
-  align-items: center;
-  gap: .75rem;
-}
-.calendar-card-head i { color: #fff; font-size: 1.1rem; }
-.calendar-card-head-text strong {
-  display: block;
-  font-size: 1rem;
-  font-weight: 700;
-  color: #fff;
-  letter-spacing: -.02em;
-}
-.calendar-card-head-text span {
-  font-size: .8rem;
-  color: rgba(255,255,255,.75);
-}
-.calendar-body { padding: 0; }
-.meetings-iframe-container { min-height: 650px; }
-.meetings-iframe-container iframe { width: 100% !important; min-height: 650px !important; }
+/* Bare HubSpot scheduler — no card, no header tab */
+.consult-right { min-width: 0; }
+.meetings-iframe-container { min-height: 640px; }
+.meetings-iframe-container iframe { width: 100% !important; min-height: 640px !important; }
 
-/* ── SPOILER ── */
-.spoiler-section { background: #fff; padding: 0 0 4.5rem; }
-.spoiler-wrap { max-width: 680px; margin: 0 auto; padding: 0 1.5rem; }
+@media (max-width: 860px) {
+  .consult-section { padding: 2.5rem 0 1rem; }
+  .consult-inner { grid-template-columns: 1fr; gap: 24px; }
+  .consult-left { padding-top: 0; }
+  .consult-steps { display: none; }        /* desktop-only (left column) */
+  .consult-mobile-only { display: block; } /* mobile-only (under scheduler) */
+}
+
+/* ── STEPS (what happens after you book) ── */
+.spoiler-section { background: #fff; padding: 0 1.5rem 2.5rem; }
 .spoiler { border: 1.5px solid var(--border); border-radius: 14px; overflow: hidden; }
-.spoiler-trigger { list-style: none; display: flex; align-items: center; justify-content: space-between; padding: 1.1rem 1.5rem; cursor: pointer; user-select: none; }
+.spoiler-trigger { list-style: none; display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.25rem; cursor: pointer; user-select: none; }
 .spoiler-trigger::-webkit-details-marker { display: none; }
-.spoiler-trigger-label { font-size: .92rem; font-weight: 700; color: var(--black); display: flex; align-items: center; gap: .55rem; }
+.spoiler-trigger-label { font-size: .9rem; font-weight: 700; color: var(--black); display: flex; align-items: center; gap: .55rem; }
 .spoiler-trigger-label i { color: var(--brand); }
 .spoiler-chevron { color: var(--brand); font-size: .75rem; transition: transform .25s; flex-shrink: 0; }
 details[open] .spoiler-chevron { transform: rotate(180deg); }
-.spoiler-body { padding: 1.25rem 1.5rem 1.5rem; border-top: 1px solid var(--border); }
+.spoiler-body { padding: 1rem 1.25rem 1.25rem; border-top: 1px solid var(--border); overflow: hidden; transition: height .28s ease; }
+@media (prefers-reduced-motion: reduce) { .spoiler-body { transition: none; } }
 .sp-steps { display: flex; flex-direction: column; gap: 1rem; }
 .sp-step { display: flex; align-items: flex-start; gap: 1rem; }
 .sp-num { width: 26px; height: 26px; border-radius: 50%; background: var(--brand); color: #fff; font-size: .72rem; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
@@ -241,8 +207,8 @@ footer {
 
 /* ── RESPONSIVE ── */
 @media (max-width: 640px) {
-  .consult-hero { padding: 3rem 0 2rem; }
-  .consult-h1 { font-size: 2rem; }
+  .consult-section { padding: 2rem 0 1.5rem; }
+  .consult-h1 { font-size: 1.9rem; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
   .footer-grid > div:first-child { grid-column: 1 / -1; }
 }
@@ -389,77 +355,102 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
 
 <main id="main-content">
 
-  <!-- HERO: centered heading -->
-  <section class="consult-hero">
-    <div class="consult-center">
-      <h1 class="consult-h1">Book a free call.<br><em>We handle the rest.</em></h1>
-      <p class="consult-sub">15 minutes. Tell us about your business and we handle everything from there.</p>
-    </div>
-  </section>
-
-  <!-- CALENDAR: centered, full-width card -->
-  <section class="consult-cal-section">
-    <div class="consult-cal-wrap">
-      <div class="calendar-card">
-        <div class="calendar-card-head">
-          <i class="fas fa-calendar-alt"></i>
-          <div class="calendar-card-head-text">
-            <strong>Schedule your free call</strong>
-            <span>Pick any open time slot below</span>
-          </div>
+  <!-- TWO-COLUMN: title/text left, scheduler right -->
+  <section class="consult-section">
+    <div class="consult-inner">
+      <div class="consult-left">
+        <h1 class="consult-h1">Book a free call.<br><em>We handle the rest.</em></h1>
+        <p class="consult-sub">15 minutes. Tell us about your business and we handle everything from there.</p>
+        <div class="consult-steps">
+          <details class="spoiler">
+            <summary class="spoiler-trigger">
+              <span class="spoiler-trigger-label"><i class="fas fa-circle-question"></i> What happens after I book?</span>
+              <i class="fas fa-chevron-down spoiler-chevron"></i>
+            </summary>
+            <div class="spoiler-body">
+              <div class="sp-steps">
+                <div class="sp-step">
+                  <div class="sp-num">1</div>
+                  <div>
+                    <strong>Discovery call (15 min)</strong>
+                    <p>We learn your business, your goals, and who you want to reach. Nothing to prepare. We guide the whole conversation.</p>
+                  </div>
+                </div>
+                <div class="sp-step">
+                  <div class="sp-num">2</div>
+                  <div>
+                    <strong>Custom mockup in 48 hours</strong>
+                    <p>We build a design concept for your specific business and share it with you. Free, with no obligation to move forward.</p>
+                  </div>
+                </div>
+                <div class="sp-step">
+                  <div class="sp-num">3</div>
+                  <div>
+                    <strong>Live in 5 to 14 business days</strong>
+                    <p>Approve the design and we handle everything: hosting, domain, SSL, and launch. You don't touch a single setting.</p>
+                  </div>
+                </div>
+                <div class="sp-step">
+                  <div class="sp-num">4</div>
+                  <div>
+                    <strong>Monthly management begins</strong>
+                    <p>After launch, your plan covers unlimited updates, hosting, security, and ongoing support every month.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </details>
         </div>
-        <div class="calendar-body">
-          <div class="meetings-iframe-container"
-               data-src="https://meetings-na2.hubspot.com/webeaze/free-consultation?embed=true">
-          </div>
-          <script src="https://static.hsappstatic.net/MeetingsEmbed/ex/MeetingsEmbedCode.js"></script>
+      </div>
+      <div class="consult-right">
+        <div class="meetings-iframe-container"
+             data-src="https://meetings-na2.hubspot.com/webeaze/free-consultation?embed=true">
         </div>
+        <script src="https://static.hsappstatic.net/MeetingsEmbed/ex/MeetingsEmbedCode.js"></script>
       </div>
     </div>
   </section>
 
-  <!-- WHAT HAPPENS NEXT: collapsible spoiler -->
-  <section class="spoiler-section">
-    <div class="spoiler-wrap">
-      <details class="spoiler">
-        <summary class="spoiler-trigger">
-          <span class="spoiler-trigger-label"><i class="fas fa-circle-question"></i> What happens after I book?</span>
-          <i class="fas fa-chevron-down spoiler-chevron"></i>
-        </summary>
-        <div class="spoiler-body">
-          <div class="sp-steps">
-            <div class="sp-step">
-              <div class="sp-num">1</div>
-              <div>
-                <strong>Discovery call (15 min)</strong>
-                <p>We learn your business, your goals, and who you want to reach. Nothing to prepare. We guide the whole conversation.</p>
-              </div>
+  <!-- MOBILE: what happens after, under the scheduler -->
+  <section class="spoiler-section consult-mobile-only">
+    <details class="spoiler">
+      <summary class="spoiler-trigger">
+        <span class="spoiler-trigger-label"><i class="fas fa-circle-question"></i> What happens after I book?</span>
+        <i class="fas fa-chevron-down spoiler-chevron"></i>
+      </summary>
+      <div class="spoiler-body">
+        <div class="sp-steps">
+          <div class="sp-step">
+            <div class="sp-num">1</div>
+            <div>
+              <strong>Discovery call (15 min)</strong>
+              <p>We learn your business, your goals, and who you want to reach. Nothing to prepare. We guide the whole conversation.</p>
             </div>
-            <div class="sp-step">
-              <div class="sp-num">2</div>
-              <div>
-                <strong>Custom mockup in 48 hours</strong>
-                <p>We build a design concept for your specific business and share it with you. Free, with no obligation to move forward.</p>
-              </div>
+          </div>
+          <div class="sp-step">
+            <div class="sp-num">2</div>
+            <div>
+              <strong>Custom mockup in 48 hours</strong>
+              <p>We build a design concept for your specific business and share it with you. Free, with no obligation to move forward.</p>
             </div>
-            <div class="sp-step">
-              <div class="sp-num">3</div>
-              <div>
-                <strong>Live in 5 to 14 business days</strong>
-                <p>Approve the design and we handle everything: hosting, domain, SSL, and launch. You don't touch a single setting.</p>
-              </div>
+          </div>
+          <div class="sp-step">
+            <div class="sp-num">3</div>
+            <div>
+              <strong>Live in 5 to 14 business days</strong>
+              <p>Approve the design and we handle everything: hosting, domain, SSL, and launch. You don't touch a single setting.</p>
             </div>
-            <div class="sp-step">
-              <div class="sp-num">4</div>
-              <div>
-                <strong>Monthly management begins</strong>
-                <p>After launch, your plan covers unlimited updates, hosting, security, and ongoing support every month.</p>
-              </div>
+          </div>
+          <div class="sp-step">
+            <div class="sp-num">4</div>
+            <div>
+              <strong>Monthly management begins</strong>
+              <p>After launch, your plan covers unlimited updates, hosting, security, and ongoing support every month.</p>
             </div>
           </div>
         </div>
-      </details>
-    </div>
+      </div>
+    </details>
   </section>
 
 </main>
@@ -595,6 +586,47 @@ window.WZ_CHAT_PAGE = {
 
 <!-- HubSpot Tracking -->
 <script type="text/javascript" id="hs-script-loader" async defer src="//js-na2.hs-scripts.com/242171361.js"></script>
+<script>
+// Smoothly animate the "What happens after I book?" spoiler open/close.
+(function () {
+  document.querySelectorAll('.spoiler').forEach(function (d) {
+    var trigger = d.querySelector('.spoiler-trigger');
+    var body = d.querySelector('.spoiler-body');
+    if (!trigger || !body) return;
+    var busy = false;
+
+    trigger.addEventListener('click', function (e) {
+      e.preventDefault();
+      if (busy) return;
+      busy = true;
+
+      if (d.open) {
+        // Close: animate from current height down to 0, then drop [open].
+        body.style.height = body.scrollHeight + 'px';
+        body.offsetHeight; // force reflow so the start height is applied
+        body.style.height = '0px';
+        body.addEventListener('transitionend', function te() {
+          d.removeAttribute('open');
+          body.style.height = '';
+          body.removeEventListener('transitionend', te);
+          busy = false;
+        }, { once: true });
+      } else {
+        // Open: reveal, then animate from 0 up to the content height.
+        d.setAttribute('open', '');
+        body.style.height = '0px';
+        body.offsetHeight; // force reflow
+        body.style.height = body.scrollHeight + 'px';
+        body.addEventListener('transitionend', function te() {
+          body.style.height = ''; // let it size naturally once open
+          body.removeEventListener('transitionend', te);
+          busy = false;
+        }, { once: true });
+      }
+    });
+  });
+})();
+</script>
 <script src="js/nav.js" defer></script>
 </body>
 </html>
