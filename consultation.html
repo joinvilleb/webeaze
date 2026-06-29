@@ -121,8 +121,8 @@ img { max-width: 100%; height: auto; }
 
 /* Bare HubSpot scheduler — no card, no header tab */
 .consult-right { min-width: 0; }
-.meetings-iframe-container { min-height: 640px; }
-.meetings-iframe-container iframe { width: 100% !important; min-height: 640px !important; }
+.meetings-iframe-container { min-height: 640px; width: 100%; overflow: hidden; }
+.meetings-iframe-container iframe { width: 100% !important; min-width: 100% !important; min-height: 640px !important; border: 0; }
 
 @media (max-width: 860px) {
   .consult-section { padding: 2.5rem 0 1rem; }
@@ -130,6 +130,13 @@ img { max-width: 100%; height: auto; }
   .consult-left { padding-top: 0; }
   .consult-steps { display: none; }        /* desktop-only (left column) */
   .consult-mobile-only { display: block; } /* mobile-only (under scheduler) */
+}
+
+/* Give the scheduler more room and edge-to-edge width on small phones */
+@media (max-width: 560px) {
+  .consult-inner { padding: 0 1rem; }
+  .meetings-iframe-container,
+  .meetings-iframe-container iframe { min-height: 700px !important; }
 }
 
 /* ── STEPS (what happens after you book) ── */
