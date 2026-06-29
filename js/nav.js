@@ -155,6 +155,61 @@
       var dropBtn = document.querySelector('.wb-dropdown-btn');
       if (dropBtn) dropBtn.classList.add('wb-active');
     }
+
+    // ── Mobile "Our Services" accordion ───────────────────────────────────────
+    // The mobile menu lists every service link flat. Group them under a
+    // collapsible "Our Services" toggle so the menu stays short and scannable.
+    // Built in JS so all pages get it from this one shared file; if JS fails,
+    // the links simply stay visible (the original flat behavior).
+    (function buildMobileServicesAccordion() {
+      if (!mobileMenu) return;
+      var inner = mobileMenu.querySelector('.wb-mob-inner');
+      if (!inner) return;
+      var subs = inner.querySelectorAll('.wb-mob-sub');
+      if (!subs.length) return;
+
+      // The "All Services" link sits just before the first sub-item.
+      var group = [];
+      var allServices = subs[0].previousElementSibling;
+      if (allServices && allServices.classList.contains('wb-mob-link') &&
+          !allServices.classList.contains('wb-mob-sub')) {
+        group.push(allServices);
+      }
+      Array.prototype.forEach.call(subs, function (s) { group.push(s); });
+      if (!group.length) return;
+
+      var toggle = document.createElement('button');
+      toggle.type = 'button';
+      toggle.className = 'wb-mob-accordion';
+      toggle.setAttribute('aria-controls', 'wb-mob-services');
+      toggle.innerHTML =
+        '<span><i class="fas fa-th-large"></i> Our Services</span>' +
+        '<i class="fas fa-chevron-down wb-mob-acc-chevron"></i>';
+
+      var panel = document.createElement('div');
+      panel.className = 'wb-mob-submenu';
+      panel.id = 'wb-mob-services';
+
+      // Drop the toggle + panel where the group currently starts, then move
+      // each service link inside the panel.
+      group[0].parentNode.insertBefore(toggle, group[0]);
+      group[0].parentNode.insertBefore(panel, group[0]);
+      group.forEach(function (el) { panel.appendChild(el); });
+
+      // If the visitor is on a service page, start expanded so the active
+      // item is visible right away.
+      var startOpen = svcPages.indexOf(path) !== -1;
+      panel.classList.toggle('wb-open', startOpen);
+      toggle.classList.toggle('wb-open', startOpen);
+      toggle.setAttribute('aria-expanded', String(startOpen));
+
+      toggle.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var open = panel.classList.toggle('wb-open');
+        toggle.classList.toggle('wb-open', open);
+        toggle.setAttribute('aria-expanded', String(open));
+      });
+    })();
   }
 
   if (document.readyState === 'loading') {

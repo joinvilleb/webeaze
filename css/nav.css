@@ -206,6 +206,9 @@
   font-family: "Poppins", system-ui, sans-serif;
 }
 .wb-mob-link:last-of-type { border-bottom: none; }
+/* A link right before a divider shouldn't also draw its own line (avoids a
+   doubled-up line where a menu section ends). */
+.wb-mob-link:has(+ .wb-mob-divider) { border-bottom: none; }
 .wb-mob-link:hover,
 .wb-mob-link.wb-active { color: #7851a9; }
 .wb-mob-link i { width: 16px; font-size: .85rem; color: #9ca3af; flex-shrink: 0; }
@@ -215,6 +218,43 @@
   font-size: .875rem;
   color: #6b7280;
 }
+/* ── Mobile "Our Services" accordion (built by nav.js) ── */
+.wb-mob-accordion {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .6rem;
+  width: 100%;
+  padding: .72rem .25rem;
+  font-size: .92rem;
+  font-weight: 500;
+  color: #374151;
+  background: none;
+  border: none;
+  font-family: "Poppins", system-ui, sans-serif;
+  cursor: pointer;
+  transition: color .12s;
+}
+/* Only show a divider under the toggle when open (separating it from the
+   service links). When collapsed, the existing menu divider is the only line. */
+.wb-mob-accordion.wb-open { border-bottom: 1px solid #f3f4f6; }
+.wb-mob-accordion > span { display: inline-flex; align-items: center; gap: .6rem; }
+.wb-mob-accordion > span > i { width: 16px; }
+.wb-mob-accordion i { font-size: .85rem; color: #9ca3af; flex-shrink: 0; }
+.wb-mob-accordion:hover,
+.wb-mob-accordion.wb-open { color: #7851a9; }
+.wb-mob-accordion:hover i,
+.wb-mob-accordion.wb-open i { color: #7851a9; }
+.wb-mob-acc-chevron { transition: transform .25s ease; }
+.wb-mob-accordion.wb-open .wb-mob-acc-chevron { transform: rotate(180deg); }
+.wb-mob-submenu {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height .3s cubic-bezier(.4,0,.2,1);
+}
+.wb-mob-submenu.wb-open { max-height: 520px; }
+/* Inside the accordion, indent "All Services" to match the other entries. */
+.wb-mob-submenu .wb-mob-link { padding-left: 1.75rem; }
 .wb-mob-divider {
   height: 1px;
   background: #e5e7eb;
