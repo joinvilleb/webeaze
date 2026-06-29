@@ -183,8 +183,28 @@
   background: #fff;
   border-top: 1px solid #e5e7eb;
   transition: max-height .32s cubic-bezier(.4,0,.2,1);
+  position: relative;
+  z-index: 1;
 }
 .wb-mobile-menu.wb-open { max-height: 90vh; overflow-y: auto; }
+
+/* Blurred scrim behind the open mobile menu (built by nav.js). Sits below the
+   fixed header (z 1040) so the menu stays on top, above page content. */
+.wb-mob-backdrop {
+  position: fixed;
+  top: 64px; left: 0; right: 0; bottom: 0;
+  background: rgba(15, 18, 40, .35);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .3s ease, visibility .3s ease;
+  z-index: 1035;
+}
+.wb-mob-backdrop.wb-show { opacity: 1; visibility: visible; }
+@media (min-width: 992px) {
+  .wb-mob-backdrop { display: none !important; }
+}
 .wb-mob-inner {
   padding: .75rem 1.25rem 1.5rem;
   display: flex;

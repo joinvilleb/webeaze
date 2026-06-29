@@ -210,6 +210,41 @@
         toggle.setAttribute('aria-expanded', String(open));
       });
     })();
+
+    // ── Mobile menu backdrop ──────────────────────────────────────────────────
+    // A blurred, dimmed scrim behind the open menu so it reads as its own layer
+    // instead of blending into the page. Synced to the menu via a class observer
+    // so it tracks every open/close path (hamburger, outside-click, Escape,
+    // scroll-hide) without touching each handler.
+    if (mobileMenu) {
+      var backdrop = document.createElement('div');
+      backdrop.className = 'wb-mob-backdrop';
+      backdrop.setAttribute('aria-hidden', 'true');
+      document.body.appendChild(backdrop);
+
+      var syncBackdrop = function () {
+        backdrop.classList.toggle('wb-show', mobileMenu.classList.contains('wb-open'));
+      };
+
+      if (window.MutationObserver) {
+        new MutationObserver(syncBackdrop).observe(mobileMenu, {
+          attributes: true, attributeFilter: ['class']
+        });
+      }
+
+      // Tapping the scrim closes the menu.
+      backdrop.addEventListener('click', function () {
+        mobileMenu.classList.remove('wb-open');
+        mobileMenu.setAttribute('aria-hidden', 'true');
+        if (hamburger) {
+          hamburger.setAttribute('aria-expanded', 'false');
+          hamburger.setAttribute('aria-label', 'Open menu');
+        }
+        document.dispatchEvent(new CustomEvent('wbMobileMenu', { detail: { open: false } }));
+      });
+
+      syncBackdrop();
+    }
   }
 
   if (document.readyState === 'loading') {
