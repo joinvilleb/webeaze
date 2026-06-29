@@ -200,6 +200,7 @@
       '/website-setup-package': 'Website Setup Package',
       '/domains': 'Domains',
       '/blog': 'Blog Home',
+      '/blog/introducing-the-webeaze-client-portal': 'Introducing the WebEaze Client Portal',
       '/blog/does-my-small-business-need-a-website': 'Do I Need a Website?',
       '/blog/small-business-website-cost': 'Website Cost Guide',
       '/blog/what-is-local-seo': 'What Is Local SEO?',
