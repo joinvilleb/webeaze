@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Portal Demo | WebEaze</title>
-  <meta name="description" content="Take a click-through demo of the WebEaze client portal with sample data: request changes, track updates, manage billing, and reach support." />
+  <meta name="description" content="Click through a live demo of the WebEaze client portal with sample data: request changes, track updates, manage billing, view your site report, and get help." />
   <link rel="canonical" href="https://webeaze.io/portal-demo" />
   <link rel="shortcut icon" href="images/webeaze-transparent-copy.png" type="image/png" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -17,25 +17,26 @@
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: 'Poppins', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; -webkit-font-smoothing: antialiased; }
-    a { text-decoration: none; color: inherit; }
+    .brand-mark { height: 1.55em; width: auto; display: block; flex-shrink: 0; margin-right: .45em; }
 
-    /* DEMO RIBBON */
-    .demo-ribbon { display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; background: linear-gradient(135deg, #7851a9, #5b3b88); color: #fff; padding: 9px 18px; font-size: 13px; font-weight: 600; text-align: center; }
-    .demo-ribbon i { color: #ffd766; }
-    .demo-ribbon a { display: inline-flex; align-items: center; gap: 6px; background: #fff; color: var(--brand); border-radius: 8px; padding: 5px 12px; font-size: 12.5px; font-weight: 700; }
-    .demo-ribbon a.ghost { background: rgba(255,255,255,.15); color: #fff; border: 1px solid rgba(255,255,255,.35); }
+    /* TOAST */
+    .toast-wrap { position: fixed; top: 18px; right: 18px; z-index: 9999; display: flex; flex-direction: column; gap: 10px; pointer-events: none; }
+    .toast { display: flex; align-items: center; gap: 11px; background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--brand); border-radius: 11px; padding: 13px 16px; box-shadow: 0 12px 32px rgba(15,18,40,.15); font-size: 13.5px; font-weight: 600; color: var(--text); min-width: 230px; max-width: 350px; pointer-events: auto; transform: translateX(120%); opacity: 0; transition: transform .3s ease, opacity .3s ease; }
+    .toast.show { transform: translateX(0); opacity: 1; }
+    .toast i { font-size: 16px; flex-shrink: 0; color: var(--brand); }
+    @media(max-width: 500px) { .toast-wrap { top: auto; bottom: 16px; left: 16px; right: 16px; } .toast { max-width: none; min-width: 0; transform: translateY(160%); } .toast.show { transform: translateY(0); } }
 
     /* TOPBAR */
-    .topbar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 16px; height: 56px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 20; gap: 10px; }
-    .topbar-logo { font-size: 16px; font-weight: 800; letter-spacing: -.04em; color: var(--text); display: inline-flex; align-items: center; gap: 6px; }
+    .topbar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 16px; height: 56px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 10; flex-wrap: nowrap; gap: 10px; }
+    .topbar-logo { font-size: 16px; font-weight: 800; letter-spacing: -.04em; text-decoration: none; color: var(--text); display: inline-flex; align-items: center; }
     .topbar-logo span { color: var(--brand); }
-    .topbar-logo img { height: 22px; }
+    .topbar-left { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
     .topbar-right { display: flex; align-items: center; gap: 12px; }
     .topbar-name { font-size: 13px; color: var(--muted); font-weight: 500; }
-    .signout { background: none; border: 1px solid var(--border); color: var(--muted); border-radius: 8px; padding: 5px 12px; font-size: 12px; font-weight: 600; cursor: pointer; font-family: inherit; transition: border-color .15s, color .15s; }
+    .signout { background: none; border: 1px solid var(--border); color: var(--muted); border-radius: 8px; padding: 5px 12px; font-size: 12px; font-weight: 600; cursor: pointer; font-family: 'Poppins', sans-serif; transition: border-color .15s, color .15s; }
     .signout:hover { border-color: var(--brand); color: var(--text); }
 
-    /* NOTIFICATIONS */
+    /* NOTIFICATION BELL */
     .notif-wrap { position: relative; }
     .notif-btn { position: relative; background: none; border: 1px solid var(--border); color: var(--muted); width: 34px; height: 34px; border-radius: 9px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 14px; transition: border-color .15s, color .15s; }
     .notif-btn:hover { border-color: var(--brand); color: var(--text); }
@@ -43,142 +44,219 @@
     .notif-panel { position: absolute; top: calc(100% + 8px); right: 0; width: 320px; max-width: calc(100vw - 32px); background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: 0 16px 40px rgba(15,18,40,.16); z-index: 60; overflow: hidden; display: none; }
     .notif-panel.open { display: block; }
     .notif-panel-head { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .06em; color: var(--muted2); padding: 13px 16px; border-bottom: 1px solid var(--border); }
-    .notif-item { display: flex; gap: 11px; align-items: flex-start; padding: 13px 16px; border-bottom: 1px solid var(--border); }
+    .notif-item { display: flex; gap: 11px; align-items: flex-start; width: 100%; text-align: left; padding: 13px 16px; border: none; border-bottom: 1px solid var(--border); background: none; }
     .notif-item:last-child { border-bottom: none; }
     .notif-item.unread { background: var(--brand-light); }
     .notif-item-icon { width: 30px; height: 30px; border-radius: 8px; background: var(--brand-light); color: var(--brand); display: flex; align-items: center; justify-content: center; font-size: 12px; flex-shrink: 0; }
     .notif-item-icon.done { background: var(--green-bg); color: var(--green); }
+    .notif-item-icon.info { background: rgba(217,119,6,.1); color: #b45309; }
     .notif-item-text { font-size: 13px; line-height: 1.45; color: var(--text); }
     .notif-item-text small { display: block; color: var(--muted2); font-size: 11px; margin-top: 2px; }
 
-    /* LAYOUT */
-    .body { max-width: 1040px; margin: 0 auto; padding: 32px 24px 80px; }
+    /* SECTION NAV */
+    .section-nav { background: var(--surface); border-bottom: 1px solid var(--border); position: sticky; top: 56px; z-index: 9; overflow-x: auto; scrollbar-width: none; }
+    .section-nav::-webkit-scrollbar { display: none; }
+    .section-nav-inner { max-width: 1040px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; gap: 2px; white-space: nowrap; }
+    .section-nav-btn { display: inline-flex; align-items: center; gap: 6px; padding: 12px 14px; font-size: 12.5px; font-weight: 600; color: var(--muted); background: none; border: none; border-bottom: 2px solid transparent; cursor: pointer; font-family: 'Poppins', sans-serif; transition: color .15s, border-color .15s; flex-shrink: 0; }
+    .section-nav-btn:hover { color: var(--text); }
+    .section-nav-btn.active { color: var(--brand); border-bottom-color: var(--brand); }
+    @media(max-width: 820px) { .section-nav-inner { padding: 0 16px; } .section-nav-btn { padding: 11px 11px; font-size: 12px; } }
+
+    .body { max-width: 1040px; margin: 0 auto; padding: 34px 24px 80px; }
     @media(max-width: 500px) { .body { padding: 24px 16px 60px; } }
     .greeting { font-size: 24px; font-weight: 800; letter-spacing: -.04em; margin-bottom: 4px; }
     .greeting-sub { font-size: 16px; color: var(--muted); }
-    .portal-header { display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; margin: 20px 0 24px; }
-    .site-card { display: inline-flex; align-items: center; gap: 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 11px 16px; color: var(--text); transition: border-color .15s, box-shadow .15s; }
+    .portal-header { display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; margin-bottom: 22px; }
+    .site-card { display: inline-flex; align-items: center; gap: 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 11px 16px; text-decoration: none; color: var(--text); transition: border-color .15s, box-shadow .15s; max-width: 100%; }
     .site-card:hover { border-color: var(--brand); box-shadow: 0 4px 16px rgba(120,81,169,.1); }
     .site-card-icon { width: 38px; height: 38px; border-radius: 10px; background: var(--brand-light); color: var(--brand); display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
-    .site-card-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: #000; }
+    .site-card-text { display: flex; flex-direction: column; min-width: 0; }
+    .site-card-label { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: black; }
     .site-card-url { font-size: 14.5px; font-weight: 700; color: var(--brand); }
-    @media(max-width: 760px) { .portal-header { flex-direction: column; align-items: stretch; } .site-card { width: 100%; } }
+    @media(max-width: 760px) { .portal-header { flex-direction: column; align-items: stretch; gap: 16px; } .site-card { width: 100%; } }
+
+    /* SUPPORT AVAILABILITY */
+    .status-badge { display: flex; width: fit-content; align-items: center; gap: 8px; padding: 7px 13px; border-radius: 999px; background: var(--bg); border: 1px solid var(--border); font-size: 12px; font-weight: 600; color: var(--text); text-decoration: none; max-width: 100%; margin-bottom: 20px; transition: border-color .15s, background .15s; }
+    a.status-badge:hover { border-color: var(--brand); background: var(--brand-light); }
+    .status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); animation: blink 2s ease-in-out infinite; }
+    .status-badge-arrow { font-size: 11px; color: var(--muted2); margin-left: 2px; }
+    @keyframes blink { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(1.25)} }
 
     .portal-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 16px; align-items: start; }
     @media(max-width: 820px) { .portal-grid { grid-template-columns: 1fr; } }
 
-    .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px; margin-bottom: 16px; }
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 30px; margin-bottom: 16px; transition: box-shadow .2s ease; }
+    .card:hover { box-shadow: 0 8px 26px rgba(15,18,40,.07); }
     @media(max-width: 500px) { .card { padding: 20px; } }
-    .card-primary { border-color: rgba(120,81,169,.22); box-shadow: 0 8px 28px rgba(120,81,169,.07); }
-    .card-label { font-size: 17px; font-weight: 800; letter-spacing: -.02em; margin-bottom: 20px; }
-
+    .card-label { font-size: 17px; font-weight: 800; letter-spacing: -.02em; color: var(--text); margin-bottom: 20px; }
+    .card-primary { padding: 28px; border-color: rgba(120,81,169,.22); box-shadow: 0 8px 28px rgba(120,81,169,.07); }
+    @media(max-width: 500px) { .card-primary { padding: 20px; } }
     .section-head { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 20px; }
     .section-head-icon { width: 46px; height: 46px; border-radius: 13px; background: var(--brand-light); color: var(--brand); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
-    .section-title { font-size: 20px; font-weight: 800; letter-spacing: -.03em; line-height: 1.2; margin-bottom: 4px; }
+    .section-title { font-size: 22px; font-weight: 800; letter-spacing: -.03em; line-height: 1.2; margin-bottom: 5px; }
     .section-sub { font-size: 14px; color: var(--muted); line-height: 1.6; }
 
     .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
     @media(max-width: 480px) { .info-grid { grid-template-columns: 1fr; } }
-    .info-tile { background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 20px 22px; }
-    .info-tile-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: #000; margin-bottom: 10px; }
-    .info-tile-value { font-size: 22px; font-weight: 800; letter-spacing: -.02em; line-height: 1.2; }
-    .plan-badge { display: inline-block; font-size: 13px; font-weight: 700; padding: 6px 15px; border-radius: 100px; text-transform: uppercase; letter-spacing: .05em; background: rgba(120,81,169,.1); color: #6435a0; border: 1px solid rgba(120,81,169,.25); }
+    .info-tile { background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 22px 24px; }
+    .info-tile-label { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: black; margin-bottom: 10px; }
+    .info-tile-value { font-size: 24px; font-weight: 800; letter-spacing: -.02em; line-height: 1.2; }
+    .info-tile-sub { font-size: 20px; color: var(--text); margin-top: 6px; font-weight: 800; letter-spacing: -.02em; }
+    .plan-badge { display: inline-block; font-size: 14px; font-weight: 700; padding: 6px 15px; border-radius: 100px; text-transform: uppercase; letter-spacing: .05em; background: rgba(120,81,169,.1); color: #6435a0; border: 1px solid rgba(120,81,169,.25); }
     .status-active { display: inline-flex; align-items: center; gap: 8px; font-size: 18px; font-weight: 800; color: var(--green); }
-    .status-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--green); }
-    .whats-included-btn { display: inline-flex; align-items: center; gap: 6px; margin-top: 10px; background: none; border: none; color: var(--brand); font-size: 12.5px; font-weight: 600; cursor: pointer; font-family: inherit; }
-    .whats-included-btn:hover { text-decoration: underline; }
-    .stripe-btn { display: inline-flex; align-items: center; gap: 9px; background: var(--bg); border: 1px solid var(--border); border-radius: 11px; color: var(--text); font-size: 15px; font-weight: 600; padding: 13px 20px; margin-top: 22px; cursor: pointer; font-family: inherit; transition: border-color .15s, background .15s; }
+    .status-active .status-dot { width: 10px; height: 10px; animation: none; }
+    .whats-included-btn { display: inline-flex; align-items: center; gap: 6px; margin-top: 10px; padding: 0; background: none; border: none; color: var(--brand); font-size: 12.5px; font-weight: 600; cursor: pointer; font-family: 'Poppins', sans-serif; transition: gap .15s; }
+    .whats-included-btn:hover { gap: 9px; text-decoration: underline; }
+    .whats-included-btn i { font-size: 10px; }
+    .stripe-btn { display: inline-flex; align-items: center; gap: 9px; background: var(--bg); border: 1px solid var(--border); border-radius: 11px; color: var(--text); font-size: 15px; font-weight: 600; padding: 13px 20px; text-decoration: none; cursor: pointer; font-family: 'Poppins', sans-serif; transition: border-color .15s, background .15s; margin-top: 22px; }
     .stripe-btn:hover { border-color: var(--brand); background: var(--brand-light); color: var(--brand); }
     .stripe-btn i { font-size: 16px; color: var(--muted); }
     .stripe-btn:hover i { color: var(--brand); }
+    .notes-text { font-size: 15px; color: var(--muted); line-height: 1.7; white-space: pre-wrap; }
 
-    /* REQUESTS */
-    .request-cta { display: inline-flex; align-items: center; gap: 9px; background: var(--brand); color: #fff; border: none; border-radius: 12px; padding: 14px 24px; font-size: 15px; font-weight: 700; cursor: pointer; font-family: inherit; transition: opacity .15s; }
-    .request-cta:hover { opacity: .9; }
+    /* CONTEXTUAL HELP SUGGESTIONS */
+    .req-suggest { margin-bottom: 14px; padding: 14px 16px; background: var(--brand-light); border: 1px solid rgba(120,81,169,.2); border-radius: 11px; }
+    .req-suggest-head { display: flex; align-items: center; gap: 8px; font-size: 12.5px; font-weight: 700; color: var(--brand); margin-bottom: 10px; line-height: 1.4; }
+    .req-suggest-links { display: flex; flex-direction: column; gap: 6px; }
+    .req-suggest-link { display: flex; align-items: center; gap: 8px; padding: 10px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 9px; color: var(--text); font-size: 13px; font-weight: 600; text-decoration: none; transition: border-color .15s; }
+    .req-suggest-link:hover { border-color: var(--brand); }
+    .req-suggest-link .rs-icon { color: var(--brand); font-size: 13px; flex-shrink: 0; }
+    .req-suggest-link .rs-arrow { color: var(--muted2); font-size: 10px; flex-shrink: 0; margin-left: auto; }
+
+    /* REQUEST FORM */
     .request-form { display: none; margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--border); }
     .request-form.open { display: block; }
-    label { display: block; font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; margin: 0 0 5px; }
-    textarea, select { width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: 10px; color: var(--text); font-size: 14px; padding: 10px 13px; outline: none; font-family: inherit; margin-bottom: 12px; }
+    label { display: block; font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 5px; }
+    textarea, select { width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: 10px; color: var(--text); font-size: 14px; padding: 10px 13px; outline: none; font-family: 'Poppins', sans-serif; margin-bottom: 12px; transition: border-color .15s; }
     textarea { resize: vertical; min-height: 90px; }
     textarea:focus, select:focus { border-color: var(--brand); }
-    .btn-submit { background: var(--brand); color: #fff; border: none; border-radius: 10px; font-size: 13px; font-weight: 700; padding: 10px 20px; cursor: pointer; font-family: inherit; }
+    @media (max-width: 600px) { textarea, select { font-size: 16px; } }
+    .btn-submit { background: var(--brand); color: #fff; border: none; border-radius: 10px; font-size: 13px; font-weight: 700; padding: 10px 20px; cursor: pointer; font-family: 'Poppins', sans-serif; }
+    .request-cta { display: inline-flex; align-items: center; gap: 9px; background: var(--brand); color: #fff; border: none; border-radius: 12px; padding: 14px 24px; font-size: 15px; font-weight: 700; cursor: pointer; font-family: 'Poppins', sans-serif; transition: opacity .15s; }
+    .request-cta:hover { opacity: .9; }
     .savings-summary { display: flex; align-items: center; gap: 14px; background: var(--green-bg); border: 1px solid var(--green-border); border-radius: 12px; padding: 16px 18px; margin-top: 20px; }
-    .savings-summary-icon { font-size: 22px; color: var(--green); }
-    .savings-summary-num { font-size: 20px; font-weight: 800; color: var(--green); line-height: 1.1; }
-    .savings-summary-text { font-size: 13px; color: #15803d; font-weight: 500; margin-top: 3px; }
-    .requests-heading { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: #000; margin: 24px 0 12px; }
-    .request-item { padding: 18px; border: 1px solid var(--border); border-radius: 12px; margin-bottom: 12px; }
+    .savings-summary-icon { font-size: 22px; color: var(--green); flex-shrink: 0; }
+    .savings-summary-num { font-size: 20px; font-weight: 800; letter-spacing: -.02em; color: var(--green); line-height: 1.1; }
+    .savings-summary-text { font-size: 13px; color: #15803d; font-weight: 500; line-height: 1.45; margin-top: 4px; }
+    .requests-heading { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: black; margin: 24px 0 12px; }
+    .request-item { padding: 18px; border: 1px solid var(--border); border-radius: 12px; margin-bottom: 12px; background: var(--surface); }
+    .request-item:last-child { margin-bottom: 0; }
     .request-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 6px; }
     .request-type { font-size: 15px; font-weight: 700; }
     .request-notes { font-size: 14px; color: var(--muted); line-height: 1.55; }
-    .request-saving { display: flex; align-items: center; gap: 8px; margin-top: 12px; background: var(--green-bg); border: 1px solid var(--green-border); color: #15803d; border-radius: 9px; padding: 8px 12px; font-size: 13px; font-weight: 600; }
-    .request-saving i { color: var(--green); }
-    .request-saving b { font-weight: 800; }
+    .request-saving { display: flex; align-items: center; gap: 8px; margin-top: 12px; background: var(--green-bg); border: 1px solid var(--green-border); color: #15803d; border-radius: 9px; padding: 8px 12px; font-size: 13px; font-weight: 600; line-height: 1.45; }
+    .request-saving i { color: var(--green); font-size: 14px; flex-shrink: 0; }
+    .request-saving b { font-weight: 800; color: var(--green); }
     .request-date { font-size: 12px; color: var(--muted2); margin-top: 10px; }
     .badge { display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 9px; border-radius: 100px; text-transform: uppercase; letter-spacing: .04em; }
     .badge-received { background: rgba(217,119,6,.08); color: #b45309; border: 1px solid rgba(217,119,6,.2); }
     .badge-progress { background: rgba(120,81,169,.1); color: #6435a0; border: 1px solid rgba(120,81,169,.25); }
     .badge-done { background: var(--green-bg); color: var(--green); border: 1px solid var(--green-border); }
 
-    /* GROWTH SUPPORT */
+    /* GROWTH SUPPORT PANEL */
     .growth-panel { margin-bottom: 16px; border-radius: var(--radius); border: 1px solid rgba(120,81,169,.3); overflow: hidden; box-shadow: 0 8px 28px rgba(120,81,169,.12); }
     .gp-header { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; padding: 16px 20px; background: linear-gradient(135deg, #7851a9 0%, #5b3b88 100%); }
-    .gp-badge { display: inline-flex; align-items: center; gap: 5px; background: rgba(255,255,255,.18); border: 1px solid rgba(255,255,255,.3); border-radius: 7px; padding: 4px 10px; font-size: 11px; font-weight: 700; color: #fff; text-transform: uppercase; letter-spacing: .04em; }
+    .gp-badge { display: inline-flex; align-items: center; gap: 5px; background: rgba(255,255,255,.18); border: 1px solid rgba(255,255,255,.3); border-radius: 7px; padding: 4px 10px; font-size: 11px; font-weight: 700; color: #fff; white-space: nowrap; text-transform: uppercase; letter-spacing: .04em; }
     .gp-badge i { font-size: 10px; color: #ffd766; }
-    .gp-header-title { font-size: 15px; font-weight: 800; color: #fff; }
+    .gp-header-title { font-size: 15px; font-weight: 800; letter-spacing: -.02em; color: #fff; }
     .gp-body-inner { padding: 18px 20px 20px; background: var(--surface); }
     .gp-sub { font-size: 12.5px; color: var(--muted); line-height: 1.55; margin-bottom: 14px; }
     .gp-channels { display: flex; flex-wrap: wrap; gap: 8px; }
-    .gp-channel { display: flex; align-items: center; gap: 10px; padding: 13px 15px; background: var(--bg); border: 1px solid var(--border); border-radius: 11px; color: var(--text); font-weight: 600; cursor: pointer; font-family: inherit; transition: border-color .15s, background .15s; flex: 1; min-width: 130px; }
+    .gp-channel { display: flex; align-items: center; gap: 10px; padding: 13px 15px; background: var(--bg); border: 1px solid var(--border); border-radius: 11px; color: var(--text); font-size: 13px; font-weight: 600; cursor: pointer; font-family: 'Poppins', sans-serif; transition: border-color .15s, background .15s; flex: 1; min-width: 130px; }
     .gp-channel:hover { border-color: var(--brand); background: var(--brand-light); }
-    .gp-channel i { color: var(--brand); font-size: 15px; }
+    .gp-channel i { color: var(--brand); font-size: 15px; flex-shrink: 0; }
     .gc-name { font-size: 13px; font-weight: 700; line-height: 1.2; }
-    .gc-sub { font-size: 11px; color: var(--muted); margin-top: 1px; }
+    .gc-sub { font-size: 11px; color: var(--muted); margin-top: 1px; font-weight: 500; }
 
-    /* BADGES */
+    /* REPORT PROMO CARD */
+    .report-promo-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; margin-bottom: 16px; cursor: pointer; transition: border-color .15s, box-shadow .15s, transform .12s ease; display: flex; align-items: center; gap: 16px; }
+    .report-promo-card:hover { border-color: var(--brand); box-shadow: 0 8px 26px rgba(120,81,169,.12); transform: translateY(-1px); }
+    .report-promo-icon { width: 52px; height: 52px; border-radius: 14px; flex-shrink: 0; background: linear-gradient(135deg, #7851a9, #5b3b88); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 22px; }
+    .report-promo-text { flex: 1; min-width: 0; }
+    .report-promo-title { font-size: 15px; font-weight: 800; letter-spacing: -.02em; margin-bottom: 3px; }
+    .report-promo-sub { font-size: 12.5px; color: var(--muted); line-height: 1.5; }
+    .report-promo-arrow { color: var(--muted2); font-size: 14px; flex-shrink: 0; }
+
+    /* MILESTONE BADGES */
+    .badges-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; margin-bottom: 16px; }
     .badges-title { font-size: 17px; font-weight: 800; letter-spacing: -.02em; margin-bottom: 16px; }
+    .badges-progress { height: 8px; background: var(--bg); border: 1px solid var(--border); border-radius: 100px; overflow: hidden; margin: 4px 0 8px; }
+    .badges-progress-fill { height: 100%; width: 72%; background: linear-gradient(90deg, var(--brand), #a06dd8); border-radius: 100px; }
+    .badges-next { font-size: 12.5px; color: var(--muted); margin-bottom: 16px; }
+    .badges-next strong { color: var(--brand); font-weight: 700; }
     .badges-grid { display: flex; flex-wrap: wrap; gap: 10px; }
     .badge-pill { display: inline-flex; align-items: center; gap: 8px; padding: 9px 14px; border-radius: 100px; font-size: 13px; font-weight: 700; border: 1px solid var(--border); background: var(--bg); color: var(--muted2); }
     .badge-pill.unlocked { background: linear-gradient(135deg, rgba(120,81,169,.1), rgba(120,81,169,.04)); border-color: rgba(120,81,169,.3); color: var(--brand); }
     .badge-pill.locked { opacity: .5; }
+    .badge-pill-icon { font-size: 14px; }
 
-    .notes-text { font-size: 15px; color: var(--muted); line-height: 1.7; }
+    /* WHAT'S NEW */
+    .whatsnew-item { padding: 12px 0; border-bottom: 1px solid var(--border); }
+    .whatsnew-item:first-child { padding-top: 0; }
+    .whatsnew-item:last-child { border-bottom: none; padding-bottom: 0; }
+    .whatsnew-head { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+    .whatsnew-title { font-size: 13.5px; font-weight: 700; }
+    .whatsnew-new { font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: .05em; color: #fff; background: var(--brand); border-radius: 100px; padding: 2px 7px; }
+    .whatsnew-date { font-size: 11px; color: var(--muted2); margin-left: auto; }
+    .whatsnew-text { font-size: 12.5px; color: var(--muted); line-height: 1.55; }
 
     /* PLAN MODAL */
     .plan-modal { position: fixed; inset: 0; z-index: 9500; background: rgba(10,10,20,.5); display: flex; align-items: center; justify-content: center; padding: 20px; opacity: 0; pointer-events: none; transition: opacity .2s ease; }
     .plan-modal.open { opacity: 1; pointer-events: auto; }
-    .plan-modal-card { background: var(--surface); border-radius: 20px; padding: 28px; max-width: 460px; width: 100%; max-height: 85vh; overflow-y: auto; position: relative; box-shadow: 0 24px 64px rgba(0,0,0,.25); transform: scale(.97); transition: transform .2s ease; }
-    .plan-modal.open .plan-modal-card { transform: scale(1); }
-    .plan-modal-close { position: absolute; top: 16px; right: 16px; width: 32px; height: 32px; border-radius: 9px; background: var(--bg); border: none; cursor: pointer; color: var(--muted); font-size: 14px; }
+    .plan-modal-card { background: var(--surface); border-radius: 20px; padding: 28px; max-width: 480px; width: 100%; max-height: 85vh; overflow-y: auto; position: relative; box-shadow: 0 24px 64px rgba(0,0,0,.25); transform: scale(.97) translateY(8px); transition: transform .22s ease; }
+    .plan-modal.open .plan-modal-card { transform: scale(1) translateY(0); }
+    .plan-modal-close { position: absolute; top: 16px; right: 16px; width: 32px; height: 32px; border-radius: 9px; background: var(--bg); border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--muted); font-size: 14px; }
     .plan-modal-title { font-size: 20px; font-weight: 800; letter-spacing: -.03em; margin-bottom: 4px; padding-right: 36px; }
     .plan-modal-sub { font-size: 13px; color: var(--muted); margin-bottom: 20px; }
-    .plan-feature { display: flex; gap: 13px; align-items: flex-start; margin-bottom: 12px; }
-    .plan-feature-icon { width: 34px; height: 34px; border-radius: 10px; background: var(--brand-light); color: var(--brand); display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0; }
-    .plan-feature-name { font-size: 14px; font-weight: 700; }
-    .plan-feature-detail { font-size: 12.5px; color: var(--muted); margin-top: 2px; }
+    .plan-feature-list { display: flex; flex-direction: column; gap: 10px; }
+    .plan-feature { display: flex; gap: 13px; align-items: flex-start; }
+    .plan-feature-icon { width: 36px; height: 36px; border-radius: 10px; background: var(--brand-light); color: var(--brand); display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
+    .plan-feature-name { font-size: 14px; font-weight: 700; line-height: 1.3; }
+    .plan-feature-detail { font-size: 12.5px; color: var(--muted); line-height: 1.5; margin-top: 2px; }
 
-    /* TOAST */
-    .toast-wrap { position: fixed; top: 18px; right: 18px; z-index: 9999; display: flex; flex-direction: column; gap: 10px; }
-    .toast { display: flex; align-items: center; gap: 11px; background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--brand); border-radius: 11px; padding: 13px 16px; box-shadow: 0 12px 32px rgba(15,18,40,.15); font-size: 13.5px; font-weight: 600; min-width: 230px; max-width: 340px; transform: translateX(120%); opacity: 0; transition: transform .3s ease, opacity .3s ease; }
-    .toast.show { transform: translateX(0); opacity: 1; }
-    .toast i { color: var(--brand); font-size: 16px; }
-    @media(max-width: 500px) { .toast-wrap { top: auto; bottom: 16px; left: 16px; right: 16px; } .toast { max-width: none; transform: translateY(160%); } .toast.show { transform: translateY(0); } }
+    /* VIEWS */
+    .detail-view { display: none; }
+    .detail-view.active { display: block; }
+    .detail-title { font-size: 22px; font-weight: 800; letter-spacing: -.03em; margin-bottom: 6px; }
+    .detail-sub { font-size: 14px; color: var(--muted); margin-bottom: 24px; }
+    .report-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 16px; }
+    @media(max-width: 700px) { .report-grid { grid-template-columns: 1fr 1fr; } }
+    @media(max-width: 460px) { .report-grid { grid-template-columns: 1fr; } }
+    .metric-tile { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+    .metric-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted2); margin-bottom: 8px; }
+    .metric-value { font-size: 26px; font-weight: 800; letter-spacing: -.03em; }
+    .metric-value small { font-size: 13px; color: var(--green); font-weight: 700; margin-left: 6px; }
+
+    /* HELP CENTER */
+    .help-hero { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px; text-align: center; margin-bottom: 22px; }
+    .help-hero-icon { width: 46px; height: 46px; border-radius: 13px; background: var(--brand-light); color: var(--brand); display: inline-flex; align-items: center; justify-content: center; font-size: 20px; margin-bottom: 14px; }
+    .help-hero-title { font-size: 22px; font-weight: 800; letter-spacing: -.03em; color: var(--text); margin-bottom: 6px; }
+    .help-hero-sub { font-size: 14px; color: var(--muted); line-height: 1.5; margin-bottom: 20px; max-width: 420px; margin-left: auto; margin-right: auto; }
+    .help-search { position: relative; max-width: 460px; margin: 0 auto; }
+    .help-search-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--muted2); font-size: 14px; }
+    .help-search input { width: 100%; border: 1px solid var(--border); border-radius: 12px; padding: 13px 44px; font-size: 15px; font-family: 'Poppins', sans-serif; color: var(--text); background: var(--bg); outline: none; }
+    .help-search input:focus { border-color: var(--brand); }
+    .help-section-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted2); margin-bottom: 12px; display: flex; align-items: center; gap: 7px; }
+    .help-section-label i { color: var(--brand); font-size: 12px; }
+    .help-results { display: flex; flex-direction: column; gap: 8px; margin-bottom: 24px; }
+    .help-result { display: flex; align-items: flex-start; gap: 12px; padding: 14px 16px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; text-decoration: none; color: var(--text); transition: border-color .15s, box-shadow .15s; }
+    .help-result:hover { border-color: var(--brand); box-shadow: 0 4px 16px rgba(120,81,169,.08); }
+    .help-result-icon { width: 34px; height: 34px; border-radius: 9px; background: var(--brand-light); color: var(--brand); display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0; margin-top: 1px; }
+    .help-result-body { min-width: 0; flex: 1; }
+    .help-result-title { font-size: 14px; font-weight: 700; line-height: 1.3; margin-bottom: 2px; }
+    .help-result-meta { font-size: 12px; color: var(--muted); line-height: 1.45; }
+    .help-result-arrow { color: var(--muted2); font-size: 11px; flex-shrink: 0; align-self: center; }
   </style>
 </head>
 <body>
 
-<div class="toast-wrap" id="toast-wrap"></div>
-
-<!-- DEMO RIBBON -->
-<div class="demo-ribbon">
-  <span><i class="fas fa-circle-play"></i> You're exploring a demo of the client portal with sample data.</span>
-  <a href="consultation.html"><i class="fas fa-arrow-right"></i> Get your own</a>
-  <a class="ghost" href="index.html">Back to site</a>
-</div>
+<div id="toast-wrap" class="toast-wrap" aria-live="polite"></div>
 
 <!-- TOPBAR -->
 <header class="topbar">
-  <a class="topbar-logo" href="index.html"><img src="images/webeaze-transparent-copy.png" alt="" />Web<span>Eaze</span></a>
+  <div class="topbar-left">
+    <a class="topbar-logo" href="index.html"><img class="brand-mark" src="images/webeaze-transparent-copy.png" alt="" />Web<span>Eaze</span></a>
+  </div>
   <div class="topbar-right">
     <span class="topbar-name">Demo Account</span>
     <div class="notif-wrap">
@@ -187,137 +265,233 @@
         <div class="notif-panel-head">Notifications</div>
         <div class="notif-item unread"><div class="notif-item-icon done"><i class="fas fa-check"></i></div><div class="notif-item-text">Your request "Update business hours" is complete.<small>2 hours ago</small></div></div>
         <div class="notif-item unread"><div class="notif-item-icon"><i class="fas fa-pen"></i></div><div class="notif-item-text">We started work on "Add a new service page".<small>Yesterday</small></div></div>
-        <div class="notif-item"><div class="notif-item-icon"><i class="fas fa-bullhorn"></i></div><div class="notif-item-text">New: your site report is now available.<small>3 days ago</small></div></div>
+        <div class="notif-item"><div class="notif-item-icon info"><i class="fas fa-bullhorn"></i></div><div class="notif-item-text">New: your site report is now available.<small>3 days ago</small></div></div>
       </div>
     </div>
     <button class="signout" onclick="location.href='index.html'">Sign out</button>
   </div>
 </header>
 
+<!-- SECTION NAV -->
+<nav class="section-nav">
+  <div class="section-nav-inner">
+    <button class="section-nav-btn active" data-view="dashboard"><i class="fas fa-gauge-high"></i> Dashboard</button>
+    <button class="section-nav-btn" data-view="report"><i class="fas fa-chart-line"></i> Site Report</button>
+    <button class="section-nav-btn" data-view="help"><i class="fas fa-life-ring"></i> Help Center</button>
+  </div>
+</nav>
+
 <main class="body">
-  <div class="portal-header">
-    <div>
-      <div class="greeting">Welcome back, Jordan</div>
-      <div class="greeting-sub">Here's everything happening with your website.</div>
-    </div>
-    <a class="site-card" href="index.html" target="_blank" rel="noopener">
-      <div class="site-card-icon"><i class="fas fa-globe"></i></div>
+
+  <!-- ══ DASHBOARD VIEW ══ -->
+  <div class="detail-view active" id="view-dashboard">
+    <div class="portal-header">
       <div>
-        <div class="site-card-label">Your website</div>
-        <div class="site-card-url">bearcarpetcare.com</div>
+        <div class="greeting">Welcome back, Jordan</div>
+        <div class="greeting-sub">Here's everything happening with your website.</div>
       </div>
-    </a>
-  </div>
+      <a class="site-card" href="index.html" target="_blank" rel="noopener">
+        <div class="site-card-icon"><i class="fas fa-globe"></i></div>
+        <div class="site-card-text">
+          <div class="site-card-label">Your website</div>
+          <div class="site-card-url">bearcarpetcare.com</div>
+        </div>
+      </a>
+    </div>
 
-  <div class="portal-grid">
-    <!-- LEFT: requests -->
-    <div>
-      <div class="card card-primary">
-        <div class="section-head">
-          <div class="section-head-icon"><i class="fas fa-wand-magic-sparkles"></i></div>
-          <div>
-            <div class="section-title">Request a change</div>
-            <div class="section-sub">Unlimited updates are included in your plan. Tell us what you need and we handle the rest.</div>
+    <div class="status-badge"><span class="status-dot"></span> Support is online now, we typically reply within a few hours.</div>
+
+    <div class="portal-grid">
+      <!-- LEFT -->
+      <div>
+        <!-- Growth support -->
+        <div class="growth-panel">
+          <div class="gp-header">
+            <span class="gp-badge"><i class="fas fa-star"></i> Growth plan</span>
+            <span class="gp-header-title">Total Access Support</span>
+          </div>
+          <div class="gp-body-inner">
+            <div class="gp-sub">Need a real person? Reach us live, Monday to Friday, 9 AM to 5 PM ET.</div>
+            <div class="gp-channels">
+              <div class="gp-channel demo-action"><i class="fas fa-comment-dots"></i><div><div class="gc-name">Live chat</div><div class="gc-sub">Quick questions</div></div></div>
+              <div class="gp-channel demo-action"><i class="fas fa-phone"></i><div><div class="gc-name">Phone call</div><div class="gc-sub">Schedule a time</div></div></div>
+              <div class="gp-channel demo-action"><i class="fas fa-video"></i><div><div class="gc-name">Video call</div><div class="gc-sub">Google Meet</div></div></div>
+            </div>
           </div>
         </div>
-        <button class="request-cta" id="new-request-btn"><i class="fas fa-plus"></i> New request</button>
-        <div class="request-form" id="request-form">
-          <label>Type of change</label>
-          <select><option>Text or content update</option><option>Add or replace a photo</option><option>New page or section</option><option>Fix something</option><option>Account &amp; billing</option></select>
-          <label>What do you need?</label>
-          <textarea placeholder="Describe the change you'd like..."></textarea>
-          <button class="btn-submit" id="submit-request">Submit request</button>
-        </div>
 
-        <div class="savings-summary">
-          <div class="savings-summary-icon"><i class="fas fa-piggy-bank"></i></div>
-          <div>
-            <div class="savings-summary-num">$447 saved this year</div>
-            <div class="savings-summary-text">Your plan covers updates that would cost extra as one-time projects.</div>
+        <!-- Requests -->
+        <div class="card card-primary">
+          <div class="section-head">
+            <div class="section-head-icon"><i class="fas fa-wand-magic-sparkles"></i></div>
+            <div>
+              <div class="section-title">Request a change</div>
+              <div class="section-sub">Unlimited updates are included in your plan. Tell us what you need and we handle the rest.</div>
+            </div>
           </div>
-        </div>
+          <button class="request-cta" id="new-request-btn"><i class="fas fa-plus"></i> New request</button>
+          <div class="request-form" id="request-form">
+            <label>Type of change</label>
+            <select id="req-type">
+              <option value="content">Text or content update</option>
+              <option value="photo">Add or replace a photo</option>
+              <option value="page">New page or section</option>
+              <option value="fix">Fix something</option>
+              <option value="billing">Account &amp; billing</option>
+            </select>
+            <div class="req-suggest" id="req-suggest">
+              <div class="req-suggest-head"><i class="fas fa-lightbulb"></i> These help articles might answer your question faster</div>
+              <div class="req-suggest-links" id="req-suggest-links"></div>
+            </div>
+            <label>What do you need?</label>
+            <textarea placeholder="Describe the change you'd like..."></textarea>
+            <button class="btn-submit" id="submit-request">Submit request</button>
+          </div>
 
-        <div class="requests-heading">Your recent requests</div>
+          <div class="savings-summary">
+            <div class="savings-summary-icon"><i class="fas fa-piggy-bank"></i></div>
+            <div>
+              <div class="savings-summary-num">$447 saved this year</div>
+              <div class="savings-summary-text">Your plan covers updates that would cost extra as one-time projects.</div>
+            </div>
+          </div>
 
-        <div class="request-item">
-          <div class="request-row"><span class="request-type">Update business hours</span><span class="badge badge-done">Completed</span></div>
-          <div class="request-notes">Updated hours across the homepage and contact page. Went live same day.</div>
-          <div class="request-saving"><i class="fas fa-circle-check"></i> Would have cost <b>$149</b> as a one-time update. Included in your plan.</div>
-          <div class="request-date">Completed Jul 1, 2026</div>
-        </div>
-
-        <div class="request-item">
-          <div class="request-row"><span class="request-type">Add a new service page</span><span class="badge badge-progress">In progress</span></div>
-          <div class="request-notes">Building out an "Upholstery Cleaning" page with your photos and copy.</div>
-          <div class="request-date">Submitted Jun 30, 2026</div>
-        </div>
-
-        <div class="request-item">
-          <div class="request-row"><span class="request-type">Swap the homepage photo</span><span class="badge badge-received">Received</span></div>
-          <div class="request-notes">Replace the hero image with the new team photo you attached.</div>
-          <div class="request-date">Submitted Jun 30, 2026</div>
+          <div class="requests-heading">Your recent requests</div>
+          <div class="request-item">
+            <div class="request-row"><span class="request-type">Update business hours</span><span class="badge badge-done">Completed</span></div>
+            <div class="request-notes">Updated hours across the homepage and contact page. Went live same day.</div>
+            <div class="request-date">Completed Jul 1, 2026</div>
+          </div>
+          <div class="request-item">
+            <div class="request-row"><span class="request-type">Add a new service page</span><span class="badge badge-progress">In progress</span></div>
+            <div class="request-notes">Building out an "Upholstery Cleaning" page with your photos and copy.</div>
+            <div class="request-date">Submitted Jun 30, 2026</div>
+          </div>
+          <div class="request-item">
+            <div class="request-row"><span class="request-type">Swap the homepage photo</span><span class="badge badge-received">Received</span></div>
+            <div class="request-notes">Replace the hero image with the new team photo you attached.</div>
+            <div class="request-date">Submitted Jun 30, 2026</div>
+          </div>
         </div>
       </div>
 
-      <!-- Growth support -->
-      <div class="growth-panel">
-        <div class="gp-header">
-          <span class="gp-badge"><i class="fas fa-star"></i> Growth plan</span>
-          <span class="gp-header-title">Total Access Support</span>
+      <!-- RIGHT -->
+      <div>
+        <div class="card">
+          <div class="card-label">Account</div>
+          <div class="info-grid">
+            <div class="info-tile">
+              <div class="info-tile-label">Your plan</div>
+              <span class="plan-badge">Growth</span>
+              <div class="info-tile-sub">$249/mo</div>
+              <button class="whats-included-btn" id="whats-included"><i class="fas fa-circle-info"></i> What's included</button>
+            </div>
+            <div class="info-tile">
+              <div class="info-tile-label">Status</div>
+              <div class="status-active"><span class="status-dot"></span> Active</div>
+            </div>
+            <div class="info-tile">
+              <div class="info-tile-label">Member since</div>
+              <div class="info-tile-value">Mar 2025</div>
+            </div>
+            <div class="info-tile">
+              <div class="info-tile-label">Next billing</div>
+              <div class="info-tile-value">Jul 15</div>
+            </div>
+          </div>
+          <button class="stripe-btn demo-action"><i class="fas fa-credit-card"></i> Manage billing and plan</button>
         </div>
-        <div class="gp-body-inner">
-          <div class="gp-sub">Need a real person? Reach us live, Monday to Friday, 9 AM to 5 PM ET.</div>
-          <div class="gp-channels">
-            <div class="gp-channel demo-action"><i class="fas fa-comment-dots"></i><div><div class="gc-name">Live chat</div><div class="gc-sub">Quick questions</div></div></div>
-            <div class="gp-channel demo-action"><i class="fas fa-phone"></i><div><div class="gc-name">Phone call</div><div class="gc-sub">Schedule a time</div></div></div>
-            <div class="gp-channel demo-action"><i class="fas fa-video"></i><div><div class="gc-name">Video call</div><div class="gc-sub">Google Meet</div></div></div>
+
+        <div class="report-promo-card" id="report-promo">
+          <div class="report-promo-icon"><i class="fas fa-chart-line"></i></div>
+          <div class="report-promo-text">
+            <div class="report-promo-title">Your site report is ready</div>
+            <div class="report-promo-sub">See how your website is performing this month.</div>
+          </div>
+          <div class="report-promo-arrow"><i class="fas fa-arrow-right"></i></div>
+        </div>
+
+        <div class="badges-card">
+          <div class="badges-title">Your milestones</div>
+          <div class="badges-progress"><div class="badges-progress-fill"></div></div>
+          <div class="badges-next"><strong>3 more updates</strong> to unlock the "25 updates" badge.</div>
+          <div class="badges-grid">
+            <span class="badge-pill unlocked"><i class="fas fa-rocket badge-pill-icon"></i> Launched</span>
+            <span class="badge-pill unlocked"><i class="fas fa-paper-plane badge-pill-icon"></i> First request</span>
+            <span class="badge-pill unlocked"><i class="fas fa-calendar-check badge-pill-icon"></i> 1 year in</span>
+            <span class="badge-pill locked"><i class="fas fa-award badge-pill-icon"></i> 25 updates</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-label">Notes from WebEaze</div>
+          <p class="notes-text">Heads up: we ran your monthly maintenance and backups last night, all clear. Your new service page will be ready to review this week.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-label">What's new</div>
+          <div class="whatsnew-item">
+            <div class="whatsnew-head"><span class="whatsnew-title">Site reports</span><span class="whatsnew-new">New</span><span class="whatsnew-date">Jul 1</span></div>
+            <div class="whatsnew-text">See a monthly snapshot of how your website is performing, right from your dashboard.</div>
+          </div>
+          <div class="whatsnew-item">
+            <div class="whatsnew-head"><span class="whatsnew-title">Built-in Help Center</span><span class="whatsnew-date">Jul 1</span></div>
+            <div class="whatsnew-text">Search and browse help articles without leaving the portal.</div>
           </div>
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- RIGHT: account -->
-    <div>
-      <div class="card">
-        <div class="card-label">Account</div>
-        <div class="info-grid">
-          <div class="info-tile">
-            <div class="info-tile-label">Your plan</div>
-            <span class="plan-badge">Growth</span>
-            <button class="whats-included-btn" id="whats-included"><i class="fas fa-circle-info"></i> What's included</button>
-          </div>
-          <div class="info-tile">
-            <div class="info-tile-label">Status</div>
-            <div class="status-active"><span class="status-dot"></span> Active</div>
-          </div>
-          <div class="info-tile">
-            <div class="info-tile-label">Monthly</div>
-            <div class="info-tile-value">$249</div>
-          </div>
-          <div class="info-tile">
-            <div class="info-tile-label">Member since</div>
-            <div class="info-tile-value">Mar 2025</div>
-          </div>
-        </div>
-        <button class="stripe-btn demo-action"><i class="fas fa-credit-card"></i> Manage billing and plan</button>
-      </div>
-
-      <div class="card">
-        <div class="card-label">Your milestones</div>
-        <div class="badges-grid">
-          <span class="badge-pill unlocked"><i class="fas fa-rocket badge-pill-icon"></i> Launched</span>
-          <span class="badge-pill unlocked"><i class="fas fa-paper-plane badge-pill-icon"></i> First request</span>
-          <span class="badge-pill unlocked"><i class="fas fa-calendar-check badge-pill-icon"></i> 1 year in</span>
-          <span class="badge-pill locked"><i class="fas fa-award badge-pill-icon"></i> 25 updates</span>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-label">Notes from WebEaze</div>
-        <p class="notes-text">Heads up: we ran your monthly maintenance and backups last night, all clear. Your new service page will be ready to review this week.</p>
-      </div>
+  <!-- ══ SITE REPORT VIEW ══ -->
+  <div class="detail-view" id="view-report">
+    <div class="detail-title">Your site report</div>
+    <div class="detail-sub">A snapshot of how bearcarpetcare.com is performing this month.</div>
+    <div class="report-grid">
+      <div class="metric-tile"><div class="metric-label">Uptime</div><div class="metric-value">99.9%</div></div>
+      <div class="metric-tile"><div class="metric-label">Page speed</div><div class="metric-value">94<small>+6</small></div></div>
+      <div class="metric-tile"><div class="metric-label">Visitors (30d)</div><div class="metric-value">1,284<small>+18%</small></div></div>
+      <div class="metric-tile"><div class="metric-label">Mobile friendly</div><div class="metric-value">Pass</div></div>
+      <div class="metric-tile"><div class="metric-label">SSL &amp; security</div><div class="metric-value">Secure</div></div>
+      <div class="metric-tile"><div class="metric-label">Indexed by Google</div><div class="metric-value">Yes</div></div>
+    </div>
+    <div class="card">
+      <div class="card-label">What this means</div>
+      <p class="notes-text">Your site is fast, secure, and fully indexed by Google. Traffic is up 18% from last month, largely from local searches. We handle the technical health so you never have to think about it.</p>
     </div>
   </div>
+
+  <!-- ══ HELP CENTER VIEW ══ -->
+  <div class="detail-view" id="view-help">
+    <div class="help-hero">
+      <div class="help-hero-icon"><i class="fas fa-life-ring"></i></div>
+      <div class="help-hero-title">How can we help?</div>
+      <div class="help-hero-sub">Search our guides, or browse popular topics below.</div>
+      <div class="help-search">
+        <i class="fas fa-magnifying-glass help-search-icon"></i>
+        <input type="text" placeholder="Search for answers..." />
+      </div>
+    </div>
+    <div class="help-section-label"><i class="fas fa-star"></i> Popular articles</div>
+    <div class="help-results">
+      <a class="help-result" href="help.html#/how-to-request-updates" target="_blank" rel="noopener">
+        <div class="help-result-icon"><i class="fas fa-pen"></i></div>
+        <div class="help-result-body"><div class="help-result-title">How can I request website changes?</div><div class="help-result-meta">Simple steps to request any website update, change, or fix.</div></div>
+        <div class="help-result-arrow"><i class="fas fa-arrow-right"></i></div>
+      </a>
+      <a class="help-result" href="help.html#/manage-your-plan" target="_blank" rel="noopener">
+        <div class="help-result-icon"><i class="fas fa-credit-card"></i></div>
+        <div class="help-result-body"><div class="help-result-title">How can I manage my plan?</div><div class="help-result-meta">Update your payment method, view invoices, and change your plan.</div></div>
+        <div class="help-result-arrow"><i class="fas fa-arrow-right"></i></div>
+      </a>
+      <a class="help-result" href="help.html#/total-access-support" target="_blank" rel="noopener">
+        <div class="help-result-icon"><i class="fas fa-headset"></i></div>
+        <div class="help-result-body"><div class="help-result-title">Total Access Support</div><div class="help-result-meta">Live chat, phone, and video call support for Growth clients.</div></div>
+        <div class="help-result-arrow"><i class="fas fa-arrow-right"></i></div>
+      </a>
+    </div>
+  </div>
+
 </main>
 
 <!-- PLAN MODAL -->
@@ -326,10 +500,12 @@
     <button class="plan-modal-close" id="plan-modal-close"><i class="fas fa-xmark"></i></button>
     <div class="plan-modal-title">Growth plan</div>
     <div class="plan-modal-sub">Everything included at $249/month.</div>
-    <div class="plan-feature"><div class="plan-feature-icon"><i class="fas fa-infinity"></i></div><div><div class="plan-feature-name">Unlimited website updates</div><div class="plan-feature-detail">Text, images, layout, and fixes, as often as you need.</div></div></div>
-    <div class="plan-feature"><div class="plan-feature-icon"><i class="fas fa-server"></i></div><div><div class="plan-feature-name">Hosting, SSL &amp; backups</div><div class="plan-feature-detail">All handled for you, nothing to manage.</div></div></div>
-    <div class="plan-feature"><div class="plan-feature-icon"><i class="fab fa-google"></i></div><div><div class="plan-feature-name">Google Business Profile</div><div class="plan-feature-detail">Managed and optimized for local search.</div></div></div>
-    <div class="plan-feature"><div class="plan-feature-icon"><i class="fas fa-headset"></i></div><div><div class="plan-feature-name">Total Access Support</div><div class="plan-feature-detail">Live chat, phone, and video calls.</div></div></div>
+    <div class="plan-feature-list">
+      <div class="plan-feature"><div class="plan-feature-icon"><i class="fas fa-infinity"></i></div><div><div class="plan-feature-name">Unlimited website updates</div><div class="plan-feature-detail">Text, images, layout, and fixes, as often as you need.</div></div></div>
+      <div class="plan-feature"><div class="plan-feature-icon"><i class="fas fa-server"></i></div><div><div class="plan-feature-name">Hosting, SSL &amp; backups</div><div class="plan-feature-detail">All handled for you, nothing to manage.</div></div></div>
+      <div class="plan-feature"><div class="plan-feature-icon"><i class="fab fa-google"></i></div><div><div class="plan-feature-name">Google Business Profile</div><div class="plan-feature-detail">Managed and optimized for local search.</div></div></div>
+      <div class="plan-feature"><div class="plan-feature-icon"><i class="fas fa-headset"></i></div><div><div class="plan-feature-name">Total Access Support</div><div class="plan-feature-detail">Live chat, phone, and video calls.</div></div></div>
+    </div>
   </div>
 </div>
 
@@ -344,16 +520,41 @@
     setTimeout(function(){ t.classList.remove('show'); setTimeout(function(){ t.remove(); }, 300); }, 3200);
   }
 
+  // Section nav / view switching
+  var views = { dashboard: 'view-dashboard', report: 'view-report', help: 'view-help' };
+  function showView(name) {
+    Object.keys(views).forEach(function(k){ document.getElementById(views[k]).classList.toggle('active', k === name); });
+    document.querySelectorAll('.section-nav-btn').forEach(function(b){ b.classList.toggle('active', b.dataset.view === name); });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+  document.querySelectorAll('.section-nav-btn').forEach(function(b){ b.addEventListener('click', function(){ showView(b.dataset.view); }); });
+  document.getElementById('report-promo').addEventListener('click', function(){ showView('report'); });
+
   // Notifications dropdown
   var notifBtn = document.getElementById('notif-btn');
   var notifPanel = document.getElementById('notif-panel');
   notifBtn.addEventListener('click', function(e){ e.stopPropagation(); notifPanel.classList.toggle('open'); });
   document.addEventListener('click', function(e){ if (!e.target.closest('.notif-wrap')) notifPanel.classList.remove('open'); });
 
-  // New request form
+  // New request form + contextual suggestions
+  var SUGGEST = {
+    content: [['Update business info', 'help.html#/update-business-info'], ['Write a clear request', 'help.html#/how-to-write-a-request']],
+    photo:   [['Add photos after launch', 'help.html#/add-photos-after-launch'], ['Image formats to send', 'help.html#/image-file-formats']],
+    page:    [['Add more pages', 'help.html#/additional-pages'], ['What pages should I have?', 'help.html#/what-pages-should-i-have']],
+    fix:     [['My site is not updating', 'help.html#/my-site-isnt-updating'], ['I see an error', 'help.html#/website-error-troubleshooting']],
+    billing: [['Manage your plan', 'help.html#/manage-your-plan'], ['Change billing date', 'help.html#/change-billing-date']]
+  };
+  function renderSuggest() {
+    var type = document.getElementById('req-type').value;
+    var list = SUGGEST[type] || [];
+    document.getElementById('req-suggest-links').innerHTML = list.map(function(a){
+      return '<a class="req-suggest-link" href="' + a[1] + '" target="_blank" rel="noopener"><i class="fas fa-file-lines rs-icon"></i>' + a[0] + '<i class="fas fa-arrow-right rs-arrow"></i></a>';
+    }).join('');
+  }
   document.getElementById('new-request-btn').addEventListener('click', function(){
-    document.getElementById('request-form').classList.toggle('open');
+    document.getElementById('request-form').classList.toggle('open'); renderSuggest();
   });
+  document.getElementById('req-type').addEventListener('change', renderSuggest);
   document.getElementById('submit-request').addEventListener('click', function(){
     document.getElementById('request-form').classList.remove('open');
     toast('This is a demo. In your real portal, we would get this right away.');
