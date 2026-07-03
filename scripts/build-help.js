@@ -174,7 +174,7 @@ function page({ article, topic }) {
 ${NAV}
 <main class="help-article-main">
   <div class="article-view">
-    <a href="../../help.html" class="article-back" id="articleBack"><i class="fas fa-arrow-left"></i> <span id="articleBackText">Back to Help Center</span></a>
+    <a href="../../help.html" class="article-back"><i class="fas fa-arrow-left"></i> Back to Help Center</a>
     <nav class="article-breadcrumb">
       <a href="../../index.html"><i class="fas fa-home"></i></a>
       <span>/</span>
@@ -199,10 +199,6 @@ ${NAV}
 </main>
 ${FOOTER}
 <script src="../../js/nav.js" defer></script>
-<script>
-/* "Back" returns to wherever they came from on the site; falls back to the Help Center. */
-(function(){var b=document.getElementById('articleBack');if(!b)return;try{if(document.referrer&&new URL(document.referrer).host===location.host&&history.length>1){var t=document.getElementById('articleBackText');if(t)t.textContent='Back';b.addEventListener('click',function(e){e.preventDefault();history.back();});}}catch(e){}})();
-</script>
 </body>
 </html>`;
 }
