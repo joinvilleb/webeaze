@@ -601,10 +601,10 @@
     var now=et(), day=now.getDay(), hour=now.getHours();
     var weekend=(day===0||day===6), holiday=onHoliday(now), open=(!weekend && !holiday && hour>=9 && hour<17);
     function reopen(){ var n=nextBiz(now), t=new Date(now); t.setDate(t.getDate()+1); t.setHours(0,0,0,0); return n.toDateString()===t.toDateString() ? 'tomorrow' : DAYS[n.getDay()]; }
-    if (open) { badge.className='status-badge'; txt.textContent='Support is online now, we typically reply within a few hours.'; }
-    else if (holiday) { badge.className='status-badge away'; txt.textContent='Closed for the holiday. Support resumes '+reopen()+' at 9 AM ET.'; }
-    else if (weekend) { badge.className='status-badge away'; txt.textContent='Closed for the weekend. Support resumes '+reopen()+' at 9 AM ET.'; }
-    else { badge.className='status-badge away'; txt.textContent = hour<9 ? 'Support opens today at 9 AM ET.' : 'Support is closed for the day. Opens '+reopen()+' at 9 AM ET.'; }
+    if (open) { badge.className='status-badge'; txt.textContent='Support is online now'; }
+    else if (holiday) { badge.className='status-badge away'; txt.textContent='Closed for the holiday.'; }
+    else if (weekend) { badge.className='status-badge away'; txt.textContent='Closed for the weekend.'; }
+    else { badge.className='status-badge away'; txt.textContent = hour<9 ? 'Support opens today at 9 AM ET.' : 'Support is closed for the day. '; }
   })();
 </script>
 </body>
