@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B4 Your Eyes Photo Booth Co. | Delaware, Maryland, NJ, PA & DC</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --white:#FFFFFF;
+  --off:#F1F5F9;
+  --black:#101B28;
+  --gray:#6B6B6B;
+  --line:#D9DFE6;
+  --red:#2B7FBE;
+  --frame:#E4EAF0;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Archivo',sans-serif;
+  background:var(--white);
+  color:var(--black);
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:inherit;text-decoration:none}
+.wrap{width:min(1180px,92%);margin:0 auto}
+.display{
+  font-family:'Anton',sans-serif;
+  text-transform:uppercase;
+  letter-spacing:.01em;
+  line-height:.98;
+  font-weight:400;
+}
+.kicker{
+  font-size:.75rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--red);
+}
+.btn{
+  display:inline-block;font-weight:700;font-size:.95rem;letter-spacing:.02em;
+  padding:.95rem 1.8rem;border:none;cursor:pointer;border-radius:3px;
+  transition:background .15s ease,color .15s ease;
+  font-family:'Archivo',sans-serif;
+}
+.btn-black{background:var(--black);color:var(--white)}
+.btn-black:hover{background:var(--red)}
+.btn-line{background:transparent;color:var(--black);box-shadow:inset 0 0 0 2px var(--black)}
+.btn-line:hover{background:var(--black);color:var(--white)}
+@media (prefers-reduced-motion: reduce){
+  *{animation:none!important;transition:none!important}
+  html{scroll-behavior:auto}
+}
+
+/* top utility bar */
+.topbar{
+  background:var(--black);color:var(--white);font-size:.82rem;
+  padding:.5rem 0;
+}
+.topbar .wrap{display:flex;justify-content:space-between;gap:1rem}
+.topbar a:hover{color:var(--red)}
+.topbar .loc{color:#8C97A6}
+@media(max-width:640px){.topbar .loc{display:none}.topbar .wrap{justify-content:center}}
+
+/* nav */
+nav{
+  background:var(--white);border-bottom:1px solid var(--line);
+  position:sticky;top:0;z-index:100;
+}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;padding:1rem 0}
+.wordmark{font-family:'Anton',sans-serif;font-size:1.3rem;text-transform:uppercase;letter-spacing:.02em}
+.wordmark span{color:var(--red)}
+.nav-links{display:flex;gap:2rem;font-size:.92rem;font-weight:600}
+.nav-links a{padding-bottom:2px;border-bottom:2px solid transparent}
+.nav-links a:hover{border-color:var(--red)}
+.nav-inner .btn{padding:.7rem 1.3rem;font-size:.88rem}
+@media(max-width:880px){.nav-links{display:none}}
+
+/* hero */
+.hero{padding:5rem 0 4rem}
+.hero h1{
+  font-size:clamp(3rem,8.5vw,6.5rem);
+  max-width:14ch;
+}
+.hero h1 .hl{
+  color:var(--red);
+}
+.hero .sub{
+  margin-top:1.6rem;font-size:1.15rem;color:var(--gray);max-width:34rem;
+}
+.hero-ctas{display:flex;gap:.9rem;margin-top:2.2rem;flex-wrap:wrap}
+.hero-meta{
+  display:flex;gap:2.5rem;margin-top:3rem;flex-wrap:wrap;
+  border-top:1px solid var(--line);padding-top:1.4rem;
+}
+.hero-meta div{font-size:.9rem;color:var(--gray)}
+.hero-meta b{display:block;color:var(--black);font-size:1.05rem;font-weight:700}
+
+/* film strip divider */
+.film{
+  background:var(--black);padding:14px 0;overflow:hidden;
+}
+.film-inner{display:flex;gap:10px;width:max-content;animation:reel 40s linear infinite}
+@keyframes reel{to{transform:translateX(-50%)}}
+.frame{
+  width:170px;height:112px;background:var(--frame);border-radius:2px;flex-shrink:0;
+  position:relative;display:flex;align-items:center;justify-content:center;
+}
+.frame::before,.frame::after{
+  content:"";position:absolute;left:6px;right:6px;height:6px;
+  background-image:radial-gradient(circle, var(--frame) 2.4px, transparent 2.6px);
+  background-size:14px 6px;background-repeat:repeat-x;
+}
+.frame::before{top:-10px}
+.frame::after{bottom:-10px}
+.frame small{
+  font-size:.62rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#8C97A6;
+}
+
+/* section scaffolding */
+.section{padding:5.5rem 0}
+.sec-head{display:flex;justify-content:space-between;align-items:flex-end;gap:2rem;margin-bottom:3rem;flex-wrap:wrap}
+.sec-head h2{font-size:clamp(2.1rem,4.5vw,3.4rem)}
+.sec-head p{color:var(--gray);max-width:26rem;font-size:1rem}
+
+/* booth menu */
+.menu{border-top:2px solid var(--black)}
+.mrow{
+  display:grid;grid-template-columns:1.1fr 1.6fr auto;gap:2rem;align-items:center;
+  padding:2.2rem 0;border-bottom:1px solid var(--line);
+}
+.mrow h3{font-family:'Anton',sans-serif;font-weight:400;text-transform:uppercase;font-size:clamp(1.5rem,3vw,2.2rem);letter-spacing:.01em}
+.mrow h3 sup{font-family:'Archivo',sans-serif;font-size:.68rem;font-weight:700;letter-spacing:.14em;color:var(--red);vertical-align:top;margin-left:.5rem}
+.mrow p{color:var(--gray);font-size:.98rem}
+.mrow .go{
+  font-weight:700;font-size:.88rem;letter-spacing:.06em;text-transform:uppercase;
+  border-bottom:2px solid var(--black);padding-bottom:2px;white-space:nowrap;
+}
+.mrow:hover .go{border-color:var(--red);color:var(--red)}
+@media(max-width:820px){
+  .mrow{grid-template-columns:1fr;gap:.7rem;padding:1.8rem 0}
+}
+.menu-note{margin-top:1.4rem;font-size:.88rem;color:var(--gray)}
+
+/* contact sheet gallery */
+.sheet{background:var(--black);color:var(--white)}
+.sheet .sec-head p{color:#8C97A6}
+.sheet-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:14px;
+}
+.shot{
+  aspect-ratio:4/3;background:#1E1E1E;border:1px solid #2E2E2E;border-radius:2px;
+  position:relative;display:flex;align-items:center;justify-content:center;
+}
+.shot small{
+  position:absolute;bottom:6px;left:8px;
+  font-size:.62rem;font-weight:600;letter-spacing:.12em;color:#C8A24A;
+  font-family:'Archivo',sans-serif;
+}
+.shot .ph-label{font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#565656}
+.shot.pick{outline:3px solid #6FB9F0;outline-offset:-3px}
+.shot.pick::after{
+  content:"THE ONE";position:absolute;top:8px;right:8px;
+  font-size:.6rem;font-weight:700;letter-spacing:.14em;color:#6FB9F0;
+}
+.sheet-note{margin-top:1.6rem;font-size:.88rem;color:#8C97A6}
+@media(max-width:820px){.sheet-grid{grid-template-columns:repeat(2,1fr)}}
+
+/* how it works */
+.off{background:var(--off)}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem}
+.step{
+  background:var(--white);border:1px solid var(--line);border-radius:4px;
+  padding:2rem 1.8rem;
+}
+.step .n{
+  font-family:'Anton',sans-serif;font-size:2.6rem;color:var(--red);line-height:1;
+}
+.step h3{font-size:1.15rem;font-weight:700;margin:1rem 0 .5rem}
+.step p{font-size:.95rem;color:var(--gray)}
+@media(max-width:820px){.steps{grid-template-columns:1fr}}
+
+/* reviews */
+.reviews{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem}
+.rev{
+  border:1px solid var(--line);border-radius:4px;padding:1.9rem 1.7rem;
+  display:flex;flex-direction:column;gap:1rem;background:var(--white);
+}
+.rev .stars{color:#D9A441;letter-spacing:.18em;font-size:.9rem}
+.rev p{font-size:.97rem;flex:1}
+.rev b{font-size:.88rem}
+.rev small{display:block;color:var(--gray)}
+@media(max-width:820px){.reviews{grid-template-columns:1fr}}
+.gline{margin-top:2rem;font-size:.92rem;color:var(--gray)}
+.gline b{color:var(--black)}
+
+/* areas */
+.area-line{
+  font-family:'Anton',sans-serif;text-transform:uppercase;
+  font-size:clamp(1.4rem,3.4vw,2.4rem);line-height:1.5;
+}
+.area-line span{color:var(--line);padding:0 .6rem}
+.area-sub{margin-top:1.2rem;color:var(--gray);max-width:36rem}
+
+/* booking */
+.book-grid{display:grid;grid-template-columns:1fr 1.15fr;gap:4rem;align-items:start}
+.book-info h2{font-size:clamp(2.1rem,4vw,3.2rem)}
+.book-info>p{margin-top:1.2rem;color:var(--gray);max-width:26rem}
+.contact-list{margin-top:2rem;border-top:2px solid var(--black)}
+.contact-list a,.contact-list div{
+  display:flex;justify-content:space-between;gap:1rem;align-items:baseline;
+  padding:1.1rem 0;border-bottom:1px solid var(--line);font-weight:600;
+}
+.contact-list small{font-weight:600;font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gray)}
+.contact-list a:hover span{color:var(--red)}
+form{
+  border:1px solid var(--line);border-radius:4px;padding:2.2rem;
+  display:flex;flex-direction:column;gap:1.1rem;background:var(--white);
+}
+form h3{font-family:'Anton',sans-serif;font-weight:400;text-transform:uppercase;font-size:1.5rem}
+form .hint{font-size:.9rem;color:var(--gray);margin-top:-.5rem}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:1.1rem}
+label{display:flex;flex-direction:column;gap:.45rem;font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--gray)}
+input,select,textarea{
+  font-family:'Archivo',sans-serif;font-size:1rem;color:var(--black);
+  background:var(--white);border:1px solid #BFC9D4;border-radius:3px;
+  padding:.85rem .9rem;outline:none;
+}
+input:focus,select:focus,textarea:focus{border-color:var(--black);box-shadow:0 0 0 1px var(--black)}
+textarea{resize:vertical;min-height:100px;text-transform:none}
+form .fine{font-size:.8rem;color:var(--gray);text-align:center}
+@media(max-width:900px){
+  .book-grid{grid-template-columns:1fr}
+  .frow{grid-template-columns:1fr}
+}
+
+/* footer */
+footer.site{background:var(--black);color:#8C97A6;padding:3rem 0;font-size:.88rem}
+.foot-inner{display:flex;justify-content:space-between;gap:1.5rem;flex-wrap:wrap;align-items:center}
+.foot-inner .wordmark{color:var(--white);font-size:1.05rem}
+
+/* mobile call bar */
+.callbar{display:none}
+@media(max-width:700px){
+  .callbar{
+    display:flex;position:fixed;bottom:0;left:0;right:0;z-index:200;
+  }
+  .callbar a{flex:1;text-align:center;padding:1.05rem;font-weight:700;font-size:.95rem}
+  .callbar .c1{background:var(--red);color:var(--white)}
+  .callbar .c2{background:var(--black);color:var(--white)}
+  body{padding-bottom:58px}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap">
+    <a href="tel:3027406719">Call or text: (302) 740-6719</a>
+    <span class="loc">Serving DE, MD, NJ, PA and Washington DC</span>
+    <a href="mailto:B4youreyes303@gmail.com">B4youreyes303@gmail.com</a>
+  </div>
+</div>
+
+<nav>
+  <div class="wrap nav-inner">
+    <a class="wordmark" href="#top">B4 Your Eyes<span>.</span></a>
+    <div class="nav-links">
+      <a href="#booths">Booths</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#how">How It Works</a>
+      <a href="#reviews">Reviews</a>
+    </div>
+    <a class="btn btn-black" href="#book">Check availability</a>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <p class="kicker">Photo booth rentals, brought to your venue</p>
+    <h1 class="display" style="margin-top:1rem">The part of the party <span class="hl">everyone remembers</span></h1>
+    <p class="sub">360 video booths, glam portraits and audio guest books for weddings, birthdays and corporate events. We set up, we run it all night, your guests leave with the proof.</p>
+    <div class="hero-ctas">
+      <a class="btn btn-black" href="#book">Check your date</a>
+      <a class="btn btn-line" href="#booths">See the booths</a>
+    </div>
+    <div class="hero-meta">
+      <div><b>5.0 stars</b>Google reviews</div>
+      <div><b>4 booth styles</b>360, Glam, Selfie, Audio</div>
+      <div><b>5 states</b>DE, MD, NJ, PA + DC</div>
+      <div><b>Attendant included</b>Every single event</div>
+    </div>
+  </div>
+</header>
+
+<div class="film" aria-hidden="true">
+  <div class="film-inner">
+    <div class="frame"><small>Wedding</small></div>
+    <div class="frame"><small>Sweet 16</small></div>
+    <div class="frame"><small>Corporate</small></div>
+    <div class="frame"><small>Prom</small></div>
+    <div class="frame"><small>Baby shower</small></div>
+    <div class="frame"><small>Reunion</small></div>
+    <div class="frame"><small>Wedding</small></div>
+    <div class="frame"><small>Sweet 16</small></div>
+    <div class="frame"><small>Corporate</small></div>
+    <div class="frame"><small>Prom</small></div>
+    <div class="frame"><small>Baby shower</small></div>
+    <div class="frame"><small>Reunion</small></div>
+  </div>
+</div>
+
+<section class="section" id="booths">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 class="display">Pick your booth</h2>
+      <p>Every rental includes delivery, setup, props and a friendly attendant who runs the booth so you don't have to.</p>
+    </div>
+    <div class="menu">
+      <div class="mrow">
+        <h3>360 Booth<sup>Most booked</sup></h3>
+        <p>Guests step on the platform, the camera spins, and they get a slow motion video from every angle. Clips sent straight to their phones on the spot.</p>
+        <a class="go" href="#book">Book it</a>
+      </div>
+      <div class="mrow">
+        <h3>Glam Booth</h3>
+        <p>Black and white portraits with studio beauty lighting and a smoothing filter. The Kardashian-style booth that makes everyone look like a magazine cover.</p>
+        <a class="go" href="#book">Book it</a>
+      </div>
+      <div class="mrow">
+        <h3>Selfie Booth</h3>
+        <p>Fast and self serve. Photos, GIFs and boomerangs with a custom overlay for your event, shared instantly by text or email.</p>
+        <a class="go" href="#book">Book it</a>
+      </div>
+      <div class="mrow">
+        <h3>Audio Guest Book<sup>Keepsake</sup></h3>
+        <p>A vintage phone your guests pick up to leave a voice message. After the event you get every recording. It's the guest book you'll actually replay.</p>
+        <a class="go" href="#book">Book it</a>
+      </div>
+    </div>
+    <p class="menu-note">Add-ons available: custom backdrops, LED setups, extra hours and themed props. Ask when you book.</p>
+  </div>
+</section>
+
+<section class="sheet section" id="gallery">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 class="display">From the contact sheet</h2>
+      <p>A few frames from recent events across Delaware and Maryland.</p>
+    </div>
+    <div class="sheet-grid">
+      <div class="shot"><span class="ph-label">Photo</span><small>04A</small></div>
+      <div class="shot"><span class="ph-label">Photo</span><small>05A</small></div>
+      <div class="shot pick"><span class="ph-label">Photo</span><small>06A</small></div>
+      <div class="shot"><span class="ph-label">Photo</span><small>07A</small></div>
+      <div class="shot"><span class="ph-label">Photo</span><small>08A</small></div>
+      <div class="shot"><span class="ph-label">Photo</span><small>09A</small></div>
+      <div class="shot"><span class="ph-label">Photo</span><small>10A</small></div>
+      <div class="shot"><span class="ph-label">Photo</span><small>11A</small></div>
+    </div>
+    <p class="sheet-note">Gray frames are placeholders. Real event photos drop in here before launch.</p>
+  </div>
+</section>
+
+<section class="section off" id="how">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 class="display">Booked in three steps</h2>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="n">1</div>
+        <h3>Send your date</h3>
+        <p>Fill out the quick form below or just call. We confirm availability and send a simple quote the same day.</p>
+      </div>
+      <div class="step">
+        <div class="n">2</div>
+        <h3>Choose your setup</h3>
+        <p>Pick your booth, backdrop and any extras. We handle custom overlays and props to match your theme.</p>
+      </div>
+      <div class="step">
+        <div class="n">3</div>
+        <h3>Enjoy your event</h3>
+        <p>We arrive early, set everything up, and run the booth all night. You never lift a finger.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="reviews">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 class="display">What clients say</h2>
+    </div>
+    <div class="reviews">
+      <div class="rev">
+        <span class="stars">★★★★★</span>
+        <p>"They made my wedding day so much fun. The pictures were amazing and the attendant kept everyone laughing all night."</p>
+        <div><b>Teresa S.</b><small>Wedding reception</small></div>
+      </div>
+      <div class="rev">
+        <span class="stars">★★★★★</span>
+        <p>"Great to work with from beginning to end. Awesome customer service and the guests could not get enough of the 360 booth."</p>
+        <div><b>Jennifer L.</b><small>Corporate event</small></div>
+      </div>
+      <div class="rev">
+        <span class="stars">★★★★★</span>
+        <p>"Everything was perfect for my event. Very professional, always ready to assist, and the photos came out beautiful."</p>
+        <div><b>Denice R.</b><small>Birthday celebration</small></div>
+      </div>
+    </div>
+    <p class="gline"><b>5.0 average</b> across all Google reviews</p>
+  </div>
+</section>
+
+<section class="section off">
+  <div class="wrap">
+    <p class="kicker" style="margin-bottom:1.2rem">Where we travel</p>
+    <p class="area-line">Delaware<span>/</span>Maryland<span>/</span>New Jersey<span>/</span>Pennsylvania<span>/</span>Washington DC</p>
+    <p class="area-sub">Based in Townsend, Delaware. We bring everything to your venue, backyard or ballroom and handle setup and teardown ourselves.</p>
+  </div>
+</section>
+
+<section class="section" id="book">
+  <div class="wrap book-grid">
+    <div class="book-info">
+      <h2 class="display">Check your date</h2>
+      <p>Thirty seconds, no commitment. We reply the same day with availability and pricing. Prefer to talk it through? Call or text any time.</p>
+      <div class="contact-list">
+        <a href="tel:3027406719"><small>Call or text</small><span>(302) 740-6719</span></a>
+        <a href="mailto:B4youreyes303@gmail.com"><small>Email</small><span>B4youreyes303@gmail.com</span></a>
+        <div><small>Home base</small><span>Townsend, DE 19734</span></div>
+      </div>
+    </div>
+    <form onsubmit="event.preventDefault();this.innerHTML='<h3>Request sent</h3><p class=hint>Thanks! We will reach out today to confirm your date.</p>'">
+      <h3>Get a quote</h3>
+      <p class="hint">Just the basics. We'll sort the details together.</p>
+      <div class="frow">
+        <label>Your name<input type="text" placeholder="Jordan Smith" required></label>
+        <label>Phone or email<input type="text" placeholder="(302) 555-0140" required></label>
+      </div>
+      <div class="frow">
+        <label>Event date<input type="date" required></label>
+        <label>Event type
+          <select required>
+            <option value="" disabled selected>Choose one</option>
+            <option>Wedding</option>
+            <option>Birthday or party</option>
+            <option>Corporate event</option>
+            <option>School or prom</option>
+            <option>Something else</option>
+          </select>
+        </label>
+      </div>
+      <label>Anything else? Booth, venue, guest count<textarea placeholder="Around 120 guests, thinking the 360 booth..."></textarea></label>
+      <button class="btn btn-black" type="submit">Send my request</button>
+      <p class="fine">We reply the same day. No spam, ever.</p>
+    </form>
+  </div>
+</section>
+
+<footer class="site">
+  <div class="wrap foot-inner">
+    <span class="wordmark">B4 Your Eyes<span style="color:var(--red)">.</span></span>
+    <span>Photo booth rentals · Townsend, DE 19734</span>
+    <span>© 2026 B4 Your Eyes LLC · Site by WebEaze</span>
+  </div>
+</footer>
+
+<div class="callbar">
+  <a class="c1" href="tel:3027406719">Call now</a>
+  <a class="c2" href="#book">Check my date</a>
+</div>
+
+</body>
+</html>
