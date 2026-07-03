@@ -1404,7 +1404,7 @@ if (new Date() >= new Date('2026-06-01')) {
     const upcoming = closures.find(c => c.start > now && c.start <= soon);
 
     if (current) {
-      const ret = new Date(current.end); ret.setDate(ret.getDate() + 1);
+      const ret = nextBusinessDay(current.end); // next open business day, skips weekends + back-to-back holidays
       title.textContent   = 'Currently Closed: ' + current.name;
       message.textContent = 'We\'re closed for ' + current.name + '. We\'ll be back ' + ret.toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric' }) + '. Requests will be handled when we reopen.';
       banner.classList.add('visible');
@@ -1440,7 +1440,7 @@ if (new Date() >= new Date('2026-06-01')) {
     const onHoliday = !!currentHoliday;
 
     if (onHoliday) {
-      const ret = new Date(currentHoliday.end); ret.setDate(ret.getDate() + 1);
+      const ret = nextBusinessDay(currentHoliday.end); // next open business day, skips weekends + back-to-back holidays
       const retStr = ret.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
       banner.className = 'today-banner today-closed';
       banner.innerHTML = '<i class="fas fa-moon"></i> <strong>Closed: ' + currentHoliday.name + '</strong> · Resumes ' + retStr;
