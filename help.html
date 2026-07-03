@@ -2644,6 +2644,10 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
 </head>
 <style>.skip-nav{position:absolute;top:-48px;left:0;background:#7851a9;color:#fff;padding:10px 18px;z-index:10001;font-size:14px;font-weight:600;text-decoration:none;border-radius:0 0 8px 0;transition:top .2s;}.skip-nav:focus{top:0;}</style>
 <body>
+<script>
+/* Help articles are now real pages at /help/<slug>/. Redirect old #/slug bookmarks and links. */
+(function(){ var m = location.hash.match(/^#\/([a-z0-9-]+)/); if (m) location.replace('help/' + m[1] + '/'); })();
+</script>
 <a class="skip-nav" href="#main-content">Skip to main content</a>
 <div id="read-progress"></div>
 
@@ -8630,7 +8634,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
 
   // ---- Router ----
   function go(slug, replace) { const url = slug ? `#/${slug}` : '#/'; if (replace) { history.replaceState(null, '', url) } else { location.hash = url } }
-  function currentSlug() { return location.hash.startsWith('#/') ? location.hash.slice(2) || '' : '' }
+  function currentSlug() { return location.hash.startsWith('#/') ? location.hash.slice(2).split('?')[0] || '' : '' }
 
   // ---- Elements ----
   const $browseBody = document.getElementById('browseBody');
@@ -9133,20 +9137,21 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
     document.addEventListener('click', function (e) {
       const a = e.target.closest('a[href^="#/"]');
       if (!a) return;
+      const slug = a.getAttribute('href').slice(2).split('?')[0];
+      if (!slug) return;                 // "#/" home link — leave it
       e.preventDefault();
-      const slug = a.getAttribute('href').slice(2);
-      const cur = currentSlug();
-      if (cur !== slug) { go(slug, false); }
-      renderArticle(slug);
+      location.href = 'help/' + slug + '/'; // articles are now real, indexable pages
     }, false);
   }
 
   function onHash() {
     const hash = location.hash;
+    const m = hash.match(/^#\/([a-z0-9-]+)/);
+    if (m) { location.replace('help/' + m[1] + '/'); return; } // old #/slug -> real article page
     if (hash && !hash.startsWith('#/')) return;
-    const slug = currentSlug();
-    if (slug) { renderArticle(slug); }
-    else { document.title = 'Help Center | WebEaze'; renderList(searchArticles($search.value.trim()), $search.value.trim()); renderRecentRow(); }
+    document.title = 'Help Center | WebEaze';
+    renderList(searchArticles($search.value.trim()), $search.value.trim());
+    renderRecentRow();
   }
 
   function initSearch() {
@@ -9297,13 +9302,26 @@ const LS_SAVED    = 'wz_help_saved';
     if (!body) return;
     const headings = Array.from(body.querySelectorAll('h2'));
     if (headings.length < 3) return;
+    const slug = currentSlug();
     headings.forEach((h, i) => { h.id = 'toc-' + i; });
-    const items = headings.map((h, i) => `<li><a href="#toc-${i}">${h.textContent}</a></li>`).join('');
+    // Keep the article slug in the URL (#/slug?h=N) so a refresh restores the article AND the section.
+    const items = headings.map((h, i) => `<li><a href="#/${slug}?h=${i}" data-toc="${i}">${h.textContent}</a></li>`).join('');
     const toc = document.createElement('nav');
     toc.className = 'article-toc';
     toc.innerHTML = '<p class="toc-label">On this page</p><ul>' + items + '</ul>';
     const header = document.querySelector('.article-header');
     if (header) header.insertAdjacentElement('afterend', toc);
+    // Smooth-scroll on click without re-rendering the article; store the section in the URL.
+    toc.querySelectorAll('a[data-toc]').forEach((a) => {
+      a.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation(); // don't let the global #/ router re-route this to a broken slug
+        const i = a.getAttribute('data-toc');
+        const target = document.getElementById('toc-' + i);
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        history.replaceState(null, '', '#/' + slug + '?h=' + i);
+      });
+    });
   }
 
   function onArticleRendered(slug) {
@@ -9316,7 +9334,14 @@ const LS_SAVED    = 'wz_help_saved';
     injectToc();
     wrapTables();
 
-  
+    // Deep link / refresh: if the URL targets a section (#/slug?h=N), jump to it after render.
+    const _hMatch = location.hash.match(/\?h=(\d+)/);
+    if (_hMatch) {
+      const _hTarget = document.getElementById('toc-' + _hMatch[1]);
+      if (_hTarget) requestAnimationFrame(() => _hTarget.scrollIntoView({ block: 'start' }));
+    }
+
+
 
     // Track topic reads
     if (topic && topic.id) {
