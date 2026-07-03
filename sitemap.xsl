@@ -88,6 +88,22 @@
       background: #eceef8; border: 1px solid rgba(0,0,0,.07);
       border-radius: 20px; padding: 2px 9px;
     }
+    .cat-header { cursor: pointer; user-select: none; }
+    .cat-header:hover .cat-title { color: #5f3d94; }
+    .cat-chevron {
+      margin-left: auto; width: 18px; height: 18px; flex: none;
+      color: #9ca3af; transition: transform .2s;
+    }
+    .cat-section:not(.open) .cat-chevron { transform: rotate(-90deg); }
+    .cat-section:not(.open) .link-grid { display: none; }
+    .expand-all {
+      display: inline-flex; align-items: center; gap: 6px;
+      margin: 0 auto 26px; cursor: pointer;
+      font-size: .8rem; font-weight: 600; color: #7851a9;
+      background: rgba(120,81,169,.07); border: 1px solid rgba(120,81,169,.18);
+      border-radius: 8px; padding: 8px 16px;
+    }
+    .expand-all:hover { background: rgba(120,81,169,.12); }
 
     .link-grid {
       display: grid;
@@ -228,16 +244,20 @@
     var SVCS = ['/manage', '/one-time-project', '/seo', '/google-business-management', '/maintenance', '/ai', '/ads', '/plan-guide', '/providers', '/benefits', '/reports', '/website-setup-package', '/domains'];
 
     var CATS = [
-      { label: 'Core Pages',             match: function(p) { return CORE.indexOf(p) !== -1; } },
-      { label: 'Services',               match: function(p) { return SVCS.indexOf(p) !== -1; } },
-      { label: 'Blog',                   match: function(p) { return p.indexOf('/blog') === 0; } },
-      { label: 'Web Design by Location', match: function(p) { return p.indexOf('/web-design-') === 0; } },
-      { label: 'Support and Policies',   match: function(p) { return true; } }
+      { label: 'Core Pages',             open: true,  match: function(p) { return CORE.indexOf(p) !== -1; } },
+      { label: 'Services',               open: true,  match: function(p) { return SVCS.indexOf(p) !== -1; } },
+      { label: 'Blog',                   open: true,  match: function(p) { return p.indexOf('/blog') === 0; } },
+      { label: 'Web Design by Location', open: false, match: function(p) { return p.indexOf('/web-design-') === 0; } },
+      { label: 'Help Center',            open: false, match: function(p) { return p === '/help' || p.indexOf('/help/') === 0; } },
+      { label: 'Support and Policies',   open: true,  match: function(p) { return true; } }
     ];
 
     function toName(p) {
       if (NAMES[p]) return NAMES[p];
-      return p.replace(/^\/web-design-/, '')
+      return p.replace(/\/$/, '')            // drop trailing slash (help article dirs)
+              .replace(/^\/help\//, '')      // help article slug
+              .replace(/^\/web-design-/, '') // location pages
+              .replace(/^\//, '')
               .replace(/-/g, ' ')
               .replace(/\b\w/g, function(c) { return c.toUpperCase(); });
     }
@@ -252,16 +272,35 @@
     });
 
     var wrap = document.getElementById('pageWrap');
+
+    var CHEVRON = '<svg class="cat-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>';
+
+    var toggleAll = document.createElement('div');
+    toggleAll.className = 'expand-all';
+    toggleAll.textContent = 'Expand all';
+    var allOpen = false;
+    toggleAll.addEventListener('click', function() {
+      allOpen = !allOpen;
+      var secs = wrap.querySelectorAll('.cat-section');
+      for (var i = 0; i < secs.length; i++) { secs[i].classList.toggle('open', allOpen); }
+      toggleAll.textContent = allOpen ? 'Collapse all' : 'Expand all';
+    });
+    wrap.appendChild(toggleAll);
+
+    var sections = [];
     buckets.forEach(function(b) {
       if (!b.items.length) return;
 
       var sec = document.createElement('div');
-      sec.className = 'cat-section';
+      sec.className = 'cat-section' + (b.cat.open ? ' open' : '');
+      sections.push(sec);
 
       var hdr = document.createElement('div');
       hdr.className = 'cat-header';
       hdr.innerHTML = '<span class="cat-title">' + b.cat.label + '</span>'
-                    + '<span class="cat-count">' + b.items.length + '</span>';
+                    + '<span class="cat-count">' + b.items.length + '</span>'
+                    + CHEVRON;
+      hdr.addEventListener('click', function() { sec.classList.toggle('open'); });
       sec.appendChild(hdr);
 
       var grid = document.createElement('div');
