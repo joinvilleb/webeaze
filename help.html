@@ -659,6 +659,19 @@
       line-height: 1.65;
     }
 
+    /* Compact article buttons for the clicked-category view (title only, see more at once) */
+    .results-grid.compact {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+    @media (min-width: 900px) { .results-grid.compact { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 560px)  { .results-grid.compact { grid-template-columns: 1fr; } }
+    .result-card.compact { padding: 15px 18px; display: flex; align-items: center; }
+    .result-card.compact .title { font-size: 15px; margin-bottom: 0; width: 100%; gap: 10px; }
+    .result-card.compact .title i { opacity: .45; }
+    .result-card.compact:hover { transform: translateY(-2px); }
+    .result-card.compact:hover .title i { opacity: 1; }
+
     /* ARTICLE */
     .article-view {
       background: var(--dark-2);
@@ -8808,18 +8821,15 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
         lastGroup = t.group;
       }
       const total = t.articles.length;
-      const readCount = t.articles.filter(a => readSlugs.has(a.slug)).length;
-      const pct = total > 0 ? Math.round((readCount / total) * 100) : 0;
-      const allRead = readCount === total && total > 0;
       html += `
-      <div class="category-card${allRead ? ' all-read' : ''}" role="button" tabindex="0"
+      <div class="category-card" role="button" tabindex="0"
         onclick="renderTopicResults('${t.id}')"
         onkeydown="if(event.key==='Enter' || event.key===' ') { event.preventDefault(); renderTopicResults('${t.id}'); }"
       >
         <div class="icon"><i class="fas ${t.icon}"></i></div>
         <div class="category-card-text">
           <h3>${t.title}</h3>
-          <div class="count">${total} article${total === 1 ? '' : 's'}${allRead ? ' &middot; All read' : ''}</div>
+          <div class="count">${total} article${total === 1 ? '' : 's'}</div>
         </div>
         <i class="fas fa-chevron-right cat-arrow"></i>
       </div>`;
@@ -9743,28 +9753,16 @@ function renderTopicResults(topicId) {
   $article.innerHTML = '';
   $categoriesSection.style.display = 'none';
 
-  const readSlugs = new Set((lsGet(LS_READ) || []).map(r => r.slug));
   const items = topic.articles.map(a => INDEX.find(x => x.slug === a.slug)).filter(Boolean);
-  const readCount = items.filter(d => readSlugs.has(d.slug)).length;
 
-  function cardBadge(slug) {
-    return readSlugs.has(slug) ? ' <span class="read-badge"><i class="fas fa-check"></i> Read</span>' : '';
-  }
   function cardHTMLLocal(d) {
     return `
-      <a href="#/${d.slug}" class="result-card${readSlugs.has(d.slug) ? ' result-read' : ''}">
+      <a href="#/${d.slug}" class="result-card compact">
         <div class="title"><span>${d.title}</span><i class="fas fa-arrow-right"></i></div>
-        <div class="meta">
-          <span class="read-time"><i class="fas fa-book-open"></i> ${d.readTime} min</span>${cardBadge(d.slug)}
-        </div>
-        <div class="excerpt">${d.meta}</div>
       </a>`;
   }
 
   const desc = TOPIC_DESC[topicId] || '';
-  const progressLine = readCount > 0
-    ? `<span style="font-size:12px; color:var(--brand-light); font-weight:600; margin-left:12px;"><i class="fas fa-check-circle"></i> ${readCount} of ${items.length} read</span>`
-    : '';
 
   $results.innerHTML = `
     <div class="topic-breadcrumb">
@@ -9773,11 +9771,11 @@ function renderTopicResults(topicId) {
       <span>${topic.title}</span>
     </div>
     <div class="results-header">
-      <h2>${topic.title}${progressLine}</h2>
+      <h2>${topic.title}</h2>
       <div class="results-count">${items.length} article${items.length === 1 ? '' : 's'}</div>
     </div>
     ${desc ? `<p class="topic-desc-line">${desc}</p>` : ''}
-    <div class="results-grid">${items.map(cardHTMLLocal).join('')}</div>
+    <div class="results-grid compact">${items.map(cardHTMLLocal).join('')}</div>
   `;
 
   document.querySelectorAll('.topic-group').forEach(g => g.classList.remove('open'));
