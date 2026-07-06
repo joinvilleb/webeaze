@@ -2758,11 +2758,6 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
           <div class="search-typeahead" id="searchTypeahead" hidden></div>
         </div>
 
-        <div id="recommendedRow" class="recommended-row" hidden>
-          <div class="rec-label"><i class="fas fa-star"></i> Recommended for you</div>
-          <div class="rec-pills" id="recPills"></div>
-        </div>
-
         <div class="hero-pinned">
           <div class="hero-pinned-label">Most asked</div>
           <div class="hero-pinned-pills">
@@ -9661,11 +9656,8 @@ const LS_SAVED    = 'wz_help_saved';
     lsSet('wz_help_last_visit', Date.now());
     renderTopics();
     renderCategories();
-    renderRecommended();
-    initReturnVisitor();
     renderSavedSidebar();
     renderRecentRow();
-    initPhaseBanner();
     bindInternalLinks();
     initSearch();
     initTypeahead();
@@ -9728,12 +9720,7 @@ const LS_SAVED    = 'wz_help_saved';
     // Escape key
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape') gsClose(); });
 
-    // Hero greeting — pick one phrase randomly on page load
-    const $heroGreeting = document.getElementById('heroGreeting');
-    if ($heroGreeting) {
-      const phrases = ['How can we help?', "What's on your mind?", 'Find what you need.'];
-      $heroGreeting.textContent = phrases[Math.floor(Math.random() * phrases.length)];
-    }
+    // Hero greeting stays a simple, consistent "How can we help?" (set in the markup).
   }
 
   document.addEventListener('DOMContentLoaded', boot);
