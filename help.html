@@ -2825,7 +2825,6 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
 <section class="categories-section" id="categoriesSection">
   <div class="container container-narrow">
     <p class="categories-heading">Browse by Category</p>
-    <div class="group-chips" id="groupChips"></div>
     <div class="categories-grid" id="categoriesGrid"></div>
   </div>
 </section>
@@ -8788,32 +8787,11 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
   const GROUP_ICONS = { journey: 'fa-route', billing: 'fa-credit-card', support: 'fa-wrench', addons: 'fa-puzzle-piece' };
   let activeCategoryGroup = null;
 
-  function renderCategories(filterGroup) {
-    activeCategoryGroup = filterGroup || null;
-    const readSlugs = new Set((lsGet(LS_READ) || []).map(r => r.slug));
+  function renderCategories() {
     const sorted = [...HELP_DATA.topics].sort((a, b) => TOPIC_ORDER.indexOf(a.id) - TOPIC_ORDER.indexOf(b.id));
-    const filtered = filterGroup ? sorted.filter(t => t.group === filterGroup) : sorted;
-
-    // Group chips
-    const $chips = document.getElementById('groupChips');
-    if ($chips) {
-      $chips.innerHTML =
-        `<button class="group-chip${!activeCategoryGroup ? ' active' : ''}" onclick="renderCategories(null)"><i class="fas fa-th-large"></i> All</button>` +
-        GROUP_META.map(g =>
-          `<button class="group-chip${activeCategoryGroup === g.key ? ' active' : ''}" onclick="renderCategories('${g.key}')"><i class="fas ${GROUP_ICONS[g.key] || 'fa-folder'}"></i> ${g.label}</button>`
-        ).join('');
-    }
-
-    let html = '';
-    let lastGroup = null;
-    filtered.forEach(t => {
-      if (!filterGroup && t.group !== lastGroup) {
-        const gm = GROUP_META.find(g => g.key === t.group);
-        html += `<div class="category-section-label">${gm ? gm.label : ''}</div>`;
-        lastGroup = t.group;
-      }
+    $categoriesGrid.innerHTML = sorted.map(t => {
       const total = t.articles.length;
-      html += `
+      return `
       <div class="category-card" role="button" tabindex="0"
         onclick="renderTopicResults('${t.id}')"
         onkeydown="if(event.key==='Enter' || event.key===' ') { event.preventDefault(); renderTopicResults('${t.id}'); }"
@@ -8825,8 +8803,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
         </div>
         <i class="fas fa-chevron-right cat-arrow"></i>
       </div>`;
-    });
-    $categoriesGrid.innerHTML = html;
+    }).join('');
   }
 
   // ---- Referrer-based recommendations ----
@@ -9750,7 +9727,7 @@ function renderTopicResults(topicId) {
 
   $results.innerHTML = `
     <div class="topic-breadcrumb">
-      <a href="#" onclick="event.preventDefault(); $categoriesSection.style.display='block'; $results.innerHTML=''; renderCategories(activeCategoryGroup); window.scrollTo({top:$categoriesSection.offsetTop - 80, behavior:'smooth'});"><i class="fas fa-chevron-left"></i> All Categories</a>
+      <a href="#" onclick="event.preventDefault(); $categoriesSection.style.display='block'; $results.innerHTML=''; renderCategories(); window.scrollTo({top:$categoriesSection.offsetTop - 80, behavior:'smooth'});"><i class="fas fa-chevron-left"></i> All Categories</a>
       <i class="fas fa-chevron-right"></i>
       <span>${topic.title}</span>
     </div>
