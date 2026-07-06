@@ -81,7 +81,7 @@ const extraCss = `
 .article-related a:hover { border-color: var(--brand, #7851a9); color: var(--brand, #7851a9); }
 
 /* ── Dynamic breadcrumb (overrides the extracted SPA styles) ── */
-.article-breadcrumb { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin: 0 0 22px; padding: 0; background: none !important; border: none !important; font-size: 13.5px; }
+.article-breadcrumb { display: flex !important; align-items: center; flex-wrap: wrap; gap: 8px; margin: 0 0 22px; padding: 0; background: none !important; border: none !important; font-size: 13.5px; }
 .article-breadcrumb a { display: inline-flex; align-items: center; gap: 6px; color: var(--muted, #6b7094); font-weight: 600; text-decoration: none; transition: color .15s; }
 .article-breadcrumb a:hover { color: var(--brand, #7851a9); }
 .article-breadcrumb .sep { color: #c4c8d4; font-size: 10px; width: auto; }
