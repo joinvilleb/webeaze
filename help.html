@@ -9647,10 +9647,6 @@ const LS_SAVED    = 'wz_help_saved';
       const _q = _params.get('q');
       if (_topic && HELP_DATA.topics.some(t => t.id === _topic)) {
         renderTopicResults(_topic);
-        setTimeout(function () {
-          const sec = document.getElementById('categoriesSection');
-          if (sec) window.scrollTo({ top: sec.offsetTop - 80, behavior: 'smooth' });
-        }, 60);
       } else if (_q) {
         $search.value = _q;
         renderList(searchArticles(_q), _q);
@@ -9742,7 +9738,13 @@ function renderTopicResults(topicId) {
   if (group) group.classList.add('open');
 
   $live.textContent = `Browsing: ${topic.title}`;
-  $results.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  // Scroll to the results, offsetting the fixed nav so the breadcrumb/header
+  // land just below it (scrollIntoView hides them behind the fixed header).
+  requestAnimationFrame(function () {
+    const navH = (document.querySelector('.wb-header') || {}).offsetHeight || 70;
+    const y = $results.getBoundingClientRect().top + window.pageYOffset - navH - 12;
+    window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+  });
 }
 </script>
 
