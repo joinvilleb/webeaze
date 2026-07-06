@@ -9206,6 +9206,12 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
       const slug = a.getAttribute('href').slice(2).split('?')[0];
       if (!slug) return;                 // "#/" home link — leave it
       e.preventDefault();
+      // Record how they reached the article so its breadcrumb can reflect the path.
+      try {
+        const q = $search ? $search.value.trim() : '';
+        if (q) sessionStorage.setItem('wb_help_trail', JSON.stringify({ kind: 'search', q: q }));
+        else sessionStorage.removeItem('wb_help_trail');
+      } catch (err) {}
       location.href = 'help/' + slug + '/'; // articles are now real, indexable pages
     }, false);
   }
@@ -9659,6 +9665,24 @@ const LS_SAVED    = 'wz_help_saved';
     initReadProgress();
     window.addEventListener('hashchange', onHash);
     onHash();
+
+    // Deep links from article breadcrumbs: ?topic=<id> opens a category, ?q=<query> restores a search.
+    try {
+      const _params = new URLSearchParams(location.search);
+      const _topic = _params.get('topic');
+      const _q = _params.get('q');
+      if (_topic && HELP_DATA.topics.some(t => t.id === _topic)) {
+        renderTopicResults(_topic);
+        setTimeout(function () {
+          const sec = document.getElementById('categoriesSection');
+          if (sec) window.scrollTo({ top: sec.offsetTop - 80, behavior: 'smooth' });
+        }, 60);
+      } else if (_q) {
+        $search.value = _q;
+        renderList(searchArticles(_q), _q);
+        if ($categoriesSection) $categoriesSection.style.display = 'none';
+      }
+    } catch (err) {}
 
     // ---- Getting Started modal ----
     const $gsOverlay  = document.getElementById('gsOverlay');

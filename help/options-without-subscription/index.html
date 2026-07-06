@@ -25,7 +25,7 @@
 <link rel="stylesheet" href="../../css/nav.css" />
 <link rel="stylesheet" href="../../css/help-article.css" />
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"I don't want a monthly plan. What are my options?","description":"Not ready for a subscription? Here is a full overview of what you can do instead.","datePublished":"2026-04-25","dateModified":"2026-04-25","author":{"@type":"Organization","name":"WebEaze"},"publisher":{"@type":"Organization","name":"WebEaze","logo":{"@type":"ImageObject","url":"https://webeaze.io/images/webeaze-transparent.png"}},"mainEntityOfPage":"https://webeaze.io/help/options-without-subscription/","inLanguage":"en-US"}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://webeaze.io/"},{"@type":"ListItem","position":2,"name":"Help Center","item":"https://webeaze.io/help"},{"@type":"ListItem","position":3,"name":"I don't want a monthly plan. What are my options?","item":"https://webeaze.io/help/options-without-subscription/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://webeaze.io/"},{"@type":"ListItem","position":2,"name":"Help Center","item":"https://webeaze.io/help"},{"@type":"ListItem","position":3,"name":"One-Time Projects","item":"https://webeaze.io/help?topic=one-time-projects"},{"@type":"ListItem","position":4,"name":"I don't want a monthly plan. What are my options?","item":"https://webeaze.io/help/options-without-subscription/"}]}</script>
 </head>
 <body>
 <header class="wb-header" id="wb-header" role="banner">
@@ -86,13 +86,12 @@
 <div class="wb-header-spacer"></div>
 <main class="help-article-main">
   <div class="article-view">
-    <a href="../../help.html" class="article-back"><i class="fas fa-arrow-left"></i> Back to Help Center</a>
-    <nav class="article-breadcrumb">
-      <a href="../../index.html"><i class="fas fa-home"></i></a>
-      <span>/</span>
-      <a href="../../help.html">Help Center</a>
-      <span>/</span>
-      <span>One-Time Projects</span>
+    <nav class="article-breadcrumb" id="articleCrumb" data-topic-id="one-time-projects" data-topic-label="One-Time Projects">
+      <a href="../../help.html"><i class="fas fa-home"></i> Help Center</a>
+      <i class="fas fa-chevron-right sep"></i>
+      <a class="crumb-mid" href="../../help.html?topic=one-time-projects"><span>One-Time Projects</span></a>
+      <i class="fas fa-chevron-right sep"></i>
+      <span class="crumb-current">I don't want a monthly plan. What are my options?</span>
     </nav>
     <header class="article-header">
       <h1>I don't want a monthly plan. What are my options?</h1>
@@ -215,5 +214,28 @@
   </div>
 </footer>
 <script src="../../js/nav.js" defer></script>
+<script>
+/* Dynamic breadcrumb: reflects how the reader reached this page (search vs. category browse). */
+(function () {
+  var nav = document.getElementById('articleCrumb');
+  if (!nav) return;
+  var mid = nav.querySelector('.crumb-mid');
+  var trail = null;
+  try { trail = JSON.parse(sessionStorage.getItem('wb_help_trail') || 'null'); } catch (e) {}
+  if (trail && trail.kind === 'search' && trail.q && mid) {
+    mid.querySelector('span').textContent = 'Search results';
+    mid.setAttribute('href', '../../help.html?q=' + encodeURIComponent(trail.q));
+    mid.setAttribute('title', 'Back to search: ' + trail.q);
+  }
+  // Leaving to another help article (related/inline link) resets the trail so the next
+  // page shows its own category instead of a stale search crumb.
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest('a');
+    if (a && /(^|/)../[a-z0-9-]+/$/.test(a.getAttribute('href') || '')) {
+      try { sessionStorage.removeItem('wb_help_trail'); } catch (er) {}
+    }
+  });
+})();
+</script>
 </body>
 </html>

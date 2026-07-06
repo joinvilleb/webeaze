@@ -79,6 +79,18 @@ const extraCss = `
 .article-related ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
 .article-related a { display: block; padding: 12px 15px; border: 1px solid var(--border, #e4e7f1); border-radius: 10px; font-weight: 600; color: var(--text, #0f1228); text-decoration: none; transition: border-color .15s, color .15s; }
 .article-related a:hover { border-color: var(--brand, #7851a9); color: var(--brand, #7851a9); }
+
+/* ── Dynamic breadcrumb (overrides the extracted SPA styles) ── */
+.article-breadcrumb { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin: 0 0 22px; padding: 0; background: none !important; border: none !important; font-size: 13.5px; }
+.article-breadcrumb a { display: inline-flex; align-items: center; gap: 6px; color: var(--muted, #6b7094); font-weight: 600; text-decoration: none; transition: color .15s; }
+.article-breadcrumb a:hover { color: var(--brand, #7851a9); }
+.article-breadcrumb .sep { color: #c4c8d4; font-size: 10px; width: auto; }
+.article-breadcrumb .crumb-current { color: var(--text, #0f1228); font-weight: 700; max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; opacity: 1 !important; }
+.article-breadcrumb .crumb-mid span { display: inline-block; max-width: 240px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; vertical-align: bottom; }
+@media (max-width: 560px) {
+  .article-breadcrumb { gap: 6px; font-size: 12.5px; }
+  .article-breadcrumb .crumb-mid span { max-width: 150px; }
+}
 `;
 fs.writeFileSync(path.join(ROOT, 'css', 'help-article.css'), styleInner + extraCss);
 
@@ -134,11 +146,13 @@ function page({ article, topic }) {
     publisher: { '@type': 'Organization', name: 'WebEaze', logo: { '@type': 'ImageObject', url: 'https://webeaze.io/images/webeaze-transparent.png' } },
     mainEntityOfPage: url, inLanguage: 'en-US'
   };
+  const catUrl = `https://webeaze.io/help?topic=${topic.id}`;
   const breadcrumb = {
     '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://webeaze.io/' },
       { '@type': 'ListItem', position: 2, name: 'Help Center', item: 'https://webeaze.io/help' },
-      { '@type': 'ListItem', position: 3, name: article.title, item: url }
+      { '@type': 'ListItem', position: 3, name: topic.title, item: catUrl },
+      { '@type': 'ListItem', position: 4, name: article.title, item: url }
     ]
   };
   return `<!DOCTYPE html>
@@ -174,13 +188,12 @@ function page({ article, topic }) {
 ${NAV}
 <main class="help-article-main">
   <div class="article-view">
-    <a href="../../help.html" class="article-back"><i class="fas fa-arrow-left"></i> Back to Help Center</a>
-    <nav class="article-breadcrumb">
-      <a href="../../index.html"><i class="fas fa-home"></i></a>
-      <span>/</span>
-      <a href="../../help.html">Help Center</a>
-      <span>/</span>
-      <span>${escText(topic.title)}</span>
+    <nav class="article-breadcrumb" id="articleCrumb" data-topic-id="${escAttr(topic.id)}" data-topic-label="${escAttr(topic.title)}">
+      <a href="../../help.html"><i class="fas fa-home"></i> Help Center</a>
+      <i class="fas fa-chevron-right sep"></i>
+      <a class="crumb-mid" href="../../help.html?topic=${encodeURIComponent(topic.id)}"><span>${escText(topic.title)}</span></a>
+      <i class="fas fa-chevron-right sep"></i>
+      <span class="crumb-current">${escText(article.title)}</span>
     </nav>
     <header class="article-header">
       <h1>${escText(article.title)}</h1>
@@ -199,6 +212,29 @@ ${NAV}
 </main>
 ${FOOTER}
 <script src="../../js/nav.js" defer></script>
+<script>
+/* Dynamic breadcrumb: reflects how the reader reached this page (search vs. category browse). */
+(function () {
+  var nav = document.getElementById('articleCrumb');
+  if (!nav) return;
+  var mid = nav.querySelector('.crumb-mid');
+  var trail = null;
+  try { trail = JSON.parse(sessionStorage.getItem('wb_help_trail') || 'null'); } catch (e) {}
+  if (trail && trail.kind === 'search' && trail.q && mid) {
+    mid.querySelector('span').textContent = 'Search results';
+    mid.setAttribute('href', '../../help.html?q=' + encodeURIComponent(trail.q));
+    mid.setAttribute('title', 'Back to search: ' + trail.q);
+  }
+  // Leaving to another help article (related/inline link) resets the trail so the next
+  // page shows its own category instead of a stale search crumb.
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest('a');
+    if (a && /(^|\/)\.\.\/[a-z0-9-]+\/$/.test(a.getAttribute('href') || '')) {
+      try { sessionStorage.removeItem('wb_help_trail'); } catch (er) {}
+    }
+  });
+})();
+</script>
 </body>
 </html>`;
 }

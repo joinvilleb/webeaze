@@ -25,7 +25,7 @@
 <link rel="stylesheet" href="../../css/nav.css" />
 <link rel="stylesheet" href="../../css/help-article.css" />
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Can I add a blog to my website?","description":"We can add a blog or news section to your website to help with engagement and SEO.","datePublished":"2026-02-24","dateModified":"2026-02-24","author":{"@type":"Organization","name":"WebEaze"},"publisher":{"@type":"Organization","name":"WebEaze","logo":{"@type":"ImageObject","url":"https://webeaze.io/images/webeaze-transparent.png"}},"mainEntityOfPage":"https://webeaze.io/help/add-a-blog/","inLanguage":"en-US"}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://webeaze.io/"},{"@type":"ListItem","position":2,"name":"Help Center","item":"https://webeaze.io/help"},{"@type":"ListItem","position":3,"name":"Can I add a blog to my website?","item":"https://webeaze.io/help/add-a-blog/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://webeaze.io/"},{"@type":"ListItem","position":2,"name":"Help Center","item":"https://webeaze.io/help"},{"@type":"ListItem","position":3,"name":"Add-ons","item":"https://webeaze.io/help?topic=add-ons"},{"@type":"ListItem","position":4,"name":"Can I add a blog to my website?","item":"https://webeaze.io/help/add-a-blog/"}]}</script>
 </head>
 <body>
 <header class="wb-header" id="wb-header" role="banner">
@@ -86,13 +86,12 @@
 <div class="wb-header-spacer"></div>
 <main class="help-article-main">
   <div class="article-view">
-    <a href="../../help.html" class="article-back"><i class="fas fa-arrow-left"></i> Back to Help Center</a>
-    <nav class="article-breadcrumb">
-      <a href="../../index.html"><i class="fas fa-home"></i></a>
-      <span>/</span>
-      <a href="../../help.html">Help Center</a>
-      <span>/</span>
-      <span>Add-ons</span>
+    <nav class="article-breadcrumb" id="articleCrumb" data-topic-id="add-ons" data-topic-label="Add-ons">
+      <a href="../../help.html"><i class="fas fa-home"></i> Help Center</a>
+      <i class="fas fa-chevron-right sep"></i>
+      <a class="crumb-mid" href="../../help.html?topic=add-ons"><span>Add-ons</span></a>
+      <i class="fas fa-chevron-right sep"></i>
+      <span class="crumb-current">Can I add a blog to my website?</span>
     </nav>
     <header class="article-header">
       <h1>Can I add a blog to my website?</h1>
@@ -191,5 +190,28 @@
   </div>
 </footer>
 <script src="../../js/nav.js" defer></script>
+<script>
+/* Dynamic breadcrumb: reflects how the reader reached this page (search vs. category browse). */
+(function () {
+  var nav = document.getElementById('articleCrumb');
+  if (!nav) return;
+  var mid = nav.querySelector('.crumb-mid');
+  var trail = null;
+  try { trail = JSON.parse(sessionStorage.getItem('wb_help_trail') || 'null'); } catch (e) {}
+  if (trail && trail.kind === 'search' && trail.q && mid) {
+    mid.querySelector('span').textContent = 'Search results';
+    mid.setAttribute('href', '../../help.html?q=' + encodeURIComponent(trail.q));
+    mid.setAttribute('title', 'Back to search: ' + trail.q);
+  }
+  // Leaving to another help article (related/inline link) resets the trail so the next
+  // page shows its own category instead of a stale search crumb.
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest('a');
+    if (a && /(^|/)../[a-z0-9-]+/$/.test(a.getAttribute('href') || '')) {
+      try { sessionStorage.removeItem('wb_help_trail'); } catch (er) {}
+    }
+  });
+})();
+</script>
 </body>
 </html>
