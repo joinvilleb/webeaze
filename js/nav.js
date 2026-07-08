@@ -223,7 +223,15 @@
       document.body.appendChild(backdrop);
 
       var syncBackdrop = function () {
-        backdrop.classList.toggle('wb-show', mobileMenu.classList.contains('wb-open'));
+        var open = mobileMenu.classList.contains('wb-open');
+        backdrop.classList.toggle('wb-show', open);
+        // Keep aria-hidden + inert in sync with the menu state. `inert` removes
+        // the closed menu's links from the tab order AND the accessibility tree,
+        // so an aria-hidden container never holds focusable children (fixes the
+        // "accessibility tree is not well-formed" / aria-hidden-focus audit).
+        mobileMenu.setAttribute('aria-hidden', String(!open));
+        if (open) { mobileMenu.removeAttribute('inert'); }
+        else { mobileMenu.setAttribute('inert', ''); }
       };
 
       if (window.MutationObserver) {
