@@ -252,6 +252,16 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
 .areas-chips a.chip:hover { background:var(--brand-border); }
 /* buttons hug text on mobile too */
 @media (max-width:768px){ .hero-btns{ flex-direction:row; } .btn-gold,.btn-ghost{ width:auto !important; } }
+.area-search { max-width:440px; margin:0 auto 20px; position:relative; }
+.area-search i { position:absolute; left:17px; top:50%; transform:translateY(-50%); color:var(--muted); font-size:.9rem; pointer-events:none; }
+.area-search input { width:100%; padding:14px 18px 14px 42px; font-family:inherit; font-size:1rem; color:var(--ink); background:var(--card); border:1.5px solid var(--line); border-radius:999px; transition:border-color .2s, box-shadow .2s; }
+.area-search input:focus { outline:none; border-color:var(--brand); box-shadow:0 0 0 4px var(--brand-soft); }
+.areas-chips .chip { transition:opacity .15s; }
+.area-result { max-width:540px; margin:20px auto 0; text-align:center; font-size:1rem; color:var(--muted); }
+.area-result.ok { color:var(--ink); }
+.area-result i { color:var(--green); margin-right:6px; }
+.area-result a { color:var(--brand); font-weight:600; text-decoration:none; }
+.area-result a:hover { text-decoration:underline; }
 </style>
 
 <script type="application/ld+json">
@@ -531,9 +541,14 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
   <div class="container container-narrow">
     <div class="section-head">
       <h2>Serving businesses across Pittsburgh.</h2>
-      <p>Downtown, Strip District, Shadyside, Lawrenceville, South Side, Oakland, Squirrel Hill, Bloomfield, Mount Lebanon, Bethel Park, and the South Hills.</p>
+      <p>Search for your neighborhood, we can help you there.</p>
     </div>
-    <div class="areas-chips"><span class="chip">Downtown</span><span class="chip">Strip District</span><span class="chip">Shadyside</span><span class="chip">Lawrenceville</span><span class="chip">South Side</span><span class="chip">Oakland</span><span class="chip">Squirrel Hill</span><span class="chip">Mt. Lebanon</span><span class="chip">Bethel Park</span></div>
+    <div class="area-search">
+      <i class="fas fa-magnifying-glass"></i>
+      <input type="text" id="areaSearch" data-city="Pittsburgh" placeholder="Search for your neighborhood..." autocomplete="off" aria-label="Search for your neighborhood">
+    </div>
+    <div class="areas-chips" id="areaChips"><span class="chip">Downtown</span><span class="chip">Strip District</span><span class="chip">Shadyside</span><span class="chip">Lawrenceville</span><span class="chip">South Side</span><span class="chip">Oakland</span><span class="chip">Squirrel Hill</span><span class="chip">Mt. Lebanon</span><span class="chip">Bethel Park</span></div>
+    <p class="area-result" id="areaResult" hidden></p>
     <div style="text-align:center;margin-top:30px;">
       <a href="consultation.html" class="btn-gold"><i class="fas fa-calendar-check"></i> Book a Free Call</a>
     </div>
@@ -724,5 +739,34 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
   revealEls.forEach(el => revealObserver.observe(el));
 </script>
 <script src="js/nav.js" defer></script>
+<script>
+(function(){
+  var input=document.getElementById('areaSearch');
+  if(!input) return;
+  var wrap=document.getElementById('areaChips');
+  var chips=[].slice.call(wrap.querySelectorAll('.chip'));
+  var result=document.getElementById('areaResult');
+  var city=input.getAttribute('data-city')||'your area';
+  function norm(s){return s.toLowerCase().replace(/[^a-z0-9]/g,'');}
+  input.addEventListener('input',function(){
+    var q=norm(input.value);
+    if(!q){ chips.forEach(function(c){c.style.display='';}); result.hidden=true; return; }
+    var any=false;
+    chips.forEach(function(c){
+      var m=norm(c.textContent).indexOf(q)>-1;
+      c.style.display=m?'':'none';
+      if(m) any=true;
+    });
+    result.hidden=false;
+    if(any){
+      result.className='area-result ok';
+      result.innerHTML='<i class="fas fa-circle-check"></i> Yes, we build and manage websites there. <a href="consultation.html">Book a free call</a>.';
+    } else {
+      result.className='area-result';
+      result.innerHTML='We cover all of '+city+' and the surrounding area, including yours. <a href="consultation.html">Book a free call</a> and we will confirm.';
+    }
+  });
+})();
+</script>
 </body>
 </html>
