@@ -291,6 +291,22 @@
     }
     .result-retake button:hover { opacity: .8; }
 
+    /* Footnote reference markers on the recommended plan's features */
+    .result-features sup { color: var(--result-color, var(--gold)); font-weight: 700; font-size: .62em; top: -.55em; }
+    /* Contextual footnotes shown right under the result card, tied to the plan */
+    .result-notes { display: flex; flex-direction: column; gap: 9px; margin: -6px 0 26px; padding: 16px 18px; background: rgba(255,255,255,.03); border: 1px solid var(--line); border-radius: 12px; }
+    .result-notes p { display: flex; gap: 9px; margin: 0; font-size: .84rem; color: var(--ink-2); line-height: 1.55; }
+    .result-notes sup { position: static; vertical-align: baseline; color: var(--result-color, var(--gold)); font-weight: 700; flex-shrink: 0; }
+    .result-notes a { color: var(--result-color, var(--gold)); text-decoration: underline; text-underline-offset: 2px; }
+    .result-notes:empty { display: none; }
+
+    /* Global hosting/billing footnotes in the footer, cleanly formatted */
+    .footnotes { max-width: 640px; margin: 0 auto 26px; padding: 0 20px; display: flex; flex-direction: column; gap: 11px; }
+    .footnotes p { display: flex; gap: 9px; margin: 0; font-size: .8rem; color: var(--muted); line-height: 1.6; text-align: left; }
+    .footnotes sup { color: var(--ink-2); font-weight: 700; flex-shrink: 0; }
+    .footnotes a { color: var(--ink-2); text-decoration: underline; text-underline-offset: 2px; }
+    .footnotes a:hover { color: var(--gold); }
+
     /* PLANS SECTION */
     .plans-section { padding: 100px 20px; background: var(--bg); }
     .section-header { text-align: center; margin-bottom: 56px; }
@@ -478,6 +494,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
       <a class="wb-nav-link" href="contact-us.html">Contact</a>
     </nav>
     <div class="wb-nav-actions">
+      <a class="wb-get-started-btn" href="consultation.html">Free Preview</a>
       <a id="client-portal-btn" class="wb-portal-btn" href="client-start.html"><i class="fas fa-user"></i> <span id="client-portal-label">Client Portal</span></a>
       <button class="wb-hamburger" id="wb-hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="wb-mobile-menu" type="button">
         <span class="wb-bar"></span><span class="wb-bar"></span><span class="wb-bar"></span>
@@ -510,8 +527,8 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
 <!-- HERO -->
 <header class="hero">
   <div class="hero-content">
-    <p class="kicker"><i class="fas fa-compass"></i> Plan Guide</p>
-    <h1 class="headline">Find your <span>perfect plan.</span></h1>
+    
+    <h1 class="headline">How can <span>we help?</span></h1>
     <p class="sub">New to WebEaze? We design, build, host, and manage your website for one monthly price. Answer 4 questions and we'll take it from there.</p>
     <div class="hero-cta">
       <a href="#quiz" class="btn-brand"><i class="fas fa-play"></i> Start the Guide</a>
@@ -676,6 +693,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
       <div class="result-plan-price" id="resultPlanPrice"></div>
       <div class="result-plan-tagline" id="resultPlanTagline"></div>
       <ul class="result-features" id="resultFeatures"></ul>
+      <div class="result-notes" id="resultNotes"></div>
       <div class="result-actions" id="resultActions"></div>
     </div>
     <p class="result-retake">Not quite right? <button id="retakeBtn">Retake the quiz</button></p>
@@ -726,10 +744,10 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
       </ul>
     </div>
   </div>
-  <p style="font-size:.8rem;color:var(--muted);max-width:600px;margin:0 auto 20px;text-align:center;">
-    *Essential plan: domain and hosting covered on GitHub Pages. If using another hosting provider, you are responsible for that cost.<br>
-    **Growth plan includes a $100 annual credit toward domain and hosting costs. Costs beyond the credit are your responsibility. See our <a href="https://webeaze.io/help#/domain-and-hosting-credit">Hosting Policy</a> for details.
-  </p>
+  <div class="footnotes">
+    <p><sup>1</sup> Essential plan: domain and hosting are covered on GitHub Pages. If you use another hosting provider, that cost is your responsibility.</p>
+    <p><sup>2</sup> Growth plan includes a $100 annual credit toward domain and hosting. Any cost beyond the credit is your responsibility. See our <a href="https://webeaze.io/help#/domain-and-hosting-credit">Hosting Policy</a> for details.</p>
+  </div>
   <div class="footer-bottom">
     <p style="color:#fff">&copy; <span id="yr"></span> WebEaze. Made in Delaware, USA 🇺🇸</p>
     <div class="footer-legal">
@@ -783,6 +801,25 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
 
   /* Result data */
   var RESULTS = {
+    onetime: {
+      color: '#34d399',
+      heading: 'A one-time website may be all you need.',
+      sub: 'Your answers point to a small site that won\'t change often. Instead of a monthly plan, we can build it once, hand it over, and it\'s yours to keep.',
+      name: 'One-Time Website Help', price: 'Starting at $149, one time',
+      tagline: 'We design and build your site, then it\'s yours. No monthly fee, no subscription.',
+      features: [
+        'Custom-designed small business website',
+        'Built, launched, and handed over to you',
+        'You own everything outright',
+        'No recurring cost',
+        'Add managed hosting and updates later if you ever want them'
+      ],
+      notes: [
+        'One-time projects don\'t include ongoing hosting or content updates. You can add a managed plan whenever you\'re ready.'
+      ],
+      ctaText: 'See One-Time Website Help', ctaHref: 'one-time-project.html',
+      altText: 'Prefer it fully managed?', altHref: 'pricing.html'
+    },
     essential: {
       color: '#60a5fa',
       heading: 'We recommend Essential.',
@@ -793,9 +830,12 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
         'Up to 3 pages, fully custom designed',
         'Mobile-responsive and fast',
         'Domain included',
-        'Hosting included',
+        'Hosting included <sup>1</sup>',
         'Unlimited content updates',
         'Email support'
+      ],
+      notes: [
+        '<sup>1</sup> Domain and hosting are covered on GitHub Pages. If you use another hosting provider, that cost is your responsibility.'
       ],
       ctaText: 'Get Started with Essential', ctaHref: 'https://buy.stripe.com/fZufZgfLggX1a7Sgd9c3m0f',
       altText: 'Compare all plans', altHref: 'pricing.html'
@@ -811,8 +851,11 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
         'Total Access Support: phone, video, live chat',
         'Monthly performance reports',
         'Google Business Profile management',
-        'Hosting credit included',
+        'Hosting credit included <sup>2</sup>',
         'Priority response time'
+      ],
+      notes: [
+        '<sup>2</sup> Includes a $100 annual credit toward domain and hosting. Any cost beyond the credit is your responsibility. See our <a href="https://webeaze.io/help#/domain-and-hosting-credit">Hosting Policy</a>.'
       ],
       ctaText: 'Get Started with Growth', ctaHref: 'https://buy.stripe.com/4gM9AS56C227a7S6Czc3m0g',
       altText: 'Compare all plans', altHref: 'pricing.html'
@@ -881,6 +924,9 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
       if (a && a.score) scores[a.score]++;
     });
     if (scores.custom > 0) return 'custom';
+    // Smallest, lowest-touch profile: picked the minimal option on every
+    // question. A one-time build likely serves them better than a monthly plan.
+    if (scores.essential === TOTAL) return 'onetime';
     if (scores.growth > scores.essential) return 'growth';
     if (scores.growth === scores.essential) return 'growth'; // tie → growth
     return 'essential';
@@ -904,6 +950,10 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
       li.innerHTML = '<i class="fas fa-check"></i> ' + f;
       featuresEl.appendChild(li);
     });
+
+    document.getElementById('resultNotes').innerHTML = (data.notes || []).map(function(n) {
+      return '<p>' + n + '</p>';
+    }).join('');
 
     document.getElementById('resultActions').innerHTML =
       '<a href="' + data.ctaHref + '" class="result-cta"><i class="fas fa-arrow-right"></i> ' + data.ctaText + '</a>' +
