@@ -263,6 +263,16 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
 .area-result .ar-msg i { color:var(--green); margin-right:6px; }
 .area-result .area-suggest { background:none; border:none; padding:0; font:inherit; color:var(--brand); font-weight:700; cursor:pointer; text-decoration:underline; text-underline-offset:2px; }
 .area-result .area-suggest:hover { opacity:.8; }
+.plans-mini { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; max-width:820px; margin:0 auto; }
+@media (max-width:700px){ .plans-mini{ grid-template-columns:1fr; max-width:360px; } }
+.plan-mini { position:relative; background:var(--card); border:1px solid var(--line); border-radius:var(--radius-lg); padding:30px 24px; text-align:center; box-shadow:0 2px 12px rgba(0,0,0,.04); }
+.plan-mini.popular { border-color:var(--brand-border); box-shadow:0 8px 26px rgba(120,81,169,.1); }
+.pm-badge { position:absolute; top:-12px; left:50%; transform:translateX(-50%); background:var(--brand); color:#fff; font-size:.7rem; font-weight:700; text-transform:uppercase; letter-spacing:.05em; padding:4px 13px; border-radius:999px; white-space:nowrap; }
+.pm-name { font-size:.82rem; font-weight:700; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); margin-bottom:10px; }
+.pm-price { font-size:2.4rem; font-weight:800; letter-spacing:-.03em; color:var(--brand); line-height:1; }
+.pm-price span { font-size:.95rem; font-weight:500; color:var(--muted); }
+.pm-note { font-size:.9rem; color:var(--muted); margin-top:12px; line-height:1.5; }
+.plans-actions { display:flex; justify-content:center; gap:12px; flex-wrap:wrap; margin-top:36px; }
 </style>
 
 <script type="application/ld+json">
@@ -590,63 +600,31 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
 
 <section>
   <div class="container container-narrow">
-    <div class="section-head reveal">
+    <div class="section-head">
       <h2>Simple, transparent pricing</h2>
-      <p>$199 one-time setup fee. No long-term contracts. Cancel anytime.</p>
+      <p>One flat monthly price plus a $199 one-time setup. No contracts, cancel anytime.</p>
     </div>
-    <div class="plans-grid">
-      <div class="plan-card reveal d1">
-        <div class="plan-name">Essential</div>
-        <div class="plan-price">$169</div>
-        <div class="plan-period">per month</div>
-        <div class="plan-setup">+ $199 one-time setup fee</div>
-        <div class="plan-annual">or $1,690/yr (save 2 months)</div>
-        <hr class="plan-divider">
-        <ul class="plan-features">
-          <li><i class="fas fa-check"></i> Custom design (up to 3 pages)</li>
-          <li><i class="fas fa-check"></i> Hosting &amp; SSL included</li>
-          <li><i class="fas fa-check"></i> Unlimited content updates</li>
-          <li><i class="fas fa-check"></i> Mobile optimization</li>
-          <li><i class="fas fa-check"></i> SEO basics</li>
-          <li><i class="fas fa-check"></i> Email support</li>
-        </ul>
-        <a href="consultation.html" class="btn-gold plan-cta">Get Started</a>
+    <div class="plans-mini">
+      <div class="plan-mini">
+        <div class="pm-name">Essential</div>
+        <div class="pm-price">$169<span>/mo</span></div>
+        <div class="pm-note">Custom site, hosting, and unlimited updates</div>
       </div>
-      <div class="plan-card popular reveal d2">
-        <div class="popular-badge">Most Popular</div>
-        <div class="plan-name">Growth</div>
-        <div class="plan-price">$249</div>
-        <div class="plan-period">per month</div>
-        <div class="plan-setup">+ $199 one-time setup fee</div>
-        <div class="plan-annual">or $2,490/yr (save 2 months)</div>
-        <hr class="plan-divider">
-        <ul class="plan-features">
-          <li><i class="fas fa-check"></i> Custom design (up to 6 pages)</li>
-          <li><i class="fas fa-check"></i> Hosting &amp; SSL included</li>
-          <li><i class="fas fa-check"></i> Unlimited content updates</li>
-          <li><i class="fas fa-check"></i> Mobile optimization</li>
-          <li><i class="fas fa-check"></i> Advanced local SEO</li>
-          <li><i class="fas fa-check"></i> Email, phone &amp; video support</li>
-          <li><i class="fas fa-check"></i> Google Business Profile mgmt</li>
-        </ul>
-        <a href="consultation.html" class="btn-gold plan-cta">Get Started</a>
+      <div class="plan-mini popular">
+        <div class="pm-badge">Most Popular</div>
+        <div class="pm-name">Growth</div>
+        <div class="pm-price">$249<span>/mo</span></div>
+        <div class="pm-note">Everything, plus local SEO and reports</div>
       </div>
-      <div class="plan-card reveal d3">
-        <div class="plan-name">Custom Projects</div>
-        <div class="plan-price" style="font-size:1.6rem;line-height:1.2;">Let's talk</div>
-        <div class="plan-period">contact for quote</div>
-        <div class="plan-annual" style="color:var(--muted);">Tailored to your needs</div>
-        <hr class="plan-divider">
-        <ul class="plan-features">
-          <li><i class="fas fa-check"></i> Unlimited pages</li>
-          <li><i class="fas fa-check"></i> Custom functionality</li>
-          <li><i class="fas fa-check"></i> E-commerce &amp; booking</li>
-          <li><i class="fas fa-check"></i> Priority support</li>
-          <li><i class="fas fa-check"></i> Dedicated account manager</li>
-          <li><i class="fas fa-check"></i> Custom integrations</li>
-        </ul>
-        <a href="contact-us.html" class="btn-ghost plan-cta" style="justify-content:center;">Contact Us</a>
+      <div class="plan-mini">
+        <div class="pm-name">Custom</div>
+        <div class="pm-price" style="font-size:1.6rem;">Let's talk</div>
+        <div class="pm-note">E-commerce, bookings, and integrations</div>
       </div>
+    </div>
+    <div class="plans-actions">
+      <a href="pricing.html" class="btn-ghost">See Pricing</a>
+      <a href="consultation.html" class="btn-gold"><i class="fas fa-arrow-right"></i> Get Started</a>
     </div>
   </div>
 </section>
