@@ -540,6 +540,18 @@
   }
   document.querySelectorAll('.section-nav-btn').forEach(function(b){ b.addEventListener('click', function(){ showView(b.dataset.view); }); });
   document.getElementById('report-promo').addEventListener('click', function(){ showView('report'); });
+  // Deep-link the initial view via URL hash so embeds can show a specific area
+  // (e.g. #report for performance, #requests to open the update-request form).
+  (function(){
+    var h = (location.hash || '').replace('#','').toLowerCase();
+    if (h === 'requests' || h === 'updates') {
+      showView('dashboard');
+      var rf = document.getElementById('request-form');
+      if (rf) rf.classList.add('open');
+    } else if (views[h]) {
+      showView(h);
+    }
+  })();
 
   // Notifications dropdown
   var notifBtn = document.getElementById('notif-btn');
