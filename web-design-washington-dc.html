@@ -261,6 +261,8 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
 .area-result.ok { color:var(--ink); }
 .area-result .ar-msg { margin-bottom:15px; }
 .area-result .ar-msg i { color:var(--green); margin-right:6px; }
+.area-result .area-suggest { background:none; border:none; padding:0; font:inherit; color:var(--brand); font-weight:700; cursor:pointer; text-decoration:underline; text-underline-offset:2px; }
+.area-result .area-suggest:hover { opacity:.8; }
 </style>
 
 <script type="application/ld+json">
@@ -770,28 +772,31 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
   var input=document.getElementById('areaSearch');
   if(!input) return;
   var wrap=document.getElementById('areaChips');
-  var chips=[].slice.call(wrap.querySelectorAll('.chip'));
+  var names=[].slice.call(wrap.querySelectorAll('.chip')).map(function(c){return c.textContent.trim();});
   var result=document.getElementById('areaResult');
   var city=input.getAttribute('data-city')||'your area';
+  var timer;
   function norm(s){return s.toLowerCase().replace(/[^a-z0-9]/g,'');}
-  input.addEventListener('input',function(){
+  function lev(a,b){var m=a.length,n=b.length,i,j,d=[];if(!m)return n;if(!n)return m;for(i=0;i<=m;i++)d[i]=[i];for(j=0;j<=n;j++)d[0][j]=j;for(i=1;i<=m;i++)for(j=1;j<=n;j++){var c=a.charAt(i-1)===b.charAt(j-1)?0:1;d[i][j]=Math.min(d[i-1][j]+1,d[i][j-1]+1,d[i-1][j-1]+c);}return d[m][n];}
+  var cta='<a class="btn-gold" href="consultation.html"><i class="fas fa-calendar-check"></i> Book a Free Call</a>';
+  function show(cls,html){result.hidden=false;result.className='area-result'+(cls?' '+cls:'');result.innerHTML=html;}
+  function confirm(place){show('ok','<div class="ar-msg"><i class="fas fa-circle-check"></i> Yes, we build and manage websites in '+place+'.</div>'+cta);}
+  function check(){
     var q=norm(input.value);
-    if(!q){ chips.forEach(function(c){c.style.display='';}); result.hidden=true; return; }
-    var any=false;
-    chips.forEach(function(c){
-      var m=norm(c.textContent).indexOf(q)>-1;
-      c.style.display=m?'':'none';
-      if(m) any=true;
-    });
-    result.hidden=false;
-    if(any){
-      result.className='area-result ok';
-      result.innerHTML='<div class="ar-msg"><i class="fas fa-circle-check"></i> Yes, we build and manage websites there.</div><a class="btn-gold" href="consultation.html"><i class="fas fa-calendar-check"></i> Book a Free Call</a>';
-    } else {
-      result.className='area-result';
-      result.innerHTML='<div class="ar-msg">We cover all of '+city+' and the surrounding area, including yours.</div><a class="btn-gold" href="consultation.html"><i class="fas fa-calendar-check"></i> Book a Free Call</a>';
+    if(!q){result.hidden=true;return;}
+    for(var i=0;i<names.length;i++){var nn=norm(names[i]);if(nn.indexOf(q)>-1||q.indexOf(nn)>-1){confirm(names[i]);return;}}
+    var best=null,bd=99;
+    names.forEach(function(n){var d=lev(q,norm(n));if(d<bd){bd=d;best=n;}});
+    if(best&&bd<=Math.max(2,Math.floor(norm(best).length*0.34))){
+      show('','<div class="ar-msg">Did you mean <button type="button" class="area-suggest">'+best+'</button>?</div>');
+      result.querySelector('.area-suggest').addEventListener('click',function(){input.value=best;confirm(best);});
+      return;
     }
-  });
+    show('','<div class="ar-msg">We cover all of '+city+' and the surrounding area, including yours.</div>'+cta);
+  }
+  input.addEventListener('input',function(){clearTimeout(timer);timer=setTimeout(check,650);});
+  input.addEventListener('change',check);
+  input.addEventListener('keydown',function(e){if(e.key==='Enter'){clearTimeout(timer);check();}});
 })();
 </script>
 </body>
