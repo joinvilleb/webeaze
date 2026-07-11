@@ -1,0 +1,19 @@
+/* WebEaze content links: no static underline. On hover, a brand-colored underline
+   slides in and the color deepens, so links feel interactive and clickable.
+   Loaded on every page EXCEPT the help center (help pages keep their own styling). */
+a[style*="underline"] {
+  text-decoration: none !important;
+  color: var(--brand, #7851a9) !important;
+  font-weight: 600;
+  background-image: linear-gradient(var(--brand, #7851a9), var(--brand, #7851a9));
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 0% 2px;
+  transition: background-size .28s cubic-bezier(.4, 0, .2, 1), color .18s ease;
+  padding-bottom: 1px;
+}
+a[style*="underline"]:hover,
+a[style*="underline"]:focus-visible {
+  background-size: 100% 2px;
+  color: #5f3d94 !important;
+}
