@@ -241,13 +241,23 @@ ${FOOTER}
 
 const outDir = path.join(ROOT, 'help');
 fs.mkdirSync(outDir, { recursive: true });
-let n = 0;
+
+// Standalone help pages are the source of truth once they exist. By default we
+// NEVER overwrite a page that already exists, because it may have been edited by
+// hand. We only scaffold pages for NEW articles. To deliberately regenerate every
+// page from HELP_DATA (e.g. after a shared nav/footer/template change), run:
+//   node scripts/build-help.js --force
+const FORCE = process.argv.includes('--force') || process.env.FORCE === '1';
+let n = 0, skipped = 0;
 const slugs = [];
 HELP_DATA.topics.forEach(t => t.articles.forEach(a => {
   const dir = path.join(outDir, a.slug);
+  const file = path.join(dir, 'index.html');
+  slugs.push(a.slug);                                        // always tracked for the sitemap
+  if (!FORCE && fs.existsSync(file)) { skipped++; return; }  // protect hand-edited pages
   fs.mkdirSync(dir, { recursive: true });
-  fs.writeFileSync(path.join(dir, 'index.html'), page({ article: a, topic: t }));
-  slugs.push(a.slug); n++;
+  fs.writeFileSync(file, page({ article: a, topic: t }));
+  n++;
 }));
 
 // ── 6. Update sitemap.xml with /help/<slug> URLs ──
@@ -261,4 +271,4 @@ if (fs.existsSync(smPath)) {
   console.log('sitemap.xml updated with ' + slugs.length + ' help URLs');
 }
 
-console.log(`Generated ${n} help article pages in help/ + css/help-article.css`);
+console.log(`Generated ${n} new page(s), skipped ${skipped} existing (use --force to regenerate all from HELP_DATA). Refreshed css/help-article.css.`);
