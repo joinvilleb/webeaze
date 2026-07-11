@@ -257,11 +257,10 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
 .area-search input { width:100%; padding:14px 18px 14px 42px; font-family:inherit; font-size:1rem; color:var(--ink); background:var(--card); border:1.5px solid var(--line); border-radius:999px; transition:border-color .2s, box-shadow .2s; }
 .area-search input:focus { outline:none; border-color:var(--brand); box-shadow:0 0 0 4px var(--brand-soft); }
 .areas-chips .chip { transition:opacity .15s; }
-.area-result { max-width:540px; margin:20px auto 0; text-align:center; font-size:1rem; color:var(--muted); }
+.area-result { max-width:540px; margin:24px auto 0; text-align:center; font-size:1.02rem; color:var(--muted); }
 .area-result.ok { color:var(--ink); }
-.area-result i { color:var(--green); margin-right:6px; }
-.area-result a { color:var(--brand); font-weight:600; text-decoration:none; }
-.area-result a:hover { text-decoration:underline; }
+.area-result .ar-msg { margin-bottom:15px; }
+.area-result .ar-msg i { color:var(--green); margin-right:6px; }
 </style>
 
 <script type="application/ld+json">
@@ -548,10 +547,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
       <input type="text" id="areaSearch" data-city="Pittsburgh" placeholder="Search for your neighborhood..." autocomplete="off" aria-label="Search for your neighborhood">
     </div>
     <div class="areas-chips" id="areaChips" style="display:none" aria-hidden="true"><span class="chip">Downtown</span><span class="chip">Strip District</span><span class="chip">Shadyside</span><span class="chip">Lawrenceville</span><span class="chip">South Side</span><span class="chip">Oakland</span><span class="chip">Squirrel Hill</span><span class="chip">Mt. Lebanon</span><span class="chip">Bethel Park</span></div>
-    <p class="area-result" id="areaResult" hidden></p>
-    <div style="text-align:center;margin-top:30px;">
-      <a href="consultation.html" class="btn-gold"><i class="fas fa-calendar-check"></i> Book a Free Call</a>
-    </div>
+    <div class="area-result" id="areaResult" hidden></div>
   </div>
 </section>
 
@@ -760,10 +756,10 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
     result.hidden=false;
     if(any){
       result.className='area-result ok';
-      result.innerHTML='<i class="fas fa-circle-check"></i> Yes, we build and manage websites there. <a href="consultation.html">Book a free call</a>.';
+      result.innerHTML='<div class="ar-msg"><i class="fas fa-circle-check"></i> Yes, we build and manage websites there.</div><a class="btn-gold" href="consultation.html"><i class="fas fa-calendar-check"></i> Book a Free Call</a>';
     } else {
       result.className='area-result';
-      result.innerHTML='We cover all of '+city+' and the surrounding area, including yours. <a href="consultation.html">Book a free call</a> and we will confirm.';
+      result.innerHTML='<div class="ar-msg">We cover all of '+city+' and the surrounding area, including yours.</div><a class="btn-gold" href="consultation.html"><i class="fas fa-calendar-check"></i> Book a Free Call</a>';
     }
   });
 })();
