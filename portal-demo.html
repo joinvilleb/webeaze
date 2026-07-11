@@ -227,7 +227,8 @@
 
     /* VIEWS */
     .detail-view { display: none; }
-    .detail-view.active { display: block; }
+    .detail-view.active { display: block; animation: pdFade .45s ease; }
+    @keyframes pdFade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
     .detail-title { font-size: 22px; font-weight: 800; letter-spacing: -.03em; margin-bottom: 6px; }
     .detail-sub { font-size: 14px; color: var(--muted); margin-bottom: 24px; }
     .report-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 16px; }
@@ -544,10 +545,23 @@
   // (e.g. #report for performance, #requests to open the update-request form).
   (function(){
     var h = (location.hash || '').replace('#','').toLowerCase();
-    if (h === 'requests' || h === 'updates') {
+    var rf = document.getElementById('request-form');
+    function setForm(open){ if (rf) rf.classList.toggle('open', open); }
+    if (h === 'tour') {
+      // Auto-tour for embeds: walk through the portal like someone managing it.
+      var steps = [
+        function(){ showView('dashboard'); setForm(false); },      // overview
+        function(){ showView('dashboard'); setForm(true); renderSuggest(); }, // submit an update
+        function(){ setForm(false); showView('report'); },         // check performance
+        function(){ showView('help'); }                            // get help
+      ];
+      var t = 0;
+      function tourStep(){ steps[t % steps.length](); t++; }
+      tourStep();
+      setInterval(tourStep, 2900);
+    } else if (h === 'requests' || h === 'updates') {
       showView('dashboard');
-      var rf = document.getElementById('request-form');
-      if (rf) rf.classList.add('open');
+      setForm(true);
     } else if (views[h]) {
       showView(h);
     }

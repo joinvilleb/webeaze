@@ -233,29 +233,6 @@ h3{font-weight:700!important;letter-spacing:-.02em!important;}
 @media(max-width:600px){.hero-visual{display:flex!important;justify-content:center;margin-top:28px;}.site-dash{max-width:100%;}}
 
 </style>
-<style>
-.manage-demo { background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-lg); box-shadow:0 20px 50px rgba(15,18,40,.14); overflow:hidden; max-width:430px; width:100%; margin:0 auto; }
-.md-bar { display:flex; align-items:center; gap:6px; padding:11px 14px; background:#f1f2f7; border-bottom:1px solid var(--line); }
-.md-bar .md-dot { width:9px; height:9px; border-radius:50%; background:#d3d6e2; }
-.md-url { margin-left:8px; font-size:11.5px; color:#6b7094; font-weight:600; display:inline-flex; align-items:center; gap:5px; }
-.md-url i { font-size:9px; color:var(--green); }
-.md-live { margin-left:auto; font-size:11px; font-weight:700; color:var(--green); display:inline-flex; align-items:center; gap:5px; }
-.md-live-dot { width:7px; height:7px; border-radius:50%; background:var(--green); animation:md-pulse 1.7s ease-in-out infinite; }
-@keyframes md-pulse { 0%,100%{ box-shadow:0 0 0 0 rgba(22,163,74,.5); } 50%{ box-shadow:0 0 0 5px rgba(22,163,74,0); } }
-.md-body { padding:22px; }
-.md-head { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:20px; }
-.md-title { font-weight:800; font-size:1.05rem; color:var(--text); }
-.md-sub { font-size:.8rem; color:var(--brand); font-weight:600; margin-top:2px; }
-.md-uptime { text-align:right; }
-.md-uptime-val { display:block; font-size:1.2rem; font-weight:800; color:var(--green); line-height:1; }
-.md-uptime-lbl { font-size:.68rem; color:var(--dim); text-transform:uppercase; letter-spacing:.04em; font-weight:600; }
-.md-tasks { display:flex; flex-direction:column; gap:11px; }
-.md-task { display:flex; align-items:center; gap:11px; font-size:.9rem; color:var(--muted); font-weight:500; transition:color .3s; }
-.md-task.done { color:var(--text); }
-.md-check { width:24px; height:24px; border-radius:50%; background:#eef0f6; color:transparent; display:flex; align-items:center; justify-content:center; font-size:.7rem; flex-shrink:0; transition:background .3s,color .3s; }
-.md-task.done .md-check { background:var(--green); color:#fff; animation:md-pop .35s ease; }
-@keyframes md-pop { 0%{transform:scale(.6);} 60%{transform:scale(1.15);} 100%{transform:scale(1);} }
-</style>
 </head>
 <body>
 <a class="skip-nav" href="#main-content">Skip to main content</a>
@@ -337,26 +314,11 @@ h3{font-weight:700!important;letter-spacing:-.02em!important;}
       </div>
     </div>
     <div class="hero-visual">
-      <div class="manage-demo" role="img" aria-label="A dashboard showing WebEaze managing a website: hosting, updates, SEO and backups all handled automatically">
-        <div class="md-bar">
-          <span class="md-dot"></span><span class="md-dot"></span><span class="md-dot"></span>
-          <span class="md-url"><i class="fas fa-lock"></i> yoursite.com</span>
-          <span class="md-live"><span class="md-live-dot"></span> Live</span>
-        </div>
-        <div class="md-body">
-          <div class="md-head">
-            <div>
-              <div class="md-title">Your website</div>
-              <div class="md-sub">Managed by WebEaze</div>
-            </div>
-            <div class="md-uptime"><span class="md-uptime-val">99.9%</span><span class="md-uptime-lbl">uptime</span></div>
-          </div>
-          <div class="md-tasks" id="mdTasks">
-            <div class="md-task"><span class="md-check"><i class="fas fa-check"></i></span> Hosting &amp; SSL secured</div>
-            <div class="md-task"><span class="md-check"><i class="fas fa-check"></i></span> Content updated</div>
-            <div class="md-task"><span class="md-check"><i class="fas fa-check"></i></span> SEO optimized</div>
-            <div class="md-task"><span class="md-check"><i class="fas fa-check"></i></span> Backed up nightly</div>
-          </div>
+      <div class="portal-embed">
+        <div class="pe-bar"><span class="pe-dot"></span><span class="pe-dot"></span><span class="pe-dot"></span><span class="pe-url">portal.webeaze.io</span></div>
+        <div class="pe-screen">
+          <iframe src="portal-demo.html#tour" title="WebEaze client portal walkthrough" loading="lazy" tabindex="-1" aria-hidden="true"></iframe>
+          <a class="pe-overlay" href="portal-demo.html" aria-label="Open the interactive portal demo"></a>
         </div>
       </div>
     </div>
@@ -598,17 +560,5 @@ window.WZ_CHAT_PAGE={
 <script src="chat-widget.js" defer></script>
 <script type="text/javascript" id="hs-script-loader" async defer src="//js-na2.hs-scripts.com/242171361.js"></script>
 <script src="js/nav.js" defer></script>
-<script>
-(function(){
-  var wrap=document.getElementById('mdTasks'); if(!wrap) return;
-  var tasks=[].slice.call(wrap.querySelectorAll('.md-task'));
-  var i=0;
-  function tick(){
-    if(i<tasks.length){ tasks[i].classList.add('done'); i++; setTimeout(tick,750); }
-    else { setTimeout(function(){ tasks.forEach(function(t){t.classList.remove('done');}); i=0; tick(); },1700); }
-  }
-  tick();
-})();
-</script>
 </body>
 </html>
