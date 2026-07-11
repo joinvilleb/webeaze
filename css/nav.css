@@ -331,10 +331,13 @@
 }
 @media (min-width: 992px) {
   .wb-mobile-menu { display: none !important; }
-  /* Group the logo + nav links together on the left and push the action
-     buttons to the far right (no lopsided gap in the middle of the bar). */
-  .wb-logo { margin-right: 2.25rem; }
-  .wb-nav-actions { margin-left: auto; }
+  /* Three-zone bar: logo left, nav links centered, actions right.
+     Grid keeps the nav dead-center and independent of the logo's width, so
+     hovering the logo never nudges the menu items. */
+  .wb-nav-inner { display: grid; grid-template-columns: 1fr auto 1fr; }
+  .wb-logo { margin: 0; justify-self: start; }
+  .wb-nav { margin: 0; justify-self: center; }
+  .wb-nav-actions { margin: 0; justify-self: end; }
 }
 
 /* ── Portal demo embed (service pages) ─────────────────────────────────────── */
