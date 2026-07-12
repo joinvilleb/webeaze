@@ -249,6 +249,12 @@ h3{font-weight:700!important;letter-spacing:-.02em!important;}
 .gbp-review-author { font-size:.78rem; color:#5f6368; font-weight:600; }
 .gbp-caption { margin:20px auto 0; max-width:400px; font-size:.92rem; color:var(--muted,#4b5563); line-height:1.6; text-align:center; }
 </style>
+<style>
+.gq { color: var(--brand,#7851a9); }
+.gq-cursor { color: var(--brand,#7851a9); font-weight:400; margin-left:1px; animation: gq-blink 1s step-end infinite; }
+@keyframes gq-blink { 50% { opacity:0; } }
+@media (prefers-reduced-motion: reduce) { .gq-cursor { animation:none; } }
+</style>
 </head>
 <body>
 <a class="skip-nav" href="#main-content">Skip to main content</a>
@@ -338,7 +344,7 @@ h3{font-weight:700!important;letter-spacing:-.02em!important;}
 <section class="section section-white">
   <div class="container container-narrow px-4">
     <div class="section-header">
-      <h2>Everyone (almost) uses Google to look up their next need.</h2>
+      <h2 aria-label="Let me Google a local business near me">"Let me Google <span class="gq" id="gquery">a landscaper near me</span><span class="gq-cursor" aria-hidden="true">|</span>"</h2>
     </div>
     <div class="gbp-split">
       <div>
@@ -381,7 +387,7 @@ h3{font-weight:700!important;letter-spacing:-.02em!important;}
             <span class="gbp-cover-badge"><i class="fas fa-camera"></i> 24 photos</span>
           </div>
           <div class="gbp-panel-body">
-            <div class="gbp-name">Bear Carpet Care</div>
+            <div class="gbp-name">Jim's Landscaping</div>
             <div class="gbp-rating"><span class="gbp-score">4.9</span><span class="gbp-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span><span class="gbp-count">(127)</span></div>
             <div class="gbp-meta">Carpet cleaning service &middot; Wilmington, DE</div>
             <div class="gbp-status"><span class="gbp-open">Open</span> &middot; Closes 6 PM</div>
@@ -426,9 +432,9 @@ h3{font-weight:700!important;letter-spacing:-.02em!important;}
       </div>
       <div class="pc2">
         <h3>Add-On Service</h3>
-        <div class="pc2-price" style="color:var(--text);font-size:1.6rem;">Contact us</div>
+        <div class="pc2-price">$79<span>/mo</span></div>
         <p>Already on the Essential plan or need GBP management without a full website plan? We can add it on.</p>
-        <a href="contact-us.html" class="btn-outline" style="width:100%;justify-content:center;">Talk to us</a>
+        <a href="https://portal.webeaze.io" class="btn-outline" style="width:100%;justify-content:center;">Add to your plan</a>
       </div>
     </div>
   </div>
@@ -550,6 +556,26 @@ window.WZ_CHAT_PAGE={
       el.style.opacity=1;
     },300);
   },3800);
+})();
+</script>
+<script>
+(function(){
+  var el=document.getElementById('gquery'); if(!el) return;
+  var Q=['a landscaper near me','a plumber near me','the best barber near me','an emergency electrician','a coffee shop open now','a dentist near me','a roofer near me','a house cleaner near me'];
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var i=0,j=0,del=false;
+  function tick(){
+    var w=Q[i];
+    el.textContent=w.substring(0,j);
+    if(!del){
+      if(j<w.length){ j++; setTimeout(tick,70); }
+      else { del=true; setTimeout(tick,1600); }
+    } else {
+      if(j>0){ j--; setTimeout(tick,35); }
+      else { del=false; i=(i+1)%Q.length; setTimeout(tick,350); }
+    }
+  }
+  setTimeout(tick,1200);
 })();
 </script>
 </body>
