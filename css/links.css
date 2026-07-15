@@ -27,3 +27,59 @@ a[class*="btn-"]:active, button[class*="btn-"]:active, a.btn:active, button.btn:
   transform: scale(.94);
   filter: brightness(1.04);
 }
+
+/* No underline/tap-flash on click. Instead the button lights up: a brand-colored
+   glow blooms out from the pill and eases away, so a press feels illuminated
+   rather than underlined. Keyboard users still get a clear on-brand focus ring. */
+a[class*="btn-"], button[class*="btn-"], a.btn, button.btn, .wb-portal-btn, .wb-get-started-btn, .btn-nav-client {
+  position: relative;
+  text-decoration: none !important;
+  -webkit-tap-highlight-color: transparent;
+}
+a[class*="btn-"]:hover, a[class*="btn-"]:focus, a[class*="btn-"]:active,
+button[class*="btn-"]:hover, button[class*="btn-"]:focus, button[class*="btn-"]:active,
+a.btn:hover, a.btn:focus, a.btn:active, button.btn:hover, button.btn:focus, button.btn:active {
+  text-decoration: none !important;
+}
+/* Kill the browser outline for mouse/touch presses, but keep it for keyboard. */
+a[class*="btn-"]:focus:not(:focus-visible), button[class*="btn-"]:focus:not(:focus-visible),
+a.btn:focus:not(:focus-visible), button.btn:focus:not(:focus-visible),
+.wb-portal-btn:focus:not(:focus-visible), .wb-get-started-btn:focus:not(:focus-visible),
+.btn-nav-client:focus:not(:focus-visible) {
+  outline: none;
+}
+a[class*="btn-"]:focus-visible, button[class*="btn-"]:focus-visible,
+a.btn:focus-visible, button.btn:focus-visible,
+.wb-portal-btn:focus-visible, .wb-get-started-btn:focus-visible, .btn-nav-client:focus-visible {
+  outline: 2px solid var(--brand, #7851a9);
+  outline-offset: 3px;
+}
+/* The glow halo, invisible until the button is pressed or focused. */
+a[class*="btn-"]::after, button[class*="btn-"]::after, a.btn::after, button.btn::after,
+.wb-portal-btn::after, .wb-get-started-btn::after, .btn-nav-client::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+}
+a[class*="btn-"]:active::after, a[class*="btn-"]:focus::after,
+button[class*="btn-"]:active::after, button[class*="btn-"]:focus::after,
+a.btn:active::after, a.btn:focus::after, button.btn:active::after, button.btn:focus::after,
+.wb-portal-btn:active::after, .wb-portal-btn:focus::after,
+.wb-get-started-btn:active::after, .wb-get-started-btn:focus::after,
+.btn-nav-client:active::after, .btn-nav-client:focus::after {
+  animation: wbBtnIlluminate .6s cubic-bezier(.4, 0, .2, 1);
+}
+@keyframes wbBtnIlluminate {
+  0%   { opacity: 0; box-shadow: 0 0 6px 1px rgba(120, 81, 169, .5); }
+  35%  { opacity: 1; box-shadow: 0 0 24px 9px rgba(120, 81, 169, .6); }
+  100% { opacity: 0; box-shadow: 0 0 42px 16px rgba(120, 81, 169, 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  a[class*="btn-"]::after, button[class*="btn-"]::after, a.btn::after, button.btn::after,
+  .wb-portal-btn::after, .wb-get-started-btn::after, .btn-nav-client::after {
+    animation: none !important;
+  }
+}
