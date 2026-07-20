@@ -1,0 +1,70 @@
+/* ── WebEaze geo-page interaction polish ──────────────────────────────
+   Adds click feedback (press + ripple) to interactive elements and a
+   subtle bit of life to the purple strips (value band + CTA band).
+   Loaded after the page's inline <style> so it wins the cascade without
+   !important. All motion is switched off for prefers-reduced-motion. */
+
+@media (prefers-reduced-motion: no-preference) {
+
+  /* ── Tactile press: a quick scale on anything clickable ── */
+  .btn-gold, .btn-ghost,
+  .chip, .areas-chips a.chip,
+  .value-band-item,
+  .plan-mini,
+  details.faq-item summary {
+    -webkit-tap-highlight-color: transparent;
+    transition: transform .14s cubic-bezier(.34,1.56,.64,1),
+                background .2s ease, border-color .2s ease,
+                color .2s ease, box-shadow .25s ease, opacity .15s ease;
+  }
+  .btn-gold:active, .btn-ghost:active,
+  .chip:active, .areas-chips a.chip:active,
+  .value-band-item:active,
+  details.faq-item summary:active { transform: scale(.95); }
+  .plan-mini:active { transform: scale(.985); }
+
+  /* Gentle hover lift on the pricing cards */
+  .plan-mini { transition: transform .22s cubic-bezier(.34,1.4,.64,1), box-shadow .25s ease, border-color .2s ease; }
+  .plan-mini:hover { transform: translateY(-4px); box-shadow: 0 14px 38px rgba(120,81,169,.14); }
+
+  /* ── Ripple: <span class="wb-ripple"> injected by js/geo-anim.js ── */
+  .wb-ripple-host { position: relative; overflow: hidden; }
+  .wb-ripple {
+    position: absolute; border-radius: 50%; pointer-events: none;
+    background: currentColor; opacity: .38; transform: scale(0);
+    animation: wb-ripple .6s cubic-bezier(.4,0,.2,1) forwards;
+  }
+  @keyframes wb-ripple { to { transform: scale(2.6); opacity: 0; } }
+
+  /* ── Strips: a slow living gradient drift on the purple bands ── */
+  .value-band, .cta-section {
+    position: relative; overflow: hidden;
+    background-size: 165% 165%;
+    animation: wb-band-drift 16s ease-in-out infinite;
+  }
+  @keyframes wb-band-drift {
+    0%, 100% { background-position: 0% 50%; }
+    50%      { background-position: 100% 50%; }
+  }
+
+  /* ── Strips: a soft sheen sweeps across on hover ── */
+  .value-band::before, .cta-section::before {
+    content: ''; position: absolute; top: 0; bottom: 0; left: -60%; width: 50%;
+    background: linear-gradient(105deg, transparent, rgba(255,255,255,.18), transparent);
+    transform: skewX(-16deg); pointer-events: none; opacity: 0; z-index: 0;
+  }
+  .value-band:hover::before, .cta-section:hover::before { animation: wb-sheen 1.05s ease; }
+  @keyframes wb-sheen {
+    0%   { left: -60%; opacity: 0; }
+    15%  { opacity: 1; }
+    100% { left: 130%; opacity: 0; }
+  }
+  /* Keep band content above the sheen/drift layers */
+  .value-band-inner, .cta-section > * { position: relative; z-index: 1; }
+
+  /* Strip items lift, and their icon pops, on hover */
+  .value-band-item { transition: transform .2s ease; }
+  .value-band-item:hover { transform: translateY(-2px); }
+  .value-band-item i { transition: transform .2s ease; }
+  .value-band-item:hover i { transform: scale(1.18); }
+}
