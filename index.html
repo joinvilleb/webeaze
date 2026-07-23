@@ -804,34 +804,108 @@ body {
 .site-card-caption span { color: var(--brand); }
 .card-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
 
+/* Hero rotating word (fades/slides between words; first word is static in the HTML for LCP) */
+.hero-rotate { display: inline-block; }
+.hero-rotate-word {
+  display: inline-block;
+  transition: opacity .28s ease, transform .28s ease;
+}
+.hero-rotate-word.is-out { opacity: 0; transform: translateY(-.32em); }
+
+/* Hero visual: 3D tilt toward the cursor + gentle idle float (GPU transforms only) */
+.hero-visual { perspective: 1100px; }
+.hero-tilt {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transform-style: preserve-3d;
+  transition: transform .3s ease-out;
+  will-change: transform;
+}
+.hero-tilt .site-card { animation: heroFloat 7s ease-in-out infinite; }
+.hero-tilt .card-row .site-card:nth-child(1) { animation-duration: 6s; animation-delay: -1.5s; }
+.hero-tilt .card-row .site-card:nth-child(2) { animation-duration: 8s; animation-delay: -3s; }
+.site-card { transition: box-shadow .25s ease, border-color .25s ease; }
+.hero-tilt .site-card:hover { box-shadow: 0 18px 48px rgba(120,81,169,.22); border-color: var(--brand); }
+@keyframes heroFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-9px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-rotate-word { transition: none; }
+  .hero-tilt { transition: none; transform: none; }
+  .hero-tilt .site-card { animation: none; }
+}
+
 @media (max-width: 900px) {
   .hero-inner { grid-template-columns: 1fr; }
   .hero-visual { display: none; }
   .hero-headline { font-size: 2.4rem; }
 }
 
-/* ── TICKER ── */
+/* ── INDUSTRIES RIBBON ── */
 .ticker-wrap {
-  background: var(--black);
-  padding: .9rem 0;
+  background: #f3eefb;
+  border-top: 1px solid rgba(120,81,169,.14);
+  border-bottom: 1px solid rgba(120,81,169,.14);
+  padding: .8rem 0;
+  overflow: hidden;
+}
+.ticker-inner {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+.ticker-label {
+  flex-shrink: 0;
+  font-size: .72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  color: var(--brand);
+  position: relative;
+  padding-right: 1.25rem;
+}
+.ticker-label::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1px;
+  height: 1.1em;
+  background: rgba(120,81,169,.3);
+}
+.ticker-viewport {
+  flex: 1;
   overflow: hidden;
   white-space: nowrap;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
+          mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
 }
 .ticker-track {
   display: inline-block;
-  animation: ticker 32s linear infinite;
+  animation: ticker 42s linear infinite;
 }
+.ticker-viewport:hover .ticker-track { animation-play-state: paused; }
 .ticker-track span {
-  font-size: .8rem;
+  font-size: .78rem;
   font-weight: 700;
-  letter-spacing: .1em;
-  color: #ffffff;
-  padding: 0 1.8rem;
+  letter-spacing: .08em;
+  color: #5a4b73;
+  padding: 0 1.4rem;
 }
-.ticker-track span.dot-sep { color: var(--brand); padding: 0 .2rem; font-weight: 900; }
+.ticker-track span.dot-sep { color: var(--brand); padding: 0 .1rem; font-weight: 900; opacity: .5; }
 @keyframes ticker {
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ticker-track { animation: none; }
 }
 
 /* ── HANDLE EVERYTHING ── */
@@ -1470,6 +1544,7 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
   letter-spacing: .08em;
   color: #fff;
   margin-bottom: .85rem;
+  text-transform: uppercase;
 }
 .footer-col ul { list-style: none; padding: 0; margin: 0; }
 .footer-col ul li { margin-bottom: .45rem; }
@@ -1794,14 +1869,15 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
     <div class="hero-inner">
       <div class="hero-copy">
        
-        <h1 class="hero-headline">Your website, <br><em>handled</em></h1>
-        <p class="hero-sub">With a website built, hosted, and maintained for you. Attract more customers with growth tools used for your business to grow.</p>
+        <h1 class="hero-headline">Your website,<br><em class="hero-rotate" data-words="handled,hosted,updated,ranked,growing"><span class="hero-rotate-word">handled</span></em></h1>
+        <p class="hero-sub">We build, host, and maintain it for you, plus the growth tools to bring in more customers.</p>
         <div class="hero-ctas">
           <a href="consultation.html" class="btn-primary-brand"><i class="fas fa-arrow-right"></i> Get Your Free Preview</a>
           <a href="samples.html" class="btn-secondary-brand">See Our Work</a>
         </div>
 </div>
       <div class="hero-visual" aria-hidden="true">
+        <div class="hero-tilt">
         <div class="site-card">
           <div class="site-card-bar">
             <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
@@ -1828,13 +1904,17 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
             <div class="site-card-caption">Bake 350 Degrees</div>
           </div>
         </div>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- TICKER -->
-  <div class="ticker-wrap" aria-hidden="true">
-    <div class="ticker-track">
+  <div class="ticker-wrap">
+    <div class="ticker-inner">
+      <span class="ticker-label">Built for</span>
+      <div class="ticker-viewport" aria-hidden="true">
+        <div class="ticker-track">
       <span>HVAC</span><span class="dot-sep">&middot;</span>
       <span>PLUMBING</span><span class="dot-sep">&middot;</span>
       <span>LANDSCAPING</span><span class="dot-sep">&middot;</span>
@@ -1865,6 +1945,8 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
       <span>CARPET CLEANING</span><span class="dot-sep">&middot;</span>
       <span>HANDYMAN</span><span class="dot-sep">&middot;</span>
       <span>GYMS</span><span class="dot-sep">&middot;</span>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -2305,7 +2387,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
   </div>
 
   <div class="footer-bottom">
-    <p style="color:#fff">&copy; <span id="yr"></span> WebEaze Web Design. Made in Delaware, USA. Featured on <a href="https://www.designrush.com/agency/profile/webeaze" target="_blank" style="color:#ffd700;">DesignRush</a>.</p>
+    <p style="color:#fff">&copy; <span id="yr"></span> WebEaze Web Design. All rights reserved. Made in Delaware, USA. Featured on <a href="https://www.designrush.com/agency/profile/webeaze" target="_blank" style="color:#ffd700;">DesignRush</a>. Trademarks and logos are the property of their respective owners.</p>
     <div class="footer-legal">
       <a href="terms.html#privacy">Privacy Policy</a>
       <a href="terms.html">Terms of Service</a>
@@ -2729,5 +2811,43 @@ window.WZ_CHAT_PAGE = {
 })();
 </script>
 <script src="js/nav.js" defer></script>
+<script>
+/* Hero: rotating headline word + cursor tilt on the site mockups.
+   Pure transforms/opacity, rAF-throttled, disabled for reduced-motion and touch. */
+(function () {
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Rotating word — first word is already in the HTML, so LCP paints immediately.
+  var rot = document.querySelector('.hero-rotate');
+  var span = rot && rot.querySelector('.hero-rotate-word');
+  if (span && !reduce) {
+    var words = (rot.getAttribute('data-words') || '').split(',').map(function (w) { return w.trim(); }).filter(Boolean);
+    if (words.length > 1) {
+      var i = 0;
+      setInterval(function () {
+        i = (i + 1) % words.length;
+        span.classList.add('is-out');
+        setTimeout(function () { span.textContent = words[i]; span.classList.remove('is-out'); }, 260);
+      }, 2200);
+    }
+  }
+
+  // Cursor tilt — desktop pointer only.
+  var vis = document.querySelector('.hero-visual');
+  var tilt = vis && vis.querySelector('.hero-tilt');
+  var fine = !window.matchMedia || window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  if (tilt && !reduce && fine) {
+    var rx = 0, ry = 0, raf = null;
+    function apply() { raf = null; tilt.style.setProperty('--rx', rx.toFixed(2) + 'deg'); tilt.style.setProperty('--ry', ry.toFixed(2) + 'deg'); }
+    vis.addEventListener('mousemove', function (e) {
+      var r = vis.getBoundingClientRect();
+      ry = ((e.clientX - r.left) / r.width - 0.5) * 10;
+      rx = -((e.clientY - r.top) / r.height - 0.5) * 8;
+      if (!raf) raf = requestAnimationFrame(apply);
+    });
+    vis.addEventListener('mouseleave', function () { rx = 0; ry = 0; if (!raf) raf = requestAnimationFrame(apply); });
+  }
+})();
+</script>
 </body>
 </html>
