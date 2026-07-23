@@ -116,9 +116,15 @@
     .plan-badge { display: inline-block; font-size: 14px; font-weight: 700; padding: 6px 15px; border-radius: 100px; text-transform: uppercase; letter-spacing: .05em; background: rgba(120,81,169,.1); color: #6435a0; border: 1px solid rgba(120,81,169,.25); }
     .status-active { display: inline-flex; align-items: center; gap: 8px; font-size: 18px; font-weight: 800; color: var(--green); }
     .status-active .status-dot { width: 10px; height: 10px; animation: none; }
-    .whats-included-btn { display: inline-flex; align-items: center; gap: 6px; margin-top: 10px; padding: 0; background: none; border: none; color: var(--brand); font-size: 12.5px; font-weight: 600; cursor: pointer; font-family: 'Poppins', sans-serif; transition: gap .15s; }
-    .whats-included-btn:hover { gap: 9px; text-decoration: underline; }
-    .whats-included-btn i { font-size: 10px; }
+    .account-panel { border: 1px solid var(--border); border-radius: 12px; background: var(--bg); overflow: hidden; }
+    .account-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 22px; flex-wrap: wrap; }
+    .account-plan { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+    .account-price { font-size: 15px; font-weight: 700; color: var(--muted); letter-spacing: -.01em; }
+    .account-divider { height: 1px; background: var(--border); }
+    .account-row-label { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); }
+    .whats-included-btn { display: inline-flex; align-items: center; gap: 7px; padding: 8px 14px; background: var(--brand-light); border: 1px solid rgba(120,81,169,.2); border-radius: 9px; color: var(--brand); font-size: 12.5px; font-weight: 700; cursor: pointer; font-family: 'Poppins', sans-serif; white-space: nowrap; transition: background .15s, border-color .15s; }
+    .whats-included-btn:hover { background: rgba(120,81,169,.14); border-color: rgba(120,81,169,.35); }
+    .whats-included-btn i { font-size: 9px; }
     .stripe-btn { display: inline-flex; align-items: center; gap: 9px; background: var(--bg); border: 1px solid var(--border); border-radius: 11px; color: var(--text); font-size: 15px; font-weight: 600; padding: 13px 20px; text-decoration: none; cursor: pointer; font-family: 'Poppins', sans-serif; transition: border-color .15s, background .15s; margin-top: 22px; }
     .stripe-btn:hover { border-color: var(--brand); background: var(--brand-light); color: var(--brand); }
     .stripe-btn i { font-size: 16px; color: var(--muted); }
@@ -319,15 +325,15 @@
         <!-- Growth support -->
         <div class="growth-panel">
           <div class="gp-header">
-            <span class="gp-badge"><i class="fas fa-star"></i> Growth plan</span>
-            <span class="gp-header-title">Total Access Support</span>
+            <span class="gp-badge"><i class="fas fa-star"></i> Growth Plan</span>
+            <span class="gp-header-title">Get faster help</span>
           </div>
           <div class="gp-body-inner">
-            <div class="gp-sub">Need a real person? Reach us live, Monday to Friday, 9 AM to 5 PM ET.</div>
+            <div class="gp-sub">Priority channels included with your plan.</div>
             <div class="gp-channels">
-              <div class="gp-channel demo-action"><i class="fas fa-comment-dots"></i><div><div class="gc-name">Live chat</div><div class="gc-sub">Quick questions</div></div></div>
-              <div class="gp-channel demo-action"><i class="fas fa-phone"></i><div><div class="gc-name">Phone call</div><div class="gc-sub">Schedule a time</div></div></div>
-              <div class="gp-channel demo-action"><i class="fas fa-video"></i><div><div class="gc-name">Video call</div><div class="gc-sub">Google Meet</div></div></div>
+              <div class="gp-channel demo-action"><i class="fas fa-phone"></i><div><div class="gc-name">Call Us</div><div class="gc-sub">Schedule Call</div></div></div>
+              <div class="gp-channel demo-action"><i class="fas fa-comments"></i><div><div class="gc-name">Live Chat</div><div class="gc-sub">Chat Now</div></div></div>
+              <div class="gp-channel demo-action"><i class="fas fa-video"></i><div><div class="gc-name">Video Call</div><div class="gc-sub">Book Session</div></div></div>
             </div>
           </div>
         </div>
@@ -337,8 +343,8 @@
           <div class="section-head">
             <div class="section-head-icon"><i class="fas fa-wand-magic-sparkles"></i></div>
             <div>
-              <div class="section-title">Request a change</div>
-              <div class="section-sub">Unlimited updates are included in your plan. Tell us what you need and we handle the rest.</div>
+              <div class="section-title">Website Request</div>
+              <div class="section-sub">Need a change to your site?</div>
             </div>
           </div>
           <button class="request-cta" id="new-request-btn"><i class="fas fa-plus"></i> New request</button>
@@ -390,28 +396,22 @@
       <!-- RIGHT -->
       <div>
         <div class="card">
-          <div class="card-label">Account</div>
-          <div class="info-grid">
-            <div class="info-tile">
-              <div class="info-tile-label">Your plan</div>
-              <span class="plan-badge">Growth</span>
-              <div class="info-tile-sub">$249/mo</div>
-              <button class="whats-included-btn" id="whats-included"><i class="fas fa-circle-info"></i> What's included</button>
+          <div class="card-label">Account Information</div>
+          <div class="account-panel">
+            <div class="account-row">
+              <div class="account-plan">
+                <span class="plan-badge">Growth</span>
+                <span class="account-price">$249/mo</span>
+              </div>
+              <button class="whats-included-btn" id="whats-included">What's included <i class="fas fa-chevron-right"></i></button>
             </div>
-            <div class="info-tile">
-              <div class="info-tile-label">Status</div>
-              <div class="status-active"><span class="status-dot"></span> Active</div>
-            </div>
-            <div class="info-tile">
-              <div class="info-tile-label">Member since</div>
-              <div class="info-tile-value">Mar 2025</div>
-            </div>
-            <div class="info-tile">
-              <div class="info-tile-label">Next billing</div>
-              <div class="info-tile-value">Jul 15</div>
+            <div class="account-divider"></div>
+            <div class="account-row">
+              <span class="account-row-label">Plan Status</span>
+              <span class="status-active"><span class="status-dot"></span> Active</span>
             </div>
           </div>
-          <button class="stripe-btn demo-action"><i class="fas fa-credit-card"></i> Manage billing and plan</button>
+          <button class="stripe-btn demo-action"><i class="fas fa-credit-card"></i> Manage billing</button>
         </div>
 
         <div class="report-promo-card" id="report-promo">
