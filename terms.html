@@ -435,8 +435,8 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
   <header class="hero">
     <div class="hero-inner container-narrow">
       <span class="eyebrow">Legal</span>
-      <h1>Terms of Service &amp; Privacy Policy</h1>
-      <p class="lead" id="heroLead">Welcome to WebEaze. Please read the Terms of Service &amp; Privacy Policy in its entirety before using our services.</p>
+      <h1 id="docTitle">Terms of Service &amp; Privacy Policy</h1>
+      <p class="lead" id="heroLead">Welcome to WebEaze. Please read the Terms of Service &amp; Privacy Policy before using any of our services.</p>
     </div>
   </header>
 
@@ -1754,6 +1754,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
 
     // Doc tabs
     (function() {
+      var DOC_LABELS = { tos: 'Terms of Service', privacy: 'Privacy Policy' };
       function switchTab(name) {
         document.querySelectorAll('.doc-tab').forEach(function(t) {
           var on = t.dataset.tab === name;
@@ -1763,6 +1764,11 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
         document.querySelectorAll('.doc-panel').forEach(function(p) {
           p.classList.toggle('active', p.dataset.panel === name);
         });
+        // Keep the page title (browser tab) and the on-page H1 consistent with the active doc.
+        var label = DOC_LABELS[name] || DOC_LABELS.tos;
+        document.title = label + ' | WebEaze';
+        var h1 = document.getElementById('docTitle');
+        if (h1) h1.textContent = label;
       }
       var hash = location.hash === '#privacy' ? 'privacy' : 'tos';
       switchTab(hash);

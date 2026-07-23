@@ -938,28 +938,34 @@ body {
 }
 .handle-header p { font-size: 1.1rem; color: var(--text); max-width: 520px; margin: 0 auto; }
 
-/* ── Morphing headline: "[We|You] handle [everything.|the business.]" ──
-   Only the flanking words flip; "handle" stays anchored because each flip
-   slot is a fixed-width grid cell sized to its widest word (no reflow).
-   GPU-only (opacity + transform), pure CSS, no JS and no extra requests. */
+/* ── Morphing headlines ──────────────────────────────────────────────
+   1) "[We|You] handle [everything.|the business.]" — 2-way flip, one line.
+      The flanking words flip; "handle" stays put because each slot is a
+      fixed-width grid cell sized to its widest word (no reflow). Pure CSS.
+   2) "WebEaze vs. <rotating option>" — the option cycles through a list.
+      Rendered on two centred lines so every option (any length, any count)
+      is perfectly centred with zero layout shift. A tiny timer toggles
+      which option shows; the flip is a GPU transform/opacity transition.
+   All motion is transform/opacity only with no extra network requests,
+   so PageSpeed and CLS are unaffected. */
 .handle-morph { line-height: 1.15; }
-.hm-grp { display: inline-block; white-space: nowrap; }   /* keeps each phrase-half intact; wraps only between the two halves */
-.hm-flip { display: inline-grid; vertical-align: baseline; perspective: 600px; }
+.hm-grp { display: inline-block; white-space: nowrap; }   /* keeps each phrase-half intact */
+.hm-flip { display: inline-grid; vertical-align: baseline; perspective: 700px; }
 .hm-flip > .hm-w {
-  grid-area: 1 / 1;                 /* stack both words in one cell → slot = widest word */
+  grid-area: 1 / 1;                 /* stack every word in one cell → slot = widest word */
   text-align: center;
   transform-origin: center;
   backface-visibility: hidden;
-  will-change: opacity, transform;
 }
-/* hug the flipping words toward the fixed "handle" so spacing stays tight in both phrases */
+/* handle heading: hug the flipping words toward the fixed "handle" */
 .hm-flip--pre  .hm-w { text-align: right; }
 .hm-flip--post .hm-w { text-align: left; }
-/* Base (no JS) + reduced-motion fallback: show the landing phrase, no motion. */
+
+/* 2-way flip (handle) — base/no-JS/reduced-motion shows the landing phrase */
 .hm-w-a { opacity: 0; }
 .hm-w-b { opacity: 1; }
-.js-anim .hm-w-a { opacity: 1; animation: hmFlipA 6s cubic-bezier(.7,0,.3,1) infinite; }
-.js-anim .hm-w-b { animation: hmFlipB 6s cubic-bezier(.7,0,.3,1) infinite; }
+.js-anim .hm-w-a { opacity: 1; animation: hmFlipA 4.6s cubic-bezier(.7,0,.3,1) infinite; }
+.js-anim .hm-w-b { animation: hmFlipB 4.6s cubic-bezier(.7,0,.3,1) infinite; }
 @keyframes hmFlipA {
   0%, 42%  { opacity: 1; transform: translateY(0) rotateX(0deg); }
   50%, 92% { opacity: 0; transform: translateY(-.4em) rotateX(-92deg); }
@@ -970,10 +976,25 @@ body {
   50%, 92% { opacity: 1; transform: translateY(0) rotateX(0deg); }
   100%     { opacity: 0; transform: translateY(.4em) rotateX(92deg); }
 }
+
+/* Rotator (compare) — two centred lines: "WebEaze vs." / "<option>".
+   Options stack in one centred slot; JS toggles .is-on. Base/no-JS shows
+   the first option. Each line centres itself, so any option length fits. */
+.compare-morph { display: flex; flex-direction: column; align-items: center; line-height: 1.12; }
+.hm-rot > .hm-w { opacity: 0; }
+.hm-rot > .hm-w:first-child { opacity: 1; }
+.cm-live .hm-rot > .hm-w {
+  opacity: 0;
+  transform: translateY(.45em) rotateX(88deg);
+  transition: opacity .26s ease, transform .32s cubic-bezier(.6,0,.25,1);
+}
+.cm-live .hm-rot > .hm-w.is-on { opacity: 1; transform: none; }
+
 @media (prefers-reduced-motion: reduce) {
   .js-anim .hm-w-a, .js-anim .hm-w-b { animation: none; }
   .js-anim .hm-w-a { opacity: 0; }
   .js-anim .hm-w-b { opacity: 1; }
+  .cm-live .hm-rot > .hm-w { transition: none; }
 }
 .handle-grid {
   display: grid;
@@ -1720,6 +1741,10 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
   .pricing-header h2,
   .faq-header h2 { font-size: 1.9rem !important; }
 
+  /* The one-line "handle" headline shrinks just enough on narrow screens to
+     keep its longest phrase on ONE line, so a lone word never hangs. */
+  .handle-header h2.handle-morph { font-size: clamp(1.35rem, 7.2vw, 1.9rem) !important; }
+
   .final-cta h2  { font-size: 2rem !important; }
 }
 
@@ -2091,8 +2116,11 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
   <!-- COMPARISON -->
   <section class="compare-section">
     <div class="compare-header container-tight reveal">
-      <h2>WebEaze vs. the rest.</h2>
-      <p>Other options cost more, do less, and let you figure it out.</p>
+      <h2 class="compare-morph" aria-label="WebEaze vs. the rest.">
+        <span class="hm-grp" aria-hidden="true">WebEaze&nbsp;vs.</span>
+        <span class="hm-grp" aria-hidden="true"><span class="hm-flip hm-rot"><span class="hm-w">an&nbsp;AI builder.</span><span class="hm-w">an&nbsp;agency.</span><span class="hm-w">a&nbsp;DIY website.</span><span class="hm-w">a&nbsp;freelancer.</span><span class="hm-w">WordPress.</span><span class="hm-w">Squarespace.</span><span class="hm-w">a&nbsp;web&nbsp;developer.</span></span></span>
+      </h2>
+      <p>Other options cost more, do less, and aren't reliable.</p>
     </div>
     <div class="compare-scroll reveal">
       <div class="ctable" role="table" aria-label="WebEaze vs alternatives">
@@ -2251,6 +2279,20 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
     .portal-peek .pp-eyebrow { font-size: .8rem; font-weight: 700; letter-spacing: .14em; color: #7851a9; margin-bottom: .9rem; }
     .portal-peek h2 { font-size: clamp(1.8rem, 3.5vw, 2.6rem); font-weight: 900; letter-spacing: -.03em; color: #0a0a0a; margin: 0 0 1rem; }
     .portal-peek > .container-tight > p { font-size: 1.05rem; color: #374151; line-height: 1.7; max-width: 640px; margin: 0 auto 2.5rem; }
+    .portal-peek .pp-eyebrow { text-transform: uppercase; }
+    /* "Yes." gets a brand underline that sweeps in when the heading scrolls into view */
+    .portal-peek .pp-yes { position: relative; display: inline-block; color: #7851a9; white-space: nowrap; }
+    .portal-peek .pp-yes::after {
+      content: ""; position: absolute; left: 0; right: 0; bottom: .015em; height: .1em;
+      background: linear-gradient(90deg, #7851a9, #9b72cc); border-radius: 2px;
+      transform: scaleX(1); transform-origin: left; transition: transform .55s cubic-bezier(.7,0,.3,1);
+    }
+    .js-anim .portal-peek h2 .pp-yes::after { transform: scaleX(0); }
+    .js-anim .portal-peek h2.in-view .pp-yes::after { transform: scaleX(1); }
+    @media (prefers-reduced-motion: reduce) {
+      .js-anim .portal-peek h2 .pp-yes::after,
+      .js-anim .portal-peek h2.in-view .pp-yes::after { transition: none; transform: scaleX(1); }
+    }
     .portal-peek-frame { max-width: 940px; margin: 0 auto; border-radius: 16px; overflow: hidden; border: 1px solid #e4e7f1; box-shadow: 0 24px 60px rgba(15,18,40,.16); background: #fff; }
     .ppf-bar { display: flex; align-items: center; gap: 7px; padding: 11px 16px; background: #f1f2f7; border-bottom: 1px solid #e4e7f1; }
     .ppf-dot { width: 11px; height: 11px; border-radius: 50%; background: #d3d6e2; }
@@ -2273,14 +2315,15 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
   <section class="portal-peek">
     <div class="container-tight">
    
-      <h2>Your Client Portal</h2>
-      <p>Your hub for requesting changes, viewing site metrics, managing billing, and more. Included free.</p>
+      <div class="pp-eyebrow reveal">Nobody else gives you one</div>
+      <h2 class="reveal">A portal? <span class="pp-yes">Yes.</span></h2>
+      <p class="reveal">A client portal for website help and resources is almost unheard of. Yours puts support, updates, and your site's growth all in one place.</p>
       <div class="portal-peek-frame reveal">
-        <div class="ppf-bar"><span class="ppf-dot"></span><span class="ppf-dot"></span><span class="ppf-dot"></span><span class="ppf-url">portal.webeaze.io</span></div>
+        <div class="ppf-bar"><span class="ppf-dot"></span><span class="ppf-dot"></span><span class="ppf-dot"></span><span class="ppf-url">Client Portal | WebEaze</span></div>
         <div class="ppf-screen" id="ppfScreen">
           <img class="ppf-shot" src="images/portal-demo-preview.webp" alt="WebEaze client portal dashboard showing requests, plan status, and site report" loading="lazy" decoding="async" width="940" height="1575">
           <button type="button" class="ppf-overlay" aria-label="Load the interactive portal demo">
-            <span class="ppf-play"><i class="fas fa-play"></i> Activate the Portal</span>
+            <span class="ppf-play"><i class="fas fa-play"></i> Start Demo</span>
           </button>
         </div>
       </div>
@@ -2505,6 +2548,32 @@ document.querySelectorAll('#home-faq details').forEach(function(d) {
       });
     },{threshold:.18});
     els.forEach(function(e){io.observe(e)});
+  })();
+
+  // Compare headline: cycle the "WebEaze vs. <option>" list. Starts only when
+  // scrolled into view; respects reduced-motion. Transform/opacity only.
+  (function(){
+    var h2 = document.querySelector('.compare-morph');
+    var rot = h2 && h2.querySelector('.hm-rot');
+    if(!rot) return;
+    var opts = [].slice.call(rot.children);
+    if(opts.length < 2){ h2.classList.add('cm-live'); return; }
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var i = 0, started = false;
+    function show(n){ for(var k=0;k<opts.length;k++){ opts[k].classList.toggle('is-on', k===n); } }
+    function start(){
+      if(started) return; started = true;
+      h2.classList.add('cm-live');
+      show(0);
+      if(reduce) return;
+      setInterval(function(){ i = (i+1) % opts.length; show(i); }, 1700);
+    }
+    if('IntersectionObserver' in window){
+      var io = new IntersectionObserver(function(es){
+        es.forEach(function(e){ if(e.isIntersecting){ start(); io.disconnect(); } });
+      },{threshold:.3});
+      io.observe(h2);
+    } else { start(); }
   })();
 
   // Nav hide on scroll (all devices)
