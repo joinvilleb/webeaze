@@ -1327,18 +1327,39 @@ body {
 }
 
 @media (max-width: 680px) {
+  /* Vertical timeline: numbered circles on a connected rail, text beside each.
+     Reads clearly top-to-bottom, so the ambiguous between-step arrows are dropped. */
   .process-steps {
     flex-direction: column;
-    align-items: center;
+    align-items: stretch;
     gap: 0;
+    max-width: 420px;
   }
-  .ps-item { padding: 0 1rem; width: 100%; max-width: 300px; }
+  .ps-arrow { display: none; }
+  .ps-item {
+    flex-direction: row;
+    align-items: flex-start;
+    text-align: left;
+    gap: 1.1rem;
+    padding: 0 0 2rem 0;
+    width: 100%;
+    max-width: none;
+    position: relative;
+  }
+  .ps-item:last-child { padding-bottom: 0; }
+  .ps-item:not(:last-child)::before {   /* rail linking this circle to the next */
+    content: "";
+    position: absolute;
+    left: 28px;
+    top: 60px;
+    bottom: -4px;
+    width: 2px;
+    background: rgba(120,81,169,.35);
+    transform: translateX(-50%);
+  }
+  .ps-circle { margin-bottom: 0; }
+  .ps-text { flex: 1 1 auto; min-width: 0; padding-top: 2px; }
   .ps-item p { max-width: none; }
-  .ps-arrow {
-    padding-top: 0;
-    padding: .5rem 0;
-    transform: rotate(90deg);
-  }
 }
 
 
@@ -2223,7 +2244,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
   <section class="process-section">
     <div class="process-header container-tight reveal">
       <h2>How it works.</h2>
-      <p>Demo, pay, build, and launch. Quite simple. </p>
+      <p>Demo, pay, build, and launch. Simple. </p>
     </div>
 
     <div class="process-steps stagger">
@@ -2233,8 +2254,10 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
           <i class="fas fa-phone-alt"></i>
           <span class="ps-num-badge">1</span>
         </div>
-        <h3>Talk to us</h3>
-        <p>Tell us about your business, goals, and vision.</p>
+        <div class="ps-text">
+          <h3>Talk to us</h3>
+          <p>Tell us about your business, goals, and vision.</p>
+        </div>
       </div>
 
       <div class="ps-arrow reveal"><i class="fas fa-chevron-right"></i></div>
@@ -2244,8 +2267,10 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
           <i class="fas fa-desktop"></i>
           <span class="ps-num-badge">2</span>
         </div>
-        <h3>See your demo</h3>
-        <p>We deliver a custom design within 48 hours, before you pay anything.</p>
+        <div class="ps-text">
+          <h3>See your demo</h3>
+          <p>We deliver a custom design within 48 hours, before you pay anything.</p>
+        </div>
       </div>
 
       <div class="ps-arrow reveal"><i class="fas fa-chevron-right"></i></div>
@@ -2255,8 +2280,10 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
           <i class="fas fa-check-double"></i>
           <span class="ps-num-badge">3</span>
         </div>
-        <h3>Approve &amp; pay</h3>
-        <p>Love it? We build it out. Revisions included at no extra charge.</p>
+        <div class="ps-text">
+          <h3>Approve &amp; pay</h3>
+          <p>Love it? We build it out. Revisions included at no extra charge.</p>
+        </div>
       </div>
 
       <div class="ps-arrow reveal"><i class="fas fa-chevron-right"></i></div>
@@ -2266,8 +2293,10 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
           <i class="fas fa-rocket"></i>
           <span class="ps-num-badge">4</span>
         </div>
-        <h3>Go live</h3>
-        <p>Site launches in 5-14 business days. Hosting, domain, everything handled.</p>
+        <div class="ps-text">
+          <h3>Go live</h3>
+          <p>Site launches in 5-14 business days. Hosting, domain, everything handled.</p>
+        </div>
       </div>
 
     </div>
