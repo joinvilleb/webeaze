@@ -937,6 +937,44 @@ body {
   margin-bottom: .75rem;
 }
 .handle-header p { font-size: 1.1rem; color: var(--text); max-width: 520px; margin: 0 auto; }
+
+/* ── Morphing headline: "[We|You] handle [everything.|the business.]" ──
+   Only the flanking words flip; "handle" stays anchored because each flip
+   slot is a fixed-width grid cell sized to its widest word (no reflow).
+   GPU-only (opacity + transform), pure CSS, no JS and no extra requests. */
+.handle-morph { line-height: 1.15; }
+.hm-grp { display: inline-block; white-space: nowrap; }   /* keeps each phrase-half intact; wraps only between the two halves */
+.hm-flip { display: inline-grid; vertical-align: baseline; perspective: 600px; }
+.hm-flip > .hm-w {
+  grid-area: 1 / 1;                 /* stack both words in one cell → slot = widest word */
+  text-align: center;
+  transform-origin: center;
+  backface-visibility: hidden;
+  will-change: opacity, transform;
+}
+/* hug the flipping words toward the fixed "handle" so spacing stays tight in both phrases */
+.hm-flip--pre  .hm-w { text-align: right; }
+.hm-flip--post .hm-w { text-align: left; }
+/* Base (no JS) + reduced-motion fallback: show the landing phrase, no motion. */
+.hm-w-a { opacity: 0; }
+.hm-w-b { opacity: 1; }
+.js-anim .hm-w-a { opacity: 1; animation: hmFlipA 6s cubic-bezier(.7,0,.3,1) infinite; }
+.js-anim .hm-w-b { animation: hmFlipB 6s cubic-bezier(.7,0,.3,1) infinite; }
+@keyframes hmFlipA {
+  0%, 42%  { opacity: 1; transform: translateY(0) rotateX(0deg); }
+  50%, 92% { opacity: 0; transform: translateY(-.4em) rotateX(-92deg); }
+  100%     { opacity: 1; transform: translateY(0) rotateX(0deg); }
+}
+@keyframes hmFlipB {
+  0%, 42%  { opacity: 0; transform: translateY(.4em) rotateX(92deg); }
+  50%, 92% { opacity: 1; transform: translateY(0) rotateX(0deg); }
+  100%     { opacity: 0; transform: translateY(.4em) rotateX(92deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .js-anim .hm-w-a, .js-anim .hm-w-b { animation: none; }
+  .js-anim .hm-w-a { opacity: 0; }
+  .js-anim .hm-w-b { opacity: 1; }
+}
 .handle-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -1968,7 +2006,10 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
   <!-- WE HANDLE EVERYTHING -->
   <section class="handle-section">
     <div class="handle-header container-tight reveal">
-      <h2>We handle everything.<br>You do nothing.</h2>
+      <h2 class="handle-morph" aria-label="You handle the business.">
+        <span class="hm-grp" aria-hidden="true"><span class="hm-flip hm-flip--pre"><span class="hm-w hm-w-a">We</span><span class="hm-w hm-w-b">You</span></span>&nbsp;handle</span>
+        <span class="hm-grp" aria-hidden="true"><span class="hm-flip hm-flip--post"><span class="hm-w hm-w-a">everything.</span><span class="hm-w hm-w-b">the&nbsp;business.</span></span></span>
+      </h2>
       <p>From first design to live site. And every update thereafter.</p>
     </div>
     <div class="handle-grid stagger">
