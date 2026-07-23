@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
+<script>document.documentElement.className += ' js-anim';</script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Small Business Website Design &amp; Management | WebEaze</title>
 <meta name="description" content="WebEaze builds and manages websites for small businesses from $169/month. Includes custom design, hosting, unlimited updates, and local SEO. No contract." />
@@ -909,6 +910,20 @@ body {
 }
 
 /* ── HANDLE EVERYTHING ── */
+/* ── Scroll reveal — activates the dormant .reveal IntersectionObserver.
+   Gated behind .js-anim so content stays visible if JS never runs. GPU transforms only. */
+.js-anim .reveal { opacity: 0; transform: translateY(22px); transition: opacity .55s cubic-bezier(.22,.61,.36,1), transform .55s cubic-bezier(.22,.61,.36,1); }
+.js-anim .reveal.in-view { opacity: 1; transform: none; }
+.js-anim .stagger > .reveal:nth-child(2) { transition-delay: .07s; }
+.js-anim .stagger > .reveal:nth-child(3) { transition-delay: .14s; }
+.js-anim .stagger > .reveal:nth-child(4) { transition-delay: .21s; }
+.js-anim .stagger > .reveal:nth-child(5) { transition-delay: .28s; }
+.js-anim .stagger > .reveal:nth-child(6) { transition-delay: .35s; }
+.js-anim .stagger > .reveal:nth-child(7) { transition-delay: .42s; }
+@media (prefers-reduced-motion: reduce) {
+  .js-anim .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+}
+
 .handle-section {
   background: #ffffff;
   padding: 6rem 0;
@@ -1952,12 +1967,12 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
 
   <!-- WE HANDLE EVERYTHING -->
   <section class="handle-section">
-    <div class="handle-header container-tight">
+    <div class="handle-header container-tight reveal">
       <h2>We handle everything.<br>You do nothing.</h2>
       <p>From first design to live site. And every update thereafter.</p>
     </div>
-    <div class="handle-grid">
-      <div class="handle-card">
+    <div class="handle-grid stagger">
+      <div class="handle-card reveal">
         <div class="handle-icon"><i class="fas fa-pen-ruler"></i></div>
         <h3>We Build It</h3>
         <p>Designed specifically for your business, and your target audience.</p>
@@ -1968,7 +1983,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
           <li><i class="fas fa-check-circle"></i>Ready in 5-14 days</li>
         </ul>
       </div>
-      <div class="handle-card">
+      <div class="handle-card reveal">
         <div class="handle-icon"><i class="fas fa-gear"></i></div>
         <h3>We Manage It</h3>
         <p>Unlimited updates. Domain & hosting covered. Plus, a quick 24-48 hour turnaround. </p>
@@ -1979,7 +1994,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
           <li><i class="fas fa-check-circle"></i>Email, Phone, Chat, Video </li>
         </ul>
       </div>
-      <div class="handle-card">
+      <div class="handle-card reveal">
         <div class="handle-icon"><i class="fas fa-arrow-trend-up"></i></div>
         <h3>We Grow It</h3>
         <p>Built for visibility in Google search, Google Maps, and AI tools like ChatGPT and Gemini.</p>
@@ -1995,33 +2010,33 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
 
   <!-- PORTFOLIO -->
   <section class="portfolio-section">
-    <div class="portfolio-header container-tight">
+    <div class="portfolio-header container-tight reveal">
       <h2>Featured work.</h2>
       <p>These businesses trusted us to bring their vision to life.</p>
     </div>
-    <div class="portfolio-grid">
-      <a href="https://bearcarpetcare.com" target="_blank" rel="noopener" class="portfolio-item">
+    <div class="portfolio-grid stagger">
+      <a href="https://bearcarpetcare.com" target="_blank" rel="noopener" class="portfolio-item reveal">
         <img src="images/samples/bear-carpet-care.webp" alt="Bear Carpet Care website designed by WebEaze" class="portfolio-img" loading="lazy">
         <div class="portfolio-meta">
           <strong>Bear Carpet Care</strong>
           <span>Carpet cleaning</span>
         </div>
       </a>
-      <a href="https://ibisprep.com" target="_blank" rel="noopener" class="portfolio-item">
+      <a href="https://ibisprep.com" target="_blank" rel="noopener" class="portfolio-item reveal">
         <img src="images/ibis-prep-home.webp" alt="Ibis Prep website designed by WebEaze" class="portfolio-img" loading="lazy">
         <div class="portfolio-meta">
           <strong>Ibis Prep</strong>
           <span>Test prep &amp; tutoring</span>
         </div>
       </a>
-      <a href="https://galaxygymnast.com" target="_blank" rel="noopener" class="portfolio-item">
+      <a href="https://galaxygymnast.com" target="_blank" rel="noopener" class="portfolio-item reveal">
         <img src="images/galaxy-gymnast-home.webp" alt="Galaxy Gymnastics website designed by WebEaze" class="portfolio-img" loading="lazy">
         <div class="portfolio-meta">
           <strong>Galaxy Gymnastics</strong>
           <span>Youth gymnastics</span>
         </div>
       </a>
-      <a href="https://bake350degrees.com" target="_blank" rel="noopener" class="portfolio-item">
+      <a href="https://bake350degrees.com" target="_blank" rel="noopener" class="portfolio-item reveal">
         <img src="images/samples/bake350.webp" alt="Bake 350 Degrees website designed by WebEaze" class="portfolio-img" loading="lazy">
         <div class="portfolio-meta">
           <strong>Bake 350 Degrees</strong>
@@ -2034,11 +2049,11 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
 
   <!-- COMPARISON -->
   <section class="compare-section">
-    <div class="compare-header container-tight">
+    <div class="compare-header container-tight reveal">
       <h2>WebEaze vs. the rest.</h2>
       <p>Other options cost more, do less, and let you figure it out.</p>
     </div>
-    <div class="compare-scroll">
+    <div class="compare-scroll reveal">
       <div class="ctable" role="table" aria-label="WebEaze vs alternatives">
 
         <!-- Header -->
@@ -2137,14 +2152,14 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
 
   <!-- PROCESS -->
   <section class="process-section">
-    <div class="process-header container-tight">
+    <div class="process-header container-tight reveal">
       <h2>How it works.</h2>
       <p>Demo, pay, build, and launch. Quite simple. </p>
     </div>
 
-    <div class="process-steps">
+    <div class="process-steps stagger">
 
-      <div class="ps-item">
+      <div class="ps-item reveal">
         <div class="ps-circle">
           <i class="fas fa-phone-alt"></i>
           <span class="ps-num-badge">1</span>
@@ -2153,9 +2168,9 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
         <p>Tell us about your business, goals, and vision.</p>
       </div>
 
-      <div class="ps-arrow"><i class="fas fa-chevron-right"></i></div>
+      <div class="ps-arrow reveal"><i class="fas fa-chevron-right"></i></div>
 
-      <div class="ps-item">
+      <div class="ps-item reveal">
         <div class="ps-circle">
           <i class="fas fa-desktop"></i>
           <span class="ps-num-badge">2</span>
@@ -2164,9 +2179,9 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
         <p>We deliver a custom design within 48 hours, before you pay anything.</p>
       </div>
 
-      <div class="ps-arrow"><i class="fas fa-chevron-right"></i></div>
+      <div class="ps-arrow reveal"><i class="fas fa-chevron-right"></i></div>
 
-      <div class="ps-item">
+      <div class="ps-item reveal">
         <div class="ps-circle">
           <i class="fas fa-check-double"></i>
           <span class="ps-num-badge">3</span>
@@ -2175,9 +2190,9 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
         <p>Love it? We build it out. Revisions included at no extra charge.</p>
       </div>
 
-      <div class="ps-arrow"><i class="fas fa-chevron-right"></i></div>
+      <div class="ps-arrow reveal"><i class="fas fa-chevron-right"></i></div>
 
-      <div class="ps-item">
+      <div class="ps-item reveal">
         <div class="ps-circle">
           <i class="fas fa-rocket"></i>
           <span class="ps-num-badge">4</span>
@@ -2200,10 +2215,18 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
     .ppf-dot { width: 11px; height: 11px; border-radius: 50%; background: #d3d6e2; }
     .ppf-url { margin-left: 12px; font-size: 12.5px; color: #6b7094; font-weight: 600; }
     .ppf-screen { position: relative; height: 560px; overflow: hidden; }
-    .ppf-screen iframe { width: 100%; height: 1180px; border: 0; pointer-events: none; }
-    .ppf-overlay { position: absolute; inset: 0; display: block; background: linear-gradient(180deg, rgba(247,248,252,0) 78%, rgba(247,248,252,.9) 100%); transition: background .2s; }
-    .ppf-overlay:hover { background: linear-gradient(180deg, rgba(120,81,169,.04) 78%, rgba(247,248,252,.9) 100%); }
+    /* Lightweight auto-scrolling screenshot (facade). No document/JS loads until clicked. */
+    .ppf-shot { position: absolute; top: 0; left: 0; width: 100%; height: auto; display: block; animation: ppfScroll 26s ease-in-out infinite alternate; }
+    .ppf-screen:hover .ppf-shot { animation-play-state: paused; }
+    @keyframes ppfScroll { from { transform: translateY(0); } to { transform: translateY(calc(-100% + 560px)); } }
+    .ppf-overlay { position: absolute; inset: 0; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 26px; border: 0; cursor: pointer; background: linear-gradient(180deg, rgba(247,248,252,0) 62%, rgba(247,248,252,.92) 100%); transition: background .2s; }
+    .ppf-overlay:hover { background: linear-gradient(180deg, rgba(120,81,169,.05) 55%, rgba(247,248,252,.94) 100%); }
+    .ppf-play { display: inline-flex; align-items: center; gap: 9px; background: #7851a9; color: #fff; font-weight: 700; font-size: .95rem; padding: .7rem 1.3rem; border-radius: 999px; box-shadow: 0 10px 28px rgba(120,81,169,.35); transition: transform .18s ease, box-shadow .18s ease; }
+    .ppf-overlay:hover .ppf-play { transform: translateY(-2px); box-shadow: 0 14px 34px rgba(120,81,169,.45); }
+    .ppf-play i { font-size: .8rem; }
+    .ppf-live { width: 100%; height: 100%; border: 0; display: block; }
     .portal-peek-cta { margin-top: 2rem; }
+    @media (prefers-reduced-motion: reduce) { .ppf-shot { animation: none; } }
     @media (max-width: 600px) { .ppf-screen { height: 440px; } }
   </style>
   <section class="portal-peek">
@@ -2211,11 +2234,13 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
    
       <h2>Your Client Portal</h2>
       <p>Your hub for requesting changes, viewing site metrics, managing billing, and more. Included free.</p>
-      <div class="portal-peek-frame">
+      <div class="portal-peek-frame reveal">
         <div class="ppf-bar"><span class="ppf-dot"></span><span class="ppf-dot"></span><span class="ppf-dot"></span><span class="ppf-url">portal.webeaze.io</span></div>
-        <div class="ppf-screen">
-          <iframe src="portal-demo.html" title="WebEaze client portal demo" loading="lazy" tabindex="-1" aria-hidden="true"></iframe>
-          <a class="ppf-overlay" href="portal-demo.html" aria-label="Open the interactive portal demo"></a>
+        <div class="ppf-screen" id="ppfScreen">
+          <img class="ppf-shot" src="images/portal-demo-preview.webp" alt="WebEaze client portal dashboard showing requests, plan status, and site report" loading="lazy" decoding="async" width="940" height="1730">
+          <button type="button" class="ppf-overlay" aria-label="Load the interactive portal demo">
+            <span class="ppf-play"><i class="fas fa-play"></i> Click to explore the live portal</span>
+          </button>
         </div>
       </div>
       <div class="portal-peek-cta">
@@ -2226,12 +2251,12 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
 
   <!-- PRICING -->
   <section class="pricing-section" id="pricing">
-    <div class="pricing-header container-tight">
+    <div class="pricing-header container-tight reveal">
       <h2>One monthly price.</h2>
       <p>Hourly rates? Forget about it.</p>
     </div>
-    <div class="pricing-grid">
-      <div class="pricing-card">
+    <div class="pricing-grid stagger">
+      <div class="pricing-card reveal">
         <div class="plan-name">Essential</div>
         <p class="plan-for">For getting a professional site live and looked after, without the hassle.</p>
         <div class="plan-price">$169<span>/mo</span></div>
@@ -2249,7 +2274,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
         </ul>
         <a href="consultation.html" class="btn-secondary-brand plan-cta">Get Started</a>
       </div>
-      <div class="pricing-card featured">
+      <div class="pricing-card featured reveal">
         <div class="featured-badge">Most Popular</div>
         <div class="plan-name">Growth</div>
         <p class="plan-for">For businesses that want to get found on Google and grow faster.</p>
@@ -2275,10 +2300,10 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
 
   <!-- FAQ -->
   <section class="faq-section">
-    <div class="faq-header container-tight">
+    <div class="faq-header container-tight reveal">
       <h2>Answers upfront.</h2>
     </div>
-    <div class="faq-wrap">
+    <div class="faq-wrap reveal">
       <details>
         <summary>Do I need to know anything about websites?</summary>
         <div class="faq-answer">No. You'll provide basic info about your business. We'll handle the entire tech side from design to launch to ongoing maintenance.</div>
@@ -2314,9 +2339,9 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
   <!-- FINAL CTA -->
   <section class="final-cta">
     <div class="container-tight">
-      <h2>See your finished website<br><em>before you pay.</em></h2>
+      <h2 class="reveal">See your finished website<br><em>before you pay.</em></h2>
       <p>Book a free call and we'll show a demo of your new website within 48 hours. </p>
-      <div class="final-cta-btns">
+      <div class="final-cta-btns reveal">
         <a href="consultation.html" class="btn-primary-brand"><i class="fas fa-arrow-right"></i> Get Your Free Preview</a>
         <a href="pricing.html" class="btn-secondary-brand" style="color:#fff; border-color:rgba(255,255,255,.3);">See pricing</a>
       </div>
@@ -2847,6 +2872,21 @@ window.WZ_CHAT_PAGE = {
     });
     vis.addEventListener('mouseleave', function () { rx = 0; ry = 0; if (!raf) raf = requestAnimationFrame(apply); });
   }
+})();
+
+/* Portal demo facade: load the live interactive iframe only when the visitor clicks. */
+(function () {
+  var screen = document.getElementById('ppfScreen');
+  var btn = screen && screen.querySelector('.ppf-overlay');
+  if (!btn) return;
+  btn.addEventListener('click', function () {
+    var f = document.createElement('iframe');
+    f.src = 'portal-demo.html';
+    f.title = 'WebEaze client portal demo';
+    f.className = 'ppf-live';
+    screen.innerHTML = '';
+    screen.appendChild(f);
+  }, { once: true });
 })();
 </script>
 </body>
