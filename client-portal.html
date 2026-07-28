@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Client Portal | WebEaze</title>
+  <meta name="description" content="The WebEaze Client Portal is the home base for your website. Request changes in seconds, read updates from your team, track your progress, and watch your site grow, all without touching code." />
+  <link rel="canonical" href="https://webeaze.io/client-portal" />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="WebEaze" />
+  <meta property="og:title" content="The Client Portal | WebEaze" />
+  <meta property="og:description" content="One simple place to manage your website: request changes, read updates, track progress, and grow, without touching code." />
+  <meta property="og:url" content="https://webeaze.io/client-portal" />
+  <meta property="og:image" content="https://webeaze.io/images/webeaze-transparent.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="The Client Portal | WebEaze" />
+  <meta name="twitter:description" content="One simple place to manage your website: request changes, read updates, track progress, and grow." />
+  <meta name="twitter:image" content="https://webeaze.io/images/webeaze-transparent.png" />
+  <link rel="shortcut icon" href="images/webeaze-transparent-copy.png" type="image/png" />
+  <link rel="stylesheet" href="css/nav.css">
+  <link rel="stylesheet" href="css/links.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"></noscript>
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"></noscript>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"The Client Portal | WebEaze","description":"The WebEaze Client Portal is the home base for your website. Request changes in seconds, read updates from your team, track progress, and grow.","url":"https://webeaze.io/client-portal","publisher":{"@type":"Organization","name":"WebEaze","logo":{"@type":"ImageObject","url":"https://webeaze.io/images/webeaze-transparent.png"}},"inLanguage":"en-US"}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://webeaze.io/"},{"@type":"ListItem","position":2,"name":"Client Portal","item":"https://webeaze.io/client-portal"}]}</script>
+  <style>
+    :root {
+      --brand:      #7851a9;
+      --brand-dark: #6340a0;
+      --brand-lite: #9a6fd0;
+      --brand-tint: #f4f0fb;
+      --gold:       #ffd700;
+      --text:       #111827;
+      --muted:      #4b5563;
+      --muted2:     #8b90a8;
+      --bg:         #ffffff;
+      --bg-2:       #f6f5fb;
+      --line:       rgba(17,24,39,.09);
+      --card:       #ffffff;
+      --radius:     18px;
+      --shadow-sm:  0 2px 10px rgba(17,24,39,.05);
+      --shadow-md:  0 18px 44px -18px rgba(88,52,150,.32);
+      --shadow-lg:  0 40px 90px -30px rgba(88,52,150,.42);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; overflow-x: clip; }
+    body {
+      font-family: 'Poppins', system-ui, -apple-system, sans-serif;
+      background: var(--bg); color: var(--text);
+      -webkit-font-smoothing: antialiased; line-height: 1.6;
+      overflow-x: clip;
+    }
+    a { color: inherit; }
+    img { max-width: 100%; display: block; }
+    .wrap { width: 100%; max-width: 1160px; margin: 0 auto; padding: 0 24px; }
+    /* let grid/flex tracks shrink below the intrinsic width of wide screenshots */
+    .hero-grid > *, .story-inner > *, .spotlight > *, .intro-band > * { min-width: 0; }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
+      color: var(--brand); background: var(--brand-tint);
+      border: 1px solid rgba(120,81,169,.18); border-radius: 100px; padding: 7px 15px;
+    }
+    .eyebrow i { font-size: 11px; }
+    h1, h2, h3 { letter-spacing: -.048em; line-height: 1.06; }
+    .gradient-text {
+      background: linear-gradient(105deg, var(--brand) 10%, var(--brand-lite) 60%, var(--brand-dark) 95%);
+      -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent;
+    }
+
+    /* ---------- BUTTONS ---------- */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+      font-family: inherit; font-size: 15px; font-weight: 700; text-decoration: none;
+      border-radius: 12px; padding: 14px 26px; cursor: pointer; border: 1px solid transparent;
+      transition: transform .25s cubic-bezier(.22,1,.36,1), box-shadow .25s, background .2s, color .2s;
+    }
+    .btn-primary { background: linear-gradient(120deg, var(--brand) 0%, var(--brand-lite) 100%); color: #fff; box-shadow: var(--shadow-md); }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+    .btn-ghost { background: #fff; color: var(--text); border-color: var(--line); box-shadow: var(--shadow-sm); }
+    .btn-ghost:hover { transform: translateY(-2px); border-color: rgba(120,81,169,.4); color: var(--brand); }
+    .btn-light { background: rgba(255,255,255,.14); color: #fff; border-color: rgba(255,255,255,.35); backdrop-filter: blur(6px); }
+    .btn-light:hover { background: rgba(255,255,255,.24); transform: translateY(-2px); }
+
+    /* ---------- HERO ---------- */
+    .hero { position: relative; padding: 118px 0 90px; overflow: hidden; background: linear-gradient(180deg, #faf8ff 0%, #ffffff 82%); }
+    .hero-blob { position: absolute; border-radius: 50%; filter: blur(60px); opacity: .5; z-index: 0; will-change: transform; }
+    .blob-1 { width: 440px; height: 440px; background: radial-gradient(circle, rgba(154,111,208,.55), transparent 70%); top: -140px; right: -80px; animation: drift 17s ease-in-out infinite; }
+    .blob-2 { width: 380px; height: 380px; background: radial-gradient(circle, rgba(120,81,169,.4), transparent 70%); bottom: -160px; left: -120px; animation: drift 21s ease-in-out infinite reverse; }
+    @keyframes drift { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(34px,-26px) scale(1.12); } }
+
+    .hero-grid { position: relative; z-index: 2; display: grid; grid-template-columns: 1.02fr .98fr; gap: 56px; align-items: center; }
+    .hero-copy h1 { font-size: clamp(2.3rem, 5vw, 3.5rem); font-weight: 800; margin: 20px 0 18px; }
+    .hero-copy .lead { font-size: 1.12rem; color: var(--muted); max-width: 540px; margin-bottom: 30px; }
+    .hero-cta { display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 26px; }
+    .hero-chips { display: flex; flex-wrap: wrap; gap: 18px; }
+    .hero-chip { display: inline-flex; align-items: center; gap: 8px; font-size: 13.5px; font-weight: 600; color: var(--muted); }
+    .hero-chip i { color: var(--brand); font-size: 14px; }
+
+    /* device mockup */
+    .hero-visual { position: relative; perspective: 1400px; z-index: 2; }
+    .device {
+      position: relative; background: #fff; border: 1px solid var(--line); border-radius: 16px;
+      box-shadow: var(--shadow-lg); overflow: hidden; transform-style: preserve-3d;
+      transition: transform .4s cubic-bezier(.22,1,.36,1);
+    }
+    .hero-visual .device { transform: rotateY(-13deg) rotateX(6deg); }
+    .device-bar { display: flex; align-items: center; gap: 6px; padding: 11px 14px; background: #f4f2f8; border-bottom: 1px solid var(--line); }
+    .device-bar span { width: 10px; height: 10px; border-radius: 50%; background: #d9d5e6; }
+    .device-bar span:nth-child(1) { background: #ff5f57; } .device-bar span:nth-child(2) { background: #febc2e; } .device-bar span:nth-child(3) { background: #28c840; }
+    .device-url { margin-left: 12px; font-size: 11px; font-weight: 600; color: var(--muted2); background: #fff; border: 1px solid var(--line); border-radius: 7px; padding: 4px 12px; }
+    .device-screen { position: relative; background: #f8f9fc; }
+    .device-screen img { width: 100%; display: block; }
+
+    .float-card {
+      position: absolute; z-index: 5; background: #fff; border: 1px solid var(--line);
+      border-radius: 14px; box-shadow: var(--shadow-md); padding: 13px 16px;
+      display: flex; align-items: center; gap: 11px; font-size: 13px; font-weight: 600;
+      will-change: transform;
+    }
+    .float-card .fc-icon { width: 32px; height: 32px; border-radius: 9px; display: grid; place-items: center; color: #fff; font-size: 13px; flex-shrink: 0; }
+    .float-a { top: 30px; left: -34px; animation: floaty 5.5s ease-in-out infinite; }
+    .float-a .fc-icon { background: #16a34a; }
+    .float-b { bottom: 44px; right: -30px; animation: floaty 6.5s ease-in-out infinite .8s; }
+    .float-b .fc-icon { background: var(--brand); }
+    .fc-sub { font-size: 11px; font-weight: 500; color: var(--muted2); }
+    @keyframes floaty { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-13px); } }
+
+    /* ---------- SECTIONS ---------- */
+    .section { padding: 92px 0; }
+    .section-tint { background: var(--bg-2); }
+    .section-head { max-width: 660px; margin: 0 auto 56px; text-align: center; }
+    .section-head h2 { font-size: clamp(1.9rem, 3.6vw, 2.65rem); font-weight: 800; margin: 16px 0 14px; }
+    .section-head p { font-size: 1.08rem; color: var(--muted); }
+
+    .intro-band { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+    .intro-band .big { font-size: clamp(1.7rem, 3.2vw, 2.4rem); font-weight: 800; line-height: 1.06; letter-spacing: -.048em; }
+    .intro-band p { color: var(--muted); font-size: 1.06rem; margin-top: 18px; }
+
+    /* ---------- STICKY STORY ---------- */
+    .story-inner { display: grid; grid-template-columns: .92fr 1.08fr; gap: 60px; align-items: start; }
+    .story-media { position: sticky; top: 96px; }
+    .story-media .device { transform: none; }
+    .story-media .device-screen { min-height: 300px; }
+    .shot { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top center; opacity: 0; transform: scale(1.03); transition: opacity .6s ease, transform .6s ease; }
+    .shot.active { opacity: 1; transform: scale(1); position: relative; }
+    .story-steps { display: flex; flex-direction: column; gap: 20px; padding: 40px 0; }
+    .story-step {
+      padding: 26px 28px; border-radius: var(--radius); border: 1px solid var(--line);
+      background: #fff; box-shadow: var(--shadow-sm); position: relative;
+      transition: border-color .35s, box-shadow .35s, transform .35s, opacity .35s;
+    }
+    .story-step .step-num { font-size: 13px; font-weight: 800; color: var(--muted2); letter-spacing: .08em; }
+    .story-step h3 { font-size: 1.35rem; font-weight: 700; margin: 8px 0 8px; }
+    .story-step p { color: var(--muted); font-size: 1rem; }
+    .story-step .step-link { display: inline-flex; align-items: center; gap: 7px; margin-top: 14px; font-weight: 700; font-size: 14px; color: var(--brand); text-decoration: none; }
+    .story-step .step-link:hover { gap: 11px; }
+    .story-step .step-link i { transition: transform .2s; }
+    .story-step.is-active { border-color: rgba(120,81,169,.45); box-shadow: var(--shadow-md); transform: translateX(6px); }
+    .story-step.is-active .step-num { color: var(--brand); }
+    .story-step .step-shot { display: none; margin-top: 18px; border-radius: 12px; border: 1px solid var(--line); overflow: hidden; }
+
+    /* ---------- FEATURE GRID ---------- */
+    .fgrid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+    .fcard { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 28px 24px; box-shadow: var(--shadow-sm); transition: transform .3s cubic-bezier(.22,1,.36,1), box-shadow .3s, border-color .3s; }
+    .fcard:hover { transform: translateY(-6px); box-shadow: var(--shadow-md); border-color: rgba(120,81,169,.3); }
+    .fcard .fi { width: 46px; height: 46px; border-radius: 13px; display: grid; place-items: center; font-size: 19px; color: var(--brand); background: var(--brand-tint); margin-bottom: 16px; }
+    .fcard h4 { font-size: 1.1rem; font-weight: 700; margin-bottom: 7px; letter-spacing: -.02em; }
+    .fcard p { font-size: .95rem; color: var(--muted); }
+
+    /* ---------- NOTES SPOTLIGHT ---------- */
+    .spotlight { display: grid; grid-template-columns: 1.05fr .95fr; gap: 56px; align-items: center; }
+    .spotlight-media { position: relative; }
+    .spotlight-media .device { transform: rotateY(8deg) rotateX(4deg); perspective: 1200px; }
+    .spotlight-copy h2 { font-size: clamp(1.8rem, 3.4vw, 2.5rem); font-weight: 800; margin: 16px 0 16px; }
+    .spotlight-copy p { color: var(--muted); font-size: 1.06rem; margin-bottom: 14px; }
+    .note-list { list-style: none; margin: 20px 0 28px; display: flex; flex-direction: column; gap: 12px; }
+    .note-list li { display: flex; gap: 12px; align-items: flex-start; font-size: 1rem; color: var(--text); }
+    .note-list i { color: var(--brand); margin-top: 4px; }
+    .note-warn { display: flex; gap: 12px; align-items: flex-start; background: #fff8ec; border: 1px solid rgba(217,119,6,.25); border-radius: 12px; padding: 14px 16px; font-size: .95rem; color: #7a5311; }
+    .note-warn i { color: #d97706; margin-top: 3px; }
+    .mpath { display: inline-flex; align-items: center; gap: 6px; vertical-align: middle; }
+    .mkey { background: #fff; border: 1px solid var(--line); border-radius: 7px; padding: 2px 9px; font-size: .84em; font-weight: 700; color: var(--brand); box-shadow: var(--shadow-sm); white-space: nowrap; }
+    .mpath .sep { font-size: 9px; color: var(--muted2); }
+
+    /* ---------- GETTING-IN FLOW ---------- */
+    .flow { display: flex; align-items: stretch; justify-content: center; gap: 8px; flex-wrap: wrap; }
+    .flow-card { flex: 1 1 260px; max-width: 330px; background: #fff; border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow-sm); overflow: hidden; transition: transform .3s cubic-bezier(.22,1,.36,1), box-shadow .3s; }
+    .flow-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-md); }
+    .flow-thumb { position: relative; aspect-ratio: 16 / 10; overflow: hidden; border-bottom: 1px solid var(--line); background: var(--bg-2); }
+    .flow-thumb img { width: 100%; height: 100%; object-fit: cover; object-position: top center; }
+    .flow-step { position: absolute; top: 12px; left: 12px; background: rgba(13,13,20,.82); color: #fff; font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; padding: 5px 11px; border-radius: 100px; backdrop-filter: blur(4px); }
+    .flow-body { padding: 22px 22px 24px; }
+    .flow-body h4 { font-size: 1.14rem; font-weight: 700; margin-bottom: 7px; letter-spacing: -.02em; }
+    .flow-body p { color: var(--muted); font-size: .95rem; }
+    .flow-conn { display: flex; align-items: center; justify-content: center; color: var(--brand-lite); font-size: 18px; align-self: center; padding: 0 2px; }
+    @media (max-width: 900px) { .flow-card { flex-basis: 100%; max-width: 460px; } .flow-conn { transform: rotate(90deg); padding: 6px 0; } }
+
+    /* ---------- CTA ---------- */
+    .cta-band { position: relative; overflow: hidden; background: #0d0d14; color: #fff; border-radius: 28px; padding: 76px 40px; text-align: center; box-shadow: var(--shadow-lg); }
+    .cta-band::before { content: ""; position: absolute; inset: 0; background: radial-gradient(680px circle at 50% 128%, rgba(120,81,169,.28), transparent 56%); }
+    .cta-band::after { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(154,111,208,.5), transparent); }
+    .cta-band > * { position: relative; z-index: 2; }
+    .cta-band h2 { font-size: clamp(1.9rem, 4vw, 2.8rem); font-weight: 800; margin-bottom: 14px; }
+    .cta-band p { font-size: 1.1rem; color: rgba(255,255,255,.66); max-width: 520px; margin: 0 auto 30px; }
+    .cta-band .hero-cta { justify-content: center; }
+
+    /* ---------- REVEAL ANIMATIONS ---------- */
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity .7s cubic-bezier(.22,1,.36,1), transform .7s cubic-bezier(.22,1,.36,1); }
+    .reveal.in { opacity: 1; transform: none; }
+    .reveal-l { opacity: 0; transform: translateX(-46px); transition: opacity .8s cubic-bezier(.22,1,.36,1), transform .8s cubic-bezier(.22,1,.36,1); }
+    .reveal-l.in { opacity: 1; transform: none; }
+    .reveal-r { opacity: 0; transform: translateX(46px); transition: opacity .8s cubic-bezier(.22,1,.36,1), transform .8s cubic-bezier(.22,1,.36,1); }
+    .reveal-r.in { opacity: 1; transform: none; }
+    .reveal-scale { opacity: 0; transform: scale(.93); transition: opacity .8s cubic-bezier(.22,1,.36,1), transform .8s cubic-bezier(.22,1,.36,1); }
+    .reveal-scale.in { opacity: 1; transform: none; }
+    .reveal-clip { opacity: 0; clip-path: inset(0 0 100% 0); transition: opacity .5s ease, clip-path 1s cubic-bezier(.22,1,.36,1); }
+    .reveal-clip.in { opacity: 1; clip-path: inset(0 0 0 0); }
+    .d1 { transition-delay: .08s; } .d2 { transition-delay: .16s; } .d3 { transition-delay: .24s; } .d4 { transition-delay: .32s; } .d5 { transition-delay: .4s; }
+
+    /* ---------- FOOTER ---------- */
+    footer { background: #000; padding: 60px 20px 40px; border-top: 1px solid rgba(255,255,255,.08); }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; max-width: 1100px; margin: 0 auto 48px; text-align: left; }
+    .footer-brand { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+    .footer-brand img { height: 40px; width: auto; }
+    .footer-brand span { font-weight: 700; font-size: 1.1rem; color: #fff; }
+    .footer-tagline { color: #a0a6c0; font-size: .9rem; line-height: 1.6; margin-bottom: 20px; max-width: 280px; }
+    .footer-social { display: flex; gap: 12px; }
+    .footer-social a { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; background: rgba(255,255,255,.06); border-radius: 10px; color: #a0a6c0; font-size: 1rem; transition: all .2s; text-decoration: none; }
+    .footer-social a:hover { background: var(--gold); color: #1a1a2e; }
+    .footer-col h5 { font-size: .85rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: #fff; margin: 0 0 16px; }
+    .footer-col ul { list-style: none; padding: 0; margin: 0; }
+    .footer-col li { margin-bottom: 10px; }
+    .footer-col a { color: #a0a6c0; font-size: .9rem; transition: color .2s; text-decoration: none; }
+    .footer-col a:hover { color: var(--gold); }
+    .footer-bottom { max-width: 1100px; margin: 0 auto; padding-top: 24px; border-top: 1px solid rgba(255,255,255,.08); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+    .footer-bottom p { color: #6b7280; font-size: .85rem; margin: 0; }
+    .footer-legal { display: flex; gap: 24px; }
+    .footer-legal a { color: #6b7280; font-size: .85rem; transition: color .2s; text-decoration: none; }
+    .footer-legal a:hover { color: var(--gold); }
+    @media (max-width: 768px) { .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; } }
+    @media (max-width: 600px) { .footer-bottom { flex-direction: column; text-align: center; } }
+    @media (max-width: 480px) { .footer-grid { grid-template-columns: 1fr; gap: 28px; } }
+
+    /* ---------- RESPONSIVE ---------- */
+    @media (max-width: 960px) {
+      .hero-grid { grid-template-columns: 1fr; gap: 48px; }
+      .hero-visual .device { transform: none; }
+      .hero-copy { text-align: center; } .hero-copy .lead { margin-left: auto; margin-right: auto; }
+      .hero-cta, .hero-chips { justify-content: center; }
+      .float-a { left: 6px; } .float-b { right: 6px; }
+      .intro-band { grid-template-columns: 1fr; gap: 24px; text-align: center; }
+      .story-inner { grid-template-columns: 1fr; gap: 0; }
+      .story-media { display: none; }
+      .story-steps { padding: 0; gap: 26px; }
+      .story-step .step-shot { display: block; }
+      .story-step.is-active { transform: none; }
+      .fgrid { grid-template-columns: repeat(2, 1fr); }
+      .spotlight { grid-template-columns: 1fr; gap: 40px; }
+      .spotlight-media .device { transform: none; }
+    }
+    @media (max-width: 560px) {
+      .hero { padding: 92px 0 64px; }
+      .section { padding: 66px 0; }
+      .fgrid { grid-template-columns: 1fr; }
+      .float-card { display: none; }
+      .cta-band { padding: 52px 22px; border-radius: 22px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .reveal, .reveal-l, .reveal-r, .reveal-scale, .reveal-clip { opacity: 1 !important; transform: none !important; clip-path: none !important; transition: none !important; }
+      .hero-blob, .float-card, .ticker-track { animation: none !important; }
+      .hero-visual .device, .spotlight-media .device { transform: none !important; }
+    }
+  </style>
+</head>
+<body>
+<header class="wb-header" id="wb-header" role="banner">
+  <div class="wb-nav-inner">
+    <a class="wb-logo" href="index.html">
+      <img loading="eager" src="images/webeaze-transparent-copy.png" alt="WebEaze" width="428" height="493">
+      <strong class="wb-logo-word">WebEaze</strong>
+    </a>
+    <nav class="wb-nav" aria-label="Primary navigation">
+      <div class="wb-nav-item wb-has-dropdown">
+        <button class="wb-nav-link wb-dropdown-btn" aria-expanded="false" aria-haspopup="true" type="button">Our Services <i class="fas fa-chevron-down wb-chevron"></i></button>
+        <div class="wb-dropdown" role="menu">
+          <a class="wb-dd-item" href="services.html" role="menuitem"><i class="fas fa-th-large"></i> All Services</a>
+          <div class="wb-dd-divider"></div>
+          <a class="wb-dd-item" href="manage.html" role="menuitem"><i class="fas fa-globe"></i> Website Design</a>
+          <a class="wb-dd-item" href="maintenance.html" role="menuitem"><i class="fas fa-sync-alt"></i> Unlimited Updates</a>
+          <a class="wb-dd-item" href="seo.html" role="menuitem"><i class="fas fa-search"></i> Local SEO</a>
+          <a class="wb-dd-item" href="google-business-management.html" role="menuitem"><i class="fab fa-google"></i> Google Business Profile</a>
+          <a class="wb-dd-item" href="ai.html" role="menuitem"><i class="fas fa-robot"></i> AI Chatbot</a>
+          <a class="wb-dd-item" href="ads.html" role="menuitem"><i class="fas fa-ad"></i> Ad Management</a>
+          <a class="wb-dd-item" href="one-time-project.html" role="menuitem"><i class="fas fa-hammer"></i> One-Time Website Help</a>
+        </div>
+      </div>
+      <a class="wb-nav-link" href="pricing.html">Pricing</a>
+      <a class="wb-nav-link" href="faq.html">FAQ</a>
+      <a class="wb-nav-link" href="blog.html">Blog</a>
+      <a class="wb-nav-link" href="help.html">Help</a>
+      <a class="wb-nav-link" href="contact-us.html">Contact</a>
+    </nav>
+    <div class="wb-nav-actions">
+      <a class="wb-get-started-btn" href="consultation.html">Free Preview</a>
+      <a id="client-portal-btn" class="wb-portal-btn" href="client-start.html"><i class="fas fa-user"></i> <span id="client-portal-label">Client Portal</span></a>
+      <button class="wb-hamburger" id="wb-hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="wb-mobile-menu" type="button">
+        <span class="wb-bar"></span><span class="wb-bar"></span><span class="wb-bar"></span>
+      </button>
+    </div>
+  </div>
+  <div class="wb-mobile-menu" id="wb-mobile-menu" aria-hidden="true">
+    <div class="wb-mob-inner">
+      <a class="wb-mob-link" href="services.html"><i class="fas fa-th-large"></i> All Services</a>
+      <a class="wb-mob-link wb-mob-sub" href="manage.html"><i class="fas fa-globe"></i> Website Design</a>
+      <a class="wb-mob-link wb-mob-sub" href="maintenance.html"><i class="fas fa-sync-alt"></i> Unlimited Updates</a>
+      <a class="wb-mob-link wb-mob-sub" href="seo.html"><i class="fas fa-search"></i> Local SEO</a>
+      <a class="wb-mob-link wb-mob-sub" href="google-business-management.html"><i class="fab fa-google"></i> Google Business Profile</a>
+      <a class="wb-mob-link wb-mob-sub" href="ai.html"><i class="fas fa-robot"></i> AI Chatbot</a>
+      <a class="wb-mob-link wb-mob-sub" href="ads.html"><i class="fas fa-ad"></i> Ad Management</a>
+      <a class="wb-mob-link wb-mob-sub" href="one-time-project.html"><i class="fas fa-hammer"></i> One-Time Website Help</a>
+      <hr class="wb-mob-divider">
+      <a class="wb-mob-link" href="pricing.html">Pricing</a>
+      <a class="wb-mob-link" href="faq.html">FAQ</a>
+      <a class="wb-mob-link" href="blog.html">Blog</a>
+      <a class="wb-mob-link" href="help.html">Help</a>
+      <a class="wb-mob-link" href="contact-us.html">Contact</a>
+      <hr class="wb-mob-divider">
+      <a class="wb-mob-cta" href="client-start.html"><i class="fas fa-user"></i> Client Portal</a>
+    </div>
+  </div>
+</header>
+<div class="wb-header-spacer"></div>
+
+<!-- HERO -->
+<section class="hero" id="main-content">
+  <div class="hero-blob blob-1"></div>
+  <div class="hero-blob blob-2"></div>
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <h1 class="reveal">Your website management, <span class="gradient-text">in one place</span>.</h1>
+      <p class="lead reveal d2">Introducing the Client Portal. Request changes, manage site performance, view analytics, earn rewards, and more.</p>
+      <div class="hero-cta reveal d3">
+        <a class="btn btn-primary" href="https://portal.webeaze.io" target="_blank" rel="noopener"><i class="fas fa-arrow-right-to-bracket"></i> Open your portal</a>
+        <a class="btn btn-ghost" href="#story">Take the tour</a>
+      </div>
+      <div class="hero-chips reveal d4">
+        <span class="hero-chip"><i class="fas fa-fingerprint"></i> One login</span>
+        <span class="hero-chip"><i class="fas fa-wand-magic-sparkles"></i> Easy to use</span>
+        <span class="hero-chip"><i class="fas fa-bolt"></i> Updates in real time</span>
+      </div>
+    </div>
+    <div class="hero-visual reveal-scale d2">
+      <div class="device" id="heroDevice">
+        <div class="device-bar"><span></span><span></span><span></span><div class="device-url">portal.webeaze.io</div></div>
+        <div class="device-screen"><img src="images/assets/home-page.png" alt="The Client Portal dashboard showing the site report, requests, and account overview" loading="eager"></div>
+      </div>
+      <div class="float-card float-a">
+        <div class="fc-icon"><i class="fas fa-check"></i></div>
+        <div><div>Request completed</div><div class="fc-sub">Homepage banner updated</div></div>
+      </div>
+      <div class="float-card float-b">
+        <div class="fc-icon"><i class="fas fa-note-sticky"></i></div>
+        <div><div>New note from WebEaze</div><div class="fc-sub">Your SSL just renewed</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INTRO -->
+<section class="section">
+  <div class="wrap intro-band">
+    <div class="reveal-l">
+      <div class="big">The biggest thing we've done since 2024.</div>
+    </div>
+    <div class="reveal-r">
+      <p>From Day 1, we wanted to make the management of websites as simple as possible for small business owners. The Client Portal is the biggest leap in that direction.</p>
+      <p>Submit requests. View site analytics. Submit passwords. And much more.</p>
+    </div>
+  </div>
+</section>
+
+<!-- STICKY STORY -->
+<section class="section section-tint" id="story">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Simplicity starts here</h2>
+      <p>Things you'll use every time you need us. </p>
+    </div>
+    <div class="story-inner">
+      <div class="story-media" aria-hidden="true">
+        <div class="device">
+          <div class="device-bar"><span></span><span></span><span></span><div class="device-url">portal.webeaze.io</div></div>
+          <div class="device-screen">
+            <img class="shot active" data-step="0" src="images/assets/request-update.png" alt="">
+            <img class="shot" data-step="1" src="images/assets/notes-page.png" alt="">
+            <img class="shot" data-step="2" src="images/assets/view-site-report.png" alt="">
+            <img class="shot" data-step="3" src="images/assets/milestones-page.png" alt="">
+            <img class="shot" data-step="4" src="images/assets/work-history.png" alt="">
+            <img class="shot" data-step="5" src="images/assets/referral-page.png" alt="">
+          </div>
+        </div>
+      </div>
+      <div class="story-steps">
+        <article class="story-step reveal is-active" data-step="0">
+          <div class="step-num">1</div>
+          <h3>Submit and track requests</h3>
+          <p>Need a change? Select the type of update, describe what you want, and attach a file if needed. You'll see live status updates from Received to Completed.</p>
+          <img class="step-shot" src="images/assets/request-update.png" alt="Submitting a website update request in the portal">
+        </article>
+        <article class="story-step reveal" data-step="1">
+          <div class="step-num">2</div>
+          <h3>Website notes</h3>
+          <p>A shared space for you and us. We post account and website updates right in your portal, and you can write reminders or ideas any time. Turn any note into a request seamlessly.</p>
+          <a class="step-link" href="help/website-notes/">Read the notes guide <i class="fas fa-arrow-right"></i></a>
+          <img class="step-shot" src="images/assets/notes-page.png" alt="The Website notes page in the portal">
+        </article>
+        <article class="story-step reveal" data-step="2">
+          <div class="step-num">3</div>
+          <h3>Your site report</h3>
+          <p>See your website performance in real time and your domain and hosting information. Plus, recommendations for growth.</p>
+          <img class="step-shot" src="images/assets/view-site-report.png" alt="The site report showing live Google performance data">
+        </article>
+        <article class="story-step reveal" data-step="3">
+          <div class="step-num">4</div>
+          <h3>Milestones and rewards</h3>
+          <p>We like fun. Earn rewards as time goes on, and we'll gift you along the way. Think a free month of service.</p>
+          <img class="step-shot" src="images/assets/milestones-page.png" alt="Milestone badges in the portal">
+        </article>
+        <article class="story-step reveal" data-step="4">
+          <div class="step-num">5</div>
+          <h3>Request history</h3>
+          <p>Your records. Helps you keep track of all your requests and changes for reference.</p>
+          <img class="step-shot" src="images/assets/work-history.png" alt="The request history log in the portal">
+        </article>
+        <article class="story-step reveal" data-step="5">
+          <div class="step-num">6</div>
+          <h3>Refer and earn</h3>
+          <p>Let others know about us, and earn cash. Track it all in your portal. </p>
+          <img class="step-shot" src="images/assets/referral-page.png" alt="The refer and earn page in the portal">
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURE GRID -->
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Thoughtful touches throughout</h2>
+      <p>We made this portal from scratch. This is how you know.</p>
+    </div>
+    <div class="fgrid">
+      <div class="fcard reveal d1"><div class="fi"><i class="fas fa-headset"></i></div><h4>Support hours</h4><p>See when we are available, upcoming holidays, and recent service updates.</p></div>
+      <div class="fcard reveal d2"><div class="fi"><i class="fas fa-bell"></i></div><h4>Notifications</h4><p>Know when requests are done, or when new notes are available.</p></div>
+      <div class="fcard reveal d3"><div class="fi"><i class="fas fa-credit-card"></i></div><h4>Billing, anytime</h4><p>Manage your billing in one place.</p></div>
+      <div class="fcard reveal d4"><div class="fi"><i class="fas fa-lock"></i></div><h4>Secure by design</h4><p>Your password is encrypted. Even we can't see it.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- GETTING IN -->
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Access from Day 1</h2>
+      <p>Accept the invite, create your password, and you're in. </p>
+    </div>
+    <div class="flow">
+      <div class="flow-card reveal">
+        <div class="flow-thumb"><span class="flow-step">Step 1</span><img src="images/assets/portal-invite.png" alt="The portal invite email from WebEaze" loading="lazy"></div>
+        <div class="flow-body"><h4>Your invitation</h4><p>You're emailed once you are ready to access the portal.</p></div>
+      </div>
+      <div class="flow-conn"><i class="fas fa-chevron-right"></i></div>
+      <div class="flow-card reveal d1">
+        <div class="flow-thumb"><span class="flow-step">Step 2</span><img src="images/assets/login-screen.png" alt="Setting your portal password on the sign-in screen" loading="lazy"></div>
+        <div class="flow-body"><h4>Set one password</h4><p>Pick a password only you know. </p></div>
+      </div>
+      <div class="flow-conn"><i class="fas fa-chevron-right"></i></div>
+      <div class="flow-card reveal d2">
+        <div class="flow-thumb"><span class="flow-step">Step 3</span><img src="images/assets/home-page.png" alt="The portal dashboard after signing in" loading="lazy"></div>
+        <div class="flow-body"><h4>Your website, in view</h4><p>Sign in at any time, from any device. Everything's there for you.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section" style="padding-top:0;">
+  <div class="wrap">
+    <div class="cta-band reveal-scale">
+      <h2>Your website, simplified.</h2>
+      <p>Want a simple management experience like this?</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="https://portal.webeaze.io" target="_blank" rel="noopener"><i class="fas fa-arrow-right-to-bracket"></i> Open Client Portal</a>
+        <a class="btn btn-light" href="consultation.html">Get Started Today</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand">
+        <img src="images/webeaze-transparent-copy.png" alt="WebEaze" width="428" height="493" loading="eager">
+        <span>WebEaze</span>
+      </div>
+      <p class="footer-tagline">Professional websites for small businesses. We build, host, and manage your site so you can focus on what matters.</p>
+      <div class="footer-social">
+        <a href="https://facebook.com/61568824951084" target="_blank" rel="noopener" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://www.linkedin.com/company/webeaze" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+        <a href="https://instagram.com/webeaze.io" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h5>Services</h5>
+      <ul>
+        <li><a href="services.html">Our Services</a></li>
+        <li><a href="pricing.html">Pricing</a></li>
+        <li><a href="plan-guide.html">Plan Guide</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Company</h5>
+      <ul>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="brand.html">Our Brand</a></li>
+        <li><a href="samples.html">Our Work</a></li>
+        <li><a href="referral.html">Referral Program</a></li>
+        <li><a href="contact-us.html">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Support</h5>
+      <ul>
+        <li><a href="help.html">Help Center</a></li>
+        <li><a href="faq.html">FAQ</a></li>
+        <li><a href="consultation.html">Book a Free Call</a></li>
+        <li><a href="accessibility.html">Accessibility</a></li>
+        <li><a href="fee-schedule.html">Fee Schedule</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p style="color:#fff">&copy; <span id="yr"></span> WebEaze. Made in Delaware, USA &#127482;&#127480;</p>
+    <div class="footer-legal">
+      <a href="terms.html#privacy">Privacy Policy</a>
+      <a href="terms.html">Terms of Service</a>
+      <a href="sitemap.xml">Site Map</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+document.getElementById('yr').textContent = new Date().getFullYear();
+
+var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// ── SCROLL REVEALS ──
+(function(){
+  var els = document.querySelectorAll('.reveal, .reveal-l, .reveal-r, .reveal-scale, .reveal-clip');
+  if (reduceMotion || !('IntersectionObserver' in window)) { els.forEach(function(e){ e.classList.add('in'); }); return; }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: .14, rootMargin: '0px 0px -8% 0px' });
+  els.forEach(function(e){ io.observe(e); });
+})();
+
+// ── STICKY STORY: swap the pinned screenshot as each step crosses center ──
+(function(){
+  var steps = document.querySelectorAll('.story-step');
+  var shots = document.querySelectorAll('.story-media .shot');
+  if (!steps.length || !shots.length || !('IntersectionObserver' in window)) return;
+  function activate(i){
+    steps.forEach(function(s){ s.classList.toggle('is-active', s.getAttribute('data-step') === i); });
+    shots.forEach(function(sh){ sh.classList.toggle('active', sh.getAttribute('data-step') === i); });
+  }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ if (e.isIntersecting) activate(e.target.getAttribute('data-step')); });
+  }, { rootMargin: '-45% 0px -45% 0px', threshold: 0 });
+  steps.forEach(function(s){ io.observe(s); });
+})();
+
+// ── HERO DEVICE: subtle 3D tilt following the cursor (desktop, motion-safe) ──
+(function(){
+  var device = document.getElementById('heroDevice');
+  if (!device || reduceMotion || !window.matchMedia('(hover: hover) and (min-width: 961px)').matches) return;
+  var frame;
+  window.addEventListener('mousemove', function(ev){
+    if (frame) return;
+    frame = requestAnimationFrame(function(){
+      frame = null;
+      var cx = window.innerWidth / 2, cy = window.innerHeight / 2;
+      var rx = ((ev.clientY - cy) / cy) * -4;
+      var ry = ((ev.clientX - cx) / cx) * 6 - 13;
+      device.style.transform = 'rotateY(' + ry.toFixed(2) + 'deg) rotateX(' + (rx + 6).toFixed(2) + 'deg)';
+    });
+  });
+})();
+</script>
+
+<!-- HubSpot Tracking -->
+<script type="text/javascript" id="hs-script-loader" async defer src="//js-na2.hs-scripts.com/242171361.js"></script>
+<script src="js/nav.js" defer></script>
+</body>
+</html>
