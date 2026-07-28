@@ -65,6 +65,10 @@ body {
 }
 a { text-decoration: none; color: inherit; transition: .2s; }
 
+/* Nicer text-selection color (soft brand tint instead of the default system blue) */
+::selection { background: rgba(120,81,169,.16); color: var(--text); }
+::-moz-selection { background: rgba(120,81,169,.16); color: var(--text); }
+
 .container-narrow { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
 
 /* NAV (stays dark) */
@@ -203,8 +207,11 @@ a { text-decoration: none; color: inherit; transition: .2s; }
   gap: 16px;
   cursor: pointer;
   transition: background .2s;
+  -webkit-user-select: none; user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 .faq-q:hover { background: var(--bg-2); }
+.faq-q:focus-visible { box-shadow: inset 0 0 0 2px rgba(120,81,169,.5); border-radius: 14px; }
 .faq-q .icon {
   width: 28px; height: 28px; border-radius: 8px;
   background: var(--bg-2);
@@ -355,8 +362,9 @@ footer {
 @media (max-width: 600px) { .footer-bottom { flex-direction: column; text-align: center; } }
 
 /* ANIMATIONS */
-.reveal { opacity: 0; transform: translateY(12px); transition: .5s ease; }
-.reveal.in { opacity: 1; transform: translateY(0); }
+/* Content is shown immediately (no per-item scroll animation) to keep the long FAQ calm. */
+.reveal { opacity: 1; transform: none; transition: none; }
+.reveal.in { opacity: 1; transform: none; }
 
 /* RESPONSIVE */
 @media (max-width: 768px) {
@@ -719,11 +727,11 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
 
       <article class="faq-item reveal" data-cat="support">
         <button class="faq-q" aria-expanded="false">
-          <span>What are your support hours?</span>
+          <span>What are your hours?</span>
           <span class="icon"><i class="fas fa-chevron-down"></i></span>
         </button>
         <div class="faq-a" role="region" aria-hidden="true">
-          <div class="faq-a-inner">We respond to emails and requests Monday through Friday <a href="status.html">during working hours</a>. Non-urgent requests are typically handled within 24-48 hours. For true emergencies (like your site being down), we have monitoring in place and respond as quickly as possible, including weekends.<div class="faq-help-link"><a href="help.html#/response-time"><i class="fas fa-book-open"></i> Response times explained</a></div></div>
+          <div class="faq-a-inner">We are online Monday-Friday, 9:00am-5:00pm Eastern. Urgent issues (like website down, security breaches), we have 24/7 monitoring and respond even during off-hours.<div class="faq-help-link"><a href="help.html#/response-time"><i class="fas fa-book-open"></i> Response times explained</a></div></div>
         </div>
       </article>
 
@@ -739,7 +747,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
           <span class="icon"><i class="fas fa-chevron-down"></i></span>
         </button>
         <div class="faq-a" role="region" aria-hidden="true">
-          <div class="faq-a-inner">We set up your site with <a href="seo.html" style="color:var(--brand);font-weight:500;">SEO best practices</a>: proper page titles, meta descriptions, fast loading speeds, mobile optimization, and clean code that Google can read. We also help you set up or optimize your Google Business Profile, which is crucial for local searches. When someone searches "landscaper near me" or "carpet cleaning [your city]," your site will have the foundation to appear. Actual rankings depend on competition, reviews, and content, but we give you the technical setup to compete.</div>
+          <div class="faq-a-inner">Yes. We set your website up with <a href="seo.html" style="color:var(--brand);font-weight:500;">SEO best practices</a>: proper page titles, meta descriptions, fast loading speeds, mobile optimization, and clean code that Google can read. We also help you set up or optimize your Google Business Profile, which is crucial for local searches. When someone searches "landscaper near me" or "carpet cleaning [your city]," your site will have the foundation to appear. Actual rankings depend on competition, reviews, and content, but we give you the technical setup to compete.</div>
         </div>
       </article>
 
