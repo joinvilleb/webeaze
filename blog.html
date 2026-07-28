@@ -104,6 +104,7 @@ img { max-width: 100%; height: auto; }
 .cat-online { background: rgba(59,130,246,.1); color: #2563eb; }
 .cat-restaurant { background: rgba(245,158,11,.1); color: #d97706; }
 .cat-product { background: rgba(120,81,169,.1); color: var(--brand); }
+.cat-branding { background: rgba(225,29,72,.1); color: #e11d48; }
 .post-card h2 { font-size: 1.05rem; font-weight: 700; letter-spacing: -.02em; color: #0a0a0a; margin-bottom: .6rem; line-height: 1.38; }
 .post-card p { font-size: .9rem; color: var(--muted); line-height: 1.65; flex: 1; }
 .post-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 1rem; margin-top: 1rem; border-top: 1px solid var(--line); }
@@ -241,7 +242,25 @@ footer { background: #0a0a0a; color: #9ca3af; padding: 4rem 0 0; }
 
   <section class="blog-hero">
     <div class="container-page">
-      <div class="featured-post">
+      <!-- Scheduled: AI Images article launches Aug 1, 2026. Hidden until then, auto-revealed by the publish-gate script below. -->
+      <div class="featured-post" data-publish="2026-08-01" style="display:none">
+        <div class="featured-post-text">
+          <div class="featured-label">Latest article</div>
+          <span class="post-cat cat-branding">Branding</span>
+          <h1>Why AI Images Are Hurting Your Business</h1>
+          <p>AI posters and graphics feel like an easy win, but most people spot AI instantly and many react badly to it. Here is why AI visuals can quietly damage the trust your business runs on.</p>
+          <div class="featured-meta">
+            <span><i class="far fa-calendar"></i> Aug 1, 2026</span>
+            <span><i class="far fa-clock"></i> 5 min read</span>
+          </div>
+          <a href="blog/ai-images-hurting-your-brand.html" class="featured-read-link">Read article <i class="fas fa-arrow-right"></i></a>
+        </div>
+        <div class="featured-post-img">
+          <img src="images/web-designer-coffee.png" alt="A designer working by hand on real brand visuals instead of AI-generated graphics" loading="eager">
+        </div>
+      </div>
+      <!-- Fallback featured, shown until the AI Images article launches on Aug 1, 2026. -->
+      <div class="featured-post" data-publish-fallback="2026-08-01">
         <div class="featured-post-text">
           <div class="featured-label">Latest article</div>
           <span class="post-cat cat-product">Product</span>
@@ -269,6 +288,7 @@ footer { background: #0a0a0a; color: #9ca3af; padding: 4rem 0 0; }
           <button class="filter-btn" data-filter="web-design">Web Design</button>
           <button class="filter-btn" data-filter="local-seo">Local SEO</button>
           <button class="filter-btn" data-filter="restaurants">Restaurants</button>
+          <button class="filter-btn" data-filter="branding" data-publish="2026-08-01" style="display:none">Branding</button>
           <button class="filter-btn" data-filter="product">Product</button>
         </div>
         <div style="display:flex;align-items:center;gap:.75rem;">
@@ -289,12 +309,27 @@ footer { background: #0a0a0a; color: #9ca3af; padding: 4rem 0 0; }
     <div class="container-page">
       <div class="posts-grid">
 
-        <article class="post-card" data-cat="web-design" data-date="2026-07-10" data-read="5">
+        <article class="post-card" data-cat="branding" data-date="2026-08-01" data-read="5" data-publish="2026-08-01" style="display:none">
+          <div class="post-card-img">
+            <img src="images/web-designer-coffee.png" alt="A designer working by hand on real brand visuals instead of AI-generated graphics" loading="lazy">
+          </div>
+          <div class="post-card-body">
+            <span class="post-cat cat-branding">Branding</span>
+            <h2>Why AI Images Are Hurting Your Business</h2>
+            <p>AI visuals seem like a no-brainer for promoting your business. That shortcut can do real damage to your reputation and the trust of real people in your community.</p>
+            <div class="post-footer">
+              <div class="post-meta"><i class="far fa-calendar"></i> Aug 1, 2026 <i class="far fa-clock" style="margin-left:.35rem"></i> 5 min</div>
+              <a href="blog/ai-images-hurting-your-brand.html" class="read-link">Read <i class="fas fa-arrow-right"></i></a>
+            </div>
+          </div>
+        </article>
+
+        <article class="post-card" data-cat="product" data-date="2026-07-10" data-read="5">
           <div class="post-card-img">
             <img src="images/service-based-business.png" alt="A small business owner working on their new website" loading="lazy">
           </div>
           <div class="post-card-body">
-            <span class="post-cat cat-design">Web Design</span>
+            <span class="post-cat cat-product">Product</span>
             <h2>One-Time Website Help: Get a Website Without a Monthly Plan</h2>
             <p>Pay once for a website or an update, with no monthly plan. Here is how the flat tiers, revisions, client portal, and billing all work.</p>
             <div class="post-footer">
@@ -494,9 +529,9 @@ footer { background: #0a0a0a; color: #9ca3af; padding: 4rem 0 0; }
 
   <section class="blog-cta">
     <div class="container-page">
-      <h2>Ready to get your business found online?</h2>
-      <p>Book a free 15-minute call. We learn about your business and build you a professional website in 5 to 14 business days.</p>
-      <a href="consultation.html" class="btn-white"><i class="fas fa-calendar-alt"></i> Book a Free Call</a>
+      <h2>We'll manage your website, and then some.</h2>
+      <p>Book a free call. We learn about your business and build you a professional website in 5-14 days.</p>
+      <a href="consultation.html" class="btn-white"><i class="fas fa-calendar-alt"></i> Book Now</a>
     </div>
   </section>
 
@@ -610,6 +645,22 @@ window.WZ_CHAT_PAGE = {
 <script src="chat-widget.js" defer></script>
 <script type="text/javascript" id="hs-script-loader" async defer src="//js-na2.hs-scripts.com/242171361.js"></script>
 <script src="js/nav.js" defer></script>
+<script>
+/* Scheduled publish gate. Runs before the filter/sort script so gated cards never enter the grid early.
+   - [data-publish="YYYY-MM-DD"]           kept out of the DOM until that date, then shown.
+   - [data-publish-fallback="YYYY-MM-DD"]  shown only until that date, then removed (stand-in for a scheduled item). */
+(function () {
+  var now = new Date();
+  function dateOf(v) { return new Date(v + 'T00:00:00'); }
+  document.querySelectorAll('[data-publish]').forEach(function (el) {
+    if (now < dateOf(el.getAttribute('data-publish'))) el.remove();
+    else el.style.removeProperty('display');
+  });
+  document.querySelectorAll('[data-publish-fallback]').forEach(function (el) {
+    if (now >= dateOf(el.getAttribute('data-publish-fallback'))) el.remove();
+  });
+})();
+</script>
 <script>
 (function () {
   var filterBar = document.querySelector('.filter-bar');
