@@ -363,3 +363,19 @@
 .related-pill > i:first-child { color: var(--brand, #7851a9); font-size: .95rem; }
 .related-pill-arrow { font-size: .72rem; opacity: .45; transition: transform .2s, opacity .2s; }
 .related-pill:hover .related-pill-arrow { transform: translateX(3px); opacity: 1; }
+
+/* ------------------------------------------------------------------
+   Global focus polish (loaded on nearly every page)
+   Bootstrap Reboot sets `button:focus { outline: 5px auto -webkit-focus-ring-color }`,
+   which paints the OS accent ring (blue by default, orange when the macOS accent is
+   orange) on every <button> the instant it's clicked. Replace it site-wide:
+     - mouse / touch  -> no ring (clean)
+     - keyboard       -> a soft brand-purple ring (accessibility preserved)
+   The :not(:focus-visible) / :focus-visible selectors outrank Bootstrap's plain
+   `button:focus`, so this wins regardless of stylesheet load order.
+   ------------------------------------------------------------------ */
+button:focus:not(:focus-visible) { outline: none; }
+button:focus-visible {
+  outline: 2px solid rgba(120, 81, 169, .55);
+  outline-offset: 2px;
+}

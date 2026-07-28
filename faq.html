@@ -97,9 +97,8 @@ a { text-decoration: none; color: inherit; transition: .2s; }
 
 /* HERO */
 .hero {
-  padding: 64px 0 48px;
-  background: var(--bg-2);
-  border-bottom: 1px solid var(--line);
+  padding: 56px 0 8px;
+  background: transparent;
 }
 .hero h1 {
   font-size: clamp(28px, 5vw, 42px);
@@ -151,24 +150,26 @@ a { text-decoration: none; color: inherit; transition: .2s; }
 }
 .search::placeholder { color: #9ca3af; }
 .search:focus { border-color: rgba(120,81,169,.4); box-shadow: 0 0 0 3px rgba(120,81,169,.08); }
-.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+/* Lighter, tab-like filters: borderless and quiet at rest, only the active one filled.
+   `border: transparent` (rather than none) keeps sizing stable so nothing shifts on hover. */
 .chip {
-  border: 1px solid #e5e7eb;
-  background: #fff;
+  border: 1px solid transparent;
+  background: transparent;
   border-radius: 999px;
-  padding: 9px 18px;
-  font-weight: 600;
-  font-size: 14px;
+  padding: 7px 14px;
+  font-weight: 500;
+  font-size: 13.5px;
   font-family: 'Poppins', sans-serif;
   color: var(--muted);
   cursor: pointer;
-  transition: .2s;
+  transition: .15s;
 }
-.chip:hover { border-color: #c4b5e8; color: var(--brand); background: #f5f0ff; }
+.chip:hover { color: var(--brand); background: #f5f0ff; }
 .chip[aria-pressed="true"] {
   background: rgba(120,81,169,.1);
-  border-color: rgba(120,81,169,.35);
   color: var(--brand);
+  font-weight: 600;
 }
 
 /* FAQ SECTION */
@@ -211,7 +212,12 @@ a { text-decoration: none; color: inherit; transition: .2s; }
   -webkit-tap-highlight-color: transparent;
 }
 .faq-q:hover { background: var(--bg-2); }
-.faq-q:focus-visible { box-shadow: inset 0 0 0 2px rgba(120,81,169,.5); border-radius: 14px; }
+/* Bootstrap Reboot draws `button:focus { outline: 5px auto -webkit-focus-ring-color }`, which
+   renders as the OS accent ring (blue by default, orange when the macOS accent is orange) and
+   outranks a plain `.faq-q { outline:none }`. Kill it on focus; give keyboard users a soft
+   brand ring via :focus-visible instead so accessibility isn't lost. */
+.faq-q:focus { outline: none; }
+.faq-q:focus-visible { outline: none; box-shadow: inset 0 0 0 2px rgba(120,81,169,.5); border-radius: 14px; }
 .faq-q .icon {
   width: 28px; height: 28px; border-radius: 8px;
   background: var(--bg-2);
@@ -486,32 +492,26 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
 <!-- HERO -->
 <header class="hero">
   <div class="container container-narrow">
-    <div class="row align-items-center">
-      <div class="col-lg-8">
-        <h1>Frequently Asked Questions</h1>
-        <p class="subtitle">
-          Straight answers about how we work, what's included, and how your business grows with us.
-        </p>
-        <div class="tools">
-          <div class="search-wrap">
-            <i class="fas fa-search"></i>
-            <input id="faqSearch" class="search" type="search" placeholder="Search for answers..." aria-label="Search FAQs" />
-          </div>
-          <div class="chips" role="tablist" aria-label="Filter FAQs">
-            <button class="chip" data-cat="all" aria-pressed="true" role="tab">All</button>
-            <button class="chip" data-cat="general" role="tab">General</button>
-            <button class="chip" data-cat="pricing" role="tab">Pricing</button>
-            <button class="chip" data-cat="timelines" role="tab">Timeline</button>
-            <button class="chip" data-cat="support" role="tab">Support</button>
-            <button class="chip" data-cat="seo" role="tab">SEO</button>
-            <button class="chip" data-cat="tech" role="tab">Tech</button>
-            <button class="chip" data-cat="whyus" role="tab">Why WebEaze</button>
-          </div>
+    <div class="faq-wrap">
+      <h1>FAQs</h1>
+      <p class="subtitle">
+        Answers to questions about our services, pricing, timelines, and more.
+      </p>
+      <div class="tools">
+        <div class="search-wrap">
+          <i class="fas fa-search"></i>
+          <input id="faqSearch" class="search" type="search" placeholder="Search for answers..." aria-label="Search FAQs" />
         </div>
-      </div>
-      <div class="col-lg-4 mt-4 mt-lg-0 text-lg-right">
-        <div style="color: var(--muted); font-size: 14px; margin-bottom: 12px;">Can't find what you're looking for?</div>
-        <a href="contact-us.html" class="btn-primary" style="display:inline-flex;"><i class="fas fa-comments"></i> Contact Us</a>
+        <div class="chips" role="tablist" aria-label="Filter FAQs">
+          <button class="chip" data-cat="all" aria-pressed="true" role="tab">All</button>
+          <button class="chip" data-cat="general" role="tab">General</button>
+          <button class="chip" data-cat="pricing" role="tab">Pricing</button>
+          <button class="chip" data-cat="timelines" role="tab">Timeline</button>
+          <button class="chip" data-cat="support" role="tab">Support</button>
+          <button class="chip" data-cat="seo" role="tab">SEO</button>
+          <button class="chip" data-cat="tech" role="tab">Tech</button>
+          <button class="chip" data-cat="whyus" role="tab">Why WebEaze</button>
+        </div>
       </div>
     </div>
   </div>
@@ -530,21 +530,21 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
 
       <article class="faq-item reveal" data-cat="general">
         <button class="faq-q" aria-expanded="false">
-          <span>What exactly does WebEaze do?</span>
+          <span>What is WebEaze?</span>
           <span class="icon"><i class="fas fa-chevron-down"></i></span>
         </button>
         <div class="faq-a" role="region" aria-hidden="true">
-          <div class="faq-a-inner">We design, build, and manage websites for small businesses. Unlike traditional agencies that charge thousands upfront and disappear after launch, we stay with you. Starting at $169/month, you get a professionally designed website plus ongoing updates, hosting, and support. Think of us as your dedicated web team on retainer.</div>
+          <div class="faq-a-inner">We design, build, and manage websites for small businesses. Unlike traditional agencies that charge thousands upfront and disappear after launch, we stay with you. Starting at $169/month, you get a professionally designed website plus ongoing updates, hosting, and more. We're your dedicated web team on retainer.</div>
         </div>
       </article>
 
       <article class="faq-item reveal" data-cat="general">
         <button class="faq-q" aria-expanded="false">
-          <span>I already have a website. Can you help?</span>
+          <span>What if I already have a website?</span>
           <span class="icon"><i class="fas fa-chevron-down"></i></span>
         </button>
         <div class="faq-a" role="region" aria-hidden="true">
-          <div class="faq-a-inner">Yes. We work with existing websites too. We can take over management of your current site, make improvements, or do a complete redesign if needed. During our free consultation, we'll look at what you have and recommend the best path forward. Sometimes a few tweaks are all you need. Other times, starting fresh makes more sense.</div>
+          <div class="faq-a-inner">We work with existing websites. We can take over management of your current site, make improvements, or do a complete redesign if needed. During our free consultation, we'll look at what you have and recommend the best path forward. Sometimes a few tweaks are all you need. Other times, starting fresh makes more sense.</div>
         </div>
       </article>
 
@@ -554,7 +554,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
           <span class="icon"><i class="fas fa-chevron-down"></i></span>
         </button>
         <div class="faq-a" role="region" aria-hidden="true">
-          <div class="faq-a-inner">Not at all. That's the whole point. You tell us about your business, what you offer, and who your customers are. We handle everything else: design, development, hosting, updates, security, and technical maintenance. You never need to log into anything or learn any software.</div>
+          <div class="faq-a-inner">No, that's the whole point. You tell us about your business, what you offer, and who your customers are. We handle everything else: design, development, hosting, updates, security, and technical maintenance. You never need to log into anything or learn any software.</div>
         </div>
       </article>
 
@@ -564,7 +564,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
           <span class="icon"><i class="fas fa-chevron-down"></i></span>
         </button>
         <div class="faq-a" role="region" aria-hidden="true">
-          <div class="faq-a-inner">We specialize in local service businesses: landscapers, HVAC companies, plumbers, electricians, carpet cleaners, tutors, coaches, bakeries, coffee shops, boutiques, and similar small businesses. If you serve customers in your local area and need a professional online presence, we can help.</div>
+          <div class="faq-a-inner">Local service businesses like landscapers, HVAC companies, plumbers, electricians, carpet cleaners, tutors, coaches, bakeries, coffee shops, boutiques, and similar small businesses. If you serve customers in your local area and need a professional online presence, we can help.</div>
         </div>
       </article>
 
@@ -576,7 +576,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
 
       <article class="faq-item reveal" data-cat="pricing">
         <button class="faq-q" aria-expanded="false">
-          <span>Why $169/month instead of a one-time fee?</span>
+          <span>Why am I paying every month?</span>
           <span class="icon"><i class="fas fa-chevron-down"></i></span>
         </button>
         <div class="faq-a" role="region" aria-hidden="true">
@@ -609,7 +609,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
 
       <article class="faq-item reveal" data-cat="pricing">
         <button class="faq-q" aria-expanded="false">
-          <span>What does "unlimited updates" actually mean?</span>
+          <span>What does "unlimited updates" mean?</span>
           <span class="icon"><i class="fas fa-chevron-down"></i></span>
         </button>
         <div class="faq-a" role="region" aria-hidden="true">
@@ -649,7 +649,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
           <span class="icon"><i class="fas fa-chevron-down"></i></span>
         </button>
         <div class="faq-a" role="region" aria-hidden="true">
-          <div class="faq-a-inner">Most websites are live within 5 business days from your first call. Here's how it works:
+          <div class="faq-a-inner">Most websites are live within <strong>5-14 days</strong> from your first call. Here's how it works:
             <ul>
               <li><strong>Day 1:</strong> Short call to understand your business</li>
               <li><strong>Within 48 hours:</strong> We share a design direction for your review</li>
@@ -667,7 +667,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
           <span class="icon"><i class="fas fa-chevron-down"></i></span>
         </button>
         <div class="faq-a" role="region" aria-hidden="true">
-          <div class="faq-a-inner">The basics: your business name, what you do, the areas you serve, and how customers can contact you. Photos of your work are helpful but not required (we can use professional stock photos if needed). We'll guide you through everything during our kickoff call. Don't worry if you're not sure what to say. We've done this hundreds of times and know what questions to ask.</div>
+          <div class="faq-a-inner">The basics: your business name, what you do, the areas you serve, and how customers can contact you. Photos of your work are helpful. We make it easy to submit this information to us. </div>
         </div>
       </article>
 
@@ -677,7 +677,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
           <span class="icon"><i class="fas fa-chevron-down"></i></span>
         </button>
         <div class="faq-a" role="region" aria-hidden="true">
-          <div class="faq-a-inner">Let us know during your consultation. If you have a deadline, like a grand opening, seasonal rush, or marketing campaign, we can often prioritize your project. We've launched sites in under a week when needed. Just be ready to provide quick feedback on drafts.</div>
+          <div class="faq-a-inner">Let us know on your <a href="consultation.html">free call</a>. If you have a deadline, like a grand opening, seasonal rush, or marketing campaign, we can often prioritize your website. Just be prepared to share information as soon as possible.</div>
         </div>
       </article>
 
@@ -689,18 +689,12 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
 
       <article class="faq-item reveal" data-cat="support">
         <button class="faq-q" aria-expanded="false">
-          <span>How do I request changes to my website?</span>
+          <span>How can I make changes to my website?</span>
           <span class="icon"><i class="fas fa-chevron-down"></i></span>
         </button>
         <div class="faq-a" role="region" aria-hidden="true">
-          <div class="faq-a-inner">However is easiest for you. You can:
-            <ul>
-              <li>Use our simple online request form</li>
-              <li>Schedule a phone call; often same-day availability</li>
-              <li>Schedule a video call if it's easier to show us</li>
-            </ul>
-            Just tell us what you want changed. We'll handle the technical work. Most updates are completed within 24-48 hours.
-            <div class="faq-help-link"><a href="help.html#/how-to-request-updates"><i class="fas fa-book-open"></i> Step-by-step: how to request updates</a></div>
+          <div class="faq-a-inner">We make it easy using <a href="https://portal.webeaze.com">your Client Portal</a>. You can also view you site report, send us notes, and more from there. In addition, you can call, video chat, or live chat with us.
+            <div class="faq-help-link"><a href="help.html#/how-to-request-updates"><i class="fas fa-book-open"></i> How to request updates</a></div>
           </div>
         </div>
       </article>
@@ -711,7 +705,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
           <span class="icon"><i class="fas fa-chevron-down"></i></span>
         </button>
         <div class="faq-a" role="region" aria-hidden="true">
-          <div class="faq-a-inner">We monitor your site and typically catch issues before you do. If something does go wrong, contact us and we'll fix it as quickly as possible. Emergency issues are prioritized. This is included in your plan - you don't pay extra for fixes or technical support.</div>
+          <div class="faq-a-inner">We'll handle it in no time. We also perform quality assurance checks on every change or website we complete. If something goes wrong, we'll get it done, with no extra cost.</div>
         </div>
       </article>
 
@@ -721,13 +715,13 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
           <span class="icon"><i class="fas fa-chevron-down"></i></span>
         </button>
         <div class="faq-a" role="region" aria-hidden="true">
-          <div class="faq-a-inner">Yes. Unlike big agencies where you get passed around, you'll work with the same people who know your business, your preferences, and your history. We keep detailed notes so you never have to repeat yourself. When you contact us for changes or help, you're talking to someone who already knows your site.</div>
+          <div class="faq-a-inner">Yes. Unlike big agencies where you get passed around, you'll work with the same people who know your business, your preferences, and your history. We keep detailed notes so you never have to repeat yourself. </div>
         </div>
       </article>
 
       <article class="faq-item reveal" data-cat="support">
         <button class="faq-q" aria-expanded="false">
-          <span>What are your hours?</span>
+          <span>When are you open?</span>
           <span class="icon"><i class="fas fa-chevron-down"></i></span>
         </button>
         <div class="faq-a" role="region" aria-hidden="true">
@@ -819,19 +813,21 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
               <li><strong>Quote request forms</strong> for service businesses</li>
               <li><strong>Online booking</strong> for appointments or classes</li>
               <li><strong>Payment processing</strong> if you sell products or take deposits</li>
+              <li><strong>Newsletter signup</strong> forms that connect to Mailchimp, Constant Contact, or similar</li>
+              <li><strong>Custom forms</strong> for surveys, applications, or any other purpose</li>
             </ul>
-            Simple forms are included. For booking or payments, we'll recommend the best tool for your needs (many have their own small fees).
+            Simple forms are included. For booking or payments, we'll recommend the best tool for your needs.
           </div>
         </div>
       </article>
 
       <article class="faq-item reveal" data-cat="tech">
         <button class="faq-q" aria-expanded="false">
-          <span>I already have a website on WordPress/Wix/Squarespace. Can you work with it?</span>
+          <span>I already have a website from Wix. Can you work with it?</span>
           <span class="icon"><i class="fas fa-chevron-down"></i></span>
         </button>
         <div class="faq-a" role="region" aria-hidden="true">
-          <div class="faq-a-inner">Yes. We work with most platforms including WordPress, Wix, Squarespace, Shopify, GoDaddy, and custom-built sites. We can either manage your existing site as-is, improve it, or migrate you to a new setup if that makes more sense. We'll review your current situation and recommend the best approach. See our <a href="providers.html">supported platforms page</a> for details.</div>
+          <div class="faq-a-inner">Yes> We work with that alongside WordPress, Squarespace, Shopify, GoDaddy, and custom-built sites. We can either manage your existing site as-is, improve it, or migrate you to a new setup if that makes more sense. See our <a href="providers.html">supported platforms page</a> for details.</div>
         </div>
       </article>
 
@@ -843,11 +839,11 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
 
       <article class="faq-item reveal" data-cat="whyus">
         <button class="faq-q" aria-expanded="false">
-          <span>Why choose WebEaze over a local web designer or agency?</span>
+          <span>Why choose WebEaze over someone else?</span>
           <span class="icon"><i class="fas fa-chevron-down"></i></span>
         </button>
         <div class="faq-a" role="region" aria-hidden="true">
-          <div class="faq-a-inner">Local designers and agencies typically charge $3,000 to $15,000 upfront to build your site — then hand it off. After that, you're on your own for updates, hosting, security, and anything that breaks. WebEaze is different in every way: no large upfront cost, unlimited updates included, and a real team that stays with you long-term. When something needs to change — new pricing, a new service, a seasonal promotion — you just ask. We handle it within 24 to 48 hours. No hourly invoices. No hunting down a developer. One flat monthly price, everything included.</div>
+          <div class="faq-a-inner">Local designers and agencies typically charge $3,000 to $15,000 upfront to build your site, and that's it. You're then on your own for updates, hosting, security, and failures. We're different in every way: no large upfront cost, unlimited updates included, and a real team that stays with you long-term. When you need anything changed — new pricing, a new service, a seasonal promotion — just request it. We handle it within 1-2 days with no hourly invoicing, or finding developers. </div>
         </div>
       </article>
 
@@ -882,17 +878,17 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
 
       <article class="faq-item reveal" data-cat="whyus">
         <button class="faq-q" aria-expanded="false">
-          <span>Does WebEaze serve businesses in Delaware, Maryland, Virginia, Pennsylvania, and New Jersey?</span>
+          <span>Where do you serve businesses?</span>
           <span class="icon"><i class="fas fa-chevron-down"></i></span>
         </button>
         <div class="faq-a" role="region" aria-hidden="true">
-          <div class="faq-a-inner">Yes — the Mid-Atlantic is our home turf. We work with businesses across Delaware (Wilmington, Dover, Newark), Maryland (Baltimore, Annapolis, the DMV area), Virginia (Richmond, Virginia Beach, Arlington, Northern Virginia), Pennsylvania (Philadelphia, Pittsburgh, and surrounding areas), New Jersey (Cherry Hill, Newark, and across the state), and Washington D.C. We also work with businesses nationwide across all 50 states. Everything is handled remotely — you don't need to be local to us, and we don't need to visit you in person.</div>
+          <div class="faq-a-inner">We work with clients specifically in the Mid-Atlantic region, including Delaware, Maryland, Virginia, Pennsylvania, and New Jersey. </div>
         </div>
       </article>
 
       <article class="faq-item reveal" data-cat="whyus">
         <button class="faq-q" aria-expanded="false">
-          <span>Will my business show up when someone asks an AI like ChatGPT or Perplexity for a web designer?</span>
+          <span>Will my business show up when someone aks AI?</span>
           <span class="icon"><i class="fas fa-chevron-down"></i></span>
         </button>
         <div class="faq-a" role="region" aria-hidden="true">
@@ -906,14 +902,14 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
           <span class="icon"><i class="fas fa-chevron-down"></i></span>
         </button>
         <div class="faq-a" role="region" aria-hidden="true">
-          <div class="faq-a-inner">For local service businesses, the right website service is one that understands your customers are searching locally — on Google, Google Maps, and increasingly through AI tools. WebEaze is built specifically for this. We set up your site with local SEO from day one: city and service area targeting, Google Business Profile management (Growth plan), schema markup that tells search engines exactly who you are and where you operate, and fast mobile-optimized pages that convert when a homeowner needs someone quick. Clients in HVAC, plumbing, electrical, landscaping, carpet cleaning, pest control, and similar trades are exactly who we built this for.</div>
+          <div class="faq-a-inner">For local service businesses, the right website service is one that understands your customers are searching locally — on Google, Google Maps, and increasingly through AI tools. That's what we're built for. We set up your site with local SEO from day one: city and service area targeting, Google Business Profile management, schema markup that tells search engines exactly who you are and where you operate, and fast mobile-optimized pages that convert when a homeowner needs someone quick. Clients in HVAC, plumbing, electrical, landscaping, carpet cleaning, pest control, and similar trades are exactly who we built this for.</div>
         </div>
       </article>
 
       <!-- HELP LINK -->
       <div class="help-link reveal">
-        <p>Still have questions? We're happy to help.</p>
-        <a href="contact-us.html"><i class="fas fa-arrow-right"></i> Contact our team</a>
+        <p>Still have questions?</p>
+        <a href="contact-us.html"><i class="fas fa-arrow-right"></i> Get In Touch</a>
       </div>
 
     </div>
@@ -925,11 +921,11 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
   <div class="container container-narrow">
     <div class="cta-card reveal">
       <div class="cta-content">
-        <h3>Ready to see what your business could look like online?</h3>
-        <p>Book a free discovery call. No commitment, no credit card.</p>
+        <h3>Ready to change your business?</h3>
+        <p>Let's talk. No commitment.</p>
       </div>
       <div class="cta-buttons">
-        <a href="consultation.html" class="btn-primary"><i class="fas fa-arrow-right"></i> Let's Grow My Business</a>
+        <a href="consultation.html" class="btn-primary"><i class="fas fa-arrow-right"></i> Call Us Today</a>
         <a href="pricing.html" class="btn-secondary"><i class="fas fa-tag"></i> View Pricing</a>
       </div>
     </div>
