@@ -203,14 +203,20 @@
 /* ── CTA card inner container ────────────────────────────────────────────────── */
 .bottom-cta .container-page,
 .blog-cta .container-page {
-  background: #7851a9;
-  border-radius: 20px;
-  padding: 3.5rem 2rem;
+  /* Layered: soft top-left highlight + deep bottom-right tint over a diagonal brand gradient,
+     for depth instead of a flat block. All CSS, no images. */
+  background:
+    radial-gradient(55% 85% at 12% 0%, rgba(255,255,255,.20), rgba(255,255,255,0) 60%),
+    radial-gradient(50% 80% at 100% 100%, rgba(40,24,70,.55), rgba(40,24,70,0) 62%),
+    linear-gradient(135deg, #8a5fc0 0%, #7851a9 48%, #5c3f88 100%);
+  border-radius: 24px;
+  padding: 3.75rem 2rem;
   max-width: 860px;
+  box-shadow: 0 24px 60px -24px rgba(120,81,169,.6);
 }
 @media (max-width: 640px) {
   .bottom-cta .container-page,
-  .blog-cta .container-page { padding: 2.25rem 1.25rem; border-radius: 14px; }
+  .blog-cta .container-page { padding: 2.5rem 1.35rem; border-radius: 18px; }
 }
 
 /* Related posts ("Keep reading") strip on blog posts */
