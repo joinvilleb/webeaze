@@ -39,11 +39,13 @@ const esc = (s: unknown) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&
 
 // ── Source: PageSpeed Insights (real speed + Core Web Vitals) ──
 async function pullSpeed(url: string) {
-  if (!PSI_KEY || !url) return null;
+  if (!url) { console.warn('[growth] pullSpeed: no site_url'); return null; }
+  if (!PSI_KEY) { console.warn('[growth] pullSpeed: GOOGLE_PSI_KEY secret is not set'); return null; }
+  const full = /^https?:\/\//i.test(url) ? url : 'https://' + url;   // PageSpeed needs a full URL
   const run = async (strategy: 'mobile' | 'desktop') => {
-    const api = `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${encodeURIComponent(url)}&strategy=${strategy}&category=performance&key=${PSI_KEY}`;
+    const api = `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${encodeURIComponent(full)}&strategy=${strategy}&category=performance&key=${PSI_KEY}`;
     const res = await fetch(api);
-    if (!res.ok) throw new Error(`PSI ${strategy} ${res.status}`);
+    if (!res.ok) throw new Error(`PSI ${strategy} ${res.status}: ${(await res.text()).slice(0, 180)}`);
     const d = await res.json();
     const lh = d.lighthouseResult ?? {};
     const score = Math.round((lh.categories?.performance?.score ?? 0) * 100);
@@ -162,10 +164,13 @@ Deno.serve(async (req) => {
     if (!c) return json({ error: 'No client record' }, 404);
 
     const metrics = await refreshClient(service, c);
+    const note = !c.site_url ? 'This client has no Site URL set — add one in the admin editor.'
+      : (!PSI_KEY ? 'GOOGLE_PSI_KEY secret is not set on the function.'
+      : (metrics.speed ? '' : 'PageSpeed returned no data. Check the Site URL is a reachable https page and the PageSpeed Insights API is enabled for your key.'));
     if (body.action === 'email' && c.email) {
       await sendEmail({ from: FROM, to: [c.email], subject: 'Your growth report', html: summaryHtml(c.name || '', c.site_url || '', metrics) });
     }
-    return json({ ok: true, metrics, emailed: body.action === 'email' });
+    return json({ ok: true, metrics, note, emailed: body.action === 'email' });
   } catch (e) {
     console.error('growth-report error:', e);
     return json({ error: String(e) }, 500);
