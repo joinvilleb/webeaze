@@ -60,7 +60,7 @@
     img { max-width: 100%; display: block; }
     .wrap { width: 100%; max-width: 1160px; margin: 0 auto; padding: 0 24px; }
     /* let grid/flex tracks shrink below the intrinsic width of wide screenshots */
-    .hero-grid > *, .story-inner > *, .spotlight > *, .intro-band > * { min-width: 0; }
+    .hero-grid > *, .story-inner > *, .spotlight > *, .intro-band > *, .touch-inner > * { min-width: 0; }
     .eyebrow {
       display: inline-flex; align-items: center; gap: 8px;
       font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
@@ -156,9 +156,9 @@
     .story-inner { display: grid; grid-template-columns: .92fr 1.08fr; gap: 60px; align-items: start; }
     .story-media { position: sticky; top: 96px; }
     .story-media .device { transform: none; }
-    .story-media .device-screen { min-height: 300px; }
-    .shot { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top center; opacity: 0; transform: scale(1.03); transition: opacity .6s ease, transform .6s ease; }
-    .shot.active { opacity: 1; transform: scale(1); position: relative; }
+    .story-media .device-screen { aspect-ratio: 5 / 4; overflow: hidden; background: #f8f9fc; }
+    .shot { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; opacity: 0; transition: opacity .5s ease; }
+    .shot.active { opacity: 1; }
     .story-steps { display: flex; flex-direction: column; gap: 20px; padding: 40px 0; }
     .story-step {
       padding: 26px 28px; border-radius: var(--radius); border: 1px solid var(--line);
@@ -176,12 +176,40 @@
     .story-step .step-shot { display: none; margin-top: 18px; border-radius: 12px; border: 1px solid var(--line); overflow: hidden; }
 
     /* ---------- FEATURE GRID ---------- */
-    .fgrid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
-    .fcard { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 28px 24px; box-shadow: var(--shadow-sm); transition: transform .3s cubic-bezier(.22,1,.36,1), box-shadow .3s, border-color .3s; }
-    .fcard:hover { transform: translateY(-6px); box-shadow: var(--shadow-md); border-color: rgba(120,81,169,.3); }
-    .fcard .fi { width: 46px; height: 46px; border-radius: 13px; display: grid; place-items: center; font-size: 19px; color: var(--brand); background: var(--brand-tint); margin-bottom: 16px; }
-    .fcard h4 { font-size: 1.1rem; font-weight: 700; margin-bottom: 7px; letter-spacing: -.02em; }
-    .fcard p { font-size: .95rem; color: var(--muted); }
+    .touch-inner { display: grid; grid-template-columns: 1.05fr .95fr; gap: 48px; align-items: center; }
+    .touch-media { position: relative; aspect-ratio: 5 / 4; background: linear-gradient(160deg, #faf8ff, #f1ecfa); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow-md); overflow: hidden; }
+    .tvisual { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; padding: 32px; opacity: 0; transform: translateY(10px); transition: opacity .45s ease, transform .45s ease; pointer-events: none; }
+    .tvisual.t-active { opacity: 1; transform: none; }
+    .tv-stack { display: flex; flex-direction: column; width: 100%; max-width: 300px; }
+    .tv-card { width: 100%; max-width: 300px; background: #fff; border: 1px solid var(--line); border-radius: 16px; box-shadow: var(--shadow-sm); padding: 20px 22px; }
+    .tv-row { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; color: var(--text); }
+    .tv-muted { color: var(--muted2); font-weight: 500; font-size: 13px; }
+    .tv-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+    .tv-dot-live { background: #16a34a; box-shadow: 0 0 0 4px rgba(22,163,74,.16); }
+    .tv-line { height: 1px; background: var(--line); margin: 14px 0; }
+    .tv-sub { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted2); margin-bottom: 8px; }
+    .tv-row2 { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); }
+    .tv-row2 i { color: var(--brand); }
+    .tv-toast { display: flex; align-items: center; gap: 11px; width: 100%; background: #fff; border: 1px solid var(--line); border-radius: 13px; box-shadow: var(--shadow-md); padding: 12px 14px; font-size: 13px; font-weight: 700; }
+    .tv-toast2 { margin-top: 12px; }
+    .tv-ic { width: 30px; height: 30px; border-radius: 9px; display: grid; place-items: center; color: #fff; flex-shrink: 0; font-size: 12px; }
+    .tv-green { background: #16a34a; } .tv-brand { background: var(--brand); }
+    .tv-toast .tv-muted { font-weight: 500; }
+    .tv-plan { display: flex; align-items: center; gap: 8px; font-size: 24px; font-weight: 800; letter-spacing: -.03em; margin-bottom: 12px; }
+    .tv-badge { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--brand); background: var(--brand-tint); border: 1px solid rgba(120,81,169,.2); border-radius: 100px; padding: 3px 10px; }
+    .tv-btn { margin-top: 16px; display: inline-flex; align-items: center; gap: 8px; background: var(--brand-tint); color: var(--brand); border: 1px solid rgba(120,81,169,.25); border-radius: 10px; padding: 9px 14px; font-size: 13px; font-weight: 700; font-family: inherit; }
+    .tv-secure { text-align: center; }
+    .tv-lock { width: 52px; height: 52px; margin: 0 auto 16px; border-radius: 15px; background: var(--brand-tint); color: var(--brand); display: grid; place-items: center; font-size: 22px; }
+    .tv-dots { font-size: 20px; letter-spacing: 4px; color: var(--brand); margin-bottom: 12px; }
+    .touch-list { display: flex; flex-direction: column; gap: 10px; }
+    .touch-item { display: flex; align-items: flex-start; gap: 14px; background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 18px 20px; box-shadow: var(--shadow-sm); cursor: pointer; transition: border-color .3s, box-shadow .3s, transform .3s; }
+    .touch-item:hover { border-color: rgba(120,81,169,.35); }
+    .touch-item.t-active { border-color: rgba(120,81,169,.55); box-shadow: var(--shadow-md); transform: translateX(4px); }
+    .touch-item .fi { width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center; font-size: 17px; color: var(--brand); background: var(--brand-tint); flex-shrink: 0; transition: background .3s, color .3s; }
+    .touch-item.t-active .fi { background: var(--brand); color: #fff; }
+    .touch-text { min-width: 0; }
+    .touch-item h4 { font-size: 1.05rem; font-weight: 700; letter-spacing: -.02em; margin-bottom: 3px; }
+    .touch-item p { font-size: .92rem; color: var(--muted); }
 
     /* ---------- NOTES SPOTLIGHT ---------- */
     .spotlight { display: grid; grid-template-columns: 1.05fr .95fr; gap: 56px; align-items: center; }
@@ -262,7 +290,9 @@
       .story-step .step-shot { display: block; opacity: 0; transform: translateY(18px) scale(.985); transition: opacity .55s cubic-bezier(.22,1,.36,1), transform .55s cubic-bezier(.22,1,.36,1); }
       .story-step .step-shot.in-view { opacity: 1; transform: none; }
       .story-step.is-active { transform: none; }
-      .fgrid { grid-template-columns: repeat(2, 1fr); }
+      .touch-inner { grid-template-columns: 1fr; gap: 20px; }
+      .touch-media { position: sticky; top: 72px; max-width: 360px; margin: 0 auto; width: 100%; }
+      .touch-item.t-active { transform: none; }
       .spotlight { grid-template-columns: 1fr; gap: 40px; }
       .spotlight-media .device { transform: none; }
     }
@@ -366,7 +396,7 @@
     <div class="hero-visual reveal-scale d2">
       <div class="device" id="heroDevice">
         <div class="device-bar"><span></span><span></span><span></span><div class="device-url">portal.webeaze.io</div></div>
-        <div class="device-screen"><img src="images/assets/home-page.png" alt="The Client Portal dashboard showing the site report, requests, and account overview" loading="eager"></div>
+        <div class="device-screen"><img src="portal-screenshots/01-home-dashboard.png" alt="The Client Portal dashboard showing the site report, requests, and account overview" loading="eager"></div>
       </div>
       <div class="float-card float-a">
         <div class="fc-icon"><i class="fas fa-check"></i></div>
@@ -405,12 +435,12 @@
         <div class="device">
           <div class="device-bar"><span></span><span></span><span></span><div class="device-url">portal.webeaze.io</div></div>
           <div class="device-screen">
-            <img class="shot active" data-step="0" src="images/assets/request-update.png" alt="">
-            <img class="shot" data-step="1" src="images/assets/notes-page.png" alt="">
-            <img class="shot" data-step="2" src="images/assets/view-site-report.png" alt="">
-            <img class="shot" data-step="3" src="images/assets/milestones-page.png" alt="">
-            <img class="shot" data-step="4" src="images/assets/work-history.png" alt="">
-            <img class="shot" data-step="5" src="images/assets/referral-page.png" alt="">
+            <img class="shot active" data-step="0" src="portal-screenshots/01-home-dashboard.png" alt="">
+            <img class="shot" data-step="1" src="portal-screenshots/05-website-notes.png" alt="">
+            <img class="shot" data-step="2" src="portal-screenshots/04-your-site-report.png" alt="">
+            <img class="shot" data-step="3" src="portal-screenshots/06-milestones.png" alt="">
+            <img class="shot" data-step="4" src="portal-screenshots/03-request-history.png" alt="">
+            <img class="shot" data-step="5" src="portal-screenshots/07-refer-and-earn.png" alt="">
           </div>
         </div>
       </div>
@@ -419,56 +449,88 @@
           <div class="step-num">1</div>
           <h3>Submit and track requests</h3>
           <p>Need a change? Select the type of update, describe what you want, and attach a file if needed. You'll see live status updates from Received to Completed.</p>
-          <img class="step-shot" src="images/assets/request-update.png" alt="Submitting a website update request in the portal">
+          <img class="step-shot" src="portal-screenshots/01-home-dashboard.png" alt="Submitting a website update request in the portal">
         </article>
         <article class="story-step reveal" data-step="1">
           <div class="step-num">2</div>
           <h3>Website notes</h3>
           <p>A shared space for you and us. We post account and website updates right in your portal, and you can write reminders or ideas any time. Turn any note into a request seamlessly.</p>
           <a class="step-link" href="help/website-notes/">Read the notes guide <i class="fas fa-arrow-right"></i></a>
-          <img class="step-shot" src="images/assets/notes-page.png" alt="The Website notes page in the portal">
+          <img class="step-shot" src="portal-screenshots/05-website-notes.png" alt="The Website notes page in the portal">
         </article>
         <article class="story-step reveal" data-step="2">
           <div class="step-num">3</div>
           <h3>Your site report</h3>
           <p>See your website performance in real time and your domain and hosting information. Plus, recommendations for growth.</p>
-          <img class="step-shot" src="images/assets/view-site-report.png" alt="The site report showing live Google performance data">
+          <img class="step-shot" src="portal-screenshots/04-your-site-report.png" alt="The site report showing live Google performance data">
         </article>
         <article class="story-step reveal" data-step="3">
           <div class="step-num">4</div>
           <h3>Milestones and rewards</h3>
           <p>We like fun. Earn rewards as time goes on, and we'll gift you along the way. Think a free month of service.</p>
-          <img class="step-shot" src="images/assets/milestones-page.png" alt="Milestone badges in the portal">
+          <img class="step-shot" src="portal-screenshots/06-milestones.png" alt="Milestone badges in the portal">
         </article>
         <article class="story-step reveal" data-step="4">
           <div class="step-num">5</div>
           <h3>Request history</h3>
           <p>Your records. Helps you keep track of all your requests and changes for reference.</p>
-          <img class="step-shot" src="images/assets/work-history.png" alt="The request history log in the portal">
+          <img class="step-shot" src="portal-screenshots/03-request-history.png" alt="The request history log in the portal">
         </article>
         <article class="story-step reveal" data-step="5">
           <div class="step-num">6</div>
           <h3>Refer and earn</h3>
           <p>Let others know about us, and earn cash. Track it all in your portal. </p>
-          <img class="step-shot" src="images/assets/referral-page.png" alt="The refer and earn page in the portal">
+          <img class="step-shot" src="portal-screenshots/07-refer-and-earn.png" alt="The refer and earn page in the portal">
         </article>
       </div>
     </div>
   </div>
 </section>
 
-<!-- FEATURE GRID -->
+<!-- THOUGHTFUL TOUCHES -->
 <section class="section">
   <div class="wrap">
     <div class="section-head">
       <h2>Thoughtful touches throughout</h2>
       <p>We made this portal from scratch. This is how you know.</p>
     </div>
-    <div class="fgrid">
-      <div class="fcard reveal d1"><div class="fi"><i class="fas fa-headset"></i></div><h4>Support hours</h4><p>See when we are available, upcoming holidays, and recent service updates.</p></div>
-      <div class="fcard reveal d2"><div class="fi"><i class="fas fa-bell"></i></div><h4>Notifications</h4><p>Know when requests are done, or when new notes are available.</p></div>
-      <div class="fcard reveal d3"><div class="fi"><i class="fas fa-credit-card"></i></div><h4>Billing, anytime</h4><p>Manage your billing in one place.</p></div>
-      <div class="fcard reveal d4"><div class="fi"><i class="fas fa-lock"></i></div><h4>Secure by design</h4><p>Your password is encrypted. Even we can't see it.</p></div>
+    <div class="touch-inner">
+      <div class="touch-media" aria-hidden="true">
+        <div class="tvisual t-active" data-t="0">
+          <div class="tv-card">
+            <div class="tv-row"><span class="tv-dot tv-dot-live"></span> Available now <span class="tv-muted"></span></div>
+            <div class="tv-line"></div>
+            <div class="tv-sub">Upcoming holiday</div>
+            <div class="tv-row2"><i class="fas fa-calendar-day"></i> Closed Jul 4, back Jul 5</div>
+          </div>
+        </div>
+        <div class="tvisual" data-t="1">
+          <div class="tv-stack">
+            <div class="tv-toast"><span class="tv-ic tv-green"><i class="fas fa-check"></i></span><div>Request completed<div class="tv-muted">Homepage banner updated</div></div></div>
+            <div class="tv-toast tv-toast2"><span class="tv-ic tv-brand"><i class="fas fa-note-sticky"></i></span><div>New note from WebEaze<div class="tv-muted">Your SSL just renewed</div></div></div>
+          </div>
+        </div>
+        <div class="tvisual" data-t="2">
+          <div class="tv-card">
+            <div class="tv-plan"><span class="tv-badge">Growth</span> $249<span class="tv-muted">/mo</span></div>
+            <div class="tv-row"><span class="tv-dot tv-dot-live"></span> Active <span class="tv-muted"></span></div>
+            <div class="tv-btn"><i class="fas fa-credit-card"></i> Manage billing</div>
+          </div>
+        </div>
+        <div class="tvisual" data-t="3">
+          <div class="tv-card tv-secure">
+            <div class="tv-lock"><i class="fas fa-lock"></i></div>
+            <div class="tv-dots">&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;</div>
+            <div class="tv-muted">Encrypted. Even we can't see it.</div>
+          </div>
+        </div>
+      </div>
+      <div class="touch-list">
+        <div class="touch-item t-active" data-t="0"><span class="fi"><i class="fas fa-headset"></i></span><div class="touch-text"><h4>Support hours</h4><p>See when we're available, upcoming holidays, and recent service updates.</p></div></div>
+        <div class="touch-item" data-t="1"><span class="fi"><i class="fas fa-bell"></i></span><div class="touch-text"><h4>Notifications</h4><p>Know when requests are done, or when new notes are available.</p></div></div>
+        <div class="touch-item" data-t="2"><span class="fi"><i class="fas fa-credit-card"></i></span><div class="touch-text"><h4>Billing, anytime</h4><p>Manage your billing in one place.</p></div></div>
+        <div class="touch-item" data-t="3"><span class="fi"><i class="fas fa-lock"></i></span><div class="touch-text"><h4>Secure by design</h4><p>Your password is encrypted. Even we can't see it.</p></div></div>
+      </div>
     </div>
   </div>
 </section>
@@ -669,6 +731,29 @@ var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     entries.forEach(function(e){ if (e.isIntersecting){ e.target.classList.add('in-view'); io.unobserve(e.target); } });
   }, { threshold: .2, rootMargin: '0px 0px -10% 0px' });
   shots.forEach(function(s){ io.observe(s); });
+})();
+
+// ── THOUGHTFUL TOUCHES: interactive visual that changes on hover, click, and scroll ──
+(function(){
+  var items = Array.prototype.slice.call(document.querySelectorAll('.touch-item'));
+  var visuals = document.querySelectorAll('.tvisual');
+  if (!items.length || !visuals.length) return;
+  function activate(i){
+    items.forEach(function(it){ it.classList.toggle('t-active', it.getAttribute('data-t') === i); });
+    visuals.forEach(function(v){ v.classList.toggle('t-active', v.getAttribute('data-t') === i); });
+  }
+  var canHover = window.matchMedia('(hover: hover)').matches;
+  items.forEach(function(it){
+    var i = it.getAttribute('data-t');
+    it.addEventListener('click', function(){ activate(i); });
+    if (canHover) it.addEventListener('mouseenter', function(){ activate(i); });
+  });
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ if (e.isIntersecting) activate(e.target.getAttribute('data-t')); });
+    }, { rootMargin: '-45% 0px -45% 0px', threshold: 0 });
+    items.forEach(function(it){ io.observe(it); });
+  }
 })();
 </script>
 
