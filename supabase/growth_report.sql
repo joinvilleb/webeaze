@@ -22,6 +22,12 @@ create policy "clients read own metrics"
   on public.client_metrics for select
   using (auth.uid() = user_id);
 
+-- Admin can read every client's metrics (so "View as client" preview shows real data).
+drop policy if exists "admin reads all metrics" on public.client_metrics;
+create policy "admin reads all metrics"
+  on public.client_metrics for select
+  using ((auth.jwt() ->> 'email') = 'billy@webeaze.io');
+
 -- For the reviews source later: store each client's Google place id on the client
 -- record (editable in admin). Safe to run now; harmless if reviews stay off.
 alter table public.clients add column if not exists google_place_id text;

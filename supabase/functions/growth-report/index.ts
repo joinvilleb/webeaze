@@ -156,7 +156,9 @@ Deno.serve(async (req) => {
     const { data: { user }, error: uErr } = await authed.auth.getUser();
     if (uErr || !user) return json({ error: 'Unauthorized' }, 401);
 
-    const { data: c } = await service.from('clients').select('user_id, id, email, name, site_url, google_place_id').eq('user_id', user.id).maybeSingle();
+    // Clients refresh their own record; the admin account may refresh any client (targetUserId).
+    const targetUserId = (body.targetUserId && user.email === 'billy@webeaze.io') ? body.targetUserId : user.id;
+    const { data: c } = await service.from('clients').select('user_id, id, email, name, site_url, google_place_id').eq('user_id', targetUserId).maybeSingle();
     if (!c) return json({ error: 'No client record' }, 404);
 
     const metrics = await refreshClient(service, c);
