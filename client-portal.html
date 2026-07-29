@@ -28,6 +28,7 @@
   <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"></noscript>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"The Client Portal | WebEaze","description":"The WebEaze Client Portal is the home base for your website. Request changes in seconds, read updates from your team, track progress, and grow.","url":"https://webeaze.io/client-portal","publisher":{"@type":"Organization","name":"WebEaze","logo":{"@type":"ImageObject","url":"https://webeaze.io/images/webeaze-transparent.png"}},"inLanguage":"en-US"}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://webeaze.io/"},{"@type":"ListItem","position":2,"name":"Client Portal","item":"https://webeaze.io/client-portal"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"WebEaze Client Portal","applicationCategory":"BusinessApplication","operatingSystem":"Web browser","url":"https://portal.webeaze.io","description":"The WebEaze Client Portal is a single dashboard where small business clients submit and track website change requests, read updates and notes from their team, view live Google Search performance, unlock milestones, review request history, refer businesses, and manage their account. Included with every WebEaze plan.","provider":{"@type":"Organization","name":"WebEaze","url":"https://webeaze.io"},"featureList":["Submit and track website change requests","Website notes and team updates","Live site performance report from Google Search","Milestones and rewards","Request history","Referral program","Secure sign-in with encrypted passwords"]}</script>
   <style>
     :root {
       --brand:      #7851a9;
@@ -69,9 +70,13 @@
     .eyebrow i { font-size: 11px; }
     h1, h2, h3 { letter-spacing: -.048em; line-height: 1.06; }
     .gradient-text {
-      background: linear-gradient(105deg, var(--brand) 10%, var(--brand-lite) 60%, var(--brand-dark) 95%);
+      background: linear-gradient(105deg, var(--brand) 0%, var(--brand-lite) 34%, var(--brand-dark) 68%, var(--brand) 100%);
+      background-size: 220% 100%;
       -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent;
+      padding-right: .08em; margin-right: -.08em;
+      animation: gradient-flow 5.5s ease-in-out infinite;
     }
+    @keyframes gradient-flow { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
 
     /* ---------- BUTTONS ---------- */
     .btn {
@@ -95,7 +100,7 @@
     @keyframes drift { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(34px,-26px) scale(1.12); } }
 
     .hero-grid { position: relative; z-index: 2; display: grid; grid-template-columns: 1.02fr .98fr; gap: 56px; align-items: center; }
-    .hero-copy h1 { font-size: clamp(2.3rem, 5vw, 3.5rem); font-weight: 800; margin: 0 0 18px; }
+    .hero-copy h1 { font-size: clamp(2.3rem, 5vw, 3.5rem); font-weight: 800; line-height: 1.12; margin: 0 0 18px; }
     .hero-copy .lead { font-size: 1.12rem; color: var(--muted); max-width: 540px; margin-bottom: 30px; }
     .hero-cta { display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 26px; }
     .hero-chips { display: flex; flex-wrap: wrap; gap: 18px; }
@@ -138,12 +143,14 @@
     .section-head h2 { font-size: clamp(1.9rem, 3.6vw, 2.65rem); font-weight: 800; margin: 16px 0 14px; }
     .section-head p { font-size: 1.08rem; color: var(--muted); }
 
-    .intro-band { max-width: 720px; margin: 0 auto; text-align: center; }
+    .intro-band { max-width: 760px; margin: 0; text-align: left; }
     .intro-band .big { font-size: clamp(1.9rem, 4vw, 2.7rem); font-weight: 800; line-height: 1.04; letter-spacing: -.05em; }
-    .intro-band .big::after { content: ""; display: block; width: 56px; height: 4px; border-radius: 4px; margin: 22px auto 0; background: linear-gradient(90deg, var(--brand), var(--brand-lite)); }
+    .intro-band .big::after { content: ""; display: block; width: 56px; height: 4px; border-radius: 4px; margin: 22px 0 0; background: linear-gradient(90deg, var(--brand), var(--brand-lite)); }
     .intro-body { margin-top: 26px; }
     .intro-band p { color: var(--muted); font-size: 1.08rem; line-height: 1.7; }
     .intro-band p + p { margin-top: 16px; }
+    .type-caret { display: inline-block; width: 2px; height: 1.02em; background: var(--brand); margin-left: 2px; vertical-align: -0.12em; animation: caret-blink .9s step-end infinite; }
+    @keyframes caret-blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
     /* ---------- STICKY STORY ---------- */
     .story-inner { display: grid; grid-template-columns: .92fr 1.08fr; gap: 60px; align-items: start; }
@@ -202,7 +209,7 @@
     .flow-body h4 { font-size: 1.14rem; font-weight: 700; margin-bottom: 7px; letter-spacing: -.02em; }
     .flow-body p { color: var(--muted); font-size: .95rem; }
     .flow-conn { display: flex; align-items: center; justify-content: center; color: var(--brand-lite); font-size: 18px; align-self: center; padding: 0 2px; }
-    @media (max-width: 900px) { .flow-card { flex-basis: 100%; max-width: 460px; } .flow-conn { transform: rotate(90deg); padding: 6px 0; } }
+    @media (max-width: 900px) { .flow { gap: 18px; } .flow-card { flex-basis: 100%; max-width: 460px; } .flow-conn { display: none; } }
 
     /* ---------- CTA ---------- */
     .cta-band { position: relative; overflow: hidden; background: #0d0d14; color: #fff; border-radius: 28px; padding: 76px 40px; text-align: center; box-shadow: var(--shadow-lg); }
@@ -269,7 +276,7 @@
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
       .reveal, .reveal-l, .reveal-r, .reveal-scale, .reveal-clip { opacity: 1 !important; transform: none !important; clip-path: none !important; transition: none !important; }
-      .hero-blob, .float-card, .ticker-track { animation: none !important; }
+      .hero-blob, .float-card, .gradient-text { animation: none !important; }
       .hero-visual .device, .spotlight-media .device { transform: none !important; }
     }
   </style>
@@ -342,7 +349,7 @@
   <div class="hero-blob blob-2"></div>
   <div class="wrap hero-grid">
     <div class="hero-copy">
-      <h1 class="reveal">Your website management, <span class="gradient-text">in one place</span>.</h1>
+      <h1 class="reveal">Your website, finally <span class="gradient-text">put at ease</span>.</h1>
       <p class="lead reveal d2">Introducing the Client Portal. Request changes, manage site performance, view analytics, earn rewards, and more.</p>
       <div class="hero-cta reveal d3">
         <a class="btn btn-primary" href="https://portal.webeaze.io" target="_blank" rel="noopener"><i class="fas fa-arrow-right-to-bracket"></i> Open your portal</a>
@@ -378,7 +385,7 @@
       <div class="big">The biggest thing we've done since 2024.</div>
       <div class="intro-body">
         <p>From Day 1, we wanted to make the management of websites as simple as possible for small business owners. The Client Portal is the biggest leap in that direction.</p>
-        <p>Submit requests. View site analytics. Submit passwords. And much more.</p>
+        <p>Submit requests. View site analytics. Read team updates. And much more.</p>
       </div>
     </div>
   </div>
@@ -602,6 +609,53 @@ var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
       device.style.transform = 'rotateY(' + ry.toFixed(2) + 'deg) rotateX(' + (rx + 6).toFixed(2) + 'deg)';
     });
   });
+})();
+
+// ── INTRO: fast typewriter on the curated copy (types when scrolled into view; reads text from the DOM) ──
+(function(){
+  var host = document.querySelector('.intro-body');
+  if (!host) return;
+  var paras = Array.prototype.slice.call(host.querySelectorAll('p'));
+  if (!paras.length || reduceMotion || !('IntersectionObserver' in window)) return;
+
+  function init(){
+    var items = paras.map(function(p){ return { el: p, text: p.textContent, h: p.offsetHeight }; });
+    // reserve each paragraph's final height so nothing below shifts while typing
+    items.forEach(function(it){ it.el.style.minHeight = it.h + 'px'; it.el.textContent = ''; });
+
+    var caret = document.createElement('span');
+    caret.className = 'type-caret';
+
+    var started = false;
+    function run(){
+      if (started) return; started = true;
+      var pi = 0;
+      (function typePara(){
+        if (pi >= items.length){
+          if (caret.parentNode) caret.parentNode.removeChild(caret);
+          items.forEach(function(it){ it.el.style.minHeight = ''; });
+          return;
+        }
+        var it = items[pi], full = it.text, i = 0;
+        var txt = document.createTextNode('');
+        it.el.appendChild(txt); it.el.appendChild(caret);
+        (function tick(){
+          i = Math.min(full.length, i + 2); // fast typing: ~2 chars per frame
+          txt.nodeValue = full.slice(0, i);
+          if (i < full.length) { setTimeout(tick, 14); }
+          else { pi++; setTimeout(typePara, 240); }
+        })();
+      })();
+    }
+
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ if (e.isIntersecting){ run(); io.disconnect(); } });
+    }, { threshold: .35 });
+    io.observe(host);
+  }
+
+  if (document.fonts && document.fonts.ready && document.fonts.ready.then) { document.fonts.ready.then(init); }
+  else { init(); }
 })();
 </script>
 
