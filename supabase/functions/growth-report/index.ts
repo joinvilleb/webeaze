@@ -164,13 +164,28 @@ Deno.serve(async (req) => {
     if (!c) return json({ error: 'No client record' }, 404);
 
     const metrics = await refreshClient(service, c);
-    const note = !c.site_url ? 'This client has no Site URL set — add one in the admin editor.'
+    let note = !c.site_url ? 'This client has no Site URL set — add one in the admin editor.'
       : (!PSI_KEY ? 'GOOGLE_PSI_KEY secret is not set on the function.'
       : (metrics.speed ? '' : 'PageSpeed returned no data. Check the Site URL is a reachable https page and the PageSpeed Insights API is enabled for your key.'));
-    if (body.action === 'email' && c.email) {
-      await sendEmail({ from: FROM, to: [c.email], subject: 'Your growth report', html: summaryHtml(c.name || '', c.site_url || '', metrics) });
+
+    // Email is sent to the client's own address on file. Report exactly what happened
+    // (sent + to whom, or why not) rather than assuming success.
+    let emailed = false;
+    let emailedTo: string | null = null;
+    if (body.action === 'email') {
+      if (!c.email) {
+        note = note || 'No email address is on this client record, so nothing was sent.';
+      } else {
+        try {
+          await sendEmail({ from: FROM, to: [c.email], subject: 'Your growth report', html: summaryHtml(c.name || '', c.site_url || '', metrics) });
+          emailed = true; emailedTo = c.email;
+        } catch (e) {
+          console.error('[growth] email send failed:', e);
+          note = 'The report could not be emailed right now (' + String(e).slice(0, 120) + ').';
+        }
+      }
     }
-    return json({ ok: true, metrics, note, emailed: body.action === 'email' });
+    return json({ ok: true, metrics, note, emailed, emailedTo });
   } catch (e) {
     console.error('growth-report error:', e);
     return json({ error: String(e) }, 500);
