@@ -259,7 +259,8 @@
       .story-inner { grid-template-columns: 1fr; gap: 0; }
       .story-media { display: none; }
       .story-steps { padding: 0; gap: 26px; }
-      .story-step .step-shot { display: block; }
+      .story-step .step-shot { display: block; opacity: 0; transform: translateY(18px) scale(.985); transition: opacity .55s cubic-bezier(.22,1,.36,1), transform .55s cubic-bezier(.22,1,.36,1); }
+      .story-step .step-shot.in-view { opacity: 1; transform: none; }
       .story-step.is-active { transform: none; }
       .fgrid { grid-template-columns: repeat(2, 1fr); }
       .spotlight { grid-template-columns: 1fr; gap: 40px; }
@@ -278,6 +279,7 @@
       .reveal, .reveal-l, .reveal-r, .reveal-scale, .reveal-clip { opacity: 1 !important; transform: none !important; clip-path: none !important; transition: none !important; }
       .hero-blob, .float-card, .gradient-text { animation: none !important; }
       .hero-visual .device, .spotlight-media .device { transform: none !important; }
+      .story-step .step-shot { opacity: 1 !important; transform: none !important; }
     }
   </style>
 </head>
@@ -656,6 +658,17 @@ var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
   if (document.fonts && document.fonts.ready && document.fonts.ready.then) { document.fonts.ready.then(init); }
   else { init(); }
+})();
+
+// ── STORY (mobile): smoothly crossfade each feature screenshot in as it scrolls into view ──
+(function(){
+  var shots = document.querySelectorAll('.story-step .step-shot');
+  if (!shots.length) return;
+  if (reduceMotion || !('IntersectionObserver' in window)) { shots.forEach(function(s){ s.classList.add('in-view'); }); return; }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ if (e.isIntersecting){ e.target.classList.add('in-view'); io.unobserve(e.target); } });
+  }, { threshold: .2, rootMargin: '0px 0px -10% 0px' });
+  shots.forEach(function(s){ io.observe(s); });
 })();
 </script>
 
