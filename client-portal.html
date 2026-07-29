@@ -88,14 +88,14 @@
     .btn-light:hover { background: rgba(255,255,255,.24); transform: translateY(-2px); }
 
     /* ---------- HERO ---------- */
-    .hero { position: relative; padding: 118px 0 90px; overflow: hidden; background: linear-gradient(180deg, #faf8ff 0%, #ffffff 82%); }
+    .hero { position: relative; padding: 60px 0 84px; overflow: hidden; background: linear-gradient(180deg, #faf8ff 0%, #ffffff 82%); }
     .hero-blob { position: absolute; border-radius: 50%; filter: blur(60px); opacity: .5; z-index: 0; will-change: transform; }
     .blob-1 { width: 440px; height: 440px; background: radial-gradient(circle, rgba(154,111,208,.55), transparent 70%); top: -140px; right: -80px; animation: drift 17s ease-in-out infinite; }
     .blob-2 { width: 380px; height: 380px; background: radial-gradient(circle, rgba(120,81,169,.4), transparent 70%); bottom: -160px; left: -120px; animation: drift 21s ease-in-out infinite reverse; }
     @keyframes drift { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(34px,-26px) scale(1.12); } }
 
     .hero-grid { position: relative; z-index: 2; display: grid; grid-template-columns: 1.02fr .98fr; gap: 56px; align-items: center; }
-    .hero-copy h1 { font-size: clamp(2.3rem, 5vw, 3.5rem); font-weight: 800; margin: 20px 0 18px; }
+    .hero-copy h1 { font-size: clamp(2.3rem, 5vw, 3.5rem); font-weight: 800; margin: 0 0 18px; }
     .hero-copy .lead { font-size: 1.12rem; color: var(--muted); max-width: 540px; margin-bottom: 30px; }
     .hero-cta { display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 26px; }
     .hero-chips { display: flex; flex-wrap: wrap; gap: 18px; }
@@ -138,9 +138,12 @@
     .section-head h2 { font-size: clamp(1.9rem, 3.6vw, 2.65rem); font-weight: 800; margin: 16px 0 14px; }
     .section-head p { font-size: 1.08rem; color: var(--muted); }
 
-    .intro-band { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
-    .intro-band .big { font-size: clamp(1.7rem, 3.2vw, 2.4rem); font-weight: 800; line-height: 1.06; letter-spacing: -.048em; }
-    .intro-band p { color: var(--muted); font-size: 1.06rem; margin-top: 18px; }
+    .intro-band { max-width: 720px; margin: 0 auto; text-align: center; }
+    .intro-band .big { font-size: clamp(1.9rem, 4vw, 2.7rem); font-weight: 800; line-height: 1.04; letter-spacing: -.05em; }
+    .intro-band .big::after { content: ""; display: block; width: 56px; height: 4px; border-radius: 4px; margin: 22px auto 0; background: linear-gradient(90deg, var(--brand), var(--brand-lite)); }
+    .intro-body { margin-top: 26px; }
+    .intro-band p { color: var(--muted); font-size: 1.08rem; line-height: 1.7; }
+    .intro-band p + p { margin-top: 16px; }
 
     /* ---------- STICKY STORY ---------- */
     .story-inner { display: grid; grid-template-columns: .92fr 1.08fr; gap: 60px; align-items: start; }
@@ -210,18 +213,9 @@
     .cta-band p { font-size: 1.1rem; color: rgba(255,255,255,.66); max-width: 520px; margin: 0 auto 30px; }
     .cta-band .hero-cta { justify-content: center; }
 
-    /* ---------- REVEAL ANIMATIONS ---------- */
-    .reveal { opacity: 0; transform: translateY(28px); transition: opacity .7s cubic-bezier(.22,1,.36,1), transform .7s cubic-bezier(.22,1,.36,1); }
-    .reveal.in { opacity: 1; transform: none; }
-    .reveal-l { opacity: 0; transform: translateX(-46px); transition: opacity .8s cubic-bezier(.22,1,.36,1), transform .8s cubic-bezier(.22,1,.36,1); }
-    .reveal-l.in { opacity: 1; transform: none; }
-    .reveal-r { opacity: 0; transform: translateX(46px); transition: opacity .8s cubic-bezier(.22,1,.36,1), transform .8s cubic-bezier(.22,1,.36,1); }
-    .reveal-r.in { opacity: 1; transform: none; }
-    .reveal-scale { opacity: 0; transform: scale(.93); transition: opacity .8s cubic-bezier(.22,1,.36,1), transform .8s cubic-bezier(.22,1,.36,1); }
-    .reveal-scale.in { opacity: 1; transform: none; }
-    .reveal-clip { opacity: 0; clip-path: inset(0 0 100% 0); transition: opacity .5s ease, clip-path 1s cubic-bezier(.22,1,.36,1); }
-    .reveal-clip.in { opacity: 1; clip-path: inset(0 0 0 0); }
-    .d1 { transition-delay: .08s; } .d2 { transition-delay: .16s; } .d3 { transition-delay: .24s; } .d4 { transition-delay: .32s; } .d5 { transition-delay: .4s; }
+    /* ---------- REVEAL: fade-in entrances removed per request; content renders in place ---------- */
+    .reveal, .reveal-l, .reveal-r, .reveal-scale, .reveal-clip { opacity: 1; transform: none; clip-path: none; }
+    .d1, .d2, .d3, .d4, .d5 { transition-delay: 0s; }
 
     /* ---------- FOOTER ---------- */
     footer { background: #000; padding: 60px 20px 40px; border-top: 1px solid rgba(255,255,255,.08); }
@@ -254,7 +248,7 @@
       .hero-copy { text-align: center; } .hero-copy .lead { margin-left: auto; margin-right: auto; }
       .hero-cta, .hero-chips { justify-content: center; }
       .float-a { left: 6px; } .float-b { right: 6px; }
-      .intro-band { grid-template-columns: 1fr; gap: 24px; text-align: center; }
+      .intro-band p { font-size: 1rem; }
       .story-inner { grid-template-columns: 1fr; gap: 0; }
       .story-media { display: none; }
       .story-steps { padding: 0; gap: 26px; }
@@ -265,7 +259,7 @@
       .spotlight-media .device { transform: none; }
     }
     @media (max-width: 560px) {
-      .hero { padding: 92px 0 64px; }
+      .hero { padding: 40px 0 56px; }
       .section { padding: 66px 0; }
       .fgrid { grid-template-columns: 1fr; }
       .float-card { display: none; }
@@ -300,6 +294,8 @@
           <a class="wb-dd-item" href="ai.html" role="menuitem"><i class="fas fa-robot"></i> AI Chatbot</a>
           <a class="wb-dd-item" href="ads.html" role="menuitem"><i class="fas fa-ad"></i> Ad Management</a>
           <a class="wb-dd-item" href="one-time-project.html" role="menuitem"><i class="fas fa-hammer"></i> One-Time Website Help</a>
+          <div class="wb-dd-divider"></div>
+          <a class="wb-dd-item" href="client-portal.html" role="menuitem"><i class="fas fa-id-card"></i> Client Portal</a>
         </div>
       </div>
       <a class="wb-nav-link" href="pricing.html">Pricing</a>
@@ -326,6 +322,7 @@
       <a class="wb-mob-link wb-mob-sub" href="ai.html"><i class="fas fa-robot"></i> AI Chatbot</a>
       <a class="wb-mob-link wb-mob-sub" href="ads.html"><i class="fas fa-ad"></i> Ad Management</a>
       <a class="wb-mob-link wb-mob-sub" href="one-time-project.html"><i class="fas fa-hammer"></i> One-Time Website Help</a>
+      <a class="wb-mob-link wb-mob-sub" href="client-portal.html"><i class="fas fa-id-card"></i> Client Portal</a>
       <hr class="wb-mob-divider">
       <a class="wb-mob-link" href="pricing.html">Pricing</a>
       <a class="wb-mob-link" href="faq.html">FAQ</a>
@@ -376,13 +373,13 @@
 
 <!-- INTRO -->
 <section class="section">
-  <div class="wrap intro-band">
-    <div class="reveal-l">
+  <div class="wrap">
+    <div class="intro-band">
       <div class="big">The biggest thing we've done since 2024.</div>
-    </div>
-    <div class="reveal-r">
-      <p>From Day 1, we wanted to make the management of websites as simple as possible for small business owners. The Client Portal is the biggest leap in that direction.</p>
-      <p>Submit requests. View site analytics. Submit passwords. And much more.</p>
+      <div class="intro-body">
+        <p>From Day 1, we wanted to make the management of websites as simple as possible for small business owners. The Client Portal is the biggest leap in that direction.</p>
+        <p>Submit requests. View site analytics. Submit passwords. And much more.</p>
+      </div>
     </div>
   </div>
 </section>
