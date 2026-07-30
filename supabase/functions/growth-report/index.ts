@@ -9,15 +9,15 @@
 //   2) Monthly (pg_cron): called WITH the x-cron-secret header. Body: { mode:'monthly' }.
 //      Refreshes every client with a site_url and emails each their summary.
 //
-// Sources (Slice 1 wires speed; the rest are ready to switch on once keys/setup exist):
-//   - speed   : Google PageSpeed Insights   (needs GOOGLE_PSI_KEY — one key, all clients)  [LIVE]
-//   - reviews : Google Places                (needs GOOGLE_PLACES_KEY + clients.google_place_id) [STUB]
-//   - search  : Google Search Console API    (needs a service account verified per site)         [STUB]
+// Sources (all live; each degrades to null if its key/setup is missing):
+//   - speed   : Google PageSpeed Insights   (needs GOOGLE_PSI_KEY — one key, all clients)
+//   - reviews : Google Places (New)          (needs GOOGLE_PLACES_KEY + clients.google_place_id, which may be a name/Maps link/Place ID)
+//   - search  : Google Search Console API    (needs GSC_SERVICE_ACCOUNT + the service account added to each property)
 //   - uptime  : surfaced in the portal from the existing monitor; included here if provided
 //
 // Deploy:  supabase functions deploy growth-report
-// Secrets: supabase secrets set RESEND_API_KEY=re_xxx CRON_SECRET=... GOOGLE_PSI_KEY=...
-//          (optional later) GOOGLE_PLACES_KEY=...
+// Secrets: RESEND_API_KEY=re_xxx  CRON_SECRET=...  GOOGLE_PSI_KEY=...  GOOGLE_PLACES_KEY=...
+//          GSC_SERVICE_ACCOUNT='<the whole service-account JSON>'
 // Schedule: see supabase/growth_report.sql
 
 import { createClient } from 'jsr:@supabase/supabase-js@2';
@@ -26,6 +26,8 @@ const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY')!;
 const CRON_SECRET = Deno.env.get('CRON_SECRET') ?? '';
 const PSI_KEY = Deno.env.get('GOOGLE_PSI_KEY') ?? '';
 const PLACES_KEY = Deno.env.get('GOOGLE_PLACES_KEY') ?? '';
+const ANTHROPIC_API_KEY = Deno.env.get('ANTHROPIC_API_KEY') ?? '';
+const AI_MODEL = 'claude-haiku-4-5-20251001';   // friendly report writer; bump to a larger model for richer copy
 const FROM = 'WebEaze <support@webeaze.io>';
 const PORTAL_URL = 'https://portal.webeaze.io';
 
@@ -62,30 +64,241 @@ async function pullSpeed(url: string) {
   }
 }
 
-// ── Source: Google reviews (STUB — switch on with GOOGLE_PLACES_KEY + client.google_place_id) ──
-async function pullReviews(placeId?: string | null) {
-  if (!PLACES_KEY || !placeId) return null;
+// ── Source: Google reviews (needs GOOGLE_PLACES_KEY + clients.google_place_id) ──
+// The stored value can be a Place ID, a Google Maps link, or just the business name —
+// so admins never have to hunt for a raw ChIJ… id. A name/URL is resolved via Text Search
+// (works for service-area businesses with no street address); a Place ID hits Place Details.
+async function fetchReviewsByPlaceId(placeId: string) {
+  // Places API (New) first.
   try {
-    const api = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${encodeURIComponent(placeId)}&fields=rating,user_ratings_total&key=${PLACES_KEY}`;
-    const res = await fetch(api);
+    const res = await fetch(`https://places.googleapis.com/v1/places/${encodeURIComponent(placeId)}`, {
+      headers: { 'X-Goog-Api-Key': PLACES_KEY, 'X-Goog-FieldMask': 'rating,userRatingCount,displayName' },
+    });
+    if (res.ok) {
+      const d = await res.json();
+      if (d && (d.rating != null || d.userRatingCount != null)) {
+        return { rating: d.rating ?? null, count: d.userRatingCount ?? null, placeId, matched: d.displayName?.text ?? null, checkedAt: new Date().toISOString() };
+      }
+    } else {
+      console.warn('[growth] Places details (New) ' + res.status + ': ' + (await res.text()).slice(0, 160));
+    }
+  } catch (e) { console.error('[growth] Places details (New) failed:', e); }
+  // Legacy Place Details fallback.
+  try {
+    const res = await fetch(`https://maps.googleapis.com/maps/api/place/details/json?place_id=${encodeURIComponent(placeId)}&fields=rating,user_ratings_total,name&key=${PLACES_KEY}`);
     const d = await res.json();
-    if (d.result) return { rating: d.result.rating ?? null, count: d.result.user_ratings_total ?? null, checkedAt: new Date().toISOString() };
-  } catch (e) { console.error('pullReviews failed', e); }
+    if (d.result) return { rating: d.result.rating ?? null, count: d.result.user_ratings_total ?? null, placeId, matched: d.result.name ?? null, checkedAt: new Date().toISOString() };
+    console.warn('[growth] Places details (legacy) status ' + (d.status || 'unknown') + ' ' + (d.error_message || ''));
+  } catch (e) { console.error('[growth] Places details (legacy) failed:', e); }
   return null;
 }
+async function pullReviews(ref?: string | null) {
+  const raw = (ref || '').trim();
+  if (!raw) { console.warn('[growth] pullReviews: no Place ID / name set'); return null; }
+  if (!PLACES_KEY) { console.warn('[growth] pullReviews: GOOGLE_PLACES_KEY secret is not set'); return null; }
 
-// ── Source: Search Console real numbers (STUB — needs a service account verified per site) ──
-async function pullSearch(_url: string) {
-  // TODO: sign a JWT for the service account, call the Search Console API
-  // (searchanalytics.query) for the last 28 days of clicks/impressions/position.
-  return null;
+  // Decide what we were given.
+  let textQuery = '';
+  let bias: { lat: number; lng: number } | null = null;
+  if (/^https?:\/\//i.test(raw)) {
+    // Google Maps link → read the business name and (if present) the map coordinates.
+    const nameMatch = raw.match(/\/place\/([^/@]+)/);
+    if (nameMatch) textQuery = decodeURIComponent(nameMatch[1].replace(/\+/g, ' '));
+    const at = raw.match(/@(-?\d+\.\d+),(-?\d+\.\d+)/);
+    if (at) bias = { lat: parseFloat(at[1]), lng: parseFloat(at[2]) };
+    if (!textQuery) { console.warn('[growth] pullReviews: could not read a name from the Maps link'); return null; }
+  } else if (/^(ChIJ|GhIJ)[A-Za-z0-9_-]{8,}$/.test(raw)) {
+    return await fetchReviewsByPlaceId(raw);   // looks like a raw Place ID
+  } else {
+    textQuery = raw;   // a plain business name
+  }
+
+  // Resolve a name/URL to the listing via Text Search (New) — returns rating + count in one call.
+  try {
+    const body: Record<string, unknown> = { textQuery };
+    if (bias) body.locationBias = { circle: { center: { latitude: bias.lat, longitude: bias.lng }, radius: 50000 } };
+    const res = await fetch('https://places.googleapis.com/v1/places:searchText', {
+      method: 'POST',
+      headers: { 'X-Goog-Api-Key': PLACES_KEY, 'X-Goog-FieldMask': 'places.id,places.displayName,places.rating,places.userRatingCount', 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+    if (!res.ok) { console.warn('[growth] Places textSearch ' + res.status + ': ' + (await res.text()).slice(0, 160)); return null; }
+    const d = await res.json();
+    const p = d.places && d.places[0];
+    if (!p) { console.warn('[growth] Places textSearch: no match for "' + textQuery + '"'); return null; }
+    console.log('[growth] reviews matched "' + textQuery + '" -> ' + (p.displayName?.text || p.id) + ' (' + p.id + ')');
+    return { rating: p.rating ?? null, count: p.userRatingCount ?? null, placeId: p.id, matched: p.displayName?.text ?? null, checkedAt: new Date().toISOString() };
+  } catch (e) { console.error('[growth] Places textSearch failed:', e); return null; }
+}
+
+// ── Source: Search Console real numbers (needs a service account added to each property) ──
+// Auth is server-to-server: sign a JWT with the service account key, exchange it for an
+// access token, then query searchAnalytics for the last 28 days.
+function b64url(bytes: Uint8Array): string {
+  const s = btoa(String.fromCharCode(...bytes));
+  return s.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
+async function importPkcs8(pem: string): Promise<CryptoKey> {
+  const body = pem.replace(/-----BEGIN PRIVATE KEY-----/, '').replace(/-----END PRIVATE KEY-----/, '').replace(/\s+/g, '');
+  const der = Uint8Array.from(atob(body), (c) => c.charCodeAt(0));
+  return crypto.subtle.importKey('pkcs8', der.buffer, { name: 'RSASSA-PKCS1-v1_5', hash: 'SHA-256' }, false, ['sign']);
+}
+let _gscToken: { token: string; exp: number } | null = null;
+async function getGscAccessToken(): Promise<string | null> {
+  const raw = Deno.env.get('GSC_SERVICE_ACCOUNT') ?? '';
+  if (!raw) { console.warn('[growth] GSC_SERVICE_ACCOUNT secret is not set'); return null; }
+  const now = Math.floor(Date.now() / 1000);
+  if (_gscToken && _gscToken.exp > now + 60) return _gscToken.token;
+  let sa: { client_email?: string; private_key?: string };
+  try { sa = JSON.parse(raw); } catch { console.error('[growth] GSC_SERVICE_ACCOUNT is not valid JSON'); return null; }
+  if (!sa.client_email || !sa.private_key) { console.error('[growth] GSC_SERVICE_ACCOUNT missing client_email/private_key'); return null; }
+  const enc = (o: unknown) => b64url(new TextEncoder().encode(JSON.stringify(o)));
+  const unsigned = enc({ alg: 'RS256', typ: 'JWT' }) + '.' +
+    enc({ iss: sa.client_email, scope: 'https://www.googleapis.com/auth/webmasters.readonly', aud: 'https://oauth2.googleapis.com/token', iat: now, exp: now + 3600 });
+  try {
+    const key = await importPkcs8(sa.private_key);
+    const sig = await crypto.subtle.sign('RSASSA-PKCS1-v1_5', key, new TextEncoder().encode(unsigned));
+    const jwt = unsigned + '.' + b64url(new Uint8Array(sig));
+    const res = await fetch('https://oauth2.googleapis.com/token', {
+      method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: 'grant_type=urn:ietf:params:oauth:grant-type:jwt-bearer&assertion=' + jwt,
+    });
+    if (!res.ok) { console.error('[growth] GSC token ' + res.status + ': ' + (await res.text()).slice(0, 160)); return null; }
+    const tok = await res.json();
+    _gscToken = { token: tok.access_token, exp: now + (tok.expires_in || 3600) };
+    return _gscToken.token;
+  } catch (e) { console.error('[growth] GSC token signing failed:', e); return null; }
+}
+async function pullSearch(siteUrl: string) {
+  if (!siteUrl) return null;
+  const token = await getGscAccessToken();
+  if (!token) return null;
+  const host = siteUrl.replace(/^https?:\/\//, '').replace(/\/.*$/, '').replace(/^www\./, '');
+  // Try each way the property might be registered in Search Console.
+  const candidates = ['sc-domain:' + host, 'https://' + host + '/', 'https://www.' + host + '/', 'http://' + host + '/'];
+  const fmt = (d: Date) => d.toISOString().slice(0, 10);
+  const endDate = fmt(new Date());
+  const startDate = fmt(new Date(Date.now() - 28 * 24 * 3600 * 1000));
+  const query = (prop: string, body: unknown) => fetch(`https://searchconsole.googleapis.com/webmasters/v3/sites/${encodeURIComponent(prop)}/searchAnalytics/query`, {
+    method: 'POST', headers: { Authorization: 'Bearer ' + token, 'Content-Type': 'application/json' }, body: JSON.stringify(body),
+  });
+
+  // 1) Find an accessible property + its 28-day totals.
+  let found: { prop: string; row: any } | null = null;
+  for (const prop of candidates) {
+    try {
+      const res = await query(prop, { startDate, endDate, dimensions: [], rowLimit: 1 });
+      if (res.status === 403 || res.status === 404) continue; // service account not on this property
+      if (!res.ok) { console.warn('[growth] GSC query ' + res.status + ' (' + prop + '): ' + (await res.text()).slice(0, 120)); continue; }
+      const d = await res.json();
+      found = { prop, row: (d.rows && d.rows[0]) || null };
+      break;
+    } catch (e) { console.error('[growth] GSC query failed (' + prop + '):', e); }
+  }
+  if (!found) { console.warn('[growth] GSC: no accessible property matched ' + host); return null; }
+
+  const r = found.row || {};
+  const out: Record<string, unknown> = {
+    clicks: Math.round(r.clicks || 0), impressions: Math.round(r.impressions || 0),
+    ctr: r.ctr != null ? +(r.ctr * 100).toFixed(1) : (r.impressions != null ? 0 : null),
+    position: r.position != null ? +r.position.toFixed(1) : null,
+    property: found.prop, startDate, endDate, checkedAt: new Date().toISOString(),
+  };
+
+  // 2) Daily series for the trend chart (+ a first-half/second-half delta).
+  try {
+    const res = await query(found.prop, { startDate, endDate, dimensions: ['date'], rowLimit: 500 });
+    if (res.ok) {
+      const d = await res.json();
+      const rows = (d.rows || []).map((x: any) => ({ date: x.keys[0], clicks: Math.round(x.clicks || 0), impressions: Math.round(x.impressions || 0) }));
+      out.series = rows;
+      if (rows.length >= 8) {
+        const half = Math.floor(rows.length / 2);
+        const sum = (a: any[]) => a.reduce((t, p) => t + p.impressions, 0);
+        const first = sum(rows.slice(0, half)), second = sum(rows.slice(half));
+        if (first > 0) out.deltaPct = Math.round(((second - first) / first) * 100);
+      }
+    } else {
+      console.warn('[growth] GSC series ' + res.status + ' (' + found.prop + ')');
+    }
+  } catch (e) { console.error('[growth] GSC series failed:', e); }
+
+  // 3) Top search terms people used to find them (for "what was searched").
+  try {
+    const res = await query(found.prop, { startDate, endDate, dimensions: ['query'], rowLimit: 8 });
+    if (res.ok) {
+      const d = await res.json();
+      out.topQueries = (d.rows || []).map((x: any) => ({ query: x.keys[0], clicks: Math.round(x.clicks || 0), impressions: Math.round(x.impressions || 0), position: x.position != null ? +x.position.toFixed(1) : null }));
+    }
+  } catch (e) { console.error('[growth] GSC top queries failed:', e); }
+
+  return out;
+}
+
+// ── AI: turn the raw metrics into a warm, plain-English report for the owner ──
+async function generateSummary(c: { site_url?: string; name?: string }, metrics: any) {
+  if (!ANTHROPIC_API_KEY) { console.warn('[growth] ANTHROPIC_API_KEY not set — skipping AI summary'); return null; }
+  const s = metrics.speed, r = metrics.reviews, se = metrics.search;
+  const facts = {
+    business: c.name || '', site: c.site_url || '',
+    speedMobile: s?.mobile?.score ?? null, speedDesktop: s?.desktop?.score ?? null,
+    googleRating: r?.rating ?? null, reviewCount: r?.count ?? null,
+    searchClicks: se?.clicks ?? null, searchImpressions: se?.impressions ?? null,
+    avgPosition: se?.position ?? null, clickThroughRatePct: se?.ctr ?? null,
+    impressionsTrendPct: se?.deltaPct ?? null,
+    topSearches: (se?.topQueries || []).map((q: any) => q.query).slice(0, 5),
+  };
+  const system = "You are the account team at WebEaze, a friendly web design and website-care service for small businesses. Write a short, warm, plain-English report for the business owner about how their website is doing. Talk to them directly (\"your site\"), no jargon, encouraging but honest. NEVER use em dashes. Only reference numbers that are provided (nulls mean not available) and never invent data. Return ONLY valid JSON (no markdown, no code fences) with keys: headline (a short upbeat phrase, max 8 words), summary (2 to 3 sentences on what has been happening), searched (one friendly sentence about what people searched to find them, or null if topSearches is empty), recommendations (array of 1 to 3 short, specific, non-technical suggestions we could do for them).";
+  const userMsg = 'Latest data:\n' + JSON.stringify(facts, null, 2);
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'x-api-key': ANTHROPIC_API_KEY, 'anthropic-version': '2023-06-01', 'content-type': 'application/json' },
+      body: JSON.stringify({ model: AI_MODEL, max_tokens: 700, system, messages: [{ role: 'user', content: userMsg }] }),
+    });
+    if (!res.ok) { console.error('[growth] Anthropic ' + res.status + ': ' + (await res.text()).slice(0, 200)); return null; }
+    const d = await res.json();
+    let text = (d.content && d.content[0] && d.content[0].text) || '';
+    text = text.replace(/^```(?:json)?\s*/i, '').replace(/```\s*$/, '').trim();
+    const p = JSON.parse(text);
+    return {
+      headline: String(p.headline || '').slice(0, 80),
+      summary: String(p.summary || ''),
+      searched: p.searched ? String(p.searched) : null,
+      recommendations: Array.isArray(p.recommendations) ? p.recommendations.map((x: unknown) => String(x)).slice(0, 3) : [],
+      generatedAt: new Date().toISOString(),
+    };
+  } catch (e) { console.error('[growth] AI summary failed:', e); return null; }
 }
 
 async function refreshClient(sb: any, c: { user_id: string; id?: string; site_url?: string; google_place_id?: string | null }) {
   const url = c.site_url || '';
   const [speed, reviews] = await Promise.all([pullSpeed(url), pullReviews(c.google_place_id), ]);
   const search = await pullSearch(url);
-  const metrics = { speed, reviews, search };
+  // Merge with the last snapshot: if a source momentarily fails or isn't set up yet, keep its
+  // previous value instead of overwriting good numbers with null (which would blank the portal
+  // and send a text-only email).
+  const { data: prev } = await sb.from('client_metrics').select('metrics').eq('user_id', c.user_id).maybeSingle();
+  const old = (prev && prev.metrics) || {};
+  const metrics: Record<string, unknown> = {
+    speed: speed ?? old.speed ?? null,
+    reviews: reviews ?? old.reviews ?? null,
+    search: search ?? old.search ?? null,
+  };
+  // Keyword movement: compare each tracked query's position to the previous snapshot
+  // (positive change = moved up, since a lower position number is better).
+  const newKw = (metrics.search as any)?.topQueries as any[] | undefined;
+  const oldKw = (old.search?.topQueries as any[]) || [];
+  if (Array.isArray(newKw)) {
+    const prevPos: Record<string, number> = {};
+    for (const k of oldKw) { if (k && k.query != null && k.position != null) prevPos[k.query] = k.position; }
+    for (const k of newKw) {
+      if (k && k.query != null && k.position != null && prevPos[k.query] != null) k.change = +(prevPos[k.query] - k.position).toFixed(1);
+      else if (k) k.change = null;
+    }
+  }
+  // AI report last, so it can summarize the freshest numbers. Keep the prior one if it fails.
+  metrics.report = (await generateSummary(c, metrics)) ?? old.report ?? null;
   await sb.from('client_metrics').upsert({
     user_id: c.user_id, client_id: c.id ?? null, site_url: url,
     metrics, refreshed_at: new Date().toISOString(), updated_at: new Date().toISOString(),
@@ -102,32 +315,69 @@ async function sendEmail(payload: Record<string, unknown>) {
   return res.json();
 }
 
-function summaryHtml(name: string, url: string, m: any) {
-  const tile = (label: string, value: string, sub = '') =>
-    `<td style="padding:8px;" width="50%"><div style="background:#f8f9fc;border:1px solid #e4e7f1;border-radius:12px;padding:16px 18px;">` +
-    `<div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#a0a6c4;margin-bottom:5px;">${esc(label)}</div>` +
-    `<div style="font-size:22px;font-weight:800;color:#0f1228;">${esc(value)}</div>` +
-    (sub ? `<div style="font-size:12px;color:#6b7094;margin-top:2px;">${esc(sub)}</div>` : '') + `</div></td>`;
-  const s = m.speed;
-  const rows: string[] = [];
-  if (s?.mobile) rows.push(tile('Site speed (mobile)', s.mobile.score + '/100', s.mobile.lcpSeconds != null ? s.mobile.lcpSeconds + 's to load' : ''));
-  if (s?.desktop) rows.push(tile('Site speed (desktop)', s.desktop.score + '/100', ''));
-  if (m.reviews?.rating != null) rows.push(tile('Google rating', m.reviews.rating + ' ★', (m.reviews.count ?? 0) + ' reviews'));
-  if (m.search?.clicks != null) rows.push(tile('Search clicks', String(m.search.clicks), 'last 28 days'));
-  const grid = rows.length
-    ? '<table width="100%" cellpadding="0" cellspacing="0">' + rows.map((t, i) => (i % 2 === 0 ? '<tr>' : '') + t + (i % 2 === 1 || i === rows.length - 1 ? '</tr>' : '')).join('') + '</table>'
-    : '<p style="font-size:14px;color:#6b7094;">Your latest metrics are refreshing. Open your portal to see them.</p>';
+// A plain, personal email, as if a real person on the team wrote it (no tiles/cards).
+// `extra` carries the monthly-only bits folded in from the retired Cloudflare mailer:
+// last month's completed-work recap and Billy's personal note. Omitted on on-demand sends.
+function summaryHtml(name: string, url: string, m: any, plan?: string, extra?: { done?: Array<{ type?: string; resolution?: string }>; monthlyNote?: string | null; monthLabel?: string }) {
+  const first = (name || '').trim().split(/\s+/)[0] || 'there';
+  const adv = /growth|elite/i.test(plan || '');   // Growth/Elite get the deeper report
+  const s = m.speed, r = m.reviews, se = m.search, rep = m.report;
+  const p = (t: string) => `<p style="margin:0 0 15px;">${t}</p>`;
+
+  const opening = rep?.summary ? esc(rep.summary) : ('Here is a quick update on how ' + esc(url || 'your website') + ' is doing.');
+
+  // Numbers as a plain sentence-y list, only what we actually have. The impressions trend %
+  // is a Growth-tier detail.
+  const lines: string[] = [];
+  if (s?.mobile) lines.push('Site speed: ' + s.mobile.score + '/100 on mobile' + (s.desktop ? ', ' + s.desktop.score + '/100 on desktop' : ''));
+  if (r?.rating != null) lines.push('Google rating: ' + r.rating + ' stars (' + (r.count ?? 0) + ' reviews)');
+  if (se?.impressions != null || se?.clicks != null) {
+    lines.push('Search: ' + (se.impressions != null ? Number(se.impressions).toLocaleString() + ' impressions' : '') +
+      (se.clicks != null ? (se.impressions != null ? ' and ' : '') + se.clicks + ' clicks' : '') + ' in the last 28 days' +
+      (adv && se.deltaPct != null ? ' (' + (se.deltaPct >= 0 ? 'up ' : 'down ') + Math.abs(se.deltaPct) + '%)' : ''));
+  }
+  const snap = lines.length
+    ? p('Here is a quick snapshot of your site right now:') + '<ul style="margin:0 0 15px;padding-left:20px;">' + lines.map((x) => `<li style="margin-bottom:6px;">${esc(x)}</li>`).join('') + '</ul>'
+    : '';
+
+  // Growth-only: what people searched + a deeper action plan.
+  const searched = adv && rep?.searched ? p(esc(rep.searched)) : '';
+  const recs = (adv && rep?.recommendations && rep.recommendations.length)
+    ? p('A couple of things we would suggest:') + '<ul style="margin:0 0 15px;padding-left:20px;">' + rep.recommendations.map((x: string) => `<li style="margin-bottom:6px;">${esc(x)}</li>`).join('') + '</ul>'
+    : '';
+  // Essential gets a soft nudge toward the deeper report instead.
+  const upsell = !adv
+    ? p('You are on our Essential plan. Growth adds your search trends over time, the exact terms people use to find you, and a tailored action plan each month. Just reply if you would like to hear more.')
+    : '';
+
+  // Monthly-only: what we shipped for them, and Billy's personal note (both empty on on-demand sends).
+  const done = (extra?.done) || [];
+  const shipped = done.length
+    ? p('Here is what we took care of for you' + (extra?.monthLabel ? ' in ' + esc(extra.monthLabel) : ' this month') + ':')
+      + '<ul style="margin:0 0 15px;padding-left:20px;">'
+      + done.map((r) => `<li style="margin-bottom:8px;"><strong>${esc(r.type || 'Update')}</strong>${r.resolution ? `<br><span style="color:#6b7094;white-space:pre-wrap;">${esc(r.resolution)}</span>` : ''}</li>`).join('')
+      + '</ul>'
+    : '';
+  const personal = (extra?.monthlyNote && extra.monthlyNote.trim())
+    ? `<p style="margin:0 0 15px;white-space:pre-wrap;">${esc(extra.monthlyNote.trim())}</p>`
+    : '';
+
   return [
-    '<!DOCTYPE html><html><head><meta charset="UTF-8" /></head><body style="margin:0;background:#f8f9fc;font-family:Helvetica,Arial,sans-serif;">',
-    '<table width="100%" cellpadding="0" cellspacing="0" style="padding:40px 16px;"><tr><td align="center">',
-    '<table width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;"><tr><td style="background:#fff;border:1px solid #e4e7f1;border-radius:16px;padding:36px 32px;">',
-    '<div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.12em;color:#7851a9;margin-bottom:10px;">Your growth report</div>',
-    `<h1 style="font-size:20px;font-weight:800;color:#0f1228;margin:0 0 6px;">How ${esc(url || 'your site')} is doing</h1>`,
-    '<p style="font-size:14px;color:#6b7094;line-height:1.6;margin:0 0 22px;">Here is a snapshot of your website performance and growth, kept in shape by your WebEaze plan.</p>',
-    grid,
-    `<p style="font-size:13px;color:#a0a6c4;line-height:1.6;margin:22px 0 0;">See the full, live report any time in your <a href="${PORTAL_URL}" style="color:#7851a9;font-weight:700;text-decoration:none;">Client Portal</a>.</p>`,
-    '</td></tr><tr><td align="center" style="padding-top:22px;"><p style="font-size:12px;color:#a0a6c4;margin:0;">WebEaze Web Design, 109 Pleasant Hill Drive, Camden-Wyoming, Delaware 19934, USA</p></td></tr>',
-    '</table></td></tr></table></body></html>',
+    '<!DOCTYPE html><html><head><meta charset="UTF-8" /></head>',
+    '<body style="margin:0;background:#ffffff;">',
+    '<div style="max-width:560px;margin:0 auto;padding:32px 26px;font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:1.65;color:#1f2333;">',
+    p('Hi ' + esc(first) + ','),
+    p(opening),
+    snap,
+    shipped,
+    searched,
+    recs,
+    personal,
+    upsell,
+    p('If you would like a hand with any of this, just reply to this email or send us a request in your <a href="' + PORTAL_URL + '" style="color:#7851a9;font-weight:600;">client portal</a>.'),
+    p('Talk soon,<br>The WebEaze team'),
+    '<div style="margin-top:26px;padding-top:16px;border-top:1px solid #eeeeee;font-size:12px;color:#9599b8;">WebEaze Web Design, 109 Pleasant Hill Drive, Camden-Wyoming, Delaware 19934, USA</div>',
+    '</div></body></html>',
   ].join('');
 }
 
@@ -140,14 +390,39 @@ Deno.serve(async (req) => {
     const body = await req.json().catch(() => ({}));
     const cronSecret = req.headers.get('x-cron-secret') ?? '';
 
-    // ── Monthly cron: refresh + email everyone ──
+    // ── Monthly cron: refresh + email everyone (this replaces the old Cloudflare monthly mailer) ──
     if (cronSecret && cronSecret === CRON_SECRET) {
-      const { data: clients } = await service.from('clients').select('user_id, id, email, name, site_url, google_place_id').not('site_url', 'is', null);
+      // Report window: the previous calendar month, same as the retired Worker.
+      const now = new Date();
+      const windowStart = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() - 1, 1));
+      const windowEnd = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1));
+      const monthLabel = windowStart.toLocaleDateString('en-US', { month: 'long', year: 'numeric', timeZone: 'UTC' });
+      const monthName = windowStart.toLocaleDateString('en-US', { month: 'long', timeZone: 'UTC' });
+
+      const { data: clients } = await service.from('clients')
+        .select('user_id, id, email, name, site_url, google_place_id, plan, monthly_note, status')
+        .not('site_url', 'is', null).neq('status', 'inactive');
       let sent = 0;
       for (const c of clients ?? []) {
         try {
           const metrics = await refreshClient(service, c);
-          if (c.email) { await sendEmail({ from: FROM, to: [c.email], subject: 'Your monthly growth report', html: summaryHtml(c.name || '', c.site_url || '', metrics) }); sent++; }
+          if (!c.email) continue;
+          // What we completed for them last month (created in the window and now marked Done).
+          const { data: reqs } = await service.from('update_requests')
+            .select('type, status, resolution, created_at')
+            .eq('user_id', c.user_id)
+            .gte('created_at', windowStart.toISOString())
+            .lt('created_at', windowEnd.toISOString())
+            .order('created_at', { ascending: true });
+          const done = (reqs ?? []).filter((r: any) => (r.status || '') === 'Done').map((r: any) => ({ type: r.type, resolution: r.resolution }));
+          await sendEmail({
+            from: FROM, to: [c.email],
+            subject: 'Your ' + monthLabel + ' growth report',
+            html: summaryHtml(c.name || '', c.site_url || '', metrics, c.plan, { done, monthlyNote: c.monthly_note, monthLabel: monthName }),
+          });
+          sent++;
+          // Clear the personal note after a successful send so it never repeats (Worker behavior).
+          if (c.monthly_note) { await service.from('clients').update({ monthly_note: null }).eq('id', c.id); }
         } catch (e) { console.error('monthly client failed', c.user_id, e); }
       }
       return json({ ok: true, refreshed: (clients ?? []).length, emailed: sent });
@@ -160,7 +435,7 @@ Deno.serve(async (req) => {
 
     // Clients refresh their own record; the admin account may refresh any client (targetUserId).
     const targetUserId = (body.targetUserId && user.email === 'billy@webeaze.io') ? body.targetUserId : user.id;
-    const { data: c } = await service.from('clients').select('user_id, id, email, name, site_url, google_place_id').eq('user_id', targetUserId).maybeSingle();
+    const { data: c } = await service.from('clients').select('user_id, id, email, name, site_url, google_place_id, plan').eq('user_id', targetUserId).maybeSingle();
     if (!c) return json({ error: 'No client record' }, 404);
 
     const metrics = await refreshClient(service, c);
@@ -177,7 +452,7 @@ Deno.serve(async (req) => {
         note = note || 'No email address is on this client record, so nothing was sent.';
       } else {
         try {
-          await sendEmail({ from: FROM, to: [c.email], subject: 'Your growth report', html: summaryHtml(c.name || '', c.site_url || '', metrics) });
+          await sendEmail({ from: FROM, to: [c.email], subject: 'Your growth report', html: summaryHtml(c.name || '', c.site_url || '', metrics, c.plan) });
           emailed = true; emailedTo = c.email;
         } catch (e) {
           console.error('[growth] email send failed:', e);

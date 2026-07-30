@@ -37,17 +37,21 @@ alter table public.clients add column if not exists google_place_id text;
 -- create extension if not exists pg_cron;
 -- create extension if not exists pg_net;
 --
--- Refresh every client's metrics and send the monthly summary. Runs 1st of the
--- month at 13:00 UTC (~8am ET). Replace <PROJECT_REF> and <CRON_SECRET>.
+-- Refresh every client's metrics and send the monthly summary (this is what replaced the
+-- old Cloudflare "webeaze monthly report" Worker). Runs the 1st of the month at 13:00 UTC
+-- (~8am ET), matching the Worker's schedule. Only <CRON_SECRET> still needs filling in.
 --
 -- select cron.schedule(
 --   'growth-report-monthly',
 --   '0 13 1 * *',
 --   $$
 --   select net.http_post(
---     url     := 'https://<PROJECT_REF>.supabase.co/functions/v1/growth-report',
+--     url     := 'https://gmgzhjxfypuyzzgqwona.supabase.co/functions/v1/growth-report',
 --     headers := jsonb_build_object('Content-Type','application/json','x-cron-secret','<CRON_SECRET>'),
 --     body    := jsonb_build_object('mode','monthly')
 --   );
 --   $$
 -- );
+--
+-- Already scheduled it in a past session? Re-run safely by unscheduling first:
+--   select cron.unschedule('growth-report-monthly');
