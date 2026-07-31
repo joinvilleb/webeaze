@@ -316,15 +316,20 @@ async function sendEmail(payload: Record<string, unknown>) {
 }
 
 // A plain, personal email, as if a real person on the team wrote it (no tiles/cards).
-// `extra` carries the monthly-only bits folded in from the retired Cloudflare mailer:
-// last month's completed-work recap and Billy's personal note. Omitted on on-demand sends.
-function summaryHtml(name: string, url: string, m: any, plan?: string, extra?: { done?: Array<{ type?: string; resolution?: string }>; monthlyNote?: string | null; monthLabel?: string }) {
+// `extra` carries the monthly-only recap (last month's completed work), folded in from the
+// retired Cloudflare mailer. Omitted on on-demand sends.
+function summaryHtml(name: string, url: string, m: any, plan?: string, extra?: { done?: Array<{ type?: string; resolution?: string }>; monthLabel?: string }, leads?: { count: number; label: string }) {
   const first = (name || '').trim().split(/\s+/)[0] || 'there';
   const adv = /growth|elite/i.test(plan || '');   // Growth/Elite get the deeper report
   const s = m.speed, r = m.reviews, se = m.search, rep = m.report;
   const p = (t: string) => `<p style="margin:0 0 15px;">${t}</p>`;
 
   const opening = rep?.summary ? esc(rep.summary) : ('Here is a quick update on how ' + esc(url || 'your website') + ' is doing.');
+
+  // Leads lead: the concrete money number, right up top when there is one.
+  const leadLine = (leads && leads.count > 0)
+    ? p('First, the good news: your website brought in <strong>' + leads.count + (leads.count === 1 ? ' new enquiry' : ' new enquiries') + '</strong> ' + esc(leads.label) + ' (calls, emails, and contact-form messages).')
+    : '';
 
   // Numbers as a plain sentence-y list, only what we actually have. The impressions trend %
   // is a Growth-tier detail.
@@ -350,16 +355,13 @@ function summaryHtml(name: string, url: string, m: any, plan?: string, extra?: {
     ? p('You are on our Essential plan. Growth adds your search trends over time, the exact terms people use to find you, and a tailored action plan each month. Just reply if you would like to hear more.')
     : '';
 
-  // Monthly-only: what we shipped for them, and Billy's personal note (both empty on on-demand sends).
+  // Monthly-only: a recap of what we shipped for them last month (empty on on-demand sends).
   const done = (extra?.done) || [];
   const shipped = done.length
     ? p('Here is what we took care of for you' + (extra?.monthLabel ? ' in ' + esc(extra.monthLabel) : ' this month') + ':')
       + '<ul style="margin:0 0 15px;padding-left:20px;">'
       + done.map((r) => `<li style="margin-bottom:8px;"><strong>${esc(r.type || 'Update')}</strong>${r.resolution ? `<br><span style="color:#6b7094;white-space:pre-wrap;">${esc(r.resolution)}</span>` : ''}</li>`).join('')
       + '</ul>'
-    : '';
-  const personal = (extra?.monthlyNote && extra.monthlyNote.trim())
-    ? `<p style="margin:0 0 15px;white-space:pre-wrap;">${esc(extra.monthlyNote.trim())}</p>`
     : '';
 
   return [
@@ -368,17 +370,45 @@ function summaryHtml(name: string, url: string, m: any, plan?: string, extra?: {
     '<div style="max-width:560px;margin:0 auto;padding:32px 26px;font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:1.65;color:#1f2333;">',
     p('Hi ' + esc(first) + ','),
     p(opening),
+    leadLine,
     snap,
     shipped,
     searched,
     recs,
-    personal,
     upsell,
     p('If you would like a hand with any of this, just reply to this email or send us a request in your <a href="' + PORTAL_URL + '" style="color:#7851a9;font-weight:600;">client portal</a>.'),
     p('Talk soon,<br>The WebEaze team'),
     '<div style="margin-top:26px;padding-top:16px;border-top:1px solid #eeeeee;font-size:12px;color:#9599b8;">WebEaze Web Design, 109 Pleasant Hill Drive, Camden-Wyoming, Delaware 19934, USA</div>',
     '</div></body></html>',
   ].join('');
+}
+
+// Last month's completed work for one client, used by both the monthly cron and the admin preview.
+// Returns { done: [{type, resolution}], monthLabel: 'July' }.
+async function fetchMonthlyRecap(sb: any, userId: string) {
+  const now = new Date();
+  const windowStart = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() - 1, 1));
+  const windowEnd = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1));
+  const monthLabel = windowStart.toLocaleDateString('en-US', { month: 'long', timeZone: 'UTC' });
+  const { data: reqs } = await sb.from('update_requests')
+    .select('type, status, resolution, created_at')
+    .eq('user_id', userId)
+    .gte('created_at', windowStart.toISOString())
+    .lt('created_at', windowEnd.toISOString())
+    .order('created_at', { ascending: true });
+  const done = (reqs ?? []).filter((r: any) => (r.status || '') === 'Done').map((r: any) => ({ type: r.type, resolution: r.resolution }));
+  return { done, monthLabel, windowStartISO: windowStart.toISOString(), windowEndISO: windowEnd.toISOString() };
+}
+
+// Count lead events (form fills, calls, emails) for a client in a window. Safe if the table
+// does not exist yet (returns 0), so the feature is inert until lead_events.sql is run.
+async function countLeads(sb: any, userId: string, startISO: string, endISO?: string) {
+  try {
+    let q = sb.from('lead_events').select('id', { count: 'exact', head: true }).eq('user_id', userId).gte('created_at', startISO);
+    if (endISO) q = q.lt('created_at', endISO);
+    const { count } = await q;
+    return count || 0;
+  } catch { return 0; }
 }
 
 Deno.serve(async (req) => {
@@ -392,37 +422,26 @@ Deno.serve(async (req) => {
 
     // ── Monthly cron: refresh + email everyone (this replaces the old Cloudflare monthly mailer) ──
     if (cronSecret && cronSecret === CRON_SECRET) {
-      // Report window: the previous calendar month, same as the retired Worker.
-      const now = new Date();
-      const windowStart = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() - 1, 1));
-      const windowEnd = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1));
-      const monthLabel = windowStart.toLocaleDateString('en-US', { month: 'long', year: 'numeric', timeZone: 'UTC' });
-      const monthName = windowStart.toLocaleDateString('en-US', { month: 'long', timeZone: 'UTC' });
-
+      // Subject uses the previous-calendar-month label, e.g. "July 2026".
+      const nowD = new Date();
+      const monthYear = new Date(Date.UTC(nowD.getUTCFullYear(), nowD.getUTCMonth() - 1, 1))
+        .toLocaleDateString('en-US', { month: 'long', year: 'numeric', timeZone: 'UTC' });
       const { data: clients } = await service.from('clients')
-        .select('user_id, id, email, name, site_url, google_place_id, plan, monthly_note, status')
+        .select('user_id, id, email, name, site_url, google_place_id, plan, status')
         .not('site_url', 'is', null).neq('status', 'inactive');
       let sent = 0;
       for (const c of clients ?? []) {
         try {
           const metrics = await refreshClient(service, c);
           if (!c.email) continue;
-          // What we completed for them last month (created in the window and now marked Done).
-          const { data: reqs } = await service.from('update_requests')
-            .select('type, status, resolution, created_at')
-            .eq('user_id', c.user_id)
-            .gte('created_at', windowStart.toISOString())
-            .lt('created_at', windowEnd.toISOString())
-            .order('created_at', { ascending: true });
-          const done = (reqs ?? []).filter((r: any) => (r.status || '') === 'Done').map((r: any) => ({ type: r.type, resolution: r.resolution }));
+          const recap = await fetchMonthlyRecap(service, c.user_id);   // last month's completed work
+          const leadCount = await countLeads(service, c.user_id, recap.windowStartISO, recap.windowEndISO);
           await sendEmail({
             from: FROM, to: [c.email],
-            subject: 'Your ' + monthLabel + ' growth report',
-            html: summaryHtml(c.name || '', c.site_url || '', metrics, c.plan, { done, monthlyNote: c.monthly_note, monthLabel: monthName }),
+            subject: 'Your ' + monthYear + ' growth report',
+            html: summaryHtml(c.name || '', c.site_url || '', metrics, c.plan, recap, { count: leadCount, label: 'in ' + recap.monthLabel }),
           });
           sent++;
-          // Clear the personal note after a successful send so it never repeats (Worker behavior).
-          if (c.monthly_note) { await service.from('clients').update({ monthly_note: null }).eq('id', c.id); }
         } catch (e) { console.error('monthly client failed', c.user_id, e); }
       }
       return json({ ok: true, refreshed: (clients ?? []).length, emailed: sent });
@@ -448,12 +467,30 @@ Deno.serve(async (req) => {
     let emailed = false;
     let emailedTo: string | null = null;
     if (body.action === 'email') {
-      if (!c.email) {
+      // Admin previewing another client's report: send the FULL monthly version (with the
+      // completed-work recap) to Billy himself, so he can see exactly what a client will get
+      // without emailing the client or touching any data.
+      const isAdminPreview = user.email === 'billy@webeaze.io' && !!body.targetUserId && body.targetUserId !== user.id;
+      const recipient = isAdminPreview ? (user.email as string) : c.email;
+      if (!recipient) {
         note = note || 'No email address is on this client record, so nothing was sent.';
       } else {
         try {
-          await sendEmail({ from: FROM, to: [c.email], subject: 'Your growth report', html: summaryHtml(c.name || '', c.site_url || '', metrics, c.plan) });
-          emailed = true; emailedTo = c.email;
+          const recap = isAdminPreview ? await fetchMonthlyRecap(service, c.user_id) : undefined;
+          let leads: { count: number; label: string };
+          if (isAdminPreview && recap) {
+            leads = { count: await countLeads(service, c.user_id, recap.windowStartISO, recap.windowEndISO), label: 'in ' + recap.monthLabel };
+          } else {
+            const nowM = new Date();
+            const monthStartISO = new Date(Date.UTC(nowM.getUTCFullYear(), nowM.getUTCMonth(), 1)).toISOString();
+            leads = { count: await countLeads(service, c.user_id, monthStartISO), label: 'this month' };
+          }
+          await sendEmail({
+            from: FROM, to: [recipient],
+            subject: isAdminPreview ? ('[Monthly preview] ' + (c.name || c.site_url || 'client') + "'s report") : 'Your growth report',
+            html: summaryHtml(c.name || '', c.site_url || '', metrics, c.plan, recap, leads),
+          });
+          emailed = true; emailedTo = recipient;
         } catch (e) {
           console.error('[growth] email send failed:', e);
           note = 'The report could not be emailed right now (' + String(e).slice(0, 120) + ').';
