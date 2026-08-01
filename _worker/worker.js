@@ -21,7 +21,7 @@
  */
 
 export default {
-  async fetch(request, env, ctx) {
+  async fetch(request, env, _ctx) {
     if (request.method !== 'POST') {
       return new Response('Not found', { status: 404 });
     }
@@ -33,11 +33,18 @@ export default {
       return new Response('Bad request', { status: 400 });
     }
 
-    // Respond to HubSpot immediately — processing happens in the background
-    ctx.waitUntil(processRequest(payload, env));
-    return new Response('OK', { status: 200 });
+    // Process synchronously and return the real outcome. The edit work is too long-running to
+    // survive a background waitUntil on Workers, and the caller (portal / test) wants the result.
+    try {
+      const outcome = await processRequest(payload, env);
+      return json(outcome || { ok: true });
+    } catch (e) {
+      return json({ ok: false, error: String((e && e.message) || e) }, 500);
+    }
   }
 };
+
+const json = (b, s = 200) => new Response(JSON.stringify(b), { status: s, headers: { 'Content-Type': 'application/json' } });
 
 // ---------------------------------------------------------------------------
 // Main request processor
@@ -50,8 +57,7 @@ async function processRequest(payload, env) {
   const submittedBy = [payload.firstname, payload.lastname].filter(Boolean).join(' ') || 'Client';
 
   if (!email || !description) {
-    console.log('Missing email or description — skipping');
-    return;
+    return { ok: false, skipped: 'missing email or description' };
   }
 
   // Look up client config
@@ -59,14 +65,12 @@ async function processRequest(payload, env) {
   try {
     clients = JSON.parse(env.CLIENTS_JSON || '{}');
   } catch {
-    console.error('CLIENTS_JSON is not valid JSON');
-    return;
+    return { ok: false, error: 'CLIENTS_JSON is not valid JSON' };
   }
 
   const client = clients[email];
   if (!client) {
-    console.log(`No client config for: ${email}`);
-    return;
+    return { ok: false, skipped: `no client config for ${email}` };
   }
 
   const repoFull = `${env.GITHUB_ORG}/${client.repo}`;
@@ -83,28 +87,32 @@ async function processRequest(payload, env) {
 
   if (result.escalate || result.changes.length === 0) {
     // Too complex or ambiguous — create a GitHub Issue for manual handling
-    await createGitHubIssue(repoFull, {
+    const reason = result.reason || 'No confident change could be made automatically.';
+    const issue = await createGitHubIssue(repoFull, {
       title: `[Request] ${requestType} — ${submittedBy}`,
-      body: formatIssueBody({ submittedBy, email, requestType, description, reason: result.reason }),
+      body: formatIssueBody({ submittedBy, email, requestType, description, reason }),
     }, env);
-    console.log('Created GitHub Issue for manual review');
-    return;
+    return { ok: true, escalated: true, reason, issue };
   }
 
   // Create branch, commit all changes, open PR
   try {
-    const prUrl = await createBranchAndPR(repoFull, branchName, result.changes, {
+    const pr = await createBranchAndPR(repoFull, branchName, result.changes, {
       title: `[Request] ${requestType} — ${submittedBy}`,
       body: formatPRBody({ submittedBy, email, requestType, description, changes: result.changes }),
     }, env);
-    console.log('PR created:', prUrl);
+    // Opted-in clients (autoMerge:true in CLIENTS_JSON) go live with no human. Everyone else
+    // stays a PR for review. A failed merge (conflict/checks) just leaves the PR open.
+    let merged = false;
+    if (client.autoMerge) merged = await mergePR(repoFull, pr.number, env);
+    return { ok: true, pr: pr.url, merged, files: result.changes.map((c) => c.path) };
   } catch (err) {
-    console.error('Failed to create PR:', err.message);
     // Fall back to a GitHub Issue so the request isn't lost
-    await createGitHubIssue(repoFull, {
+    const issue = await createGitHubIssue(repoFull, {
       title: `[Request] ${requestType} — ${submittedBy}`,
       body: formatIssueBody({ submittedBy, email, requestType, description, reason: `Auto-PR failed: ${err.message}` }),
     }, env);
+    return { ok: false, escalated: true, error: `PR failed: ${err.message}`, issue };
   }
 }
 
@@ -131,16 +139,17 @@ async function runClaudeAgent({ repoFull, request, env }) {
       },
     },
     {
-      name: 'apply_change',
-      description: 'Stage a file change. Call once per file you need to modify. Provide the COMPLETE new file content.',
+      name: 'edit_file',
+      description: 'Make a targeted edit: replace an exact snippet with new text. Provide old_string (copied verbatim from the current file, with enough surrounding context that it appears EXACTLY ONCE) and new_string. Do NOT send the whole file. Call once per distinct edit.',
       input_schema: {
         type: 'object',
         properties: {
-          path: { type: 'string', description: 'File path to modify' },
-          new_content: { type: 'string', description: 'Complete new file content' },
+          path: { type: 'string', description: 'File path to modify, e.g. index.html' },
+          old_string: { type: 'string', description: 'Exact text to find, copied verbatim from the file, unique with surrounding context' },
+          new_string: { type: 'string', description: 'Replacement text' },
           summary: { type: 'string', description: 'One sentence: what changed and why' },
         },
-        required: ['path', 'new_content', 'summary'],
+        required: ['path', 'old_string', 'new_string', 'summary'],
       },
     },
     {
@@ -160,11 +169,12 @@ async function runClaudeAgent({ repoFull, request, env }) {
 
 Guidelines:
 - Only change what the request explicitly asks for. Do not improve, reformat, or touch anything else.
-- For simple changes (text, phone number, hours, address, images, colors, adding/removing a list item or section), make the change and call apply_change.
-- For anything requiring new functionality, integrations, significant layout restructures, or anything you are not fully confident about, call escalate.
-- Read the relevant file first. Start with list_files if you are unsure which file to edit.
-- Apply changes with apply_change. Provide the complete file content, not a diff.
-- Make one apply_change call per file. If two files need editing, call apply_change twice.`;
+- For simple changes (text, phone number, hours, address, a link, images, colors, adding or removing a small snippet), make the change with edit_file.
+- For new functionality, integrations, significant layout restructures, an ambiguous request, or anything you are not fully confident about, call escalate with a clear, specific reason.
+- ALWAYS read_file first. Start with list_files if you are unsure which file to edit.
+- To edit, call edit_file with old_string (the EXACT text copied verbatim from the current file, including enough surrounding characters that it appears exactly once) and new_string.
+- Files can be very large. Only ever send the small snippet you are changing in old_string, never the entire file.
+- One edit_file call per distinct change. Call it again for additional changes.`;
 
   const messages = [
     {
@@ -178,7 +188,7 @@ Guidelines:
 
   for (let turn = 0; turn < 12; turn++) {
     const response = await callAnthropic({
-      model: 'claude-sonnet-4-6',
+      model: 'claude-sonnet-5',
       max_tokens: 8192,
       system,
       tools,
@@ -208,13 +218,17 @@ Guidelines:
           ? { success: true, content }
           : { success: false, error: `File not found: ${block.input.path}` };
 
-      } else if (block.name === 'apply_change') {
-        changes.push({
-          path: block.input.path,
-          new_content: block.input.new_content,
-          summary: block.input.summary,
-        });
-        result = { success: true, staged: block.input.path };
+      } else if (block.name === 'edit_file') {
+        const { path, old_string, new_string, summary } = block.input;
+        const content = await getFileFromGitHub(repoFull, path, env);
+        if (content === null) {
+          result = { success: false, error: `File not found: ${path}. Use list_files to see available files.` };
+        } else {
+          const count = content.split(old_string).length - 1;
+          if (count === 0) result = { success: false, error: 'old_string not found in the file. Read the file and copy an exact snippet verbatim, including surrounding context.' };
+          else if (count > 1) result = { success: false, error: `old_string appears ${count} times. Add more surrounding context so it matches exactly once.` };
+          else { changes.push({ path, old_string, new_string, summary }); result = { success: true, staged: path }; }
+        }
 
       } else if (block.name === 'escalate') {
         escalateResult = block.input.reason;
@@ -330,24 +344,32 @@ async function createBranchAndPR(repoFull, branchName, changes, prMeta, env) {
   });
   if (!branchResp.ok) throw new Error(`Could not create branch: ${branchResp.status}`);
 
-  // Commit each changed file
-  for (const change of changes) {
-    const fileSha = await getFileSha(repoFull, change.path, defaultBranch, env);
+  // Apply each file's edits to its current content, then commit once per file.
+  const byPath = {};
+  for (const ch of changes) { (byPath[ch.path] = byPath[ch.path] || []).push(ch); }
+  for (const path of Object.keys(byPath)) {
+    const current = await getFileFromGitHub(repoFull, path, env);
+    if (current === null) throw new Error(`Could not read ${path} to edit`);
+    let updated = current;
+    for (const e of byPath[path]) {
+      if (!updated.includes(e.old_string)) throw new Error(`old_string no longer matches in ${path}`);
+      updated = updated.replace(e.old_string, e.new_string);   // first occurrence
+    }
+    const fileSha = await getFileSha(repoFull, path, defaultBranch, env);
     const body = {
-      message: change.summary,
-      content: btoa(unescape(encodeURIComponent(change.new_content))),
+      message: byPath[path].map((c) => c.summary).join('; '),
+      content: btoa(unescape(encodeURIComponent(updated))),
       branch: branchName,
     };
     if (fileSha) body.sha = fileSha;
 
-    const putResp = await fetch(`${base}/contents/${encodeURIComponent(change.path)}`, {
+    const putResp = await fetch(`${base}/contents/${encodeURIComponent(path)}`, {
       method: 'PUT',
       headers,
       body: JSON.stringify(body),
     });
     if (!putResp.ok) {
-      const err = await putResp.text();
-      throw new Error(`Could not commit ${change.path}: ${err}`);
+      throw new Error(`Could not commit ${path}: ${await putResp.text()}`);
     }
   }
 
@@ -367,7 +389,19 @@ async function createBranchAndPR(repoFull, branchName, changes, prMeta, env) {
     throw new Error(`Could not create PR: ${err}`);
   }
   const pr = await prResp.json();
-  return pr.html_url;
+  return { url: pr.html_url, number: pr.number };
+}
+
+// Squash-merge a PR (used only for autoMerge clients). Returns true on success; a merge that
+// can't go through (conflict, required checks) returns false and the PR stays open for review.
+async function mergePR(repoFull, number, env) {
+  const resp = await fetch(`https://api.github.com/repos/${repoFull}/pulls/${number}/merge`, {
+    method: 'PUT',
+    headers: ghHeaders(env.GITHUB_TOKEN),
+    body: JSON.stringify({ merge_method: 'squash' }),
+  });
+  if (!resp.ok) { console.error('Auto-merge failed:', await resp.text()); return false; }
+  return true;
 }
 
 async function createGitHubIssue(repoFull, { title, body }, env) {
@@ -382,7 +416,10 @@ async function createGitHubIssue(repoFull, { title, body }, env) {
   });
   if (!resp.ok) {
     console.error('Could not create issue:', await resp.text());
+    return null;
   }
+  const data = await resp.json();
+  return data.html_url || null;
 }
 
 // ---------------------------------------------------------------------------
