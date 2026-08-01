@@ -102,11 +102,20 @@ async function pullReviews(ref?: string | null) {
   let bias: { lat: number; lng: number } | null = null;
   if (/^https?:\/\//i.test(raw)) {
     // Google Maps link → read the business name and (if present) the map coordinates.
-    const nameMatch = raw.match(/\/place\/([^/@]+)/);
+    let mapsUrl = raw;
+    // Shortened links (maps.app.goo.gl / goo.gl/maps) carry no name; follow the redirect first.
+    if (/goo\.gl\//i.test(raw)) {
+      try {
+        const r = await fetch(raw, { redirect: 'follow', headers: { 'User-Agent': 'Mozilla/5.0 (compatible; WebEazeBot/1.0)' } });
+        if (r.url) mapsUrl = r.url;
+      } catch (e) { console.warn('[growth] could not expand short Maps link:', e); }
+    }
+    const nameMatch = mapsUrl.match(/\/place\/([^/@]+)/);
     if (nameMatch) textQuery = decodeURIComponent(nameMatch[1].replace(/\+/g, ' '));
-    const at = raw.match(/@(-?\d+\.\d+),(-?\d+\.\d+)/);
+    const at = mapsUrl.match(/@(-?\d+\.\d+),(-?\d+\.\d+)/);
     if (at) bias = { lat: parseFloat(at[1]), lng: parseFloat(at[2]) };
-    if (!textQuery) { console.warn('[growth] pullReviews: could not read a name from the Maps link'); return null; }
+    if (!textQuery) { const q = mapsUrl.match(/[?&]q=([^&]+)/); if (q) textQuery = decodeURIComponent(q[1].replace(/\+/g, ' ')); }   // some links use ?q=Name
+    if (!textQuery) { console.warn('[growth] pullReviews: could not read a name from the Maps link: ' + mapsUrl.slice(0, 120)); return null; }
   } else if (/^(ChIJ|GhIJ)[A-Za-z0-9_-]{8,}$/.test(raw)) {
     return await fetchReviewsByPlaceId(raw);   // looks like a raw Place ID
   } else {
