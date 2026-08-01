@@ -140,6 +140,115 @@ async function pullReviews(ref?: string | null) {
   } catch (e) { console.error('[growth] Places textSearch failed:', e); return null; }
 }
 
+// ── Source: local competitor benchmark (public Places data only) ──────────────
+// Resolves the client's own listing (location + category), finds nearby businesses in the
+// SAME category, and compares on what is publicly available: Google rating, review count, and
+// mobile site speed. Search Console visibility is private per-owner, so it is not compared.
+// Best-effort: returns null (feature simply hides) if we cannot resolve the client's place.
+
+// Mobile-only PageSpeed score for a single URL (used for competitor sites; cheaper than the
+// full mobile+desktop pull). Returns a 0-100 number or null.
+async function pullSpeedScore(url: string): Promise<number | null> {
+  if (!url || !PSI_KEY) return null;
+  const full = /^https?:\/\//i.test(url) ? url : 'https://' + url;
+  try {
+    const api = `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${encodeURIComponent(full)}&strategy=mobile&category=performance&key=${PSI_KEY}`;
+    const res = await fetch(api);
+    if (!res.ok) return null;
+    const d = await res.json();
+    const score = d.lighthouseResult?.categories?.performance?.score;
+    return score != null ? Math.round(score * 100) : null;
+  } catch { return null; }
+}
+
+// Resolve the client's own place WITH location + category (a fuller field set than pullReviews).
+async function resolveSelfPlace(ref: string): Promise<{ placeId: string; name: string; rating: number | null; count: number | null; lat: number; lng: number; type: string | null; category: string | null } | null> {
+  const raw = (ref || '').trim();
+  if (!raw || !PLACES_KEY) return null;
+  const fromPlace = (p: any): any => {
+    const loc = p.location || {};
+    if (loc.latitude == null || loc.longitude == null) return null;
+    return { placeId: p.id, name: p.displayName?.text ?? null, rating: p.rating ?? null, count: p.userRatingCount ?? null, lat: loc.latitude, lng: loc.longitude, type: p.primaryType ?? null, category: p.primaryTypeDisplayName?.text ?? null };
+  };
+  // Raw Place ID → Place Details.
+  if (/^(ChIJ|GhIJ)[A-Za-z0-9_-]{8,}$/.test(raw)) {
+    try {
+      const res = await fetch(`https://places.googleapis.com/v1/places/${encodeURIComponent(raw)}`, {
+        headers: { 'X-Goog-Api-Key': PLACES_KEY, 'X-Goog-FieldMask': 'id,displayName,rating,userRatingCount,location,primaryType,primaryTypeDisplayName' },
+      });
+      if (res.ok) return fromPlace(await res.json());
+    } catch (e) { console.error('[growth] resolveSelfPlace details failed:', e); }
+    return null;
+  }
+  // URL or name → Text Search (parse a name + optional coords like pullReviews does).
+  let textQuery = raw;
+  let bias: { lat: number; lng: number } | null = null;
+  if (/^https?:\/\//i.test(raw)) {
+    let mapsUrl = raw;
+    if (/goo\.gl\//i.test(raw)) {
+      try { const r = await fetch(raw, { redirect: 'follow', headers: { 'User-Agent': 'Mozilla/5.0 (compatible; WebEazeBot/1.0)' } }); if (r.url) mapsUrl = r.url; } catch { /* ignore */ }
+    }
+    const nameMatch = mapsUrl.match(/\/place\/([^/@]+)/);
+    textQuery = nameMatch ? decodeURIComponent(nameMatch[1].replace(/\+/g, ' ')) : '';
+    const at = mapsUrl.match(/@(-?\d+\.\d+),(-?\d+\.\d+)/);
+    if (at) bias = { lat: parseFloat(at[1]), lng: parseFloat(at[2]) };
+    if (!textQuery) { const q = mapsUrl.match(/[?&]q=([^&]+)/); if (q) textQuery = decodeURIComponent(q[1].replace(/\+/g, ' ')); }
+    if (!textQuery) return null;
+  }
+  try {
+    const body: Record<string, unknown> = { textQuery };
+    if (bias) body.locationBias = { circle: { center: { latitude: bias.lat, longitude: bias.lng }, radius: 50000 } };
+    const res = await fetch('https://places.googleapis.com/v1/places:searchText', {
+      method: 'POST',
+      headers: { 'X-Goog-Api-Key': PLACES_KEY, 'X-Goog-FieldMask': 'places.id,places.displayName,places.rating,places.userRatingCount,places.location,places.primaryType,places.primaryTypeDisplayName', 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+    if (!res.ok) { console.warn('[growth] resolveSelfPlace textSearch ' + res.status); return null; }
+    const d = await res.json();
+    const p = d.places && d.places[0];
+    return p ? fromPlace(p) : null;
+  } catch (e) { console.error('[growth] resolveSelfPlace failed:', e); return null; }
+}
+
+async function pullCompetitors(ref?: string | null, selfSpeedScore?: number | null) {
+  const self = await resolveSelfPlace(ref || '');
+  if (!self || !self.type) { console.warn('[growth] pullCompetitors: could not resolve client place/category'); return null; }
+  // Nearby businesses in the SAME category, within ~16km, most prominent first.
+  let places: any[] = [];
+  try {
+    const res = await fetch('https://places.googleapis.com/v1/places:searchNearby', {
+      method: 'POST',
+      headers: { 'X-Goog-Api-Key': PLACES_KEY, 'X-Goog-FieldMask': 'places.id,places.displayName,places.rating,places.userRatingCount,places.websiteUri,places.location', 'Content-Type': 'application/json' },
+      body: JSON.stringify({ includedTypes: [self.type], maxResultCount: 20, rankPreference: 'POPULARITY', locationRestriction: { circle: { center: { latitude: self.lat, longitude: self.lng }, radius: 16000 } } }),
+    });
+    if (!res.ok) { console.warn('[growth] pullCompetitors nearby ' + res.status + ': ' + (await res.text()).slice(0, 160)); return null; }
+    const d = await res.json();
+    places = d.places || [];
+  } catch (e) { console.error('[growth] pullCompetitors nearby failed:', e); return null; }
+
+  // Drop the client's own listing + any with no reviews, keep the 3 with the most reviews.
+  const rivals = places
+    .filter((p) => p.id !== self.placeId && p.userRatingCount != null && p.rating != null)
+    .sort((a, b) => (b.userRatingCount || 0) - (a.userRatingCount || 0))
+    .slice(0, 3);
+  if (!rivals.length) { console.warn('[growth] pullCompetitors: no rivals found for ' + self.type); return null; }
+
+  // Best-effort mobile speed for each rival with a website (parallel, capped at 3).
+  const competitors = await Promise.all(rivals.map(async (p) => ({
+    name: p.displayName?.text ?? 'A nearby business',
+    rating: p.rating ?? null,
+    count: p.userRatingCount ?? null,
+    speed: p.websiteUri ? await pullSpeedScore(p.websiteUri) : null,
+  })));
+
+  return {
+    category: self.category || null,
+    self: { name: self.name, rating: self.rating, count: self.count, speed: selfSpeedScore ?? null },
+    competitors,
+    checkedAt: new Date().toISOString(),
+  };
+}
+
 // ── Source: Search Console real numbers (needs a service account added to each property) ──
 // Auth is server-to-server: sign a JWT with the service account key, exchange it for an
 // access token, then query searchAnalytics for the last 28 days.
@@ -284,6 +393,8 @@ async function refreshClient(sb: any, c: { user_id: string; id?: string; site_ur
   const url = c.site_url || '';
   const [speed, reviews] = await Promise.all([pullSpeed(url), pullReviews(c.google_place_id), ]);
   const search = await pullSearch(url);
+  // Local competitor benchmark reuses the client's own mobile speed for the self row.
+  const competitors = await pullCompetitors(c.google_place_id, speed?.mobile?.score ?? null);
   // Merge with the last snapshot: if a source momentarily fails or isn't set up yet, keep its
   // previous value instead of overwriting good numbers with null (which would blank the portal
   // and send a text-only email).
@@ -293,6 +404,7 @@ async function refreshClient(sb: any, c: { user_id: string; id?: string; site_ur
     speed: speed ?? old.speed ?? null,
     reviews: reviews ?? old.reviews ?? null,
     search: search ?? old.search ?? null,
+    competitors: competitors ?? old.competitors ?? null,
   };
   // Keyword movement: compare each tracked query's position to the previous snapshot
   // (positive change = moved up, since a lower position number is better).
