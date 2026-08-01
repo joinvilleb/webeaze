@@ -435,9 +435,16 @@ Deno.serve(async (req) => {
       const nowD = new Date();
       const monthYear = new Date(Date.UTC(nowD.getUTCFullYear(), nowD.getUTCMonth() - 1, 1))
         .toLocaleDateString('en-US', { month: 'long', year: 'numeric', timeZone: 'UTC' });
-      const { data: clients } = await service.from('clients')
+      // Fan-out: the cron fires ONE call per client (body.only = that user_id), so each
+      // invocation refreshes + emails a single client in ~30s and never hits the wall-clock
+      // limit. Calling with no `only` still processes everyone (handy for a manual full run),
+      // but the loop below can time out past a few clients — the cron should always fan out.
+      const only = (body && typeof body.only === 'string') ? body.only : null;
+      let cq = service.from('clients')
         .select('user_id, id, email, name, site_url, google_place_id, plan, status')
         .not('site_url', 'is', null).neq('status', 'inactive');
+      if (only) cq = cq.eq('user_id', only);
+      const { data: clients } = await cq;
       let sent = 0;
       for (const c of clients ?? []) {
         try {
