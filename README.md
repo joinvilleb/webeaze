@@ -2,7 +2,7 @@
 
 **WebEaze** is a subscription-based website service for small businesses. We build your website, manage it on an ongoing basis, and handle every update so you don't have to think about it.
 
-Live site: [webeaze.com](https://webeaze.com)
+Live site: [webeaze.io](https://webeaze.io)
 
 ---
 
