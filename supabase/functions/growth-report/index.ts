@@ -389,7 +389,77 @@ async function generateSummary(c: { site_url?: string; name?: string }, metrics:
   } catch (e) { console.error('[growth] AI summary failed:', e); return null; }
 }
 
-async function refreshClient(sb: any, c: { user_id: string; id?: string; site_url?: string; google_place_id?: string | null }) {
+// ── AI: turn Search Console "near-win" keywords into concrete growth opportunities ──
+// Queries already ranking on the edge of page 1 (positions ~4 to 20) with real impressions are the
+// cheapest wins. We hand those to the model and get back 2 to 4 plain-English opportunities, each
+// with a ready-to-file request so the client can act in one tap. Growth/Elite only.
+async function generateOpportunities(c: { site_url?: string; name?: string }, metrics: any) {
+  if (!ANTHROPIC_API_KEY) return null;
+  const se = metrics.search;
+  if (!se || !Array.isArray(se.topQueries) || !se.topQueries.length) return null;
+  const nearWins = se.topQueries
+    .filter((q: any) => q && q.position != null && q.position >= 4 && q.position <= 20 && (q.impressions || 0) > 0)
+    .sort((a: any, b: any) => (b.impressions || 0) - (a.impressions || 0))
+    .slice(0, 6)
+    .map((q: any) => ({ term: q.query, position: q.position, impressions: q.impressions, clicks: q.clicks }));
+  if (!nearWins.length) return null;
+  const system = "You are the growth team at WebEaze, a website care service for small trade businesses. You are given a client's Google Search 'near-win' keywords: searches where they already rank on the edge of page one with real search demand. Turn them into 2 to 4 concrete growth opportunities we could do for them to win more customers. Be specific, framed as an action WE take (for example a focused service page, or beefing up an existing page). Write the 'why' in PLAIN everyday language a busy business owner gets in one read: name the actual search phrase in quotes and say something like 'people are searching for this and finding you, but not quite landing on the right page.' AVOID jargon and numbers like impressions, clicks, CTR, conversion, or position 4 to 5. Keep each 'why' to one clear sentence, enough that they understand it, not a data dump. NEVER use em dashes. Return ONLY valid JSON (no markdown, no code fences): an array of objects with keys: title (short action, max 8 words), why (one plain sentence naming the search phrase), requestType (exactly one of: Content update, New page or section, SEO or visibility, Other), requestSummary (a clear description of the change for our team to action).";
+  const userMsg = 'Business: ' + (c.name || '') + '\nSite: ' + (c.site_url || '') + '\nNear-win keywords:\n' + JSON.stringify(nearWins, null, 2);
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'x-api-key': ANTHROPIC_API_KEY, 'anthropic-version': '2023-06-01', 'content-type': 'application/json' },
+      body: JSON.stringify({ model: AI_MODEL, max_tokens: 800, system, messages: [{ role: 'user', content: userMsg }] }),
+    });
+    if (!res.ok) { console.error('[growth] opportunities ' + res.status); return null; }
+    const d = await res.json();
+    let text = (d.content && d.content[0] && d.content[0].text) || '';
+    text = text.replace(/^```(?:json)?\s*/i, '').replace(/```\s*$/, '').trim();
+    const arr = JSON.parse(text);
+    if (!Array.isArray(arr)) return null;
+    const TYPES = ['Content update', 'New page or section', 'SEO or visibility', 'Other'];
+    const items = arr.slice(0, 4).map((o: any) => ({
+      title: String(o.title || '').slice(0, 90),
+      why: String(o.why || '').slice(0, 240),
+      requestType: TYPES.includes(String(o.requestType)) ? String(o.requestType) : 'SEO or visibility',
+      requestSummary: String(o.requestSummary || '').slice(0, 600),
+    })).filter((o: any) => o.title && o.requestSummary);
+    return items.length ? { items, generatedAt: new Date().toISOString() } : null;
+  } catch (e) { console.error('[growth] opportunities failed:', e); return null; }
+}
+
+// ── AI: proactive, seasonal "timely ideas" for the client's site, as one-tap requests ──
+// Not keyword-based (so it works for every plan): the current month + their trade, turned into 1-2
+// timely improvements we could make right now to win more work.
+async function generateNudges(c: { site_url?: string; name?: string }, refDate: Date) {
+  if (!ANTHROPIC_API_KEY) return null;
+  const monthName = refDate.toLocaleDateString('en-US', { month: 'long', timeZone: 'UTC' });
+  const system = "You are the proactive growth team at WebEaze for a small trade business. Given the business and the current month, suggest 1 to 2 TIMELY, seasonal improvements we could make to their website right now to win more work (a seasonal promo banner, a holiday hours note, highlighting a service that is in demand this time of year, and so on). Concrete and specific to the season and their trade, not generic. NEVER use em dashes. Return ONLY valid JSON (no markdown, no code fences): an array of objects with keys: title (short, max 8 words), why (one sentence that references the season or month), requestType (exactly one of: Content update, New page or section, SEO or visibility, Other), requestSummary (a clear description of the change for our team).";
+  const userMsg = 'Business: ' + (c.name || '') + '\nSite: ' + (c.site_url || '') + '\nCurrent month: ' + monthName + '\nSuggest timely, seasonal website improvements for this trade.';
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'x-api-key': ANTHROPIC_API_KEY, 'anthropic-version': '2023-06-01', 'content-type': 'application/json' },
+      body: JSON.stringify({ model: AI_MODEL, max_tokens: 700, system, messages: [{ role: 'user', content: userMsg }] }),
+    });
+    if (!res.ok) { console.error('[growth] nudges ' + res.status); return null; }
+    const d = await res.json();
+    let text = (d.content && d.content[0] && d.content[0].text) || '';
+    text = text.replace(/^```(?:json)?\s*/i, '').replace(/```\s*$/, '').trim();
+    const arr = JSON.parse(text);
+    if (!Array.isArray(arr)) return null;
+    const TYPES = ['Content update', 'New page or section', 'SEO or visibility', 'Other'];
+    const items = arr.slice(0, 2).map((o: any) => ({
+      title: String(o.title || '').slice(0, 90),
+      why: String(o.why || '').slice(0, 240),
+      requestType: TYPES.includes(String(o.requestType)) ? String(o.requestType) : 'Content update',
+      requestSummary: String(o.requestSummary || '').slice(0, 600),
+    })).filter((o: any) => o.title && o.requestSummary);
+    return items.length ? { items, month: monthName, generatedAt: new Date().toISOString() } : null;
+  } catch (e) { console.error('[growth] nudges failed:', e); return null; }
+}
+
+async function refreshClient(sb: any, c: { user_id: string; id?: string; site_url?: string; google_place_id?: string | null; plan?: string }) {
   const url = c.site_url || '';
   const [speed, reviews] = await Promise.all([pullSpeed(url), pullReviews(c.google_place_id), ]);
   const search = await pullSearch(url);
@@ -420,6 +490,11 @@ async function refreshClient(sb: any, c: { user_id: string; id?: string; site_ur
   }
   // AI report last, so it can summarize the freshest numbers. Keep the prior one if it fails.
   metrics.report = (await generateSummary(c, metrics)) ?? old.report ?? null;
+  // AI growth opportunities from near-win keywords (Growth/Elite only; keep prior on failure).
+  const adv = /growth|elite/i.test(c.plan || '');
+  metrics.opportunities = adv ? ((await generateOpportunities(c, metrics)) ?? old.opportunities ?? null) : (old.opportunities ?? null);
+  // Seasonal nudges: proactive timely ideas for every plan.
+  metrics.nudges = (await generateNudges(c, new Date())) ?? old.nudges ?? null;
   await sb.from('client_metrics').upsert({
     user_id: c.user_id, client_id: c.id ?? null, site_url: url,
     metrics, refreshed_at: new Date().toISOString(), updated_at: new Date().toISOString(),
