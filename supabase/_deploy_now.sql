@@ -2,6 +2,8 @@
 -- Run these in the Supabase SQL editor. Replace <CRON_SECRET> with your real CRON_SECRET value.
 
 -- 1) Fix Google Place IDs persisting from the admin (PostgREST schema cache).
+--    Also adds the banner "since" timestamp column (portal banner shows when an issue started).
+alter table public.portal_settings add column if not exists banner_started_at timestamptz;
 notify pgrst, 'reload schema';
 
 -- 2) site_issues table (skip if you already ran supabase/site_issues.sql).
