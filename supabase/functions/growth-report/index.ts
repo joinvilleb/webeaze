@@ -615,27 +615,43 @@ Deno.serve(async (req) => {
   try {
     const body = await req.json().catch(() => ({}));
     const cronSecret = req.headers.get('x-cron-secret') ?? '';
-
-    // ── Monthly cron: refresh + email everyone (this replaces the old Cloudflare monthly mailer) ──
+ 
+    // ── Cron-secret entry: monthly email run, OR a no-email data refresh, OR a client list ──
+    // body.action:
+    //   'list'    → return the user_ids only (so a caller can fan out refreshes safely)
+    //   'refresh' → refresh metrics for each client, NO email (bring data current, e.g. after
+    //               setting Google Place IDs). Supports body.only for single-client fan-out.
+    //   (default) → the monthly run: refresh + email each client.
     if (cronSecret && cronSecret === CRON_SECRET) {
-      // Subject uses the previous-calendar-month label, e.g. "July 2026".
-      const nowD = new Date();
-      const monthYear = new Date(Date.UTC(nowD.getUTCFullYear(), nowD.getUTCMonth() - 1, 1))
-        .toLocaleDateString('en-US', { month: 'long', year: 'numeric', timeZone: 'UTC' });
-      // Fan-out: the cron fires ONE call per client (body.only = that user_id), so each
-      // invocation refreshes + emails a single client in ~30s and never hits the wall-clock
-      // limit. Calling with no `only` still processes everyone (handy for a manual full run),
-      // but the loop below can time out past a few clients — the cron should always fan out.
       const only = (body && typeof body.only === 'string') ? body.only : null;
       let cq = service.from('clients')
         .select('user_id, id, email, name, site_url, google_place_id, plan, status')
         .not('site_url', 'is', null).neq('status', 'inactive');
       if (only) cq = cq.eq('user_id', only);
       const { data: clients } = await cq;
+
+      // List mode: just hand back the user_ids so the caller can refresh them one at a time.
+      if (body && body.action === 'list') {
+        return json({ ok: true, users: (clients ?? []).map((c: { user_id: string }) => c.user_id) });
+      }
+
+      // 'refresh' = data only, never emails. Anything else keeps the monthly email behavior.
+      const emailEach = !(body && body.action === 'refresh');
+
+      // Subject uses the previous-calendar-month label, e.g. "July 2026" (email runs only).
+      const nowD = new Date();
+      const monthYear = new Date(Date.UTC(nowD.getUTCFullYear(), nowD.getUTCMonth() - 1, 1))
+        .toLocaleDateString('en-US', { month: 'long', year: 'numeric', timeZone: 'UTC' });
+      // Fan-out: the cron fires ONE call per client (body.only = that user_id), so each
+      // invocation handles a single client in ~30s and never hits the wall-clock limit.
+      // Calling with no `only` processes everyone but can time out past a few clients.
       let sent = 0;
+      let lastMetrics: any = null;
       for (const c of clients ?? []) {
         try {
           const metrics = await refreshClient(service, c);
+          lastMetrics = metrics;
+          if (!emailEach) continue;                                     // refresh-only run: no email
           if (!c.email) continue;
           const recap = await fetchMonthlyRecap(service, c.user_id);   // last month's completed work
           const leadCount = await countLeads(service, c.user_id, recap.windowStartISO, recap.windowEndISO);
@@ -647,7 +663,9 @@ Deno.serve(async (req) => {
           sent++;
         } catch (e) { console.error('monthly client failed', c.user_id, e); }
       }
-      return json({ ok: true, refreshed: (clients ?? []).length, emailed: sent });
+      // For a single-client fan-out call, hand back that client's fresh metrics so a caller can
+      // verify (e.g. confirm reviews resolved) without needing service-role DB access.
+      return json({ ok: true, refreshed: (clients ?? []).length, emailed: sent, metrics: only ? lastMetrics : undefined });
     }
 
     // ── On-demand: authenticate the caller, act on their own client only ──
