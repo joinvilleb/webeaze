@@ -56,6 +56,25 @@ async function processRequest(payload, env) {
   const requestType = payload.request_type || 'General update';
   const submittedBy = [payload.firstname, payload.lastname].filter(Boolean).join(' ') || 'Client';
 
+  // Rollback hook: POST {action:'revert', email} undoes the most recent commit on the client's
+  // repo default branch. Used by the auto-rollback watchdog and available for manual recovery.
+  // This does not need a request description, so it is handled before the description check.
+  if (payload.action === 'revert') {
+    if (!email) return { ok: false, skipped: 'missing email' };
+    let revertClients;
+    try {
+      revertClients = JSON.parse(env.CLIENTS_JSON || '{}');
+    } catch {
+      return { ok: false, error: 'CLIENTS_JSON is not valid JSON' };
+    }
+    const revertClient = revertClients[email];
+    if (!revertClient) return { ok: false, skipped: `no client config for ${email}` };
+    const revertResult = await revertLastMerge(`${env.GITHUB_ORG}/${revertClient.repo}`, env);
+    return revertResult.ok
+      ? { ok: true, reverted: true, commit: revertResult.commit, undid: revertResult.reverted }
+      : { ok: false, error: revertResult.error };
+  }
+
   if (!email || !description) {
     return { ok: false, skipped: 'missing email or description' };
   }
@@ -104,8 +123,29 @@ async function processRequest(payload, env) {
     // Opted-in clients (autoMerge:true in CLIENTS_JSON) go live with no human. Everyone else
     // stays a PR for review. A failed merge (conflict/checks) just leaves the PR open.
     let merged = false;
-    if (client.autoMerge) merged = await mergePR(repoFull, pr.number, env);
-    return { ok: true, pr: pr.url, merged, files: result.changes.map((c) => c.path) };
+    let reviewBlocked = false;
+    let reviewReason = '';
+    let summary = '';
+    if (client.autoMerge) {
+      // Safety gate: before anything goes live unattended, a second Claude call reviews the exact
+      // change. If it is not confident the change is safe, we leave the PR open for a human.
+      const review = await reviewChanges({
+        request: { type: requestType, description },
+        changes: result.changes,
+        env,
+      });
+      summary = review.summary;
+      if (review.safe) {
+        merged = await mergePR(repoFull, pr.number, env);
+      } else {
+        reviewBlocked = true;
+        reviewReason = review.reason;
+      }
+    }
+    const out = { ok: true, pr: pr.url, merged, files: result.changes.map((c) => c.path) };
+    if (summary) out.summary = summary;
+    if (reviewBlocked) { out.reviewBlocked = true; out.reviewReason = reviewReason; }
+    return out;
   } catch (err) {
     // Fall back to a GitHub Issue so the request isn't lost
     const issue = await createGitHubIssue(repoFull, {
@@ -278,6 +318,73 @@ async function callAnthropic(payload, apiKey) {
 }
 
 // ---------------------------------------------------------------------------
+// AI safety reviewer (runs before an autoMerge change goes live)
+// ---------------------------------------------------------------------------
+
+// Ask Claude to judge whether a staged change is safe to publish to a live site with no human.
+// Returns { safe, reason, summary }. Fails closed: if the reviewer errors or returns something
+// unreadable, safe is false so the change waits for a person.
+async function reviewChanges({ request, changes, env }) {
+  const changeSummary = changes.map((c, i) =>
+    `Change ${i + 1}, file: ${c.path}\n` +
+    `What the agent says it did: ${c.summary}\n` +
+    `--- CURRENT TEXT (before) ---\n${c.old_string}\n` +
+    `--- NEW TEXT (after) ---\n${c.new_string}`
+  ).join('\n\n');
+
+  const system = `You are a careful release reviewer for WebEaze, a website care service for small businesses. Before a change is published to a client's live website with no human review, you decide whether it is safe.
+
+Reply with STRICT JSON only. No prose, no markdown, no code fences. Use exactly this shape:
+{"safe": true or false, "reason": "short explanation of your decision", "summary": "one plain, warm sentence a non-technical business owner would understand, describing what changed"}
+
+Mark safe as false if the change: removes important content, breaks the HTML structure (unbalanced, malformed, or dropped tags), looks unrelated to what the client actually asked for, or is otherwise risky for a live site. When you are unsure, mark it unsafe so a person can look.`;
+
+  const messages = [{
+    role: 'user',
+    content: `The client asked for this:\n**Request type:** ${request.type}\n**Description:** ${request.description}\n\nHere are the proposed change(s) to their live website:\n\n${changeSummary}\n\nReview these and reply with the strict JSON described above.`,
+  }];
+
+  let resp;
+  try {
+    resp = await callAnthropic({
+      model: 'claude-haiku-4-5-20251001',
+      max_tokens: 1024,
+      system,
+      messages,
+    }, env.CLAUDE_API_KEY);
+  } catch (e) {
+    return { safe: false, reason: `Safety review could not run: ${String((e && e.message) || e)}`, summary: '' };
+  }
+
+  const text = (resp.content || [])
+    .filter((b) => b.type === 'text')
+    .map((b) => b.text)
+    .join('')
+    .trim();
+
+  const parsed = parseReviewJson(text);
+  if (!parsed) {
+    return { safe: false, reason: 'Safety review returned an unreadable response.', summary: '' };
+  }
+  return {
+    safe: parsed.safe === true,
+    reason: typeof parsed.reason === 'string' ? parsed.reason : '',
+    summary: typeof parsed.summary === 'string' ? parsed.summary : '',
+  };
+}
+
+// Pull the JSON object out of the model's reply, tolerating stray text or code fences around it.
+function parseReviewJson(text) {
+  if (!text) return null;
+  try { return JSON.parse(text); } catch {}
+  const start = text.indexOf('{');
+  const end = text.lastIndexOf('}');
+  if (start === -1 || end === -1 || end <= start) return null;
+  try { return JSON.parse(text.slice(start, end + 1)); } catch {}
+  return null;
+}
+
+// ---------------------------------------------------------------------------
 // GitHub API helpers
 // ---------------------------------------------------------------------------
 
@@ -402,6 +509,69 @@ async function mergePR(repoFull, number, env) {
   });
   if (!resp.ok) { console.error('Auto-merge failed:', await resp.text()); return false; }
   return true;
+}
+
+// Best-effort rollback of the most recent commit on the default branch. Used later by an
+// auto-rollback watchdog, and reachable via POST {action:'revert', email}.
+//
+// Instead of force-pushing (which rewrites history and can break clones and deploy hooks), this
+// creates a NEW forward commit whose tree matches the commit right before the last one. That
+// restores the previous file contents while keeping full history, and the ref update is a plain
+// fast-forward (force:false).
+//
+// Limitations:
+//  - It undoes exactly ONE commit (the current tip). Call it again to step back further.
+//  - It restores the whole repo to the state before that commit, so any other changes landed in the
+//    same commit are undone too. The bot commits one request at a time, so in practice the tip is
+//    the change we want to roll back.
+//  - It cannot revert the initial commit (no parent to restore to).
+//  - It reverts by commit, not by PR, so it assumes the last commit is the one to undo.
+async function revertLastMerge(repoFull, env) {
+  const base = `https://api.github.com/repos/${repoFull}`;
+  const headers = ghHeaders(env.GITHUB_TOKEN);
+
+  const repoResp = await fetch(base, { headers });
+  if (!repoResp.ok) return { ok: false, error: `Could not fetch repo info: ${repoResp.status}` };
+  const defaultBranch = (await repoResp.json()).default_branch;
+
+  const refResp = await fetch(`${base}/git/ref/heads/${defaultBranch}`, { headers });
+  if (!refResp.ok) return { ok: false, error: `Could not fetch branch ref: ${refResp.status}` };
+  const headSha = (await refResp.json()).object.sha;
+
+  const headCommitResp = await fetch(`${base}/git/commits/${headSha}`, { headers });
+  if (!headCommitResp.ok) return { ok: false, error: `Could not read last commit: ${headCommitResp.status}` };
+  const headCommit = await headCommitResp.json();
+  if (!headCommit.parents || headCommit.parents.length === 0) {
+    return { ok: false, error: 'Nothing to revert: the last commit has no parent.' };
+  }
+  const parentSha = headCommit.parents[0].sha;
+
+  const parentCommitResp = await fetch(`${base}/git/commits/${parentSha}`, { headers });
+  if (!parentCommitResp.ok) return { ok: false, error: `Could not read previous commit: ${parentCommitResp.status}` };
+  const parentTreeSha = (await parentCommitResp.json()).tree.sha;
+
+  // New commit that points at the previous tree, kept as a forward commit (parent = current tip).
+  const commitResp = await fetch(`${base}/git/commits`, {
+    method: 'POST',
+    headers,
+    body: JSON.stringify({
+      message: `Revert last change (restore state before ${headSha.slice(0, 7)})`,
+      tree: parentTreeSha,
+      parents: [headSha],
+    }),
+  });
+  if (!commitResp.ok) return { ok: false, error: `Could not create revert commit: ${await commitResp.text()}` };
+  const newCommitSha = (await commitResp.json()).sha;
+
+  // Fast-forward the branch. No force needed: the new commit's parent is the current tip.
+  const patchResp = await fetch(`${base}/git/refs/heads/${defaultBranch}`, {
+    method: 'PATCH',
+    headers,
+    body: JSON.stringify({ sha: newCommitSha, force: false }),
+  });
+  if (!patchResp.ok) return { ok: false, error: `Could not update branch: ${await patchResp.text()}` };
+
+  return { ok: true, reverted: headSha, commit: newCommitSha };
 }
 
 async function createGitHubIssue(repoFull, { title, body }, env) {

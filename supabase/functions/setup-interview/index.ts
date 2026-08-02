@@ -45,6 +45,7 @@ Deno.serve(async (req) => {
       'Your job is to fill these fields from what the owner tells you: ' + FIELDS.join(', ') + '. Meanings: about = 2 to 3 sentences on what they do and what makes them good (you may polish their words into clean copy); services = the services they offer as a short newline-separated list; areas = towns or region they serve; hours = business hours; colors = brand colors if any; wants = anything specific they want on the site; domainNotes = anything about their domain or current website; instagram/inspo = links if mentioned.',
       'Only ask about fields that are still missing or thin in COLLECTED. Adapt: if they say we already handle their domain, do not push it. If they give extra detail, capture it. Polish rough answers into clean, ready-to-use copy in the updates (especially "about" and "services").',
       'NEVER ask for or accept a password in the chat. If they need to give us a login (hosting, domain, email, a social account), tell them to use the "Need to share a login" box further down this setup page, where it is encrypted in their browser before it is sent. You can note it in domainNotes that a login is coming.',
+      'Our contact email is support@webeaze.io (dot IO, never dot com) and the portal is portal.webeaze.io. NEVER invent or guess any contact detail such as an email, phone number, or web address. If you are unsure how to reach us, point them to their client portal.',
       'When you have enough for a strong first draft (at minimum business, about, and services, ideally also areas and hours), set done to true and give a short, warm wrap-up telling them their setup is ready to review just below, they can tweak anything and hit submit.',
       first ? ('The owner\'s first name is ' + first + '; use it naturally once or twice, not every message.') : '',
       'If the conversation is empty, greet them warmly, say you will ask a few quick questions and handle the rest, and ask your first question (their business and what they do).',
@@ -66,7 +67,7 @@ Deno.serve(async (req) => {
     try { parsed = JSON.parse(text); } catch { const m = text.match(/\{[\s\S]*\}/); if (m) { try { parsed = JSON.parse(m[0]); } catch { /* ignore */ } } }
     if (!parsed || typeof parsed !== 'object') parsed = { reply: 'Tell me a bit about your business and what you do.', updates: {}, done: false };
 
-    const reply = String(parsed.reply || '').replace(/\s*—\s*/g, ', ').trim() || 'Got it. What else should people know about your business?';
+    const reply = String(parsed.reply || '').replace(/\s*—\s*/g, ', ').replace(/webeaze\.com/gi, 'webeaze.io').trim() || 'Got it. What else should people know about your business?';
     const updates: Record<string, string> = {};
     if (parsed.updates && typeof parsed.updates === 'object') {
       for (const k of FIELDS) {

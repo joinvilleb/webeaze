@@ -220,8 +220,8 @@ Deno.serve(async (req) => {
       parsed = { reply: r || 'Happy to help, could you tell me a little more about what you need?', action: 'answer' };
     }
 
-    // Strip em dashes (house rule) as a safety net in case the model slips one in.
-    let reply = (String(parsed.reply || '').trim().replace(/\s*—\s*/g, ', ')) || 'Happy to help with that.';
+    // Strip em dashes (house rule) + fix any wrong .com email/domain, as a safety net if the model slips.
+    let reply = (String(parsed.reply || '').trim().replace(/\s*—\s*/g, ', ').replace(/webeaze\.com/gi, 'webeaze.io')) || 'Happy to help with that.';
     const action = String(parsed.action || 'answer');
     let filedRequest = false, escalated = false;
 

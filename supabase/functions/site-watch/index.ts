@@ -16,6 +16,8 @@ const FROM = 'WebEaze <support@webeaze.io>';
 const TEAM = 'billy@webeaze.io';
 const DOMAIN_WARN_DAYS = 30;   // warn when the domain expires within this many days
 const MAX_LINKS = 15;          // cap homepage links we test, to stay fast and polite
+const BOT_URL = 'https://webeaze-request-bot.webeaze-web-design.workers.dev/';
+const ROLLBACK_WINDOW_HOURS = 12;   // only auto-revert if a bot change went live this recently
 
 const cors = { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': 'authorization, content-type, x-cron-secret', 'Access-Control-Allow-Methods': 'POST, OPTIONS' };
 const json = (b: unknown, s = 200) => new Response(JSON.stringify(b), { status: s, headers: { ...cors, 'Content-Type': 'application/json' } });
@@ -103,7 +105,7 @@ Deno.serve(async (req) => {
 
   const service = createClient(Deno.env.get('SUPABASE_URL')!, Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!);
   const { data: clients } = await service.from('clients')
-    .select('user_id, id, name, site_url, status')
+    .select('user_id, id, name, email, site_url, status')
     .not('site_url', 'is', null).neq('status', 'inactive');
 
   // What we tell Billy about, at the end.
@@ -131,7 +133,36 @@ Deno.serve(async (req) => {
 
       // 1) Reachability.
       if (!home.ok) {
+        const firstDown = !openKey.has('down|');   // brand-new outage this run, not an ongoing one
         await raiseIssue('down', 'Homepage returned ' + (home.status || 'no response') + (home.error ? ' (' + home.error + ')' : ''));
+
+        // Auto-rollback watchdog: if the site JUST went down and a bot change went live within the
+        // last few hours, that change likely broke it, so revert it to get the site working again.
+        // Fires at most once per outage (guarded by firstDown), and only for git-backed clients
+        // (the bot self-gates on CLIENTS_JSON, so a non-configured client simply no-ops).
+        if (firstDown && c.email) {
+          const since = new Date(Date.now() - ROLLBACK_WINDOW_HOURS * 3600000).toISOString();
+          const { data: recent } = await service.from('site_issues')
+            .select('id').eq('user_id', c.user_id).eq('status', 'fixed')
+            .in('kind', ['proactive', 'auto_edit']).gte('fixed_at', since).limit(1);
+          if (recent && recent.length) {
+            try {
+              const res = await fetchTimed(BOT_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'revert', email: c.email }) }, 20000);
+              const rb = await res.json().catch(() => ({} as any));
+              if (rb && rb.reverted) {
+                await service.from('site_issues').insert({
+                  user_id: c.user_id, client_id: c.id ?? null, kind: 'rollback', status: 'fixed',
+                  detail: 'Auto-reverted recent commit ' + String(rb.reverted).slice(0, 7) + ' after the site went down.',
+                  client_note: 'A recent automatic update looked like it caused a problem, so we rolled it back to keep your site working. We are taking a closer look.',
+                  fixed_at: new Date().toISOString(), notified: true,
+                });
+                newIssues.push({ client: c.name || c.site_url || c.user_id, kind: 'auto rollback', detail: 'Site went down after a recent auto-change, so it was reverted automatically. Please verify.' });
+              } else {
+                newIssues.push({ client: c.name || c.site_url || c.user_id, kind: 'rollback failed', detail: 'Site down after a recent auto-change and the automatic revert did not succeed. Needs a hand now.' });
+              }
+            } catch (e) { console.error('[site-watch] rollback failed', c.user_id, e); }
+          }
+        }
       } else {
         // Site is up: auto-resolve any open 'down' issue.
         for (const o of open) if (o.kind === 'down') await fixIssue(o.id, 'Your website is back online and loading normally.');

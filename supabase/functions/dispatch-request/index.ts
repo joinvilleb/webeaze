@@ -74,6 +74,16 @@ Deno.serve(async (req) => {
         completed_at: new Date().toISOString(),
       }).eq('id', requestId);
     }
+    // Drop a lightweight signal the site-watch auto-rollback watchdog looks for (a live auto-change
+    // just landed). No client_note, so it does NOT show in "Recently handled" (the completed
+    // request already covers that); it exists only so a site going down soon after can be reverted.
+    if (bot && bot.merged) {
+      await service.from('site_issues').insert({
+        user_id: userId, kind: 'auto_edit', status: 'fixed',
+        detail: 'auto-actioned request ' + (requestId || ''),
+        fixed_at: new Date().toISOString(), notified: true,
+      });
+    }
     // Bot opened a PR (no auto-merge) or escalated → leave the request pending for Billy.
 
     return json({ ok: true, handled: bot.merged ? 'merged' : (bot.escalated ? 'escalated' : (bot.pr ? 'pr' : 'noop')), bot });
