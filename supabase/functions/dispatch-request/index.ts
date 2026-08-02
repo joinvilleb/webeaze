@@ -34,6 +34,17 @@ Deno.serve(async (req) => {
     // Only act on brand-new requests, not ones already resolved.
     if (record.status && !['Received', 'New', 'In progress'].includes(record.status)) return json({ ok: true, skipped: `status ${record.status}` });
 
+    // ── Safety gate ──────────────────────────────────────────────────────────────────────
+    // The bot self-gates by CLIENTS_JSON (opted-in clients) and escalates anything complex, but
+    // some requests must NEVER be auto-actioned regardless. These stay pending for Billy. Widen
+    // this as trust grows (e.g. re-allow bugs once site-watch auto-rollback ships).
+    const tl = String(type).toLowerCase();
+    if (tl.includes('urgent') || tl.includes('down'))    return json({ ok: true, skipped: 'emergency: needs a human now' });
+    if (tl.includes('bug') || tl.includes('broken'))     return json({ ok: true, skipped: 'bug fix: human until auto-rollback exists' });
+    if (tl === 'other')                                  return json({ ok: true, skipped: 'ambiguous type: human triage' });
+    if (record.attachment_url)                           return json({ ok: true, skipped: 'has an attachment for a human to place' });
+    if (record.scheduled_for)                            return json({ ok: true, skipped: 'scheduled for a future date' });
+
     const service = createClient(Deno.env.get('SUPABASE_URL')!, Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!);
     const { data: c } = await service.from('clients').select('email, name').eq('user_id', userId).maybeSingle();
     if (!c?.email) return json({ ok: true, skipped: 'no client email' });

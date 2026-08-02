@@ -39,13 +39,26 @@ const cors = {
 const json = (b: unknown, s = 200) => new Response(JSON.stringify(b), { status: s, headers: { ...cors, 'Content-Type': 'application/json' } });
 const esc = (s: unknown) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]!));
 
-// ── Source: PageSpeed Insights (real speed + Core Web Vitals) ──
+// The failing accessibility audits Lighthouse weights, as short plain titles a client can act on.
+function a11yIssuesFrom(lh: any): { title: string }[] {
+  const cat = lh?.categories?.accessibility;
+  const audits = lh?.audits || {};
+  if (!cat || !Array.isArray(cat.auditRefs)) return [];
+  return cat.auditRefs
+    .filter((r: any) => (r.weight || 0) > 0 && audits[r.id] && audits[r.id].score !== null && audits[r.id].score < 1)
+    .sort((a: any, b: any) => (b.weight || 0) - (a.weight || 0))
+    .slice(0, 4)
+    .map((r: any) => ({ title: String(audits[r.id].title || '').replace(/[`\[\]]/g, '').trim() }))
+    .filter((x: any) => x.title);
+}
+
+// ── Source: PageSpeed Insights (real speed + Core Web Vitals + accessibility) ──
 async function pullSpeed(url: string) {
   if (!url) { console.warn('[growth] pullSpeed: no site_url'); return null; }
   if (!PSI_KEY) { console.warn('[growth] pullSpeed: GOOGLE_PSI_KEY secret is not set'); return null; }
   const full = /^https?:\/\//i.test(url) ? url : 'https://' + url;   // PageSpeed needs a full URL
   const run = async (strategy: 'mobile' | 'desktop') => {
-    const api = `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${encodeURIComponent(full)}&strategy=${strategy}&category=performance&key=${PSI_KEY}`;
+    const api = `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${encodeURIComponent(full)}&strategy=${strategy}&category=performance&category=accessibility&key=${PSI_KEY}`;
     const res = await fetch(api);
     if (!res.ok) throw new Error(`PSI ${strategy} ${res.status}: ${(await res.text()).slice(0, 180)}`);
     const d = await res.json();
@@ -53,11 +66,18 @@ async function pullSpeed(url: string) {
     const score = Math.round((lh.categories?.performance?.score ?? 0) * 100);
     const lcp = lh.audits?.['largest-contentful-paint']?.numericValue ?? null;   // ms
     const cls = lh.audits?.['cumulative-layout-shift']?.numericValue ?? null;
-    return { score, lcpSeconds: lcp != null ? +(lcp / 1000).toFixed(1) : null, cls: cls != null ? +cls.toFixed(3) : null };
+    const a11yScore = lh.categories?.accessibility?.score != null ? Math.round(lh.categories.accessibility.score * 100) : null;
+    return { score, lcpSeconds: lcp != null ? +(lcp / 1000).toFixed(1) : null, cls: cls != null ? +cls.toFixed(3) : null, a11yScore, a11yIssues: a11yIssuesFrom(lh) };
   };
   try {
     const [mobile, desktop] = await Promise.all([run('mobile'), run('desktop')]);
-    return { mobile, desktop, checkedAt: new Date().toISOString() };
+    // Accessibility is DOM-based (same either strategy); take it from the mobile run.
+    const accessibility = mobile.a11yScore != null ? { score: mobile.a11yScore, issues: mobile.a11yIssues || [], checkedAt: new Date().toISOString() } : null;
+    return {
+      mobile: { score: mobile.score, lcpSeconds: mobile.lcpSeconds, cls: mobile.cls },
+      desktop: { score: desktop.score, lcpSeconds: desktop.lcpSeconds, cls: desktop.cls },
+      accessibility, checkedAt: new Date().toISOString(),
+    };
   } catch (e) {
     console.error('pullSpeed failed', e);
     return null;
@@ -470,8 +490,13 @@ async function refreshClient(sb: any, c: { user_id: string; id?: string; site_ur
   // and send a text-only email).
   const { data: prev } = await sb.from('client_metrics').select('metrics').eq('user_id', c.user_id).maybeSingle();
   const old = (prev && prev.metrics) || {};
+  // Lift accessibility out of the speed object so it lives at metrics.accessibility (and isn't
+  // stored twice); keep the previous accessibility snapshot if this pull didn't produce one.
+  const accessibility = (speed && (speed as any).accessibility) || null;
+  if (speed && (speed as any).accessibility) delete (speed as any).accessibility;
   const metrics: Record<string, unknown> = {
     speed: speed ?? old.speed ?? null,
+    accessibility: accessibility ?? old.accessibility ?? null,
     reviews: reviews ?? old.reviews ?? null,
     search: search ?? old.search ?? null,
     competitors: competitors ?? old.competitors ?? null,
