@@ -1,9 +1,11 @@
 // Supabase Edge Function: chat-assist
 // The AI concierge in the client portal's live chat. It reads the client's message (plus recent
 // history, their account/billing context, and the few most relevant help articles) and decides ONE
-// of four things: answer directly, point to a help article, file a request on their behalf, or hand
-// off to the human team. It replies in the WebEaze voice (never "I am a bot") and inserts its reply
-// into chat_messages so the portal's realtime shows it like any other message.
+// of four things: answer directly, point to a help article, propose a website change for the client
+// to confirm, or hand off to the human team. It replies in the WebEaze voice (never "I am a bot") and
+// inserts its reply into chat_messages so the portal's realtime shows it like any other message.
+// For a website change it does NOT file the update_requests row itself; it returns proposedRequest
+// {type, notes} and the portal files it once the client taps to confirm.
 //
 // Knowledge: it fetches portal.webeaze.io/help-content.json (all 180 help articles, extracted from
 // help.html) and retrieves the top few relevant to each question, so it answers refund policy,
@@ -31,7 +33,7 @@ const FROM = 'WebEaze <support@webeaze.io>';
 const TEAM = 'billy@webeaze.io';
 const KB_URL = 'https://portal.webeaze.io/help-content.json';
 const HELP_BASE = 'https://webeaze.io/help.html#/';   // a help article lives at HELP_BASE + slug
-const REQUEST_TYPES = ['Content update', 'New page or section', 'Bug or broken element', 'SEO or visibility', 'Other'];
+const REQUEST_TYPES = ['Content update', 'New page or section', 'Design change', 'SEO or metadata', 'Bug or broken element', 'Other'];
 
 const cors = { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type', 'Access-Control-Allow-Methods': 'POST, OPTIONS' };
 const json = (b: unknown, s = 200) => new Response(JSON.stringify(b), { status: s, headers: { ...cors, 'Content-Type': 'application/json' } });
@@ -155,7 +157,7 @@ Deno.serve(async (req) => {
         '- If they ask about keyword rankings, search trends over time, or how they compare to nearby competitors: tell them those live in the Growth report and briefly what they would see (the searches bringing them customers, where they rank and how it moves, how they stack up locally).',
         '- If they want to talk to a real person, or have a judgment call or strategy question: note that Growth adds direct access to our team by live chat, phone, and video.',
         '- If they ask how to get more customers, more leads, or how to grow: note that Growth includes a tailored action plan each month plus the deeper insights to act on.',
-        'Rules for the pitch: at most once per topic (do not repeat it every message), one or two sentences, concrete and confident, never pushy or salesy, and never block their actual answer. If they show interest, you may briefly say they can upgrade any time from Account, Manage billing. If it is a concrete website change, file it as a request. If it truly needs a person, set action "escalate" (the team follows up by email).',
+        'Rules for the pitch: at most once per topic (do not repeat it every message), one or two sentences, concrete and confident, never pushy or salesy, and never block their actual answer. If they show interest, you may briefly say they can upgrade any time from Account, Manage billing. If it is a concrete website change, propose it as a request (action "request") so they can confirm. If it truly needs a person, set action "escalate" (the team follows up by email).',
       ].join('\n');
 
     const system = [
@@ -170,7 +172,7 @@ Deno.serve(async (req) => {
       'Decide exactly ONE action:',
       '- "answer": help directly, or ask a clarifying question if the request is vague.',
       '- "article": give a brief helpful answer and set article_slug to the single most relevant help article (from the knowledge or relevantArticles). Do NOT paste a link or name the article yourself; the system attaches a clickable link automatically. Use this only if an article clearly fits.',
-      '- "request": ONLY when they clearly want a concrete, actionable change to their website (edit text, change hours or pricing shown on the site, add or fix a page, swap a photo, fix something broken). Provide request_type (one of: ' + REQUEST_TYPES.join(', ') + ') and request_summary (a clear plain description of exactly what they want changed). Confirm in your reply that you sent it to the team. If ambiguous, do NOT file; use "answer" to ask what they want.',
+      '- "request": ONLY when they clearly want a concrete, actionable change to their website (edit text, change hours or pricing shown on the site, add or fix a page, swap a photo, fix something broken). Provide request_type (one of: ' + REQUEST_TYPES.join(', ') + ') and request_summary (a clean one-paragraph description of exactly what they want changed, written in the client\'s own voice). Do NOT say you filed or sent it. Instead, PROPOSE it: your reply should confirm what you understood and invite them to send it, for example "Sounds like you want your hours changed to 9 to 5. Want me to send that to the team?". The client taps a button to confirm, so never claim it is already done. If ambiguous, do NOT propose; use "answer" to ask what they want.',
       '- "escalate": for complaints, billing disputes, account or strategy conversations, or anything you should not resolve yourself.',
       planLine,
       'Return ONLY valid JSON (no markdown, no code fences): {"reply": string, "action": "answer"|"article"|"request"|"escalate", "article_slug": string|null, "request_type": string|null, "request_summary": string|null}',
@@ -223,21 +225,19 @@ Deno.serve(async (req) => {
     // Strip em dashes (house rule) + fix any wrong .com email/domain, as a safety net if the model slips.
     let reply = (String(parsed.reply || '').trim().replace(/\s*—\s*/g, ', ').replace(/webeaze\.com/gi, 'webeaze.io')) || 'Happy to help with that.';
     const action = String(parsed.action || 'answer');
-    let filedRequest = false, escalated = false;
+    let escalated = false;
+    // When the client clearly wants a website change, we PROPOSE it and let them confirm with a tap.
+    // We do NOT create the update_requests row here; the portal files it on confirm (which then flows
+    // through the normal request pipeline, notifications and all). We only hand back the proposal.
+    let proposedRequest: { type: string; notes: string } | null = null;
 
     if (action === 'article' && parsed.article_slug) {
       const found = kb.find((a) => a.s === parsed.article_slug) || relevant.find((a) => a.s === parsed.article_slug);
       if (found) reply += '\n\nHere is a guide that covers it: [' + found.t + '](' + HELP_BASE + found.s + ')';
     } else if (action === 'request' && parsed.request_summary) {
       const type = REQUEST_TYPES.includes(String(parsed.request_type)) ? String(parsed.request_type) : 'Content update';
-      const summary = String(parsed.request_summary).slice(0, 1200);
-      const { error: reqErr } = await service.from('update_requests').insert({ user_id: c.user_id, type, notes: summary, priority: 'normal', status: 'Received' });
-      if (!reqErr) {
-        filedRequest = true;
-        await sendTeamEmail('New request filed by the assistant for ' + (c.name || c.email || 'a client'),
-          '<p>The chat assistant filed a request for <strong>' + (c.name || c.email) + '</strong>:</p>' +
-          '<p><strong>' + type + '</strong></p><blockquote style="border-left:3px solid #7851a9;padding:2px 0 2px 12px;color:#333;white-space:pre-wrap;">' + summary.replace(/</g, '&lt;') + '</blockquote>');
-      }
+      const notes = String(parsed.request_summary).slice(0, 1200);
+      proposedRequest = { type, notes };
     } else if (action === 'escalate') {
       escalated = true;
       await sendTeamEmail('Chat assistant escalation from ' + (c.name || c.email || 'a client') + (isAdvanced ? '' : ' (Essential)'),
@@ -250,7 +250,7 @@ Deno.serve(async (req) => {
     const ins = await service.from('chat_messages').insert({ user_id: c.user_id, sender: 'webeaze', body: reply, session_id: sessionId, via_ai: true });
     if (ins.error) await service.from('chat_messages').insert({ user_id: c.user_id, sender: 'webeaze', body: reply, session_id: sessionId });
 
-    return json({ ok: true, action, filedRequest, escalated, grounded: relevant.length });
+    return json({ ok: true, action, proposedRequest, escalated, grounded: relevant.length });
   } catch (e) {
     console.error('[chat-assist] error:', e);
     return json({ ok: false, error: String(e).slice(0, 160) }, 200);

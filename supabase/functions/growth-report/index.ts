@@ -39,17 +39,32 @@ const cors = {
 const json = (b: unknown, s = 200) => new Response(JSON.stringify(b), { status: s, headers: { ...cors, 'Content-Type': 'application/json' } });
 const esc = (s: unknown) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]!));
 
-// The failing accessibility audits Lighthouse weights, as short plain titles a client can act on.
-function a11yIssuesFrom(lh: any): { title: string }[] {
-  const cat = lh?.categories?.accessibility;
+// The failing audits Lighthouse weights for a category (accessibility, seo, ...), as short plain
+// titles a client can act on, heaviest first.
+function catIssuesFrom(lh: any, key: string, max = 4): { title: string }[] {
+  const cat = lh?.categories?.[key];
   const audits = lh?.audits || {};
   if (!cat || !Array.isArray(cat.auditRefs)) return [];
   return cat.auditRefs
     .filter((r: any) => (r.weight || 0) > 0 && audits[r.id] && audits[r.id].score !== null && audits[r.id].score < 1)
     .sort((a: any, b: any) => (b.weight || 0) - (a.weight || 0))
-    .slice(0, 4)
+    .slice(0, max)
     .map((r: any) => ({ title: String(audits[r.id].title || '').replace(/[`\[\]]/g, '').trim() }))
     .filter((x: any) => x.title);
+}
+function a11yIssuesFrom(lh: any) { return catIssuesFrom(lh, 'accessibility'); }
+// Real-visitor Core Web Vitals from the CrUX field data (present only when Google has enough traffic
+// data for the site). Ratings map FAST/AVERAGE/SLOW to good/needs-work/poor.
+function cwvFrom(d: any) {
+  const le = d?.loadingExperience;
+  const mets = le?.metrics; if (!mets) return null;
+  const rate = (c: string) => (c === 'FAST' ? 'good' : c === 'SLOW' ? 'poor' : 'ok');
+  const lcp = mets.LARGEST_CONTENTFUL_PAINT_MS, cls = mets.CUMULATIVE_LAYOUT_SHIFT_SCORE, inp = mets.INTERACTION_TO_NEXT_PAINT;
+  const out: any = { overall: le.overall_category ? rate(le.overall_category) : null };
+  if (lcp && lcp.percentile != null) out.lcp = { value: +(lcp.percentile / 1000).toFixed(1), unit: 's', rating: rate(lcp.category) };
+  if (cls && cls.percentile != null) out.cls = { value: +(cls.percentile / 100).toFixed(2), unit: '', rating: rate(cls.category) };
+  if (inp && inp.percentile != null) out.inp = { value: Math.round(inp.percentile), unit: 'ms', rating: rate(inp.category) };
+  return (out.lcp || out.cls || out.inp) ? out : null;
 }
 
 // ── Source: PageSpeed Insights (real speed + Core Web Vitals + accessibility) ──
@@ -58,7 +73,7 @@ async function pullSpeed(url: string) {
   if (!PSI_KEY) { console.warn('[growth] pullSpeed: GOOGLE_PSI_KEY secret is not set'); return null; }
   const full = /^https?:\/\//i.test(url) ? url : 'https://' + url;   // PageSpeed needs a full URL
   const run = async (strategy: 'mobile' | 'desktop') => {
-    const api = `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${encodeURIComponent(full)}&strategy=${strategy}&category=performance&category=accessibility&key=${PSI_KEY}`;
+    const api = `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${encodeURIComponent(full)}&strategy=${strategy}&category=performance&category=accessibility&category=seo&category=best-practices&key=${PSI_KEY}`;
     const res = await fetch(api);
     if (!res.ok) throw new Error(`PSI ${strategy} ${res.status}: ${(await res.text()).slice(0, 180)}`);
     const d = await res.json();
@@ -66,17 +81,26 @@ async function pullSpeed(url: string) {
     const score = Math.round((lh.categories?.performance?.score ?? 0) * 100);
     const lcp = lh.audits?.['largest-contentful-paint']?.numericValue ?? null;   // ms
     const cls = lh.audits?.['cumulative-layout-shift']?.numericValue ?? null;
-    const a11yScore = lh.categories?.accessibility?.score != null ? Math.round(lh.categories.accessibility.score * 100) : null;
-    return { score, lcpSeconds: lcp != null ? +(lcp / 1000).toFixed(1) : null, cls: cls != null ? +cls.toFixed(3) : null, a11yScore, a11yIssues: a11yIssuesFrom(lh) };
+    const catScore = (k: string) => (lh.categories?.[k]?.score != null ? Math.round(lh.categories[k].score * 100) : null);
+    return {
+      score, lcpSeconds: lcp != null ? +(lcp / 1000).toFixed(1) : null, cls: cls != null ? +cls.toFixed(3) : null,
+      a11yScore: catScore('accessibility'), a11yIssues: a11yIssuesFrom(lh),
+      seoScore: catScore('seo'), seoIssues: catIssuesFrom(lh, 'seo'),
+      bpScore: catScore('best-practices'), cwv: cwvFrom(d),
+    };
   };
   try {
     const [mobile, desktop] = await Promise.all([run('mobile'), run('desktop')]);
-    // Accessibility is DOM-based (same either strategy); take it from the mobile run.
-    const accessibility = mobile.a11yScore != null ? { score: mobile.a11yScore, issues: mobile.a11yIssues || [], checkedAt: new Date().toISOString() } : null;
+    const now = new Date().toISOString();
+    // Accessibility / SEO / best-practices are DOM-based (same either strategy); take from mobile.
+    const accessibility = mobile.a11yScore != null ? { score: mobile.a11yScore, issues: mobile.a11yIssues || [], checkedAt: now } : null;
+    const seo = mobile.seoScore != null ? { score: mobile.seoScore, issues: mobile.seoIssues || [], checkedAt: now } : null;
+    const bestPractices = mobile.bpScore != null ? { score: mobile.bpScore, checkedAt: now } : null;
+    const cwv = mobile.cwv || null;   // real-visitor field data, when Google has enough of it
     return {
       mobile: { score: mobile.score, lcpSeconds: mobile.lcpSeconds, cls: mobile.cls },
       desktop: { score: desktop.score, lcpSeconds: desktop.lcpSeconds, cls: desktop.cls },
-      accessibility, checkedAt: new Date().toISOString(),
+      accessibility, seo, bestPractices, cwv, checkedAt: now,
     };
   } catch (e) {
     console.error('pullSpeed failed', e);
@@ -316,7 +340,7 @@ async function pullSearch(siteUrl: string) {
   const candidates = ['sc-domain:' + host, 'https://' + host + '/', 'https://www.' + host + '/', 'http://' + host + '/'];
   const fmt = (d: Date) => d.toISOString().slice(0, 10);
   const endDate = fmt(new Date());
-  const startDate = fmt(new Date(Date.now() - 28 * 24 * 3600 * 1000));
+  const startDate = fmt(new Date(Date.now() - 60 * 24 * 3600 * 1000));   // ~2 months, so the trend chart looks full
   const query = (prop: string, body: unknown) => fetch(`https://searchconsole.googleapis.com/webmasters/v3/sites/${encodeURIComponent(prop)}/searchAnalytics/query`, {
     method: 'POST', headers: { Authorization: 'Bearer ' + token, 'Content-Type': 'application/json' }, body: JSON.stringify(body),
   });
@@ -490,13 +514,20 @@ async function refreshClient(sb: any, c: { user_id: string; id?: string; site_ur
   // and send a text-only email).
   const { data: prev } = await sb.from('client_metrics').select('metrics').eq('user_id', c.user_id).maybeSingle();
   const old = (prev && prev.metrics) || {};
-  // Lift accessibility out of the speed object so it lives at metrics.accessibility (and isn't
-  // stored twice); keep the previous accessibility snapshot if this pull didn't produce one.
-  const accessibility = (speed && (speed as any).accessibility) || null;
-  if (speed && (speed as any).accessibility) delete (speed as any).accessibility;
+  // Lift the Lighthouse category scores out of the speed object so they live at the top level (and
+  // aren't stored twice); keep each previous snapshot if this pull didn't produce a fresh one.
+  const sp = speed as any;
+  const accessibility = (sp && sp.accessibility) || null;
+  const seo = (sp && sp.seo) || null;
+  const bestPractices = (sp && sp.bestPractices) || null;
+  const cwv = (sp && sp.cwv) || null;
+  if (sp) { delete sp.accessibility; delete sp.seo; delete sp.bestPractices; delete sp.cwv; }
   const metrics: Record<string, unknown> = {
     speed: speed ?? old.speed ?? null,
     accessibility: accessibility ?? old.accessibility ?? null,
+    seo: seo ?? old.seo ?? null,
+    bestPractices: bestPractices ?? old.bestPractices ?? null,
+    cwv: cwv ?? old.cwv ?? null,
     reviews: reviews ?? old.reviews ?? null,
     search: search ?? old.search ?? null,
     competitors: competitors ?? old.competitors ?? null,
@@ -549,7 +580,7 @@ function summaryHtml(name: string, url: string, m: any, plan?: string, extra?: {
 
   // Leads lead: the concrete money number, right up top when there is one.
   const leadLine = (leads && leads.count > 0)
-    ? p('First, the good news: your website brought in <strong>' + leads.count + (leads.count === 1 ? ' new enquiry' : ' new enquiries') + '</strong> ' + esc(leads.label) + ' (calls, emails, and contact-form messages).')
+    ? p('First, the good news: your website brought in <strong>' + leads.count + (leads.count === 1 ? ' new inquiry' : ' new inquiries') + '</strong> ' + esc(leads.label) + ' (calls, emails, and contact-form messages).')
     : '';
 
   // Numbers as a plain sentence-y list, only what we actually have. The impressions trend %
@@ -559,7 +590,7 @@ function summaryHtml(name: string, url: string, m: any, plan?: string, extra?: {
   if (r?.rating != null) lines.push('Google rating: ' + r.rating + ' stars (' + (r.count ?? 0) + ' reviews)');
   if (se?.impressions != null || se?.clicks != null) {
     lines.push('Search: ' + (se.impressions != null ? Number(se.impressions).toLocaleString() + ' impressions' : '') +
-      (se.clicks != null ? (se.impressions != null ? ' and ' : '') + se.clicks + ' clicks' : '') + ' in the last 28 days' +
+      (se.clicks != null ? (se.impressions != null ? ' and ' : '') + se.clicks + ' clicks' : '') + ' in the last 2 months' +
       (adv && se.deltaPct != null ? ' (' + (se.deltaPct >= 0 ? 'up ' : 'down ') + Math.abs(se.deltaPct) + '%)' : ''));
   }
   const snap = lines.length
