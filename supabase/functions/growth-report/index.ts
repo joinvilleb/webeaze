@@ -112,6 +112,29 @@ async function pullSpeed(url: string) {
 // The stored value can be a Place ID, a Google Maps link, or just the business name —
 // so admins never have to hunt for a raw ChIJ… id. A name/URL is resolved via Text Search
 // (works for service-area businesses with no street address); a Place ID hits Place Details.
+// The most recent Google reviews (up to 5) with their text + rating, for Review Radar. Uses the
+// Places (New) `reviews` field (pricier SKU, but one call per client per refresh). Best-effort.
+async function fetchRecentReviews(placeId: string): Promise<any[]> {
+  if (!placeId || !PLACES_KEY) return [];
+  try {
+    const res = await fetch(`https://places.googleapis.com/v1/places/${encodeURIComponent(placeId)}`, {
+      headers: { 'X-Goog-Api-Key': PLACES_KEY, 'X-Goog-FieldMask': 'reviews' },
+    });
+    if (!res.ok) return [];
+    const d = await res.json();
+    const list = Array.isArray(d.reviews) ? d.reviews.slice() : [];
+    // Places (New) returns reviews by relevance, not recency; sort newest-first so Review Radar
+    // surfaces the actual latest review (and matches a rising review count) rather than an old one.
+    list.sort((a: any, b: any) => String(b.publishTime || '').localeCompare(String(a.publishTime || '')));
+    return list.slice(0, 5).map((r: any) => ({
+      rating: r.rating ?? null,
+      text: String((r.text && r.text.text) || (r.originalText && r.originalText.text) || '').replace(/\s+/g, ' ').slice(0, 600),
+      author: (r.authorAttribution && r.authorAttribution.displayName) || 'A customer',
+      when: r.publishTime || null,
+      id: r.name || null,
+    })).filter((x: any) => x.rating != null || x.text);
+  } catch { return []; }
+}
 async function fetchReviewsByPlaceId(placeId: string) {
   // Places API (New) first.
   try {
@@ -121,7 +144,7 @@ async function fetchReviewsByPlaceId(placeId: string) {
     if (res.ok) {
       const d = await res.json();
       if (d && (d.rating != null || d.userRatingCount != null)) {
-        return { rating: d.rating ?? null, count: d.userRatingCount ?? null, placeId, matched: d.displayName?.text ?? null, checkedAt: new Date().toISOString() };
+        return { rating: d.rating ?? null, count: d.userRatingCount ?? null, placeId, matched: d.displayName?.text ?? null, recent: await fetchRecentReviews(placeId), checkedAt: new Date().toISOString() };
       }
     } else {
       console.warn('[growth] Places details (New) ' + res.status + ': ' + (await res.text()).slice(0, 160));
@@ -180,7 +203,7 @@ async function pullReviews(ref?: string | null) {
     const p = d.places && d.places[0];
     if (!p) { console.warn('[growth] Places textSearch: no match for "' + textQuery + '"'); return null; }
     console.log('[growth] reviews matched "' + textQuery + '" -> ' + (p.displayName?.text || p.id) + ' (' + p.id + ')');
-    return { rating: p.rating ?? null, count: p.userRatingCount ?? null, placeId: p.id, matched: p.displayName?.text ?? null, checkedAt: new Date().toISOString() };
+    return { rating: p.rating ?? null, count: p.userRatingCount ?? null, placeId: p.id, matched: p.displayName?.text ?? null, recent: await fetchRecentReviews(p.id), checkedAt: new Date().toISOString() };
   } catch (e) { console.error('[growth] Places textSearch failed:', e); return null; }
 }
 
@@ -532,6 +555,15 @@ async function refreshClient(sb: any, c: { user_id: string; id?: string; site_ur
     search: search ?? old.search ?? null,
     competitors: competitors ?? old.competitors ?? null,
   };
+  // Review Radar: how many reviews are new since the last snapshot (0 on the first-ever pull).
+  const rv: any = metrics.reviews;
+  if (rv && rv.count != null) {
+    const prevCount = old.reviews && old.reviews.count;
+    rv.newCount = (prevCount != null) ? Math.max(0, rv.count - prevCount) : 0;
+    // The legacy Places fallback returns no recent-reviews array; keep the last known set so Review
+    // Radar doesn't disappear on a transient miss from the primary (New) Places call.
+    if ((!rv.recent || !rv.recent.length) && old.reviews && old.reviews.recent) rv.recent = old.reviews.recent;
+  }
   // Keyword movement: compare each tracked query's position to the previous snapshot
   // (positive change = moved up, since a lower position number is better).
   const newKw = (metrics.search as any)?.topQueries as any[] | undefined;
@@ -604,7 +636,7 @@ function summaryHtml(name: string, url: string, m: any, plan?: string, extra?: {
     : '';
   // Essential gets a soft nudge toward the deeper report instead.
   const upsell = !adv
-    ? p('You are on our Essential plan. Growth adds your search trends over time, the exact terms people use to find you, and a tailored action plan each month. Just reply if you would like to hear more.')
+    ? p('You are on our Essential plan. Growth adds your search trends over time, the exact terms people use to find you, and a tailored action plan each month.')
     : '';
 
   // Monthly-only: a recap of what we shipped for them last month (empty on on-demand sends).
@@ -628,7 +660,7 @@ function summaryHtml(name: string, url: string, m: any, plan?: string, extra?: {
     searched,
     recs,
     upsell,
-    p('If you would like a hand with any of this, just reply to this email or send us a request in your <a href="' + PORTAL_URL + '" style="color:#7851a9;font-weight:600;">client portal</a>.'),
+    p('If you would like a hand with any of this, send us a request in your <a href="' + PORTAL_URL + '" style="color:#7851a9;font-weight:600;">client portal</a>.'),
     p('Talk soon,<br>The WebEaze team'),
     '<div style="margin-top:26px;padding-top:16px;border-top:1px solid #eeeeee;font-size:12px;color:#9599b8;">WebEaze Web Design, 109 Pleasant Hill Drive, Camden-Wyoming, Delaware 19934, USA</div>',
     '</div></body></html>',
