@@ -39,7 +39,7 @@ Deno.serve(async (req) => {
     if (!UUID.test(key) || !TYPES.has(type)) return ok({ ok: true, skipped: 'bad params' });
 
     const service = createClient(Deno.env.get('SUPABASE_URL')!, Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!);
-    const { data: client } = await service.from('clients').select('user_id, site_url, email, name').eq('user_id', key).maybeSingle();
+    const { data: client } = await service.from('clients').select('user_id, site_url, email, name, second_email').eq('user_id', key).maybeSingle();
     if (!client) return ok({ ok: true, skipped: 'no client' });
 
     // Light spam guard: if we know the client's site host, only accept events posted from it.
@@ -63,13 +63,13 @@ Deno.serve(async (req) => {
           await fetch('https://api.resend.com/emails', {
             method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${RESEND_API_KEY}` },
             body: JSON.stringify({
-              from: FROM, to: [client.email],
+              from: FROM, to: [client.email, client.second_email].filter(Boolean),
               subject: 'New lead from your website',
               html: '<div style="font-family:Arial,Helvetica,sans-serif;font-size:15px;color:#1e222b;line-height:1.6;max-width:520px;">'
                 + '<p>Hi ' + esc(first) + ',</p>'
                 + '<p><strong>Someone ' + act + ' from your website.</strong>' + pageLine + '</p>'
                 + '<p>The faster you follow up, the more likely you are to win the job, so reach out now while you are top of mind.</p>'
-                + '<p style="color:#6b7280;font-size:12.5px;border-top:1px solid #eee;padding-top:12px;margin-top:16px;">You are getting this because a visitor took an action on your WebEaze website. Reply to this email if you would like to turn these alerts off.</p>'
+                + '<p style="color:#6b7280;font-size:12.5px;border-top:1px solid #eee;padding-top:12px;margin-top:16px;">You are getting this because a visitor took an action on your website. Reply to this email if you would like to turn these alerts off.</p>'
                 + '<p style="color:#6b7280;font-size:12.5px;">The WebEaze team</p>'
                 + '</div>',
             }),

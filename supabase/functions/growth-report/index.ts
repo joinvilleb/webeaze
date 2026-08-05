@@ -713,7 +713,7 @@ Deno.serve(async (req) => {
     if (cronSecret && cronSecret === CRON_SECRET) {
       const only = (body && typeof body.only === 'string') ? body.only : null;
       let cq = service.from('clients')
-        .select('user_id, id, email, name, site_url, google_place_id, plan, status')
+        .select('user_id, id, email, name, site_url, google_place_id, plan, status, second_email')
         .not('site_url', 'is', null).neq('status', 'inactive');
       if (only) cq = cq.eq('user_id', only);
       const { data: clients } = await cq;
@@ -744,7 +744,7 @@ Deno.serve(async (req) => {
           const recap = await fetchMonthlyRecap(service, c.user_id);   // last month's completed work
           const leadCount = await countLeads(service, c.user_id, recap.windowStartISO, recap.windowEndISO);
           await sendEmail({
-            from: FROM, to: [c.email],
+            from: FROM, to: [c.email, c.second_email].filter(Boolean),
             subject: 'Your ' + monthYear + ' growth report',
             html: summaryHtml(c.name || '', c.site_url || '', metrics, c.plan, recap, { count: leadCount, label: 'in ' + recap.monthLabel }),
           });
@@ -763,7 +763,7 @@ Deno.serve(async (req) => {
 
     // Clients refresh their own record; the admin account may refresh any client (targetUserId).
     const targetUserId = (body.targetUserId && user.email === 'billy@webeaze.io') ? body.targetUserId : user.id;
-    const { data: c } = await service.from('clients').select('user_id, id, email, name, site_url, google_place_id, plan').eq('user_id', targetUserId).maybeSingle();
+    const { data: c } = await service.from('clients').select('user_id, id, email, name, site_url, google_place_id, plan, second_email').eq('user_id', targetUserId).maybeSingle();
     if (!c) return json({ error: 'No client record' }, 404);
 
     const metrics = await refreshClient(service, c);
@@ -795,7 +795,7 @@ Deno.serve(async (req) => {
             leads = { count: await countLeads(service, c.user_id, monthStartISO), label: 'this month' };
           }
           await sendEmail({
-            from: FROM, to: [recipient],
+            from: FROM, to: [recipient, isAdminPreview ? null : (c.second_email || null)].filter(Boolean),
             subject: isAdminPreview ? ('[Monthly preview] ' + (c.name || c.site_url || 'client') + "'s report") : 'Your growth report',
             html: summaryHtml(c.name || '', c.site_url || '', metrics, c.plan, recap, leads),
           });

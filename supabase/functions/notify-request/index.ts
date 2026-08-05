@@ -98,10 +98,14 @@ Deno.serve(async (req) => {
         `<p><strong>Details:</strong><br>${br(notes)}</p>`,
     });
 
+    // CC a partner if the client set a second email on their account (column may not be migrated yet).
+    let secondEmail: string | null = null;
+    try { const { data: cli } = await supabase.from('clients').select('second_email').eq('user_id', user.id).maybeSingle(); secondEmail = (cli && (cli as any).second_email) || null; } catch (_e) { /* ignore */ }
+
     // Confirmation + summary to the client
     await sendEmail({
       from: FROM,
-      to: [user.email],
+      to: [user.email, secondEmail].filter(Boolean),
       subject: 'We got your request: ' + type,
       html:
         '<div style="font-family:Arial,Helvetica,sans-serif;max-width:560px;margin:0 auto;color:#0f1228">' +
