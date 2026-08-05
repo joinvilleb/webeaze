@@ -12,7 +12,7 @@ select cron.schedule(
   $$
   select net.http_post(
     url     := 'https://gmgzhjxfypuyzzgqwona.supabase.co/functions/v1/churn-digest',
-    headers := jsonb_build_object('Content-Type', 'application/json', 'x-cron-secret', '<YOUR_CRON_SECRET>'),
+    headers := jsonb_build_object('Content-Type', 'application/json', 'x-cron-secret', 'ZZEnhzofKAFFPjIuLf9zicMtqtxM8aCgmufu'),
     body    := jsonb_build_object('mode', 'weekly')
   );
   $$

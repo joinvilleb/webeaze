@@ -277,7 +277,7 @@ Deno.serve(async (req) => {
       userMsg = ctxBlock + 'The client\'s request was:\n' + input + '\n\nWrite the note describing this as done.';
     } else if (task === 'request') {
       // Client-side: polish a rough request into a clear one, in the owner's own voice.
-      system = "You help a small business owner write a clear website change request for their web team. Rewrite their rough note into a clear, specific, polite request in first person, in their own plain voice. Keep it short. Do NOT invent details they did not give; just make it clean and unambiguous. NEVER use em dashes. Return ONLY the improved request text, no preamble.";
+      system = "You help a small business owner write a clear website change request for their web team. If their note has enough to work with, rewrite it into a clear, specific, polite request in first person, in their own plain voice, keep it short, do NOT invent details they did not give, and return ONLY that improved request text with no preamble. If the note is too short or vague to turn into a real request (for example just a greeting, or 'I need help'), do NOT invent one and do NOT return it unchanged: instead return a short, friendly note (2 to 4 sentences) that asks for the key missing details and gives 2 or 3 concrete examples of what they could tell you (for example what they want changed and to what, which page it is on, or what to add). NEVER use em dashes.";
       userMsg = ctxBlock + 'Rough request:\n' + input;
     } else if (task === 'triage') {
       // Admin-side: a quick read on an incoming request.

@@ -29,7 +29,7 @@ import { createClient } from 'jsr:@supabase/supabase-js@2';
 
 const ANTHROPIC_API_KEY = Deno.env.get('ANTHROPIC_API_KEY') ?? '';
 const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY') ?? '';
-const AI_MODEL = 'claude-sonnet-5';   // upgraded from haiku-4-5 for a sharper, more capable concierge
+const AI_MODEL = 'claude-haiku-4-5-20251001';   // proven-working model; the coaching/hours/closures live in the prompt below
 const FROM = 'WebEaze <support@webeaze.io>';
 const TEAM = 'billy@webeaze.io';
 const KB_URL = 'https://portal.webeaze.io/help-content.json';
@@ -173,6 +173,7 @@ Deno.serve(async (req) => {
       'The overall account details are in ACCOUNT CONTEXT under "account" (status, member since, whether their website is live or still being built, and how many requests they have made and had completed). Share any of it if they ask about their account.',
       'SUPPORT HOURS AND CLOSURES: WebEaze human support runs Monday to Friday, 9am to 5pm Eastern Time, and is closed on US public holidays. ACCOUNT CONTEXT "support" is the LIVE picture and you must use it rather than guess: support.state is "open", "away" (before 9am or after 5pm on a weekday), "closed" (weekend), or "holiday"; support.status is a ready plain-English status line; support.nextOpen is when the team is next at their desks (for example "Monday at 9am ET"); support.holidayToday names today\'s holiday when there is one; support.upcomingClosures lists the next closures with their dates. Answer "are you open", "what are your hours", "when will I hear back", and "when are you closed" from these, precisely and honestly, and prefer support.status or support.nextOpen over restating generic hours. Never say a person is available when support.state is not "open" or team.onlineRightNow is false. Whenever you propose or file a change while support.state is not "open", set expectations by telling them the team will pick it up when they are back, using support.nextOpen. If the client mentions needing something by or around a specific date, check support.upcomingClosures and proactively warn them if it lands in or right before a closure.' + (isAdvanced ? ' This client can reach a real person: if they want one and support.state is "open" or team.onlineRightNow is true, use "escalate" so a teammate jumps in; if the team is away, say so honestly, offer to take a message or file it, and tell them when it will be picked up using support.nextOpen.' : ' On the Essential plan you are their support: never promise a live person or a call, though you may gently note Growth adds direct human access.'),
       'EMERGENCIES FIRST: if the client says their website is down, will not load, is broken, showing errors, or looks hacked, treat it as urgent regardless of plan. Reply calmly that you are flagging it to the team right now so they can look straight away (and note when they are back if support.state is not "open"), and set action "escalate" so they are emailed immediately. Do not downgrade a broken site to a routine request.',
+      'When the client only greets you or sends something too vague to act on (for example "hi", "I need help", "can you change my site"), do NOT just accept it or reply with a bare "what do you need". Greet them warmly if it is a hello, then actively help them say more: in a sentence or two, name a few concrete things you can do and invite specifics, with an example or two tied to their site. For example: "Hi, I am Eaze. I can update your text, hours, or photos, add a page or section, tidy up your wording, or answer questions about your plan. What would you like to do?". If they give a partial request, ask the one specific thing you still need (the exact new wording, the page, the number). For a plain thanks or goodbye, just reply warmly. The goal is always to help a vague ask become a clear, specific one.',
       'Decide exactly ONE action:',
       '- "answer": help directly and specifically. If the request is vague, ask ONE focused clarifying question rather than guessing. Where it truly helps, add the useful next step or a short relevant tip, but stay brief.',
       '- "article": give a brief helpful answer and set article_slug to the single most relevant help article (from the knowledge or relevantArticles). Do NOT paste a link or name the article yourself; the system attaches a clickable link automatically. Use this only if an article clearly fits.',
@@ -228,11 +229,11 @@ Deno.serve(async (req) => {
     if (!parsed || typeof parsed !== 'object') {
       const rm = text.match(/"reply"\s*:\s*"((?:[^"\\]|\\.)*)"/);
       const r = rm ? rm[1].replace(/\\n/g, '\n').replace(/\\"/g, '"').replace(/\\\\/g, '\\') : '';
-      parsed = { reply: r || 'Happy to help, could you tell me a little more about what you need?', action: 'answer' };
+      parsed = { reply: r || 'I want to make sure I get this right. Could you tell me a bit more about what you need?', action: 'answer' };
     }
 
     // Strip em dashes (house rule) + fix any wrong .com email/domain, as a safety net if the model slips.
-    let reply = (String(parsed.reply || '').trim().replace(/\s*—\s*/g, ', ').replace(/webeaze\.com/gi, 'webeaze.io')) || 'Happy to help with that.';
+    let reply = (String(parsed.reply || '').trim().replace(/\s*—\s*/g, ', ').replace(/webeaze\.com/gi, 'webeaze.io')) || 'Let me help you with that. What would you like to do?';
     const action = String(parsed.action || 'answer');
     let escalated = false;
     // When the client clearly wants a website change, we PROPOSE it and let them confirm with a tap.
