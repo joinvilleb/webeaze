@@ -957,9 +957,15 @@ body {
   transform-origin: center;
   backface-visibility: hidden;
 }
-/* handle heading: hug the flipping words toward the fixed "handle" */
-.hm-flip--pre  .hm-w { text-align: right; }
-.hm-flip--post .hm-w { text-align: left; }
+/* handle heading (2-way flip): keep the visible line centered. The "a" phrase
+   stays in normal flow and defines the width; the "b" phrase floats out of flow
+   anchored to the "handle" side, so the heading box tracks the visible phrase
+   and the whole line stays centered (no reflow, no reserved right-side gap). */
+.hm-flip--pre, .hm-flip--post { display: inline-block; position: relative; }
+.hm-flip--pre > .hm-w, .hm-flip--post > .hm-w { display: inline-block; grid-area: auto; text-align: center; }
+.hm-flip--pre > .hm-w-b, .hm-flip--post > .hm-w-b { position: absolute; top: 0; white-space: nowrap; }
+.hm-flip--pre  > .hm-w-b { right: 0; }
+.hm-flip--post > .hm-w-b { left: 0; }
 
 /* 2-way flip (handle) — base/no-JS/reduced-motion shows the landing phrase */
 .hm-w-a { opacity: 0; }
@@ -1976,6 +1982,10 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
         <div class="hero-ctas">
           <a href="consultation.html" class="btn-primary-brand"><i class="fas fa-arrow-right"></i> Get Your Free Preview</a>
           <a href="samples.html" class="btn-secondary-brand">See Our Work</a>
+        </div>
+        <div class="hero-trust" style="display:flex;align-items:center;gap:10px;margin-top:22px;font-size:.93rem;font-weight:600;">
+          <span aria-hidden="true" style="color:#f5a623;letter-spacing:2px;font-size:1rem;">★★★★★</span>
+          <span style="opacity:.9;">Trusted by 52 small businesses</span>
         </div>
 </div>
       <div class="hero-visual" aria-hidden="true">
