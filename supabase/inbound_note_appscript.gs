@@ -24,38 +24,61 @@ function ingestClientReplies() {
   var maxSeen = lastRun;
 
   // Recent inbox mail that isn't from us. 'newer_than:3d' bounds the search cheaply.
-  var threads = GmailApp.search('in:inbox newer_than:3d -from:webeaze.io', 0, 60);
+  // Gmail search can throw a transient "Gmail operation not allowed" now and then, so retry once.
+  var threads = searchWithRetry_('in:inbox newer_than:3d -from:webeaze.io', 60);
+  if (threads === null) return;   // Gmail unavailable this run; next run (5 min) picks it up. Do not throw.
 
   for (var i = 0; i < threads.length; i++) {
-    var msgs = threads[i].getMessages();
-    for (var j = 0; j < msgs.length; j++) {
-      var msg = msgs[j];
-      var ts = msg.getDate().getTime();
-      if (ts <= lastRun) continue;                       // already handled in a previous run
-      var from = msg.getFrom();
-      if (/@webeaze\.io/i.test(from)) { if (ts > maxSeen) maxSeen = ts; continue; } // our own send
+    // Isolate each thread: one odd/inaccessible thread (deleted mid-run, a Chat thread, etc.) throws
+    // "Gmail operation not allowed" and must not kill the whole run and email a failure notice.
+    var msgs;
+    try { msgs = threads[i].getMessages(); }
+    catch (eThread) { Logger.log('skip thread ' + i + ': ' + eThread); continue; }
 
-      var payload = {
-        from: from,
-        subject: msg.getSubject(),
-        text: msg.getPlainBody(),
-        messageId: msg.getId(),
-        receivedAt: msg.getDate().toISOString()
-      };
+    for (var j = 0; j < msgs.length; j++) {
       try {
-        UrlFetchApp.fetch(FUNCTION_URL, {
+        var msg = msgs[j];
+        var ts = msg.getDate().getTime();
+        if (ts <= lastRun) continue;                       // already handled in a previous run
+        var from = msg.getFrom();
+        if (/@webeaze\.io/i.test(from)) { if (ts > maxSeen) maxSeen = ts; continue; } // our own send
+
+        var payload = {
+          from: from,
+          subject: msg.getSubject(),
+          text: msg.getPlainBody(),
+          messageId: msg.getId(),
+          receivedAt: msg.getDate().toISOString()
+        };
+        var resp = UrlFetchApp.fetch(FUNCTION_URL, {
           method: 'post',
           contentType: 'application/json',
           headers: { 'x-inbound-secret': SECRET },
           payload: JSON.stringify(payload),
           muteHttpExceptions: true
         });
-      } catch (e) {
-        // Leave lastRun where it was for this message so it retries next run.
+        // Only mark this message as handled if the function actually accepted it; otherwise leave
+        // maxSeen where it was so it retries next run (the function dedups by messageId).
+        if (resp.getResponseCode() < 300 && ts > maxSeen) maxSeen = ts;
+      } catch (eMsg) {
+        Logger.log('skip message: ' + eMsg);   // transient read/network error: retried next run
         continue;
       }
-      if (ts > maxSeen) maxSeen = ts;
     }
   }
   props.setProperty('lastRun', String(maxSeen));
+}
+
+// Runs a Gmail search, retrying once after a short pause on a transient failure. Returns the thread
+// array, or null if Gmail is unavailable this run (caller should just skip, not throw).
+function searchWithRetry_(query, limit) {
+  for (var attempt = 0; attempt < 2; attempt++) {
+    try {
+      return GmailApp.search(query, 0, limit);
+    } catch (e) {
+      Logger.log('search attempt ' + (attempt + 1) + ' failed: ' + e);
+      if (attempt === 0) Utilities.sleep(1500);
+    }
+  }
+  return null;
 }
