@@ -13,7 +13,7 @@
 import { createClient } from 'jsr:@supabase/supabase-js@2';
 
 const ANTHROPIC_API_KEY = Deno.env.get('ANTHROPIC_API_KEY') ?? '';
-const AI_MODEL = 'claude-haiku-4-5-20251001';
+const AI_MODEL = 'claude-sonnet-5';   // upgraded from Haiku 4.5 for a sharper onboarding interview. Reply is fence-stripped, JSON-parsed with a first-{...} fallback and a safe default, and updates are whitelisted to FIELDS, so the format stays safe.
 
 // The fields Eaze fills. These map 1:1 to the portal's setup form (see SETUP_FIELD_MAP there).
 const FIELDS = ['business', 'industry', 'about', 'services', 'areas', 'hours', 'colors', 'wants', 'domainNotes', 'instagram', 'inspo'];
@@ -71,7 +71,8 @@ Deno.serve(async (req) => {
     });
     if (!res.ok) { console.error('[setup-interview] anthropic ' + res.status); return json({ error: 'AI request failed' }, 200); }
     const d = await res.json();
-    let text = ((d.content && d.content[0] && d.content[0].text) || '').trim().replace(/^```(?:json)?\s*/i, '').replace(/```\s*$/, '').trim();
+    // Concatenate every TEXT block; some models (e.g. Sonnet 5) return a thinking block as content[0].
+    let text = (Array.isArray(d.content) ? d.content.filter((b: any) => b && b.type === 'text' && typeof b.text === 'string').map((b: any) => b.text).join('') : '').trim().replace(/^```(?:json)?\s*/i, '').replace(/```\s*$/, '').trim();
     let parsed: any = null;
     try { parsed = JSON.parse(text); } catch { const m = text.match(/\{[\s\S]*\}/); if (m) { try { parsed = JSON.parse(m[0]); } catch { /* ignore */ } } }
     if (!parsed || typeof parsed !== 'object') parsed = { reply: 'Tell me a bit about your business and what you do.', updates: {}, done: false };

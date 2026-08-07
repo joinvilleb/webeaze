@@ -27,7 +27,7 @@ const CRON_SECRET = Deno.env.get('CRON_SECRET') ?? '';
 const PSI_KEY = Deno.env.get('GOOGLE_PSI_KEY') ?? '';
 const PLACES_KEY = Deno.env.get('GOOGLE_PLACES_KEY') ?? '';
 const ANTHROPIC_API_KEY = Deno.env.get('ANTHROPIC_API_KEY') ?? '';
-const AI_MODEL = 'claude-haiku-4-5-20251001';   // friendly report writer; bump to a larger model for richer copy
+const AI_MODEL = 'claude-sonnet-5';   // upgraded from Haiku 4.5 for richer report copy. Runs on a per-client cron fan-out (monthly), so the slightly higher latency/cost per run is fine.
 const FROM = 'WebEaze <support@webeaze.io>';
 const PORTAL_URL = 'https://portal.webeaze.io';
 
@@ -443,7 +443,7 @@ async function generateSummary(c: { site_url?: string; name?: string }, metrics:
     });
     if (!res.ok) { console.error('[growth] Anthropic ' + res.status + ': ' + (await res.text()).slice(0, 200)); return null; }
     const d = await res.json();
-    let text = (d.content && d.content[0] && d.content[0].text) || '';
+    let text = (Array.isArray(d.content) ? d.content.filter((b: any) => b && b.type === 'text' && typeof b.text === 'string').map((b: any) => b.text).join('') : '');
     text = text.replace(/^```(?:json)?\s*/i, '').replace(/```\s*$/, '').trim();
     const p = JSON.parse(text);
     return {
@@ -480,7 +480,7 @@ async function generateOpportunities(c: { site_url?: string; name?: string }, me
     });
     if (!res.ok) { console.error('[growth] opportunities ' + res.status); return null; }
     const d = await res.json();
-    let text = (d.content && d.content[0] && d.content[0].text) || '';
+    let text = (Array.isArray(d.content) ? d.content.filter((b: any) => b && b.type === 'text' && typeof b.text === 'string').map((b: any) => b.text).join('') : '');
     text = text.replace(/^```(?:json)?\s*/i, '').replace(/```\s*$/, '').trim();
     const arr = JSON.parse(text);
     if (!Array.isArray(arr)) return null;
@@ -511,7 +511,7 @@ async function generateNudges(c: { site_url?: string; name?: string }, refDate: 
     });
     if (!res.ok) { console.error('[growth] nudges ' + res.status); return null; }
     const d = await res.json();
-    let text = (d.content && d.content[0] && d.content[0].text) || '';
+    let text = (Array.isArray(d.content) ? d.content.filter((b: any) => b && b.type === 'text' && typeof b.text === 'string').map((b: any) => b.text).join('') : '');
     text = text.replace(/^```(?:json)?\s*/i, '').replace(/```\s*$/, '').trim();
     const arr = JSON.parse(text);
     if (!Array.isArray(arr)) return null;

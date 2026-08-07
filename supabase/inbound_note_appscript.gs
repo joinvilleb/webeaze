@@ -1,5 +1,5 @@
 /**
- * WebEaze — forward client email replies into their portal notes.
+ * WebEaze — keep the portal notes thread in sync with email, both directions.
  *
  * Setup (once):
  *   1. script.google.com  ->  New project, paste this in.
@@ -9,15 +9,26 @@
  *   4. Triggers (clock icon) -> Add Trigger -> ingestClientReplies -> Time-driven ->
  *      Minutes timer -> Every 5 minutes.  Save.
  *
- * After that, any new email from an ACTIVE client lands in their portal notes automatically.
- * The Supabase function decides who is a client; this just hands it every fresh inbox message
- * that is not from us.
+ * What it does, every 5 minutes:
+ *   - Inbound: any new email from an ACTIVE client lands in their portal notes (author 'client').
+ *   - Outbound: any reply YOU send from support@webeaze.io to a client lands in the SAME thread
+ *     (author 'team'), so the client sees both sides, not just their own messages.
+ * The Supabase function decides who is a client and which side each message belongs to; this just
+ * hands it fresh inbox + sent mail. Automated portal emails go out via Resend (not Gmail), so they
+ * never appear in Sent and are never double-posted.
  */
 
 var FUNCTION_URL = 'https://gmgzhjxfypuyzzgqwona.supabase.co/functions/v1/inbound-note';
 var SECRET = 'PASTE_THE_SAME_INBOUND_SECRET_HERE';
 
+// Trigger entry point: run both directions. One failing does not stop the other.
 function ingestClientReplies() {
+  try { ingestInbound_(); } catch (e) { Logger.log('inbound run failed: ' + e); }
+  try { ingestOurReplies_(); } catch (e) { Logger.log('sent run failed: ' + e); }
+}
+
+// ── Inbound: clients' email replies -> their portal notes (author 'client') ──
+function ingestInbound_() {
   var props = PropertiesService.getScriptProperties();
   // Only look at messages that arrived since the last run (first run: last 2 days).
   var lastRun = Number(props.getProperty('lastRun') || (Date.now() - 2 * 24 * 3600 * 1000));
@@ -67,6 +78,59 @@ function ingestClientReplies() {
     }
   }
   props.setProperty('lastRun', String(maxSeen));
+}
+
+// ── Outbound: our replies (support@webeaze.io) -> the SAME client's notes (author 'team') ──
+function ingestOurReplies_() {
+  var props = PropertiesService.getScriptProperties();
+  var lastSent = Number(props.getProperty('lastSent') || (Date.now() - 2 * 24 * 3600 * 1000));
+  var maxSent = lastSent;
+
+  // Our recently sent mail. The function matches the recipient to a client and ignores the rest,
+  // so ordinary emails to non-clients are simply skipped.
+  var threads = searchWithRetry_('in:sent newer_than:3d from:support@webeaze.io', 60);
+  if (threads === null) return;
+
+  for (var i = 0; i < threads.length; i++) {
+    var msgs;
+    try { msgs = threads[i].getMessages(); }
+    catch (eThread) { Logger.log('skip sent thread ' + i + ': ' + eThread); continue; }
+
+    for (var j = 0; j < msgs.length; j++) {
+      try {
+        var msg = msgs[j];
+        // Only OUR support sends. Do NOT touch maxSent for other messages in the thread (client
+        // replies live here too): advancing it on those could skip a later, older reply of ours.
+        if (!/support@webeaze\.io/i.test(msg.getFrom())) continue;
+        var ts = msg.getDate().getTime();
+        if (ts <= lastSent) continue;                      // already handled in a previous run
+
+        var payload = {
+          team: true,
+          to: msg.getTo(),
+          from: msg.getFrom(),
+          subject: msg.getSubject(),
+          text: msg.getPlainBody(),
+          messageId: msg.getId(),
+          receivedAt: msg.getDate().toISOString()
+        };
+        var resp = UrlFetchApp.fetch(FUNCTION_URL, {
+          method: 'post',
+          contentType: 'application/json',
+          headers: { 'x-inbound-secret': SECRET },
+          payload: JSON.stringify(payload),
+          muteHttpExceptions: true
+        });
+        // Advance only on acceptance (a non-client recipient returns 200 'skipped', which is fine
+        // to advance past; a real error leaves it for the next run to retry).
+        if (resp.getResponseCode() < 300 && ts > maxSent) maxSent = ts;
+      } catch (eMsg) {
+        Logger.log('skip sent message: ' + eMsg);
+        continue;
+      }
+    }
+  }
+  props.setProperty('lastSent', String(maxSent));
 }
 
 // Runs a Gmail search, retrying once after a short pause on a transient failure. Returns the thread

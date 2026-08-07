@@ -29,12 +29,27 @@ import { createClient } from 'jsr:@supabase/supabase-js@2';
 
 const ANTHROPIC_API_KEY = Deno.env.get('ANTHROPIC_API_KEY') ?? '';
 const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY') ?? '';
-const AI_MODEL = 'claude-haiku-4-5-20251001';   // proven-working model; the coaching/hours/closures live in the prompt below
+const AI_MODEL = 'claude-sonnet-5';   // upgraded from Haiku 4.5: smarter replies, still fast for live chat. Response is still forced to JSON and parsed defensively below, so the format is unchanged.
 const FROM = 'WebEaze <support@webeaze.io>';
 const TEAM = 'billy@webeaze.io';
 const KB_URL = 'https://portal.webeaze.io/help-content.json';
 const HELP_BASE = 'https://webeaze.io/help.html#/';   // a help article lives at HELP_BASE + slug
 const REQUEST_TYPES = ['Content update', 'New page or section', 'Design change', 'SEO or metadata', 'Bug or broken element', 'Other'];
+
+// A concise, accurate map of the client portal so Eaze can send clients to the EXACT place for a
+// task instead of answering only in the abstract. Menu names match the portal navigation verbatim.
+const PORTAL_GUIDE = [
+  'THE PORTAL (what the client can do and exactly where). When they ask how or where to do something, name the exact section:',
+  '- Home: their dashboard with headline numbers, an activation checklist, and Account Information (their plan, price, next billing date, and Manage billing to change plan or payment method).',
+  '- Your site report: their real performance, site speed, Google reviews, and Google Search traffic (impressions, clicks, ranking). Growth/Elite also see keyword rankings and a monthly action plan. They can tap Refresh to update it or Email me to get it by email.',
+  '- Edit your website (a Beta feature, shown when it is available for their site): they can change parts of their live site themselves, business hours (with a live Open/Closed badge), an announcement bar, and a rotating Google reviews widget, then Save and publish. If it is not wired up on their site yet, that page tells them and they can ask us to finish setting it up.',
+  '- Website notes: a running two-way thread with our team. They can leave a note, question, photo, or file, and our replies appear here too (they can also just reply to our emails and it lands here).',
+  '- Site setup: self-serve setup tools, Connect your domain (we can take it over and cover the renewal cost), Send us your brand assets (logo, photos, brand files), Connect your Google reviews (a Growth feature), and Share a password securely (encrypted end to end).',
+  '- Request history: every website change they have requested, with status and simple stats.',
+  '- Milestones (their progress), Refer and Earn (referral rewards), Add-ons and upgrades (extra services and plan upgrades).',
+  '- Whats new (recent activity and portal updates) and Support hours (when the team is available).',
+  'For a change they could make themselves (hours, an announcement, the reviews widget) you may point them to Edit your website AND offer to just do it for them as a request, whichever they prefer. For uploading a logo or photos, or connecting a domain or Google reviews, point them to Site setup. Never invent a portal feature or menu that is not listed here.',
+].join('\n');
 
 const cors = { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type', 'Access-Control-Allow-Methods': 'POST, OPTIONS' };
 const json = (b: unknown, s = 200) => new Response(JSON.stringify(b), { status: s, headers: { ...cors, 'Content-Type': 'application/json' } });
@@ -174,6 +189,7 @@ Deno.serve(async (req) => {
       'SUPPORT HOURS AND CLOSURES: WebEaze human support runs Monday to Friday, 9am to 5pm Eastern Time, and is closed on US public holidays. ACCOUNT CONTEXT "support" is the LIVE picture and you must use it rather than guess: support.state is "open", "away" (before 9am or after 5pm on a weekday), "closed" (weekend), or "holiday"; support.status is a ready plain-English status line; support.nextOpen is when the team is next at their desks (for example "Monday at 9am ET"); support.holidayToday names today\'s holiday when there is one; support.upcomingClosures lists the next closures with their dates. Answer "are you open", "what are your hours", "when will I hear back", and "when are you closed" from these, precisely and honestly, and prefer support.status or support.nextOpen over restating generic hours. Never say a person is available when support.state is not "open" or team.onlineRightNow is false. Whenever you propose or file a change while support.state is not "open", set expectations by telling them the team will pick it up when they are back, using support.nextOpen. If the client mentions needing something by or around a specific date, check support.upcomingClosures and proactively warn them if it lands in or right before a closure.' + (isAdvanced ? ' This client can reach a real person: if they want one and support.state is "open" or team.onlineRightNow is true, use "escalate" so a teammate jumps in; if the team is away, say so honestly, offer to take a message or file it, and tell them when it will be picked up using support.nextOpen.' : ' On the Essential plan you are their support: never promise a live person or a call, though you may gently note Growth adds direct human access.'),
       'EMERGENCIES FIRST: if the client says their website is down, will not load, is broken, showing errors, or looks hacked, treat it as urgent regardless of plan. Reply calmly that you are flagging it to the team right now so they can look straight away (and note when they are back if support.state is not "open"), and set action "escalate" so they are emailed immediately. Do not downgrade a broken site to a routine request.',
       'When the client only greets you or sends something too vague to act on (for example "hi", "I need help", "can you change my site"), do NOT just accept it or reply with a bare "what do you need". Greet them warmly if it is a hello, then actively help them say more: in a sentence or two, name a few concrete things you can do and invite specifics, with an example or two tied to their site. For example: "Hi, I am Eaze. I can update your text, hours, or photos, add a page or section, tidy up your wording, or answer questions about your plan. What would you like to do?". If they give a partial request, ask the one specific thing you still need (the exact new wording, the page, the number). For a plain thanks or goodbye, just reply warmly. The goal is always to help a vague ask become a clear, specific one.',
+      PORTAL_GUIDE,
       'Decide exactly ONE action:',
       '- "answer": help directly and specifically. If the request is vague, ask ONE focused clarifying question rather than guessing. Where it truly helps, add the useful next step or a short relevant tip, but stay brief.',
       '- "article": give a brief helpful answer and set article_slug to the single most relevant help article (from the knowledge or relevantArticles). Do NOT paste a link or name the article yourself; the system attaches a clickable link automatically. Use this only if an article clearly fits.',
@@ -208,14 +224,18 @@ Deno.serve(async (req) => {
     const convo = history.map((h: any) => (h.role === 'client' ? 'Client' : 'Team') + ': ' + String(h.text || '')).join('\n');
     const userMsg = 'ACCOUNT CONTEXT:\n' + JSON.stringify(ctx, null, 2) + '\n\nKNOWLEDGE:\n' + knowledge + '\n\nCONVERSATION SO FAR:\n' + (convo ? convo + '\n' : '') + 'Client: ' + message;
 
-    const aiRes = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: { 'x-api-key': ANTHROPIC_API_KEY, 'anthropic-version': '2023-06-01', 'content-type': 'application/json' },
-      body: JSON.stringify({ model: AI_MODEL, max_tokens: 800, system, messages: [{ role: 'user', content: userMsg }] }),
-    });
+    // Turn extended thinking OFF: this is a fast JSON concierge that does not need it, so we skip the
+    // latency and wasted tokens. If a model ever rejects the parameter (400), retry once without it so
+    // this can never take the chat down (thinking stays on then, and the all-text read below still works).
+    const AH = { 'x-api-key': ANTHROPIC_API_KEY, 'anthropic-version': '2023-06-01', 'content-type': 'application/json' };
+    const mkBody = (extra: Record<string, unknown>) => JSON.stringify({ model: AI_MODEL, max_tokens: 800, system, messages: [{ role: 'user', content: userMsg }], ...extra });
+    let aiRes = await fetch('https://api.anthropic.com/v1/messages', { method: 'POST', headers: AH, body: mkBody({ thinking: { type: 'disabled' } }) });
+    if (aiRes.status === 400) aiRes = await fetch('https://api.anthropic.com/v1/messages', { method: 'POST', headers: AH, body: mkBody({}) });
     if (!aiRes.ok) { console.error('[chat-assist] anthropic ' + aiRes.status + ': ' + (await aiRes.text()).slice(0, 200)); return json({ ok: false, error: 'ai' }, 200); }
     const aiData = await aiRes.json();
-    const text = ((aiData.content && aiData.content[0] && aiData.content[0].text) || '').trim();
+    // Concatenate EVERY text block. Some models return a non-text block (e.g. reasoning) as content[0],
+    // which would leave content[0].text empty and wrongly trigger the generic fallback reply.
+    const text = (Array.isArray(aiData.content) ? aiData.content.filter((b: any) => b && b.type === 'text' && typeof b.text === 'string').map((b: any) => b.text).join('') : '').trim();
 
     // Robustly extract the JSON object even if the model wrapped it in prose or code fences, and
     // NEVER show raw JSON to the client: parse straight, then the first {...} block, then just pull

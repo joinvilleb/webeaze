@@ -30,6 +30,11 @@ function parseEmail(from: string): string {
   return (m ? m[1] : String(from || '')).trim().toLowerCase();
 }
 
+// Pull every bare email out of a To/Cc header ("A <a@x.com>, b@y.com") for team-reply matching.
+function parseRecipients(to: string): string[] {
+  return String(to || '').split(',').map((p) => parseEmail(p)).filter((e) => e.includes('@'));
+}
+
 // Keep only the person's actual reply: cut at the first quoted-history / signature marker.
 function stripQuoted(raw: string): string {
   let t = String(raw || '').replace(/\r\n/g, '\n');
@@ -101,11 +106,39 @@ Deno.serve(async (req) => {
 
   try {
     const body = await req.json().catch(() => ({}));
+    const service = createClient(Deno.env.get('SUPABASE_URL')!, Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!);
+
+    // ── Team reply: our own email to a client (sent from support@webeaze.io). Mirror it into the
+    // thread as a WebEaze note so the conversation is two-sided. Matched by the RECIPIENT, since the
+    // sender is us. No request classification and no extra email (the client already got our reply). ──
+    if (body.team === true) {
+      const recips = parseRecipients(body.to || '');
+      if (!recips.length) return json({ ok: true, skipped: 'team reply with no recipient' });
+      let teamClient: any = null;
+      for (const r of recips) {
+        if (r.endsWith('@webeaze.io')) continue;   // skip ourselves / internal addresses on the line
+        const { data: cs } = await service.from('clients')
+          .select('id, user_id, email, status, name').ilike('email', r);
+        const active = (cs ?? []).find((c) => (c.status || '').toLowerCase() === 'active');
+        if (active) { teamClient = active; break; }
+      }
+      if (!teamClient) return json({ ok: true, skipped: 'no active client in recipients' });
+      const teamNote = stripQuoted(body.text || '');
+      if (!teamNote) return json({ ok: true, skipped: 'empty after stripping quotes' });
+      const { error: teamErr } = await service.from('client_notes').insert({
+        user_id: teamClient.user_id,
+        client_id: teamClient.id,
+        note: teamNote,
+        author: 'team',   // our reply — renders as a WebEaze bubble on their side of the thread
+      });
+      if (teamErr) { console.error('[inbound-note] team insert failed:', teamErr); return json({ error: 'insert failed' }, 500); }
+      console.log('[inbound-note] added TEAM note for ' + (teamClient.name || teamClient.email));
+      return json({ ok: true, added: true, team: true, client: teamClient.name || teamClient.email });
+    }
+
     const email = parseEmail(body.from || '');
     if (!email || !email.includes('@')) return json({ ok: true, skipped: 'no sender email' });
     if (email.endsWith('@webeaze.io')) return json({ ok: true, skipped: 'from us' });
-
-    const service = createClient(Deno.env.get('SUPABASE_URL')!, Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!);
 
     // Match the sender to an ACTIVE client (case-insensitive email).
     const { data: clients } = await service.from('clients')

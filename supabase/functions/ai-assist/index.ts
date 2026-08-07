@@ -11,7 +11,7 @@
 import { createClient } from 'jsr:@supabase/supabase-js@2';
 
 const ANTHROPIC_API_KEY = Deno.env.get('ANTHROPIC_API_KEY') ?? '';
-const AI_MODEL = 'claude-haiku-4-5-20251001';
+const AI_MODEL = 'claude-sonnet-5';   // upgraded from Haiku 4.5. Every task parses the reply defensively with fallbacks, and the add-ons price guard still drops any $ figure not in the fee schedule, so output stays safe. Sonnet 5 supports vision, so photo_caption is unaffected.
 
 // The authoritative WebEaze fee schedule (mirrors the public fee-schedule page), used to ground the
 // add-ons concierge so it only ever quotes real, current prices. Keep in sync with fee-schedule.html.
@@ -67,7 +67,8 @@ async function anthropic(payload: Record<string, unknown>): Promise<string | nul
   });
   if (!res.ok) { console.error('[ai-assist] anthropic ' + res.status); return null; }
   const d = await res.json();
-  return ((d.content && d.content[0] && d.content[0].text) || '').trim();
+  // Concatenate every TEXT block; some models (e.g. Sonnet 5) return a thinking block as content[0].
+  return (Array.isArray(d.content) ? d.content.filter((b: any) => b && b.type === 'text' && typeof b.text === 'string').map((b: any) => b.text).join('') : '').trim();
 }
 
 // Build a COMPACT plain-text summary of a client (a few lines, hard-capped) to ground the AI in
