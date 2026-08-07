@@ -806,13 +806,16 @@ body {
 .site-card-caption span { color: var(--brand); }
 .card-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
 
-/* Hero rotating word (fades/slides between words; first word is static in the HTML for LCP) */
-.hero-rotate { display: inline-block; padding-right: .14em; margin-right: -.04em; }
-.hero-rotate-word {
-  display: inline-block;
-  transition: opacity .28s ease, transform .28s ease;
+/* Hero typewriter word (types/deletes between words; first word is static in the HTML for LCP) */
+.hero-type { display: inline-block; }
+.hero-type-word { display: inline-block; }
+.hero-type-caret {
+  display: inline-block; width: .07em; height: .8em;
+  margin: 0 .12em 0 .06em; background: currentColor;
+  vertical-align: -.03em; border-radius: 2px;
+  animation: heroCaret 1s step-end infinite;
 }
-.hero-rotate-word.is-out { opacity: 0; }
+@keyframes heroCaret { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
 /* Hero visual: 3D tilt toward the cursor + gentle idle float (GPU transforms only) */
 .hero-visual { perspective: 1100px; }
@@ -835,7 +838,7 @@ body {
   50% { transform: translateY(-9px); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .hero-rotate-word { transition: none; }
+  .hero-type-caret { display: none; }
   .hero-tilt { transition: none; transform: none; }
   .hero-tilt .site-card { animation: none; }
 }
@@ -1978,7 +1981,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
     <div class="hero-inner">
       <div class="hero-copy">
        
-        <h1 class="hero-headline">Your website,<br><em class="hero-rotate" data-words="handled,hosted,updated,ranked,growing"><span class="hero-rotate-word">handled</span></em>.</h1>
+        <h1 class="hero-headline" aria-label="Your website, handled."><span aria-hidden="true">Your website,<br><em class="hero-type" data-words="handled.,hosted.,updated.,ranked.,growing."><span class="hero-type-word">handled</span><span class="hero-type-caret"></span></em></span></h1>
         <p class="hero-sub">We build, host, and maintain it for you, plus the growth tools to bring in more customers.</p>
         <div class="hero-ctas">
           <a href="consultation.html" class="btn-primary-brand"><i class="fas fa-arrow-right"></i> Get Your Free Preview</a>
@@ -3011,18 +3014,25 @@ window.WZ_CHAT_PAGE = {
 (function () {
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // Rotating word — first word is already in the HTML, so LCP paints immediately.
-  var rot = document.querySelector('.hero-rotate');
-  var span = rot && rot.querySelector('.hero-rotate-word');
-  if (span && !reduce) {
-    var words = (rot.getAttribute('data-words') || '').split(',').map(function (w) { return w.trim(); }).filter(Boolean);
+  // Hero typewriter — first word is already in the HTML, so LCP paints immediately.
+  var typeEl = document.querySelector('.hero-type');
+  var wordEl = typeEl && typeEl.querySelector('.hero-type-word');
+  if (wordEl && !reduce) {
+    var words = (typeEl.getAttribute('data-words') || '').split(',').map(function (w) { return w.trim(); }).filter(Boolean);
     if (words.length > 1) {
-      var i = 0;
-      setInterval(function () {
-        i = (i + 1) % words.length;
-        span.classList.add('is-out');
-        setTimeout(function () { span.textContent = words[i]; span.classList.remove('is-out'); }, 260);
-      }, 2200);
+      var wi = 0, ci = words[0].length, deleting = true;
+      var tick = function () {
+        var w = words[wi];
+        if (deleting) {
+          ci--; wordEl.textContent = w.slice(0, ci);
+          if (ci === 0) { deleting = false; wi = (wi + 1) % words.length; return setTimeout(tick, 180); }
+          return setTimeout(tick, 32);          // quick delete
+        }
+        ci++; wordEl.textContent = words[wi].slice(0, ci);
+        if (ci === words[wi].length) { deleting = true; return setTimeout(tick, 1600); }  // hold when full
+        return setTimeout(tick, 48);            // quick type
+      };
+      setTimeout(tick, 1700);
     }
   }
 

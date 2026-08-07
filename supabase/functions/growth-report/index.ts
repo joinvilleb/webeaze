@@ -159,50 +159,73 @@ async function fetchReviewsByPlaceId(placeId: string) {
   } catch (e) { console.error('[growth] Places details (legacy) failed:', e); }
   return null;
 }
+// Parse whatever an admin pasted for a business (a raw Place ID, a Google Maps link, or a plain name)
+// into the best lookup. For a link we prefer an embedded Place ID; otherwise the business name plus
+// its coordinates (the precise !3d!4d marker if present, else the @lat,lng viewport center) so the
+// name search can be RESTRICTED to that spot and never drift to a same-named business elsewhere.
+async function parseMapRef(raw: string): Promise<{ placeId: string | null; textQuery: string; coords: { lat: number; lng: number } | null }> {
+  raw = (raw || '').trim();
+  if (!raw) return { placeId: null, textQuery: '', coords: null };
+  if (/^(ChIJ|GhIJ)[A-Za-z0-9_-]{8,}$/.test(raw)) return { placeId: raw, textQuery: '', coords: null };
+  if (!/^https?:\/\//i.test(raw)) return { placeId: null, textQuery: raw, coords: null };   // a plain name
+  // A URL: expand a short share link first (it carries no name/coords until resolved).
+  let url = raw;
+  if (/goo\.gl\//i.test(raw)) {
+    try { const r = await fetch(raw, { redirect: 'follow', headers: { 'User-Agent': 'Mozilla/5.0 (compatible; WebEazeBot/1.0)' } }); if (r.url) url = r.url; }
+    catch (e) { console.warn('[growth] could not expand short Maps link:', e); }
+  }
+  // Best case: an explicit Place ID in the URL.
+  const pid = url.match(/place_id[:=]([A-Za-z0-9_-]{20,})/i) || url.match(/\b((?:ChIJ|GhIJ)[A-Za-z0-9_-]{20,})\b/);
+  if (pid) return { placeId: pid[1], textQuery: '', coords: null };
+  // Otherwise: the business name + coordinates.
+  let textQuery = '';
+  const nameMatch = url.match(/\/place\/([^/@]+)/);
+  if (nameMatch) textQuery = decodeURIComponent(nameMatch[1].replace(/\+/g, ' '));
+  if (!textQuery) { const q = url.match(/[?&]q=([^&]+)/); if (q) textQuery = decodeURIComponent(q[1].replace(/\+/g, ' ')); }
+  let coords: { lat: number; lng: number } | null = null;
+  const marker = url.match(/!3d(-?\d+\.\d+)!4d(-?\d+\.\d+)/);   // the actual place marker
+  if (marker) coords = { lat: parseFloat(marker[1]), lng: parseFloat(marker[2]) };
+  else { const at = url.match(/@(-?\d+\.\d+),(-?\d+\.\d+)/); if (at) coords = { lat: parseFloat(at[1]), lng: parseFloat(at[2]) }; }
+  return { placeId: null, textQuery, coords };
+}
+
+// Text Search (New) for a business by name. When we have coordinates, first RESTRICT the search to a
+// box around them (so a same-named business in another city is excluded), then fall back to a wide
+// bias so a slightly-off pin still resolves. Returns the first place (with fieldMask) or null.
+async function searchTextPlace(textQuery: string, coords: { lat: number; lng: number } | null, fieldMask: string): Promise<any | null> {
+  if (!textQuery || !PLACES_KEY) return null;
+  const run = async (body: Record<string, unknown>) => {
+    const res = await fetch('https://places.googleapis.com/v1/places:searchText', {
+      method: 'POST',
+      headers: { 'X-Goog-Api-Key': PLACES_KEY, 'X-Goog-FieldMask': fieldMask, 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+    if (!res.ok) { console.warn('[growth] textSearch ' + res.status + ': ' + (await res.text()).slice(0, 160)); return null; }
+    const d = await res.json();
+    return (d.places && d.places[0]) || null;
+  };
+  if (coords) {
+    const pad = 0.12;   // ~13km box: excludes other cities, tolerant of an imprecise pin
+    const restricted = await run({ textQuery, locationRestriction: { rectangle: { low: { latitude: coords.lat - pad, longitude: coords.lng - pad }, high: { latitude: coords.lat + pad, longitude: coords.lng + pad } } } });
+    if (restricted) return restricted;
+    return await run({ textQuery, locationBias: { circle: { center: { latitude: coords.lat, longitude: coords.lng }, radius: 50000 } } });
+  }
+  return run({ textQuery });
+}
+
 async function pullReviews(ref?: string | null) {
   const raw = (ref || '').trim();
   if (!raw) { console.warn('[growth] pullReviews: no Place ID / name set'); return null; }
   if (!PLACES_KEY) { console.warn('[growth] pullReviews: GOOGLE_PLACES_KEY secret is not set'); return null; }
 
-  // Decide what we were given.
-  let textQuery = '';
-  let bias: { lat: number; lng: number } | null = null;
-  if (/^https?:\/\//i.test(raw)) {
-    // Google Maps link → read the business name and (if present) the map coordinates.
-    let mapsUrl = raw;
-    // Shortened links (maps.app.goo.gl / goo.gl/maps) carry no name; follow the redirect first.
-    if (/goo\.gl\//i.test(raw)) {
-      try {
-        const r = await fetch(raw, { redirect: 'follow', headers: { 'User-Agent': 'Mozilla/5.0 (compatible; WebEazeBot/1.0)' } });
-        if (r.url) mapsUrl = r.url;
-      } catch (e) { console.warn('[growth] could not expand short Maps link:', e); }
-    }
-    const nameMatch = mapsUrl.match(/\/place\/([^/@]+)/);
-    if (nameMatch) textQuery = decodeURIComponent(nameMatch[1].replace(/\+/g, ' '));
-    const at = mapsUrl.match(/@(-?\d+\.\d+),(-?\d+\.\d+)/);
-    if (at) bias = { lat: parseFloat(at[1]), lng: parseFloat(at[2]) };
-    if (!textQuery) { const q = mapsUrl.match(/[?&]q=([^&]+)/); if (q) textQuery = decodeURIComponent(q[1].replace(/\+/g, ' ')); }   // some links use ?q=Name
-    if (!textQuery) { console.warn('[growth] pullReviews: could not read a name from the Maps link: ' + mapsUrl.slice(0, 120)); return null; }
-  } else if (/^(ChIJ|GhIJ)[A-Za-z0-9_-]{8,}$/.test(raw)) {
-    return await fetchReviewsByPlaceId(raw);   // looks like a raw Place ID
-  } else {
-    textQuery = raw;   // a plain business name
-  }
+  const parsed = await parseMapRef(raw);
+  if (parsed.placeId) return await fetchReviewsByPlaceId(parsed.placeId);
+  if (!parsed.textQuery) { console.warn('[growth] pullReviews: could not read a name/id from: ' + raw.slice(0, 120)); return null; }
 
-  // Resolve a name/URL to the listing via Text Search (New) — returns rating + count in one call.
   try {
-    const body: Record<string, unknown> = { textQuery };
-    if (bias) body.locationBias = { circle: { center: { latitude: bias.lat, longitude: bias.lng }, radius: 50000 } };
-    const res = await fetch('https://places.googleapis.com/v1/places:searchText', {
-      method: 'POST',
-      headers: { 'X-Goog-Api-Key': PLACES_KEY, 'X-Goog-FieldMask': 'places.id,places.displayName,places.rating,places.userRatingCount', 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
-    });
-    if (!res.ok) { console.warn('[growth] Places textSearch ' + res.status + ': ' + (await res.text()).slice(0, 160)); return null; }
-    const d = await res.json();
-    const p = d.places && d.places[0];
-    if (!p) { console.warn('[growth] Places textSearch: no match for "' + textQuery + '"'); return null; }
-    console.log('[growth] reviews matched "' + textQuery + '" -> ' + (p.displayName?.text || p.id) + ' (' + p.id + ')');
+    const p = await searchTextPlace(parsed.textQuery, parsed.coords, 'places.id,places.displayName,places.rating,places.userRatingCount');
+    if (!p) { console.warn('[growth] Places textSearch: no match for "' + parsed.textQuery + '"'); return null; }
+    console.log('[growth] reviews matched "' + parsed.textQuery + '"' + (parsed.coords ? ' near ' + parsed.coords.lat.toFixed(3) + ',' + parsed.coords.lng.toFixed(3) : '') + ' -> ' + (p.displayName?.text || p.id) + ' (' + p.id + ')');
     return { rating: p.rating ?? null, count: p.userRatingCount ?? null, placeId: p.id, matched: p.displayName?.text ?? null, recent: await fetchRecentReviews(p.id), checkedAt: new Date().toISOString() };
   } catch (e) { console.error('[growth] Places textSearch failed:', e); return null; }
 }
@@ -237,42 +260,21 @@ async function resolveSelfPlace(ref: string): Promise<{ placeId: string; name: s
     if (loc.latitude == null || loc.longitude == null) return null;
     return { placeId: p.id, name: p.displayName?.text ?? null, rating: p.rating ?? null, count: p.userRatingCount ?? null, lat: loc.latitude, lng: loc.longitude, type: p.primaryType ?? null, category: p.primaryTypeDisplayName?.text ?? null };
   };
-  // Raw Place ID → Place Details.
-  if (/^(ChIJ|GhIJ)[A-Za-z0-9_-]{8,}$/.test(raw)) {
+  const parsed = await parseMapRef(raw);
+  // Raw / embedded Place ID → Place Details (the fuller field set with location + category).
+  if (parsed.placeId) {
     try {
-      const res = await fetch(`https://places.googleapis.com/v1/places/${encodeURIComponent(raw)}`, {
+      const res = await fetch(`https://places.googleapis.com/v1/places/${encodeURIComponent(parsed.placeId)}`, {
         headers: { 'X-Goog-Api-Key': PLACES_KEY, 'X-Goog-FieldMask': 'id,displayName,rating,userRatingCount,location,primaryType,primaryTypeDisplayName' },
       });
       if (res.ok) return fromPlace(await res.json());
     } catch (e) { console.error('[growth] resolveSelfPlace details failed:', e); }
     return null;
   }
-  // URL or name → Text Search (parse a name + optional coords like pullReviews does).
-  let textQuery = raw;
-  let bias: { lat: number; lng: number } | null = null;
-  if (/^https?:\/\//i.test(raw)) {
-    let mapsUrl = raw;
-    if (/goo\.gl\//i.test(raw)) {
-      try { const r = await fetch(raw, { redirect: 'follow', headers: { 'User-Agent': 'Mozilla/5.0 (compatible; WebEazeBot/1.0)' } }); if (r.url) mapsUrl = r.url; } catch { /* ignore */ }
-    }
-    const nameMatch = mapsUrl.match(/\/place\/([^/@]+)/);
-    textQuery = nameMatch ? decodeURIComponent(nameMatch[1].replace(/\+/g, ' ')) : '';
-    const at = mapsUrl.match(/@(-?\d+\.\d+),(-?\d+\.\d+)/);
-    if (at) bias = { lat: parseFloat(at[1]), lng: parseFloat(at[2]) };
-    if (!textQuery) { const q = mapsUrl.match(/[?&]q=([^&]+)/); if (q) textQuery = decodeURIComponent(q[1].replace(/\+/g, ' ')); }
-    if (!textQuery) return null;
-  }
+  if (!parsed.textQuery) return null;
+  // Name (+ coords from a link) → restricted-then-biased Text Search, same as pullReviews.
   try {
-    const body: Record<string, unknown> = { textQuery };
-    if (bias) body.locationBias = { circle: { center: { latitude: bias.lat, longitude: bias.lng }, radius: 50000 } };
-    const res = await fetch('https://places.googleapis.com/v1/places:searchText', {
-      method: 'POST',
-      headers: { 'X-Goog-Api-Key': PLACES_KEY, 'X-Goog-FieldMask': 'places.id,places.displayName,places.rating,places.userRatingCount,places.location,places.primaryType,places.primaryTypeDisplayName', 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
-    });
-    if (!res.ok) { console.warn('[growth] resolveSelfPlace textSearch ' + res.status); return null; }
-    const d = await res.json();
-    const p = d.places && d.places[0];
+    const p = await searchTextPlace(parsed.textQuery, parsed.coords, 'places.id,places.displayName,places.rating,places.userRatingCount,places.location,places.primaryType,places.primaryTypeDisplayName');
     return p ? fromPlace(p) : null;
   } catch (e) { console.error('[growth] resolveSelfPlace failed:', e); return null; }
 }
