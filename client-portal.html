@@ -213,6 +213,7 @@
     /* ---------- STICKY STORY ---------- */
     .story-inner { display: grid; grid-template-columns: .92fr 1.08fr; gap: 60px; align-items: start; }
     .story-media { position: sticky; top: 96px; }
+    .story-card-m { display: none; }
     .story-media .device { transform: none; }
     .story-media .device-screen { aspect-ratio: 5 / 4; overflow: hidden; background: #f8f9fc; }
     .shot { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; opacity: 0; transition: opacity .5s ease; }
@@ -347,10 +348,21 @@
       .intro-band p { font-size: 1rem; }
       .story-inner { grid-template-columns: 1fr; gap: 0; }
       .story-media { display: none; }
-      .story-steps { padding: 0; gap: 26px; }
-      .story-step .step-shot { display: block; opacity: 0; transform: translateY(18px) scale(.985); transition: opacity .55s cubic-bezier(.22,1,.36,1), transform .55s cubic-bezier(.22,1,.36,1); }
-      .story-step .step-shot.in-view { opacity: 1; transform: none; }
-      .story-step.is-active { transform: none; }
+      /* Mobile: one card pins in place; the (invisible) step cards below drive the
+         scroll and crossfade this card's content as each one hits center. */
+      .story-card-m { display: block; position: sticky; top: 72px; z-index: 2;
+        background: #fff; border: 1px solid var(--line); border-radius: var(--radius);
+        box-shadow: var(--shadow-md); padding: 24px 24px 26px; }
+      .story-card-m-inner { transition: opacity .3s ease; }
+      .story-card-m.is-swapping .story-card-m-inner { opacity: 0; }
+      .story-card-m .step-num { font-size: 13px; font-weight: 800; color: var(--brand); letter-spacing: .08em; }
+      .story-card-m h3 { font-size: 1.3rem; font-weight: 700; margin: 8px 0 8px; letter-spacing: -.02em; }
+      .story-card-m p { color: var(--muted); font-size: 1rem; }
+      .story-card-m .scm-shot { margin-top: 16px; border-radius: 12px; border: 1px solid var(--line); overflow: hidden; }
+      .story-card-m .scm-img { width: 100%; display: block; }
+      .story-steps { padding: 0; gap: 0; opacity: 0; pointer-events: none; }
+      .story-step { min-height: 46vh; }
+      .story-step .step-shot { display: none; }
       .touch-inner { grid-template-columns: 1fr; gap: 20px; }
       .touch-media { position: sticky; top: 72px; max-width: 360px; margin: 0 auto; width: 100%; }
       .touch-item.t-active { transform: none; }
@@ -372,7 +384,7 @@
       .hero-copy > *, .hero-visual, .hero-visual .device, .hero-caret { animation: none !important; }
       .hero-copy > *, .hero-visual { opacity: 1 !important; }
       .hero-stage, .hero-visual .device, .spotlight-media .device { transform: none !important; }
-      .story-step .step-shot { opacity: 1 !important; transform: none !important; }
+      .story-step, .story-step .step-shot { opacity: 1 !important; transform: none !important; }
     }
   </style>
 </head>
@@ -467,10 +479,10 @@
 <section class="section">
   <div class="wrap">
     <div class="intro-band">
-      <div class="big">The biggest thing we've done since 2024.</div>
+      <div class="big">In the making since October 2024. </div>
       <div class="intro-body">
         <p>From Day 1, we wanted to make the management of websites as simple as possible for small business owners. The Client Portal is the biggest leap in that direction.</p>
-        <p>Submit requests. View site analytics. Read team updates. And much more.</p>
+        <p>It's a game-changer for small business owners. We often hear "I don't know how to manage my website" or "Is my site working for me?". Now, you'll have all the tools you need to manage your website with confidence while your business grows.</p>
       </div>
     </div>
   </div>
@@ -495,6 +507,14 @@
             <img class="shot" data-step="4" src="images/assets/work-history.png" alt="">
             <img class="shot" data-step="5" src="images/assets/referral-page.png" alt="">
           </div>
+        </div>
+      </div>
+      <div class="story-card-m" aria-hidden="true">
+        <div class="story-card-m-inner">
+          <div class="step-num scm-num">1</div>
+          <h3 class="scm-title">Submit and track requests</h3>
+          <p class="scm-desc">Need a change? Select the type of update, describe what you want, and attach a file if needed. You'll see live status updates from Received to Completed.</p>
+          <div class="scm-shot"><img class="scm-img" src="images/assets/home-page.png" alt=""></div>
         </div>
       </div>
       <div class="story-steps">
@@ -597,8 +617,8 @@
     </div>
     <div class="flow">
       <div class="flow-card reveal">
-        <div class="flow-thumb"><span class="flow-step">Step 1</span><img src="images/assets/portal-invite.png" alt="The portal invite email from WebEaze" loading="lazy"></div>
-        <div class="flow-body"><h4>Your invitation</h4><p>You're emailed once you are ready to access the portal.</p></div>
+        <div class="flow-thumb"><span class="flow-step">Step 1</span><img src="images/assets/welcome-email.webp" alt="The WebEaze welcome email inviting you to your Client Portal" loading="lazy"></div>
+        <div class="flow-body"><h4>Your invitation</h4><p>You're invited once you start with us. Welcome aboard. </p></div>
       </div>
       <div class="flow-conn"><i class="fas fa-chevron-right"></i></div>
       <div class="flow-card reveal d1">
@@ -701,9 +721,29 @@ var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
   var steps = document.querySelectorAll('.story-step');
   var shots = document.querySelectorAll('.story-media .shot');
   if (!steps.length || !shots.length || !('IntersectionObserver' in window)) return;
+  // Mobile: one pinned card mirrors the active step and crossfades its content.
+  var mcard = document.querySelector('.story-card-m');
+  var mNum = mcard && mcard.querySelector('.scm-num'), mTitle = mcard && mcard.querySelector('.scm-title'),
+      mDesc = mcard && mcard.querySelector('.scm-desc'), mImg = mcard && mcard.querySelector('.scm-img');
+  var curr = '0';
+  function fill(step){
+    if (!mcard || !step) return;
+    var n = step.querySelector('.step-num'), t = step.querySelector('h3'), d = step.querySelector('p'), im = step.querySelector('.step-shot');
+    if (mNum && n) mNum.textContent = n.textContent;
+    if (mTitle && t) mTitle.textContent = t.textContent;
+    if (mDesc && d) mDesc.textContent = d.textContent;
+    if (mImg && im) { mImg.src = im.getAttribute('src'); mImg.alt = im.getAttribute('alt') || ''; }
+  }
   function activate(i){
     steps.forEach(function(s){ s.classList.toggle('is-active', s.getAttribute('data-step') === i); });
     shots.forEach(function(sh){ sh.classList.toggle('active', sh.getAttribute('data-step') === i); });
+    if (mcard && i !== curr) {
+      curr = i;
+      var step = document.querySelector('.story-step[data-step="' + i + '"]');
+      if (reduceMotion) { fill(step); return; }
+      mcard.classList.add('is-swapping');
+      setTimeout(function(){ fill(step); mcard.classList.remove('is-swapping'); }, 190);
+    }
   }
   var io = new IntersectionObserver(function(entries){
     entries.forEach(function(e){ if (e.isIntersecting) activate(e.target.getAttribute('data-step')); });
