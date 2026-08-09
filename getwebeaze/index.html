@@ -406,6 +406,13 @@ document.getElementById('yr').textContent = new Date().getFullYear();
   window.addEventListener('resize',update);
   update();
 })();
+
+/* Track clicks on the free-preview CTAs (intent signal for this landing page) */
+(function(){
+  function track(){ if(window.fbq){ try{ fbq('trackCustom','LandingCTAClick'); }catch(e){} } }
+  var ctas=document.querySelectorAll('a[href*="webeaze.io/consultation"]');
+  ctas.forEach(function(a){ a.addEventListener('click',track); });
+})();
 </script>
 
 <!-- Meta Pixel (deferred, for conversion tracking) -->
