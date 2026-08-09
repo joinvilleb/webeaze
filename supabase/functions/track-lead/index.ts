@@ -18,14 +18,14 @@ const cors = {
 };
 const ok = (b: unknown) => new Response(JSON.stringify(b), { status: 200, headers: { ...cors, 'Content-Type': 'application/json' } });
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-const TYPES = new Set(['form', 'call', 'email']);
+const TYPES = new Set(['form', 'call', 'email', 'contact']);
 const host = (u: string) => (u || '').replace(/^https?:\/\//i, '').replace(/\/.*$/, '').replace(/^www\./i, '').toLowerCase();
 
 // Speed-to-lead: the instant email that tells the owner to call back now.
 const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY') ?? '';
 const FROM = 'WebEaze <support@webeaze.io>';
 const esc = (s: string) => String(s || '').replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c] as string));
-const LEAD_ACTION: Record<string, string> = { form: 'just filled out your contact form', call: 'just clicked to call you', email: 'just clicked to email you' };
+const LEAD_ACTION: Record<string, string> = { form: 'just filled out your contact form', call: 'just clicked to call you', email: 'just clicked to email you', contact: 'just clicked to book or request a quote' };
 
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: cors });

@@ -9,10 +9,16 @@
 create table if not exists public.lead_events (
   id         uuid primary key default gen_random_uuid(),
   user_id    uuid not null,                 -- which client (clients.user_id)
-  type       text not null check (type in ('form','call','email')),
+  type       text not null check (type in ('form','call','email','contact')),
   page       text,                          -- path the action happened on (no query string)
   created_at timestamptz not null default now()
 );
+
+-- If the table already exists from before "contact" was a lead type, widen the check constraint.
+-- Safe to run repeatedly.
+alter table public.lead_events drop constraint if exists lead_events_type_check;
+alter table public.lead_events add constraint lead_events_type_check
+  check (type in ('form','call','email','contact'));
 
 create index if not exists lead_events_user_created_idx
   on public.lead_events (user_id, created_at desc);
