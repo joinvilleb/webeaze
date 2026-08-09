@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<script>document.documentElement.className += ' js-anim';</script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Get a Website for Your Small Business | WebEaze</title>
+<meta name="description" content="WebEaze designs, builds, hosts, and maintains a professional website for your small business, one flat monthly price from $169/mo. See a free preview before you pay a cent. No contracts." />
+<link rel="canonical" href="https://getwebeaze.com/" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="See your new website free, before you pay | WebEaze" />
+<meta property="og:description" content="A professional small-business website, built and managed for you from $169/mo. Free preview before you pay. No credit card, no commitment." />
+<meta property="og:url" content="https://getwebeaze.com/" />
+<meta property="og:image" content="https://webeaze.io/images/webeaze-og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="shortcut icon" href="https://webeaze.io/images/webeaze-transparent-copy.png" type="image/png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="image" href="https://webeaze.io/images/samples/bear-carpet-care.webp" fetchpriority="high">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+:root{
+  --brand:#7851a9; --brand-light:#9b72cc; --brand-dark:#5a3d84;
+  --off-white:#f7f6f1; --white:#ffffff; --black:#0a0a0a; --text:#1a1a1a;
+  --muted:#6b7280; --border:#e5e7eb; --gold:#f5a623;
+  --radius:12px; --shadow:0 4px 24px rgba(0,0,0,.08);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Poppins',system-ui,sans-serif;background:var(--off-white);color:var(--text);-webkit-font-smoothing:antialiased;line-height:1.6;overflow-x:hidden;}
+a{color:inherit;text-decoration:none;}
+img{max-width:100%;height:auto;display:block;}
+
+/* buttons (from homepage) */
+.btn-primary-brand{display:inline-flex;align-items:center;gap:.5rem;background:var(--brand);color:#fff;font-size:.95rem;font-weight:600;padding:.85rem 1.75rem;border-radius:10px;border:none;cursor:pointer;transition:background .2s,transform .15s;}
+.btn-primary-brand:hover{background:var(--brand-dark);color:#fff;transform:translateY(-1px);}
+.btn-secondary-brand{display:inline-flex;align-items:center;gap:.5rem;background:transparent;color:var(--black);font-size:.95rem;font-weight:600;padding:.85rem 1.75rem;border-radius:10px;border:2px solid var(--border);cursor:pointer;transition:border-color .2s,color .2s;}
+.btn-secondary-brand:hover{border-color:var(--brand);color:var(--brand);}
+.btn-sm{padding:.6rem 1.1rem;font-size:.88rem;border-radius:9px;}
+
+/* topbar */
+.topbar{position:sticky;top:0;z-index:50;background:rgba(247,246,241,.88);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);}
+.topbar-inner{max-width:1100px;margin:0 auto;padding:.85rem 1.5rem;display:flex;align-items:center;justify-content:space-between;}
+.logo{display:flex;align-items:center;gap:9px;font-weight:800;font-size:1.18rem;color:var(--black);letter-spacing:-.02em;}
+.logo img{height:32px;width:auto;}
+
+/* hero */
+.hero{background:var(--off-white);padding:5.5rem 0 4.5rem;overflow:hidden;}
+.hero-inner{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;max-width:1100px;margin:0 auto;padding:0 1.5rem;}
+.hero-headline{font-size:clamp(2.4rem,5vw,4rem);font-weight:600;line-height:1.08;letter-spacing:-.07em;color:var(--black);margin-bottom:1.25rem;}
+.hero-headline em{font-style:italic;font-weight:600;color:var(--brand);}
+.hero-sub{font-size:1.15rem;color:var(--text);max-width:480px;margin-bottom:2rem;line-height:1.7;}
+.hero-ctas{display:flex;gap:1rem;flex-wrap:wrap;}
+.hero-trust{display:flex;align-items:center;gap:10px;margin-top:22px;font-size:.93rem;font-weight:600;}
+.hero-trust .stars{color:var(--gold);letter-spacing:2px;font-size:1rem;}
+.hero-reassure{margin-top:14px;font-size:.9rem;color:var(--muted);font-weight:500;display:flex;align-items:center;gap:8px;}
+.hero-reassure i{color:#16a34a;}
+
+/* hero visual collage (from homepage) */
+.hero-visual{position:relative;perspective:1100px;}
+.hero-tilt{display:flex;flex-direction:column;gap:1rem;transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transform-style:preserve-3d;transition:transform .3s ease-out;will-change:transform;}
+.site-card{background:#fff;border:1.5px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,.07);transition:box-shadow .25s ease,border-color .25s ease;}
+.hero-tilt .site-card{animation:heroFloat 7s ease-in-out infinite;}
+.hero-tilt .card-row .site-card:nth-child(1){animation-duration:6s;animation-delay:-1.5s;}
+.hero-tilt .card-row .site-card:nth-child(2){animation-duration:8s;animation-delay:-3s;}
+.hero-tilt .site-card:hover{box-shadow:0 18px 48px rgba(120,81,169,.22);border-color:var(--brand);}
+.site-card-bar{background:var(--off-white);border-bottom:1px solid var(--border);padding:.5rem .75rem;display:flex;align-items:center;gap:.35rem;}
+.dot{width:10px;height:10px;border-radius:50%;}
+.dot-r{background:#ff5f57;}.dot-y{background:#ffbd2e;}.dot-g{background:#28c840;}
+.site-card-url{flex:1;background:var(--white);border-radius:5px;border:1px solid var(--border);font-size:.7rem;color:var(--muted);padding:.15rem .5rem;margin-left:.3rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.site-card img{width:100%;display:block;height:160px;object-fit:cover;object-position:top;}
+.site-card-caption{padding:.6rem .9rem;font-size:.78rem;font-weight:600;color:var(--muted);}
+.card-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+@keyframes heroFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-9px);}}
+
+/* ticker */
+.ticker-wrap{background:#f3eefb;border-top:1px solid rgba(120,81,169,.14);border-bottom:1px solid rgba(120,81,169,.14);padding:.8rem 0;overflow:hidden;}
+.ticker-inner{display:flex;align-items:center;gap:1.25rem;max-width:1100px;margin:0 auto;padding:0 1.5rem;}
+.ticker-label{flex-shrink:0;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.12em;color:var(--brand);position:relative;padding-right:1.25rem;}
+.ticker-label::after{content:"";position:absolute;right:0;top:50%;transform:translateY(-50%);width:1px;height:1.1em;background:rgba(120,81,169,.3);}
+.ticker-viewport{flex:1;overflow:hidden;white-space:nowrap;-webkit-mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);}
+.ticker-track{display:inline-block;animation:ticker 42s linear infinite;}
+.ticker-viewport:hover .ticker-track{animation-play-state:paused;}
+.ticker-track span{font-size:.78rem;font-weight:700;letter-spacing:.08em;color:#5a4b73;padding:0 1.4rem;}
+.ticker-track span.dot-sep{color:var(--brand);padding:0 .3rem;font-weight:400;opacity:.4;}
+@keyframes ticker{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+
+/* handle everything */
+.handle-section{background:#fff;padding:5.5rem 0;}
+.handle-header{text-align:center;margin-bottom:3.5rem;padding:0 1.5rem;}
+.handle-header h2{font-size:clamp(2rem,4vw,3rem);font-weight:600;letter-spacing:-.06em;color:var(--black);margin-bottom:.75rem;}
+.handle-header p{font-size:1.1rem;color:var(--text);max-width:520px;margin:0 auto;}
+.handle-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;max-width:1100px;margin:0 auto;padding:0 1.5rem;}
+.handle-card{background:var(--off-white);border-radius:16px;padding:2rem 1.75rem;border:1.5px solid transparent;transition:border-color .2s,box-shadow .2s;}
+.handle-card:hover{border-color:var(--brand);box-shadow:var(--shadow);}
+.handle-icon{width:50px;height:50px;border:2px solid rgba(120,81,169,.32);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.05rem;color:var(--brand);margin-bottom:1.25rem;}
+.handle-card h3{font-size:1.15rem;font-weight:800;letter-spacing:-.03em;margin-bottom:.5rem;color:var(--black);}
+.handle-card p{font-size:1rem;color:var(--text);margin-bottom:1.25rem;}
+.handle-list{list-style:none;padding:0;margin:0;}
+.handle-list li{font-size:1rem;color:var(--text);padding:.35rem 0;display:flex;align-items:center;gap:.5rem;border-top:1px solid var(--border);}
+.handle-list li:first-child{border-top:none;}
+.handle-list li i{color:var(--brand);}
+
+/* portfolio */
+.portfolio-section{background:var(--off-white);padding:5.5rem 0;}
+.portfolio-header{text-align:center;margin-bottom:3rem;padding:0 1.5rem;}
+.portfolio-header h2{font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:600;letter-spacing:-.06em;color:var(--black);margin-bottom:.75rem;}
+.portfolio-header p{font-size:1.1rem;color:var(--text);}
+/* carousel */
+.carousel{position:relative;max-width:1100px;margin:0 auto;padding:0 1.5rem;}
+.carousel-track{display:flex;gap:1.5rem;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;padding:1rem .25rem 1.5rem;scrollbar-width:none;}
+.carousel-track::-webkit-scrollbar{display:none;}
+.carousel-track .portfolio-item{flex:0 0 clamp(280px,44%,440px);scroll-snap-align:start;}
+.carousel-arrow{position:absolute;top:46%;transform:translateY(-50%);width:46px;height:46px;border-radius:50%;background:#fff;border:1.5px solid var(--border);color:var(--black);display:flex;align-items:center;justify-content:center;font-size:1rem;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,.12);z-index:6;transition:border-color .2s,color .2s,opacity .2s;}
+.carousel-arrow:hover{border-color:var(--brand);color:var(--brand);}
+.carousel-arrow:disabled{opacity:0;visibility:hidden;pointer-events:none;}
+.carousel-prev{left:0;}
+.carousel-next{right:0;}
+.carousel-dots{display:flex;justify-content:center;gap:.5rem;margin-top:.25rem;}
+.carousel-dot{width:8px;height:8px;border-radius:50%;background:#d9d5e6;border:none;padding:0;cursor:pointer;transition:background .25s,width .25s;}
+.carousel-dot.is-active{background:var(--brand);width:22px;border-radius:4px;}
+.portfolio-item{background:#fff;border-radius:16px;overflow:hidden;border:1.5px solid var(--border);box-shadow:var(--shadow);display:block;transition:transform .2s,box-shadow .2s;}
+.portfolio-item:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.12);}
+.portfolio-img{width:100%;height:200px;object-fit:cover;object-position:top;display:block;}
+.portfolio-meta{padding:1rem 1.25rem 1.25rem;border-top:1px solid var(--border);}
+.portfolio-meta strong{display:block;font-size:.95rem;font-weight:700;color:var(--black);margin-bottom:.2rem;}
+.portfolio-meta span{font-size:.9rem;color:var(--text);}
+
+/* steps */
+.steps-section{background:#fff;padding:5.5rem 0;}
+.steps-header{text-align:center;margin-bottom:3rem;padding:0 1.5rem;}
+.steps-header h2{font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:600;letter-spacing:-.06em;color:var(--black);margin-bottom:.75rem;}
+.steps-header p{font-size:1.1rem;color:var(--text);max-width:520px;margin:0 auto;}
+.steps-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2.5rem;max-width:1000px;margin:0 auto;padding:0 1.5rem;}
+.step-num{width:44px;height:44px;border-radius:50%;background:var(--brand);color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center;margin-bottom:1.1rem;font-size:1.05rem;}
+.step h3{font-size:1.15rem;font-weight:800;letter-spacing:-.03em;color:var(--black);margin-bottom:.5rem;}
+.step p{font-size:1rem;color:var(--text);}
+
+/* final cta */
+.cta-section{background:var(--off-white);padding:6rem 1.5rem 6.5rem;text-align:center;}
+.cta-inner{max-width:620px;margin:0 auto;}
+.cta-eyebrow{font-size:.75rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--brand);margin-bottom:1.1rem;}
+.cta-inner h2{font-size:clamp(2rem,4vw,3rem);font-weight:600;line-height:1.08;letter-spacing:-.06em;color:var(--black);margin-bottom:.9rem;}
+.cta-inner p{font-size:1.1rem;color:var(--text);max-width:480px;margin:0 auto 2rem;line-height:1.6;}
+.cta-inner .btn-primary-brand{font-size:1rem;padding:1rem 2.1rem;}
+.cta-fine{margin-top:1.1rem;font-size:.85rem;color:var(--muted);}
+
+/* footer */
+footer{padding:2.5rem 1.5rem;text-align:center;color:var(--muted);font-size:.86rem;background:var(--off-white);}
+footer a{color:var(--brand);font-weight:600;}
+
+/* reveal */
+.js-anim .reveal{opacity:0;transform:translateY(22px);transition:opacity .55s cubic-bezier(.22,.61,.36,1),transform .55s cubic-bezier(.22,.61,.36,1);}
+.js-anim .reveal.in-view{opacity:1;transform:none;}
+.js-anim .stagger>.reveal:nth-child(2){transition-delay:.07s;}
+.js-anim .stagger>.reveal:nth-child(3){transition-delay:.14s;}
+.js-anim .stagger>.reveal:nth-child(4){transition-delay:.21s;}
+
+@media(max-width:900px){
+  .hero-inner{grid-template-columns:1fr;gap:2.5rem;}
+  .hero-visual{display:none;}
+  .hero-headline{font-size:2.5rem;}
+}
+@media(max-width:768px){
+  .handle-grid{grid-template-columns:1fr;}
+  .carousel{padding:0 1rem;}
+  .carousel-arrow{display:none;}
+  .carousel-track .portfolio-item{flex:0 0 86%;}
+  .steps-grid{grid-template-columns:1fr;gap:2rem;}
+  .cta-section{padding:4rem 1.5rem 4.5rem;}
+}
+@media(prefers-reduced-motion:reduce){
+  .hero-tilt{transition:none;transform:none;}
+  .hero-tilt .site-card{animation:none;}
+  .ticker-track{animation:none;}
+  .js-anim .reveal{opacity:1!important;transform:none!important;transition:none!important;}
+}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="logo" href="/"><img src="https://webeaze.io/images/webeaze-transparent-copy.png" alt="WebEaze"> WebEaze</a>
+    <a class="btn-primary-brand btn-sm" href="https://webeaze.io/consultation">Get Your Free Preview</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-copy">
+      <h1 class="hero-headline">See your website<br><em>before you pay.</em></h1>
+      <p class="hero-sub">WebEaze designs, builds, hosts, and maintains a professional website for your small business, all for one flat monthly price. See a real preview first. Only pay if you love it.</p>
+      <div class="hero-ctas">
+        <a href="https://webeaze.io/consultation" class="btn-primary-brand"><i class="fas fa-arrow-right"></i> Get Your Free Preview</a>
+        <a href="https://webeaze.io/samples" class="btn-secondary-brand">See Our Work</a>
+      </div>
+      <div class="hero-trust"><span class="stars" aria-hidden="true">★★★★★</span> <span style="opacity:.9;">Trusted by 52 small businesses</span></div>
+      <div class="hero-reassure"><i class="fas fa-circle-check"></i> No credit card. No commitment. From $169/month.</div>
+    </div>
+    <div class="hero-visual" aria-hidden="true">
+      <div class="hero-tilt">
+        <div class="site-card">
+          <div class="site-card-bar"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div><div class="site-card-url">bearcarpetcare.com</div></div>
+          <img src="https://webeaze.io/images/samples/bear-carpet-care.webp" alt="Bear Carpet Care website by WebEaze" fetchpriority="high" decoding="async">
+          <div class="site-card-caption">Bear Carpet Care</div>
+        </div>
+        <div class="card-row">
+          <div class="site-card">
+            <div class="site-card-bar"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div><div class="site-card-url">ibisprep.com</div></div>
+            <img src="https://webeaze.io/images/ibis-prep-home.webp" alt="Ibis Prep website by WebEaze" loading="lazy">
+            <div class="site-card-caption">Ibis Prep</div>
+          </div>
+          <div class="site-card">
+            <div class="site-card-bar"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div><div class="site-card-url">bake350degrees.com</div></div>
+            <img src="https://webeaze.io/images/samples/bake350.webp" alt="Bake 350 website by WebEaze" loading="lazy">
+            <div class="site-card-caption">Bake 350 Degrees</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WE HANDLE EVERYTHING -->
+<section class="handle-section">
+  <div class="handle-header reveal">
+    <h2>We handle everything.</h2>
+    <p>From first design to live site. And every update thereafter.</p>
+  </div>
+  <div class="handle-grid stagger">
+    <div class="handle-card reveal">
+      <div class="handle-icon"><i class="fas fa-pen-ruler"></i></div>
+      <h3>We Build It</h3>
+      <p>Designed specifically for your business, and your target audience.</p>
+      <ul class="handle-list">
+        <li><i class="fas fa-check-circle"></i>Custom website design</li>
+        <li><i class="fas fa-check-circle"></i>Mobile-responsive</li>
+        <li><i class="fas fa-check-circle"></i>Ready in 5-14 days</li>
+      </ul>
+    </div>
+    <div class="handle-card reveal">
+      <div class="handle-icon"><i class="fas fa-gear"></i></div>
+      <h3>We Manage It</h3>
+      <p>Unlimited updates. Domain and hosting covered. Plus, a quick 24-48 hour turnaround.</p>
+      <ul class="handle-list">
+        <li><i class="fas fa-check-circle"></i>Unlimited website updates</li>
+        <li><i class="fas fa-check-circle"></i>Domain and hosting included</li>
+        <li><i class="fas fa-check-circle"></i>Email, Phone, Chat, Video</li>
+      </ul>
+    </div>
+    <div class="handle-card reveal">
+      <div class="handle-icon"><i class="fas fa-arrow-trend-up"></i></div>
+      <h3>We Grow It</h3>
+      <p>Built for visibility in Google search, Google Maps, and AI tools like ChatGPT and Gemini.</p>
+      <ul class="handle-list">
+        <li><i class="fas fa-check-circle"></i>Website analytics</li>
+        <li><i class="fas fa-check-circle"></i>Local SEO and AEO included</li>
+        <li><i class="fas fa-check-circle"></i>Google Business Profile</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURED WORK -->
+<section class="portfolio-section">
+  <div class="portfolio-header reveal">
+    <h2>Real websites, real businesses.</h2>
+    <p>These businesses trusted us to bring their vision to life.</p>
+  </div>
+  <div class="carousel reveal">
+    <button class="carousel-arrow carousel-prev" aria-label="Previous websites" disabled><i class="fas fa-chevron-left"></i></button>
+    <div class="carousel-track" id="workTrack">
+      <a href="https://bearcarpetcare.com" target="_blank" rel="noopener" class="portfolio-item">
+        <img src="https://webeaze.io/images/samples/bear-carpet-care.webp" alt="Bear Carpet Care website designed by WebEaze" class="portfolio-img" loading="lazy">
+        <div class="portfolio-meta"><strong>Bear Carpet Care</strong><span>Carpet cleaning</span></div>
+      </a>
+      <a href="https://ibisprep.com" target="_blank" rel="noopener" class="portfolio-item">
+        <img src="https://webeaze.io/images/ibis-prep-home.webp" alt="Ibis Prep website designed by WebEaze" class="portfolio-img" loading="lazy">
+        <div class="portfolio-meta"><strong>Ibis Prep</strong><span>Test prep and tutoring</span></div>
+      </a>
+      <a href="https://galaxygymnast.com" target="_blank" rel="noopener" class="portfolio-item">
+        <img src="https://webeaze.io/images/galaxy-gymnast-home.webp" alt="Galaxy Gymnastics website designed by WebEaze" class="portfolio-img" loading="lazy">
+        <div class="portfolio-meta"><strong>Galaxy Gymnastics</strong><span>Youth gymnastics</span></div>
+      </a>
+      <a href="https://bake350degrees.com" target="_blank" rel="noopener" class="portfolio-item">
+        <img src="https://webeaze.io/images/samples/bake350.webp" alt="Bake 350 Degrees website designed by WebEaze" class="portfolio-img" loading="lazy">
+        <div class="portfolio-meta"><strong>Bake 350 Degrees</strong><span>Bakery and custom cakes</span></div>
+      </a>
+    </div>
+    <button class="carousel-arrow carousel-next" aria-label="Next websites"><i class="fas fa-chevron-right"></i></button>
+  </div>
+  <div class="carousel-dots" id="workDots"></div>
+</section>
+
+<!-- STEPS -->
+<section class="steps-section">
+  <div class="steps-header reveal">
+    <h2>See it before you pay a cent.</h2>
+    <p>No risk, no pressure. You only move forward if you love what we build.</p>
+  </div>
+  <div class="steps-grid stagger">
+    <div class="step reveal">
+      <div class="step-num">1</div>
+      <h3>Tell us about your business</h3>
+      <p>Book a quick 15-minute call and share what you do. No credit card, no commitment.</p>
+    </div>
+    <div class="step reveal">
+      <div class="step-num">2</div>
+      <h3>See your free preview</h3>
+      <p>We design a real preview of your website for you to review, built for your brand.</p>
+    </div>
+    <div class="step reveal">
+      <div class="step-num">3</div>
+      <h3>Approve and go live</h3>
+      <p>Love it? We launch it and manage everything from there. If not, you owe nothing.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="cta-inner reveal">
+    <div class="cta-eyebrow">From $169/month, no contracts</div>
+    <h2>Ready to see your website?</h2>
+    <p>Get a free, no-obligation preview. Design, hosting, SSL, and unlimited updates all included. Only pay if you love it.</p>
+    <a href="https://webeaze.io/consultation" class="btn-primary-brand"><i class="fas fa-arrow-right"></i> Get Your Free Preview</a>
+    <div class="cta-fine">No credit card required. Cancel anytime.</div>
+  </div>
+</section>
+
+<footer>
+  &copy; <span id="yr"></span> WebEaze. Made in Delaware, USA. &nbsp;|&nbsp; <a href="https://webeaze.io">webeaze.io</a>
+</footer>
+
+<script>
+document.getElementById('yr').textContent = new Date().getFullYear();
+
+/* Hero tilt toward cursor */
+(function(){
+  var visual=document.querySelector('.hero-visual'), tilt=document.querySelector('.hero-tilt');
+  if(!visual||!tilt)return;
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  visual.addEventListener('mousemove',function(e){
+    var r=visual.getBoundingClientRect();
+    var x=(e.clientX-r.left)/r.width-0.5, y=(e.clientY-r.top)/r.height-0.5;
+    tilt.style.setProperty('--ry',(x*8).toFixed(2)+'deg');
+    tilt.style.setProperty('--rx',(-y*8).toFixed(2)+'deg');
+  });
+  visual.addEventListener('mouseleave',function(){
+    tilt.style.setProperty('--ry','0deg');tilt.style.setProperty('--rx','0deg');
+  });
+})();
+
+/* Scroll reveal */
+(function(){
+  var els=document.querySelectorAll('.reveal');
+  if(!('IntersectionObserver'in window)){els.forEach(function(el){el.classList.add('in-view');});return;}
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(en){if(en.isIntersecting){en.target.classList.add('in-view');io.unobserve(en.target);}});
+  },{rootMargin:'0px 0px -8% 0px',threshold:.12});
+  els.forEach(function(el){io.observe(el);});
+})();
+
+/* Featured work carousel (native scroll-snap + arrows + dots) */
+(function(){
+  var track=document.getElementById('workTrack');
+  if(!track)return;
+  var items=[].slice.call(track.querySelectorAll('.portfolio-item'));
+  var prev=document.querySelector('.carousel-prev'), next=document.querySelector('.carousel-next');
+  var dotsWrap=document.getElementById('workDots'), dots=[];
+  items.forEach(function(it,i){
+    var d=document.createElement('button');
+    d.className='carousel-dot'+(i===0?' is-active':'');
+    var name=it.querySelector('strong');
+    d.setAttribute('aria-label','Show '+(name?name.textContent:'slide '+(i+1)));
+    d.addEventListener('click',function(){
+      track.scrollBy({left:it.getBoundingClientRect().left-track.getBoundingClientRect().left,behavior:'smooth'});
+    });
+    dotsWrap.appendChild(d); dots.push(d);
+  });
+  function step(){
+    var w=items[0]?items[0].getBoundingClientRect().width:300;
+    return w+(parseFloat(getComputedStyle(track).gap)||24);
+  }
+  function activeIndex(){
+    var tl=track.getBoundingClientRect().left, best=0, bd=Infinity;
+    items.forEach(function(it,i){var dd=Math.abs(it.getBoundingClientRect().left-tl);if(dd<bd){bd=dd;best=i;}});
+    return best;
+  }
+  function update(){
+    var atStart=track.scrollLeft<=2;
+    var atEnd=track.scrollLeft+track.clientWidth>=track.scrollWidth-2;
+    if(prev)prev.disabled=atStart;
+    if(next)next.disabled=atEnd;
+    var ai=atEnd?items.length-1:activeIndex();
+    dots.forEach(function(d,i){d.classList.toggle('is-active',i===ai);});
+  }
+  if(prev)prev.addEventListener('click',function(){track.scrollBy({left:-step(),behavior:'smooth'});});
+  if(next)next.addEventListener('click',function(){track.scrollBy({left:step(),behavior:'smooth'});});
+  var ticking=false;
+  track.addEventListener('scroll',function(){if(!ticking){ticking=true;requestAnimationFrame(function(){update();ticking=false;});}});
+  window.addEventListener('resize',update);
+  update();
+})();
+</script>
+
+<!-- Meta Pixel (deferred, for conversion tracking) -->
+<script>
+(function(){function loadPixel(){if(window.fbq)return;!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','906444072428558');fbq('track','PageView');}
+if(document.readyState==='complete')setTimeout(loadPixel,1800);else window.addEventListener('load',function(){setTimeout(loadPixel,1800);});})();
+</script>
+</body>
+</html>
