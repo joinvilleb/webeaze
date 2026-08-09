@@ -1111,6 +1111,25 @@ body {
 .portfolio-cta { text-align: center; margin-top: 2rem; }
 .portfolio-cta a { display: inline-flex; }
 
+/* Featured work carousel */
+.carousel { position: relative; max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; }
+.carousel-track { display: flex; gap: 1.5rem; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; padding: 1rem .25rem 1.5rem; scrollbar-width: none; }
+.carousel-track::-webkit-scrollbar { display: none; }
+.carousel-track .portfolio-item { flex: 0 0 clamp(280px, 44%, 440px); scroll-snap-align: start; }
+.carousel-arrow { position: absolute; top: 46%; transform: translateY(-50%); width: 46px; height: 46px; border-radius: 50%; background: #fff; border: 1.5px solid var(--border); color: var(--black); display: flex; align-items: center; justify-content: center; font-size: 1rem; cursor: pointer; box-shadow: 0 6px 20px rgba(0,0,0,.12); z-index: 6; transition: border-color .2s, color .2s, opacity .2s; }
+.carousel-arrow:hover { border-color: var(--brand); color: var(--brand); }
+.carousel-arrow:disabled { opacity: 0; visibility: hidden; pointer-events: none; }
+.carousel-prev { left: 0; }
+.carousel-next { right: 0; }
+.carousel-dots { display: flex; justify-content: center; gap: .5rem; margin-top: .25rem; }
+.carousel-dot { width: 8px; height: 8px; border-radius: 50%; background: #d9d5e6; border: none; padding: 0; cursor: pointer; transition: background .25s, width .25s; }
+.carousel-dot.is-active { background: var(--brand); width: 22px; border-radius: 4px; }
+@media (max-width: 768px) {
+  .carousel { padding: 0 1rem; }
+  .carousel-arrow { display: none; }
+  .carousel-track .portfolio-item { flex: 0 0 86%; }
+}
+
 @media (max-width: 600px) {
   .portfolio-grid { grid-template-columns: 1fr; }
   .portfolio-cta a { width: auto; max-width: 280px; }
@@ -2118,36 +2137,41 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
       <h2>Featured work.</h2>
       <p>These businesses trusted us to bring their vision to life.</p>
     </div>
-    <div class="portfolio-grid stagger">
-      <a href="https://bearcarpetcare.com" target="_blank" rel="noopener" class="portfolio-item reveal">
-        <img src="images/samples/bear-carpet-care.webp" alt="Bear Carpet Care website designed by WebEaze" class="portfolio-img" loading="lazy">
-        <div class="portfolio-meta">
-          <strong>Bear Carpet Care</strong>
-          <span>Carpet cleaning</span>
-        </div>
-      </a>
-      <a href="https://ibisprep.com" target="_blank" rel="noopener" class="portfolio-item reveal">
-        <img src="images/ibis-prep-home.webp" alt="Ibis Prep website designed by WebEaze" class="portfolio-img" loading="lazy">
-        <div class="portfolio-meta">
-          <strong>Ibis Prep</strong>
-          <span>Test prep &amp; tutoring</span>
-        </div>
-      </a>
-      <a href="https://galaxygymnast.com" target="_blank" rel="noopener" class="portfolio-item reveal">
-        <img src="images/galaxy-gymnast-home.webp" alt="Galaxy Gymnastics website designed by WebEaze" class="portfolio-img" loading="lazy">
-        <div class="portfolio-meta">
-          <strong>Galaxy Gymnastics</strong>
-          <span>Youth gymnastics</span>
-        </div>
-      </a>
-      <a href="https://bake350degrees.com" target="_blank" rel="noopener" class="portfolio-item reveal">
-        <img src="images/samples/bake350.webp" alt="Bake 350 Degrees website designed by WebEaze" class="portfolio-img" loading="lazy">
-        <div class="portfolio-meta">
-          <strong>Bake 350 Degrees</strong>
-          <span>Bakery &amp; custom cakes</span>
-        </div>
-      </a>
+    <div class="carousel reveal">
+      <button class="carousel-arrow carousel-prev" aria-label="Previous work" disabled><i class="fas fa-chevron-left"></i></button>
+      <div class="carousel-track" id="workTrack">
+        <a href="https://bearcarpetcare.com" target="_blank" rel="noopener" class="portfolio-item">
+          <img src="images/samples/bear-carpet-care.webp" alt="Bear Carpet Care website designed by WebEaze" class="portfolio-img" loading="lazy">
+          <div class="portfolio-meta">
+            <strong>Bear Carpet Care</strong>
+            <span>Carpet cleaning</span>
+          </div>
+        </a>
+        <a href="https://ibisprep.com" target="_blank" rel="noopener" class="portfolio-item">
+          <img src="images/ibis-prep-home.webp" alt="Ibis Prep website designed by WebEaze" class="portfolio-img" loading="lazy">
+          <div class="portfolio-meta">
+            <strong>Ibis Prep</strong>
+            <span>Test prep &amp; tutoring</span>
+          </div>
+        </a>
+        <a href="https://galaxygymnast.com" target="_blank" rel="noopener" class="portfolio-item">
+          <img src="images/galaxy-gymnast-home.webp" alt="Galaxy Gymnastics website designed by WebEaze" class="portfolio-img" loading="lazy">
+          <div class="portfolio-meta">
+            <strong>Galaxy Gymnastics</strong>
+            <span>Youth gymnastics</span>
+          </div>
+        </a>
+        <a href="https://bake350degrees.com" target="_blank" rel="noopener" class="portfolio-item">
+          <img src="images/samples/bake350.webp" alt="Bake 350 Degrees website designed by WebEaze" class="portfolio-img" loading="lazy">
+          <div class="portfolio-meta">
+            <strong>Bake 350 Degrees</strong>
+            <span>Bakery &amp; custom cakes</span>
+          </div>
+        </a>
+      </div>
+      <button class="carousel-arrow carousel-next" aria-label="Next work"><i class="fas fa-chevron-right"></i></button>
     </div>
+    <div class="carousel-dots" id="workDots"></div>
     
   </section>
 
@@ -2898,6 +2922,47 @@ function whyTabScroll(dir) {
       slides.forEach(function(s) { s.classList.remove('is-active'); });
     }
   });
+})();
+
+// Featured work carousel (native scroll-snap + arrows + dots)
+(function(){
+  var track = document.getElementById('workTrack');
+  if (!track) return;
+  var items = [].slice.call(track.querySelectorAll('.portfolio-item'));
+  var prev = document.querySelector('.carousel-prev'), next = document.querySelector('.carousel-next');
+  var dotsWrap = document.getElementById('workDots'), dots = [];
+  items.forEach(function(it, i){
+    var d = document.createElement('button');
+    d.className = 'carousel-dot' + (i === 0 ? ' is-active' : '');
+    var name = it.querySelector('strong');
+    d.setAttribute('aria-label', 'Show ' + (name ? name.textContent : 'slide ' + (i + 1)));
+    d.addEventListener('click', function(){
+      track.scrollBy({ left: it.getBoundingClientRect().left - track.getBoundingClientRect().left, behavior: 'smooth' });
+    });
+    dotsWrap.appendChild(d); dots.push(d);
+  });
+  function step(){
+    var w = items[0] ? items[0].getBoundingClientRect().width : 300;
+    return w + (parseFloat(getComputedStyle(track).gap) || 24);
+  }
+  function activeIndex(){
+    var tl = track.getBoundingClientRect().left, best = 0, bd = Infinity;
+    items.forEach(function(it, i){ var dd = Math.abs(it.getBoundingClientRect().left - tl); if (dd < bd) { bd = dd; best = i; } });
+    return best;
+  }
+  function update(){
+    var atEnd = track.scrollLeft + track.clientWidth >= track.scrollWidth - 2;
+    if (prev) prev.disabled = track.scrollLeft <= 2;
+    if (next) next.disabled = atEnd;
+    var ai = atEnd ? items.length - 1 : activeIndex();
+    dots.forEach(function(d, i){ d.classList.toggle('is-active', i === ai); });
+  }
+  if (prev) prev.addEventListener('click', function(){ track.scrollBy({ left: -step(), behavior: 'smooth' }); });
+  if (next) next.addEventListener('click', function(){ track.scrollBy({ left: step(), behavior: 'smooth' }); });
+  var ticking = false;
+  track.addEventListener('scroll', function(){ if (!ticking) { ticking = true; requestAnimationFrame(function(){ update(); ticking = false; }); } }, { passive: true });
+  window.addEventListener('resize', update);
+  update();
 })();
 
 // Personalization
