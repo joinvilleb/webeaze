@@ -657,11 +657,18 @@ function summaryHtml(name: string, url: string, m: any, plan?: string, extra?: {
   const s = m.speed, r = m.reviews, se = m.search, rep = m.report;
   const p = (t: string) => `<p style="margin:0 0 15px;">${t}</p>`;
 
-  const opening = rep?.summary ? esc(rep.summary) : ('Here is a quick update on how ' + esc(url || 'your website') + ' is doing.');
+  // Growth gets the full AI summary; Essential gets a short one-line check-in (kept deliberately brief).
+  const opening = adv
+    ? (rep?.summary ? esc(rep.summary) : ('Here is a quick update on how ' + esc(url || 'your website') + ' is doing.'))
+    : ('Here is your quick monthly check-in on how ' + esc(url || 'your website') + ' is doing.');
 
-  // Leads lead: the concrete money number, right up top when there is one.
-  const leadLine = (leads && leads.count > 0)
-    ? p('First, the good news: your website brought in <strong>' + leads.count + (leads.count === 1 ? ' new inquiry' : ' new inquiries') + '</strong> ' + esc(leads.label) + ' (calls, emails, and contact-form messages).')
+  // Leads lead: the concrete money number, highlighted in a subtle callout right up top when there is one.
+  const leadHighlight = (leads && leads.count > 0)
+    ? '<div style="background:#f7f6fb;border:1px solid #ece9f4;border-radius:12px;padding:15px 18px;margin:0 0 18px;">'
+      + '<span style="font-size:30px;font-weight:800;color:#7851a9;letter-spacing:-.03em;vertical-align:middle;">' + leads.count + '</span>'
+      + '<span style="font-size:15px;color:#1f2333;font-weight:700;vertical-align:middle;">&nbsp;new ' + (leads.count === 1 ? 'inquiry' : 'inquiries') + ' ' + esc(leads.label) + '</span>'
+      + '<div style="font-size:13px;color:#6b7094;margin-top:3px;">Calls, emails, and contact-form messages from your website.</div>'
+      + '</div>'
     : '';
 
   // Numbers as a plain sentence-y list, only what we actually have. The impressions trend %
@@ -689,21 +696,32 @@ function summaryHtml(name: string, url: string, m: any, plan?: string, extra?: {
     : '';
 
   // Monthly-only: a recap of what we shipped for them last month (empty on on-demand sends).
+  // Growth gets the detailed "what we did" list; Essential gets a short one-line count (keep it brief).
   const done = (extra?.done) || [];
-  const shipped = done.length
-    ? p('Here is what we took care of for you' + (extra?.monthLabel ? ' in ' + esc(extra.monthLabel) : ' this month') + ':')
-      + '<ul style="margin:0 0 15px;padding-left:20px;">'
-      + done.map((r) => `<li style="margin-bottom:8px;"><strong>${esc(r.type || 'Update')}</strong>${r.resolution ? `<br><span style="color:#6b7094;white-space:pre-wrap;">${esc(r.resolution)}</span>` : ''}</li>`).join('')
-      + '</ul>'
-    : '';
+  const shipped = !done.length ? ''
+    : (adv
+        ? p('Here is what we took care of for you' + (extra?.monthLabel ? ' in ' + esc(extra.monthLabel) : ' this month') + ':')
+          + '<ul style="margin:0 0 15px;padding-left:20px;">'
+          + done.map((r) => `<li style="margin-bottom:8px;"><strong>${esc(r.type || 'Update')}</strong>${r.resolution ? `<br><span style="color:#6b7094;white-space:pre-wrap;">${esc(r.resolution)}</span>` : ''}</li>`).join('')
+          + '</ul>'
+        : p('We also completed <strong>' + done.length + '</strong> website ' + (done.length === 1 ? 'request' : 'requests') + ' for you' + (extra?.monthLabel ? ' in ' + esc(extra.monthLabel) : ' this month') + '.'));
 
+  // Light branded header: the WebEaze logo + wordmark + which month's report this is. The wordmark is
+  // real text so it still reads if the client's email blocks the logo image.
+  const reportLabel = extra?.monthLabel ? ('Your ' + esc(extra.monthLabel) + ' report') : 'Your website report';
+  const header = '<div style="border-bottom:1px solid #eeeeee;padding-bottom:15px;margin-bottom:24px;">'
+    + '<img src="https://webeaze.io/images/webeaze-transparent-copy.png" alt="" width="24" height="27" style="vertical-align:middle;margin-right:8px;" />'
+    + '<span style="font-size:17px;font-weight:800;letter-spacing:-.02em;color:#1f2333;vertical-align:middle;">Web<span style="color:#7851a9;">Eaze</span></span>'
+    + '<span style="font-size:14px;color:#9599b8;margin-left:10px;vertical-align:middle;">' + reportLabel + '</span>'
+    + '</div>';
   return [
     '<!DOCTYPE html><html><head><meta charset="UTF-8" /></head>',
     '<body style="margin:0;background:#ffffff;">',
-    '<div style="max-width:560px;margin:0 auto;padding:32px 26px;font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:1.65;color:#1f2333;">',
+    '<div style="max-width:560px;margin:0 auto;padding:30px 26px;font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:1.65;color:#1f2333;">',
+    header,
     p('Hi ' + esc(first) + ','),
     p(opening),
-    leadLine,
+    leadHighlight,
     snap,
     shipped,
     searched,
