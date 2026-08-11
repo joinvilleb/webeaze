@@ -132,6 +132,39 @@ async function buildClientContext(service: any, userId: string): Promise<string>
   return out;
 }
 
+// ── Help knowledge base: our real help articles, so answers about how WebEaze works stay accurate and
+// consistent with the help site. Same portal/help-content.json the chatbot uses; fetched once per cold
+// start, cached ~1h. Only the WebEaze-knowledge tasks below use it (client-copy tasks skip it).
+const KB_URL = 'https://portal.webeaze.io/help-content.json';
+type KBArticle = { s: string; t: string; m: string; b: string };
+let _kb: KBArticle[] | null = null;
+let _kbAt = 0;
+async function loadHelpKB(): Promise<KBArticle[]> {
+  if (_kb && Date.now() - _kbAt < 3_600_000) return _kb;
+  try {
+    const res = await fetch(KB_URL, { signal: AbortSignal.timeout(8000) });
+    if (res.ok) { _kb = await res.json(); _kbAt = Date.now(); }
+  } catch (_e) { /* keep whatever we have */ }
+  return _kb || [];
+}
+const KB_STOP = new Set(['the', 'a', 'an', 'and', 'or', 'to', 'of', 'for', 'is', 'are', 'do', 'does', 'can', 'i', 'my', 'you', 'your', 'how', 'what', 'it', 'on', 'in', 'with', 'me', 'we', 'our', 'if', 'so', 'that', 'this', 'be', 'get', 'have', 'will', 'about']);
+function retrieveHelp(kb: KBArticle[], query: string, k = 3): KBArticle[] {
+  const toks = [...new Set((query.toLowerCase().match(/[a-z0-9]+/g) || []).filter((t) => t.length > 2 && !KB_STOP.has(t)))];
+  if (!toks.length || !kb.length) return [];
+  const scored = kb.map((a) => {
+    const t = (a.t || '').toLowerCase(), m = (a.m || '').toLowerCase(), b = (a.b || '').toLowerCase(), slug = (a.s || '').replace(/-/g, ' ');
+    let score = 0;
+    for (const tok of toks) {
+      if (t.includes(tok)) score += 5;
+      else if (slug.includes(tok)) score += 4;
+      else if (m.includes(tok)) score += 2;
+      else if (b.includes(tok)) score += 1;
+    }
+    return { a, score };
+  }).filter((r) => r.score > 0).sort((x, y) => y.score - x.score);
+  return scored.slice(0, k).map((r) => r.a);
+}
+
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: cors });
   if (req.method !== 'POST') return json({ error: 'Method not allowed' }, 405);
@@ -167,6 +200,20 @@ Deno.serve(async (req) => {
     if (CONTEXT_TASKS.has(task)) {
       const ctx = await buildClientContext(service, contextUserId);
       if (ctx) ctxBlock = 'CLIENT CONTEXT (use to tailor, never invent beyond it):\n' + ctx + '\n\n';
+    }
+
+    // WebEaze help grounding: for the tasks that touch how WebEaze itself works (a client's request,
+    // add-on questions, and team replies about our service), pull the most relevant real help articles
+    // so answers match the help site and never invent policy. Folded into the same context block so it
+    // flows through each task's message. Client-copy tasks (about/services/faq/social/etc.) skip it.
+    const HELP_KB_TASKS = new Set(['request', 'addon_help', 'note_reply', 'resolution']);
+    if (HELP_KB_TASKS.has(task) && input) {
+      const arts = retrieveHelp(await loadHelpKB(), input, 3);
+      if (arts.length) {
+        const kb = 'WEBEAZE HELP (our real help articles; rely on these for how WebEaze works, what is included, billing, and policies, and never invent WebEaze facts not shown here):\n'
+          + arts.map((a) => '- ' + a.t + ': ' + String(a.b || a.m).replace(/\s+/g, ' ').slice(0, 600)).join('\n') + '\n\n';
+        ctxBlock = kb + ctxBlock;   // KB first, then client context, then the task's own message
+      }
     }
 
     // Vision task: describe an uploaded gallery photo. Returns { ok, alt, caption }.

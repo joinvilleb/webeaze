@@ -78,7 +78,12 @@ async function pullSpeed(url: string) {
     if (!res.ok) throw new Error(`PSI ${strategy} ${res.status}: ${(await res.text()).slice(0, 180)}`);
     const d = await res.json();
     const lh = d.lighthouseResult ?? {};
-    const score = Math.round((lh.categories?.performance?.score ?? 0) * 100);
+    // A missing performance score means Lighthouse could not analyze the page (site briefly down,
+    // blocking the crawler, a redirect loop, or a timeout). Treat it as a failed pull and throw, so
+    // refreshClient keeps the last good score instead of overwriting it with a fake 0.
+    const perf = lh.categories?.performance?.score;
+    if (perf == null) throw new Error('PSI ' + strategy + ' returned no score' + (lh.runtimeError ? ' (' + lh.runtimeError.code + ')' : ''));
+    const score = Math.round(perf * 100);
     const lcp = lh.audits?.['largest-contentful-paint']?.numericValue ?? null;   // ms
     const cls = lh.audits?.['cumulative-layout-shift']?.numericValue ?? null;
     const catScore = (k: string) => (lh.categories?.[k]?.score != null ? Math.round(lh.categories[k].score * 100) : null);
@@ -89,23 +94,34 @@ async function pullSpeed(url: string) {
       bpScore: catScore('best-practices'), cwv: cwvFrom(d),
     };
   };
-  try {
-    const [mobile, desktop] = await Promise.all([run('mobile'), run('desktop')]);
-    const now = new Date().toISOString();
-    // Accessibility / SEO / best-practices are DOM-based (same either strategy); take from mobile.
-    const accessibility = mobile.a11yScore != null ? { score: mobile.a11yScore, issues: mobile.a11yIssues || [], checkedAt: now } : null;
-    const seo = mobile.seoScore != null ? { score: mobile.seoScore, issues: mobile.seoIssues || [], checkedAt: now } : null;
-    const bestPractices = mobile.bpScore != null ? { score: mobile.bpScore, checkedAt: now } : null;
-    const cwv = mobile.cwv || null;   // real-visitor field data, when Google has enough of it
-    return {
-      mobile: { score: mobile.score, lcpSeconds: mobile.lcpSeconds, cls: mobile.cls },
-      desktop: { score: desktop.score, lcpSeconds: desktop.lcpSeconds, cls: desktop.cls },
-      accessibility, seo, bestPractices, cwv, checkedAt: now,
-    };
-  } catch (e) {
-    console.error('pullSpeed failed', e);
+  // Run each strategy INDEPENDENTLY with one retry, so a transient failure in one (desktop's Lighthouse
+  // is heavier and "returns no score" more often) no longer throws away BOTH scores the way a single
+  // Promise.all did. A strategy that fails both attempts comes back null; refreshClient then keeps that
+  // strategy's last good score instead of blanking it.
+  const runSafe = async (strategy: 'mobile' | 'desktop') => {
+    for (let attempt = 0; attempt < 2; attempt++) {
+      try { return await run(strategy); }
+      catch (e) {
+        console.warn('[growth] pullSpeed ' + strategy + ' attempt ' + (attempt + 1) + '/2: ' + ((e as any)?.message || e));
+        if (attempt === 0) await new Promise((r) => setTimeout(r, 1200));   // brief backoff, then one retry
+      }
+    }
     return null;
-  }
+  };
+  const [mobile, desktop] = await Promise.all([runSafe('mobile'), runSafe('desktop')]);
+  if (!mobile && !desktop) { console.error('[growth] pullSpeed: both strategies failed for ' + full); return null; }
+  const now = new Date().toISOString();
+  // Accessibility / SEO / best-practices are DOM-based (same either strategy); take from whichever ran.
+  const src: any = mobile || desktop;
+  const accessibility = src.a11yScore != null ? { score: src.a11yScore, issues: src.a11yIssues || [], checkedAt: now } : null;
+  const seo = src.seoScore != null ? { score: src.seoScore, issues: src.seoIssues || [], checkedAt: now } : null;
+  const bestPractices = src.bpScore != null ? { score: src.bpScore, checkedAt: now } : null;
+  const cwv = (mobile && mobile.cwv) || (desktop && desktop.cwv) || null;   // real-visitor field data
+  return {
+    mobile: mobile ? { score: mobile.score, lcpSeconds: mobile.lcpSeconds, cls: mobile.cls } : null,
+    desktop: desktop ? { score: desktop.score, lcpSeconds: desktop.lcpSeconds, cls: desktop.cls } : null,
+    accessibility, seo, bestPractices, cwv, checkedAt: now,
+  };
 }
 
 // ── Source: Google reviews (needs GOOGLE_PLACES_KEY + clients.google_place_id) ──
@@ -166,16 +182,29 @@ async function fetchReviewsByPlaceId(placeId: string) {
 async function parseMapRef(raw: string): Promise<{ placeId: string | null; textQuery: string; coords: { lat: number; lng: number } | null }> {
   raw = (raw || '').trim();
   if (!raw) return { placeId: null, textQuery: '', coords: null };
-  if (/^(ChIJ|GhIJ)[A-Za-z0-9_-]{8,}$/.test(raw)) return { placeId: raw, textQuery: '', coords: null };
+  // A raw Place ID is a long, url-safe token with no spaces. Accept ANY prefix (ChIJ, GhIJ, Ei, ...),
+  // not just the two most common, so service-area businesses (which often resolve to other id formats)
+  // work too. We also keep the raw as a name fallback: pullReviews retries it as a text search if the
+  // id does not resolve, so a spaceless business name mistaken for an id still works.
+  if (/^[A-Za-z0-9_-]{20,}$/.test(raw)) return { placeId: raw, textQuery: raw, coords: null };
   if (!/^https?:\/\//i.test(raw)) return { placeId: null, textQuery: raw, coords: null };   // a plain name
   // A URL: expand a short share link first (it carries no name/coords until resolved).
   let url = raw;
   if (/goo\.gl\//i.test(raw)) {
-    try { const r = await fetch(raw, { redirect: 'follow', headers: { 'User-Agent': 'Mozilla/5.0 (compatible; WebEazeBot/1.0)' } }); if (r.url) url = r.url; }
-    catch (e) { console.warn('[growth] could not expand short Maps link:', e); }
+    try {
+      // Take the 302 Location directly (redirect: 'manual'). The new maps.app.goo.gl links redirect to
+      // a clean /maps/place/Name/@lat,lng/...!3d..!4d.. URL, but a *followed* request can bounce to a
+      // consent page that carries no name/coords, which is why this used to come back empty.
+      const r = await fetch(raw, { redirect: 'manual', headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)' } });
+      const loc = r.headers.get('location');
+      if (loc) url = loc;
+      else if (r.url && r.url !== raw) url = r.url;
+    } catch (e) { console.warn('[growth] could not expand short Maps link:', e); }
   }
-  // Best case: an explicit Place ID in the URL.
-  const pid = url.match(/place_id[:=]([A-Za-z0-9_-]{20,})/i) || url.match(/\b((?:ChIJ|GhIJ)[A-Za-z0-9_-]{20,})\b/);
+  // Best case: an explicit Place ID in the URL. Accept place_id= AND placeid= (the "write a review"
+  // link, .../writereview?placeid=ChIJ..., is the most reliable way to get a service-area business's
+  // Place ID, since those never show up in the Place ID Finder).
+  const pid = url.match(/place_?id[:=]([A-Za-z0-9_-]{20,})/i) || url.match(/\b((?:ChIJ|GhIJ)[A-Za-z0-9_-]{20,})\b/);
   if (pid) return { placeId: pid[1], textQuery: '', coords: null };
   // Otherwise: the business name + coordinates.
   let textQuery = '';
@@ -219,13 +248,20 @@ async function pullReviews(ref?: string | null) {
   if (!PLACES_KEY) { console.warn('[growth] pullReviews: GOOGLE_PLACES_KEY secret is not set'); return null; }
 
   const parsed = await parseMapRef(raw);
-  if (parsed.placeId) return await fetchReviewsByPlaceId(parsed.placeId);
-  if (!parsed.textQuery) { console.warn('[growth] pullReviews: could not read a name/id from: ' + raw.slice(0, 120)); return null; }
-
+  // 1) A direct Place ID is the most reliable path, especially for service-area businesses with no
+  //    street address (text search often will not surface those).
+  if (parsed.placeId) {
+    const byId = await fetchReviewsByPlaceId(parsed.placeId);
+    if (byId && (byId.rating != null || byId.count != null)) return byId;
+    console.warn('[growth] pullReviews: Place ID "' + parsed.placeId.slice(0, 24) + '" did not resolve to a rating; trying a name search');
+  }
+  // 2) Fall back to a name search (covers a plain name, or a token that was not really a Place ID).
+  const q = parsed.textQuery || (parsed.placeId ? '' : raw);
+  if (!q) { console.warn('[growth] pullReviews: could not read a name/id from: ' + raw.slice(0, 120)); return null; }
   try {
-    const p = await searchTextPlace(parsed.textQuery, parsed.coords, 'places.id,places.displayName,places.rating,places.userRatingCount');
-    if (!p) { console.warn('[growth] Places textSearch: no match for "' + parsed.textQuery + '"'); return null; }
-    console.log('[growth] reviews matched "' + parsed.textQuery + '"' + (parsed.coords ? ' near ' + parsed.coords.lat.toFixed(3) + ',' + parsed.coords.lng.toFixed(3) : '') + ' -> ' + (p.displayName?.text || p.id) + ' (' + p.id + ')');
+    const p = await searchTextPlace(q, parsed.coords, 'places.id,places.displayName,places.rating,places.userRatingCount');
+    if (!p) { console.warn('[growth] Places textSearch: no match for "' + q + '"'); return null; }
+    console.log('[growth] reviews matched "' + q + '"' + (parsed.coords ? ' near ' + parsed.coords.lat.toFixed(3) + ',' + parsed.coords.lng.toFixed(3) : '') + ' -> ' + (p.displayName?.text || p.id) + ' (' + p.id + ')');
     return { rating: p.rating ?? null, count: p.userRatingCount ?? null, placeId: p.id, matched: p.displayName?.text ?? null, recent: await fetchRecentReviews(p.id), checkedAt: new Date().toISOString() };
   } catch (e) { console.error('[growth] Places textSearch failed:', e); return null; }
 }
@@ -423,11 +459,11 @@ async function pullSearch(siteUrl: string) {
 }
 
 // ── AI: turn the raw metrics into a warm, plain-English report for the owner ──
-async function generateSummary(c: { site_url?: string; name?: string }, metrics: any) {
+async function generateSummary(c: { site_url?: string; name?: string }, metrics: any, bizType: string | null = null) {
   if (!ANTHROPIC_API_KEY) { console.warn('[growth] ANTHROPIC_API_KEY not set — skipping AI summary'); return null; }
   const s = metrics.speed, r = metrics.reviews, se = metrics.search;
   const facts = {
-    business: c.name || '', site: c.site_url || '',
+    business: c.name || '', site: c.site_url || '', businessType: bizType || null,
     speedMobile: s?.mobile?.score ?? null, speedDesktop: s?.desktop?.score ?? null,
     googleRating: r?.rating ?? null, reviewCount: r?.count ?? null,
     searchClicks: se?.clicks ?? null, searchImpressions: se?.impressions ?? null,
@@ -435,13 +471,13 @@ async function generateSummary(c: { site_url?: string; name?: string }, metrics:
     impressionsTrendPct: se?.deltaPct ?? null,
     topSearches: (se?.topQueries || []).map((q: any) => q.query).slice(0, 5),
   };
-  const system = "You are the account team at WebEaze, a friendly web design and website-care service for small businesses. Write a short, warm, plain-English report for the business owner about how their website is doing. Talk to them directly (\"your site\"), no jargon, encouraging but honest. NEVER use em dashes. Only reference numbers that are provided (nulls mean not available) and never invent data. Return ONLY valid JSON (no markdown, no code fences) with keys: headline (a short upbeat phrase, max 8 words, written in sentence case: capitalize only the first word and any proper nouns like Google, not every word), summary (2 to 3 sentences on what has been happening), searched (one friendly sentence about what people searched to find them, or null if topSearches is empty), recommendations (array of 1 to 3 short, specific, non-technical suggestions we could do for them).";
+  const system = "You are the account team at WebEaze, a friendly web design and website-care service for small businesses. Write a short, warm, plain-English report for the business owner about how their website is doing. Talk to them directly (\"your site\"), no jargon, encouraging but honest. NEVER use em dashes. Only reference numbers that are provided (nulls mean not available) and never invent data. Return ONLY valid JSON (no markdown, no code fences) with keys: headline (a short upbeat phrase, max 8 words, written in sentence case: capitalize only the first word and any proper nouns like Google, not every word), summary (2 to 3 sentences on what has been happening), searched (one friendly sentence about what people searched to find them, or null if topSearches is empty), recommendations (array of 1 to 3 short, specific, non-technical suggestions we could do for them). Tailor the summary, and especially each recommendation, to the exact kind of business shown in businessType; if businessType is null, infer the trade from the business name, website and topSearches. Every recommendation must be specific to that trade, the kind of thing only that type of business would be told, never generic advice that could apply to anyone.";
   const userMsg = 'Latest data:\n' + JSON.stringify(facts, null, 2);
   try {
     const res = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: { 'x-api-key': ANTHROPIC_API_KEY, 'anthropic-version': '2023-06-01', 'content-type': 'application/json' },
-      body: JSON.stringify({ model: AI_MODEL, max_tokens: 700, system, messages: [{ role: 'user', content: userMsg }] }),
+      body: JSON.stringify({ model: AI_MODEL, max_tokens: 2000, system, messages: [{ role: 'user', content: userMsg }] }),
     });
     if (!res.ok) { console.error('[growth] Anthropic ' + res.status + ': ' + (await res.text()).slice(0, 200)); return null; }
     const d = await res.json();
@@ -462,7 +498,7 @@ async function generateSummary(c: { site_url?: string; name?: string }, metrics:
 // Queries already ranking on the edge of page 1 (positions ~4 to 20) with real impressions are the
 // cheapest wins. We hand those to the model and get back 2 to 4 plain-English opportunities, each
 // with a ready-to-file request so the client can act in one tap. Growth/Elite only.
-async function generateOpportunities(c: { site_url?: string; name?: string }, metrics: any) {
+async function generateOpportunities(c: { site_url?: string; name?: string }, metrics: any, bizType: string | null = null) {
   if (!ANTHROPIC_API_KEY) return null;
   const se = metrics.search;
   if (!se || !Array.isArray(se.topQueries) || !se.topQueries.length) return null;
@@ -472,13 +508,13 @@ async function generateOpportunities(c: { site_url?: string; name?: string }, me
     .slice(0, 6)
     .map((q: any) => ({ term: q.query, position: q.position, impressions: q.impressions, clicks: q.clicks }));
   if (!nearWins.length) return null;
-  const system = "You are the growth team at WebEaze, a website care service for small trade businesses. You are given a client's Google Search 'near-win' keywords: searches where they already rank on the edge of page one with real search demand. Turn them into 2 to 4 concrete growth opportunities we could do for them to win more customers. Be specific, framed as an action WE take (for example a focused service page, or beefing up an existing page). Write the 'why' in PLAIN everyday language a busy business owner gets in one read: name the actual search phrase in quotes and say something like 'people are searching for this and finding you, but not quite landing on the right page.' AVOID jargon and numbers like impressions, clicks, CTR, conversion, or position 4 to 5. Keep each 'why' to one clear sentence, enough that they understand it, not a data dump. NEVER use em dashes. Return ONLY valid JSON (no markdown, no code fences): an array of objects with keys: title (short action, max 8 words), why (one plain sentence naming the search phrase), requestType (exactly one of: Content update, New page or section, SEO or visibility, Other), requestSummary (a clear description of the change for our team to action).";
-  const userMsg = 'Business: ' + (c.name || '') + '\nSite: ' + (c.site_url || '') + '\nNear-win keywords:\n' + JSON.stringify(nearWins, null, 2);
+  const system = "You are the growth team at WebEaze, a website care service for small trade businesses. You are given a client's Google Search 'near-win' keywords: searches where they already rank on the edge of page one with real search demand. Turn them into 2 to 4 concrete growth opportunities we could do for them to win more customers. Be specific, framed as an action WE take (for example a focused service page, or beefing up an existing page). Write the 'why' in PLAIN everyday language a busy business owner gets in one read: name the actual search phrase in quotes and say something like 'people are searching for this and finding you, but not quite landing on the right page.' AVOID jargon and numbers like impressions, clicks, CTR, conversion, or position 4 to 5. Keep each 'why' to one clear sentence, enough that they understand it, not a data dump. NEVER use em dashes. Return ONLY valid JSON (no markdown, no code fences): an array of objects with keys: title (short action, max 8 words), why (one plain sentence naming the search phrase), requestType (exactly one of: Content update, New page or section, SEO or visibility, Other), requestSummary (a clear description of the change for our team to action). Tailor every opportunity to this exact type of business: use the Business type given, or if it is missing infer the trade from the business name, site and the search phrases themselves. Never suggest anything generic that could apply to any business.";
+  const userMsg = 'Business: ' + (c.name || '') + '\nSite: ' + (c.site_url || '') + (bizType ? '\nBusiness type: ' + bizType : '') + '\nNear-win keywords:\n' + JSON.stringify(nearWins, null, 2);
   try {
     const res = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: { 'x-api-key': ANTHROPIC_API_KEY, 'anthropic-version': '2023-06-01', 'content-type': 'application/json' },
-      body: JSON.stringify({ model: AI_MODEL, max_tokens: 800, system, messages: [{ role: 'user', content: userMsg }] }),
+      body: JSON.stringify({ model: AI_MODEL, max_tokens: 2500, system, messages: [{ role: 'user', content: userMsg }] }),
     });
     if (!res.ok) { console.error('[growth] opportunities ' + res.status); return null; }
     const d = await res.json();
@@ -500,16 +536,16 @@ async function generateOpportunities(c: { site_url?: string; name?: string }, me
 // ── AI: proactive, seasonal "timely ideas" for the client's site, as one-tap requests ──
 // Not keyword-based (so it works for every plan): the current month + their trade, turned into 1-2
 // timely improvements we could make right now to win more work.
-async function generateNudges(c: { site_url?: string; name?: string }, refDate: Date) {
+async function generateNudges(c: { site_url?: string; name?: string }, refDate: Date, bizType: string | null = null, topSearches: string[] = []) {
   if (!ANTHROPIC_API_KEY) return null;
   const monthName = refDate.toLocaleDateString('en-US', { month: 'long', timeZone: 'UTC' });
-  const system = "You are the proactive growth team at WebEaze for a small trade business. Given the business and the current month, suggest 1 to 2 TIMELY, seasonal improvements we could make to their website right now to win more work (a seasonal promo banner, a holiday hours note, highlighting a service that is in demand this time of year, and so on). Concrete and specific to the season and their trade, not generic. NEVER use em dashes. Return ONLY valid JSON (no markdown, no code fences): an array of objects with keys: title (short, max 8 words), why (one sentence that references the season or month), requestType (exactly one of: Content update, New page or section, SEO or visibility, Other), requestSummary (a clear description of the change for our team).";
-  const userMsg = 'Business: ' + (c.name || '') + '\nSite: ' + (c.site_url || '') + '\nCurrent month: ' + monthName + '\nSuggest timely, seasonal website improvements for this trade.';
+  const system = "You are the proactive growth team at WebEaze for a small trade business. Given the business and the current month, suggest 1 to 2 TIMELY, seasonal improvements we could make to their website right now to win more work (a seasonal promo banner, a holiday hours note, highlighting a service that is in demand this time of year, and so on). Concrete and specific to the season and their trade, not generic. NEVER use em dashes. Return ONLY valid JSON (no markdown, no code fences): an array of objects with keys: title (short, max 8 words), why (one sentence that references the season or month), requestType (exactly one of: Content update, New page or section, SEO or visibility, Other), requestSummary (a clear description of the change for our team). Use the Business type given; if it is missing, infer the exact trade from the business name, website and the searches people use to find them. Every idea must fit that specific trade and the current season, never generic.";
+  const userMsg = 'Business: ' + (c.name || '') + '\nSite: ' + (c.site_url || '') + (bizType ? '\nBusiness type: ' + bizType : '') + (topSearches.length ? '\nSearches people use to find them: ' + topSearches.join(', ') : '') + '\nCurrent month: ' + monthName + '\nSuggest timely, seasonal website improvements specific to this exact trade.';
   try {
     const res = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: { 'x-api-key': ANTHROPIC_API_KEY, 'anthropic-version': '2023-06-01', 'content-type': 'application/json' },
-      body: JSON.stringify({ model: AI_MODEL, max_tokens: 700, system, messages: [{ role: 'user', content: userMsg }] }),
+      body: JSON.stringify({ model: AI_MODEL, max_tokens: 2000, system, messages: [{ role: 'user', content: userMsg }] }),
     });
     if (!res.ok) { console.error('[growth] nudges ' + res.status); return null; }
     const d = await res.json();
@@ -548,7 +584,13 @@ async function refreshClient(sb: any, c: { user_id: string; id?: string; site_ur
   const cwv = (sp && sp.cwv) || null;
   if (sp) { delete sp.accessibility; delete sp.seo; delete sp.bestPractices; delete sp.cwv; }
   const metrics: Record<string, unknown> = {
-    speed: speed ?? old.speed ?? null,
+    // Field-level merge: if only one strategy came back this run, keep the other strategy's last good
+    // score rather than replacing the whole speed object and blanking it.
+    speed: sp ? {
+      mobile:  (sp.mobile  && sp.mobile.score  != null) ? sp.mobile  : ((old.speed && old.speed.mobile)  || null),
+      desktop: (sp.desktop && sp.desktop.score != null) ? sp.desktop : ((old.speed && old.speed.desktop) || null),
+      checkedAt: sp.checkedAt,
+    } : (old.speed ?? null),
     accessibility: accessibility ?? old.accessibility ?? null,
     seo: seo ?? old.seo ?? null,
     bestPractices: bestPractices ?? old.bestPractices ?? null,
@@ -578,13 +620,18 @@ async function refreshClient(sb: any, c: { user_id: string; id?: string; site_ur
       else if (k) k.change = null;
     }
   }
+  // The client's trade (from their Google listing) + the real searches people use to find them.
+  // Passed into every AI generator so recommendations, opportunities and timely ideas are specific
+  // to THIS type of business, not generic advice that could apply to anyone.
+  const bizType = ((metrics.competitors as any)?.category) || null;
+  const topSearches = (((metrics.search as any)?.topQueries) || []).map((q: any) => q && q.query).filter(Boolean).slice(0, 6);
   // AI report last, so it can summarize the freshest numbers. Keep the prior one if it fails.
-  metrics.report = (await generateSummary(c, metrics)) ?? old.report ?? null;
+  metrics.report = (await generateSummary(c, metrics, bizType)) ?? old.report ?? null;
   // AI growth opportunities from near-win keywords (Growth/Elite only; keep prior on failure).
   const adv = /growth|elite/i.test(c.plan || '');
-  metrics.opportunities = adv ? ((await generateOpportunities(c, metrics)) ?? old.opportunities ?? null) : (old.opportunities ?? null);
+  metrics.opportunities = adv ? ((await generateOpportunities(c, metrics, bizType)) ?? old.opportunities ?? null) : (old.opportunities ?? null);
   // Seasonal nudges: proactive timely ideas for every plan.
-  metrics.nudges = (await generateNudges(c, new Date())) ?? old.nudges ?? null;
+  metrics.nudges = (await generateNudges(c, new Date(), bizType, topSearches)) ?? old.nudges ?? null;
   await sb.from('client_metrics').upsert({
     user_id: c.user_id, client_id: c.id ?? null, site_url: url,
     metrics, refreshed_at: new Date().toISOString(), updated_at: new Date().toISOString(),

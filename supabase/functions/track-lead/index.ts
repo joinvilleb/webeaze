@@ -1,9 +1,14 @@
 // Supabase Edge Function: track-lead
-// Records a lead event (form submit / click-to-call / click-to-email) sent by the WebEaze
-// track.js snippet running on a client's website. Public endpoint, called cross-origin from
+// Records a lead event (form submit / click-to-call / click-to-email / contact-CTA) sent by the
+// WebEaze track.js snippet running on a client's website. Public endpoint, called cross-origin from
 // client sites, so it allows any origin and never returns an error the browser would log.
 //
-// Body: { key: '<client user_id>', type: 'form' | 'call' | 'email', page?: string }
+// Body: { key: '<client user_id>', type: 'form'|'call'|'email'|'contact', page?: string,
+//         name?, email?, phone?, message? }   the last four (form details) are kept for Growth clients only
+//
+// This function only RECORDS the lead. The owner is NOT emailed per-lead (that would flood a busy site).
+// Every lead shows in their portal in real time, and the lead-digest function sends one end-of-day
+// summary email after business hours.
 //
 // Deploy:  supabase functions deploy track-lead --no-verify-jwt
 // (--no-verify-jwt because the caller is an anonymous visitor on the client's site, not a
@@ -21,12 +26,6 @@ const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 const TYPES = new Set(['form', 'call', 'email', 'contact']);
 const host = (u: string) => (u || '').replace(/^https?:\/\//i, '').replace(/\/.*$/, '').replace(/^www\./i, '').toLowerCase();
 
-// Speed-to-lead: the instant email that tells the owner to call back now.
-const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY') ?? '';
-const FROM = 'WebEaze <support@webeaze.io>';
-const esc = (s: string) => String(s || '').replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c] as string));
-const LEAD_ACTION: Record<string, string> = { form: 'just filled out your contact form', call: 'just clicked to call you', email: 'just clicked to email you', contact: 'just clicked to book or request a quote' };
-
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: cors });
   if (req.method !== 'POST') return ok({ ok: true, skipped: 'method' });
@@ -39,7 +38,7 @@ Deno.serve(async (req) => {
     if (!UUID.test(key) || !TYPES.has(type)) return ok({ ok: true, skipped: 'bad params' });
 
     const service = createClient(Deno.env.get('SUPABASE_URL')!, Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!);
-    const { data: client } = await service.from('clients').select('user_id, site_url, email, name, second_email').eq('user_id', key).maybeSingle();
+    const { data: client } = await service.from('clients').select('user_id, site_url, plan').eq('user_id', key).maybeSingle();
     if (!client) return ok({ ok: true, skipped: 'no client' });
 
     // Light spam guard: if we know the client's site host, only accept events posted from it.
@@ -48,36 +47,29 @@ Deno.serve(async (req) => {
     if (siteHost && originHost && originHost !== siteHost) return ok({ ok: true, skipped: 'origin' });
 
     const page = String(body.page || '').slice(0, 300) || null;
-    await service.from('lead_events').insert({ user_id: key, type, page });
 
-    // Speed-to-lead alert: email the owner immediately so they can call back first. Best-effort and
-    // deduped, so a double-click or a burst of the same action within 2 minutes only alerts once.
-    try {
-      if (RESEND_API_KEY && client.email) {
-        const since = new Date(Date.now() - 120000).toISOString();
-        const { count } = await service.from('lead_events').select('id', { count: 'exact', head: true }).eq('user_id', key).eq('type', type).gte('created_at', since);
-        if ((count || 0) <= 1) {
-          const first = String(client.name || '').trim().split(/\s+/)[0] || 'there';
-          const act = LEAD_ACTION[type] || 'just took an action on your website';
-          const pageLine = page ? (' <span style="color:#6b7280;">(page: ' + esc(page) + ')</span>') : '';
-          await fetch('https://api.resend.com/emails', {
-            method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${RESEND_API_KEY}` },
-            body: JSON.stringify({
-              from: FROM, to: [client.email, client.second_email].filter(Boolean),
-              subject: 'New lead from your website',
-              html: '<div style="font-family:Arial,Helvetica,sans-serif;font-size:15px;color:#1e222b;line-height:1.6;max-width:520px;">'
-                + '<p>Hi ' + esc(first) + ',</p>'
-                + '<p><strong>Someone ' + act + ' from your website.</strong>' + pageLine + '</p>'
-                + '<p>The faster you follow up, the more likely you are to win the job, so reach out now while you are top of mind.</p>'
-                + '<p style="color:#6b7280;font-size:12.5px;border-top:1px solid #eee;padding-top:12px;margin-top:16px;">You are getting this because a visitor took an action on your website. Reply to this email if you would like to turn these alerts off.</p>'
-                + '<p style="color:#6b7280;font-size:12.5px;">The WebEaze team</p>'
-                + '</div>',
-            }),
-          }).catch(() => {});
-        }
-      }
-    } catch (_) { /* never let alerting break lead recording */ }
+    // Growth/Elite clients get the actual lead details (a follow-up inbox in the portal). Every other
+    // plan stores only the count, so a visitor's personal details are never kept for a plan that would
+    // not use them. Details only come from a form submit (calls/emails/CTA clicks carry none).
+    const adv = /growth|elite/i.test(String(client.plan || ''));
+    const clean = (v: unknown, max: number) => { const s = String(v ?? '').replace(/\s+/g, ' ').trim(); return s ? s.slice(0, max) : null; };
+    const name = adv && type === 'form' ? clean(body.name, 120) : null;
+    const email = adv && type === 'form' ? clean(body.email, 160) : null;
+    const phone = adv && type === 'form' ? clean(body.phone, 40) : null;
+    const message = adv && type === 'form' ? clean(body.message, 1200) : null;
+    const hasDetails = !!(name || email || phone || message);
 
+    // If the detail columns are not there yet (migration not run), fall back to the count-only row so
+    // lead recording never breaks.
+    if (hasDetails) {
+      const ins = await service.from('lead_events').insert({ user_id: key, type, page, name, email, phone, message });
+      if (ins.error) await service.from('lead_events').insert({ user_id: key, type, page });
+    } else {
+      await service.from('lead_events').insert({ user_id: key, type, page });
+    }
+
+    // No per-lead email on purpose. The owner sees every lead live in their portal, and the lead-digest
+    // function sends one end-of-day recap, so a busy site never floods their inbox.
     return ok({ ok: true, recorded: type });
   } catch (_e) {
     return ok({ ok: true });   // never surface an error to a visitor's browser console
