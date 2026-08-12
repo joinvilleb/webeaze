@@ -66,29 +66,39 @@
     })
       .then(function (r) { return r.text().then(function (t) { return { s: r.status, t: t }; }); })
       .then(function (r) {
-        typing.remove();
+        var reply, ok = false;
         try {
           var d = JSON.parse(r.t);
-          if (d.reply) {
-            history.push({ role: 'assistant', content: d.reply });
-            if (history.length > 20) history = history.slice(-20);
-            wzAppend('bot', d.reply);
-          } else {
-            wzAppend('bot', d.error || 'Something went wrong — try <a href="website-request.html">submitting a request</a> instead.');
-          }
+          if (d.reply) { reply = d.reply; ok = true; }
+          else { reply = d.error || 'Something went wrong — try <a href="website-request.html">submitting a request</a> instead.'; }
         } catch (e) {
-          wzAppend('bot', 'Something went wrong — try <a href="website-request.html">submitting a request</a> instead.');
+          reply = 'Something went wrong — try <a href="website-request.html">submitting a request</a> instead.';
         }
+        if (ok) {
+          history.push({ role: 'assistant', content: reply });
+          if (history.length > 20) history = history.slice(-20);
+        }
+        wzFill(typing, 'bot', reply);
       })
       .catch(function () {
-        typing.remove();
-        wzAppend('bot', 'Network error — try <a href="website-request.html">submitting a request</a> instead.');
+        wzFill(typing, 'bot', 'Network error — try <a href="website-request.html">submitting a request</a> instead.');
       })
       .finally(function () {
         busy = false;
         if (sendBtn) sendBtn.disabled = false;
       });
   };
+
+  function wzScrollBottom() {
+    var msgs = document.getElementById('wz-chat-msgs');
+    if (!msgs) return;
+    var go = function () { msgs.scrollTop = msgs.scrollHeight; };
+    // Always scroll downward to the end, after layout settles (covers long,
+    // wrapped replies) so it never bumps back up.
+    go();
+    if (window.requestAnimationFrame) requestAnimationFrame(go);
+    setTimeout(go, 60);
+  }
 
   function wzAppend(cls, text) {
     var msgs = document.getElementById('wz-chat-msgs');
@@ -100,8 +110,16 @@
       el.innerHTML = wzSanitize(text);
     }
     msgs.appendChild(el);
-    msgs.scrollTop = msgs.scrollHeight;
+    wzScrollBottom();
     return el;
+  }
+
+  // Turn the typing bubble into the reply in place, so the list never
+  // shrinks-then-grows (which is what made it bump up and down).
+  function wzFill(el, cls, text) {
+    el.className = 'wz-msg ' + cls;
+    el.innerHTML = wzSanitize(text);
+    wzScrollBottom();
   }
 
   function wzSanitize(text) {
