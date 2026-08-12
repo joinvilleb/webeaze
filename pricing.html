@@ -524,10 +524,12 @@ h3{font-weight:700!important;letter-spacing:-.02em!important;}
     growth:{ name:"Growth", price:"$249/mo", why:"Everything in Essential, plus the tools to get found on Google, manage your reviews, and track results as you grow. Our most popular plan.", cta:{l:"Get your free preview", href:"consultation.html"}, jump:"#plansMonthly" },
     custom:{ name:"Custom", price:"Let's talk", why:"You need something bigger, like e-commerce, bookings, or custom integrations. Let's scope it together.", cta:{l:"Contact us", href:"contact-us.html"}, jump:null }
   };
-  var i = 0, votes = [];
+  var i = 0, votes = [], started = false;
   function el(tag, cls, html){ var e=document.createElement(tag); if(cls)e.className=cls; if(html!=null)e.innerHTML=html; return e; }
   function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
-  function down(){ chat.scrollTop = chat.scrollHeight; }
+  // Follow the conversation: once the user starts answering, keep the newest
+  // message in view by scrolling the page (the chat has no inner scrollbar).
+  function down(){ if(!started) return; var last = chat.lastElementChild; if(last && last.scrollIntoView){ last.scrollIntoView({behavior:'smooth', block:'center'}); } }
   function ask(){
     bar.style.width = (i/Q.length*100) + '%';
     if(i >= Q.length){ result(); return; }
@@ -536,7 +538,7 @@ h3{font-weight:700!important;letter-spacing:-.02em!important;}
     var opts = el('div','fopts');
     step.o.forEach(function(o){
       var b = el('button','fopt', '<span class="fopt-label">'+esc(o.l)+'</span><span class="fopt-hint">'+esc(o.h)+'</span>');
-      b.addEventListener('click', function(){ opts.remove(); chat.appendChild(el('div','fmsg user', esc(o.l))); votes.push(o.p); i++; setTimeout(ask, 260); });
+      b.addEventListener('click', function(){ started = true; opts.remove(); chat.appendChild(el('div','fmsg user', esc(o.l))); down(); votes.push(o.p); i++; setTimeout(ask, 260); });
       opts.appendChild(b);
     });
     chat.appendChild(opts); down();
