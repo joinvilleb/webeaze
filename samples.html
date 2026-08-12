@@ -433,6 +433,69 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
 @media(max-width:991px){.dropdown-menu-services{border:1px solid rgba(120,81,169,.18);border-radius:10px;box-shadow:0 4px 16px rgba(0,0,0,.13);padding:4px 8px;margin:4px 0 8px 8px!important;background:#fff;}}
 @media(max-width:991px){.dropdown-menu-services .dropdown-item{padding:7px 10px;font-size:.87rem;color:#374151!important;}}
 </style>
+<style>
+/* ── Revamp: calm hero + alternating featured-work rows ── */
+a, a:hover, a:focus { text-decoration: none !important; }
+
+.hero { padding: 74px 20px 34px; }
+.hero-kicker { margin-bottom: 16px; }
+.hero h1 { max-width: 720px; margin-left: auto; margin-right: auto; }
+.hero-sub { max-width: 560px; }
+
+.work-section { padding: 48px 20px 8px; background: #fff; }
+.work-row {
+  max-width: 1080px; margin: 0 auto;
+  display: grid; grid-template-columns: 1.02fr .98fr; gap: 60px; align-items: center;
+  padding: 56px 0;
+}
+.work-row + .work-row { border-top: 1px solid var(--line); }
+.work-row:nth-child(even) .work-media { order: 2; }
+@media (max-width: 880px) {
+  .work-row { grid-template-columns: 1fr; gap: 26px; padding: 42px 0; }
+  .work-row:nth-child(even) .work-media { order: 0; }
+}
+
+.work-media {
+  display: block; border-radius: 16px; overflow: hidden;
+  border: 1px solid var(--line); box-shadow: 0 18px 50px rgba(15,18,40,.10);
+  background: #fff; transition: box-shadow .22s, transform .22s;
+}
+.work-media:hover { box-shadow: 0 26px 64px rgba(0,0,0,.14); transform: translateY(-3px); }
+.work-media .bar {
+  padding: 9px 14px; background: #f1f5f9; border-bottom: 1px solid var(--line);
+  display: flex; align-items: center; gap: 10px;
+}
+.work-media .dots { display: flex; gap: 5px; }
+.work-media .dots span { width: 9px; height: 9px; border-radius: 50%; }
+.work-media .dots span:nth-child(1) { background: #ff5f57; }
+.work-media .dots span:nth-child(2) { background: #febc2e; }
+.work-media .dots span:nth-child(3) { background: #28c840; }
+.work-media .url {
+  flex: 1; background: #fff; border: 1px solid var(--line); border-radius: 6px;
+  padding: 4px 10px; font-size: 11px; color: var(--muted); font-family: monospace;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.work-media img { width: 100%; display: block; aspect-ratio: 16/10; object-fit: cover; object-position: top; }
+
+.work-eyebrow {
+  font-size: 11px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .12em; color: var(--brand); margin-bottom: 12px;
+}
+.work-name {
+  font-size: clamp(1.55rem, 3vw, 2.1rem); font-weight: 700;
+  letter-spacing: -.03em; color: var(--ink); margin: 0 0 14px; line-height: 1.1;
+}
+.work-story { font-size: 1.02rem; color: var(--ink-2); line-height: 1.72; margin: 0 0 24px; max-width: 470px; }
+.work-stats { display: flex; gap: 40px; margin-bottom: 26px; }
+.work-stat .n { font-size: 1.5rem; font-weight: 800; color: var(--ink); letter-spacing: -.02em; line-height: 1.1; }
+.work-stat .l { font-size: .8rem; color: var(--muted); margin-top: 3px; }
+.work-link { display: inline-flex; align-items: center; gap: 9px; font-size: .92rem; font-weight: 700; color: var(--brand); }
+.work-link i { font-size: .8rem; transition: transform .18s; }
+.work-link:hover i { transform: translateX(4px); }
+
+.cta-section { border-top: 1px solid var(--line); }
+.cta-inner .btn-brand i { font-size: .82rem; }
+</style>
 </head>
 <body>
 
@@ -500,100 +563,70 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
 
 <!-- HERO -->
 <header class="hero">
-  <h1>Real sites. Real businesses.</h1>
-  <p class="hero-sub">Every site here is live, built by WebEaze, and managed on an active plan. Take a closer look at the before and after.</p>
-  <div class="hero-pills">
-    <span class="hero-pill"><i class="fas fa-check"></i> Custom design</span>
-    <span class="hero-pill"><i class="fas fa-check"></i> Mobile-optimized</span>
-    <span class="hero-pill"><i class="fas fa-check"></i> SEO included</span>
-    <span class="hero-pill"><i class="fas fa-check"></i> From $169/mo</span>
-  </div>
+  <span class="hero-kicker">Our Work</span>
+  <h1>See the before and after.</h1>
+  <p class="hero-sub">Real websites we designed, built, and now manage for small businesses. Here's a closer look at how a couple of them came together.</p>
 </header>
 
-<!-- SAMPLES -->
-<section class="samples-section">
-  <div class="samples-grid">
+<!-- FEATURED WORK -->
+<section class="work-section">
 
-    <!-- Galaxy Gymnastics -->
-    <a class="sample-card" href="case-studies/galaxy-gymnastics.html">
-      <div class="sample-browser-bar">
-        <div class="sample-dots"><span></span><span></span><span></span></div>
-        <div class="sample-url">galaxygymnast.com</div>
+  <!-- Galaxy Gymnastics -->
+  <div class="work-row">
+    <a class="work-media" href="case-studies/galaxy-gymnastics.html" aria-label="Galaxy Gymnastics case study">
+      <div class="bar">
+        <div class="dots"><span></span><span></span><span></span></div>
+        <div class="url">galaxygymnast.com</div>
       </div>
       <picture>
         <source srcset="images/case-studies/galaxy-after.webp" type="image/webp">
-        <img class="sample-img" src="images/case-studies/galaxy-after.webp" alt="Galaxy Gymnastics website built by WebEaze" loading="lazy">
+        <img src="images/case-studies/galaxy-after.webp" alt="Galaxy Gymnastics website built by WebEaze" loading="lazy">
       </picture>
-      <div class="sample-body">
-        <div class="sample-cat">Fitness &middot; Salisbury, MD</div>
-        <div class="sample-name">Galaxy Gymnastics</div>
-        <p class="sample-story">An outdated site became a modern home for 500+ young athletes, with class schedules, online bookings, and a parent portal.</p>
-        <div class="sample-tags">
-          <span class="sample-tag">Class Schedules</span>
-          <span class="sample-tag">Online Bookings</span>
-          <span class="sample-tag">Mobile First</span>
-        </div>
-        <span class="sample-link">
-          See the before &amp; after <i class="fas fa-arrow-right" style="font-size:11px;"></i>
-        </span>
-      </div>
     </a>
+    <div class="work-text">
+      <div class="work-eyebrow">Fitness &middot; Salisbury, MD</div>
+      <h2 class="work-name">Galaxy Gymnastics</h2>
+      <p class="work-story">An outdated, hard-to-navigate website became a modern home for hundreds of young athletes, with class schedules, online bookings, and a parent portal, all built and managed by WebEaze.</p>
+      <div class="work-stats">
+        <div class="work-stat"><div class="n">500+</div><div class="l">athletes served</div></div>
+        <div class="work-stat"><div class="n">5 days</div><div class="l">from kickoff to live</div></div>
+      </div>
+      <a class="work-link" href="case-studies/galaxy-gymnastics.html">See the before &amp; after <i class="fas fa-arrow-right"></i></a>
+    </div>
+  </div>
 
-    <!-- The Original Clam Tavern -->
-    <a class="sample-card" href="case-studies/clam-tavern.html">
-      <div class="sample-browser-bar">
-        <div class="sample-dots"><span></span><span></span><span></span></div>
-        <div class="sample-url">clamtavern.net</div>
+  <!-- The Original Clam Tavern -->
+  <div class="work-row">
+    <a class="work-media" href="case-studies/clam-tavern.html" aria-label="The Original Clam Tavern case study">
+      <div class="bar">
+        <div class="dots"><span></span><span></span><span></span></div>
+        <div class="url">clamtavern.net</div>
       </div>
       <picture>
         <source srcset="images/case-studies/clam-after.webp" type="image/webp">
-        <img class="sample-img" src="images/case-studies/clam-after.webp" alt="The Original Clam Tavern website built by WebEaze" loading="lazy">
+        <img src="images/case-studies/clam-after.webp" alt="The Original Clam Tavern website built by WebEaze" loading="lazy">
       </picture>
-      <div class="sample-body">
-        <div class="sample-cat">Restaurant &middot; Clifton Heights, PA</div>
-        <div class="sample-name">The Original Clam Tavern</div>
-        <p class="sample-story">A dated site for two beloved Delco restaurants became one modern home, with both menus, live hours, and party-tray ordering.</p>
-        <div class="sample-tags">
-          <span class="sample-tag">Two Menus</span>
-          <span class="sample-tag">Live Hours</span>
-          <span class="sample-tag">Local SEO</span>
-        </div>
-        <span class="sample-link">
-          See the before &amp; after <i class="fas fa-arrow-right" style="font-size:11px;"></i>
-        </span>
-      </div>
     </a>
-
+    <div class="work-text">
+      <div class="work-eyebrow">Restaurant &middot; Clifton Heights, PA</div>
+      <h2 class="work-name">The Original Clam Tavern</h2>
+      <p class="work-story">A dated site for two beloved Delco restaurants became one modern home that shows off both menus, live hours, and party-tray ordering, all built and managed by WebEaze.</p>
+      <div class="work-stats">
+        <div class="work-stat"><div class="n">Since 1962</div><div class="l">a Delco institution</div></div>
+        <div class="work-stat"><div class="n">2 in 1</div><div class="l">restaurants, one site</div></div>
+      </div>
+      <a class="work-link" href="case-studies/clam-tavern.html">See the before &amp; after <i class="fas fa-arrow-right"></i></a>
+    </div>
   </div>
+
 </section>
 
-<!-- SELECTION CRITERIA -->
-<section class="selection-section">
-  <div class="selection-inner">
-    <h2>Every site here is handpicked.</h2>
-    <div class="criteria-row">
-      <div class="crit">
-        <div class="crit-check"><i class="fas fa-check"></i></div>
-        <div>
-          <strong>Client permission first</strong>
-          <span>We reach out to certain existing clients directly, explain why we'd like to feature them, and move forward if they say yes.</span>
-        </div>
-      </div>
-      <div class="crit">
-        <div class="crit-check"><i class="fas fa-check"></i></div>
-        <div>
-          <strong>Reflects our best work</strong>
-          <span>These websites, in addition to the 40+ others we've built, represent the quality and care we put into every project.</span>
-        </div>
-      </div>
-      <div class="crit">
-        <div class="crit-check"><i class="fas fa-check"></i></div>
-        <div>
-          <strong>Live, actively maintained</strong>
-          <span>These are actively managed websites that keep up with the times.</span>
-        </div>
-      </div>
-    </div>
+<!-- CTA -->
+<section class="cta-section">
+  <div class="cta-inner">
+    <h2>Want results like these?</h2>
+    <p>See a free preview of your new website before you pay a cent. No credit card, no commitment.</p>
+    <a class="btn-brand" href="consultation.html" data-webeaze-lead="contact">Get your free preview <i class="fas fa-arrow-right"></i></a>
   </div>
 </section>
 
