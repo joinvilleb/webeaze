@@ -4,7 +4,9 @@
 -- as the mailbox earns trust), so there is nothing to babysit.
 --
 -- Requires pg_cron + pg_net (both enabled on Supabase by default) and the three
--- functions deployed with "Verify JWT" OFF. Replace <PROJECT_REF> and <CRON_SECRET>.
+-- functions deployed with "Verify JWT" OFF. Project ref is filled in; replace <CRON_SECRET> with the
+-- real CRON_SECRET before running (the <PROJECT_REF> placeholder bit us once: an unsubstituted URL
+-- makes every cron run fail with "invalid URL" and silently stalls the whole machine).
 -- Run once in the Supabase SQL editor.
 --
 -- SCANNING is automated too: the scan-targets job below rotates through the (niche x area)
@@ -17,7 +19,7 @@ select cron.schedule(
   '30 12 * * *',       -- 30 min before drafting
   $$
   select net.http_post(
-    url     := 'https://<PROJECT_REF>.supabase.co/functions/v1/prospect-scan',
+    url     := 'https://gmgzhjxfypuyzzgqwona.supabase.co/functions/v1/prospect-scan',
     headers := jsonb_build_object('Content-Type','application/json','x-cron-secret','<CRON_SECRET>'),
     body    := jsonb_build_object('action','scan-targets','batch',6)
   );
@@ -30,7 +32,7 @@ select cron.schedule(
   '0 13 * * *',        -- 13:00 UTC ≈ 8-9am ET (shifts with DST; adjust to taste)
   $$
   select net.http_post(
-    url     := 'https://<PROJECT_REF>.supabase.co/functions/v1/outreach-draft',
+    url     := 'https://gmgzhjxfypuyzzgqwona.supabase.co/functions/v1/outreach-draft',
     headers := jsonb_build_object('Content-Type','application/json','x-cron-secret','<CRON_SECRET>'),
     body    := jsonb_build_object('limit', 10)
   );
@@ -43,7 +45,7 @@ select cron.schedule(
   '30 13 * * *',
   $$
   select net.http_post(
-    url     := 'https://<PROJECT_REF>.supabase.co/functions/v1/outreach-send',
+    url     := 'https://gmgzhjxfypuyzzgqwona.supabase.co/functions/v1/outreach-send',
     headers := jsonb_build_object('Content-Type','application/json','x-cron-secret','<CRON_SECRET>'),
     body    := '{}'::jsonb
   );

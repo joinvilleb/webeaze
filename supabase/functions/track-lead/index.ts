@@ -23,7 +23,7 @@ const cors = {
 };
 const ok = (b: unknown) => new Response(JSON.stringify(b), { status: 200, headers: { ...cors, 'Content-Type': 'application/json' } });
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-const TYPES = new Set(['form', 'call', 'email', 'contact']);
+const TYPES = new Set(['form', 'call', 'email', 'contact', 'order']);
 const host = (u: string) => (u || '').replace(/^https?:\/\//i, '').replace(/\/.*$/, '').replace(/^www\./i, '').toLowerCase();
 
 Deno.serve(async (req) => {
@@ -47,24 +47,46 @@ Deno.serve(async (req) => {
     if (siteHost && originHost && originHost !== siteHost) return ok({ ok: true, skipped: 'origin' });
 
     const page = String(body.page || '').slice(0, 300) || null;
+    const clean = (v: unknown, max: number) => { const s = String(v ?? '').replace(/\s+/g, ' ').trim(); return s ? s.slice(0, max) : null; };
+
+    // Completed e-commerce order (WooCommerce "order received" page). The amount is the sale total and
+    // order_ref is the store order id — the client's OWN revenue data, not visitor PII, so it's kept for
+    // every plan. De-dupe on order_ref so a refresh/return to the thank-you page never re-counts a sale.
+    let amount: number | null = null, orderRef: string | null = null;
+    if (type === 'order') {
+      const n = Number(body.amount);
+      amount = Number.isFinite(n) && n >= 0 && n < 1e7 ? Math.round(n * 100) / 100 : null;
+      orderRef = clean(body.order_ref, 80);
+      if (orderRef) {
+        const { data: dup } = await service.from('lead_events')
+          .select('id').eq('user_id', key).eq('order_ref', orderRef).maybeSingle();
+        if (dup) return ok({ ok: true, skipped: 'dup order' });
+      }
+    }
 
     // Growth/Elite clients get the actual lead details (a follow-up inbox in the portal). Every other
     // plan stores only the count, so a visitor's personal details are never kept for a plan that would
     // not use them. Details only come from a form submit (calls/emails/CTA clicks carry none).
     const adv = /growth|elite/i.test(String(client.plan || ''));
-    const clean = (v: unknown, max: number) => { const s = String(v ?? '').replace(/\s+/g, ' ').trim(); return s ? s.slice(0, max) : null; };
     const name = adv && type === 'form' ? clean(body.name, 120) : null;
     const email = adv && type === 'form' ? clean(body.email, 160) : null;
     const phone = adv && type === 'form' ? clean(body.phone, 40) : null;
     const message = adv && type === 'form' ? clean(body.message, 1200) : null;
     const hasDetails = !!(name || email || phone || message);
 
-    // If the detail columns are not there yet (migration not run), fall back to the count-only row so
-    // lead recording never breaks.
-    if (hasDetails) {
-      const ins = await service.from('lead_events').insert({ user_id: key, type, page, name, email, phone, message });
-      if (ins.error) await service.from('lead_events').insert({ user_id: key, type, page });
-    } else {
+    const row: Record<string, unknown> = { user_id: key, type, page };
+    if (type === 'order') { if (amount != null) row.amount = amount; if (orderRef) row.order_ref = orderRef; }
+    if (hasDetails) { row.name = name; row.email = email; row.phone = phone; row.message = message; }
+
+    const ins = await service.from('lead_events').insert(row);
+    if (ins.error) {
+      const msg = String(ins.error.message || '').toLowerCase();
+      // A unique-violation on an order = the de-dupe backstop firing; do not re-insert a bare row.
+      if (type === 'order' && (ins.error.code === '23505' || msg.includes('duplicate') || msg.includes('unique'))) {
+        return ok({ ok: true, skipped: 'dup order' });
+      }
+      // Otherwise the newer columns probably are not there yet (migration not run) — fall back to a
+      // count-only row so lead recording never breaks.
       await service.from('lead_events').insert({ user_id: key, type, page });
     }
 

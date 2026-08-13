@@ -10,6 +10,10 @@ create policy "referrals admin all" on public.referrals
   using      ((auth.jwt() ->> 'email') = 'billy@webeaze.io')
   with check ((auth.jwt() ->> 'email') = 'billy@webeaze.io');
 
-grant select, update on public.referrals to authenticated;
+-- select/insert/update/delete so the admin Growth tab can fully manage referrals (add, edit status,
+-- mark paid, remove). RLS still gates every write to billy@webeaze.io via the "referrals admin all"
+-- policy above, plus the existing "clients read own referrals" select policy — so widening the table
+-- grant does not let a regular client write (no client insert/update/delete policy exists).
+grant select, insert, update, delete on public.referrals to authenticated;
 
 notify pgrst, 'reload schema';
