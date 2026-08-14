@@ -564,12 +564,26 @@ async function generateNudges(c: { site_url?: string; name?: string }, refDate: 
   } catch (e) { console.error('[growth] nudges failed:', e); return null; }
 }
 
-async function refreshClient(sb: any, c: { user_id: string; id?: string; site_url?: string; google_place_id?: string | null; plan?: string }) {
+// `diag`, when passed, records which sources actually returned FRESH data on this run. Every source
+// here degrades to the previous snapshot on failure, which is what keeps the portal from blanking —
+// but it also means a refresh that pulled nothing looks identical to one that worked. The caller uses
+// diag to tell the client which specific source is not set up, instead of a blank "Report refreshed".
+async function refreshClient(
+  sb: any,
+  c: { user_id: string; id?: string; site_url?: string; google_place_id?: string | null; plan?: string },
+  diag?: Record<string, boolean>,
+) {
   const url = c.site_url || '';
   const [speed, reviews] = await Promise.all([pullSpeed(url), pullReviews(c.google_place_id), ]);
   const search = await pullSearch(url);
   // Local competitor benchmark reuses the client's own mobile speed for the self row.
   const competitors = await pullCompetitors(c.google_place_id, speed?.mobile?.score ?? null);
+  if (diag) {
+    diag.speed = !!(speed && (speed.mobile || speed.desktop));
+    diag.reviews = !!reviews;
+    diag.search = !!search;
+    diag.competitors = !!competitors;
+  }
   // Merge with the last snapshot: if a source momentarily fails or isn't set up yet, keep its
   // previous value instead of overwriting good numbers with null (which would blank the portal
   // and send a text-only email).
@@ -833,10 +847,25 @@ Deno.serve(async (req) => {
     const { data: c } = await service.from('clients').select('user_id, id, email, name, site_url, google_place_id, plan, second_email').eq('user_id', targetUserId).maybeSingle();
     if (!c) return json({ error: 'No client record' }, 404);
 
-    const metrics = await refreshClient(service, c);
-    let note = !c.site_url ? 'This client has no Site URL set — add one in the admin editor.'
-      : (!PSI_KEY ? 'GOOGLE_PSI_KEY secret is not set on the function.'
-      : (metrics.speed ? '' : 'PageSpeed returned no data. Check the Site URL is a reachable https page and the PageSpeed Insights API is enabled for your key.'));
+    const diag: Record<string, boolean> = {};
+    const metrics = await refreshClient(service, c, diag);
+    // Name the source that came back empty. Each one fails for its own reason and needs its own fix,
+    // so "could not refresh" is useless: it is almost always a per-client setup gap, not an outage.
+    let note = '';
+    if (!c.site_url) {
+      note = 'No Site URL is set for this client, so nothing can be measured. Add one in the admin editor.';
+    } else if (!PSI_KEY) {
+      note = 'The GOOGLE_PSI_KEY secret is not set on the function, so site speed cannot be measured.';
+    } else {
+      const gaps: string[] = [];
+      if (!diag.speed) gaps.push('site speed (PageSpeed could not load the site: check it is a reachable https page that does not block automated tests)');
+      if (!diag.search) gaps.push('Google Search data (no Search Console property matched this domain, or our service account has not been added to it)');
+      if (!diag.reviews) gaps.push(c.google_place_id ? 'Google reviews (the Place ID on file did not resolve)' : 'Google reviews (no Place ID is set for this client)');
+      if (!diag.competitors) gaps.push('the local comparison (it needs a working Place ID)');
+      if (gaps.length) {
+        note = 'Refreshed, but we could not pull ' + gaps.join('; ') + '. Anything we could not reach is still showing its last known figures.';
+      }
+    }
 
     // Email is sent to the client's own address on file. Report exactly what happened
     // (sent + to whom, or why not) rather than assuming success.
