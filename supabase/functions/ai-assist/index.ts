@@ -195,7 +195,7 @@ Deno.serve(async (req) => {
 
     // Tasks that benefit from a real-world summary of the client. Built once, lazily, and injected
     // into the user message. photo_caption and the setup-copy tasks deliberately skip it.
-    const CONTEXT_TASKS = new Set(['lead_reply', 'faq', 'request', 'review_reply', 'resolution', 'explain_report', 'note_reply', 'request_ack', 'addon_help', 'social_posts', 'seasonal_banner']);
+    const CONTEXT_TASKS = new Set(['lead_reply', 'faq', 'request', 'review_reply', 'resolution', 'explain_report', 'note_reply', 'request_ack', 'addon_help', 'social_posts', 'seasonal_banner', 'quote']);
     let ctxBlock = '';
     if (CONTEXT_TASKS.has(task)) {
       const ctx = await buildClientContext(service, contextUserId);
@@ -335,6 +335,12 @@ Deno.serve(async (req) => {
       // Client-side: draft a ready-to-send follow-up reply to a customer enquiry the owner pasted.
       system = "You are a small trade business owner writing a warm, professional follow-up reply to a customer enquiry you just received. Thank them, acknowledge what they asked about, and move things forward with a clear next step (for example a quick call, a quote, or a visit). Sound like a real, friendly, confident person, not a corporate script. Keep it short and ready to send. Do NOT invent specific facts like prices or dates unless the enquiry gives them. NEVER use em dashes. Return ONLY the reply text, no subject line, preamble, or quotes.";
       userMsg = ctxBlock + 'Business name: ' + biz + '\nThe customer enquiry:\n' + input;
+    } else if (task === 'quote') {
+      // Client-side: turn rough job notes into a send-ready quote for THEIR customer.
+      // Hard rule on invention: a hallucinated price or start date goes straight to a paying customer
+      // and the owner is held to it, so anything missing must come back as a visible blank instead.
+      system = "You turn a small business owner's rough notes about a job into a clear, send-ready quote they can email their customer. Structure it simply: a short friendly opening, a plain list of what is included, anything clearly not included if the notes imply it, the price exactly as the owner gave it, and one simple next step to accept. NEVER invent, estimate, or adjust a price, a timeline, a start date, or any detail the owner did not give you. If something is missing, leave an obvious square-bracket blank like [add price] or [add start date] for them to fill in, and never guess. Plain, confident, human voice, no corporate filler, no hype, no hard sell. NEVER use em dashes. Return ONLY the quote text, with no subject line, preamble, or quotes.";
+      userMsg = ctxBlock + 'Business name: ' + biz + '\nThe job, in the owner\'s own words:\n' + input;
     } else if (task === 'review_reply') {
       // Client-side: draft a public reply to a customer review, in the business's voice.
       system = "You write a warm, professional public reply to a customer's online review, on behalf of a small trade business. Match the tone: genuinely grateful for praise, calm and solution-focused for criticism, never defensive or corporate. Two to four sentences, sincere and plain. If the review is negative, apologize briefly and invite them to make it right. NEVER use em dashes. Return ONLY the reply text, no preamble or quotes.";
