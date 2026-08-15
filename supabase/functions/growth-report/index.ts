@@ -574,9 +574,15 @@ async function refreshClient(
   diag?: Record<string, boolean>,
 ) {
   const url = c.site_url || '';
-  const [speed, reviews] = await Promise.all([pullSpeed(url), pullReviews(c.google_place_id), ]);
-  const search = await pullSearch(url);
-  // Local competitor benchmark reuses the client's own mobile speed for the self row.
+  // Search joins the first wave: it talks to a different API and depends on nothing here. Running it
+  // after the others was pure dead time on a function that already times out on the interactive
+  // Refresh button (504 at the gateway).
+  const [speed, reviews, search] = await Promise.all([
+    pullSpeed(url),
+    pullReviews(c.google_place_id),
+    pullSearch(url),
+  ]);
+  // Competitors genuinely has to wait: the self row reuses the client's own mobile speed score.
   const competitors = await pullCompetitors(c.google_place_id, speed?.mobile?.score ?? null);
   if (diag) {
     diag.speed = !!(speed && (speed.mobile || speed.desktop));
@@ -639,13 +645,18 @@ async function refreshClient(
   // to THIS type of business, not generic advice that could apply to anyone.
   const bizType = ((metrics.competitors as any)?.category) || null;
   const topSearches = (((metrics.search as any)?.topQueries) || []).map((q: any) => q && q.query).filter(Boolean).slice(0, 6);
-  // AI report last, so it can summarize the freshest numbers. Keep the prior one if it fails.
-  metrics.report = (await generateSummary(c, metrics, bizType)) ?? old.report ?? null;
-  // AI growth opportunities from near-win keywords (Growth/Elite only; keep prior on failure).
+  // The three AI passes all read the finished `metrics` above and nothing from each other, so run
+  // them together. In series with claude-sonnet-5 they were the bulk of the wall clock and pushed
+  // the on-demand refresh past the gateway timeout. Each still keeps its previous value on failure.
   const adv = /growth|elite/i.test(c.plan || '');
-  metrics.opportunities = adv ? ((await generateOpportunities(c, metrics, bizType)) ?? old.opportunities ?? null) : (old.opportunities ?? null);
-  // Seasonal nudges: proactive timely ideas for every plan.
-  metrics.nudges = (await generateNudges(c, new Date(), bizType, topSearches)) ?? old.nudges ?? null;
+  const [aiReport, aiOpportunities, aiNudges] = await Promise.all([
+    generateSummary(c, metrics, bizType),
+    adv ? generateOpportunities(c, metrics, bizType) : Promise.resolve(null),
+    generateNudges(c, new Date(), bizType, topSearches),
+  ]);
+  metrics.report = aiReport ?? old.report ?? null;
+  metrics.opportunities = adv ? (aiOpportunities ?? old.opportunities ?? null) : (old.opportunities ?? null);
+  metrics.nudges = aiNudges ?? old.nudges ?? null;
   await sb.from('client_metrics').upsert({
     user_id: c.user_id, client_id: c.id ?? null, site_url: url,
     metrics, refreshed_at: new Date().toISOString(), updated_at: new Date().toISOString(),

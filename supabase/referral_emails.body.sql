@@ -1,39 +1,3 @@
--- Referral lifecycle emails, restyled to match the rest of the WebEaze emails.
---
--- ⚠ THIS FILE IS THE FUNCTION *BODY* ONLY (starts at `declare`, ends at `end;`).
---   Paste it into Supabase Dashboard → Database → Functions → notify_referral_status → Edit,
---   replacing everything in the Definition box. That editor adds the
---   `CREATE OR REPLACE FUNCTION ... AS $$ ... $$` wrapper itself, which is why pasting a full
---   CREATE statement there fails with: syntax error at or near "declare".
---
---   If you would rather use the SQL Editor, wrap it yourself:
---     create or replace function public.<your function name>() returns trigger
---     language plpgsql security definer as $$ <everything below> $$;
---   Confirm the real name first, since the trigger is bound to it:
---     select tgname, p.proname from pg_trigger t
---       join pg_proc p on p.oid = t.tgfoid where tgrelid = 'public.referrals'::regclass;
---
--- Four emails, all on public.referrals:
---   0. INSERT as 'Referred'     "We got your referral"               (the client logged it in the portal)
---   1. status -> 'Pending'      "Your referral is being tracked"      (signed up, 7-day clock running)
---   2. status -> 'Signed up'    "Your $N referral reward is ready"    (confirmed, asks for payout details)
---   3. reward_paid -> true      "Your $N reward has been sent"
---
--- REQUIRES referral_reward_amount.sql to have been run first: every amount comes from
--- referrals.reward_amount, so a holiday boost still pays the boosted rate when it is settled later.
---
--- WHAT CHANGED, beyond the styling:
---   a) Email 1 could never fire. The admin status dropdown only ever wrote 'Referred' or 'Signed up',
---      so `new.status = 'Pending'` was unreachable. portal/admin.html now offers Pending as the
---      middle state, which is what the copy was always written for.
---   b) Email 2 was skipped when a referral was INSERTED straight as 'Signed up' (which the admin Add
---      form allows). On insert OLD is null, so `old.status != 'Signed up'` evaluates to NULL, not
---      true, and the branch was skipped. Guarded the way branches 1 and 3 already were.
---   c) The "learn more" link pointed at webeaze.tawk.help/article/referral. Now webeaze.io/referral-faq.
---   d) Styling: Verdana + a purple gradient banner + nested grey cards replaced with the same shell
---      every other WebEaze email uses (Helvetica stack, 560px column, logo and wordmark at the top,
---      no color except the wordmark and links, real bullet lists).
-
 declare
   referrer_email text;
   referrer_name  text;

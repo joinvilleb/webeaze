@@ -6,6 +6,9 @@
 //   2) Onboarding    — ~5-14 days after signup if they never submitted their Site Setup (we can't
 //                      start building without it).
 //   3) Review+refer  — ~14-45 days after their site launched: how's it going + a soft review + referral ask.
+//   4) Portal nudge  — 3-30 days after signup if auth shows they have NEVER signed in. Everything we
+//                      build for them lives behind that login, so a client who never opens it gets
+//                      no value from the plan. Needs supabase/portal_nudge.sql for the dedupe column.
 //
 // Deploy:   supabase functions deploy lifecycle-emails --no-verify-jwt
 // Secrets:  CRON_SECRET, RESEND_API_KEY  (+ platform SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY)
@@ -61,6 +64,18 @@ function onboardingInner(c: any) {
     btn(PORTAL_URL + '/#setup', 'Finish your Site Setup') +
     '<p style="margin:0 0 16px;">If you have questions or need help getting started, reply to this email and we will help you out.</p>';
 }
+function portalInner(c: any) {
+  return '<p style="margin:0 0 16px;">Hey ' + esc(firstName(c.name)) + ',</p>' +
+    '<p style="margin:0 0 16px;">We set your client portal up when you joined, but it looks like you have not opened it yet. Everything we do for you lives in there.</p>' +
+    '<p style="margin:0 0 8px;">It is where you:</p>' +
+    '<ul style="margin:0 0 16px;padding-left:20px;">' +
+      '<li style="margin-bottom:8px;">Send us website changes and watch them get done</li>' +
+      '<li style="margin-bottom:8px;">See who has been contacting you through your site</li>' +
+      '<li style="margin-bottom:8px;">Check how your site is performing on Google</li>' +
+    '</ul>' +
+    btn(PORTAL_URL, 'Open your portal') +
+    '<p style="margin:0 0 16px;">If you cannot get in, or never received your login, just reply to this email and we will sort it out.</p>';
+}
 function reviewInner(c: any) {
   return '<p style="margin:0 0 16px;">Hey ' + esc(firstName(c.name)) + ',</p>' +
     '<p style="margin:0 0 16px;">Your website has been live for a couple of weeks now. How is it going? We hope it is already bringing you new leads and customers.</p>' +
@@ -79,7 +94,7 @@ Deno.serve(async (req) => {
 
   const svc = createClient(Deno.env.get('SUPABASE_URL')!, Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!);
   const now = Date.now();
-  const sent = { winback: 0, onboarding: 0, review: 0 };
+  const sent = { winback: 0, onboarding: 0, review: 0, portal: 0 };
 
   try {
     // 1) WIN-BACK: cancelled 20-30 days ago, still inactive, has an email, not yet sent.
@@ -125,6 +140,30 @@ Deno.serve(async (req) => {
       if (await sendEmail(to, 'How is your website working out?', reviewInner(c))) {
         await svc.from('clients').update({ review_nudge_at: iso(now) }).eq('id', c.id);
         sent.review++;
+      }
+    }
+
+    // 4) NEVER OPENED THE PORTAL: created 3-30 days ago, still active, and auth says they have never
+    //    signed in. Everything we build sits behind that login, so this is the highest-value nudge
+    //    we send. last_sign_in_at is only visible to the service role, hence the per-client lookup.
+    const { data: np } = await svc.from('clients')
+      .select('id, user_id, name, email, second_email')
+      .neq('status', 'inactive').is('portal_nudge_at', null)
+      .gte('created_at', iso(now - 30 * DAY)).lte('created_at', iso(now - 3 * DAY));
+    for (const c of np ?? []) {
+      if (!c.user_id) continue;
+      const to = [c.email, c.second_email].filter(Boolean) as string[];
+      let signedIn = true;                       // fail safe: never nag someone we cannot verify
+      try {
+        const { data: u } = await svc.auth.admin.getUserById(c.user_id);
+        signedIn = !!(u && u.user && u.user.last_sign_in_at);
+      } catch (_e) { signedIn = true; }
+      // Already been in? Mark handled so we stop checking them every day.
+      if (signedIn) { await svc.from('clients').update({ portal_nudge_at: iso(now) }).eq('id', c.id); continue; }
+      if (!to.length) continue;
+      if (await sendEmail(to, 'Your WebEaze portal is waiting', portalInner(c))) {
+        await svc.from('clients').update({ portal_nudge_at: iso(now) }).eq('id', c.id);
+        sent.portal++;
       }
     }
 

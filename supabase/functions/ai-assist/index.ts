@@ -5,7 +5,13 @@
 // Called with the client's JWT. Body: { task: 'about' | 'services', input?: string }
 // Returns: { ok: true, text: '<drafted copy>' }
 //
-// Deploy:  supabase functions deploy ai-assist   (Verify JWT can stay ON; the portal sends a JWT)
+// Deploy:  supabase functions deploy ai-assist --no-verify-jwt
+//
+// Verify JWT should be OFF. This function does its own auth below (auth.getUser() on the caller's
+// token, 401 if there is no real user), which is the check that actually matters. The gateway's
+// "verify JWT with legacy secret" is satisfied by the ANON KEY, which ships publicly in the portal
+// HTML, so it keeps nobody out. It does, however, reject before the function runs, which produces
+// zero function logs and makes "is this even being called?" impossible to answer.
 // Secrets: ANTHROPIC_API_KEY (already set)
 
 import { createClient } from 'jsr:@supabase/supabase-js@2';
@@ -119,6 +125,11 @@ async function buildClientContext(service: any, userId: string): Promise<string>
     if (mx) {
       const sp = mx.speed || {}, rv = mx.reviews || {}, se = mx.search || {};
       const bits: string[] = [];
+      // What Google actually classifies them as, resolved from their own listing. This is the most
+      // reliable statement of the trade we have, and it was being left out entirely, so every task
+      // was inferring the trade from the business name and guessing.
+      const cat = mx.competitors && mx.competitors.category;
+      if (cat) bits.push('Google business category: ' + String(cat).slice(0, 60));
       if ((sp.mobile && sp.mobile.score != null) || (sp.desktop && sp.desktop.score != null)) bits.push('Site speed: mobile ' + ((sp.mobile && sp.mobile.score) ?? '?') + ', desktop ' + ((sp.desktop && sp.desktop.score) ?? '?'));
       if (rv.rating != null) bits.push('Google rating ' + rv.rating + (rv.count != null ? ' (' + rv.count + ' reviews)' : ''));
       if (se.impressions != null || se.clicks != null || se.position != null) bits.push('Search: ' + (se.impressions ?? '?') + ' impressions, ' + (se.clicks ?? '?') + ' clicks, avg position ' + (se.position ?? '?'));
@@ -195,7 +206,7 @@ Deno.serve(async (req) => {
 
     // Tasks that benefit from a real-world summary of the client. Built once, lazily, and injected
     // into the user message. photo_caption and the setup-copy tasks deliberately skip it.
-    const CONTEXT_TASKS = new Set(['lead_reply', 'faq', 'request', 'review_reply', 'resolution', 'explain_report', 'note_reply', 'request_ack', 'addon_help', 'social_posts', 'seasonal_banner', 'quote']);
+    const CONTEXT_TASKS = new Set(['lead_reply', 'faq', 'request', 'review_reply', 'resolution', 'explain_report', 'note_reply', 'request_ack', 'addon_help', 'social_posts', 'seasonal_banner', 'quote', 'support_channel']);
     let ctxBlock = '';
     if (CONTEXT_TASKS.has(task)) {
       const ctx = await buildClientContext(service, contextUserId);
@@ -294,8 +305,12 @@ Deno.serve(async (req) => {
     // Seasonal promo banner: a short, timely site banner for the top of the client's website, tuned to
     // their trade and the time of year. Returns { ok, headline, subtext, cta, season }.
     if (task === 'seasonal_banner') {
-      const sys = "You are a marketing assistant for a small trade business. Write ONE short, timely seasonal promo banner for the very top of their website, based on their trade and the current time of year. Return STRICT JSON only, no preamble or code fences, shaped exactly {\"headline\":\"...\",\"subtext\":\"...\",\"cta\":\"...\",\"season\":\"...\"}. headline = punchy, at most 8 words. subtext = one short supporting line. cta = a 2 to 4 word button label like 'Book now' or 'Get a quote'. season = the season or occasion it targets (for example Spring, Winter, Holidays). Ground it in the trade and the season; do NOT invent specific prices, dates, or discounts. NEVER use em dashes.";
-      const um = ctxBlock + 'Business name: ' + biz + '\nCurrent time of year: ' + (input || 'the current season') + '\nWrite the seasonal promo banner as strict JSON.';
+      const sys = "You are a marketing assistant for a specific small business, writing ONE short, timely promo banner for the very top of THEIR website.\n\n"
+        + "Use the client context above: their Google business category, the services they actually list, the areas they serve, and the searches real customers use to find them. The banner must name or clearly point at a REAL service of theirs, not a generic seasonal sentiment. If you could paste this banner onto another business's site without changing a word, it is wrong, so write it again.\n\n"
+        + "Tie it to what that particular trade is actually busy with at this time of year: the work customers are searching for right now, or the thing that becomes urgent for them this month. Sound like the owner wrote it, plain and local, not like a marketing agency.\n\n"
+        + "Do NOT invent prices, dates, discounts, or guarantees. If the context is thin and you genuinely cannot tell what they do, write something honest and simple built on the business name rather than inventing a trade.\n\n"
+        + "Return STRICT JSON only, no preamble or code fences, shaped exactly {\"headline\":\"...\",\"subtext\":\"...\",\"cta\":\"...\",\"season\":\"...\"}. headline = punchy, at most 8 words. subtext = one short supporting line. cta = a 2 to 4 word button label like 'Book now' or 'Get a quote'. season = the season or occasion it targets. NEVER use em dashes.";
+      const um = ctxBlock + 'Business name: ' + biz + '\nWebsite: ' + (site || '(unknown)') + '\nCurrent time of year: ' + (input || 'the current season') + '\n\nWrite the promo banner as strict JSON, specific to THIS business and what they are busy with right now.';
       const raw = await anthropic({ model: AI_MODEL, max_tokens: 300, system: sys, messages: [{ role: 'user', content: um }] });
       if (raw === null) return json({ error: 'AI request failed' }, 200);
       const p = parseJson(raw);
@@ -335,6 +350,22 @@ Deno.serve(async (req) => {
       // Client-side: draft a ready-to-send follow-up reply to a customer enquiry the owner pasted.
       system = "You are a small trade business owner writing a warm, professional follow-up reply to a customer enquiry you just received. Thank them, acknowledge what they asked about, and move things forward with a clear next step (for example a quick call, a quote, or a visit). Sound like a real, friendly, confident person, not a corporate script. Keep it short and ready to send. Do NOT invent specific facts like prices or dates unless the enquiry gives them. NEVER use em dashes. Return ONLY the reply text, no subject line, preamble, or quotes.";
       userMsg = ctxBlock + 'Business name: ' + biz + '\nThe customer enquiry:\n' + input;
+    } else if (task === 'support_channel') {
+      // Client-side: read what they just asked for and judge whether writing it out is actually the
+      // best route, or whether a live conversation gets them a better result. Deliberately open: no
+      // keyword list, no trigger phrases, and it gets the full client context so it can reason about
+      // THEIR situation (what we have already done for them, what keeps coming back, their plan).
+      system = "You are Eaze, the assistant inside a small business owner's website portal. They are part-way through writing a change request to their web team, and you can see the client context above.\n\n"
+        + "Read what they have written and use your judgement, the way an experienced account manager would, about whether sending it as a written request is genuinely the best way to get this done, or whether a live conversation would get them a better result. There is no keyword list and no trigger phrase: reason about the substance of what they are asking for.\n\n"
+        + "Things worth weighing, though not a checklist: how much back and forth this will realistically take to pin down; whether it hinges on seeing something on their screen or on their reaction to something visual; whether it is subjective or a matter of taste rather than a definite change; how urgent or costly it is if left; whether it touches money, their account, or anything sensitive; how big the job actually is; and anything in their history suggesting this has already gone round in circles.\n\n"
+        + "MOST OF THE TIME the written request IS the right route, and you should say so by choosing \"none\". Only suggest something else when you genuinely believe it would serve them better. A suggestion that fires on ordinary requests is worse than no suggestion at all.\n\n"
+        + "Return ONLY valid JSON, no markdown or code fences: {\"channel\":\"none\"|\"chat\"|\"call\"|\"video\",\"why\":\"...\"}\n"
+        + "  none  = leave them to send the request, it is the right call\n"
+        + "  chat  = a short live back and forth will settle it faster\n"
+        + "  call  = talking it through properly will get further than typing\n"
+        + "  video = seeing the screen together is the real unlock\n\n"
+        + "\"why\" is ONE natural sentence in your own words, written to the owner, specific to what THEY actually said, referencing their situation where it genuinely helps. Never generic, never a template, never the same phrasing twice. Leave it empty when channel is none. Never mention being an AI or that this was chosen automatically. NEVER use em dashes.";
+      userMsg = ctxBlock + 'What they have written so far in their request:\n<<<\n' + input + '\n>>>\n\nJudge whether a live conversation would serve them better than sending this as a written request, and return the JSON.';
     } else if (task === 'quote') {
       // Client-side: turn rough job notes into a send-ready quote for THEIR customer.
       // Hard rule on invention: a hallucinated price or start date goes straight to a paying customer
@@ -350,7 +381,10 @@ Deno.serve(async (req) => {
       userMsg = 'Business name: ' + biz + '\nWhat the owner told us:\n' + (input || '(they have not written anything yet, so write general, clearly-editable placeholder copy from the business name that they can refine)');
     }
 
-    const raw = await anthropic({ model: AI_MODEL, max_tokens: 600, system, messages: [{ role: 'user', content: userMsg }] });
+    // support_channel stays on the full model. It was briefly on Haiku for latency, but this is a
+    // judgement call about someone's actual situation, not a lookup, and the whole point is that it
+    // reasons rather than pattern matches. The portal shows a typing indicator to cover the wait.
+    const raw = await anthropic({ model: AI_MODEL, max_tokens: task === 'support_channel' ? 220 : 600, system, messages: [{ role: 'user', content: userMsg }] });
     if (raw === null) return json({ error: 'AI request failed' }, 200);
     return json({ ok: true, text: stripDash(raw) });
   } catch (e) {
