@@ -266,6 +266,67 @@ async function pullReviews(ref?: string | null) {
   } catch (e) { console.error('[growth] Places textSearch failed:', e); return null; }
 }
 
+// ── Source: how many pages their site actually has ───────────────────────────
+// So the portal can show "4 of 6 pages used" against their plan. Counted here rather than in the
+// browser because a client's site is a different origin and CORS would block the fetch.
+// Sitemap first (authoritative and cheap), falling back to the links on the homepage.
+function normalizePageUrl(u: string, host: string): string | null {
+  try {
+    const p = new URL(u);
+    if (p.hostname.replace(/^www\./, '') !== host) return null;         // same site only
+    if (/\.(png|jpe?g|gif|svg|webp|pdf|zip|xml|json|css|js|ico|mp4|webm)$/i.test(p.pathname)) return null;
+    let path = p.pathname.replace(/\/index\.html?$/i, '/').replace(/\.html?$/i, '');
+    if (path.length > 1) path = path.replace(/\/$/, '');
+    return path || '/';
+  } catch { return null; }
+}
+async function pullPages(siteUrl: string) {
+  if (!siteUrl) return null;
+  const full = /^https?:\/\//i.test(siteUrl) ? siteUrl : 'https://' + siteUrl;
+  let host = '';
+  try { host = new URL(full).hostname.replace(/^www\./, ''); } catch { return null; }
+  const found = new Set<string>();
+  const get = async (u: string) => {
+    try {
+      const res = await fetch(u, { headers: { 'User-Agent': 'WebEazeBot/1.0' }, signal: AbortSignal.timeout(9000) });
+      return res.ok ? await res.text() : null;
+    } catch { return null; }
+  };
+  // 1. Sitemaps, including one level of sitemap-index nesting.
+  for (const name of ['/sitemap.xml', '/sitemap_index.xml']) {
+    const xml = await get(new URL(name, full).toString());
+    if (!xml) continue;
+    const locs = [...xml.matchAll(/<loc>\s*([^<\s]+)\s*<\/loc>/gi)].map((m) => m[1]);
+    const nested = locs.filter((l) => /\.xml($|\?)/i.test(l)).slice(0, 5);
+    for (const l of locs) { const n = normalizePageUrl(l, host); if (n) found.add(n); }
+    for (const child of nested) {
+      const cx = await get(child);
+      if (!cx) continue;
+      for (const m of cx.matchAll(/<loc>\s*([^<\s]+)\s*<\/loc>/gi)) { const n = normalizePageUrl(m[1], host); if (n) found.add(n); }
+    }
+    if (found.size) break;
+  }
+  // 2. No usable sitemap: read the links on the homepage instead. Undercounts pages that are not
+  //    linked from the nav, which is why the portal calls this a best-effort count.
+  let source = 'sitemap';
+  if (!found.size) {
+    source = 'homepage';
+    const html = await get(full);
+    if (html) {
+      for (const m of html.matchAll(/href\s*=\s*["']([^"'#]+)["']/gi)) {
+        let raw = m[1];
+        if (/^(mailto:|tel:|javascript:)/i.test(raw)) continue;
+        try { raw = new URL(raw, full).toString(); } catch { continue; }
+        const n = normalizePageUrl(raw, host);
+        if (n) found.add(n);
+      }
+    }
+  }
+  if (!found.size) return null;
+  const list = [...found].sort();
+  return { count: list.length, pages: list.slice(0, 40), source, checkedAt: new Date().toISOString() };
+}
+
 // ── Source: local competitor benchmark (public Places data only) ──────────────
 // Resolves the client's own listing (location + category), finds nearby businesses in the
 // SAME category, and compares on what is publicly available: Google rating, review count, and
@@ -508,7 +569,7 @@ async function generateOpportunities(c: { site_url?: string; name?: string }, me
     .slice(0, 6)
     .map((q: any) => ({ term: q.query, position: q.position, impressions: q.impressions, clicks: q.clicks }));
   if (!nearWins.length) return null;
-  const system = "You are the growth team at WebEaze, a website care service for small trade businesses. You are given a client's Google Search 'near-win' keywords: searches where they already rank on the edge of page one with real search demand. Turn them into 2 to 4 concrete growth opportunities we could do for them to win more customers. Be specific, framed as an action WE take (for example a focused service page, or beefing up an existing page). Write the 'why' in PLAIN everyday language a busy business owner gets in one read: name the actual search phrase in quotes and say something like 'people are searching for this and finding you, but not quite landing on the right page.' AVOID jargon and numbers like impressions, clicks, CTR, conversion, or position 4 to 5. Keep each 'why' to one clear sentence, enough that they understand it, not a data dump. NEVER use em dashes. Return ONLY valid JSON (no markdown, no code fences): an array of objects with keys: title (short action, max 8 words), why (one plain sentence naming the search phrase), requestType (exactly one of: Content update, New page or section, SEO or visibility, Other), requestSummary (a clear description of the change for our team to action). Tailor every opportunity to this exact type of business: use the Business type given, or if it is missing infer the trade from the business name, site and the search phrases themselves. Never suggest anything generic that could apply to any business.";
+  const system = "You are the growth team at WebEaze, a website care service for small trade businesses. You are given a client's Google Search 'near-win' keywords: searches where they already rank on the edge of page one with real search demand. Turn them into concrete growth opportunities we could do for them to win more customers. Be specific, framed as an action WE take (for example a focused service page, or beefing up an existing page). Write the 'why' in PLAIN everyday language a busy business owner gets in one read: name the actual search phrase in quotes and say something like 'people are searching for this and finding you, but not quite landing on the right page.' AVOID jargon and numbers like impressions, clicks, CTR, conversion, or position 4 to 5. Keep each 'why' to one clear sentence, enough that they understand it, not a data dump. NEVER use em dashes. HOW MANY: return 1 to 3 opportunities, and only ones that are GENUINELY DIFFERENT PIECES OF WORK. Fewer is much better than repetitive. Several keywords that are variations on one theme (the same service, the same town, the same intent) are ONE opportunity, not several: do not split 'build a page for X', 'improve local SEO for X' and 'add a service area section for X' into separate items, pick the single strongest version and fold the rest into it. If the keywords only support one real idea, return exactly one. Return ONLY valid JSON (no markdown, no code fences): an array of objects with keys: title (short action, max 8 words), why (one plain sentence naming the search phrase), impact (integer 1 to 10, how much new business this would realistically win, used to decide which single one we show first), requestType (exactly one of: Content update, New page or section, SEO or visibility, Other), requestSummary (a clear description of the change for our team to action). Tailor every opportunity to this exact type of business: use the Business type given, or if it is missing infer the trade from the business name, site and the search phrases themselves. Never suggest anything generic that could apply to any business.";
   const userMsg = 'Business: ' + (c.name || '') + '\nSite: ' + (c.site_url || '') + (bizType ? '\nBusiness type: ' + bizType : '') + '\nNear-win keywords:\n' + JSON.stringify(nearWins, null, 2);
   try {
     const res = await fetch('https://api.anthropic.com/v1/messages', {
@@ -523,9 +584,11 @@ async function generateOpportunities(c: { site_url?: string; name?: string }, me
     const arr = JSON.parse(text);
     if (!Array.isArray(arr)) return null;
     const TYPES = ['Content update', 'New page or section', 'SEO or visibility', 'Other'];
-    const items = arr.slice(0, 4).map((o: any) => ({
+    const items = arr.slice(0, 3).map((o: any) => ({
       title: String(o.title || '').slice(0, 90),
       why: String(o.why || '').slice(0, 240),
+      // Drives which single suggestion the portal puts in front of the client first.
+      impact: Math.min(10, Math.max(1, Math.round(Number(o.impact)) || 5)),
       requestType: TYPES.includes(String(o.requestType)) ? String(o.requestType) : 'SEO or visibility',
       requestSummary: String(o.requestSummary || '').slice(0, 600),
     })).filter((o: any) => o.title && o.requestSummary);
@@ -539,7 +602,7 @@ async function generateOpportunities(c: { site_url?: string; name?: string }, me
 async function generateNudges(c: { site_url?: string; name?: string }, refDate: Date, bizType: string | null = null, topSearches: string[] = []) {
   if (!ANTHROPIC_API_KEY) return null;
   const monthName = refDate.toLocaleDateString('en-US', { month: 'long', timeZone: 'UTC' });
-  const system = "You are the proactive growth team at WebEaze for a small trade business. Given the business and the current month, suggest 1 to 2 TIMELY, seasonal improvements we could make to their website right now to win more work (a seasonal promo banner, a holiday hours note, highlighting a service that is in demand this time of year, and so on). Concrete and specific to the season and their trade, not generic. NEVER use em dashes. Return ONLY valid JSON (no markdown, no code fences): an array of objects with keys: title (short, max 8 words), why (one sentence that references the season or month), requestType (exactly one of: Content update, New page or section, SEO or visibility, Other), requestSummary (a clear description of the change for our team). Use the Business type given; if it is missing, infer the exact trade from the business name, website and the searches people use to find them. Every idea must fit that specific trade and the current season, never generic.";
+  const system = "You are the proactive growth team at WebEaze for a small trade business. Given the business and the current month, suggest 1 to 2 TIMELY, seasonal improvements we could make to their website right now to win more work (a seasonal promo banner, a holiday hours note, highlighting a service that is in demand this time of year, and so on). Concrete and specific to the season and their trade, not generic. NEVER use em dashes. Return ONLY valid JSON (no markdown, no code fences): an array of objects with keys: title (short, max 8 words), why (one sentence that references the season or month), impact (integer 1 to 10, how much new business this would realistically win, used to decide which single one we show first), requestType (exactly one of: Content update, New page or section, SEO or visibility, Other), requestSummary (a clear description of the change for our team). Use the Business type given; if it is missing, infer the exact trade from the business name, website and the searches people use to find them. Every idea must fit that specific trade and the current season, never generic.";
   const userMsg = 'Business: ' + (c.name || '') + '\nSite: ' + (c.site_url || '') + (bizType ? '\nBusiness type: ' + bizType : '') + (topSearches.length ? '\nSearches people use to find them: ' + topSearches.join(', ') : '') + '\nCurrent month: ' + monthName + '\nSuggest timely, seasonal website improvements specific to this exact trade.';
   try {
     const res = await fetch('https://api.anthropic.com/v1/messages', {
@@ -557,6 +620,8 @@ async function generateNudges(c: { site_url?: string; name?: string }, refDate: 
     const items = arr.slice(0, 2).map((o: any) => ({
       title: String(o.title || '').slice(0, 90),
       why: String(o.why || '').slice(0, 240),
+      // Same 1-10 scale the opportunities carry, so the portal can rank one merged queue.
+      impact: Math.min(10, Math.max(1, Math.round(Number(o.impact)) || 5)),
       requestType: TYPES.includes(String(o.requestType)) ? String(o.requestType) : 'Content update',
       requestSummary: String(o.requestSummary || '').slice(0, 600),
     })).filter((o: any) => o.title && o.requestSummary);
@@ -577,10 +642,11 @@ async function refreshClient(
   // Search joins the first wave: it talks to a different API and depends on nothing here. Running it
   // after the others was pure dead time on a function that already times out on the interactive
   // Refresh button (504 at the gateway).
-  const [speed, reviews, search] = await Promise.all([
+  const [speed, reviews, search, pages] = await Promise.all([
     pullSpeed(url),
     pullReviews(c.google_place_id),
     pullSearch(url),
+    pullPages(url),
   ]);
   // Competitors genuinely has to wait: the self row reuses the client's own mobile speed score.
   const competitors = await pullCompetitors(c.google_place_id, speed?.mobile?.score ?? null);
@@ -589,6 +655,7 @@ async function refreshClient(
     diag.reviews = !!reviews;
     diag.search = !!search;
     diag.competitors = !!competitors;
+    diag.pages = !!pages;
   }
   // Merge with the last snapshot: if a source momentarily fails or isn't set up yet, keep its
   // previous value instead of overwriting good numbers with null (which would blank the portal
@@ -618,6 +685,7 @@ async function refreshClient(
     reviews: reviews ?? old.reviews ?? null,
     search: search ?? old.search ?? null,
     competitors: competitors ?? old.competitors ?? null,
+    pages: pages ?? old.pages ?? null,
   };
   // Review Radar: how many reviews are new since the last snapshot (0 on the first-ever pull).
   const rv: any = metrics.reviews;
