@@ -1100,6 +1100,14 @@ body {
   border-top: 1px solid var(--border);
 }
 .handle-list li:first-child { border-top: none; }
+.lifecycle { display: flex; align-items: flex-start; justify-content: center; gap: .5rem; max-width: 1000px; margin: 0 auto; padding: 0 1.5rem; }
+.lc-step { flex: 1 1 0; max-width: 300px; text-align: center; }
+.lc-badge { position: relative; width: 72px; height: 72px; margin: 0 auto 1.25rem; border-radius: 50%; background: rgba(120,81,169,.1); display: flex; align-items: center; justify-content: center; color: var(--brand); font-size: 1.55rem; }
+.lc-num { position: absolute; top: -4px; right: -4px; width: 24px; height: 24px; border-radius: 50%; background: var(--brand); color: #fff; font-size: .78rem; font-weight: 700; display: flex; align-items: center; justify-content: center; border: 2px solid #fff; }
+.lc-step h3 { font-size: 1.15rem; font-weight: 700; margin: 0 0 .5rem; color: var(--black); }
+.lc-step p { font-size: .98rem; color: var(--text); line-height: 1.6; margin: 0; }
+.lc-arrow { flex: 0 0 auto; align-self: flex-start; margin-top: 26px; color: var(--brand); opacity: .35; font-size: 1.3rem; }
+@media (max-width: 760px) { .lifecycle { flex-direction: column; align-items: center; gap: 0; } .lc-step { max-width: 360px; } .lc-arrow { margin: .8rem 0; transform: rotate(90deg); } }
 
 
 @media (max-width: 768px) {
@@ -2136,39 +2144,23 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
       <h2 class="handle-morph">We handle everything.</h2>
       <p>From first design to live site. And every update thereafter.</p>
     </div>
-    <div class="handle-grid stagger">
-      <div class="handle-card reveal">
-        <div class="handle-icon"><svg class="svgi" aria-hidden="true"><use href="#i-pen-ruler"/></svg></div>
-        <h3>We Build It</h3>
-        <p>Designed specifically for your business, and your target audience.</p>
-        <ul class="handle-list">
-          <li><svg class="svgi" aria-hidden="true"><use href="#i-check-circle"/></svg>Custom website design</li>
-          <li><svg class="svgi" aria-hidden="true"><use href="#i-check-circle"/></svg>Mobile-responsive</li>
-          
-          <li><svg class="svgi" aria-hidden="true"><use href="#i-check-circle"/></svg>Ready in 5-14 days</li>
-        </ul>
+    <div class="lifecycle">
+      <div class="lc-step">
+        <div class="lc-badge"><span class="lc-num">1</span><svg class="svgi" aria-hidden="true"><use href="#i-pen-ruler"/></svg></div>
+        <h3>We build it</h3>
+        <p>Custom design made for your business and your audience, ready in 5 to 14 days.</p>
       </div>
-      <div class="handle-card reveal">
-        <div class="handle-icon"><svg class="svgi" aria-hidden="true"><use href="#i-gear"/></svg></div>
-        <h3>We Manage It</h3>
-        <p>Unlimited updates. Domain & hosting covered. Plus, a quick 24-48 hour turnaround. </p>
-        <ul class="handle-list">
-          <li><svg class="svgi" aria-hidden="true"><use href="#i-check-circle"/></svg>Unlimited website updates</li>
-          <li><svg class="svgi" aria-hidden="true"><use href="#i-check-circle"/></svg>Domain and hosting included</li>
-          
-          <li><svg class="svgi" aria-hidden="true"><use href="#i-check-circle"/></svg>Email, Phone, Chat, Video </li>
-        </ul>
+      <div class="lc-arrow" aria-hidden="true"><svg class="svgi" aria-hidden="true"><use href="#i-arrow-right"/></svg></div>
+      <div class="lc-step">
+        <div class="lc-badge"><span class="lc-num">2</span><svg class="svgi" aria-hidden="true"><use href="#i-gear"/></svg></div>
+        <h3>We manage it</h3>
+        <p>Unlimited updates with domain and hosting covered, on a 24 to 48 hour turnaround.</p>
       </div>
-      <div class="handle-card reveal">
-        <div class="handle-icon"><svg class="svgi" aria-hidden="true"><use href="#i-arrow-trend-up"/></svg></div>
-        <h3>We Grow It</h3>
-        <p>Built for visibility in Google search, Google Maps, and AI tools like ChatGPT and Gemini.</p>
-        <ul class="handle-list">
-          <li><svg class="svgi" aria-hidden="true"><use href="#i-check-circle"/></svg>Website analytics</li>
-          <li><svg class="svgi" aria-hidden="true"><use href="#i-check-circle"/></svg>Local SEO & AEO included</li>
-          <li><svg class="svgi" aria-hidden="true"><use href="#i-check-circle"/></svg>Google Business Profile</li>
-          
-        </ul>
+      <div class="lc-arrow" aria-hidden="true"><svg class="svgi" aria-hidden="true"><use href="#i-arrow-right"/></svg></div>
+      <div class="lc-step">
+        <div class="lc-badge"><span class="lc-num">3</span><svg class="svgi" aria-hidden="true"><use href="#i-arrow-trend-up"/></svg></div>
+        <h3>We grow it</h3>
+        <p>Local SEO and AI search, Google Maps, and a monthly report on how you are growing.</p>
       </div>
     </div>
   </section>
@@ -2448,6 +2440,17 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
     .pp-feature p { font-size: .92rem; color: #5b6170; line-height: 1.55; margin: 0; }
     @media (max-width: 820px) { .pp-features { grid-template-columns: 1fr 1fr; } }
     @media (max-width: 520px) { .pp-features { grid-template-columns: 1fr; } }
+    /* screenshot-led portal layout */
+    .pp-split { display: grid; grid-template-columns: 1.05fr .95fr; gap: 2.5rem; align-items: center; max-width: 1040px; margin: 2.5rem auto 0; text-align: left; }
+    .pp-split .portal-peek-frame { margin: 0; max-width: 100%; }
+    .pp-list { list-style: none; padding: 0; margin: 0; }
+    .pp-list li { display: flex; gap: .85rem; padding: 1rem 0; border-top: 1px solid rgba(15,18,40,.08); }
+    .pp-list li:first-child { border-top: none; padding-top: 0; }
+    .pp-list li > .svgi { color: #7851a9; font-size: 1.15rem; margin-top: .15rem; flex-shrink: 0; }
+    .pp-list strong { display: block; font-size: 1.02rem; font-weight: 700; color: #0a0a0a; margin-bottom: .15rem; }
+    .pp-list span { font-size: .93rem; color: #5b6170; line-height: 1.5; }
+    .pp-split-cta { margin-top: 1.75rem; }
+    @media (max-width: 820px) { .pp-split { grid-template-columns: 1fr; gap: 1.75rem; } .pp-split-cta { text-align: center; } }
     /* pricing CTA band (full plans live on pricing.html) */
     .price-cta { padding: 5.5rem 0; text-align: center; background: #fff; }
     .price-cta h2 { font-size: clamp(1.8rem, 3.5vw, 2.6rem); font-weight: 900; letter-spacing: -.03em; color: #0a0a0a; margin: 0 0 .9rem; }
@@ -2460,20 +2463,24 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
       
       <h2 class="reveal">Everything about your site, <span class="pp-yes">in one place.</span></h2>
       <p class="reveal">Most web developers build your site and disappear. With us, you get a portal to run it all, and then some.</p>
-      <div class="pp-features stagger">
-        <div class="pp-feature reveal"><svg class="svgi" aria-hidden="true"><use href="#i-inbox"/></svg><h3>Leads inbox</h3><p>Every call, email, and form message in one place, with one-tap follow-up and AI-drafted replies.</p></div>
-        <div class="pp-feature reveal"><svg class="svgi" aria-hidden="true"><use href="#i-wand-magic-sparkles"/></svg><h3>Request any change</h3><p>Ask for an update anytime and track each one from received to done.</p></div>
-        <div class="pp-feature reveal"><svg class="svgi" aria-hidden="true"><use href="#i-chart-line"/></svg><h3>Monthly growth report</h3><p>Real numbers on your speed, reviews, Google traffic, and how you stack up locally.</p></div>
-        <div class="pp-feature reveal"><svg class="svgi" aria-hidden="true"><use href="#i-headset"/></svg><h3>Live support</h3><p>Call, video, or chat with a real person, right inside the portal.</p></div>
-        <div class="pp-feature reveal"><svg class="svgi" aria-hidden="true"><use href="#i-note-sticky"/></svg><h3>Website notes</h3><p>A shared space with your team, so nothing gets lost in a crowded inbox.</p></div>
-        <div class="pp-feature reveal"><svg class="svgi" aria-hidden="true"><use href="#i-trophy"/></svg><h3>Milestones and rewards</h3><p>Unlock perks as your site grows, applied to your account automatically.</p></div>
-      </div>
-      <a class="portal-peek-frame reveal" href="client-portal.html" aria-label="Take the tour of the WebEaze Client Portal">
-        <div class="ppf-bar"><span class="ppf-dot"></span><span class="ppf-dot"></span><span class="ppf-dot"></span><span class="ppf-url">portal.webeaze.io</span></div>
-        <img class="ppf-shot" src="portal-screenshots/01-home-dashboard.webp" alt="The WebEaze Client Portal dashboard showing website requests, plan status, and account information" loading="lazy" decoding="async" width="1400" height="1275">
-      </a>
-      <div class="portal-peek-cta reveal">
-        <a href="client-portal.html" class="btn-primary-brand"><svg class="svgi" aria-hidden="true"><use href="#i-arrow-right"/></svg> Take the tour</a>
+      <div class="pp-split">
+        <a class="portal-peek-frame" href="client-portal.html" aria-label="Take the tour of the WebEaze Client Portal">
+          <div class="ppf-bar"><span class="ppf-dot"></span><span class="ppf-dot"></span><span class="ppf-dot"></span><span class="ppf-url">portal.webeaze.io</span></div>
+          <img class="ppf-shot" src="portal-screenshots/01-home-dashboard.webp" alt="The WebEaze Client Portal dashboard showing website requests, plan status, and account information" loading="lazy" decoding="async" width="1400" height="1275">
+        </a>
+        <div class="pp-side">
+          <ul class="pp-list">
+            <li><svg class="svgi" aria-hidden="true"><use href="#i-inbox"/></svg><div><strong>Leads inbox</strong><span>Every call, email, and form message in one place, with one-tap follow-up.</span></div></li>
+            <li><svg class="svgi" aria-hidden="true"><use href="#i-wand-magic-sparkles"/></svg><div><strong>Request any change</strong><span>Ask for an update anytime and track it from received to done.</span></div></li>
+            <li><svg class="svgi" aria-hidden="true"><use href="#i-chart-line"/></svg><div><strong>Monthly growth report</strong><span>Real numbers on your speed, reviews, and Google traffic.</span></div></li>
+            <li><svg class="svgi" aria-hidden="true"><use href="#i-headset"/></svg><div><strong>Live support</strong><span>Call, video, or chat with a real person, right in the portal.</span></div></li>
+            <li><svg class="svgi" aria-hidden="true"><use href="#i-note-sticky"/></svg><div><strong>Website notes</strong><span>A shared space with your team so nothing gets lost.</span></div></li>
+            <li><svg class="svgi" aria-hidden="true"><use href="#i-trophy"/></svg><div><strong>Milestones and rewards</strong><span>Unlock perks automatically as your site grows.</span></div></li>
+          </ul>
+          <div class="pp-split-cta">
+            <a href="client-portal.html" class="btn-primary-brand"><svg class="svgi" aria-hidden="true"><use href="#i-arrow-right"/></svg> Take the tour</a>
+          </div>
+        </div>
       </div>
       
     </div>
