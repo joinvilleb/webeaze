@@ -1100,14 +1100,16 @@ body {
   border-top: 1px solid var(--border);
 }
 .handle-list li:first-child { border-top: none; }
-.lifecycle { display: flex; align-items: flex-start; justify-content: center; gap: .5rem; max-width: 1000px; margin: 0 auto; padding: 0 1.5rem; }
-.lc-step { flex: 1 1 0; max-width: 300px; text-align: center; }
-.lc-badge { position: relative; width: 72px; height: 72px; margin: 0 auto 1.25rem; border-radius: 50%; background: rgba(120,81,169,.1); display: flex; align-items: center; justify-content: center; color: var(--brand); font-size: 1.55rem; }
-.lc-num { position: absolute; top: -4px; right: -4px; width: 24px; height: 24px; border-radius: 50%; background: var(--brand); color: #fff; font-size: .78rem; font-weight: 700; display: flex; align-items: center; justify-content: center; border: 2px solid #fff; }
-.lc-step h3 { font-size: 1.15rem; font-weight: 700; margin: 0 0 .5rem; color: var(--black); }
-.lc-step p { font-size: .98rem; color: var(--text); line-height: 1.6; margin: 0; }
-.lc-arrow { flex: 0 0 auto; align-self: flex-start; margin-top: 26px; color: var(--brand); opacity: .35; font-size: 1.3rem; }
-@media (max-width: 760px) { .lifecycle { flex-direction: column; align-items: center; gap: 0; } .lc-step { max-width: 360px; } .lc-arrow { margin: .8rem 0; transform: rotate(90deg); } }
+.pkg-panel { display: grid; grid-template-columns: repeat(3, 1fr); max-width: 1000px; margin: 0 auto; background: #fff; border: 1px solid var(--border); border-radius: 20px; overflow: hidden; box-shadow: 0 20px 50px rgba(15,18,40,.06); }
+.pkg-col { padding: 2.25rem 2rem; border-left: 1px solid var(--border); }
+.pkg-col:first-child { border-left: none; }
+.pkg-head { display: flex; align-items: center; gap: .75rem; margin-bottom: 1.4rem; }
+.pkg-icon { width: 44px; height: 44px; border-radius: 12px; background: rgba(120,81,169,.1); color: var(--brand); display: inline-flex; align-items: center; justify-content: center; font-size: 1.15rem; flex-shrink: 0; }
+.pkg-head h3 { font-size: 1.2rem; font-weight: 800; margin: 0; color: var(--black); letter-spacing: -.02em; }
+.pkg-list { list-style: none; padding: 0; margin: 0; }
+.pkg-list li { display: flex; align-items: flex-start; gap: .6rem; padding: .55rem 0; font-size: .97rem; color: var(--text); line-height: 1.45; }
+.pkg-list li > .svgi { color: var(--brand); font-size: .95rem; margin-top: .18rem; flex-shrink: 0; }
+@media (max-width: 760px) { .pkg-panel { grid-template-columns: 1fr; } .pkg-col { border-left: none; border-top: 1px solid var(--border); } .pkg-col:first-child { border-top: none; } }
 
 
 @media (max-width: 768px) {
@@ -2144,23 +2146,33 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
       <h2 class="handle-morph">We handle everything.</h2>
       <p>From first design to live site. And every update thereafter.</p>
     </div>
-    <div class="lifecycle">
-      <div class="lc-step">
-        <div class="lc-badge"><span class="lc-num">1</span><svg class="svgi" aria-hidden="true"><use href="#i-pen-ruler"/></svg></div>
-        <h3>We build it</h3>
-        <p>Custom design made for your business and your audience, ready in 5 to 14 days.</p>
+    <div class="pkg-panel">
+      <div class="pkg-col">
+        <div class="pkg-head"><span class="pkg-icon"><svg class="svgi" aria-hidden="true"><use href="#i-pen-ruler"/></svg></span><h3>Build</h3></div>
+        <ul class="pkg-list">
+          <li><svg class="svgi" aria-hidden="true"><use href="#i-check-circle"/></svg>Custom website design</li>
+          <li><svg class="svgi" aria-hidden="true"><use href="#i-check-circle"/></svg>Mobile-responsive</li>
+          <li><svg class="svgi" aria-hidden="true"><use href="#i-check-circle"/></svg>Copy and content help</li>
+          <li><svg class="svgi" aria-hidden="true"><use href="#i-check-circle"/></svg>Live in 5 to 14 days</li>
+        </ul>
       </div>
-      <div class="lc-arrow" aria-hidden="true"><svg class="svgi" aria-hidden="true"><use href="#i-arrow-right"/></svg></div>
-      <div class="lc-step">
-        <div class="lc-badge"><span class="lc-num">2</span><svg class="svgi" aria-hidden="true"><use href="#i-gear"/></svg></div>
-        <h3>We manage it</h3>
-        <p>Unlimited updates with domain and hosting covered, on a 24 to 48 hour turnaround.</p>
+      <div class="pkg-col">
+        <div class="pkg-head"><span class="pkg-icon"><svg class="svgi" aria-hidden="true"><use href="#i-gear"/></svg></span><h3>Manage</h3></div>
+        <ul class="pkg-list">
+          <li><svg class="svgi" aria-hidden="true"><use href="#i-check-circle"/></svg>Unlimited updates</li>
+          <li><svg class="svgi" aria-hidden="true"><use href="#i-check-circle"/></svg>Domain and hosting</li>
+          <li><svg class="svgi" aria-hidden="true"><use href="#i-check-circle"/></svg>SSL and security</li>
+          <li><svg class="svgi" aria-hidden="true"><use href="#i-check-circle"/></svg>Email, phone, and chat support</li>
+        </ul>
       </div>
-      <div class="lc-arrow" aria-hidden="true"><svg class="svgi" aria-hidden="true"><use href="#i-arrow-right"/></svg></div>
-      <div class="lc-step">
-        <div class="lc-badge"><span class="lc-num">3</span><svg class="svgi" aria-hidden="true"><use href="#i-arrow-trend-up"/></svg></div>
-        <h3>We grow it</h3>
-        <p>Local SEO and AI search, Google Maps, and a monthly report on how you are growing.</p>
+      <div class="pkg-col">
+        <div class="pkg-head"><span class="pkg-icon"><svg class="svgi" aria-hidden="true"><use href="#i-arrow-trend-up"/></svg></span><h3>Grow</h3></div>
+        <ul class="pkg-list">
+          <li><svg class="svgi" aria-hidden="true"><use href="#i-check-circle"/></svg>Local SEO and AI search</li>
+          <li><svg class="svgi" aria-hidden="true"><use href="#i-check-circle"/></svg>Google Business Profile</li>
+          <li><svg class="svgi" aria-hidden="true"><use href="#i-check-circle"/></svg>Website analytics</li>
+          <li><svg class="svgi" aria-hidden="true"><use href="#i-check-circle"/></svg>Monthly growth report</li>
+        </ul>
       </div>
     </div>
   </section>
