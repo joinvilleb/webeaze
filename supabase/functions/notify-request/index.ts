@@ -30,6 +30,52 @@ const esc = (s: unknown) =>
   String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]!));
 const br = (s: unknown) => esc(s).replace(/\n/g, '<br>');
 
+// Dark-mode-safe email shell.
+//
+// The old client email was a bare <div> with dark text and no background of its own. On a phone in
+// dark mode that is the worst case: Apple Mail and Gmail both darken the canvas underneath, and the
+// text, which was never given a background to sit on, ends up near-black on near-black.
+//
+// Two rules make it work:
+//   1. prefers-color-scheme overrides for Apple Mail / Outlook, which honour real media queries. The
+//      color-scheme meta is what opts us in; without it iOS ignores the block entirely.
+//   2. Backgrounds live on the CONTAINERS only (page, card, box), never on a heading or paragraph.
+//      A background on a text element survives into dark mode as a white slab under light text,
+//      which is worse than the bug being fixed. Gmail and Outlook.com force their own inversion and
+//      ignore the media query, and they invert those containers with their contents, so contrast
+//      holds there too.
+const wzShell = (title: string, inner: string) => `<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="supported-color-schemes" content="light dark">
+<title>${esc(title)}</title>
+<style>
+  :root { color-scheme: light dark; supported-color-schemes: light dark; }
+  body, table, td, p, a, h1, h2 { -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
+  @media (prefers-color-scheme: dark) {
+    .wz-page { background: #0f1116 !important; }
+    .wz-card { background: #1a1d25 !important; border-color: #2b2f3d !important; }
+    .wz-text, .wz-text * { color: #e9eaf2 !important; }
+    .wz-muted, .wz-muted * { color: #a7adc6 !important; }
+    .wz-brand, .wz-brand * { color: #b99ae6 !important; }
+    .wz-box { background: #22262f !important; border-color: #333849 !important; }
+    .wz-label { color: #9098b5 !important; }
+  }
+  @media (max-width: 600px) { .wz-pad { padding: 24px 20px !important; } }
+</style>
+</head>
+<body class="wz-page" style="margin:0;padding:0;background:#f4f5fa;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" class="wz-page" style="background:#f4f5fa;">
+<tr><td align="center" style="padding:24px 12px;">
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" class="wz-card" style="width:100%;max-width:560px;background:#ffffff;border:1px solid #e4e7f1;border-radius:14px;">
+<tr><td class="wz-pad" style="padding:30px 28px;font-family:Helvetica,Arial,sans-serif;">
+${inner}
+</td></tr></table>
+</td></tr></table>
+</body></html>`;
+
 async function sendEmail(payload: Record<string, unknown>) {
   const res = await fetch('https://api.resend.com/emails', {
     method: 'POST',
@@ -107,24 +153,24 @@ Deno.serve(async (req) => {
       from: FROM,
       to: [user.email, secondEmail].filter(Boolean),
       subject: 'We got your request: ' + type,
-      html:
-        '<div style="font-family:Arial,Helvetica,sans-serif;max-width:560px;margin:0 auto;color:#0f1228">' +
-          '<h2 style="color:#7851a9;margin:0 0 6px">Thanks — we\'ve got your request!</h2>' +
-          '<p style="color:#6b7094;font-size:14px;line-height:1.6;margin:0 0 20px">' +
-            'Our team has received your request and will be in touch soon' +
-            (isUrgent ? ' — we\'ve flagged this as <strong>urgent</strong> and will prioritize it.' : '.') +
-          '</p>' +
-          '<div style="background:#f8f9fc;border:1px solid #e4e7f1;border-radius:12px;padding:18px 20px;margin-bottom:20px">' +
-            '<p style="margin:0 0 10px;font-size:12px;font-weight:bold;text-transform:uppercase;letter-spacing:.06em;color:#a0a6c4">Your request summary</p>' +
-            `<p style="margin:0 0 8px;font-size:14px"><strong>Type:</strong> ${esc(type)}</p>` +
-            `<p style="margin:0 0 8px;font-size:14px"><strong>Submitted:</strong> ${esc(submittedOn)} ET</p>` +
-            `<p style="margin:0;font-size:14px"><strong>Details:</strong><br>${br(notes)}</p>` +
-          '</div>' +
-          '<p style="color:#6b7094;font-size:13px;line-height:1.6;margin:0">' +
-            `You can track this request anytime in your <a href="${PORTAL_URL}" style="color:#7851a9;font-weight:bold;text-decoration:none">WebEaze Portal</a>. ` +
-            'No need to reply to this email — but if you need to add anything, just submit another request or reach out to your team.' +
-          '</p>' +
-        '</div>',
+      html: wzShell('We got your request',
+        '<h1 class="wz-brand" style="margin:0 0 8px;font-size:21px;line-height:1.3;font-weight:bold;color:#7851a9;">Thanks, we have got your request</h1>' +
+        '<p class="wz-muted" style="margin:0 0 22px;font-size:15px;line-height:1.6;color:#6b7094;">' +
+          'Our team has received it and will be in touch soon' +
+          (isUrgent ? '. We have flagged this as <strong class="wz-text" style="color:#1f2333;">urgent</strong> and will prioritize it.' : '.') +
+        '</p>' +
+        '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" class="wz-box" style="background:#f8f9fc;border:1px solid #e4e7f1;border-radius:12px;margin:0 0 22px;">' +
+          '<tr><td style="padding:18px 20px;font-family:Helvetica,Arial,sans-serif;">' +
+            '<p class="wz-label" style="margin:0 0 12px;font-size:11px;font-weight:bold;text-transform:uppercase;letter-spacing:.07em;color:#8b91b0;">Your request summary</p>' +
+            `<p class="wz-text" style="margin:0 0 9px;font-size:15px;line-height:1.5;color:#1f2333;"><strong>Type:</strong> ${esc(type)}</p>` +
+            `<p class="wz-text" style="margin:0 0 9px;font-size:15px;line-height:1.5;color:#1f2333;"><strong>Submitted:</strong> ${esc(submittedOn)} ET</p>` +
+            `<p class="wz-text" style="margin:0;font-size:15px;line-height:1.6;color:#1f2333;"><strong>Details:</strong><br>${br(notes)}</p>` +
+          '</td></tr>' +
+        '</table>' +
+        '<p class="wz-muted" style="margin:0;font-size:14px;line-height:1.65;color:#6b7094;">' +
+          `You can track this request anytime in your <a class="wz-brand" href="${PORTAL_URL}" style="color:#7851a9;font-weight:bold;text-decoration:underline;">client portal</a>. ` +
+          'No need to reply to this email. If you need to add anything, send us another request or reach out to your team.' +
+        '</p>'),
     });
 
     return json({ ok: true });
