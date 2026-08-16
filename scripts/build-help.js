@@ -103,7 +103,8 @@ const extraCss = `
 .article-body details > p:last-child, .article-body details > ul:last-child, .article-body details > ol:last-child { padding-bottom: 14px; }
 .article-body details > ul, .article-body details > ol { padding-left: 40px; }
 `;
-fs.writeFileSync(path.join(ROOT, 'css', 'help-article.css'), styleInner + extraCss);
+const ONLY = process.argv.slice(2).find(a => !a.startsWith('-')); // single-page mode: rebuild only this one slug
+if (!ONLY) fs.writeFileSync(path.join(ROOT, 'css', 'help-article.css'), styleInner + extraCss);
 
 // ── 4. Helpers ──
 const escAttr = s => String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -265,7 +266,8 @@ HELP_DATA.topics.forEach(t => t.articles.forEach(a => {
   const dir = path.join(outDir, a.slug);
   const file = path.join(dir, 'index.html');
   slugs.push(a.slug);                                        // always tracked for the sitemap
-  if (!FORCE && fs.existsSync(file)) { skipped++; return; }  // protect hand-edited pages
+  if (ONLY) { if (a.slug !== ONLY) return; }                // single-page mode: rebuild ONLY this slug, touch nothing else
+  else if (!FORCE && fs.existsSync(file)) { skipped++; return; }  // protect hand-edited pages
   fs.mkdirSync(dir, { recursive: true });
   fs.writeFileSync(file, page({ article: a, topic: t }));
   n++;
@@ -273,7 +275,7 @@ HELP_DATA.topics.forEach(t => t.articles.forEach(a => {
 
 // ── 6. Update sitemap.xml with /help/<slug> URLs ──
 const smPath = path.join(ROOT, 'sitemap.xml');
-if (fs.existsSync(smPath)) {
+if (!ONLY && fs.existsSync(smPath)) {
   let sm = fs.readFileSync(smPath, 'utf8');
   sm = sm.replace(/\s*<url>\s*<loc>https:\/\/webeaze\.io\/help\/[a-z0-9-]+\/?<\/loc>[\s\S]*?<\/url>/g, ''); // drop old help entries
   const block = slugs.map(s => `  <url>\n    <loc>https://webeaze.io/help/${s}/</loc>\n    <changefreq>monthly</changefreq>\n  </url>`).join('\n');
@@ -282,4 +284,5 @@ if (fs.existsSync(smPath)) {
   console.log('sitemap.xml updated with ' + slugs.length + ' help URLs');
 }
 
-console.log(`Generated ${n} new page(s), skipped ${skipped} existing (use --force to regenerate all from HELP_DATA). Refreshed css/help-article.css.`);
+if (ONLY) console.log(n ? `Rebuilt only help/${ONLY}/ from source (nothing else touched).` : `No article with slug '${ONLY}' found in HELP_DATA.`);
+else console.log(`Generated ${n} new page(s), skipped ${skipped} existing (use --force to regenerate all from HELP_DATA). Refreshed css/help-article.css.`);
