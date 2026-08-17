@@ -74,7 +74,20 @@ Deno.serve(async (req) => {
     const message = adv && type === 'form' ? clean(body.message, 1200) : null;
     const hasDetails = !!(name || email || phone || message);
 
+    // Context, not identity: device, where the visit came from, and which of the client's own
+    // numbers/addresses was tapped. None of it describes the person, so unlike the form details above
+    // it is kept for every plan. It is also what makes a call lead readable at all, since a tap on a
+    // phone number carries nothing else.
+    const DEVICES = new Set(['mobile', 'tablet', 'desktop']);
+    const dev = clean(body.device, 12);
+    const device = dev && DEVICES.has(dev) ? dev : null;
+    const source = clean(body.source, 80);
+    const target = clean(body.target, 160);
+
     const row: Record<string, unknown> = { user_id: key, type, page };
+    if (device) row.device = device;
+    if (source) row.source = source;
+    if (target) row.target = target;
     if (type === 'order') { if (amount != null) row.amount = amount; if (orderRef) row.order_ref = orderRef; }
     if (hasDetails) { row.name = name; row.email = email; row.phone = phone; row.message = message; }
 
