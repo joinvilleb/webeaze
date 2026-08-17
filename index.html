@@ -1101,16 +1101,24 @@ body {
   border-top: 1px solid var(--border);
 }
 .handle-list li:first-child { border-top: none; }
-.pkg-panel { display: grid; grid-template-columns: repeat(3, 1fr); max-width: 1000px; margin: 0 auto; background: #fff; border: 1px solid var(--border); border-radius: 20px; overflow: hidden; box-shadow: 0 20px 50px rgba(15,18,40,.06); }
-.pkg-col { padding: 2.25rem 2rem; border-left: 1px solid var(--border); }
-.pkg-col:first-child { border-left: none; }
-.pkg-head { display: flex; align-items: center; gap: .75rem; margin-bottom: 1.4rem; }
-.pkg-icon { width: 44px; height: 44px; border-radius: 12px; background: rgba(120,81,169,.1); color: var(--brand); display: inline-flex; align-items: center; justify-content: center; font-size: 1.15rem; flex-shrink: 0; }
-.pkg-head h3 { font-size: 1.2rem; font-weight: 800; margin: 0; color: var(--black); letter-spacing: -.02em; }
-.pkg-list { list-style: none; padding: 0; margin: 0; }
-.pkg-list li { display: flex; align-items: flex-start; gap: .6rem; padding: .55rem 0; font-size: .97rem; color: var(--text); line-height: 1.45; }
-.pkg-list li > .svgi { color: var(--brand); font-size: .95rem; margin-top: .18rem; flex-shrink: 0; }
-@media (max-width: 760px) { .pkg-panel { grid-template-columns: 1fr; } .pkg-col { border-left: none; border-top: 1px solid var(--border); } .pkg-col:first-child { border-top: none; } }
+.handle-tabs { max-width: 620px; margin: 0 auto; text-align: center; }
+.ht-nav { display: inline-flex; gap: 4px; padding: 5px; background: #f5f6fa; border: 1px solid var(--border); border-radius: 100px; margin: 0 auto 2.25rem; }
+.ht-btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 22px; border: none; background: transparent; border-radius: 100px; font: inherit; font-weight: 600; font-size: 1rem; color: var(--muted); cursor: pointer; transition: background .2s, color .2s, box-shadow .2s; }
+.ht-btn:hover { color: var(--brand); }
+.ht-btn.is-active { background: var(--brand); color: #fff; box-shadow: 0 6px 16px rgba(120,81,169,.28); }
+.ht-btn.is-active:hover { color: #fff; }
+.ht-btn > .svgi { font-size: .9rem; }
+.ht-btn:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+.ht-panels { background: #fff; border: 1px solid var(--border); border-radius: 18px; padding: 2.5rem; box-shadow: 0 16px 40px rgba(15,18,40,.06); }
+.ht-panel { display: none; }
+.ht-panel.is-active { display: block; animation: htIn .28s ease; }
+@keyframes htIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .ht-panel.is-active { animation: none; } }
+.ht-lead { font-size: 1.12rem; font-weight: 600; color: var(--black); margin: 0 0 1.6rem; }
+.ht-list { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem 1.5rem; text-align: left; }
+.ht-list li { display: flex; align-items: flex-start; gap: .6rem; font-size: 1rem; color: var(--text); line-height: 1.4; }
+.ht-list li > .svgi { color: var(--brand); margin-top: .2rem; flex-shrink: 0; }
+@media (max-width: 560px) { .ht-nav { display: flex; width: 100%; } .ht-btn { flex: 1; justify-content: center; padding: 10px 8px; font-size: .9rem; } .ht-list { grid-template-columns: 1fr; gap: .85rem; } .ht-panels { padding: 1.75rem; } }
 
 
 @media (max-width: 768px) {
@@ -2117,36 +2125,54 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
       <h2 class="handle-morph">We handle everything.</h2>
       <p>From first design to live site. And every update thereafter.</p>
     </div>
-    <div class="pkg-panel">
-      <div class="pkg-col">
-        <div class="pkg-head"><span class="pkg-icon"><svg class="svgi" aria-hidden="true"><use href="#i-pen-ruler"/></svg></span><h3>Build</h3></div>
-        <ul class="pkg-list">
-          <li><svg class="svgi" aria-hidden="true"><use href="#i-check-circle"/></svg>Custom website design</li>
-          <li><svg class="svgi" aria-hidden="true"><use href="#i-check-circle"/></svg>Mobile-responsive</li>
-          <li><svg class="svgi" aria-hidden="true"><use href="#i-check-circle"/></svg>Copy and content help</li>
-          <li><svg class="svgi" aria-hidden="true"><use href="#i-check-circle"/></svg>Live in 5 to 14 days</li>
-        </ul>
+    <div class="handle-tabs" id="handleTabs">
+      <div class="ht-nav" role="tablist" aria-label="What we handle">
+        <button class="ht-btn is-active" type="button" role="tab" aria-selected="true" data-tab="build"><svg class="svgi" aria-hidden="true"><use href="#i-pen-ruler"/></svg> Build</button>
+        <button class="ht-btn" type="button" role="tab" aria-selected="false" data-tab="manage"><svg class="svgi" aria-hidden="true"><use href="#i-gear"/></svg> Manage</button>
+        <button class="ht-btn" type="button" role="tab" aria-selected="false" data-tab="grow"><svg class="svgi" aria-hidden="true"><use href="#i-arrow-trend-up"/></svg> Grow</button>
       </div>
-      <div class="pkg-col">
-        <div class="pkg-head"><span class="pkg-icon"><svg class="svgi" aria-hidden="true"><use href="#i-gear"/></svg></span><h3>Manage</h3></div>
-        <ul class="pkg-list">
-          <li><svg class="svgi" aria-hidden="true"><use href="#i-check-circle"/></svg>Unlimited updates</li>
-          <li><svg class="svgi" aria-hidden="true"><use href="#i-check-circle"/></svg>Domain and hosting</li>
-          <li><svg class="svgi" aria-hidden="true"><use href="#i-check-circle"/></svg>SSL and security</li>
-          <li><svg class="svgi" aria-hidden="true"><use href="#i-check-circle"/></svg>Email, phone, and chat support</li>
-        </ul>
-      </div>
-      <div class="pkg-col">
-        <div class="pkg-head"><span class="pkg-icon"><svg class="svgi" aria-hidden="true"><use href="#i-arrow-trend-up"/></svg></span><h3>Grow</h3></div>
-        <ul class="pkg-list">
-          <li><svg class="svgi" aria-hidden="true"><use href="#i-check-circle"/></svg>Local SEO and AI search</li>
-          <li><svg class="svgi" aria-hidden="true"><use href="#i-check-circle"/></svg>Google Business Profile</li>
-          <li><svg class="svgi" aria-hidden="true"><use href="#i-check-circle"/></svg>Website analytics</li>
-          <li><svg class="svgi" aria-hidden="true"><use href="#i-check-circle"/></svg>Monthly growth report</li>
-        </ul>
+      <div class="ht-panels">
+        <div class="ht-panel is-active" role="tabpanel" data-panel="build">
+          <p class="ht-lead">We design and launch it, made for your business and your audience.</p>
+          <ul class="ht-list">
+            <li><svg class="svgi" aria-hidden="true"><use href="#i-check-circle"/></svg>Custom website design</li>
+            <li><svg class="svgi" aria-hidden="true"><use href="#i-check-circle"/></svg>Mobile-responsive</li>
+            <li><svg class="svgi" aria-hidden="true"><use href="#i-check-circle"/></svg>Copy and content help</li>
+            <li><svg class="svgi" aria-hidden="true"><use href="#i-check-circle"/></svg>Live in 5 to 14 days</li>
+          </ul>
+        </div>
+        <div class="ht-panel" role="tabpanel" data-panel="manage">
+          <p class="ht-lead">We keep it running, so you never have to touch the tech.</p>
+          <ul class="ht-list">
+            <li><svg class="svgi" aria-hidden="true"><use href="#i-check-circle"/></svg>Unlimited updates</li>
+            <li><svg class="svgi" aria-hidden="true"><use href="#i-check-circle"/></svg>Domain and hosting</li>
+            <li><svg class="svgi" aria-hidden="true"><use href="#i-check-circle"/></svg>SSL and security</li>
+            <li><svg class="svgi" aria-hidden="true"><use href="#i-check-circle"/></svg>Email, phone, and chat support</li>
+          </ul>
+        </div>
+        <div class="ht-panel" role="tabpanel" data-panel="grow">
+          <p class="ht-lead">We help you get found and win more customers.</p>
+          <ul class="ht-list">
+            <li><svg class="svgi" aria-hidden="true"><use href="#i-check-circle"/></svg>Local SEO and AI search</li>
+            <li><svg class="svgi" aria-hidden="true"><use href="#i-check-circle"/></svg>Google Business Profile</li>
+            <li><svg class="svgi" aria-hidden="true"><use href="#i-check-circle"/></svg>Website analytics</li>
+            <li><svg class="svgi" aria-hidden="true"><use href="#i-check-circle"/></svg>Monthly growth report</li>
+          </ul>
+        </div>
       </div>
     </div>
   </section>
+<script>
+(function(){
+  var r=document.getElementById('handleTabs'); if(!r) return;
+  var btns=r.querySelectorAll('.ht-btn'), panels=r.querySelectorAll('.ht-panel');
+  function sel(name){
+    btns.forEach(function(b){ var on=b.getAttribute('data-tab')===name; b.classList.toggle('is-active',on); b.setAttribute('aria-selected',on?'true':'false'); });
+    panels.forEach(function(p){ p.classList.toggle('is-active', p.getAttribute('data-panel')===name); });
+  }
+  btns.forEach(function(b){ b.addEventListener('click', function(){ sel(b.getAttribute('data-tab')); }); });
+})();
+</script>
 
   <!-- PORTFOLIO -->
   <section class="portfolio-section">
