@@ -464,10 +464,62 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
 /* ── Revamp: calm hero + alternating featured-work rows ── */
 a, a:hover, a:focus { text-decoration: none !important; }
 
-.hero { padding: 74px 20px 34px; }
-.hero-kicker { margin-bottom: 16px; }
-.hero h1 { max-width: 720px; margin-left: auto; margin-right: auto; }
-.hero-sub { max-width: 560px; }
+/* ── Hero: short, with the client sites sliding behind the text ──
+   Deliberately capped in height so the first case study is visible without scrolling. */
+.hero {
+  position: relative;
+  overflow: hidden;
+  padding: 0;
+  background: #0f0d16;
+  border-bottom: 1px solid var(--line);
+  min-height: clamp(210px, 26vh, 260px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* Decorative only: never a click target, never focusable, never selectable. */
+.hero-slides {
+  position: absolute; inset: 0; display: flex;
+  transition: transform .9s cubic-bezier(.22,1,.36,1);
+  pointer-events: none; user-select: none;
+}
+.hero-slide { flex: 0 0 100%; height: 100%; }
+/* Crop to each site's imagery band, not its nav bar, and soften it. At 210px tall any slice of a
+   screenshot carries the client's own headline and buttons, which fight ours; the blur keeps each
+   site recognizable by color and layout while stopping its text from competing. The scale hides
+   the transparent edge blur leaves behind. */
+.hero-slide img {
+  width: 100%; height: 100%; display: block;
+  object-fit: cover; object-position: center 42%;
+  filter: blur(5px) saturate(1.05);
+  transform: scale(1.06);
+}
+/* Scrim: symmetric, because the text is centered. Dark enough to read white type over any
+   screenshot, light enough that you can still tell the sites apart behind it. */
+.hero::after {
+  content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background:
+    radial-gradient(ellipse 62% 78% at 50% 50%, rgba(10,8,18,.60) 0%, rgba(10,8,18,.30) 100%),
+    linear-gradient(180deg, rgba(10,8,18,.22) 0%, rgba(10,8,18,.06) 45%, rgba(10,8,18,.30) 100%);
+}
+.hero-inner { position: relative; z-index: 2; text-align: center; padding: 34px 20px; width: 100%; }
+.hero h1 {
+  max-width: 720px; margin: 0 auto 10px; color: #fff;
+  font-size: clamp(1.7rem, 3.6vw, 2.5rem);
+  text-shadow: 0 2px 6px rgba(0,0,0,.55), 0 4px 24px rgba(0,0,0,.5);
+}
+.hero-sub {
+  max-width: 560px; margin: 0 auto; color: rgba(255,255,255,.92); font-size: .97rem;
+  text-shadow: 0 1px 5px rgba(0,0,0,.55), 0 2px 16px rgba(0,0,0,.45);
+}
+@media (max-width: 640px) {
+  .hero { min-height: 190px; }
+  .hero-inner { padding: 26px 18px; }
+  .hero-sub { font-size: .9rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-slides { transition: none; }
+}
 
 .work-section { padding: 48px 20px 8px; background: #fff; }
 .work-row {
@@ -589,11 +641,37 @@ a, a:hover, a:focus { text-decoration: none !important; }
 <div class="wb-header-spacer"></div>
 
 <!-- HERO -->
-<header class="hero">
- 
-  <h1>See the before and after.</h1>
-  <p class="hero-sub">Websites we designed, built, and now manage. This is a closer look at some.</p>
+<header class="hero" id="samplesHero">
+  <div class="hero-slides" id="heroSlides" aria-hidden="true">
+    <div class="hero-slide"><img src="images/case-studies/galaxy-after.webp" alt="" width="1440" height="940" fetchpriority="high" decoding="async"></div>
+    <div class="hero-slide"><img src="images/case-studies/clam-after.webp" alt="" width="1440" height="940" decoding="async"></div>
+    <div class="hero-slide"><img src="images/case-studies/bear-after.webp" alt="" width="1440" height="940" decoding="async"></div>
+    <div class="hero-slide"><img src="images/case-studies/grassgoats-after.webp" alt="" width="1440" height="940" decoding="async"></div>
+    <div class="hero-slide"><img src="images/case-studies/ibis-after.webp" alt="" width="1440" height="724" decoding="async"></div>
+  </div>
+  <div class="hero-inner">
+    <h1>See the before and after.</h1>
+    <p class="hero-sub">Websites we designed, built, and now manage. This is a closer look at some.</p>
+  </div>
 </header>
+<script>
+/* Background-only rotator: no controls, nothing clickable, purely decorative.
+   Holds still for prefers-reduced-motion and stops while the tab is hidden. */
+(function () {
+  var track = document.getElementById('heroSlides');
+  if (!track) return;
+  var n = track.querySelectorAll('.hero-slide').length;
+  if (n < 2) return;
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var i = 0, timer = null;
+  function tick() { i = (i + 1) % n; track.style.transform = 'translateX(-' + (i * 100) + '%)'; }
+  function start() { clearInterval(timer); timer = setInterval(tick, 4500); }
+  document.addEventListener('visibilitychange', function () {
+    if (document.hidden) clearInterval(timer); else start();
+  });
+  start();
+})();
+</script>
 
 <!-- FEATURED WORK -->
 <section class="work-section">
