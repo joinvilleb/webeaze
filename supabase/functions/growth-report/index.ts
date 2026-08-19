@@ -67,11 +67,27 @@ function cwvFrom(d: any) {
   return (out.lcp || out.cls || out.inp) ? out : null;
 }
 
+// clients.site_url is typed and pasted by hand, so it arrives with stray whitespace and half-written
+// protocols. Every source below used to do its own `test(url) ? url : 'https://' + url`, which turned
+// a single leading space into "https:// https://site.com" and silently failed the whole refresh:
+// no speed, no Search Console match, no page count, for a site that is perfectly live.
+function cleanSiteUrl(raw: unknown): string {
+  const v0 = String(raw ?? '').replace(/\s+/g, '');            // a URL never contains whitespace
+  if (!v0) return '';
+  const v = v0.replace(/^(https?):\/*/i, '$1://');
+  const withProto = /^https?:\/\//i.test(v) ? v : 'https://' + v.replace(/^\/+/, '');
+  try {
+    const u = new URL(withProto);
+    return u.hostname.indexOf('.') > 0 ? u.href : '';
+  } catch { return ''; }
+}
+
 // ── Source: PageSpeed Insights (real speed + Core Web Vitals + accessibility) ──
 async function pullSpeed(url: string) {
   if (!url) { console.warn('[growth] pullSpeed: no site_url'); return null; }
   if (!PSI_KEY) { console.warn('[growth] pullSpeed: GOOGLE_PSI_KEY secret is not set'); return null; }
-  const full = /^https?:\/\//i.test(url) ? url : 'https://' + url;   // PageSpeed needs a full URL
+  const full = cleanSiteUrl(url);   // PageSpeed needs a full, clean URL
+  if (!full) { console.warn('[growth] pullSpeed: site_url is not a usable URL: ' + JSON.stringify(url)); return null; }
   const run = async (strategy: 'mobile' | 'desktop') => {
     const api = `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${encodeURIComponent(full)}&strategy=${strategy}&category=performance&category=accessibility&category=seo&category=best-practices&key=${PSI_KEY}`;
     const res = await fetch(api);
@@ -282,7 +298,8 @@ function normalizePageUrl(u: string, host: string): string | null {
 }
 async function pullPages(siteUrl: string) {
   if (!siteUrl) return null;
-  const full = /^https?:\/\//i.test(siteUrl) ? siteUrl : 'https://' + siteUrl;
+  const full = cleanSiteUrl(siteUrl);
+  if (!full) return null;
   let host = '';
   try { host = new URL(full).hostname.replace(/^www\./, ''); } catch { return null; }
   const found = new Set<string>();
@@ -337,7 +354,8 @@ async function pullPages(siteUrl: string) {
 // full mobile+desktop pull). Returns a 0-100 number or null.
 async function pullSpeedScore(url: string): Promise<number | null> {
   if (!url || !PSI_KEY) return null;
-  const full = /^https?:\/\//i.test(url) ? url : 'https://' + url;
+  const full = cleanSiteUrl(url);
+  if (!full) return null;
   try {
     const api = `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${encodeURIComponent(full)}&strategy=mobile&category=performance&key=${PSI_KEY}`;
     const res = await fetch(api);
@@ -457,7 +475,9 @@ async function pullSearch(siteUrl: string) {
   if (!siteUrl) return null;
   const token = await getGscAccessToken();
   if (!token) return null;
-  const host = siteUrl.replace(/^https?:\/\//, '').replace(/\/.*$/, '').replace(/^www\./, '');
+  const clean = cleanSiteUrl(siteUrl);
+  if (!clean) { console.warn('[growth] pullSearch: site_url is not a usable URL: ' + JSON.stringify(siteUrl)); return null; }
+  const host = new URL(clean).hostname.replace(/^www\./, '');
   // Try each way the property might be registered in Search Console.
   const candidates = ['sc-domain:' + host, 'https://' + host + '/', 'https://www.' + host + '/', 'http://' + host + '/'];
   const fmt = (d: Date) => d.toISOString().slice(0, 10);
