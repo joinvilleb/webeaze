@@ -98,20 +98,7 @@
     {"@type": "City", "name": "Newark", "containedInPlace": {"@type": "State", "name": "New Jersey"}},
     {"@type": "Country", "name": "United States"}
   ],
-  "aggregateRating": {
-    "@type": "AggregateRating",
-    "ratingValue": "5",
-    "reviewCount": "2",
-    "bestRating": "5",
-    "worstRating": "1"
-  },
   "review": [
-    {
-      "@type": "Review",
-      "author": {"@type": "Person", "name": "Sash S."},
-      "reviewRating": {"@type": "Rating", "ratingValue": "5", "bestRating": "5"},
-      "reviewBody": "We hope your business continues to thrive. Keep serving your community and your blessing will continue to spill over!! May Jesus continue to bless your business!!"
-    },
     {
       "@type": "Review",
       "author": {"@type": "Person", "name": "Anthony B."},
@@ -987,7 +974,8 @@ body {
 /* ── PORTFOLIO ── */
 .portfolio-section {
   background: var(--off-white);
-  padding: 6rem 0;
+  /* Shorter bottom than top: the section now ends on the client quote, not the dots. */
+  padding: 6rem 0 4rem;
 }
 .portfolio-header { text-align: center; margin-bottom: 3rem; }
 .portfolio-header h2 {
@@ -1040,6 +1028,13 @@ body {
 
 /* Featured work carousel */
 .carousel { position: relative; max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; }
+/* Single client quote under the carousel */
+.work-quote { display: flex; align-items: center; gap: 1rem; max-width: 560px; margin: 3rem auto 0; padding: 0 1.5rem; }
+.work-quote img { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; flex-shrink: 0; }
+.work-quote blockquote { margin: 0 0 .35rem; font-size: 1rem; line-height: 1.55; color: var(--black); font-weight: 500; }
+.work-quote figcaption { font-size: .85rem; font-weight: 700; color: var(--brand); }
+.work-quote figcaption span { display: block; font-weight: 500; color: #6b7280; }
+@media (max-width: 520px) { .work-quote { flex-direction: column; text-align: center; gap: .75rem; } }
 .carousel-track { display: flex; gap: 1.5rem; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; padding: 1rem .25rem 1.5rem; scrollbar-width: none; }
 .carousel-track::-webkit-scrollbar { display: none; }
 .carousel-track .portfolio-item { flex: 0 0 clamp(280px, 44%, 440px); scroll-snap-align: start; }
@@ -1706,6 +1701,7 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
   .faq-section,
   .final-cta     { padding: 4rem 0; }
   .process-section { padding: 4rem 0; }
+  .portfolio-section { padding-bottom: 2.75rem; }
 
   .handle-header,
   .portfolio-header,
@@ -2035,62 +2031,16 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
       <button class="carousel-arrow carousel-next" aria-label="Next work"><svg class="svgi" aria-hidden="true"><use href="#i-chevron-right"/></svg></button>
     </div>
     <div class="carousel-dots" id="workDots"></div>
-    
+
+    <figure class="work-quote">
+      <img src="images/assets/anthony-blanche.webp" alt="Anthony B." width="197" height="195" loading="lazy" decoding="async">
+      <div>
+        <blockquote>Great people to work with very responsive. All the work was done on time.</blockquote>
+        <figcaption>Anthony B.<span>WebEaze client</span></figcaption>
+      </div>
+    </figure>
   </section>
 
-  <!-- TESTIMONIALS -->
-  <style>
-  .tcar { position: relative; overflow: hidden; padding-bottom: 8px; }
-  .tcar-track { display: flex; transition: transform .5s cubic-bezier(.22,1,.36,1); }
-  .tcar-slide { flex: 0 0 100%; margin: 0; padding: .5rem 1rem 0; box-sizing: border-box; }
-  .tcar-stars { color: #f5a623; letter-spacing: 3px; font-size: 1.05rem; margin-bottom: 1rem; }
-  .tcar-slide blockquote { margin: 0 auto 1.1rem; max-width: 620px; font-size: 1.2rem; line-height: 1.6; color: #1a1a2e; font-weight: 500; }
-  .tcar-slide figcaption { font-weight: 700; color: #7851a9; }
-  .tcar-dots { display: flex; justify-content: center; gap: .5rem; margin-top: 1.75rem; }
-  .tcar-dot { width: 9px; height: 9px; border-radius: 50%; border: none; background: rgba(0,0,0,.18); cursor: pointer; padding: 0; transition: background .2s, transform .2s; }
-  .tcar-dot.is-active { background: #7851a9; transform: scale(1.25); }
-  .tcar-dot:focus-visible { outline: 2px solid #7851a9; outline-offset: 3px; }
-</style>
-  <section class="testimonials-section" style="padding:64px 0;background:#fff;">
-    <div class="container-tight" style="max-width:720px;margin:0 auto;padding:0 1.5rem;text-align:center;">
-      <div style="margin-bottom:2rem;">
-        <h2 style="margin:0 0 .5rem;">What clients say.</h2>
-        <p style="color:#4b5563;margin:0;">Real words from business owners we have helped.</p>
-      </div>
-      <div class="tcar" id="tcar">
-        <div class="tcar-track">
-          <figure class="tcar-slide">
-            <div class="tcar-stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-            <blockquote>Great people to work with very responsive. All the work was done on time.</blockquote>
-            <figcaption>Anthony B.</figcaption>
-          </figure>
-          <figure class="tcar-slide">
-            <div class="tcar-stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-            <blockquote>We hope your business continues to thrive. Keep serving your community and your blessing will continue to spill over!! May Jesus continue to bless your business!!</blockquote>
-            <figcaption>Sash S.</figcaption>
-          </figure>
-        </div>
-        <div class="tcar-dots" aria-label="Testimonials">
-          <button class="tcar-dot is-active" type="button" aria-label="Review 1"></button>
-          <button class="tcar-dot" type="button" aria-label="Review 2"></button>
-        </div>
-      </div>
-    </div>
-  </section>
-  <script>
-  (function(){
-    var car=document.getElementById('tcar'); if(!car) return;
-    var track=car.querySelector('.tcar-track');
-    var slides=car.querySelectorAll('.tcar-slide');
-    var dots=car.querySelectorAll('.tcar-dot');
-    var i=0,timer;
-    var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    function go(n){ i=(n+slides.length)%slides.length; track.style.transform='translateX(-'+(i*100)+'%)'; dots.forEach(function(d,k){d.classList.toggle('is-active',k===i);}); }
-    function reset(){ if(reduce) return; clearInterval(timer); timer=setInterval(function(){go(i+1);},6000); }
-    dots.forEach(function(d,k){ d.addEventListener('click',function(){go(k);reset();}); });
-    reset();
-  })();
-  </script>
 
   <!-- COMPARISON -->
   <section class="compare-section">
