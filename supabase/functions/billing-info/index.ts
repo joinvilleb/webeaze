@@ -58,6 +58,69 @@ const FAILING = new Set(['past_due', 'unpaid', 'incomplete']);
 const money = (cents: number | null | undefined, cur: string) =>
   cents == null ? null : new Intl.NumberFormat('en-US', { style: 'currency', currency: (cur || 'usd').toUpperCase() }).format(cents / 100);
 
+
+// ── Plans, so a change can happen in the portal instead of on Stripe ─────────
+// Explicit price ids first: changing what someone is billed must be deterministic, and a name match
+// is a guess. Discovery by product name is only the fallback for a price created later.
+const PLANS: Array<{ key: string; plan: string; interval: 'monthly' | 'yearly'; price: string }> = [
+  { key: 'essential-monthly', plan: 'Essential', interval: 'monthly', price: 'price_1R3rU7C23hYItUA5rD5idQDE' },
+  { key: 'essential-yearly',  plan: 'Essential', interval: 'yearly',  price: 'price_1TehCLC23hYItUA54WNEy0jI' },
+  { key: 'growth-monthly',    plan: 'Growth',    interval: 'monthly', price: 'price_1R1ES2C23hYItUA5IuzCWiXa' },
+  { key: 'growth-yearly',     plan: 'Growth',    interval: 'yearly',  price: 'price_1TehOvC23hYItUA5zAfHYnPk' },
+];
+
+// The plan an item represents, by product name then nickname. Only used to work out whether a change
+// is an upgrade or a downgrade, so an unknown name simply makes it a downgrade (the safe direction:
+// nothing is charged today).
+function planNameOf(item: any): string {
+  const pr = (item && item.price) || {};
+  const t = String((pr.product && pr.product.name) || pr.nickname || '').toLowerCase();
+  if (/elite/.test(t)) return 'Elite';
+  if (/growth/.test(t)) return 'Growth';
+  if (/essential/.test(t)) return 'Essential';
+  const cents = pr.unit_amount || 0;
+  return (cents === 24900 || cents === 249000) ? 'Growth' : 'Essential';
+}
+
+const RANK: Record<string, number> = { Essential: 1, Growth: 2, Elite: 3 };
+
+// Look each price up so the client is shown Stripe's real number rather than one hardcoded here.
+async function loadPlans() {
+  const out: any[] = [];
+  for (const p of PLANS) {
+    try {
+      const pr = await stripeGet('prices/' + encodeURIComponent(p.price) + '?expand[]=product');
+      if (!pr || pr.active === false) continue;
+      out.push({ ...p, amountCents: pr.unit_amount ?? null, currency: pr.currency || 'usd',
+        label: (pr.product && pr.product.name) || p.plan });
+    } catch (e) { console.error('[billing-info] price ' + p.price + ' did not resolve:', e); }
+  }
+  if (out.length) return out;
+  // Fallback: no configured id resolved (rotated or deleted), so discover by product name.
+  console.warn('[billing-info] no configured prices resolved; discovering by product name');
+  try {
+    const list = await stripeGet('prices?active=true&limit=50&expand[]=data.product');
+    for (const pr of (list.data || [])) {
+      const name = String((pr.product && pr.product.name) || pr.nickname || '').toLowerCase();
+      const plan = /growth/.test(name) ? 'Growth' : /essential/.test(name) ? 'Essential' : null;
+      const iv = pr.recurring && pr.recurring.interval;
+      if (!plan || (iv !== 'month' && iv !== 'year')) continue;
+      const interval = iv === 'year' ? 'yearly' : 'monthly';
+      out.push({ key: plan.toLowerCase() + '-' + interval, plan, interval, price: pr.id,
+        amountCents: pr.unit_amount ?? null, currency: pr.currency || 'usd', label: (pr.product && pr.product.name) || plan });
+    }
+  } catch (e) { console.error('[billing-info] price discovery failed:', e); }
+  return out;
+}
+// The live subscription plus the single item a plan change acts on.
+async function liveSub(cust: string) {
+  const subs = await stripeGet('subscriptions?customer=' + encodeURIComponent(cust) + '&status=all&limit=20');
+  const sub = (subs.data || []).find((x: any) => x.status === 'active' || x.status === 'trialing');
+  if (!sub) return null;
+  const item = sub.items && sub.items.data && sub.items.data[0];
+  return item ? { sub, item } : null;
+}
+
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: cors });
   if (req.method !== 'POST') return json({ error: 'Method not allowed' }, 405);
@@ -110,6 +173,93 @@ Deno.serve(async (req) => {
         const ses = await stripePost('billing_portal/sessions', { customer: cust, return_url: PORTAL_URL });
         return json({ ok: true, url: ses.url, fellBack: true });
       }
+    }
+
+    // ── Which plans they can move to, priced from Stripe ──
+    if (body.action === 'plan-options') {
+      const live = await liveSub(cust);
+      const plans = await loadPlans();
+      const currentPrice = live ? (live.item.price && live.item.price.id) : null;
+      return json({
+        ok: true, hasSubscription: !!live,
+        plans: plans.map((p) => ({
+          key: p.key, plan: p.plan, interval: p.interval, label: p.label,
+          amount: money(p.amountCents, p.currency), amountCents: p.amountCents,
+          current: p.price === currentPrice,
+        })),
+      });
+    }
+
+    // ── What exactly this change costs, from Stripe, BEFORE they commit ──
+    // A client deciding whether to upgrade deserves the real number, not "you will be charged a
+    // prorated amount". Stripe can tell us, so ask it.
+    if (body.action === 'plan-preview' || body.action === 'plan-change') {
+      const plans = await loadPlans();
+      const target = plans.find((p) => p.key === String(body.planKey || ''));
+      if (!target) return json({ ok: false, reason: 'unknown-plan' });
+      const live = await liveSub(cust);
+      if (!live) return json({ ok: false, reason: 'no-subscription' });
+      const curPriceId = live.item.price && live.item.price.id;
+      if (curPriceId === target.price) return json({ ok: false, reason: 'already-on-it' });
+
+      const curPlan = planNameOf(live.item);
+      const up = (RANK[target.plan] || 0) > (RANK[curPlan] || 0)
+        || (RANK[target.plan] === RANK[curPlan] && target.interval === 'yearly');   // monthly -> yearly is an upgrade
+      const periodEnd = live.sub.current_period_end || (live.item.current_period_end ?? null);
+
+      if (body.action === 'plan-preview') {
+        let dueNow: string | null = null;
+        if (up) {
+          try {
+            const q = 'invoices/upcoming?customer=' + encodeURIComponent(cust)
+              + '&subscription=' + encodeURIComponent(live.sub.id)
+              + '&subscription_items[0][id]=' + encodeURIComponent(live.item.id)
+              + '&subscription_items[0][price]=' + encodeURIComponent(target.price)
+              + '&subscription_proration_behavior=always_invoice';
+            const inv = await stripeGet(q);
+            dueNow = money(inv.amount_due ?? null, inv.currency || 'usd');
+          } catch (e) { console.error('[billing-info] preview failed:', e); }
+        }
+        return json({
+          ok: true, direction: up ? 'upgrade' : 'downgrade',
+          from: curPlan, to: target.plan, interval: target.interval,
+          newAmount: money(target.amountCents, target.currency),
+          dueNow,                                     // upgrades only; a downgrade charges nothing today
+          effective: up ? 'now' : 'period-end',
+          effectiveDate: up ? null : (periodEnd ? new Date(periodEnd * 1000).toISOString().slice(0, 10) : null),
+        });
+      }
+
+      // ── Apply it ──
+      if (up) {
+        // More plan, starting now, so charge the difference now.
+        await stripePost('subscriptions/' + encodeURIComponent(live.sub.id), {
+          'items[0][id]': live.item.id,
+          'items[0][price]': target.price,
+          proration_behavior: 'always_invoice',
+          payment_behavior: 'error_if_incomplete',   // a declined card fails loudly instead of leaving a broken sub
+        });
+        return json({ ok: true, applied: 'now', to: target.plan, interval: target.interval });
+      }
+      // Less plan: they have already paid for this period, so it takes effect when that period ends
+      // rather than taking features away today or generating a refund.
+      const sched = await stripePost('subscription_schedules', { from_subscription: live.sub.id });
+      const phase0 = (sched.phases && sched.phases[0]) || {};
+      await stripePost('subscription_schedules/' + encodeURIComponent(sched.id), {
+        end_behavior: 'release',
+        'phases[0][items][0][price]': curPriceId,
+        'phases[0][items][0][quantity]': live.item.quantity || 1,
+        'phases[0][start_date]': phase0.start_date,
+        'phases[0][end_date]': phase0.end_date ?? periodEnd,
+        'phases[1][items][0][price]': target.price,
+        'phases[1][items][0][quantity]': 1,
+        'phases[1][iterations]': 1,
+        proration_behavior: 'none',
+      });
+      return json({
+        ok: true, applied: 'period-end', to: target.plan, interval: target.interval,
+        effectiveDate: periodEnd ? new Date(periodEnd * 1000).toISOString().slice(0, 10) : null,
+      });
     }
 
     // ── Summary: what they are on, and what they have been charged ──

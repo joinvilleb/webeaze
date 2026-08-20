@@ -2,7 +2,8 @@
 // Turns a client's EMAIL REPLY into a note in their portal conversation, automatically.
 //
 // Flow: a Google Apps Script on the support@webeaze.io inbox (time trigger) posts each new
-// inbound message here. We match the sender to an ACTIVE client, strip the quoted history /
+// inbound message here, including any ATTACHMENTS as base64, which are stored and hung on the note
+// so a client can simply email photos in from the job rather than uploading them in the portal. We match the sender to an ACTIVE client, strip the quoted history /
 // signature so only their actual reply remains, and insert it into client_notes as author
 // 'client' — so it appears in their notes thread exactly like a note they posted in-portal.
 //
@@ -23,6 +24,57 @@ const cors = {
   'Access-Control-Allow-Methods': 'POST, OPTIONS',
 };
 const json = (b: unknown, s = 200) => new Response(JSON.stringify(b), { status: s, headers: { ...cors, 'Content-Type': 'application/json' } });
+
+
+// Photos a client emails in. Trade clients take pictures on the job, on their phone, and the last
+// thing they will do is log into a portal to upload them. Anything attached to their reply is stored
+// and hung on the note, so "just email us the photos" becomes a real answer.
+const IMG = /\.(png|jpe?g|gif|webp|heic|heif)$/i;
+async function saveAttachments(service: any, userId: string, list: any[]): Promise<any[]> {
+  const out: any[] = [];
+  for (const a of (Array.isArray(list) ? list : []).slice(0, 10)) {   // a cap, so one thread cannot flood storage
+    try {
+      const name = String((a && a.filename) || 'photo').replace(/[^A-Za-z0-9._-]/g, '_').slice(0, 80);
+      const b64 = String((a && (a.data || a.base64 || a.content)) || '');
+      if (!b64) continue;
+      const bytes = Uint8Array.from(atob(b64.replace(/^data:[^,]*,/, '')), (ch) => ch.charCodeAt(0));
+      if (!bytes.length || bytes.length > 12 * 1024 * 1024) continue;   // skip empty and oversized
+      const path = userId + '/' + Date.now() + '-' + Math.random().toString(36).slice(2, 8) + '-' + name;
+      const { error } = await service.storage.from('request-attachments')
+        .upload(path, bytes, { contentType: (a && a.mimeType) || 'application/octet-stream', upsert: false });
+      if (error) { console.error('[inbound-note] attachment upload failed:', error.message); continue; }
+      const { data: pub } = service.storage.from('request-attachments').getPublicUrl(path);
+      out.push({ url: pub.publicUrl, filename: name });
+    } catch (e) { console.error('[inbound-note] attachment skipped:', e); }
+  }
+  return out;
+}
+
+
+// A 23505 on source_message_id means an earlier run already turned this exact email into a note.
+// From the caller's point of view that is SUCCESS: the Apps Script should advance past it rather
+// than retry forever. Anything else is a real failure.
+function isDuplicate(err: any): boolean {
+  const c = String((err && err.code) || '');
+  const m = String((err && err.message) || '').toLowerCase();
+  return c === '23505' || m.includes('duplicate key') || m.includes('client_notes_source_msg_uidx');
+}
+// source_message_id / attachments may not be migrated yet, so a write mentioning them is retried
+// without them rather than failing outright. Dedupe and photos simply wait for the SQL.
+async function insertNote(service: any, row: Record<string, unknown>) {
+  const first = await service.from('client_notes').insert(row);
+  if (!first.error) return { ok: true, duplicate: false, error: null };
+  if (isDuplicate(first.error)) return { ok: true, duplicate: true, error: null };
+  const msg = String(first.error.message || '').toLowerCase();
+  if (msg.includes('source_message_id') || msg.includes('attachments') || msg.includes('schema cache')) {
+    const bare: Record<string, unknown> = { ...row };
+    delete bare.source_message_id; delete bare.attachments;
+    const retry = await service.from('client_notes').insert(bare);
+    if (!retry.error) { console.warn('[inbound-note] posted without dedupe/attachments; run supabase/inbound_dedupe.sql'); return { ok: true, duplicate: false, error: null }; }
+    return { ok: false, duplicate: false, error: retry.error };
+  }
+  return { ok: false, duplicate: false, error: first.error };
+}
 
 // Pull the bare email address out of a "Name <email>" style From header.
 function parseEmail(from: string): string {
@@ -106,6 +158,10 @@ Deno.serve(async (req) => {
 
   try {
     const body = await req.json().catch(() => ({}));
+    // Gmail's per-message id, prefixed by direction: our reply and a client's message can never
+    // collide, and the same email can never post twice.
+    const rawId = String(body.messageId || '').trim().slice(0, 120);
+    const msgId = rawId ? ((body.team ? 'team:' : 'client:') + rawId) : null;
     const service = createClient(Deno.env.get('SUPABASE_URL')!, Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!);
 
     // ── Team reply: our own email to a client (sent from support@webeaze.io). Mirror it into the
@@ -125,13 +181,15 @@ Deno.serve(async (req) => {
       if (!teamClient) return json({ ok: true, skipped: 'no active client in recipients' });
       const teamNote = stripQuoted(body.text || '');
       if (!teamNote) return json({ ok: true, skipped: 'empty after stripping quotes' });
-      const { error: teamErr } = await service.from('client_notes').insert({
+      const teamRes = await insertNote(service, {
         user_id: teamClient.user_id,
         client_id: teamClient.id,
         note: teamNote,
         author: 'team',   // our reply — renders as a WebEaze bubble on their side of the thread
+        source_message_id: msgId,
       });
-      if (teamErr) { console.error('[inbound-note] team insert failed:', teamErr); return json({ error: 'insert failed' }, 500); }
+      if (!teamRes.ok) { console.error('[inbound-note] team insert failed:', teamRes.error); return json({ error: 'insert failed' }, 500); }
+      if (teamRes.duplicate) return json({ ok: true, skipped: 'already posted' });
       console.log('[inbound-note] added TEAM note for ' + (teamClient.name || teamClient.email));
       return json({ ok: true, added: true, team: true, client: teamClient.name || teamClient.email });
     }
@@ -147,16 +205,24 @@ Deno.serve(async (req) => {
     const client = (clients ?? []).find((c) => (c.status || '').toLowerCase() === 'active');
     if (!client) return json({ ok: true, skipped: 'no active client for ' + email });
 
-    const note = stripQuoted(body.text || '');
+    const attachments = await saveAttachments(service, client.user_id, body.attachments);
+    let note = stripQuoted(body.text || '');
+    // Photos with no words is a perfectly normal message from a phone, so do not drop it.
+    if (!note && attachments.length) {
+      note = attachments.length === 1 ? 'Sent a photo.' : 'Sent ' + attachments.length + ' photos.';
+    }
     if (!note) return json({ ok: true, skipped: 'empty after stripping quotes' });
 
-    const { error } = await service.from('client_notes').insert({
+    const res = await insertNote(service, {
       user_id: client.user_id,
       client_id: client.id,
       note,
       author: 'client',   // it is the client's own message, so it shows on their side of the thread
+      attachments: attachments.length ? attachments : null,
+      source_message_id: msgId,
     });
-    if (error) { console.error('[inbound-note] insert failed:', error); return json({ error: 'insert failed' }, 500); }
+    if (!res.ok) { console.error('[inbound-note] insert failed:', res.error); return json({ error: 'insert failed' }, 500); }
+    if (res.duplicate) return json({ ok: true, skipped: 'already posted' });
 
     // The note is saved. Now, if the email is actually asking for a website change, also file it
     // as a real update request so it flows through dispatch-request to the bot. Only file when the

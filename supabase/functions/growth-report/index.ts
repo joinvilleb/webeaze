@@ -544,7 +544,9 @@ async function generateSummary(c: { site_url?: string; name?: string }, metrics:
   if (!ANTHROPIC_API_KEY) { console.warn('[growth] ANTHROPIC_API_KEY not set — skipping AI summary'); return null; }
   const s = metrics.speed, r = metrics.reviews, se = metrics.search;
   const facts = {
-    business: c.name || '', site: c.site_url || '', businessType: bizType || null,
+    // business_name is the COMPANY; c.name is the person we greet. Passing the person made the AI
+    // write about "Dave Cohen" as though that were the business, and infer a trade from a human name.
+    business: c.business_name || c.name || '', site: c.site_url || '', businessType: bizType || null,
     speedMobile: s?.mobile?.score ?? null, speedDesktop: s?.desktop?.score ?? null,
     googleRating: r?.rating ?? null, reviewCount: r?.count ?? null,
     searchClicks: se?.clicks ?? null, searchImpressions: se?.impressions ?? null,
@@ -590,7 +592,7 @@ async function generateOpportunities(c: { site_url?: string; name?: string }, me
     .map((q: any) => ({ term: q.query, position: q.position, impressions: q.impressions, clicks: q.clicks }));
   if (!nearWins.length) return null;
   const system = "You are the growth team at WebEaze, a website care service for small trade businesses. You are given a client's Google Search 'near-win' keywords: searches where they already rank on the edge of page one with real search demand. Turn them into concrete growth opportunities we could do for them to win more customers. Be specific, framed as an action WE take (for example a focused service page, or beefing up an existing page). Write the 'why' in PLAIN everyday language a busy business owner gets in one read: name the actual search phrase in quotes and say something like 'people are searching for this and finding you, but not quite landing on the right page.' AVOID jargon and numbers like impressions, clicks, CTR, conversion, or position 4 to 5. Keep each 'why' to one clear sentence, enough that they understand it, not a data dump. NEVER use em dashes. HOW MANY: return 1 to 3 opportunities, and only ones that are GENUINELY DIFFERENT PIECES OF WORK. Fewer is much better than repetitive. Several keywords that are variations on one theme (the same service, the same town, the same intent) are ONE opportunity, not several: do not split 'build a page for X', 'improve local SEO for X' and 'add a service area section for X' into separate items, pick the single strongest version and fold the rest into it. If the keywords only support one real idea, return exactly one. Return ONLY valid JSON (no markdown, no code fences): an array of objects with keys: title (short action, max 8 words), why (one plain sentence naming the search phrase), impact (integer 1 to 10, how much new business this would realistically win, used to decide which single one we show first), requestType (exactly one of: Content update, New page or section, SEO or visibility, Other), requestSummary (a clear description of the change for our team to action). Tailor every opportunity to this exact type of business: use the Business type given, or if it is missing infer the trade from the business name, site and the search phrases themselves. Never suggest anything generic that could apply to any business.";
-  const userMsg = 'Business: ' + (c.name || '') + '\nSite: ' + (c.site_url || '') + (bizType ? '\nBusiness type: ' + bizType : '') + '\nNear-win keywords:\n' + JSON.stringify(nearWins, null, 2);
+  const userMsg = 'Business: ' + (c.business_name || c.name || '') + '\nSite: ' + (c.site_url || '') + (bizType ? '\nBusiness type: ' + bizType : '') + '\nNear-win keywords:\n' + JSON.stringify(nearWins, null, 2);
   try {
     const res = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
@@ -623,7 +625,7 @@ async function generateNudges(c: { site_url?: string; name?: string }, refDate: 
   if (!ANTHROPIC_API_KEY) return null;
   const monthName = refDate.toLocaleDateString('en-US', { month: 'long', timeZone: 'UTC' });
   const system = "You are the proactive growth team at WebEaze for a small trade business. Given the business and the current month, suggest 1 to 2 TIMELY, seasonal improvements we could make to their website right now to win more work (a seasonal promo banner, a holiday hours note, highlighting a service that is in demand this time of year, and so on). Concrete and specific to the season and their trade, not generic. NEVER use em dashes. Return ONLY valid JSON (no markdown, no code fences): an array of objects with keys: title (short, max 8 words), why (one sentence that references the season or month), impact (integer 1 to 10, how much new business this would realistically win, used to decide which single one we show first), requestType (exactly one of: Content update, New page or section, SEO or visibility, Other), requestSummary (a clear description of the change for our team). Use the Business type given; if it is missing, infer the exact trade from the business name, website and the searches people use to find them. Every idea must fit that specific trade and the current season, never generic.";
-  const userMsg = 'Business: ' + (c.name || '') + '\nSite: ' + (c.site_url || '') + (bizType ? '\nBusiness type: ' + bizType : '') + (topSearches.length ? '\nSearches people use to find them: ' + topSearches.join(', ') : '') + '\nCurrent month: ' + monthName + '\nSuggest timely, seasonal website improvements specific to this exact trade.';
+  const userMsg = 'Business: ' + (c.business_name || c.name || '') + '\nSite: ' + (c.site_url || '') + (bizType ? '\nBusiness type: ' + bizType : '') + (topSearches.length ? '\nSearches people use to find them: ' + topSearches.join(', ') : '') + '\nCurrent month: ' + monthName + '\nSuggest timely, seasonal website improvements specific to this exact trade.';
   try {
     const res = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
@@ -828,7 +830,7 @@ function summaryHtml(name: string, url: string, m: any, plan?: string, extra?: {
     + '<span style="font-size:14px;color:#9599b8;margin-left:10px;vertical-align:middle;">' + reportLabel + '</span>'
     + '</div>';
   return [
-    '<!DOCTYPE html><html><head><meta charset="UTF-8" /></head>',
+    '<!DOCTYPE html><html><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width,initial-scale=1" /><meta name="color-scheme" content="light dark" /></head>',
     '<body style="margin:0;background:#ffffff;">',
     '<div style="max-width:560px;margin:0 auto;padding:30px 26px;font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:1.65;color:#1f2333;">',
     header,
@@ -893,7 +895,7 @@ Deno.serve(async (req) => {
     if (cronSecret && cronSecret === CRON_SECRET) {
       const only = (body && typeof body.only === 'string') ? body.only : null;
       let cq = service.from('clients')
-        .select('user_id, id, email, name, site_url, google_place_id, plan, status, second_email')
+        .select('user_id, id, email, name, business_name, site_url, google_place_id, plan, status, second_email')
         .not('site_url', 'is', null).neq('status', 'inactive');
       if (only) cq = cq.eq('user_id', only);
       const { data: clients } = await cq;
@@ -943,7 +945,7 @@ Deno.serve(async (req) => {
 
     // Clients refresh their own record; the admin account may refresh any client (targetUserId).
     const targetUserId = (body.targetUserId && user.email === 'billy@webeaze.io') ? body.targetUserId : user.id;
-    const { data: c } = await service.from('clients').select('user_id, id, email, name, site_url, google_place_id, plan, second_email').eq('user_id', targetUserId).maybeSingle();
+    const { data: c } = await service.from('clients').select('user_id, id, email, name, business_name, site_url, google_place_id, plan, second_email').eq('user_id', targetUserId).maybeSingle();
     if (!c) return json({ error: 'No client record' }, 404);
 
     const diag: Record<string, boolean> = {};
