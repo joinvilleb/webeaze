@@ -742,12 +742,22 @@
     }
     .article-body a:hover { color: #fff; }
     .article-body img {
-      max-width: 100%;
-      border-radius: 12px;
-      border: 1px solid rgba(255,255,255,.1);
-      margin: 16px 0 24px;
-    }
-    /* Small UI-control icon shown inline within a sentence (e.g. "select the [icon]"). */
+        /* Screenshots used to fill the whole 698px column, so a tall panel shot read as a
+           full-screen slab. Capping both dimensions lets portrait shots be limited by height
+           and landscape ones by width. height:auto keeps the ratio right for the many images
+           that carry width/height attributes. */
+        max-width: min(100%, 520px);
+        max-height: 760px;
+        width: auto;
+        height: auto;
+        border-radius: 12px;
+        border: 1px solid rgba(255,255,255,.1);
+        margin: 16px 0 24px;
+      }
+      @media (max-width: 640px) {
+        .article-body img { max-width: 88%; max-height: 620px; }
+      }
+      /* Small UI-control icon shown inline within a sentence (e.g. "select the [icon]"). */
     .article-body .inline-icon {
       display: inline-block;
       height: 1.5em;

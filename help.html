@@ -776,12 +776,22 @@
     }
     .article-body a:hover { color: #fff; }
     .article-body img {
-      max-width: 100%;
-      border-radius: 12px;
-      border: 1px solid rgba(255,255,255,.1);
-      margin: 16px 0 24px;
-    }
-    /* Small UI-control icon shown inline within a sentence (e.g. "select the [icon]"). */
+        /* Screenshots used to fill the whole 698px column, so a tall panel shot read as a
+           full-screen slab. Capping both dimensions lets portrait shots be limited by height
+           and landscape ones by width. height:auto keeps the ratio right for the many images
+           that carry width/height attributes. */
+        max-width: min(100%, 520px);
+        max-height: 760px;
+        width: auto;
+        height: auto;
+        border-radius: 12px;
+        border: 1px solid rgba(255,255,255,.1);
+        margin: 16px 0 24px;
+      }
+      @media (max-width: 640px) {
+        .article-body img { max-width: 88%; max-height: 620px; }
+      }
+      /* Small UI-control icon shown inline within a sentence (e.g. "select the [icon]"). */
     .article-body .inline-icon {
       display: inline-block;
       height: 1.5em;
@@ -4620,7 +4630,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
           
           <p>It's easy. When you submit a <a href="https://portal.webeaze.io" target="_blank" rel="noopener">request</a>, select the dropdown for your preferred publish date. We'll get it done by that date for you.</p>
 
-          <img loading="lazy" src="../../images/assets/scheduled-support-howto.png" alt="Support schedule example: select a publish date when submitting a request." style="max-width:100%;margin:20px 0;border-radius:8px;box-shadow:0 2px 6px rgba(0,0,0,.1);">
+          <img loading="lazy" src="../../images/assets/scheduled-support-howto.png" alt="Support schedule example: select a publish date when submitting a request." style="margin:20px 0;border-radius:8px;box-shadow:0 2px 6px rgba(0,0,0,.1);">
         
 
           <h2 id="toc-1">Perfect for</h2>
