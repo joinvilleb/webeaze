@@ -39,6 +39,22 @@ create table if not exists public.prospects (
 );
 
 -- Idempotent adds, so re-running (or an already-created table) picks up the outreach columns.
+--
+-- These matter more than they look. `create table if not exists` above does NOTHING when the table
+-- already exists, so a table created by an earlier version of this file is missing every column added
+-- since. outreach-draft selects score_reasons and speed_mobile, and a missing column there is a
+-- PostgREST error, which the function turns into a 500, which the admin UI showed as the useless
+-- "Edge Function returned a non-2xx status code". So every column the code touches gets an explicit
+-- add here, not just the newest ones.
+alter table public.prospects add column if not exists primary_type text;
+alter table public.prospects add column if not exists email        text;
+alter table public.prospects add column if not exists speed_mobile integer;
+alter table public.prospects add column if not exists score_reasons text[] not null default '{}';
+alter table public.prospects add column if not exists area         text;
+alter table public.prospects add column if not exists niche        text;
+alter table public.prospects add column if not exists proposal_url text;
+alter table public.prospects add column if not exists user_id      uuid;
+alter table public.prospects add column if not exists notes        text;
 alter table public.prospects add column if not exists channel      text not null default 'email';
 alter table public.prospects add column if not exists outreach     jsonb;
 alter table public.prospects add column if not exists sent_step    smallint not null default 0;   -- 0 none, 1 first sent, 2 fu1 sent, 3 done
