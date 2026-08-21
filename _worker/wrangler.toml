@@ -8,5 +8,9 @@ GITHUB_ORG = "joinvilleb"
 # Secrets — set these with `wrangler secret put <NAME>`, never put them here:
 #   GITHUB_TOKEN    fine-grained PAT with Contents + Pull Requests write
 #   CLAUDE_API_KEY  Anthropic API key
-#   HUBSPOT_SECRET  HubSpot webhook secret (for future signature verification)
+#   BOT_SECRET      shared secret callers must send as the x-webeaze-secret header
 #   CLIENTS_JSON    JSON mapping client email → { "repo": "repo-name" }
+#
+# HUBSPOT_SECRET is gone. It was documented but never used, and the HubSpot form that was meant to
+# trigger this is not how clients submit requests. If it is still set, delete it:
+#   npx wrangler secret delete HUBSPOT_SECRET --name webeaze-request-bot

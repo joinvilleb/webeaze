@@ -35,10 +35,26 @@ const SCAN_REQUEST = [
 const cors = { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': 'authorization, content-type, x-cron-secret', 'Access-Control-Allow-Methods': 'POST, OPTIONS' };
 const json = (b: unknown, s = 200) => new Response(JSON.stringify(b), { status: s, headers: { ...cors, 'Content-Type': 'application/json' } });
 
+// KILL SWITCH, and it is off by default on purpose.
+//
+// This function asks an AI to edit real clients' live websites every Monday, with no request from
+// the client and no human looking at the result. It has been scheduled and running this whole time;
+// it was harmless only because CLIENTS_JSON was empty, so every client resolved to no repo. The
+// moment that secret is populated, this goes live across every active client at once.
+//
+// That safety must not be an accident of an unset config. To enable it, deliberately:
+//   supabase secrets set PROACTIVE_FIXES_ENABLED=true
+// and only once the bot has a track record of good changes that a human approved first.
+const PROACTIVE_ENABLED = (Deno.env.get('PROACTIVE_FIXES_ENABLED') ?? '').toLowerCase() === 'true';
+
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: cors });
   if (req.method !== 'POST') return json({ error: 'Method not allowed' }, 405);
   if (!CRON_SECRET || req.headers.get('x-cron-secret') !== CRON_SECRET) return json({ error: 'Unauthorized' }, 401);
+  if (!PROACTIVE_ENABLED) {
+    console.warn('[proactive-fixes] skipped: PROACTIVE_FIXES_ENABLED is not true');
+    return json({ ok: true, skipped: 'disabled', note: 'Set PROACTIVE_FIXES_ENABLED=true to allow unattended edits to client sites.' });
+  }
 
   const service = createClient(Deno.env.get('SUPABASE_URL')!, Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!);
 

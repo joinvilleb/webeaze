@@ -1,5 +1,32 @@
 {
-  "owner@bearcarpetcare.com": { "repo": "bear-carpet-care" },
-  "owner@ibisprep.com": { "repo": "ibis-prep" },
-  "owner@galaxygymnastics.com": { "repo": "galaxy-gymnastics" }
+  "_comment": "Template for the CLIENTS_JSON secret. Keys are the client's SITE DOMAIN (not their email): emails change, and on a managed account the person submitting a request is not the account holder. www, https:// and any path are normalised away, so any form of the URL works. Set it with: npx wrangler secret put CLIENTS_JSON --name webeaze-request-bot",
+  "_autoMerge": "Add \"autoMerge\": true to a client to let the bot's changes go live without review. Leave it off and every change waits as a pull request. Start with it off for everyone.",
+  "_verified": "Each repo below was confirmed by reading its CNAME file, except original-clam-tavern and hair-response which are Cloudflare Pages and were confirmed by matching the live page against the repo.",
+
+  "_sourceNote": "Optional per client. Injected into the bot's prompt so it edits the SOURCE rather than generated output. On a site whose pages are built from a script, editing the HTML looks like it worked, passes review, and is then wiped by the next build. The bot cannot tell this from the file list, so it has to be told.",
+  "_afterMerge": "Optional per client. Shown once a pull request is merged. Merging is not publishing on every site: some need a build or a deploy afterwards, and a merged change that never reaches the live site is the quietest possible failure.",
+
+  "bearcarpetcare.com": {
+    "repo": "bearcarpetcarepa.github.io",
+    "sourceNote": "The nine HTML pages in this repo are GENERATED OUTPUT, rendered by build-pages.py from the data at the top of that file: BIZ (business name, phone, email, city, region, zip, hours text), HOURS and HOURS_SCHEMA (opening hours), and AREAS (service areas). Running ./build.sh regenerates every page and overwrites any edit made directly to a .html file. For any change to business facts (phone, hours, address, service areas, services), edit build-pages.py ONLY. css/site.min.css and js/*.min.js are also generated, from css/site.css and js/*.js. Only edit a .html file directly when the change is genuinely page-specific content that does not appear in build-pages.py.",
+    "afterMerge": "Run ./build.sh in the repo and commit the regenerated pages, or the change stays in build-pages.py and never reaches the live site."
+  },
+
+  "galaxygymnast.com": { "repo": "galaxy-gymnastics" },
+  "grassgoats.com": { "repo": "grassgoats.github.io" },
+  "ibisrepairgroup.com": { "repo": "ibis-repair-group" },
+
+  "clamtavern.net": {
+    "repo": "original-clam-tavern",
+    "sourceNote": "The HTML pages at the repo root are the SOURCE and are correct to edit. cf-build.sh assembles dist/ from them at deploy time, so never edit anything under dist/ or .build/.",
+    "afterMerge": "Nothing to do. Cloudflare Pages runs cf-build.sh on push and publishes automatically."
+  },
+
+  "hairresponse.com": {
+    "repo": "hair-response",
+    "sourceNote": "The HTML at the repo root and inside the page folders (services/, faqs/, about-us-confidence/, testimonials/ and so on) is the SOURCE and is correct to edit. tools/stage.py copies it into dist/, which is what Cloudflare serves, so never edit anything under dist/.",
+    "afterMerge": "Run python3 tools/stage.py then npx wrangler deploy. This site does NOT deploy on push, so a merged change is not live until that runs."
+  },
+
+  "_notInHere": "ibisprep.com runs on Wix, so there is no repo and the bot can never edit it. Do not add it. bearcarpetcare.github.io and bear-carpet-care are dead repos with no CNAME, last touched May 2025: pointing at either would edit a site nobody can see."
 }
