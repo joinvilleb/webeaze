@@ -51,8 +51,8 @@ async function draftReply(bizName: string, lead: any): Promise<string | null> {
     contact: 'They clicked to book an appointment or request a quote from the website.',
   };
   const enquiry = (lead.name ? ('Their name: ' + String(lead.name).slice(0, 80) + '\n') : '') + (CHANNEL[lead.type] || 'A customer reached out through the website.');
-  const system = "You are a small trade business owner writing a warm, professional follow-up reply to a customer enquiry you just received. Thank them, acknowledge what they asked about, and move things forward with a clear next step (a quick call, a quote, or a visit). Sound like a real, friendly, confident person, not a corporate script. Keep it short and ready to send. Do NOT invent specific facts like prices or dates unless the enquiry gives them. NEVER use em dashes. Return ONLY the reply text, no subject line, preamble, or quotes.";
-  const userMsg = 'Business name: ' + bizName + '\nThe customer enquiry:\n' + enquiry;
+  const system = "You are a small trade business owner writing a warm, professional follow-up reply to a customer inquiry you just received. Thank them, acknowledge what they asked about, and move things forward with a clear next step (a quick call, a quote, or a visit). Sound like a real, friendly, confident person, not a corporate script. Keep it short and ready to send. Do NOT invent specific facts like prices or dates unless the inquiry gives them. NEVER use em dashes. Return ONLY the reply text, no subject line, preamble, or quotes.";
+  const userMsg = 'Business name: ' + bizName + '\nThe customer inquiry:\n' + enquiry;
   try {
     const res = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
@@ -142,7 +142,7 @@ Deno.serve(async (req) => {
           if (l.phone) ctas.push(btn('tel:' + esc(l.phone), 'Call ' + esc(l.name || l.phone)));
           if (l.email) {
             const to = String(l.email).replace(/[<>"\s]/g, '');
-            const mailto = 'mailto:' + to + '?subject=' + encodeURIComponent('Re: your enquiry') + '&amp;body=' + encodeURIComponent(draft || ('Hi ' + (l.name || 'there') + ',\n\n'));
+            const mailto = 'mailto:' + to + '?subject=' + encodeURIComponent('Re: your inquiry') + '&amp;body=' + encodeURIComponent(draft || ('Hi ' + (l.name || 'there') + ',\n\n'));
             ctas.push(btn(mailto, draft ? 'Reply now' : 'Reply to ' + esc(l.name || l.email)));
           }
           return '<div style="background:#f7f6fb;border:1px solid #ece9f4;border-radius:10px;padding:12px 14px;margin:0 0 10px;"><table style="border-collapse:collapse;"><tbody>' + rows.join('') + '</tbody></table>' + draftBlock + '<div>' + ctas.join('') + '</div></div>';

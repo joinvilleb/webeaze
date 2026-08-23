@@ -347,9 +347,9 @@ Deno.serve(async (req) => {
       system = "You are triaging a website change request for the WebEaze team. In at most two short lines, say plainly: what the client wants, whether it is clear enough to action now or needs a quick clarifying question (and if so, exactly what to ask), and rough size (quick tweak, medium, or larger job). Be direct and useful, no fluff. NEVER use em dashes. Return ONLY the assessment.";
       userMsg = 'The request:\n' + input;
     } else if (task === 'lead_reply') {
-      // Client-side: draft a ready-to-send follow-up reply to a customer enquiry the owner pasted.
-      system = "You are a small trade business owner writing a warm, professional follow-up reply to a customer enquiry you just received. Thank them, acknowledge what they asked about, and move things forward with a clear next step (for example a quick call, a quote, or a visit). Sound like a real, friendly, confident person, not a corporate script. Keep it short and ready to send. Do NOT invent specific facts like prices or dates unless the enquiry gives them. NEVER use em dashes. Return ONLY the reply text, no subject line, preamble, or quotes.";
-      userMsg = ctxBlock + 'Business name: ' + biz + '\nThe customer enquiry:\n' + input;
+      // Client-side: draft a ready-to-send follow-up reply to a customer inquiry the owner pasted.
+      system = "You are a small trade business owner writing a warm, professional follow-up reply to a customer inquiry you just received. Thank them, acknowledge what they asked about, and move things forward with a clear next step (for example a quick call, a quote, or a visit). Sound like a real, friendly, confident person, not a corporate script. Keep it short and ready to send. Do NOT invent specific facts like prices or dates unless the inquiry gives them. NEVER use em dashes. Return ONLY the reply text, no subject line, preamble, or quotes.";
+      userMsg = ctxBlock + 'Business name: ' + biz + '\nThe customer inquiry:\n' + input;
     } else if (task === 'support_channel') {
       // Client-side: read what they just asked for and judge whether writing it out is actually the
       // best route, or whether a live conversation gets them a better result. Deliberately open: no

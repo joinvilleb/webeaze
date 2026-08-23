@@ -18,6 +18,7 @@ import { createClient } from 'jsr:@supabase/supabase-js@2';
 
 const CRON_SECRET = Deno.env.get('CRON_SECRET') ?? '';
 const BOT_URL = 'https://webeaze-request-bot.webeaze-web-design.workers.dev/';
+const BOT_SECRET = Deno.env.get('BOT_SECRET') ?? '';
 
 // The one instruction we hand the bot. Deliberately narrow: fix only what is unambiguous, edit
 // as little as possible, and never touch design, branding, or wording when in any doubt.
@@ -83,8 +84,9 @@ Deno.serve(async (req) => {
         let bot: any = {};
         try {
           const res = await fetch(BOT_URL, {
-            method: 'POST', headers: { 'Content-Type': 'application/json' },
+            method: 'POST', headers: { 'Content-Type': 'application/json', 'x-webeaze-secret': BOT_SECRET },
             body: JSON.stringify({
+              site_url: c.site_url || '',
               email: c.email,
               request_description: SCAN_REQUEST,
               request_type: 'Content update',

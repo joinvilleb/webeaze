@@ -14,6 +14,7 @@ import { createClient } from 'jsr:@supabase/supabase-js@2';
 
 const DISPATCH_SECRET = Deno.env.get('CRON_SECRET') ?? '';
 const BOT_URL = 'https://webeaze-request-bot.webeaze-web-design.workers.dev/';
+const BOT_SECRET = Deno.env.get('BOT_SECRET') ?? '';
 
 const cors = { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': 'authorization, content-type, x-dispatch-secret', 'Access-Control-Allow-Methods': 'POST, OPTIONS' };
 const json = (b: unknown, s = 200) => new Response(JSON.stringify(b), { status: s, headers: { ...cors, 'Content-Type': 'application/json' } });
@@ -37,15 +38,33 @@ async function dispatchOne(service: any, record: any, opts: { skipSchedule?: boo
   if (record.attachment_url)                           return { ok: true, skipped: 'has an attachment for a human to place' };
   if (record.scheduled_for && !opts.skipSchedule)      return { ok: true, skipped: 'scheduled for a future date' };
 
-  const { data: c } = await service.from('clients').select('email, name').eq('user_id', userId).maybeSingle();
-  if (!c?.email) return { ok: true, skipped: 'no client email' };
+  const { data: c } = await service.from('clients').select('email, name, site_url').eq('user_id', userId).maybeSingle();
+  // site_url is what the bot keys on now, so a client with no site cannot be actioned at all. Email
+  // alone is no longer enough to find their repo.
+  if (!c || (!c.site_url && !c.email)) return { ok: true, skipped: 'no client site url or email' };
+
+  // Say so loudly. An empty BOT_SECRET sends an empty header, the worker returns Unauthorized, and
+  // the old code reported that as "noop" -- identical to the bot deciding there was nothing to do.
+  // A configuration mistake must not be indistinguishable from a considered decision.
+  if (!BOT_SECRET) {
+    return { ok: false, reason: 'not-configured', message: 'BOT_SECRET is empty in this function. Set it in Supabase (Edge Functions -> Secrets) to the same value as the worker, then REDEPLOY this function: the value is read once at startup, so an already-running copy keeps the old empty one.' };
+  }
 
   // Hand it to the bot (the bot self-gates: only clients in its CLIENTS_JSON are serviced).
   let bot: any = {};
   try {
+    // BOT_SECRET is now required by the worker. It used to accept any caller, which meant anyone who
+    // learned the URL could have an AI commit to a client's live site. Without this header the bot
+    // returns Unauthorized and this function reports "noop", which looks exactly like a request the
+    // bot chose not to action.
+    //
+    // site_url identifies the client now: the bot keys on the domain, because an email changes and on
+    // a managed account the person submitting is not the account holder. Email is still sent as a
+    // fallback for any entry not yet migrated.
     const res = await fetch(BOT_URL, {
-      method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: c.email, request_description: description, request_type: type, firstname: (c.name || '').split(/\s+/)[0] || 'Client' }),
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-webeaze-secret': BOT_SECRET },
+      body: JSON.stringify({ site_url: c.site_url || '', email: c.email, request_description: description, request_type: type, firstname: (c.name || '').split(/\s+/)[0] || 'Client' }),
     });
     bot = await res.json().catch(() => ({}));
   } catch (e) {
@@ -59,6 +78,12 @@ async function dispatchOne(service: any, record: any, opts: { skipSchedule?: boo
   // Lightweight signal the auto-rollback watchdog looks for (a live auto-change just landed).
   if (bot && bot.merged) {
     await service.from('site_issues').insert({ user_id: userId, kind: 'auto_edit', status: 'fixed', detail: 'auto-actioned request ' + (requestId || ''), fixed_at: new Date().toISOString(), notified: true });
+  }
+  // "noop" used to swallow every failure the bot reported. A rejected secret, a domain missing from
+  // CLIENTS_JSON and a genuine no-change all looked the same from here, which is what made this take
+  // an evening to find. Anything the bot flags as not-ok is now named as an error.
+  if (bot && bot.ok === false) {
+    return { ok: false, handled: 'bot-refused', reason: bot.error || bot.skipped || 'unknown', bot };
   }
   return { ok: true, handled: bot.merged ? 'merged' : (bot.escalated ? 'escalated' : (bot.pr ? 'pr' : 'noop')), bot };
 }

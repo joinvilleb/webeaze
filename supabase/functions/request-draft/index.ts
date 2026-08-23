@@ -26,6 +26,7 @@ import { createClient } from 'jsr:@supabase/supabase-js@2';
 
 const BOT_URL = 'https://webeaze-request-bot.webeaze-web-design.workers.dev/';
 const BOT_SECRET = Deno.env.get('BOT_SECRET') ?? '';
+const CRON_SECRET = Deno.env.get('CRON_SECRET') ?? '';
 const ADMIN = 'billy@webeaze.io';
 
 const cors = {
@@ -38,9 +39,13 @@ const json = (b: unknown, s = 200) => new Response(JSON.stringify(b), { status: 
 // Requests the bot has no business attempting. It can only edit text in files that already exist:
 // it cannot create or delete a page, upload an image, touch DNS, or fix a site that is down. Sending
 // it these produces a confidently wrong pull request, which costs more to review than to ignore.
-const UNSUITABLE = /^(site down|hosting|domain|billing|other)/i;
+// NOT anchored, deliberately. The client-facing option is "Urgent — site down", so an anchored
+// ^(site down|...) matched nothing and handed a live outage to an AI to go and edit files with.
+// Matching anywhere in the label is what actually catches the types on offer.
+const UNSUITABLE = /(site down|hosting|domain|billing|urgent)/i;
 function unsuitableReason(type: string, notes: string): string | null {
   const t = String(type || '');
+  if (/^other$/i.test(t.trim())) return 'This is an "Other" request, so there is nothing specific enough to act on automatically.';
   if (UNSUITABLE.test(t)) return 'This is a ' + t.toLowerCase() + ' request, which is not a text edit to an existing page.';
   if (String(notes || '').trim().length < 15) return 'There is not enough detail here for anything to be changed reliably.';
   return null;
@@ -51,12 +56,17 @@ Deno.serve(async (req) => {
   if (req.method !== 'POST') return json({ error: 'Method not allowed' }, 405);
 
   try {
-    const authed = createClient(Deno.env.get('SUPABASE_URL')!, Deno.env.get('SUPABASE_ANON_KEY')!, { global: { headers: { Authorization: req.headers.get('Authorization') ?? '' } } });
-    const { data: { user } } = await authed.auth.getUser();
-    if (!user) return json({ error: 'Unauthorized' }, 401);
-    // Admin only, and deliberately not a role check: exactly one person should be able to make an AI
-    // commit to a client's website.
-    if (user.email !== ADMIN) return json({ error: 'Forbidden' }, 403);
+    // Two ways in. The admin's own JWT, for the "Draft with AI" button; or the cron secret, for the
+    // database trigger that fires the moment a client submits a request. Nothing else.
+    const viaCron = !!CRON_SECRET && req.headers.get('x-cron-secret') === CRON_SECRET;
+    if (!viaCron) {
+      const authed = createClient(Deno.env.get('SUPABASE_URL')!, Deno.env.get('SUPABASE_ANON_KEY')!, { global: { headers: { Authorization: req.headers.get('Authorization') ?? '' } } });
+      const { data: { user } } = await authed.auth.getUser();
+      if (!user) return json({ error: 'Unauthorized' }, 401);
+      // Admin only, and deliberately not a role check: exactly one person should be able to make an AI
+      // commit to a client's website.
+      if (user.email !== ADMIN) return json({ error: 'Forbidden' }, 403);
+    }
     if (!BOT_SECRET) return json({ ok: false, reason: 'not-configured', message: 'BOT_SECRET is not set on this function. It must match the worker\'s BOT_SECRET.' });
 
     const body = await req.json().catch(() => ({} as any));
@@ -65,8 +75,11 @@ Deno.serve(async (req) => {
 
     const service = createClient(Deno.env.get('SUPABASE_URL')!, Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!);
     const { data: r } = await service.from('update_requests')
-      .select('id, user_id, type, notes, status').eq('id', requestId).maybeSingle();
+      .select('id, user_id, type, notes, status, ai_at').eq('id', requestId).maybeSingle();
     if (!r) return json({ ok: false, reason: 'not-found' });
+    // The trigger fires once per insert, but a retry, a restored backup or a manual re-run must not
+    // open a second pull request for the same request. The button can still force a redraft.
+    if (viaCron && r.ai_at) return json({ ok: true, skipped: 'already-drafted' });
 
     const { data: c } = await service.from('clients')
       .select('name, email, site_url, business_name').eq('user_id', r.user_id).maybeSingle();
@@ -124,10 +137,24 @@ Deno.serve(async (req) => {
       ai_pr_url: out.pr || null,
       ai_at: new Date().toISOString(),
     };
+    // MERGED means it is live on their site, so the request is genuinely finished and should say so
+    // rather than sitting in the client's portal as "In progress" for work already published.
+    //
+    // Only on a real merge. A pull request waiting for review is not done, and "afterMerge" sites
+    // (bearcarpetcare, hairresponse) still need a build or a deploy, so a merge there is not live and
+    // must not be marked complete.
+    if (out.merged && !out.afterMerge && r.status !== 'Done') {
+      patch.status = 'Done';
+      patch.completed_at = new Date().toISOString();
+      // What the client reads in their portal. The bot's own one-line summary when the safety
+      // reviewer produced one, because it is written for a non-technical owner.
+      patch.resolution = String(out.summary || '').trim()
+        || 'We made this change and it is live on your site now.';
+    }
     try { await service.from('update_requests').update(patch).eq('id', requestId); }
     catch (e) { console.warn('[request-draft] could not record outcome:', e); }
 
-    return json({ ok: true, bot: out, status: patch.ai_status, pr: out.pr || null });
+    return json({ ok: true, bot: out, status: patch.ai_status, pr: out.pr || null, completed: !!patch.status });
   } catch (e) {
     console.error('[request-draft] error:', e);
     return json({ ok: false, reason: 'error', message: String((e as any)?.message || e).slice(0, 200) });

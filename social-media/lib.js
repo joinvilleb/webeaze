@@ -1,0 +1,182 @@
+/* Shared engine for WebEaze monthly social posts.
+   A month file exports { label, posts: [...] }. Each post is { id, cls, inner, footRight }.
+   `cls` is cream | ink | plum. Helpers below build the common blocks. */
+
+const rows = list => `<div class="rows">${list.map(([l, v]) =>
+  `<div class="row"><span class="l">${l}</span><span class="v">${v}</span></div>`).join('')}</div>`;
+
+const checks = list => `<ul class="checks">${list.map(t =>
+  `<li><i>✓</i>${t}</li>`).join('')}</ul>`;
+
+const steps = list => `<div class="steps">${list.map(([n, h, p]) =>
+  `<div class="step"><b>${n}</b><div><h3>${h}</h3><p>${p}</p></div></div>`).join('')}</div>`;
+
+const tags = list => `<div class="tags">${list.map(t => `<span>${t}</span>`).join('')}</div>`;
+
+const pills = list => `<div class="pills">${list.map(t => `<span>${t}</span>`).join('')}</div>`;
+
+const stats = list => list.map(([b, s]) =>
+  `<div class="stat"><b>${b}</b><span>${s}</span></div>`).join('');
+
+const browser = (url, img, h = 505) =>
+  `<div class="browser"><div class="bar"><span></span><span></span><span></span><em>${url}</em></div>` +
+  `<img src="${img}" style="height:${h}px" alt=""></div>`;
+
+const bars = list => `<div class="bars">${list.map(([l, w, v, on]) =>
+  `<div class="bar-row"><span>${l}</span><div class="track"><i class="${on ? 'ac-bar' : ''}" style="width:${w}"></i></div><b>${v}</b></div>`).join('')}</div>`;
+
+
+/* ── Discussion-starter pieces ──────────────────────────────────────────────
+   Lettered options people can answer with a single letter, plus small line
+   graphics. Kept geometric rather than cartoonish so they sit with the type. */
+const options = list => `<div class="opts">${list.map(([k, t, icon]) =>
+  `<div class="opt"><span class="key">${k}</span>${icon ? `<span class="oi">${icon}</span>` : ''}<span class="ot">${t}</span></div>`).join('')}</div>`;
+
+const prompt = t => `<div class="prompt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg><span>${t}</span></div>`;
+
+const ico = {
+  search:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>',
+  chat:    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-8 8H7l-4 3v-6.5A8 8 0 1 1 21 12z"/></svg>',
+  thumb:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 22V10l5-8 1 1v6h6a2 2 0 0 1 2 2.3l-1.4 8A2 2 0 0 1 17.6 22H7z"/><rect x="2" y="10" width="5" height="12" rx="1"/></svg>',
+  repeat:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 2l4 4-4 4"/><path d="M3 12V10a4 4 0 0 1 4-4h14"/><path d="M7 22l-4-4 4-4"/><path d="M21 12v2a4 4 0 0 1-4 4H3"/></svg>',
+  cal:     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>',
+  dust:    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3v3M5 6l2 2M19 6l-2 2M12 9a5 5 0 0 1 5 5v3H7v-3a5 5 0 0 1 5-5z"/><path d="M9 21h6"/></svg>',
+  spark:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/></svg>',
+  phone:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="2.5"/><path d="M11 18h2"/></svg>',
+};
+
+const CSS = `
+:root{ --cream:#faf8f4; --ink:#16141a; --ac:#7851a9; --muted:#8d8a97; }
+*{box-sizing:border-box;margin:0;padding:0}
+.post{width:1080px;height:1080px;padding:74px 78px;display:flex;flex-direction:column;
+      justify-content:space-between;overflow:hidden;font-family:'Poppins',system-ui,sans-serif;
+      -webkit-font-smoothing:antialiased}
+.cream{background:var(--cream);color:var(--ink)}
+.ink{background:var(--ink);color:#fff}
+.plum{background:linear-gradient(155deg,#7851a9,#4a3168);color:#fff}
+.top{display:flex;align-items:center;gap:13px}
+.logo{height:42px;width:auto;display:block}
+.wordmark{font-size:31px;font-weight:700;letter-spacing:-.02em}
+.ink .wordmark,.plum .wordmark{color:#fff}
+.mid{flex:1;display:flex;flex-direction:column;justify-content:center;min-height:0}
+.mid.center{align-items:center;text-align:center}
+.eyebrow{font-size:23px;font-weight:700;letter-spacing:.15em;color:var(--ac);margin-bottom:18px}
+.eyebrow.light{color:rgba(255,255,255,.72)}
+h1{font-family:'Playfair Display',Georgia,serif;font-weight:700;font-size:76px;line-height:1.08;letter-spacing:-.02em}
+h1.huge{font-size:96px;line-height:1.04}
+h1.big{font-size:92px;line-height:1.06}
+h1.sm{font-size:62px}
+h2.serif{font-family:'Playfair Display',Georgia,serif;font-weight:700;font-size:62px;line-height:1.1}
+.on-ink,.on-plum{color:#fff}
+.ac{color:var(--ac)}
+.plum .ac,.ink .ac{color:#d9c4f2}
+.lede{font-size:32px;line-height:1.5;color:#4b4854;margin-top:34px;max-width:840px}
+.lede.sm{font-size:28px;margin-top:40px}
+.ink .lede,.plum .lede{color:rgba(255,255,255,.8)}
+.on-plum-sub{color:rgba(255,255,255,.85)}
+.rows{display:grid;gap:16px;margin-top:44px}
+.row{background:#fff;border-radius:15px;padding:29px 34px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+.ink .row{background:rgba(255,255,255,.07)}
+.plum .row{background:rgba(255,255,255,.12)}
+.l{font-size:30px;font-weight:600}
+.ink .l,.plum .l{color:#fff}
+.v{font-size:30px;font-weight:700;color:var(--ac);white-space:nowrap}
+.ink .v{color:#c3a3ec}.plum .v{color:#fff}
+.mega{font-family:'Playfair Display',serif;font-weight:800;font-size:250px;line-height:.9;letter-spacing:-.04em}
+.mega.on-plum{font-size:170px}
+.mega.mid-size{font-size:200px}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+.stat{padding:26px 0;border-top:2px solid rgba(22,20,26,.12)}
+.ink .stat,.plum .stat{border-top-color:rgba(255,255,255,.2)}
+.stat b{display:block;font-size:56px;font-weight:700;letter-spacing:-.03em;color:var(--ac)}
+.ink .stat b,.plum .stat b{color:#d9c4f2}
+.stat span{font-size:26px;color:#615e6b}
+.ink .stat span,.plum .stat span{color:rgba(255,255,255,.7)}
+.checks{margin-top:46px;display:grid;gap:24px}
+.checks li{list-style:none;display:flex;align-items:center;gap:22px;font-size:33px;font-weight:500}
+.checks i{width:44px;height:44px;flex:0 0 auto;border-radius:50%;background:var(--ac);color:#fff;
+          display:grid;place-items:center;font-size:22px;font-style:normal;font-weight:700}
+.ink .checks i,.plum .checks i{background:#fff;color:var(--ac)}
+.steps{margin-top:48px;display:grid;gap:34px}
+.step{display:flex;gap:30px;align-items:flex-start}
+.step b{font-family:'Playfair Display',serif;font-size:56px;line-height:1;opacity:.5;min-width:96px}
+.step h3{font-size:36px;font-weight:600;margin-bottom:6px}
+.step p{font-size:27px;opacity:.72}
+.quote{font-family:'Playfair Display',serif;font-weight:700;font-size:74px;line-height:1.16;letter-spacing:-.02em;margin-bottom:52px}
+.quote::before{content:'“'}.quote::after{content:'”'}
+.who{display:flex;align-items:center;gap:24px}
+.who img{width:104px;height:104px;border-radius:50%;object-fit:cover}
+.who b{display:block;font-size:32px;font-weight:700}
+.who span{font-size:26px;color:var(--muted)}
+.browser{margin-top:46px;border-radius:18px;overflow:hidden;background:#fff;box-shadow:0 24px 60px rgba(0,0,0,.35)}
+.browser .bar{background:#f1f1f4;padding:16px 20px;display:flex;align-items:center;gap:9px}
+.browser .bar span{width:14px;height:14px;border-radius:50%;background:#cfcfd6}
+.browser .bar em{margin-left:16px;font-style:normal;font-size:22px;color:#8b8b95}
+.browser img{width:100%;object-fit:cover;object-position:top;display:block}
+.bars{margin-top:48px;display:grid;gap:34px}
+.bar-row{display:grid;grid-template-columns:250px 1fr 250px;align-items:center;gap:24px}
+.bar-row span{font-size:30px;font-weight:600}
+.bar-row b{font-size:30px;font-weight:700;text-align:right;color:var(--ac)}
+.track{height:26px;background:rgba(22,20,26,.07);border-radius:99px;overflow:hidden}
+.track i{display:block;height:100%;background:#cbc4d6;border-radius:99px}
+.track i.ac-bar{background:var(--ac)}
+.stack{display:grid;gap:2px;margin-top:8px}
+.stack span{font-family:'Playfair Display',serif;font-weight:700;font-size:78px;line-height:1.1;letter-spacing:-.02em}
+.tags{margin-top:48px;display:flex;flex-wrap:wrap;gap:16px}
+.tags span{font-size:30px;font-weight:600;padding:16px 30px;border-radius:99px;background:#fff;border:2px solid rgba(120,81,169,.2);color:var(--ac)}
+.pills{margin-top:52px;display:flex;gap:16px;flex-wrap:wrap}
+.pills span{font-size:29px;font-weight:600;padding:18px 34px;border-radius:99px;background:var(--ac);color:#fff}
+.plum .pills span,.ink .pills span{background:#fff;color:var(--ac)}
+.cta{margin-top:56px;font-size:44px;font-weight:700;padding:26px 56px;border-radius:99px;background:#fff;color:var(--ac)}
+/* Photo-backed card: image sits right of frame, scrim weighted left so copy stays legible
+   and left-aligned rather than floating in the middle. */
+.photo{position:relative;background-size:cover;background-position:16% center}
+.photo::after{content:'';position:absolute;inset:0;z-index:0;
+  background:linear-gradient(90deg,rgba(9,7,16,.93) 0%,rgba(9,7,16,.86) 42%,rgba(9,7,16,.42) 74%,rgba(9,7,16,.12) 100%)}
+.photo .top,.photo .mid,.photo .foot{position:relative;z-index:1}
+.photo .mid{justify-content:flex-end;align-items:flex-start;text-align:left;padding-bottom:30px}
+.photo h1{color:#fff}
+.photo .lede{color:rgba(255,255,255,.9);max-width:620px;margin-top:26px}
+.photo .lede.sm{margin-top:26px;font-size:25px;line-height:1.45}
+.photo .lede.sm{color:rgba(255,255,255,.6)}
+.photo .eyebrow{color:#c9a8f0}
+.photo .foot{color:rgba(255,255,255,.62)}
+
+/* discussion starters */
+.opts{margin-top:36px;display:grid;gap:13px}
+.opt{background:#fff;border-radius:15px;padding:22px 30px;display:flex;align-items:center;gap:22px}
+.ink .opt{background:rgba(255,255,255,.07)}
+.plum .opt{background:rgba(255,255,255,.12)}
+.key{width:52px;height:52px;flex:0 0 auto;border-radius:13px;background:rgba(120,81,169,.11);color:var(--ac);
+     display:grid;place-items:center;font-size:27px;font-weight:700}
+.ink .key,.plum .key{background:rgba(255,255,255,.16);color:#fff}
+.oi{width:34px;height:34px;flex:0 0 auto;color:var(--ac);display:grid;place-items:center}
+.oi svg{width:100%;height:100%}
+.ink .oi,.plum .oi{color:#c9a8f0}
+.ot{font-size:30px;font-weight:600}
+.ink .ot,.plum .ot{color:#fff}
+.prompt{margin-top:32px;display:flex;align-items:center;gap:14px;font-size:28px;font-weight:600;color:var(--ac)}
+.prompt svg{width:32px;height:32px;flex:0 0 auto}
+.ink .prompt,.plum .prompt{color:#c9a8f0}
+.qmark{font-family:'Playfair Display',serif;font-size:170px;line-height:.8;color:var(--ac);opacity:.12;
+       position:absolute;right:64px;top:48px;pointer-events:none}
+.post{position:relative}
+.foot{display:flex;justify-content:space-between;font-size:23px;color:var(--muted);font-weight:500}
+.ink .foot,.plum .foot{color:rgba(255,255,255,.5)}
+`;
+
+const FONTS = `<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">`;
+
+const card = (p, depth) => `
+<div class="post ${p.cls}${p.bg ? ' photo' : ''}" id="${p.id}"${p.bg ? ` style="background-image:url('${depth}${p.bg}')"` : ''}>
+  <div class="top">
+    <img class="logo" src="${depth}images/webeaze-transparent-copy.png" alt="">
+    <span class="wordmark">WebEaze</span>
+  </div>
+  ${p.inner(depth)}
+  <div class="foot"><span>webeaze.io</span><span>${p.footRight || 'Websites from $169/mo'}</span></div>
+</div>`;
+
+module.exports = { rows, checks, steps, tags, pills, stats, browser, bars, options, prompt, ico, CSS, FONTS, card };

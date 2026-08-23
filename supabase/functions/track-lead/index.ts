@@ -7,7 +7,7 @@
 //         name?, email?, phone?, message? }   the last four (form details) are kept for Growth clients only
 //
 // A FORM lead emails the client instantly (Growth/Elite only, since only those plans store the
-// enquirer's details); every other type is recorded silently. The lead-digest function still sends
+// inquirer's details); every other type is recorded silently. The lead-digest function still sends
 // the end-of-day recap for everyone, so a busy site gets one summary rather than a flood.
 // Why instant: for a trade business the job usually goes to whoever calls back first, so a digest at
 // 5pm is worthless for a lead that arrived at 8am.
@@ -31,7 +31,7 @@ const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY') ?? '';
 const FROM = 'WebEaze <support@webeaze.io>';
 const esc = (v: unknown) => String(v ?? '').replace(/[&<>"]/g, (ch) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch]!));
 
-// Email the client the moment a real enquiry lands, with everything needed to answer it from the
+// Email the client the moment a real inquiry lands, with everything needed to answer it from the
 // phone in their hand: who, what they said, and one-tap call / reply links.
 async function alertLead(client: any, lead: any) {
   if (!RESEND_API_KEY) return;
@@ -46,7 +46,7 @@ async function alertLead(client: any, lead: any) {
     + 'border-radius:9px;padding:12px 20px;font-weight:700;font-size:15px;margin:0 8px 8px 0;">' + esc(label) + '</a>';
   const actions = [
     lead.phone ? btn('tel:' + String(lead.phone).replace(/[^0-9+]/g, ''), 'Call ' + (lead.name || 'them'), '#7851a9') : '',
-    lead.email ? btn('mailto:' + lead.email + '?subject=' + encodeURIComponent('Re: your enquiry'), 'Reply by email', '#4b5563') : '',
+    lead.email ? btn('mailto:' + lead.email + '?subject=' + encodeURIComponent('Re: your inquiry'), 'Reply by email', '#4b5563') : '',
   ].join('');
   const row = (k: string, v: string) => v
     ? '<tr><td style="padding:5px 14px 5px 0;color:#6b7094;font-size:14px;white-space:nowrap;">' + k + '</td>'
@@ -62,7 +62,7 @@ async function alertLead(client: any, lead: any) {
     + '<tr><td align="center" style="padding:24px 12px;">'
     + '<table role="presentation" cellpadding="0" cellspacing="0" class="wz-card" style="width:100%;max-width:520px;background:#ffffff;border:1px solid #e4e7f1;border-radius:14px;">'
     + '<tr><td style="padding:26px 24px;font-family:Helvetica,Arial,sans-serif;">'
-    + '<p class="wz-m" style="margin:0 0 4px;font-size:13px;color:#6b7094;">Hi ' + esc(first) + ', a new enquiry just came in</p>'
+    + '<p class="wz-m" style="margin:0 0 4px;font-size:13px;color:#6b7094;">Hi ' + esc(first) + ', a new inquiry just came in</p>'
     + '<h1 class="wz-t" style="margin:0 0 14px;font-size:21px;color:#1f2333;">' + esc(who) + ' wants to hear from you</h1>'
     + (lead.message ? '<div class="wz-box" style="background:#f8f9fc;border-radius:10px;padding:14px 16px;margin:0 0 16px;">'
         + '<p class="wz-t" style="margin:0;font-size:15px;line-height:1.55;color:#1f2333;white-space:pre-wrap;">' + esc(lead.message) + '</p></div>' : '')
@@ -76,7 +76,7 @@ async function alertLead(client: any, lead: any) {
     + '</td></tr></table></td></tr></table></body></html>';
   await fetch('https://api.resend.com/emails', {
     method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + RESEND_API_KEY },
-    body: JSON.stringify({ from: FROM, to, reply_to: lead.email || undefined, subject: 'New enquiry: ' + who + (lead.phone ? ' (' + lead.phone + ')' : ''), html }),
+    body: JSON.stringify({ from: FROM, to, reply_to: lead.email || undefined, subject: 'New inquiry: ' + who + (lead.phone ? ' (' + lead.phone + ')' : ''), html }),
   }).catch(() => {});
 }
 

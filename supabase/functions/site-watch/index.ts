@@ -147,7 +147,10 @@ Deno.serve(async (req) => {
             .in('kind', ['proactive', 'auto_edit']).gte('fixed_at', since).limit(1);
           if (recent && recent.length) {
             try {
-              const res = await fetchTimed(BOT_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'revert', email: c.email }) }, 20000);
+              // The rollback needs the secret too, and this is the call that matters most: it is the
+              // watchdog undoing an auto-change that took a client's site down. Without the header the
+              // worker returns Unauthorized and the site stays broken.
+              const res = await fetchTimed(BOT_URL, { method: 'POST', headers: { 'Content-Type': 'application/json', 'x-webeaze-secret': BOT_SECRET }, body: JSON.stringify({ action: 'revert', site_url: c.site_url || '', email: c.email }) }, 20000);
               const rb = await res.json().catch(() => ({} as any));
               if (rb && rb.reverted) {
                 await service.from('site_issues').insert({
