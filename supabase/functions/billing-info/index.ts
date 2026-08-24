@@ -54,6 +54,25 @@ async function stripePost(path: string, body: Record<string, string | number>): 
   return d;
 }
 
+// A subscription's coupons applied to its list price. price.unit_amount is what the PLAN costs, not
+// what this client pays: a discounted client keeps the standard price object and carries a coupon
+// beside it, so reading unit_amount alone quotes the full price back to someone paying less.
+function applyDiscounts(cents, sub) {
+  const nowSec = Math.floor(Date.now() / 1000);
+  // An ENDED discount must not be applied: a repeating coupon keeps its discount object with an
+  // `end` in the past, and quoting that price to a client back on full rate under-reports what
+  // they pay.
+  const live = (d) => !d || typeof d.end !== 'number' || d.end > nowSec;
+  const list = [];
+  if (sub && sub.discount && live(sub.discount)) list.push(sub.discount);
+  if (sub && Array.isArray(sub.discounts)) for (const d of sub.discounts) if (d && typeof d === 'object' && live(d)) list.push(d);
+  if (!list.length) return cents;
+  let out = cents;
+  const coupons = list.map((d) => (d && d.coupon) || d).filter(Boolean);
+  for (const c of coupons) if (typeof c.percent_off === 'number' && c.percent_off > 0) out -= out * (c.percent_off / 100);
+  for (const c of coupons) if (typeof c.amount_off === 'number' && c.amount_off > 0) out -= c.amount_off;
+  return Math.max(0, Math.round(out));
+}
 const FAILING = new Set(['past_due', 'unpaid', 'incomplete']);
 const money = (cents: number | null | undefined, cur: string) =>
   cents == null ? null : new Intl.NumberFormat('en-US', { style: 'currency', currency: (cur || 'usd').toUpperCase() }).format(cents / 100);
@@ -264,7 +283,7 @@ Deno.serve(async (req) => {
 
     // ── Summary: what they are on, and what they have been charged ──
     const [subs, invs] = await Promise.all([
-      stripeGet('subscriptions?customer=' + encodeURIComponent(cust) + '&status=all&limit=20'),
+      stripeGet('subscriptions?customer=' + encodeURIComponent(cust) + '&status=all&limit=20&expand[]=data.discounts'),
       // Grouped by year in the portal, so pull a few years rather than the last twelve.
       stripeGet('invoices?customer=' + encodeURIComponent(cust) + '&limit=36'),
     ]);
@@ -272,7 +291,9 @@ Deno.serve(async (req) => {
     const live = list.find((s: any) => s.status === 'active' || s.status === 'trialing') || null;
     const item = live && live.items && live.items.data && live.items.data[0];
     const interval = (item && item.price && item.price.recurring && item.price.recurring.interval) || null;
-    const cents = live ? ((live.items.data || []).reduce((t: number, it: any) => t + (((it.price && it.price.unit_amount) || 0) * (it.quantity || 1)), 0)) : null;
+    const listCents = live ? ((live.items.data || []).reduce((t: number, it: any) => t + (((it.price && it.price.unit_amount) || 0) * (it.quantity || 1)), 0)) : null;
+    // What they actually pay, after any coupon.
+    const cents = (listCents != null && live) ? applyDiscounts(listCents, live) : listCents;
     const cpe = live ? (live.current_period_end || (item && item.current_period_end) || null) : null;
 
     const invoices = (invs.data || [])
