@@ -49,14 +49,17 @@ async function alertLead(client: any, lead: any) {
     lead.email ? btn('mailto:' + lead.email + '?subject=' + encodeURIComponent('Re: your inquiry'), 'Reply by email', '#4b5563') : '',
   ].join('');
   const row = (k: string, v: string) => v
-    ? '<tr><td style="padding:5px 14px 5px 0;color:#6b7094;font-size:14px;white-space:nowrap;">' + k + '</td>'
-      + '<td style="padding:5px 0;color:#1f2333;font-size:15px;font-weight:600;">' + v + '</td></tr>' : '';
+    ? '<tr><td class="wz-row" style="padding:9px 0;border-bottom:1px solid #eef0f6;">'
+      + '<div class="wz-m" style="font-size:12px;line-height:1.45;color:#6b7094;margin:0 0 3px;">' + esc(k) + '</div>'
+      + '<div class="wz-t" style="font-size:15px;line-height:1.5;font-weight:600;color:#1f2333;'
+      + 'word-break:break-word;overflow-wrap:anywhere;">' + esc(v) + '</div>'
+      + '</td></tr>' : '';
   const html = '<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">'
     + '<meta name="viewport" content="width=device-width,initial-scale=1">'
     + '<meta name="color-scheme" content="light dark"><meta name="supported-color-schemes" content="light dark">'
     + '<style>:root{color-scheme:light dark}@media (prefers-color-scheme:dark){'
     + '.wz-page{background:#0f1116!important}.wz-card{background:#1a1d25!important;border-color:#2b2f3d!important}'
-    + '.wz-t,.wz-t *{color:#e9eaf2!important}.wz-m,.wz-m *{color:#a7adc6!important}.wz-box{background:#22262f!important}}</style>'
+    + '.wz-t,.wz-t *{color:#e9eaf2!important}.wz-m,.wz-m *{color:#a7adc6!important}.wz-box{background:#22262f!important}.wz-row{border-color:#2b2f3d!important}.wz-warn,.wz-warn *{color:#fbbf24!important}}</style>'
     + '</head><body class="wz-page" style="margin:0;background:#f4f5fa;">'
     + '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" class="wz-page" style="background:#f4f5fa;">'
     + '<tr><td align="center" style="padding:24px 12px;">'
@@ -66,9 +69,9 @@ async function alertLead(client: any, lead: any) {
     + '<h1 class="wz-t" style="margin:0 0 14px;font-size:21px;color:#1f2333;">' + esc(who) + ' wants to hear from you</h1>'
     + (lead.message ? '<div class="wz-box" style="background:#f8f9fc;border-radius:10px;padding:14px 16px;margin:0 0 16px;">'
         + '<p class="wz-t" style="margin:0;font-size:15px;line-height:1.55;color:#1f2333;white-space:pre-wrap;">' + esc(lead.message) + '</p></div>' : '')
-    + '<table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 18px;">'
-    + row('Phone', esc(lead.phone)) + row('Email', esc(lead.email))
-    + row('Page', esc(lead.page)) + row('Context', esc(ctx)) + '</table>'
+    + '<table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="margin:0 0 18px;width:100%;">'
+    + row('Phone', lead.phone || '') + row('Email', lead.email || '')
+    + row('Page', lead.page || '') + row('Context', ctx) + '</table>'
     + actions
     + '<p class="wz-m" style="margin:16px 0 0;font-size:13px;line-height:1.6;color:#6b7094;">'
     + 'Replying quickly is the single biggest thing that wins this job. Everything is also in your '

@@ -26,6 +26,32 @@ const json = (b: unknown, s = 200) => new Response(JSON.stringify(b), { status: 
 const esc = (s: unknown) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]!));
 
 const TYPE_LABEL: Record<string, string> = { form: 'form submission', call: 'phone call', email: 'email click', contact: 'quote or booking request' };
+
+// What the leads with NO contact details actually were, in plain words.
+//
+// A tap on your phone number or your email link is a real lead, but it leaves us nothing to show:
+// no name, no message, nothing to open in the portal. The digest used to lump these into a vague
+// "N more waiting in your portal", which sent people looking for something that was not there.
+// Better to say what happened and where the details live: their phone or their inbox.
+const ANON_PHRASE: Record<string, (n: number) => string> = {
+  call: (n) => n === 1 ? 'Someone tapped your phone number' : n + ' people tapped your phone number',
+  email: (n) => n === 1 ? 'Someone clicked your email link' : n + ' people clicked your email link',
+};
+function anonSummary(leads: any[]): string {
+  const anon = leads.filter((l: any) => !(l.name || l.email || l.phone || l.message));
+  if (!anon.length) return '';
+  const byType: Record<string, number> = {};
+  anon.forEach((l: any) => { byType[l.type] = (byType[l.type] || 0) + 1; });
+  const parts = Object.keys(byType).map((t) => {
+    const n = byType[t];
+    const phrase = ANON_PHRASE[t];
+    return phrase ? phrase(n) : (n === 1 ? 'Someone got in touch' : n + ' people got in touch');
+  });
+  const tail = parts.some((x) => /phone/.test(x))
+    ? ', so look for them in your call log rather than the portal.'
+    : ', so there is no message to read.';
+  return parts.join(' and ') + tail;
+}
 const plural = (n: number, w: string) => n + ' ' + w + (n === 1 ? '' : 's');
 
 async function sendEmail(payload: Record<string, unknown>) {
@@ -114,15 +140,27 @@ Deno.serve(async (req) => {
       // Summary line: count by type.
       const counts: Record<string, number> = {};
       leads.forEach((l: any) => { counts[l.type] = (counts[l.type] || 0) + 1; });
-      const breakdown = Object.keys(counts).map((t) => plural(counts[t], TYPE_LABEL[t] || t)).join(', ');
-      const headline = n === 1 ? 'You got 1 new lead today.' : 'You got ' + n + ' new leads today.';
+      // One sentence, not three. The subject already says "Your website got 1 lead today", the
+      // headline said "You got 1 new lead today.", and then a bare fragment said "1 quote or booking
+      // request." Three lines to convey one fact, the first two nearly identical.
+      const parts = Object.keys(counts).map((t) => plural(counts[t], TYPE_LABEL[t] || t));
+      const breakdown = parts.length > 1
+        ? parts.slice(0, -1).join(', ') + ' and ' + parts[parts.length - 1]
+        : (parts[0] || '');
+      // "1 phone call" reads badly mid sentence; "a phone call" reads like a person wrote it.
+      const one = breakdown.replace(/^1 /, /^[aeiou]/i.test(breakdown.slice(2)) ? 'an ' : 'a ');
+      const headline = n === 1
+        ? ('You got a new lead today' + (one ? ': ' + one : '') + '.')
+        : ('You got ' + n + ' new leads today' + (breakdown ? ': ' + breakdown : '') + '.');
 
       // Growth/Elite: one card per lead with contact details, a ready-to-send AI-drafted reply, and a
       // one-tap Call / Reply now (pre-filled with the draft) so they can act straight from the email.
       let detailBlock = '';
+      let contactable = 0;   // leads with a name, number, email or message: someone you can act on
       if (adv) {
         const withDetails = leads.filter((l: any) => l.name || l.email || l.phone || l.message);
         const shown = withDetails.slice(0, 20);
+        contactable = shown.length;
         // Pre-draft a reply for the most recent few leads worth replying to (capped to bound cost/time).
         const toDraft = shown.filter((l: any) => l.message || l.email).slice(0, 5);
         const drafts = new Map<any, string>();
@@ -147,18 +185,33 @@ Deno.serve(async (req) => {
           }
           return '<div style="background:#f7f6fb;border:1px solid #ece9f4;border-radius:10px;padding:12px 14px;margin:0 0 10px;"><table style="border-collapse:collapse;"><tbody>' + rows.join('') + '</tbody></table>' + draftBlock + '<div>' + ctas.join('') + '</div></div>';
         }).join('');
-        const moreN = n - shown.length;
-        const moreLine = moreN > 0 ? '<p style="font-size:13px;color:#6b7280;margin:2px 0 0;">And ' + moreN + ' more waiting in your portal.</p>' : '';
-        detailBlock = cards + moreLine;
+        // Leads BEYOND the 20 we showed. It used to be n - shown.length, where n is every lead and
+        // shown is only the ones with contact details, so a single anonymous lead produced no card and
+        // was then announced as "1 more waiting in your portal": the same lead, counted twice, in an
+        // email whose whole job is to tell you how many you got.
+        const moreN = withDetails.length - shown.length;
+        const moreLine = moreN > 0 ? '<p style="font-size:13px;color:#6b7280;margin:2px 0 0;">And ' + moreN + ' more in your portal.</p>' : '';
+        // Leads with nothing to show: someone tapped the phone number or the email link. There is no
+        // card to render and nothing waiting for them in the portal either, so say what happened
+        // instead of implying there is more to read.
+        const anonN = n - withDetails.length;
+        const anonLine = anonN > 0
+          ? '<p style="font-size:14px;color:#6b7280;margin:' + (cards ? '10px' : '0') + ' 0 0;">' + anonSummary(leads) + '</p>'
+          : '';
+        detailBlock = cards + moreLine + anonLine;
       }
 
       const inner = '<p style="margin:0 0 12px;">Hi ' + esc(first) + ',</p>'
         + '<p style="margin:0 0 6px;"><strong style="font-size:17px;">' + headline + '</strong></p>'
-        + (breakdown ? '<p style="margin:0 0 16px;color:#6b7280;font-size:14px;">' + esc(breakdown) + '.</p>' : '')
         + detailBlock
-        + (adv
+        // Only push follow-up when there is someone to follow up WITH. Telling a client to move fast
+        // on a lead that left no name and no number is advice they cannot act on, and it sends them
+        // into the portal looking for contact details that were never captured.
+        + (contactable > 0
             ? '<p style="margin:14px 0 16px;">The faster you follow up, the more likely you are to win the job.</p>'
-            : '<p style="margin:6px 0 16px;">Open your portal to see them and follow up.</p>')
+            : adv
+              ? '<p style="margin:14px 0 16px;">Nothing to reply to on this one, but it is a sign your site is doing its job.</p>'
+              : '<p style="margin:6px 0 16px;">Open your portal to see them and follow up.</p>')
         + '<p style="margin:0 0 18px;"><a href="' + PORTAL_URL + '" style="display:inline-block;background:#7851a9;color:#fff;text-decoration:none;font-weight:600;padding:11px 22px;border-radius:9px;">Open your portal</a></p>';
 
       const subject = n === 1 ? 'Your website got 1 lead today' : 'Your website got ' + n + ' leads today';

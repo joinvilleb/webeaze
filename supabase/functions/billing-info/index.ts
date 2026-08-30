@@ -73,6 +73,32 @@ function applyDiscounts(cents, sub) {
   for (const c of coupons) if (typeof c.amount_off === 'number' && c.amount_off > 0) out -= c.amount_off;
   return Math.max(0, Math.round(out));
 }
+// What Stripe will actually bill this subscription next period, in cents, or null if it cannot say.
+// Mirrors upcomingRecurringCents in payment-status/index.ts: if you change one, change both. They
+// disagreeing is what put "$89.00/month" in the Manage plan panel while the client's own card said
+// $129, because one asked Stripe and the other did the arithmetic itself.
+//
+// Proration is the trap: a mid-cycle change adds one-off lines whose total is not the recurring price.
+async function upcomingRecurringCents(cust: string, subId: string): Promise<number | null> {
+  try {
+    const inv = await stripeGet('invoices/upcoming?customer=' + encodeURIComponent(cust) + '&subscription=' + encodeURIComponent(subId));
+    const lines = (inv && inv.lines && inv.lines.data) || [];
+    if (!lines.length) return typeof inv.total === 'number' ? inv.total : null;
+    const recurring = lines.filter((l: any) => l && l.proration !== true);
+    if (!recurring.length) return null;
+    let cents = 0;
+    for (const l of recurring) {
+      const gross = typeof l.amount === 'number' ? l.amount : 0;
+      const off = Array.isArray(l.discount_amounts)
+        ? l.discount_amounts.reduce((t: number, d: any) => t + ((d && d.amount) || 0), 0) : 0;
+      cents += gross - off;
+    }
+    return cents > 0 ? cents : null;
+  } catch (e) {
+    console.warn('[billing-info] no upcoming invoice for ' + subId + ': ' + String(e).slice(0, 120));
+    return null;
+  }
+}
 const FAILING = new Set(['past_due', 'unpaid', 'incomplete']);
 const money = (cents: number | null | undefined, cur: string) =>
   cents == null ? null : new Intl.NumberFormat('en-US', { style: 'currency', currency: (cur || 'usd').toUpperCase() }).format(cents / 100);
@@ -293,7 +319,14 @@ Deno.serve(async (req) => {
     const interval = (item && item.price && item.price.recurring && item.price.recurring.interval) || null;
     const listCents = live ? ((live.items.data || []).reduce((t: number, it: any) => t + (((it.price && it.price.unit_amount) || 0) * (it.quantity || 1)), 0)) : null;
     // What they actually pay, after any coupon.
-    const cents = (listCents != null && live) ? applyDiscounts(listCents, live) : listCents;
+    // Ask Stripe what it will bill. The items-and-coupons sum below is only a fallback for a
+    // subscription with no upcoming invoice, because a figure derived from a price object is a guess
+    // about billing and the invoice is the billing.
+    let cents = (listCents != null && live) ? applyDiscounts(listCents, live) : listCents;
+    if (live) {
+      const billed = await upcomingRecurringCents(cust, live.id);
+      if (billed != null) cents = billed;
+    }
     const cpe = live ? (live.current_period_end || (item && item.current_period_end) || null) : null;
 
     const invoices = (invs.data || [])

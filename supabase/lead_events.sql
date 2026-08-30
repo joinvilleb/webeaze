@@ -36,6 +36,7 @@ alter table public.lead_events add column if not exists amount       numeric;
 alter table public.lead_events add column if not exists order_ref    text;
 alter table public.lead_events add column if not exists contacted_at timestamptz;   -- follow-up: marked contacted
 alter table public.lead_events add column if not exists outcome      text;           -- follow-up outcome: 'won' | 'lost' | null
+alter table public.lead_events add column if not exists attachments  jsonb;          -- files sent with a form submission: [{name, path}] in the form-uploads bucket
 alter table public.lead_events drop constraint if exists lead_events_outcome_check;
 alter table public.lead_events add constraint lead_events_outcome_check
   check (outcome is null or outcome in ('won', 'lost'));
