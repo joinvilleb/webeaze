@@ -107,6 +107,7 @@ begin
       ('update_requests',     'user_id',          'rw'),
       ('request_attachments', 'user_id',          'rw'),
       ('portal_state',        'user_id',          'rw'),
+      ('email_prefs',         'user_id',          'rw'),
       ('portal_tour',         'user_id',          'rw'),
       ('site_blocks',         'user_id',          'rw'),
       ('site_issues',         'user_id',          'rw'),

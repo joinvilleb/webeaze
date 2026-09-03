@@ -527,7 +527,34 @@ async function pullSearch(siteUrl: string) {
     }
   } catch (e) { console.error('[growth] GSC series failed:', e); }
 
-  // 3) Top search terms people used to find them (for "what was searched").
+  // 3) A month-by-month rollup of the last 12 months, for the year-in-review section.
+  //
+  // Deliberately SEPARATE from the 60-day series above rather than widening it. The report's trend
+  // chart is built for ~60 daily points; handing it 365 would squash it into noise and bloat the
+  // metrics jsonb for a chart nobody asked to change. Twelve monthly totals is the whole year in
+  // twelve rows, which is what a recap needs and all it needs. Search Console keeps 16 months, so
+  // this is real history rather than something we have to start collecting now and show next year.
+  try {
+    const yStart = fmt(new Date(Date.now() - 365 * 24 * 3600 * 1000));
+    const res = await query(found.prop, { startDate: yStart, endDate, dimensions: ['date'], rowLimit: 400 });
+    if (res.ok) {
+      const d = await res.json();
+      const by: Record<string, { impressions: number; clicks: number }> = {};
+      for (const x of (d.rows || [])) {
+        const month = String(x.keys[0]).slice(0, 7);   // YYYY-MM
+        const m = by[month] || (by[month] = { impressions: 0, clicks: 0 });
+        m.impressions += x.impressions || 0;
+        m.clicks += x.clicks || 0;
+      }
+      out.monthly = Object.keys(by).sort().map((month) => ({
+        month, impressions: Math.round(by[month].impressions), clicks: Math.round(by[month].clicks),
+      }));
+    } else {
+      console.warn('[growth] GSC monthly ' + res.status + ' (' + found.prop + ')');
+    }
+  } catch (e) { console.error('[growth] GSC monthly failed:', e); }
+
+  // 4) Top search terms people used to find them (for "what was searched").
   try {
     const res = await query(found.prop, { startDate, endDate, dimensions: ['query'], rowLimit: 8 });
     if (res.ok) {

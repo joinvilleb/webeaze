@@ -4,7 +4,8 @@
 // already recorded live by track-lead and shows in the client's portal; this is the one email that says
 // "here is who reached out today, follow up now." Growth/Elite clients get each lead's contact details
 // and a one-tap call/reply; other plans get the count and a nudge to open their portal. A client with
-// no leads that day gets no email.
+// no leads that day gets no email, and neither does one who switched the daily summary off on the
+// Leads page of their portal (public.email_prefs.lead_digest, see supabase/email_prefs.sql).
 //
 // Deploy:  supabase functions deploy lead-digest --no-verify-jwt
 // Secrets: CRON_SECRET, RESEND_API_KEY  (+ the platform SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY)
@@ -110,19 +111,26 @@ Deno.serve(async (req) => {
   let leadsR = await service.from('lead_events').select('user_id, type, page, name, email, phone, message, created_at').gte('created_at', since).order('created_at', { ascending: false });
   if (leadsR.error) leadsR = await service.from('lead_events').select('user_id, type, page, created_at').gte('created_at', since).order('created_at', { ascending: false });
   const clientsR = await clientsP;
+  // Clients who switched the daily digest off in their portal (Leads -> "Email me a daily summary").
+  // No row means opted in, so nothing needs backfilling; a missing table means nobody has opted out yet.
+  const optedOut = new Set<string>();
+  {
+    const { data: prefs } = await service.from('email_prefs').select('user_id, lead_digest').eq('lead_digest', false);
+    (prefs || []).forEach((p: any) => { if (p.user_id) optedOut.add(p.user_id); });
+  }
 
   const clientBy: Record<string, any> = {};
   (clientsR.data || []).forEach((c: any) => { if (c.user_id) clientBy[c.user_id] = c; });
 
-  // Group the window's leads by client (skip any whose client is inactive or unknown).
+  // Group the window's leads by client (skip any whose client is inactive, unknown, or opted out).
   const byClient: Record<string, any[]> = {};
   (leadsR.data || []).forEach((l: any) => {
-    if (!l.user_id || !clientBy[l.user_id]) return;
+    if (!l.user_id || !clientBy[l.user_id] || optedOut.has(l.user_id)) return;
     (byClient[l.user_id] || (byClient[l.user_id] = [])).push(l);
   });
 
   const targets = Object.keys(byClient);
-  if (!targets.length) return json({ ok: true, clients: 0, note: 'no leads in window' });
+  if (!targets.length) return json({ ok: true, clients: 0, optedOut: optedOut.size, note: 'no leads in window' });
 
   let sent = 0;
   // Send in small concurrent batches so a growing client base never times out or trips Resend limits.
@@ -222,7 +230,7 @@ Deno.serve(async (req) => {
         subject,
         html: '<div style="font-family:Arial,Helvetica,sans-serif;font-size:15px;color:#1e222b;line-height:1.6;max-width:520px;">'
           + inner
-          + '<p style="color:#6b7280;font-size:12.5px;border-top:1px solid #eee;padding-top:12px;margin-top:8px;">This is your daily lead summary from WebEaze. Every lead is also in <a href="' + PORTAL_URL + '" style="color:#7851a9;text-decoration:underline;">your portal</a> in real time. Reply to this email to change how often you hear from us.</p>'
+          + '<p style="color:#6b7280;font-size:12.5px;border-top:1px solid #eee;padding-top:12px;margin-top:8px;">This is your daily lead summary from WebEaze. Every lead is also in <a href="' + PORTAL_URL + '" style="color:#7851a9;text-decoration:underline;">your portal</a> in real time. To stop these daily emails, open <a href="' + PORTAL_URL + '/#leads" style="color:#7851a9;text-decoration:underline;">Leads in your portal</a> and switch off the daily summary.</p>'
           + '<p style="color:#6b7280;font-size:12.5px;">The WebEaze team</p>'
           + '</div>',
       });
@@ -230,5 +238,5 @@ Deno.serve(async (req) => {
     }));
   }
 
-  return json({ ok: true, clients: targets.length, sent });
+  return json({ ok: true, clients: targets.length, sent, optedOut: optedOut.size });
 });

@@ -3,6 +3,7 @@
 -- The `prospect-scan` function's 'scan-targets' mode reads this, scans the oldest-scanned
 -- ones each run, and rotates through the whole list over a few days. Add/remove rows anytime.
 -- Admin-only; run once in the Supabase SQL editor.
+-- Miami / South Florida targets live in supabase/prospect_targets_miami.sql (run that too).
 
 create table if not exists public.prospect_targets (
   id              uuid primary key default gen_random_uuid(),

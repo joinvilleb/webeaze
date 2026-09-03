@@ -284,6 +284,16 @@ Deno.serve(async (req) => {
           proration_behavior: 'always_invoice',
           payment_behavior: 'error_if_incomplete',   // a declined card fails loudly instead of leaving a broken sub
         });
+        // Record it here, on the one request that knows the change happened. Without this the portal
+        // reloaded onto the OLD row, rendered the old plan, and only corrected itself when
+        // payment-status came back and forced a SECOND reload: a visible flash of the plan they had
+        // just moved off. Best-effort, because Stripe has already been changed and a failed cache
+        // write must not report the change as failed; payment-status still repairs it on next load.
+        await service.from('clients').update({
+          plan: target.plan,
+          plan_amount: Math.round((target.amountCents || 0) / 100),
+          billing_period: target.interval === 'yearly' ? 'yearly' : 'monthly',
+        }).eq('user_id', targetUserId).then(() => {}, () => {});
         return json({ ok: true, applied: 'now', to: target.plan, interval: target.interval });
       }
       // Less plan: they have already paid for this period, so it takes effect when that period ends

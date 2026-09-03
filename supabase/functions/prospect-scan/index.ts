@@ -90,6 +90,10 @@ async function pullSpeedScore(url: string): Promise<number | null> {
 // site, so the pitch can't land). Not exhaustive; the review-count check below catches the rest.
 const FRANCHISE_RE = /\b(one hour|mr\.?\s?rooter|roto[-\s]?rooter|mr\.?\s?handyman|molly maid|merry maids|servpro|stanley steemer|chem[-\s]?dry|aire serv|benjamin franklin|mister sparky|jiffy lube|midas|meineke|great clips|supercuts|sport clips|planet fitness|anytime fitness|orange\s?theory|crunch fitness|f45|snap fitness|european wax|the joint|jan[-\s]?pro|two men and a truck|starbucks|dunkin|crumbl|nothing bundt|jersey mike|subway|petco|petsmart|scenthound|woof gang)\b/i;
 
+// Same idea for the South Florida niches (pools, AC, cleaning, movers, boutique fitness, med spas):
+// these are all franchised or corporate-owned, so the local manager can't buy a site from us.
+const FRANCHISE_RE_2 = /\b(la fitness|eos fitness|youfit|blink fitness|esporta|gold['’]?s gym|world gym|24 hour fitness|life ?time athletic|ufc gym|title boxing|9\s?round|club pilates|pure barre|stretchlab|cyclebar|row house|burn boot camp|massage envy|hand ?& ?stone|drybar|amazing lash|sola salon|palm beach tan|elements massage|woodhouse|trugreen|weed man|lawn doctor|mosquito joe|the grounds guys|u\.?s\.? lawns|ars\b|rescue rooter|air pros|poolwerx|pool troopers|america['’]?s swimming pool|leslie['’]?s pool|the cleaning authority|maid brigade|maid right|you['’]?ve got maids|paul davis|restoration 1|rainbow international|911 restoration|college hunks|all my sons|u-?haul|pods\b|bekins|atlas van|mayflower|united van lines|valvoline|take 5 oil|ziebart|tint world|christian brothers|aamco|maaco|mavis|monro|precision tune|caliber collision|window genie|fish window|men in kilts|shack shine|camp bow wow|dogtopia|pet supplies plus|splash and dash|panera|paris baguette|insomnia cookies|cinnabon|pollo tropical|chipotle|dutch bros|tim hortons|7 brew)\b/i;
+
 // The core heuristic: how much does this business need what we sell, AND can they actually buy it?
 // We want an INDEPENDENT small local business (landscaper, gym, bakery, salon...) with a bad or no
 // site. Chains and franchises are disqualified outright. Returns a 0-100 score + plain reasons.
@@ -98,7 +102,7 @@ function scoreProspect(f: { name?: string | null; website: string | null; review
 
   // Fit gate: a national-brand name, or a huge review count (a big multi-location operation with a
   // marketing dept), means they can't or won't buy from us. Disqualify so they sink below everyone.
-  const isFranchise = f.name ? FRANCHISE_RE.test(f.name) : false;
+  const isFranchise = f.name ? (FRANCHISE_RE.test(f.name) || FRANCHISE_RE_2.test(f.name)) : false;
   const tooBig = f.review_count != null && f.review_count >= 600;
   if (isFranchise || tooBig) {
     return { score: 0, reasons: [isFranchise ? 'National franchise (skip)' : 'Too big, likely a chain (skip)'] };
