@@ -15,7 +15,7 @@
 --   drop trigger if exists trg_request_autodraft on public.update_requests;
 --
 -- Requires: CRON_SECRET set on the request-draft function (same value the other cron functions use),
---           and the pg_net extension (the portal already uses it for notify-request).
+--           and the pg_net extension (the portal already uses it elsewhere).
 -- Run this once in the Supabase SQL editor. Safe to run repeatedly.
 
 -- Put your real values here before running. The secret is the function's CRON_SECRET, not BOT_SECRET.

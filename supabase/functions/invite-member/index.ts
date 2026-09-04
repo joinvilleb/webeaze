@@ -9,14 +9,21 @@
 //   { action: 'invite', clientId, email }          -> { ok, invited, alreadyExisted, member }
 //   { action: 'remove', memberId }                 -> { ok, removed }
 //
+// Secrets: RESEND_API_KEY (the invite email goes through Resend, not Supabase's rate-limited SMTP)
+//
 // Deploy:  supabase functions deploy invite-member
 // (Keep JWT verification ON, the default; callers are the logged-in admin, and we check the email.)
 
 import { createClient } from 'jsr:@supabase/supabase-js@2';
 
+// supabase-js functions.invoke() sends apikey and x-client-info alongside authorization, so the
+// browser's preflight asks permission for all four. Allowing only two meant the preflight failed and
+// the request never left the browser: "Failed to send a request to the Edge Function", which reads
+// like the function is missing when it is deployed and fine. Every other browser-called function in
+// this project already lists all four; this one did not.
 const cors = {
   'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, content-type',
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
   'Access-Control-Allow-Methods': 'POST, OPTIONS',
 };
 const json = (b: unknown, status = 200) =>
@@ -24,6 +31,36 @@ const json = (b: unknown, status = 200) =>
 
 const ADMIN = 'billy@webeaze.io';
 const PORTAL_URL = 'https://portal.webeaze.io';
+const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY') ?? '';
+const FROM = 'WebEaze <support@webeaze.io>';
+
+// Send the invite ourselves rather than leaning on Supabase's built-in mailer.
+//
+// inviteUserByEmail() both creates the account AND sends the email, using the project's auth SMTP.
+// On a project without custom SMTP that is Supabase's shared sender, which is rate limited to a
+// couple of messages an hour and silently drops the rest, so invites "worked" (the account and the
+// membership were created) while the person never heard a thing. generateLink() gives us the same
+// action link without sending anything, and Resend, which every other client email already goes
+// through, actually delivers it.
+async function sendInviteEmail(to: string, link: string, businessName: string, existing: boolean) {
+  if (!RESEND_API_KEY) throw new Error('RESEND_API_KEY is not set on invite-member, so the invite email cannot be sent.');
+  const esc = (t: string) => String(t ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]!));
+  const biz = esc(businessName || 'your business');
+  const html = '<div style="font-family:Helvetica,Arial,sans-serif;font-size:15px;color:#1e222b;line-height:1.65;max-width:520px;">'
+    + '<p style="margin:0 0 12px;">Hi,</p>'
+    + '<p style="margin:0 0 14px;">You have been given access to the WebEaze portal for <strong>' + biz + '</strong>. '
+    + (existing ? 'You already have an account, so this link signs you straight in.' : 'Use the link below to set a password and sign in.') + '</p>'
+    + '<p style="margin:0 0 18px;"><a href="' + link + '" style="display:inline-block;background:#7851a9;color:#fff;text-decoration:none;font-weight:700;padding:12px 24px;border-radius:10px;">'
+    + (existing ? 'Sign in to the portal' : 'Set your password') + '</a></p>'
+    + '<p style="margin:0 0 14px;color:#6b7280;font-size:13px;">The link expires in 24 hours. If it has, ask for a new invite.</p>'
+    + '<p style="margin:0;color:#6b7280;font-size:13px;">The WebEaze team</p></div>';
+  const res = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + RESEND_API_KEY },
+    body: JSON.stringify({ from: FROM, to: [to], subject: 'Your WebEaze portal access', html }),
+  });
+  if (!res.ok) throw new Error('Resend ' + res.status + ': ' + (await res.text()).slice(0, 160));
+}
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const MEMBER_COLS = 'id, email, role, member_user_id, invited_at, accepted_at';
 
@@ -69,20 +106,25 @@ Deno.serve(async (req) => {
       if (!client) return json({ ok: false, error: 'Client not found.' });
       if (!client.user_id) return json({ ok: false, error: 'That client has no primary login yet. Set one up first.' });
 
-      // Find or create the teammate's auth account. inviteUserByEmail creates the user AND emails them
-      // a set-password link; if they already have an account it errors, so we look them up instead and
-      // send a magic sign-in link so they know they now have access.
+      // Find or create the teammate's auth account, and get a link WITHOUT Supabase mailing anything.
+      // 'invite' creates the user and returns the set-password link; it errors when the account
+      // already exists, in which case a magic link signs them straight in.
       let memberUserId: string | null = null;
       let alreadyExisted = false;
-      const inv = await service.auth.admin.inviteUserByEmail(email, { redirectTo: PORTAL_URL });
-      if (inv.data?.user) {
+      let actionLink: string | null = null;
+
+      const inv = await service.auth.admin.generateLink({ type: 'invite', email, options: { redirectTo: PORTAL_URL } });
+      if (inv.data?.user && inv.data?.properties?.action_link) {
         memberUserId = inv.data.user.id;
+        actionLink = inv.data.properties.action_link;
       } else {
         const existing = await findUserByEmail(service, email);
-        if (!existing) return json({ ok: false, error: inv.error?.message || 'Could not invite that email.' });
+        if (!existing) return json({ ok: false, error: inv.error?.message || 'Could not create an account for that email.' });
         memberUserId = existing.id;
         alreadyExisted = true;
-        await service.auth.admin.generateLink({ type: 'magiclink', email, options: { redirectTo: PORTAL_URL } }).catch(() => {});
+        const magic = await service.auth.admin.generateLink({ type: 'magiclink', email, options: { redirectTo: PORTAL_URL } });
+        actionLink = magic.data?.properties?.action_link ?? null;
+        if (!actionLink) return json({ ok: false, error: magic.error?.message || 'Could not create a sign-in link for that email.' });
       }
       if (memberUserId === client.user_id) return json({ ok: false, error: 'That email is already the primary login.' });
 
@@ -106,7 +148,15 @@ Deno.serve(async (req) => {
         if (error) return json({ ok: false, error: error.message });
         member = data;
       }
-      return json({ ok: true, invited: true, alreadyExisted, member });
+      // Membership is saved, so access already works. The email is what tells them, and a failure
+      // here is worth reporting rather than swallowing: an invite nobody receives is not an invite.
+      try {
+        await sendInviteEmail(email, actionLink!, client.name || '', alreadyExisted);
+      } catch (mailErr) {
+        return json({ ok: true, invited: true, alreadyExisted, member, emailed: false,
+          error: 'Access granted, but the email did not send: ' + String((mailErr as any)?.message || mailErr) });
+      }
+      return json({ ok: true, invited: true, alreadyExisted, emailed: true, member });
     }
 
     // ── Remove a teammate ─────────────────────────────────────────────────
