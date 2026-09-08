@@ -736,6 +736,33 @@ async function refreshClient(
     competitors: competitors ?? old.competitors ?? null,
     pages: pages ?? old.pages ?? null,
   };
+  // Which sources actually produced something, stored ALONGSIDE the numbers so BOTH call paths keep
+  // it: the monthly cron (which passes no diag) and the on-demand Refresh. The diag object above only
+  // ever fed a toast that vanished in four seconds. This has to sit below the merge with `old`,
+  // because old is what separates "never worked" from "failed today".
+  //   ok = pulled fresh now | stale = we are showing a previous pull | missing = configured but
+  //   nothing came back | unset = not configured for this client | blocked = OUR key is missing.
+  // Our own secrets are deliberately never folded into a per-client precondition. PLACES_KEY is a
+  // module constant read once at cold start, so if it is ever rotated or expires, every client at
+  // once would resolve to "unset", and any copy keyed off that would tell all of them their listing
+  // is not linked. That is our outage, and it must never read as their fault.
+  const sp2: any = metrics.speed, rv2: any = metrics.reviews, se2: any = metrics.search;
+  const cb2: any = metrics.competitors, pg2: any = metrics.pages;
+  const placeSet = !!String(c.google_place_id || '').trim();
+  const gscOn = !!(Deno.env.get('GSC_SERVICE_ACCOUNT') ?? '');   // read inline: not a module constant
+  const srcState = (fresh: boolean, stored: boolean, configured: boolean) =>
+    fresh ? 'ok' : stored ? 'stale' : configured ? 'missing' : 'unset';
+  (metrics as any).sources = {
+    site: url ? 'ok' : 'unset',
+    speed: srcState(!!(speed && (speed.mobile || speed.desktop)), !!(sp2 && (sp2.mobile || sp2.desktop)), !!url && !!PSI_KEY),
+    reviews: !PLACES_KEY ? 'blocked' : srcState(!!reviews, !!(rv2 && rv2.rating != null), placeSet),
+    // pullSearch collapses "no property matched", "we were removed" and "the API errored" into one
+    // null, and getGscAccessToken returning null does the same. There is no per-client GSC-connected
+    // flag, so this can never tell our fault from theirs. Do not write copy that assumes it can.
+    search: srcState(!!search, !!(se2 && (se2.impressions != null || se2.clicks != null)), !!url && gscOn),
+    competitors: !PLACES_KEY ? 'blocked' : srcState(!!competitors, !!(cb2 && cb2.self && Array.isArray(cb2.competitors) && cb2.competitors.length), placeSet),
+    pages: srcState(!!pages, !!(pg2 && pg2.count != null), !!url),
+  };
   // Review Radar: how many reviews are new since the last snapshot (0 on the first-ever pull).
   const rv: any = metrics.reviews;
   if (rv && rv.count != null) {
@@ -747,9 +774,12 @@ async function refreshClient(
   }
   // Keyword movement: compare each tracked query's position to the previous snapshot
   // (positive change = moved up, since a lower position number is better).
+  // Only when THIS run actually pulled search data. metrics.search falls back to old.search above,
+  // so on a failed pull newKw and oldKw are the same array: every query matches itself, every change
+  // computes to 0, and the whole list is rewritten to a grey "no change" it never earned.
   const newKw = (metrics.search as any)?.topQueries as any[] | undefined;
   const oldKw = (old.search?.topQueries as any[]) || [];
-  if (Array.isArray(newKw)) {
+  if (search && Array.isArray(newKw)) {
     const prevPos: Record<string, number> = {};
     for (const k of oldKw) { if (k && k.query != null && k.position != null) prevPos[k.query] = k.position; }
     for (const k of newKw) {

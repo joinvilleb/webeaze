@@ -4,8 +4,8 @@
 // already recorded live by track-lead and shows in the client's portal; this is the one email that says
 // "here is who reached out today, follow up now." Growth/Elite clients get each lead's contact details
 // and a one-tap call/reply; other plans get the count and a nudge to open their portal. A client with
-// no leads that day gets no email, and neither does one who switched the daily summary off on the
-// Leads page of their portal (public.email_prefs.lead_digest, see supabase/email_prefs.sql).
+// no leads that day gets no email. The email is OPT-IN: only clients who switched it on on the Leads
+// page of their portal get it (public.email_prefs.lead_digest = true; no row means no email).
 //
 // Deploy:  supabase functions deploy lead-digest --no-verify-jwt
 // Secrets: CRON_SECRET, RESEND_API_KEY  (+ the platform SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY)
@@ -111,26 +111,31 @@ Deno.serve(async (req) => {
   let leadsR = await service.from('lead_events').select('user_id, type, page, name, email, phone, message, created_at').gte('created_at', since).order('created_at', { ascending: false });
   if (leadsR.error) leadsR = await service.from('lead_events').select('user_id, type, page, created_at').gte('created_at', since).order('created_at', { ascending: false });
   const clientsR = await clientsP;
-  // Clients who switched the daily digest off in their portal (Leads -> "Email me a daily summary").
-  // No row means opted in, so nothing needs backfilling; a missing table means nobody has opted out yet.
-  const optedOut = new Set<string>();
+  // Clients who switched the daily digest ON in their portal (Leads -> "Email me a daily summary").
+  //
+  // This is opt-IN: no row means no email. It used to be the other way round, collecting the people
+  // who had opted out, which meant a client who had never heard of the feature was subscribed to it.
+  // A missing table therefore now means nobody is opted in and nothing sends, which is the safe
+  // direction to fail: silence is recoverable, mailing everyone who never asked is not.
+  const optedIn = new Set<string>();
   {
-    const { data: prefs } = await service.from('email_prefs').select('user_id, lead_digest').eq('lead_digest', false);
-    (prefs || []).forEach((p: any) => { if (p.user_id) optedOut.add(p.user_id); });
+    const { data: prefs } = await service.from('email_prefs').select('user_id, lead_digest').eq('lead_digest', true);
+    (prefs || []).forEach((p: any) => { if (p.user_id) optedIn.add(p.user_id); });
   }
+  if (!optedIn.size) return json({ ok: true, clients: 0, note: 'nobody is opted in to the daily digest' });
 
   const clientBy: Record<string, any> = {};
   (clientsR.data || []).forEach((c: any) => { if (c.user_id) clientBy[c.user_id] = c; });
 
-  // Group the window's leads by client (skip any whose client is inactive, unknown, or opted out).
+  // Group the window's leads by client (only active, known clients who asked for this email).
   const byClient: Record<string, any[]> = {};
   (leadsR.data || []).forEach((l: any) => {
-    if (!l.user_id || !clientBy[l.user_id] || optedOut.has(l.user_id)) return;
+    if (!l.user_id || !clientBy[l.user_id] || !optedIn.has(l.user_id)) return;
     (byClient[l.user_id] || (byClient[l.user_id] = [])).push(l);
   });
 
   const targets = Object.keys(byClient);
-  if (!targets.length) return json({ ok: true, clients: 0, optedOut: optedOut.size, note: 'no leads in window' });
+  if (!targets.length) return json({ ok: true, clients: 0, optedIn: optedIn.size, note: 'no leads in window' });
 
   let sent = 0;
   // Send in small concurrent batches so a growing client base never times out or trips Resend limits.
@@ -238,5 +243,5 @@ Deno.serve(async (req) => {
     }));
   }
 
-  return json({ ok: true, clients: targets.length, sent, optedOut: optedOut.size });
+  return json({ ok: true, clients: targets.length, sent, optedIn: optedIn.size });
 });

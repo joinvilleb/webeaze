@@ -206,7 +206,7 @@ Deno.serve(async (req) => {
 
     // Tasks that benefit from a real-world summary of the client. Built once, lazily, and injected
     // into the user message. photo_caption and the setup-copy tasks deliberately skip it.
-    const CONTEXT_TASKS = new Set(['lead_reply', 'faq', 'request', 'review_reply', 'resolution', 'explain_report', 'note_reply', 'request_ack', 'addon_help', 'social_posts', 'seasonal_banner', 'quote', 'support_channel']);
+    const CONTEXT_TASKS = new Set(['lead_reply', 'faq', 'request', 'review_reply', 'resolution', 'note_reply', 'request_ack', 'addon_help', 'social_posts', 'seasonal_banner', 'quote', 'support_channel']);
     let ctxBlock = '';
     if (CONTEXT_TASKS.has(task)) {
       const ctx = await buildClientContext(service, contextUserId);
@@ -322,10 +322,6 @@ Deno.serve(async (req) => {
     if (task === 'services') {
       system = "You are a copywriter for WebEaze, writing for a small trade business. Turn the owner's rough notes into a clean, scannable list of the services they offer, suitable for their website. Plain, confident, everyday language. NEVER use em dashes. Return ONLY the services, one per line, no numbering, no preamble, no closing remark.";
       userMsg = 'Business name: ' + biz + '\nRough notes from the owner:\n' + (input || '(nothing written yet, so infer a few sensible, editable example services from the business name)');
-    } else if (task === 'explain_report') {
-      // Client-side: a warm, plain-English read on how their site is doing and the one thing to focus on next.
-      system = "You are the WebEaze account team talking directly to a small trade business owner about how their website is doing right now. Warm, encouraging, plain-English, no jargon. Ground EVERYTHING only in the client context and metrics provided; never invent numbers or facts. If a number is missing, say it is still filling in rather than guessing. In 3 to 5 short sentences, tell them plainly how things are going and end with the SINGLE most useful thing to focus on next. NEVER use em dashes. Return ONLY the explanation, no preamble or headings.";
-      userMsg = ctxBlock + 'Write the plain-English explanation of how this website is doing and the one thing to focus on next, using only the context above.';
     } else if (task === 'note_reply') {
       // Admin-side (Billy): draft Billy's warm reply to a client's website note, aware of their history.
       system = "You are Billy from WebEaze, writing a warm, helpful reply to a note a client left on their website portal. Sound like a real, friendly person who knows their business, using the client context to make the reply specific and reassuring. Answer or acknowledge what they said and, where it helps, say what you'll do next. Do NOT invent facts beyond the context. Keep it to 2 to 4 sentences. NEVER use em dashes. Return ONLY the reply text, no greeting line, sign-off, or quotes.";
