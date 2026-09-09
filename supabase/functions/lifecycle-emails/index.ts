@@ -9,6 +9,9 @@
 //   4) Portal nudge  — 3-30 days after signup if auth shows they have NEVER signed in. Everything we
 //                      build for them lives behind that login, so a client who never opens it gets
 //                      no value from the plan. Needs supabase/portal_nudge.sql for the dedupe column.
+//   5) Needs-info     — 3 days after we asked a client a question and got nothing back. The request
+//                      is parked until they answer, and the original ask is quoted so they do not
+//                      have to go looking for what we wanted. Needs supabase/needs_info_followup.sql.
 //
 // Deploy:   supabase functions deploy lifecycle-emails --no-verify-jwt
 // Secrets:  CRON_SECRET, RESEND_API_KEY  (+ platform SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY)
@@ -64,6 +67,18 @@ function onboardingInner(c: any) {
     btn(PORTAL_URL + '/#setup', 'Finish your Site Setup') +
     '<p style="margin:0 0 16px;">If you have questions or need help getting started, reply to this email and we will help you out.</p>';
 }
+// The follow-up quotes the ORIGINAL question. A bare "we are still waiting on you" makes them open
+// the portal to find out what for, which is the friction that stalled the request in the first place.
+function needsInfoInner(c: any, r: any) {
+  return '<p style="margin:0 0 16px;">Hey ' + esc(firstName(c.name)) + ',</p>' +
+    '<p style="margin:0 0 14px;">We are still waiting to hear back on your ' +
+      esc(String(r.type || 'request').toLowerCase()) + ' request. It is paused until we do.</p>' +
+    '<p style="margin:0 0 8px;">This is what we asked:</p>' +
+    '<div style="background:#f7f7fa;border:1px solid #e4e7f1;border-left:3px solid #7851a9;border-radius:8px;padding:14px 16px;margin:0 0 18px;white-space:pre-wrap;">' +
+      esc(r.needs_info_message) + '</div>' +
+    btn(PORTAL_URL + '/#history/' + encodeURIComponent(String(r.id)), 'Answer in your portal') +
+    '<p style="margin:16px 0 0;">You can also just reply to this email and we will pick it up from there.</p>';
+}
 function portalInner(c: any) {
   return '<p style="margin:0 0 16px;">Hey ' + esc(firstName(c.name)) + ',</p>' +
     '<p style="margin:0 0 16px;">We set your client portal up when you joined, but it looks like you have not opened it yet. Everything we do for you lives in there.</p>' +
@@ -94,7 +109,7 @@ Deno.serve(async (req) => {
 
   const svc = createClient(Deno.env.get('SUPABASE_URL')!, Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!);
   const now = Date.now();
-  const sent = { winback: 0, onboarding: 0, review: 0, portal: 0 };
+  const sent = { winback: 0, onboarding: 0, review: 0, portal: 0, needsInfo: 0 };
 
   try {
     // 1) WIN-BACK: cancelled 20-30 days ago, still inactive, has an email, not yet sent.
@@ -166,6 +181,33 @@ Deno.serve(async (req) => {
         sent.portal++;
       }
     }
+
+    // ── 5) Needs info, still unanswered ──
+    // Three days, not two: a question asked on a Friday should not chase them on a Sunday, and a
+    // trade business is out on jobs. One reminder only, stamped so it never becomes a drip.
+    try {
+      const { data: parked, error: parkedErr } = await svc.from('update_requests')
+        .select('id, user_id, type, needs_info_message, needs_info_at, client_reply')
+        .eq('status', 'Needs info')
+        .not('needs_info_message', 'is', null)
+        .is('client_reply', null)
+        .is('needs_info_reminded_at', null)
+        .lte('needs_info_at', iso(now - 3 * DAY));
+      if (parkedErr) {
+        console.warn('[lifecycle] needs-info follow-up skipped:', parkedErr.message);   // columns not migrated yet
+      } else {
+        for (const r of parked ?? []) {
+          const { data: c } = await svc.from('clients')
+            .select('id, name, email, second_email, status').eq('user_id', r.user_id).maybeSingle();
+          if (!c || !c.email || c.status === 'inactive') continue;
+          const to = [c.email, c.second_email].filter(Boolean) as string[];
+          if (await sendEmail(to, 'Still waiting on you: ' + String(r.type || 'your request'), needsInfoInner(c, r))) {
+            await svc.from('update_requests').update({ needs_info_reminded_at: iso(now) }).eq('id', r.id);
+            sent.needsInfo++;
+          }
+        }
+      }
+    } catch (e) { console.error('[lifecycle] needs-info follow-up failed:', e); }
 
     console.log('[lifecycle] sent', JSON.stringify(sent));
     return json({ ok: true, sent });
