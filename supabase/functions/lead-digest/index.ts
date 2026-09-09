@@ -1,3 +1,81 @@
+const SPAM_SERVICE = /\b(seo|search engine optimi[sz]ation|digital marketing|online marketing|website (design|development|redesign)|web (design|development|developer)|app development|mobile app|social[- ]?media (marketing|management|automation)|email marketing|sms marketing|bulk (email|sms)|lead generation|lead gen|link ?building|backlinks?|guest post|ai chat ?bots?|crm|appointment setting|influencer marketing|content (creation|writing)|virtual assistants?|data entry|logo design|call[- ]?cent(er|re))\b/gi;
+const SPAM_OFFER = /\b(we (offer|provide|sell|specialis[sz]e|are an? [\w ]{0,40}(company|agency|team|firm|studio))|we can (help|fix|do|handle|redesign|rebuild|build|develop|rank|boost|grow|increase|double|generate)|we help|we work with|our (agency|company|team|platform|software|system|tool|service)s?)\b/i;
+// The nouns a trade customer actually types. One of these is near-proof of a real job.
+const SPAM_JOB_NOUN = /\b(carpet|rug|upholstery|sofa|couch|mattress|tile|grout|roof|gutter|shingle|siding|drain|pipe|leak|boiler|furnace|hvac|ac unit|air con|plumb|electric|wiring|outlet|lawn|garden|hedge|tree|fence|deck|patio|driveway|drywall|paint|floor|window|door|basement|attic|kitchen|bathroom|bedroom|garage|showroom|office|apartment|condo|house|home|property|stain|mould|mold|damp|flood|clean|repair|install|replace|quote|estimate|job|appointment|booking)\b/i;
+// A real enquiry is situated: a size, a date, a time, or a place.
+const SPAM_SITUATED = /(\b\d{2,5}\s?(sq\.? ?(ft|m)|square (feet|foot|metres|meters))|\b\d+\s?(bed|bath|room|storey|story|floor)s?\b|\b(today|tomorrow|tonight|this (week|weekend|morning|afternoon|month)|next (week|month)|mon|tues|wednes|thurs|fri|satur|sun)day\b|\b(asap|urgent|emergency|right away|as soon as)\b|\b\d{1,2}\s?(am|pm)\b)/i;
+const SPAM_FIRST_PERSON = /\b(my|our|i need|i want|i'?m looking|we need|we want|we just|we have|can you|do you|could you|would you)\b/i;
+// Deliberately NOT shorteners: what a phone produces when a customer shares an address, photos or
+// their WhatsApp. Treating these as spam would flag exactly the customers who are trying hardest.
+const SPAM_SHORTENER = /^(bit\.ly|bitly\.com|tinyurl\.com|t\.co|ow\.ly|is\.gd|buff\.ly|cutt\.ly|rebrand\.ly|rb\.gy|shorturl\.at|tiny\.cc|lnkd\.in|short\.io|s\.id|trib\.al|goo\.gl)$/i;
+const SPAM_VENDOR_ADDR = /(seo|smm|leadgen|lead-gen|growth-?agency|digital-?marketing|web-?dev|web-?design|web-?solutions|backlink|link-?building|outreach|coldmail|mailerpro|marketingpro|app-?dev|technologies)/i;
+
+function leadSpamCheck(l: any) {
+  const msg = String((l && l.message) || '');
+  const email = String((l && l.email) || '').toLowerCase();
+  const name = String((l && l.name) || '');
+  const low = msg.toLowerCase();
+  let score = 0; const why = [];
+  const add = (n, reason) => { score += n; if (n > 0) why.push(reason); };
+
+  SPAM_SERVICE.lastIndex = 0;
+  const services = [...new Set((msg.match(SPAM_SERVICE) || []).map(s => s.toLowerCase()))];
+  // A message with BOTH a selling verb and a marketing service in it is talking AT the business, not
+  // asking it for work. No genuine enquiry in testing had both, so this is the one place the
+  // suppressors are allowed to be overruled. Without it a pitch that says "book 30+ extra JOBS a
+  // month this WEEK" borrows the trade's own vocabulary and cancels its own score.
+  const pitching = SPAM_OFFER.test(msg) && services.length > 0;
+
+  // ── Suppressors. A real enquiry names a job, places it, or owns it. ──
+  let suppress = 0;
+  if (SPAM_JOB_NOUN.test(msg)) suppress -= 4;
+  if (SPAM_SITUATED.test(msg)) suppress -= 3;
+  if (SPAM_FIRST_PERSON.test(msg)) suppress -= 2;
+  add(pitching ? Math.max(suppress, -2) : suppress, '');
+
+  // ── Signals ──
+  if (pitching) add(4, 'pitches a service at you');
+  if (services.length >= 3) add(3, 'lists several services');
+
+  if (/\byour (web ?site|site|business|company|page|listing)\b[^.!?]{0,60}\b(is|isn'?t|is not|does ?n'?t|could|can|should|needs to)\b[^.!?]{0,40}\b(rank|ranking|showing|appear|traffic|visible|page ?1|first page)\b/i.test(msg)
+      || /\b(guarantee[ds]?|get you|put you|rank you)\b[^.!?]{0,40}\b(page ?1|first page|top of google|#1|number one)\b/i.test(msg)) {
+    add(4, 'unsolicited comment on your Google ranking');
+  }
+  // "Do you accept bitcoin?" is a real question a real customer asks, so payment talk is carved out.
+  if (/\b(crypto(currenc(y|ies))?|bitcoin|forex|binary options|trading (bot|signals)|investment opportunit(y|ies)|guaranteed (returns?|profits?|roi)|passive income|double your (money|investment)|financial freedom)\b/i.test(msg)
+      && !/\b(accept|take|pay(ing)? (with|in)|payment[s]? in)\b[^.?!]{0,25}(bitcoin|crypto)/i.test(msg)) {
+    add(5, 'an investment or crypto offer');
+  }
+  const hosts = (msg.match(/https?:\/\/([^\s/"'<>]+)/gi) || []).map(u => u.replace(/^https?:\/\//i, '').replace(/^www\./i, '').toLowerCase());
+  if (hosts.some(h => SPAM_SHORTENER.test(h))) add(5, 'a shortened link');
+  if (/(\bunsubscribe\b|opt[- ]out of (these|this|our)|\{\{?\s*(first_?name|name|company|business)\s*\}?\}|%%\w+%%|\[(first ?name|company|business)\]|view (this|it) in your browser)/i.test(msg)) {
+    add(4, 'bulk-mail wording');
+  }
+  // "Free estimate", "free quote" and "free consultation" are what real customers ask for, so they
+  // are deliberately absent from this pattern; only the sales-call vocabulary is here.
+  if (/\b(are you (open to|available for|interested in)\s+(an?\s+)?(quick |short |brief )?(\d{1,2}[- ]?(minute|min)\s*)?(call|chat|demo|meeting)|\d{1,2}[- ]?(minute|min) (call|chat|demo)|hop on a (quick )?call|book a (quick )?(call|demo)|schedule a (call|demo|meeting)|no upfront (cost|fee)|pay (only )?per (booked )?(job|lead|appointment)|free (seo |website |site |marketing )?(audit|analysis|report|proposal)|risk[- ]free trial)\b/i.test(msg)) {
+    add(3, 'asks you onto a sales call');
+  }
+  if (/((redesign|re-?design|build|develop|rebuild|revamp|create)\b[^.!?]{0,40}\b(your )?(web ?site|web ?page|app|logo|online store)\b[^.!?]{0,40}\b(for|at|from|starting at|just|only)\s*\$ ?\d{2,5})|(\$ ?\d{2,5} ?(only|usd)?[^.!?]{0,30}\b(web ?site|web ?design|app|logo)\b)/i.test(msg)) {
+    add(3, 'quotes you a price for a website');
+  }
+  // Capped so it can never flag on its own: an interior designer or a church outreach@ address is a
+  // perfectly plausible customer.
+  if (email && SPAM_VENDOR_ADDR.test(email)) add(3, 'sent from a marketing address');
+  const localPart = email.split('@')[0] || '';
+  const domain = email.split('@')[1] || '';
+  if (/^(test|testing|tester|asdf|qwerty|abc|noreply|no-reply|nobody|fake|dummy|sample)\d*$/i.test(localPart)
+      || /^(test\.(com|org|net)|test|asdf\.com|qwerty\.com)$/i.test(domain)) add(3, 'a placeholder email address');
+  const bare = low.replace(/[^a-z0-9]/g, '');
+  if (!/\?/.test(msg) && /^(test\d*|testing|testmessage|testtest|asd+f*|qwerty\d*|abc(def)?|1234\d*|a{3,}|xyz|helloworld)$/.test(bare)) {
+    add(3, 'a placeholder message');
+  }
+  if (/\b(viagra|cialis|xanax|tramadol|payday loans?|escort service|adult dating|porn|xxx video|webcam girls)\b/i.test(msg)) add(5, 'known spam wording');
+  if (name && /\b(team|department|marketing|sales|agency|solutions|technologies)\b/i.test(name) && !SPAM_JOB_NOUN.test(msg)) add(2, 'sent by a company, not a person');
+
+  return { score, spam: score >= 5, why: why.slice(0, 2) };
+}
+
 // Supabase Edge Function: lead-digest
 // End-of-day lead summary. Runs once a day after business hours and emails each client a recap of the
 // leads their website captured that day, instead of pinging them on every single lead. Every lead is
@@ -119,7 +197,12 @@ Deno.serve(async (req) => {
   // direction to fail: silence is recoverable, mailing everyone who never asked is not.
   const optedIn = new Set<string>();
   {
-    const { data: prefs } = await service.from('email_prefs').select('user_id, lead_digest').eq('lead_digest', true);
+    // digest_skip_spam is OPT-IN. Dropping a lead out of an email is the one place a wrong guess could
+  // cost a real job, so a client has to ask for it. Selected defensively: the column may not exist.
+  let prefsRes = await service.from('email_prefs').select('user_id, lead_digest, digest_skip_spam').eq('lead_digest', true);
+  if (prefsRes.error) prefsRes = await service.from('email_prefs').select('user_id, lead_digest').eq('lead_digest', true);
+  const prefs = prefsRes.data;
+  const skipSpamFor = new Set((prefs ?? []).filter((p: any) => p.digest_skip_spam).map((p: any) => p.user_id));
     (prefs || []).forEach((p: any) => { if (p.user_id) optedIn.add(p.user_id); });
   }
   if (!optedIn.size) return json({ ok: true, clients: 0, note: 'nobody is opted in to the daily digest' });
@@ -145,7 +228,16 @@ Deno.serve(async (req) => {
     await Promise.all(slice.map(async (uid) => {
       const c = clientBy[uid];
       if (!c.email) return;
-      const leads = byClient[uid];
+      let leads = byClient[uid];
+      // Same scorer the portal uses, copied rather than imported: an edge function and a static HTML
+      // page share no module system. If one is changed the other must be too.
+      let skipped = 0;
+      if (skipSpamFor.has(uid)) {
+        const kept = leads.filter((l: any) => !leadSpamCheck(l).spam);
+        skipped = leads.length - kept.length;
+        leads = kept;
+      }
+      if (!leads.length) continue;   // everything today was a pitch, so there is nothing to report
       const adv = /growth|elite/i.test(String(c.plan || ''));
       const first = String(c.name || '').trim().split(/\s+/)[0] || 'there';
       const n = leads.length;
@@ -235,6 +327,7 @@ Deno.serve(async (req) => {
         subject,
         html: '<div style="font-family:Arial,Helvetica,sans-serif;font-size:15px;color:#1e222b;line-height:1.6;max-width:520px;">'
           + inner
+          + (skipped ? '<p style="color:#6b7280;font-size:12.5px;">' + skipped + ' suspected sales pitch' + (skipped === 1 ? '' : 'es') + ' left out of this email. ' + (skipped === 1 ? 'It is' : 'They are') + ' still in your portal if you want to look.</p>' : '')
           + '<p style="color:#6b7280;font-size:12.5px;border-top:1px solid #eee;padding-top:12px;margin-top:8px;">This is your daily lead summary from WebEaze. Every lead is also in <a href="' + PORTAL_URL + '" style="color:#7851a9;text-decoration:underline;">your portal</a> in real time. To stop these daily emails, open <a href="' + PORTAL_URL + '/#leads" style="color:#7851a9;text-decoration:underline;">Leads in your portal</a> and switch off the daily summary.</p>'
           + '<p style="color:#6b7280;font-size:12.5px;">The WebEaze team</p>'
           + '</div>',
