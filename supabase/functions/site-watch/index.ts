@@ -131,6 +131,18 @@ Deno.serve(async (req) => {
       const home = await checkHomepage(c.site_url);
       checked++;
 
+      // Record the reachability result in site_checks, which is what the portal's "Up and healthy"
+      // pill reads. Nothing had written that table since the external Worker that used to fill it
+      // stopped, so every client's pill had quietly gone blank. We already have the answer here, so
+      // there is no extra request: one write per client per run. Insert rather than upsert, because
+      // upsert needs a unique index on user_id and the portal already reads the LATEST row
+      // (order by last_checked desc, limit 1), so a history of rows is what the schema expects.
+      try {
+        const { error: chkErr } = await service.from('site_checks')
+          .insert({ user_id: c.user_id, is_up: home.ok, last_checked: new Date().toISOString() });
+        if (chkErr) console.warn('[site-watch] site_checks write failed for ' + c.user_id, chkErr.message);
+      } catch (e) { console.warn('[site-watch] site_checks threw for ' + c.user_id, e); }
+
       // 1) Reachability.
       if (!home.ok) {
         const firstDown = !openKey.has('down|');   // brand-new outage this run, not an ongoing one
