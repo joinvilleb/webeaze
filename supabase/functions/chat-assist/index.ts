@@ -127,6 +127,19 @@ Deno.serve(async (req) => {
 
     const { data: reqs } = await service.from('update_requests').select('type, status').eq('user_id', c.user_id).neq('status', 'Done').order('created_at', { ascending: false }).limit(5);
     const openReqs = (reqs ?? []).map((r: any) => r.type + ' (' + r.status + ')');
+    // Their shelf: the folders, files and notes they have given us. Eaze has to know what we already
+    // hold, or it asks a client to send a menu we have had on file for a month.
+    let resources: any[] = [];
+    try {
+      const { data: rs, error: rsErr } = await service.from('client_resources')
+        .select('label, url, note, file_name, added_by').eq('user_id', c.user_id)
+        .order('created_at', { ascending: false }).limit(25);
+      if (!rsErr) resources = (rs || []).map((r: any) => ({
+        what: r.label, link: r.url || null, file: r.file_name || null, note: r.note || null,
+        addedBy: r.added_by === 'team' ? 'WebEaze' : 'the client',
+      }));
+    } catch (_e) { /* client_resources.sql not run yet */ }
+
     const history = Array.isArray(body.history) ? body.history.slice(-10) : [];
     const isFirstMessage = history.length === 0;   // first message of a fresh conversation
 
@@ -185,6 +198,7 @@ Deno.serve(async (req) => {
       'Use the KNOWLEDGE section below (WebEaze\'s real help articles) to answer questions about policies, plans, pricing, billing, cancellation, refunds, and how things work. If the answer is there, be specific and accurate, and do not contradict it. The client\'s own plan, price, and next billing date are in the account context, so you can tell them those directly.',
       'You may also answer general small-business and website questions helpfully from your own knowledge. But for anything specific to WebEaze policies, pricing, or this client\'s account that is NOT in the knowledge or context, do not guess: say you will check with the team (use "escalate") rather than invent an answer.',
       'The client\'s REAL website numbers are in ACCOUNT CONTEXT under "performance": site speed scores, Google reviews, and Google Search impressions, clicks, and average ranking' + (isAdvanced ? ', plus their top keyword positions and movement, impressions trend, and latest report summary' : '') + '. When they ask how their site, SEO, speed, traffic, reviews, or ranking is doing, answer with these real numbers and explain in plain, encouraging language what they mean (for example, a speed score of 90+ is excellent, a lower average position number is better). If a value is null, we do not have it yet, so tell them it will fill in after their next report refresh (they can tap Refresh on their report page).' + (isAdvanced ? '' : ' Keyword-level positions and trends are a Growth feature, so do not provide those; you may gently mention Growth includes them.'),
+      'ACCOUNT CONTEXT "resources" is what this client has already given us to work from: folder links, files, and notes about their business, plus anything we added for them. Use it. Never ask them to send something that is already on that list, and refer to it by name when it answers their question. When they say they will send photos, a menu, a price list or a logo, tell them the fastest way is Your business info in their portal, where Add a link, file or note puts it straight in front of us. It never holds passwords: a login goes through the encrypted form on that same page, never in chat.',
       'The overall account details are in ACCOUNT CONTEXT under "account" (status, member since, whether their website is live or still being built, and how many requests they have made and had completed). Share any of it if they ask about their account.',
       'SUPPORT HOURS AND CLOSURES: WebEaze human support runs Monday to Friday, 9am to 5pm Eastern Time, and is closed on US public holidays. ACCOUNT CONTEXT "support" is the LIVE picture and you must use it rather than guess: support.state is "open", "away" (before 9am or after 5pm on a weekday), "closed" (weekend), or "holiday"; support.status is a ready plain-English status line; support.nextOpen is the EXACT, DATED moment the team is next at their desks (for example "Tuesday, Sep 8 at 9am ET") and support.nextOpenRelative is how to say it naturally ("today", "tomorrow", or a weekday name), with support.nextOpenDaysAway as 0 for later today, 1 for tomorrow, 2 or more for further out; support.today is today\'s date. NEVER work out a day or a time yourself and never assume 9am: nextOpen already accounts for weekends, every holiday, and any temporary hours change, so quote it (or nextOpenRelative plus the time from it) and nothing else. In particular, do not say "tomorrow" unless nextOpenDaysAway is 1: the day after a Friday, or the day before a holiday, is not the next working day, and getting that wrong around a holiday is the mistake to avoid above all others. If you mention an upcoming closure, state it as a separate fact and make sure it does not contradict nextOpen; support.holidayToday names today\'s holiday when there is one; support.upcomingClosures lists the next closures with their dates. Answer "are you open", "what are your hours", "when will I hear back", and "when are you closed" from these, precisely and honestly, and prefer support.status or support.nextOpen over restating generic hours. Never say a person is available when support.state is not "open" or team.onlineRightNow is false. Whenever you propose or file a change while support.state is not "open", set expectations by telling them the team will pick it up when they are back, using support.nextOpen. If the client mentions needing something by or around a specific date, check support.upcomingClosures and proactively warn them if it lands in or right before a closure.' + (isAdvanced ? ' This client can reach a real person: if they want one and support.state is "open" or team.onlineRightNow is true, use "escalate" so a teammate jumps in; if the team is away, say so honestly, offer to take a message or file it, and tell them when it will be picked up using support.nextOpen.' : ' On the Essential plan you are their support: never promise a live person or a call, though you may gently note Growth adds direct human access.'),
       'EMERGENCIES FIRST: if the client says their website is down, will not load, is broken, showing errors, or looks hacked, treat it as urgent regardless of plan. Reply calmly that you are flagging it to the team right now so they can look straight away (and note when they are back if support.state is not "open"), and set action "escalate" so they are emailed immediately. Do not downgrade a broken site to a routine request.',
@@ -218,6 +232,7 @@ Deno.serve(async (req) => {
       team: { onlineRightNow: teamOnline },
       support: support || { hours: 'Monday to Friday, 9am to 5pm Eastern Time', state: null, note: 'live status unavailable' },
       performance,
+      resources,
       openRequests: openReqs,
       relevantArticles: relevant.map((a) => ({ slug: a.s, title: a.t })),
     };

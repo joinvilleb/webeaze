@@ -19,6 +19,88 @@ const BOT_SECRET = Deno.env.get('BOT_SECRET') ?? '';
 const cors = { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': 'authorization, content-type, x-dispatch-secret', 'Access-Control-Allow-Methods': 'POST, OPTIONS' };
 const json = (b: unknown, s = 200) => new Response(JSON.stringify(b), { status: s, headers: { ...cors, 'Content-Type': 'application/json' } });
 
+// ── The client's "it is done" email ─────────────────────────────────────────
+// admin.html sends this whenever a request is completed by hand. This function completes requests
+// with nobody watching, and the database trigger that used to cover EVERY completion was dropped in
+// supabase/request_done_email.sql when the better email moved into the admin page. So without this,
+// an AI change is published to a client's live site, their portal flips to Complete, and nothing
+// ever tells them. That is exactly what happened: a request closed here sent no email at all.
+//
+// The same block lives in request-draft/index.ts. Keep the two in step.
+const MAILER_URL = 'https://webeaze-mailer.webeaze-web-design.workers.dev';
+const escHtml = (s: unknown) => String(s ?? '').replace(/[&<>"]/g, (ch) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch]!));
+
+// Two of the dropdown's stored values are unfit for a subject line: "Other" names our form rather
+// than their request, and the urgent option stores an em dash, which we do not use in copy.
+function doneSubject(type: unknown) {
+  const t = String(type ?? '').trim();
+  if (/site down/i.test(t)) return 'Urgent fix';
+  if (!t || /^other$/i.test(t)) return 'Your request';
+  return t;
+}
+
+// Their own words, quoted back, because a completion email can land a week after they wrote it and
+// "Complete: Content update" tells them nothing about WHICH content update. Cuts at a paragraph if
+// one is close to the limit, otherwise at a word, never mid-word. A cut that lands inside a URL
+// drops the URL instead of shortening it: a truncated address still links, to somewhere wrong.
+function trimForEmail(text: unknown, max: number) {
+  const t = String(text ?? '').replace(/\r\n/g, '\n').trim();
+  if (t.length <= max) return t;
+  const head = t.slice(0, max);
+  const para = head.lastIndexOf('\n\n');
+  if (para > max * 0.5) return head.slice(0, para).trim() + '\n\n...';
+  const sp = head.lastIndexOf(' ');
+  if (sp > 0) return head.slice(0, sp).trim() + '...';
+  return head.replace(/(?:https?:\/\/|www\.)\S*$/i, '').trim() + '...';
+}
+
+// A blank line between two thoughts is how it was written; run together it reads as one wall.
+function emailParas(text: unknown, css = 'margin:0 0 12px;') {
+  const blocks = String(text ?? '').replace(/\r\n/g, '\n').trim().split(/\n\s*\n/);
+  return blocks.map((b, i) => '<p style="' + css + (i === blocks.length - 1 ? 'margin-bottom:0;' : '') + '">'
+    + escHtml(b).replace(/\n/g, '<br>') + '</p>').join('');
+}
+
+// r: { id, type, notes, resolution }   c: the clients row (email, second_email, name)
+async function sendDoneEmail(r: any, c: any) {
+  // The partner address matters here: on a managed account the person who submitted is often not the
+  // account holder. Duplicates are dropped so nobody reads the same message twice.
+  const to = [c?.email, c?.second_email].map((a: unknown) => String(a ?? '').trim()).filter(Boolean)
+    .filter((a: string, i: number, all: string[]) => all.findIndex((b) => b.toLowerCase() === a.toLowerCase()) === i);
+  if (!to.length) { console.warn('[done email] no address on file for request ' + r?.id); return false; }
+  const first = String(c?.name ?? '').trim().split(/\s+/)[0] || '';
+  const asked = trimForEmail(r?.notes, 500);   // enough to recognise it; the rest is one click away
+  const what = String(r?.resolution ?? '').trim();
+  const link = 'https://portal.webeaze.io/#history/' + encodeURIComponent(String(r?.id ?? ''));
+  const preheader = (what || 'Your request is complete.').replace(/\s+/g, ' ').slice(0, 140);
+  const html =
+    // Given nothing to show, a mail app scrapes the first words of the body for the line next to the
+    // subject, which is the greeting. This hands it the sentence that actually says what happened.
+    '<div style="display:none;max-height:0;overflow:hidden;opacity:0;">' + escHtml(preheader) + '</div>' +
+    '<div style="max-width:560px;margin:0 auto;padding:32px 24px;font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:1.7;color:#1f2333;">' +
+    '<p style="margin:0 0 12px;">Hey' + (first ? ' ' + escHtml(first) : '') + ',</p>' +
+    '<p style="margin:0 0 16px;">Your request is complete.</p>' +
+    (asked
+      ? '<p style="margin:0 0 8px;"><b>What you asked for</b></p>'
+        + '<div style="background:#f7f7fa;border:1px solid #e4e7f1;border-left:3px solid #cfd3e2;border-radius:8px;padding:14px 16px;margin:0 0 18px;">'
+        + emailParas(asked, 'margin:0 0 10px;') + '</div>'
+      : '') +
+    (what ? '<p style="margin:0 0 8px;"><b>What we changed</b></p>' + emailParas(what) : '') +
+    // emailParas zeroes the last paragraph's bottom margin, so the button needs its own top margin
+    // or it sits flush against the final line.
+    '<div style="margin:20px 0 0;"><a href="' + link + '" style="display:inline-block;background:#7851a9;color:#ffffff;text-decoration:none;font-weight:600;font-size:15px;padding:12px 24px;border-radius:10px;">See it in your portal</a></div>' +
+    '<p style="margin:28px 0 4px;">Best,</p><p style="margin:0;">WebEaze Web Design</p>' +
+    '</div>';
+  try {
+    const res = await fetch(MAILER_URL, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ from: 'WebEaze <support@webeaze.io>', to, subject: 'Complete: ' + doneSubject(r?.type), html }),
+    });
+    if (!res.ok) { console.error('[done email] mailer ' + res.status + ': ' + (await res.text()).slice(0, 160)); return false; }
+    return true;
+  } catch (e) { console.error('[done email] send failed:', e); return false; }
+}
+
 // Process ONE request through the bot with the full safety gate. Returns a small result object.
 // opts.skipSchedule bypasses the "scheduled for a future date" skip (used by the sweep, where the
 // scheduled date has already arrived).
@@ -38,7 +120,7 @@ async function dispatchOne(service: any, record: any, opts: { skipSchedule?: boo
   if (record.attachment_url)                           return { ok: true, skipped: 'has an attachment for a human to place' };
   if (record.scheduled_for && !opts.skipSchedule)      return { ok: true, skipped: 'scheduled for a future date' };
 
-  const { data: c } = await service.from('clients').select('email, name, site_url').eq('user_id', userId).maybeSingle();
+  const { data: c } = await service.from('clients').select('email, second_email, name, site_url').eq('user_id', userId).maybeSingle();
   // site_url is what the bot keys on now, so a client with no site cannot be actioned at all. Email
   // alone is no longer enough to find their repo.
   if (!c || (!c.site_url && !c.email)) return { ok: true, skipped: 'no client site url or email' };
@@ -73,7 +155,13 @@ async function dispatchOne(service: any, record: any, opts: { skipSchedule?: boo
 
   // If the bot pushed the change live, close the loop: mark the request Done for the client.
   if (bot && bot.merged && requestId) {
-    await service.from('update_requests').update({ status: 'Done', resolution: 'This has been updated and is now live on your site.', completed_at: new Date().toISOString() }).eq('id', requestId);
+    const resolution = 'This has been updated and is now live on your site.';
+    const { error: upErr } = await service.from('update_requests')
+      .update({ status: 'Done', resolution, completed_at: new Date().toISOString() }).eq('id', requestId);
+    if (upErr) console.warn('[dispatch] could not mark done:', upErr.message);
+    // Tell them. Nobody has a browser open on this path, so admin.html's email never runs, and the
+    // change is already live on their site.
+    else await sendDoneEmail({ id: requestId, type, notes: description, resolution }, c);
   }
   // Lightweight signal the auto-rollback watchdog looks for (a live auto-change just landed).
   if (bot && bot.merged) {
