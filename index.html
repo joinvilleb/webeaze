@@ -10,6 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <style>body{margin:0}h1,h2,h3,h4,h5,h6{margin-top:0;margin-bottom:.5rem}p{margin-top:0;margin-bottom:1rem}ol,ul,dl{margin-top:0;margin-bottom:1rem}ol ol,ul ul,ol ul,ul ol{margin-bottom:0}hr{margin-top:1rem;margin-bottom:1rem;border:0;border-top:1px solid rgba(0,0,0,.1);box-sizing:content-box;height:0;overflow:visible}img,svg{vertical-align:middle}img{border-style:none}[hidden]{display:none!important}button,input,optgroup,select,textarea{margin:0;font-family:inherit;font-size:inherit;line-height:inherit}button{overflow:visible;text-transform:none;-webkit-appearance:button}[type=button],[type=reset],[type=submit]{-webkit-appearance:button}button:not(:disabled){cursor:pointer}button::-moz-focus-inner,[type=button]::-moz-focus-inner,[type=reset]::-moz-focus-inner,[type=submit]::-moz-focus-inner{padding:0;border-style:none}</style>
+<link rel="preload" as="image" href="images/hero-desk.webp" fetchpriority="high">
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"></noscript>
 <link rel="stylesheet" href="css/nav.css">
@@ -598,11 +599,62 @@ body {
 
 /* ── HERO ── */
 .hero {
+  position: relative;
   background: var(--off-white);
   padding: 6rem 0 5rem;
   overflow: hidden;
 }
+/* Photo layer: pre-blurred WebP, drifts in on load */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: url('images/hero-desk.webp') center 46% / cover no-repeat;
+  animation: heroBgIn 1100ms cubic-bezier(.22,.61,.36,1) backwards;
+}
+/* Scrim layer: keeps the copy readable and ties the photo to the brand */
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(rgba(247,246,241,.86), rgba(247,246,241,.93)),
+    radial-gradient(1000px 520px at 50% -10%, rgba(120,81,169,.16), rgba(120,81,169,0) 70%);
+}
+/* The secondary CTA is a ghost button, so it needs a fill to survive the photo */
+.hero .btn-secondary-brand {
+  background: rgba(255,255,255,.72);
+  border-color: rgba(10,10,10,.12);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  transition: background .2s, border-color .2s, color .2s;
+}
+.hero .btn-secondary-brand:hover { background: rgba(255,255,255,.92); border-color: var(--brand); }
+
+/* Only a from-state, so the resting style stays fully visible.
+   With fill-mode backwards nothing can get stranded at opacity 0 if the
+   animation never runs, e.g. .hero-trust is display:none on small screens. */
+@keyframes heroBgIn { from { opacity: 0; transform: scale(1.05); } }
+@keyframes heroRise { from { opacity: 0; transform: translateY(14px); } }
+.hero-headline,
+.hero-sub,
+.hero-ctas,
+.hero-trust {
+  animation: heroRise 620ms cubic-bezier(.22,.61,.36,1) backwards;
+}
+.hero-sub   { animation-delay: 90ms; }
+.hero-ctas  { animation-delay: 180ms; }
+.hero-trust { animation-delay: 270ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero::before,
+  .hero-headline, .hero-sub, .hero-ctas, .hero-trust { animation: none; }
+}
 .hero-inner {
+  position: relative;
+  z-index: 1;
   max-width: 760px;
   margin: 0 auto;
   padding: 0 1.5rem;
