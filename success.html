@@ -32,6 +32,19 @@
     a { color: var(--gold); text-decoration: none; }
     a:hover { opacity: .8; }
 
+    /* BACK TO PORTAL (phone + video variants, which are booked from the portal) */
+    .backbar { max-width: 960px; margin: 0 auto; padding: 20px 20px 0; }
+    .back-link {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 8px 14px 8px 10px;
+      border: 1px solid var(--line); border-radius: 999px;
+      font-size: .9rem; font-weight: 600; color: var(--text);
+      transition: border-color .15s, background .15s;
+    }
+    .back-link svg { width: 16px; height: 16px; stroke: currentColor; stroke-width: 2.2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+    .back-link:hover { border-color: rgba(255,215,0,.4); background: rgba(255,215,0,.05); color: var(--text); opacity: 1; }
+    .backbar + .hero { padding-top: 40px; }
+
     /* HERO */
     .hero {
       text-align: center;
@@ -165,6 +178,13 @@
 </div>
 <script>(function(){if(new Date()>=new Date('2026-07-16T04:00:00Z')){var b=document.getElementById('wb-portal-banner');if(b)b.remove();}})();</script>
 
+<div class="backbar" id="backbar" hidden>
+  <a class="back-link" id="back-portal" href="https://portal.webeaze.io">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+    Back to portal
+  </a>
+</div>
+
 <div class="hero">
   <div class="checkmark" aria-hidden="true">
     <svg viewBox="0 0 52 52"><path d="M14 27l8 8 16-18"/></svg>
@@ -233,6 +253,7 @@ var CONFIGS = {
     h1:      "Talk soon!",
     lead:    "We'll call you at your scheduled time. Check your email for information.",
     pill:    "Phone Support",
+    portalBack: true,
     label:   "Before",
     heading: "Prepare for the call",
     steps: [
@@ -265,6 +286,7 @@ var CONFIGS = {
     h1:      "See you soon.",
     lead:    "Your video session is booked. We've emailed you a calendar invite. ",
     pill:    "Video Session",
+    portalBack: true,
     label:   "Before",
     heading: "How to prepare for your video session",
     steps: [
@@ -316,9 +338,43 @@ function render(cfg) {
   }).join('');
 }
 
+// Phone and video sessions are booked from a popup in the portal. HubSpot's post-booking redirect
+// lands this page INSIDE that popup's iframe, so a plain link to the portal would load the whole
+// portal inside its own popup. When embedded we ask the portal to close the popup instead. The
+// portal lives on another origin, so that has to be a postMessage. If the portal does not answer
+// (an older deploy, or the popup was opened some other way) we fall back to reloading the portal
+// in the top window. Opened on its own, every portal link is just a normal link.
+var PORTAL_URL = 'https://portal.webeaze.io';
+var EMBEDDED = (function () { try { return window.self !== window.top; } catch (e) { return true; } })();
+
+function backToPortal(e) {
+  if (!EMBEDDED) return;              // normal navigation
+  e.preventDefault();
+  try { window.parent.postMessage({ type: 'webeaze:close-booking' }, PORTAL_URL); } catch (_) {}
+  // Closing the popup blanks this iframe, which cancels the timer. Still here means nobody listened.
+  setTimeout(function () {
+    try { window.top.location.href = PORTAL_URL; } catch (_) { window.open(PORTAL_URL, '_blank', 'noopener'); }
+  }, 450);
+}
+
+function wireLinks(cfg) {
+  if (cfg.portalBack) {
+    document.getElementById('backbar').hidden = false;
+    document.getElementById('back-portal').addEventListener('click', backToPortal);
+  }
+  var links = document.querySelectorAll('#links-row a, #back-portal');
+  for (var i = 0; i < links.length; i++) {
+    var a = links[i];
+    if (a.id === 'back-portal') continue;
+    if (a.href.indexOf(PORTAL_URL) === 0) a.addEventListener('click', backToPortal);
+    else if (EMBEDDED) { a.target = '_blank'; a.rel = 'noopener'; }  // don't take over the popup
+  }
+}
+
 var type = new URLSearchParams(window.location.search).get('type') || 'consultation';
 var cfg  = CONFIGS[type] || CONFIGS.consultation;
 render(cfg);
+wireLinks(cfg);
 
 // Personalize h1 with first name if stored
 (function() {
