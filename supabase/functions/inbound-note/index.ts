@@ -96,17 +96,21 @@ function parseRecipients(to: string): string[] {
   return String(to || '').split(',').map((p) => parseEmail(p)).filter((e) => e.includes('@'));
 }
 
-// Keep only the person's actual reply: cut at the first quoted-history / signature marker.
+// Keep only the person's actual reply: cut at the first quoted-history marker, then drop the sign-off.
+// Gmail's plain text wraps a long attribution line, so "On Tue, Sep 15, 2026 at 4:20 PM WebEaze <" and
+// "support@webeaze.io> wrote:" arrive on two lines. Matching one line only let the whole earlier email
+// through, which is what made replies in a request thread look like a copy of our message.
 function stripQuoted(raw: string): string {
-  let t = String(raw || '').replace(/\r\n/g, '\n');
+  let t = String(raw || '').replace(/\r\n?/g, '\n').replace(/\u00a0/g, ' ');
+  t = '\n' + t;   // so a marker on the very first line still has a newline in front of it
   const markers: RegExp[] = [
-    /\nOn .{1,220}\bwrote:/,               // Gmail / Apple Mail: "On <date>, <name> wrote:"
-    /\n-{2,} ?Original Message ?-{2,}/i,   // Outlook "----- Original Message -----"
-    /\n_{10,}/,                            // Outlook underscore divider before the quoted block
-    /\nFrom: .{1,220}\nSent: /,            // Outlook header block
-    /\n\s*>{1,}/,                          // first quoted (">") line
-    /\nSent from my /,                     // mobile signature
-    /\nGet Outlook for /,                  // mobile signature
+    /\nOn [^\n]{0,240}(?:\n[^\n]{0,240}){0,2}?\bwrote:/,   // Gmail / Apple Mail attribution, possibly wrapped
+    /\n-{2,} ?(?:Original|Forwarded) (?:Message|message) ?-{2,}/i, // Outlook / Gmail forward divider
+    /\n_{10,}/,                                            // Outlook underscore divider before the quoted block
+    /\nFrom: [^\n]{1,220}\n(?:Sent|Date): /,                // Outlook header block
+    /\n\s*>/,                                              // first quoted (">") line
+    /\nSent from my /,                                     // mobile signature
+    /\nGet Outlook for /,                                  // mobile signature
   ];
   let cut = t.length;
   for (const re of markers) {
@@ -115,8 +119,30 @@ function stripQuoted(raw: string): string {
   }
   t = t.slice(0, cut);
   t = t.replace(/\n-- ?\n[\s\S]*$/, '');   // trailing "-- " signature block
+  t = t.replace(/\n+\s*WebEaze \| https?:\/\/(?:www\.)?webeaze\.io\/?\s*$/i, '');   // our Gmail signature
+  // A sign-off ("Best," / "Thanks," ...) followed only by a short name or signature block. Cut there,
+  // but only when real words come before it: "Thanks!" on its own IS the message.
+  const lines = t.replace(/\s+$/, '').split('\n');
+  for (let i = lines.length - 1; i >= 1 && i >= lines.length - 7; i--) {
+    if (/^\s*(best|thanks|thank you|many thanks|cheers|regards|kind regards|best regards|warm regards|all the best|sincerely|talk soon)[,.!]*\s*$/i.test(lines[i])) {
+      const after = lines.slice(i + 1).join('\n').trim();
+      const before = lines.slice(0, i).join('\n').trim();
+      if (before && after.length <= 160) { t = before; }
+      break;
+    }
+  }
   return t.replace(/\n{3,}/g, '\n\n').trim();
 }
+
+// Mail that is not a person writing to us. Newsletters from a sender who happens to be a client, and
+// the portal's own automatic emails (they go out through Gmail as support@, so they appear in Sent),
+// were both being filed as conversation: a school deadline digest showed up as a client message and
+// "We got your request" showed up in the request thread as if we had typed it.
+const OUR_TEMPLATE = /Pleasant Hill Drive, Camden-Wyoming|Track this request|View in your portal/i;
+const BULK_CUES = /\bunsubscribe\b|email preferences|manage (?:your )?(?:email )?(?:preferences|subscription)|view (?:it|this email) in (?:your|a) browser|you(?:'re| are) receiving this (?:email|because)/i;
+// Marketing and transactional mail pads its inbox preview with runs of invisible characters (ours does too,
+// see wzMail). Nobody types those, so a handful of them means a machine wrote it.
+const looksAutomated = (t: string) => BULK_CUES.test(t) || (t.match(/[\u034f\u200b-\u200f\u2060\ufeff]/g) || []).length >= 6;
 
 // Ask the model whether this email is actually a website CHANGE REQUEST (they want something
 // changed, added, or fixed on their site) versus just a comment, a question, or a thank you.
@@ -240,6 +266,7 @@ Deno.serve(async (req) => {
       if (!teamClient) return json({ ok: true, skipped: 'no active client in recipients' });
       const teamNote = stripQuoted(body.text || '');
       if (!teamNote) return json({ ok: true, skipped: 'empty after stripping quotes' });
+      if (OUR_TEMPLATE.test(teamNote) || looksAutomated(teamNote)) return json({ ok: true, skipped: 'automatic portal email' });
       // Only an explicit reference routes OUR mail: the needs-info guess describes a client answering
       // us, and means nothing for a message we sent.
       const teamReq = await findRequestForReply(service, teamClient.user_id, body.subject, false);
@@ -263,6 +290,9 @@ Deno.serve(async (req) => {
 
     const email = parseEmail(body.from || '');
     if (!email || !email.includes('@')) return json({ ok: true, skipped: 'no sender email' });
+    // The Apps Script flags List-Unsubscribe / Precedence: bulk mail when it can; the text cue below
+    // covers a script that predates the flag.
+    if (body.bulk === true) return json({ ok: true, skipped: 'bulk mail' });
     if (TEAM_SENDERS.test(email)) return json({ ok: true, skipped: 'from us' });
 
     // Match the sender to an ACTIVE client (case-insensitive email).
@@ -279,6 +309,7 @@ Deno.serve(async (req) => {
       note = attachments.length === 1 ? 'Sent a photo.' : 'Sent ' + attachments.length + ' photos.';
     }
     if (!note) return json({ ok: true, skipped: 'empty after stripping quotes' });
+    if (looksAutomated(note)) return json({ ok: true, skipped: 'newsletter or automatic email' });   // never OUR_TEMPLATE here: a reply is never dropped for what it quotes
 
     const threadReq = await findRequestForReply(service, client.user_id, body.subject, true);
     if (threadReq) {

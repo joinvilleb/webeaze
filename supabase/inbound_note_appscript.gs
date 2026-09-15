@@ -14,8 +14,9 @@
  *   - Outbound: any reply YOU send from support@webeaze.io to a client lands in the SAME thread
  *     (author 'team'), so the client sees both sides, not just their own messages.
  * The Supabase function decides who is a client and which side each message belongs to; this just
- * hands it fresh inbox + sent mail. Automated portal emails go out via Resend (not Gmail), so they
- * never appear in Sent and are never double-posted.
+ * hands it fresh inbox + sent mail. Automatic portal emails (We got your request, etc.) DO go out
+ * through Gmail and show up in Sent; the function recognises them by their footer and skips them.
+ * Newsletters are flagged here by their List-Unsubscribe / Precedence headers and skipped too.
  */
 
 var FUNCTION_URL = 'https://gmgzhjxfypuyzzgqwona.supabase.co/functions/v1/inbound-note';
@@ -61,7 +62,8 @@ function ingestInbound_() {
           subject: msg.getSubject(),
           text: msg.getPlainBody(),
           messageId: msg.getId(),
-          receivedAt: msg.getDate().toISOString()
+          receivedAt: msg.getDate().toISOString(),
+          bulk: isBulk_(msg)
         };
         var resp = UrlFetchApp.fetch(FUNCTION_URL, {
           method: 'post',
@@ -133,6 +135,13 @@ function ingestOurReplies_() {
     }
   }
   props.setProperty('lastSent', String(maxSent));
+}
+
+// A newsletter or mailing list, not a person writing to us. getHeader can throw on odd messages.
+function isBulk_(msg) {
+  try {
+    return !!msg.getHeader('List-Unsubscribe') || /bulk|list|junk/i.test(msg.getHeader('Precedence') || '');
+  } catch (e) { return false; }
 }
 
 // Runs a Gmail search, retrying once after a short pause on a transient failure. Returns the thread
