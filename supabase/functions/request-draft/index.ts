@@ -93,6 +93,11 @@ function emailParas(text: unknown, css = 'margin:0 0 12px;') {
     + escHtml(b).replace(/\n/g, '<br>') + '</p>').join('');
 }
 
+// Same token as admin.html's reqRef: lets an emailed reply find this request again (inbound-note).
+function reqRef(id: unknown) {
+  const hex = String(id ?? '').replace(/[^0-9a-f]/gi, '').slice(0, 8).toLowerCase();
+  return hex.length === 8 ? ' [#' + hex + ']' : '';
+}
 // r: { id, type, notes, resolution }   c: the clients row (email, second_email, name)
 async function sendDoneEmail(r: any, c: any) {
   // The partner address matters here: on a managed account the person who submitted is often not the
@@ -126,7 +131,7 @@ async function sendDoneEmail(r: any, c: any) {
   try {
     const res = await fetch(MAILER_URL, {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ from: 'WebEaze <support@webeaze.io>', to, subject: 'Complete: ' + doneSubject(r?.type), html }),
+      body: JSON.stringify({ from: 'WebEaze <support@webeaze.io>', to, subject: 'Complete: ' + doneSubject(r?.type) + reqRef(r?.id), html }),
     });
     if (!res.ok) { console.error('[done email] mailer ' + res.status + ': ' + (await res.text()).slice(0, 160)); return false; }
     return true;

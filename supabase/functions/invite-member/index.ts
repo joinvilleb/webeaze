@@ -1,5 +1,11 @@
 // Supabase Edge Function: invite-member
-// Admin-only (billy@webeaze.io). Manages additional logins for a client business ("multi-user").
+// Manages additional logins for a client business ("multi-user").
+//
+// TWO kinds of caller, since 2026-09-14:
+//   the admin (billy@webeaze.io)  -- may act on any client, passes clientId
+//   a client who owns an account  -- may act ONLY on their own; clientId from the body is IGNORED
+// A client adding their own teammate was previously a support request typed into the portal, which
+// meant a business waited on us to do a thing they should never have needed us for.
 // Each teammate gets their own Supabase auth account, linked to the business via public.client_members
 // (see supabase/client_members.sql). They "act as" the client's owner user_id, so RLS (public.acts_as)
 // grants them the same access as the primary login.
@@ -75,15 +81,29 @@ Deno.serve(async (req) => {
       { global: { headers: { Authorization: req.headers.get('Authorization') ?? '' } } },
     );
     const { data: { user } } = await authed.auth.getUser();
-    if (!user || user.email !== ADMIN) return json({ ok: false, error: 'not authorized' }, 403);
+    if (!user) return json({ ok: false, error: 'not authorized' }, 401);
+    const isAdmin = user.email === ADMIN;
 
     const service = createClient(Deno.env.get('SUPABASE_URL')!, Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!);
     const body = await req.json().catch(() => ({} as any));
     const action = String(body.action || '').trim();
 
+    // A client caller is scoped to the account they own, full stop. Their clientId is looked up from
+    // their own user id rather than read from the body: a body value could name any business on the
+    // platform, and this function holds the service role.
+    let ownClient: { id: string; user_id: string; name: string | null } | null = null;
+    if (!isAdmin) {
+      const { data } = await service.from('clients').select('id, user_id, name').eq('user_id', user.id).maybeSingle();
+      if (!data) return json({ ok: false, error: 'not authorized' }, 403);
+      ownClient = data as any;
+    }
+    // How many logins one business may hand out for itself. Plenty for a real team, and a ceiling on
+    // what a compromised client login could do with an endpoint that creates auth accounts.
+    const SELF_SERVE_MAX = 6;
+
     // ── List a business's team ────────────────────────────────────────────
     if (action === 'list') {
-      const clientId = String(body.clientId || '');
+      const clientId = isAdmin ? String(body.clientId || '') : ownClient!.id;
       if (!clientId) return json({ ok: false, error: 'Missing clientId.' });
       const { data, error } = await service.from('client_members')
         .select(MEMBER_COLS)
@@ -96,7 +116,7 @@ Deno.serve(async (req) => {
 
     // ── Invite (or re-link) a teammate ────────────────────────────────────
     if (action === 'invite') {
-      const clientId = String(body.clientId || '');
+      const clientId = isAdmin ? String(body.clientId || '') : ownClient!.id;
       const email = String(body.email || '').trim().toLowerCase();
       if (!EMAIL_RE.test(email)) return json({ ok: false, error: 'Enter a valid email address.' });
       if (email === ADMIN) return json({ ok: false, error: 'That is the admin account.' });
@@ -105,6 +125,14 @@ Deno.serve(async (req) => {
         .select('id, user_id, name').eq('id', clientId).maybeSingle();
       if (!client) return json({ ok: false, error: 'Client not found.' });
       if (!client.user_id) return json({ ok: false, error: 'That client has no primary login yet. Set one up first.' });
+
+      if (!isAdmin) {
+        const { count } = await service.from('client_members')
+          .select('id', { count: 'exact', head: true }).eq('owner_user_id', client.user_id).eq('role', 'member');
+        if ((count || 0) >= SELF_SERVE_MAX) {
+          return json({ ok: false, error: 'You already have ' + SELF_SERVE_MAX + ' extra logins. Ask us if you need more.' });
+        }
+      }
 
       // Find or create the teammate's auth account, and get a link WITHOUT Supabase mailing anything.
       // 'invite' creates the user and returns the set-password link; it errors when the account
@@ -163,8 +191,10 @@ Deno.serve(async (req) => {
     if (action === 'remove') {
       const memberId = String(body.memberId || '');
       if (!memberId) return json({ ok: false, error: 'Missing memberId.' });
-      const { data: m } = await service.from('client_members').select('id, role').eq('id', memberId).maybeSingle();
+      const { data: m } = await service.from('client_members').select('id, role, owner_user_id').eq('id', memberId).maybeSingle();
       if (!m) return json({ ok: false, error: 'Member not found.' });
+      // A client may only remove someone from their OWN team, and never the primary login.
+      if (!isAdmin && m.owner_user_id !== user.id) return json({ ok: false, error: 'not authorized' }, 403);
       if (m.role === 'owner') return json({ ok: false, error: 'You cannot remove the primary login.' });
       const { error } = await service.from('client_members').delete().eq('id', memberId);
       if (error) return json({ ok: false, error: error.message });

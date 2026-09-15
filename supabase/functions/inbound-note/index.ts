@@ -1,6 +1,11 @@
 // Supabase Edge Function: inbound-note
 // Turns a client's EMAIL REPLY into a note in their portal conversation, automatically.
 //
+// ...unless the email is about ONE REQUEST. Everything we send about a request carries "[#xxxxxxxx]"
+// in its subject (reqRef in admin.html, index.html, request-draft, dispatch-request), and a reply
+// keeps it. Those replies go into that request's thread (request_messages) instead of the general
+// notes, and are never re-classified as a new request. See findRequestForReply.
+//
 // Flow: a Google Apps Script on the support@webeaze.io inbox (time trigger) posts each new
 // inbound message here, including any ATTACHMENTS as base64, which are stored and hung on the note
 // so a client can simply email photos in from the job rather than uploading them in the portal. We match the sender to an ACTIVE client, strip the quoted history /
@@ -149,6 +154,56 @@ async function classifyRequest(text: string): Promise<{ isRequest: boolean; type
   }
 }
 
+// ── Replies that belong to a request ─────────────────────────────────────
+// Before this, a client answering our "we need a bit more info" question BY EMAIL landed in their
+// general notes, so the request's own conversation showed our question with nothing under it, and
+// the classifier below could even file their answer as a brand new request.
+function parseRef(subject: unknown): string | null {
+  const m = /\[#([0-9a-f]{8})\]/i.exec(String(subject ?? ''));
+  return m ? m[1].toLowerCase() : null;
+}
+// A reply to a needs-info email sent BEFORE the reference existed has no token. If that client has
+// exactly ONE request waiting on them and the subject is plainly a reply to that kind of email, it can
+// only be the answer to that one. Two candidates and we do not guess: it goes to notes as before.
+const NEEDS_INFO_SUBJECT = /need a bit more info/i;
+async function findRequestForReply(service: any, userId: string, subject: unknown, allowGuess: boolean) {
+  const ref = parseRef(subject);
+  if (!ref && !(allowGuess && NEEDS_INFO_SUBJECT.test(String(subject ?? '')))) return null;
+  const { data } = await service.from('update_requests')
+    .select('id, status').eq('user_id', userId).order('created_at', { ascending: false }).limit(300);
+  const rows: any[] = data || [];
+  if (ref) return rows.find((r) => String(r.id).replace(/-/g, '').toLowerCase().startsWith(ref)) || null;
+  const waiting = rows.filter((r) => r.status === 'Needs info');
+  return waiting.length === 1 ? waiting[0] : null;
+}
+// The Gmail script retries anything that did not answer 2xx, so the same email can arrive twice.
+// request_messages has no message-id column to put a unique key on, so an identical message from the
+// same side of the same request counts as already posted.
+async function postToThread(service: any, request: any, userId: string, sender: 'client' | 'team', text: string, attachments: any[]) {
+  const { data: dupe } = await service.from('request_messages')
+    .select('id').eq('request_id', request.id).eq('sender', sender).eq('body', text).limit(1);
+  if (dupe && dupe.length) return { ok: true, duplicate: true, error: null };
+  const { error } = await service.from('request_messages')
+    .insert({ request_id: request.id, user_id: userId, sender, body: text });
+  if (error) return { ok: false, duplicate: false, error };
+  if (attachments.length) {
+    const rows = attachments.map((a) => ({ request_id: request.id, user_id: userId, url: a.url, filename: a.filename, from_team: sender === 'team' }));
+    let att = await service.from('request_attachments').insert(rows);
+    // from_team arrives with request_attachments_from_team.sql; without it, still attach the photos.
+    if (att.error) att = await service.from('request_attachments').insert(rows.map(({ from_team: _f, ...rest }) => rest));
+    if (att.error) console.error('[inbound-note] thread attachments failed:', att.error.message);
+  }
+  // Mirror answering in the portal (sendThreadMsg): their latest reply goes on the request, and
+  // answering our question unblocks it. A note on work already moving does not reset its status.
+  if (sender === 'client') {
+    const patch: Record<string, unknown> = { client_reply: text };
+    if (request.status === 'Needs info') patch.status = 'Received';
+    const { error: upErr } = await service.from('update_requests').update(patch).eq('id', request.id);
+    if (upErr) console.error('[inbound-note] request update failed:', upErr.message);
+  }
+  return { ok: true, duplicate: false, error: null };
+}
+
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: cors });
   if (req.method !== 'POST') return json({ error: 'Method not allowed' }, 405);
@@ -181,6 +236,14 @@ Deno.serve(async (req) => {
       if (!teamClient) return json({ ok: true, skipped: 'no active client in recipients' });
       const teamNote = stripQuoted(body.text || '');
       if (!teamNote) return json({ ok: true, skipped: 'empty after stripping quotes' });
+      // Only an explicit reference routes OUR mail: the needs-info guess describes a client answering
+      // us, and means nothing for a message we sent.
+      const teamReq = await findRequestForReply(service, teamClient.user_id, body.subject, false);
+      if (teamReq) {
+        const t = await postToThread(service, teamReq, teamClient.user_id, 'team', teamNote, []);
+        if (t.ok) return json({ ok: true, added: !t.duplicate, thread: true, team: true, client: teamClient.name || teamClient.email });
+        console.error('[inbound-note] team thread insert failed, falling back to notes:', t.error);
+      }
       const teamRes = await insertNote(service, {
         user_id: teamClient.user_id,
         client_id: teamClient.id,
@@ -212,6 +275,17 @@ Deno.serve(async (req) => {
       note = attachments.length === 1 ? 'Sent a photo.' : 'Sent ' + attachments.length + ' photos.';
     }
     if (!note) return json({ ok: true, skipped: 'empty after stripping quotes' });
+
+    const threadReq = await findRequestForReply(service, client.user_id, body.subject, true);
+    if (threadReq) {
+      const t = await postToThread(service, threadReq, client.user_id, 'client', note, attachments);
+      if (t.ok) {
+        console.log('[inbound-note] reply added to request ' + threadReq.id + ' for ' + (client.name || email) + (t.duplicate ? ' (duplicate)' : ''));
+        return json({ ok: true, added: !t.duplicate, thread: true, request: threadReq.id, client: client.name || email });
+      }
+      // Never lose a reply: if the thread write failed it still lands in their notes, as it always did.
+      console.error('[inbound-note] thread insert failed, falling back to notes:', t.error);
+    }
 
     const res = await insertNote(service, {
       user_id: client.user_id,
