@@ -22,6 +22,10 @@ const INBOUND_SECRET = Deno.env.get('INBOUND_SECRET') ?? '';
 const ANTHROPIC_API_KEY = Deno.env.get('ANTHROPIC_API_KEY') ?? '';
 const AI_MODEL = 'claude-haiku-4-5-20251001';
 const REQUEST_TYPES = ['Content update', 'New page or section', 'Design change', 'SEO or metadata', 'Other'];
+// The addresses WE send from. Everything else on our own domain is a person, and may well be a client:
+// the portal's test account is testing@webeaze.io. Skipping the whole domain silently dropped every
+// reply that account sent, which is exactly what made email replies look broken in testing.
+const TEAM_SENDERS = /^(support|billy|hello|no-?reply|notifications?)@webeaze\.io$/i;
 
 const cors = {
   'Access-Control-Allow-Origin': '*',
@@ -227,7 +231,7 @@ Deno.serve(async (req) => {
       if (!recips.length) return json({ ok: true, skipped: 'team reply with no recipient' });
       let teamClient: any = null;
       for (const r of recips) {
-        if (r.endsWith('@webeaze.io')) continue;   // skip ourselves / internal addresses on the line
+        if (TEAM_SENDERS.test(r)) continue;   // skip our own addresses on the line; a client on our domain still counts
         const { data: cs } = await service.from('clients')
           .select('id, user_id, email, status, name').ilike('email', r);
         const active = (cs ?? []).find((c) => (c.status || '').toLowerCase() === 'active');
@@ -259,7 +263,7 @@ Deno.serve(async (req) => {
 
     const email = parseEmail(body.from || '');
     if (!email || !email.includes('@')) return json({ ok: true, skipped: 'no sender email' });
-    if (email.endsWith('@webeaze.io')) return json({ ok: true, skipped: 'from us' });
+    if (TEAM_SENDERS.test(email)) return json({ ok: true, skipped: 'from us' });
 
     // Match the sender to an ACTIVE client (case-insensitive email).
     const { data: clients } = await service.from('clients')

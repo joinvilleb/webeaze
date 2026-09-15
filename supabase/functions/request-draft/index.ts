@@ -60,6 +60,8 @@ function unsuitableReason(type: string, notes: string): string | null {
 //
 // The same block lives in dispatch-request/index.ts. Keep the two in step.
 const MAILER_URL = 'https://webeaze-mailer.webeaze-web-design.workers.dev';
+const PREVIEW_PAD = new Array(161).join('&#847;&zwnj;&nbsp;');   // see wzMail in portal/index.html: stops the inbox preview reading on into the body
+
 const escHtml = (s: unknown) => String(s ?? '').replace(/[&<>"]/g, (ch) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch]!));
 
 // Two of the dropdown's stored values are unfit for a subject line: "Other" names our form rather
@@ -114,6 +116,7 @@ async function sendDoneEmail(r: any, c: any) {
     // Given nothing to show, a mail app scrapes the first words of the body for the line next to the
     // subject, which is the greeting. This hands it the sentence that actually says what happened.
     '<div style="display:none;max-height:0;overflow:hidden;opacity:0;">' + escHtml(preheader) + '</div>' +
+    '<div style="display:none;max-height:0;overflow:hidden;opacity:0;">' + PREVIEW_PAD + '</div>' +
     '<div style="max-width:560px;margin:0 auto;padding:32px 24px;font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:1.7;color:#1f2333;">' +
     '<p style="margin:0 0 12px;">Hey' + (first ? ' ' + escHtml(first) : '') + ',</p>' +
     '<p style="margin:0 0 16px;">Your request is complete.</p>' +

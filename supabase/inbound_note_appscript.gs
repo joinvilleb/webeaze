@@ -36,7 +36,9 @@ function ingestInbound_() {
 
   // Recent inbox mail that isn't from us. 'newer_than:3d' bounds the search cheaply.
   // Gmail search can throw a transient "Gmail operation not allowed" now and then, so retry once.
-  var threads = searchWithRetry_('in:inbox newer_than:3d -from:webeaze.io', 60);
+  // Exclude only the addresses WE send from, not the whole domain: a client can be on our domain too
+  // (the portal's test account is testing@webeaze.io), and excluding webeaze.io dropped its replies.
+  var threads = searchWithRetry_('in:inbox newer_than:3d -from:support@webeaze.io -from:billy@webeaze.io -from:hello@webeaze.io', 60);
   if (threads === null) return;   // Gmail unavailable this run; next run (5 min) picks it up. Do not throw.
 
   for (var i = 0; i < threads.length; i++) {
@@ -52,7 +54,7 @@ function ingestInbound_() {
         var ts = msg.getDate().getTime();
         if (ts <= lastRun) continue;                       // already handled in a previous run
         var from = msg.getFrom();
-        if (/@webeaze\.io/i.test(from)) { if (ts > maxSeen) maxSeen = ts; continue; } // our own send
+        if (/(^|<|\s)(support|billy|hello|no-?reply|notifications?)@webeaze\.io/i.test(from)) { if (ts > maxSeen) maxSeen = ts; continue; } // our own send
 
         var payload = {
           from: from,

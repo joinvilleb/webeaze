@@ -3,7 +3,7 @@
 (function () {
   const UID = 'user-1';
   const ADMIN = location.pathname.indexOf('admin') > -1;
-  const ME = ADMIN ? { id: 'admin-1', email: 'billy@webeaze.io' } : { id: UID, email: 'kristen@example.com' };
+  const ME = ADMIN ? { id: 'admin-1', email: 'billy@webeaze.io' } : { id: UID, email: window.__MOCK_EMAIL || 'kristen@example.com' };
   const long = 'Okay, I have several questions so I can make sure we have everything we need. 1) Do you want Precision Painting on the new flyer? 2) Is there anything you want added? 3) Anything taken off? 4) Which photos? 5) Same font as your website? 6) Should we handle printing, and how many? 7) When do you need them? 8) Where should they be delivered?';
   const FIX = {
     clients: [
@@ -33,6 +33,12 @@
       { id: 'r1', user_id: UID, label: 'Job photos, spring 2026', url: 'https://drive.google.com/drive/folders/1a2b3c', note: 'Use the Dover before and afters.', file_name: null, added_by: 'client', created_at: '2026-09-01T12:00:00Z' },
       { id: 'r2', user_id: UID, label: 'Gate code for Dover', url: null, note: '4412 then #.', file_name: null, added_by: 'team', created_at: '2026-07-11T12:00:00Z' },
     ],
+    client_notes: [
+      { id: 'n1', user_id: UID, client_id: 'c1', author: 'team', note: 'Hi Kristen, your new gallery page is taking shape. Send over any job photos you would like on it whenever you are ready.', attachments: null, source_message_id: null, created_at: '2026-09-04T14:00:00Z' },
+      { id: 'n2', user_id: UID, client_id: 'c1', author: 'client', note: 'Here is our updated price list for the fall. The photos are all in our shared folder: https://drive.google.com/drive/folders/1a2b3c', attachments: [{ url: 'https://example.com/note/price-list-fall-2026.pdf', filename: 'Price list fall 2026.pdf' }], source_message_id: null, created_at: '2026-09-05T16:20:00Z' },
+      { id: 'n3', user_id: UID, client_id: 'c1', author: 'client', note: 'Thanks! Also, can you help with Google reviews? A couple of customers said they could not find where to leave one.', attachments: null, source_message_id: 'client:18f2a', created_at: '2026-09-09T13:05:00Z' },
+      { id: 'n4', user_id: UID, client_id: 'c1', author: 'team', note: 'Yes. Here is your direct review link to share with customers: https://g.page/r/alvarez-landscaping/review', attachments: null, source_message_id: 'team:18f2c', created_at: '2026-09-09T15:40:00Z' },
+    ],
     client_costs: [{ id: 'k1', user_id: UID, label: 'alvarezlandscaping.com', kind: 'domain', provider: 'Cloudflare', cycle: 'yearly', amount: 14.99, renews_on: '2026-11-14', client_visible: true }],
     client_members: [
       { id: 'mm1', owner_user_id: UID, member_user_id: UID, email: 'kristen@example.com', name: 'Kristen Alvarez', role: 'owner', accepted_at: '2026-03-02T12:00:00Z' },
@@ -45,15 +51,35 @@
     lead_events: [{ id: 'le1', user_id: UID, type: 'form', created_at: '2026-09-09T12:00:00Z' }],
     site_issues: [], chat_messages: [], referrals: [], prospects: [], prospect_targets: [], reward_grants: [], mockups: [],
   };
+  // A fixture set (see fixtures-mike.js) replaces whole tables.
+  if (window.__FIX_OVERRIDE) Object.assign(FIX, window.__FIX_OVERRIDE);
   const ok = (data) => ({ data, error: null, count: Array.isArray(data) ? data.length : 0, status: 200 });
+  // Filters apply only when the fixture rows carry that column, so an unmodelled filter never empties
+  // a table. That keeps "this month vs last month" counts honest without modelling every query.
   function builder(table) {
-    const rows = (FIX[table] || []).slice();
+    let rows = (FIX[table] || []).slice();
+    let head = false;
     const self = {};
-    ['select','eq','neq','gt','gte','lt','lte','in','is','not','or','order','limit','range','contains','filter','match','ilike','like','returns','throwOnError','insert','update','upsert','delete'].forEach((m) => { self[m] = () => self; });
+    const has = (c) => rows.length && Object.prototype.hasOwnProperty.call(rows[0], c);
+    const cmp = (v) => (typeof v === 'string' && /^\d{4}-\d\d-\d\dT/.test(v)) ? Date.parse(v) : v;
+    const filt = (c, fn) => { if (has(c)) rows = rows.filter(r => fn(cmp(r[c]))); return self; };
+    self.eq = (c, v) => filt(c, x => String(x) === String(v));
+    self.neq = (c, v) => filt(c, x => String(x) !== String(v));
+    self.gt = (c, v) => filt(c, x => x != null && x > cmp(v));
+    self.gte = (c, v) => filt(c, x => x != null && x >= cmp(v));
+    self.lt = (c, v) => filt(c, x => x != null && x < cmp(v));
+    self.lte = (c, v) => filt(c, x => x != null && x <= cmp(v));
+    self.in = (c, v) => filt(c, x => (v || []).map(String).includes(String(x)));
+    self.is = (c, v) => filt(c, x => (v === null ? x == null : x === v));
+    self.order = (c, o) => { if (has(c)) { const d = (o && o.ascending === false) ? -1 : 1; rows.sort((a, b) => (cmp(a[c]) > cmp(b[c]) ? d : cmp(a[c]) < cmp(b[c]) ? -d : 0)); } return self; };
+    self.limit = (n) => { rows = rows.slice(0, n); return self; };
+    self.select = (_c, opts) => { if (opts && opts.head) head = true; return self; };
+    ['not','or','range','contains','filter','match','ilike','like','returns','throwOnError','insert','update','upsert','delete','abortSignal'].forEach((m) => { self[m] = () => self; });
+    const res = () => head ? { data: null, error: null, count: rows.length, status: 200 } : ok(rows);
     self.single = () => Promise.resolve(ok(rows[0] || null));
     self.maybeSingle = () => Promise.resolve(ok(rows[0] || null));
-    self.then = (res, rej) => Promise.resolve(ok(rows)).then(res, rej);
-    self.catch = (f) => Promise.resolve(ok(rows)).catch(f);
+    self.then = (r, j) => Promise.resolve(res()).then(r, j);
+    self.catch = (f) => Promise.resolve(res()).catch(f);
     return self;
   }
   const chan = { on() { return chan; }, subscribe() { return chan; }, unsubscribe() { return Promise.resolve(); } };

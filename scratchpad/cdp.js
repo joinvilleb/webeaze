@@ -60,7 +60,21 @@ async function main() {
       await send('Emulation.setDeviceMetricsOverride', { width, height: Math.min(Math.ceil(cssContentSize.height), 6000), deviceScaleFactor: 2, mobile: true });
       await sleep(400);
     }
-    const png = await send('Page.captureScreenshot', { format: 'png' });
+    // CLIP="css selector" captures just that element (plus 16px), at full resolution, wherever it sits.
+    let clip;
+    if (process.env.CLIP) {
+      const box = await send('Runtime.evaluate', { returnByValue: true, expression:
+        '(function(){var n=document.querySelector(' + JSON.stringify(process.env.CLIP) + ');if(!n)return null;' +
+        'var r=n.getBoundingClientRect();return {x:Math.max(0,r.left+scrollX-16),y:Math.max(0,r.top+scrollY-16),w:r.width+32,h:r.height+32};})()' });
+      const b = box.result && box.result.value;
+      if (b) {
+        const { cssContentSize } = await send('Page.getLayoutMetrics');
+        await send('Emulation.setDeviceMetricsOverride', { width, height: Math.min(Math.ceil(cssContentSize.height), 8000), deviceScaleFactor: 2, mobile: true });
+        await sleep(300);
+        clip = { x: b.x, y: b.y, width: Math.min(b.w, width), height: b.h, scale: 1 };
+      }
+    }
+    const png = await send('Page.captureScreenshot', clip ? { format: 'png', clip, captureBeyondViewport: true } : { format: 'png' });
     fs.writeFileSync(shot, Buffer.from(png.data, 'base64'));
   }
   ws.close(); chrome.kill();
