@@ -17,9 +17,9 @@ const SHOTS = [];
 // A popup is position:fixed and scrolls inside itself; lay it flat on the page so the whole card is captured.
 const flat = "(function(){var m=document.getElementById('ask-modal');m.style.cssText+=';position:absolute;inset:auto;top:0;left:0;right:0;height:auto;min-height:0;background:transparent;backdrop-filter:none;overflow:visible;display:flex;justify-content:center;padding:24px 0;';var c=m.querySelector('.info-modal-card');c.style.maxHeight='none';c.style.overflow='visible';c.style.transform='none';var b=document.querySelector('.body');if(b)b.style.visibility='hidden';})();";
 for (const [name, view] of Object.entries(VIEWS)) {
-  SHOTS.push({ name: 'd-' + name, vw: 1120, mobile: false, clip: '.body', js: go(view) + settle(1600) });
-  SHOTS.push({ name: 'm-' + name, vw: 500, mobile: true, full: true, js: go(view) + settle(1600) });
-  SHOTS.push({ name: 'a-' + name, vw: 1100, mobile: false, full: true, topbar: true, js: go(view) + settle(1600) });
+  SHOTS.push({ name: 'd-' + name, vw: 1120, mobile: false, clip: '.body', js: go(view) + settle(1600) + (view === 'notes' ? "document.getElementById('client-notes').style.maxHeight='none';" + settle(300) : '') });
+  SHOTS.push({ name: 'm-' + name, vw: 500, mobile: true, full: true, js: go(view) + settle(1600) + (view === 'notes' ? "document.getElementById('client-notes').style.maxHeight='none';" + settle(300) : '') });
+  SHOTS.push({ name: 'a-' + name, vw: 1100, mobile: false, full: true, topbar: true, js: go(view) + settle(1600) + (view === 'notes' ? "document.getElementById('client-notes').style.maxHeight='none';" + settle(300) : '') });
 }
 SHOTS.push(
   { name: 'c-team', vw: 1100, mobile: false, clip: '#team-card', js: go('setup') + settle(1600) },
@@ -27,6 +27,7 @@ SHOTS.push(
   { name: 'c-leads', vw: 520, mobile: false, clip: '#leads-inbox', js: go('leads') + settle(1800) },
   { name: 'c-request-popup', vw: 700, mobile: false, clip: '#ask-modal .info-modal-card', js: "openRequest('q1');" + settle(1400) + flat + settle(400) },
   { name: 'c-request-done', vw: 700, mobile: false, clip: '#ask-modal .info-modal-card', js: "openRequest('q3');" + settle(1400) + flat + settle(400) },
+  { name: 'c-history-list', vw: 700, mobile: false, clip: '#view-history .card', js: go('history') + settle(1600) },
   { name: 'c-onboarding', vw: 640, mobile: false, clip: '#onboarding-card', js: go('home') + settle(600) + 'showOnboarding(3);' + settle(800) },
 );
 
