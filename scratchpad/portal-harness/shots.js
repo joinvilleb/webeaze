@@ -27,6 +27,12 @@ SHOTS.push(
   { name: 'c-leads', vw: 520, mobile: false, clip: '#leads-inbox', js: go('leads') + settle(1800) },
   { name: 'c-request-popup', vw: 700, mobile: false, clip: '#ask-modal .info-modal-card', js: "openRequest('q1');" + settle(1400) + flat + settle(400) },
   { name: 'c-request-done', vw: 700, mobile: false, clip: '#ask-modal .info-modal-card', js: "openRequest('q3');" + settle(1400) + flat + settle(400) },
+  // One add-on, opened. A help article about Booking should show the Booking row, not the whole price list.
+  ...[['booking', 'Booking System'], ['landing', 'Campaign / Landing Page'], ['page', 'Additional Page']].map(([slug, label]) => ({
+    name: 'c-addon-' + slug, vw: 760, mobile: false, clip: '.addon-row.open',
+    js: go('addons') + settle(1800) + "(function(){var rows=[...document.querySelectorAll('.addon-row')];var i=rows.findIndex(r=>(r.querySelector('.ar-name')||{}).textContent===" + JSON.stringify(label) + ");if(i>=0)addonRowToggle(i);})();" + settle(500) + "(function(){var open=document.querySelector('.addon-row.open');if(!open)return;[...document.querySelectorAll('#addons-grid > *')].forEach(function(n){if(n!==open)n.style.display='none';});open.style.borderBottom='none';open.style.padding='4px 0';})();" + settle(300),
+  })),
+  { name: 'c-addon-ask', vw: 760, mobile: false, clip: '#addon-chat-card', js: go('addons') + settle(1600) + 'openAddonChat();' + settle(1200) + "document.querySelector('.addon-ask').style.visibility='hidden';" + settle(200) },
   { name: 'c-history-list', vw: 700, mobile: false, clip: '#view-history .card', js: go('history') + settle(1600) },
   { name: 'c-onboarding', vw: 640, mobile: false, clip: '#onboarding-card', js: go('home') + settle(600) + 'showOnboarding(3);' + settle(800) },
 );
