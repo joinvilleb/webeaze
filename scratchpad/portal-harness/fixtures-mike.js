@@ -93,6 +93,7 @@
     ],
     request_messages: [
       { id: 'm1', request_id: 'q1', user_id: UID, sender: 'team', body: needsInfo, created_at: ago(2, 3) },
+      { id: 'm2', request_id: 'q2', user_id: UID, sender: 'client', body: 'Actually make it 6:30am on Saturdays, not 7. We start earlier in summer.', created_at: ago(0, 5) },
     ],
     request_attachments: [],
     client_notes: [
@@ -100,6 +101,7 @@
       { id: 'n2', user_id: UID, client_id: 'c1', author: 'client', note: 'Here is our updated price list for the fall. The job photos are all in our shared folder: https://drive.google.com/drive/folders/bear-jobs', attachments: [{ url: 'https://example.com/note/fall-price-list.pdf', filename: 'Fall price list 2026.pdf' }], source_message_id: null, created_at: ago(8, 2) },
       { id: 'n3', user_id: UID, client_id: 'c1', author: 'client', note: 'Thanks! Also, can you help with Google reviews? A couple of customers said they could not find where to leave one.', attachments: null, source_message_id: 'client:mock1', created_at: ago(5, 6) },
       { id: 'n4', user_id: UID, client_id: 'c1', author: 'team', note: 'Yes. Here is your direct review link to share with customers: https://g.page/r/bear-carpet-cleaning/review', attachments: null, source_message_id: 'team:mock2', created_at: ago(5, 3) },
+      { id: 'n5', user_id: UID, client_id: 'c1', author: 'client', note: 'Perfect, thanks. One more thing: can we put that review link on the thank you page after someone books?', attachments: null, source_message_id: null, created_at: ago(1, 6) },
     ],
     client_resources: [
       { id: 'r1', user_id: UID, label: 'Job photos', url: 'https://drive.google.com/drive/folders/bear-jobs', note: 'Before and afters from every job this year.', file_name: null, added_by: 'client', created_at: ago(8) },

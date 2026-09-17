@@ -12,6 +12,12 @@
 //   5) Needs-info     — 3 days after we asked a client a question and got nothing back. The request
 //                      is parked until they answer, and the original ask is quoted so they do not
 //                      have to go looking for what we wanted. Needs supabase/needs_info_followup.sql.
+//   6) Cold leads     — 2 days after an enquiry came in that the client never marked contacted. The
+//                      lead inbox only pays for itself if someone actually calls these people back.
+//                      One nudge per lead, stamped. Needs supabase/lead_followup.sql.
+//   7) Waiting on us  — an internal note to the team listing every conversation where the client
+//                      spoke last over a day ago (portal Messages and request threads). No client
+//                      ever sees this one, and it repeats daily until the queue is clear.
 //
 // Deploy:   supabase functions deploy lifecycle-emails --no-verify-jwt
 // Secrets:  CRON_SECRET, RESEND_API_KEY  (+ platform SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY)
@@ -51,6 +57,21 @@ async function sendEmail(to: string[], subject: string, inner: string) {
 const btn = (href: string, label: string) =>
   '<p style="margin:0 0 20px;"><a href="' + href + '" style="display:inline-block;background:#7851a9;color:#ffffff;text-decoration:none;font-weight:600;font-size:15px;padding:12px 24px;border-radius:10px;">' + label + '</a></p>';
 const link = (href: string, label: string) => '<a href="' + href + '" style="color:#7851a9;font-weight:600;text-decoration:none;">' + label + '</a>';
+
+function coldLeadsInner(c: any, rows: any[]) {
+  const KIND: Record<string, string> = { form: 'a form enquiry', call: 'a phone call', email: 'an email', booking: 'a booking click' };
+  const list = rows.slice(0, 6).map((l) => {
+    const when = new Date(l.created_at).toLocaleDateString('en-US', { month: 'long', day: 'numeric' });
+    return '<p style="margin:0 0 8px;">' + esc(l.name || KIND[l.type] || 'An enquiry') + ' &middot; ' + esc(when) + '</p>';
+  }).join('');
+  const more = rows.length > 6 ? '<p style="margin:0 0 8px;color:#5b6079;">and ' + (rows.length - 6) + ' more</p>' : '';
+  return '<p style="margin:0 0 16px;">Hey ' + esc(firstName(c.name)) + ',</p>' +
+    '<p style="margin:0 0 16px;">' + (rows.length === 1 ? 'Someone reached out through your website and has not heard back yet.' : rows.length + ' people reached out through your website and have not heard back yet.') + '</p>' +
+    list + more +
+    '<p style="margin:16px 0;">Most people ring two or three businesses and go with whoever answers first, so a quick call today is usually worth more than anything we could change on the site.</p>' +
+    btn(PORTAL_URL + '/#leads', 'See who reached out') +
+    '<p style="margin:0 0 16px;">Already dealt with them? Mark them contacted in your portal and we will stop reminding you.</p>';
+}
 
 function winbackInner(c: any) {
   return '<p style="margin:0 0 16px;">Hey ' + esc(firstName(c.name)) + ',</p>' +
@@ -109,7 +130,7 @@ Deno.serve(async (req) => {
 
   const svc = createClient(Deno.env.get('SUPABASE_URL')!, Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!);
   const now = Date.now();
-  const sent = { winback: 0, onboarding: 0, review: 0, portal: 0, needsInfo: 0 };
+  const sent = { winback: 0, onboarding: 0, review: 0, portal: 0, needsInfo: 0, coldLeads: 0, waitingOnUs: 0 };
 
   try {
     // 1) WIN-BACK: cancelled 20-30 days ago, still inactive, has an email, not yet sent.
@@ -208,6 +229,93 @@ Deno.serve(async (req) => {
         }
       }
     } catch (e) { console.error('[lifecycle] needs-info follow-up failed:', e); }
+
+    // ── 6) Enquiries the client never got back to ──
+    // The lead inbox is only worth anything if someone rings these people. Two days, so a Friday
+    // enquiry is not chased on a Saturday morning, and one nudge per lead so it never becomes a drip.
+    try {
+      const { data: cold, error: coldErr } = await svc.from('lead_events')
+        .select('id, user_id, type, name, created_at')
+        .neq('type', 'order')
+        .is('contacted_at', null)
+        .is('outcome', null)
+        .is('lead_nudged_at', null)
+        .lte('created_at', iso(now - 2 * DAY))
+        .gte('created_at', iso(now - 14 * DAY));   // older than a fortnight is history, not a to-do
+      if (coldErr) {
+        console.warn('[lifecycle] cold-lead follow-up skipped:', coldErr.message);   // lead_followup.sql not run
+      } else {
+        const byUser: Record<string, any[]> = {};
+        for (const l of cold ?? []) (byUser[l.user_id] = byUser[l.user_id] || []).push(l);
+        for (const uid of Object.keys(byUser)) {
+          const rows = byUser[uid];
+          const { data: c } = await svc.from('clients')
+            .select('id, name, email, second_email, status, plan').eq('user_id', uid).maybeSingle();
+          if (!c || !c.email || c.status === 'inactive') continue;
+          if (!/growth|elite/i.test(String(c.plan || ''))) continue;   // only plans with the lead inbox
+          // An explicit opt-out of lead email covers this too. No row means they never chose, and a
+          // missed customer is worth one email.
+          const { data: pref } = await svc.from('email_prefs').select('lead_digest').eq('user_id', uid).maybeSingle();
+          if (pref && pref.lead_digest === false) continue;
+          const to = [c.email, c.second_email].filter(Boolean) as string[];
+          if (await sendEmail(to, rows.length === 1 ? 'An enquiry is still waiting for you' : rows.length + ' enquiries are still waiting for you', coldLeadsInner(c, rows))) {
+            await svc.from('lead_events').update({ lead_nudged_at: iso(now) }).in('id', rows.map((r) => r.id));
+            sent.coldLeads++;
+          }
+        }
+      }
+    } catch (e) { console.error('[lifecycle] cold-lead follow-up failed:', e); }
+
+    // ── 7) Conversations waiting on us (internal) ──
+    // Same rule as the Needs you queue in admin: the last word was theirs. This is the safety net for
+    // the day nobody opens the admin page.
+    try {
+      const dayAgo = iso(now - DAY);
+      const [notesR, msgsR, openR, clientsR] = await Promise.all([
+        svc.from('client_notes').select('client_id, author, note, created_at').order('created_at', { ascending: false }).limit(500),
+        svc.from('request_messages').select('request_id, sender, body, created_at').order('created_at', { ascending: false }).limit(800),
+        svc.from('update_requests').select('id, type, user_id, status').neq('status', 'Done'),
+        svc.from('clients').select('id, user_id, name, email, status'),
+      ]);
+      const clients = clientsR.data ?? [];
+      const byId: Record<string, any> = {}, byUser: Record<string, any> = {};
+      clients.forEach((c: any) => { byId[String(c.id)] = c; byUser[String(c.user_id)] = c; });
+      const waiting: { who: string; what: string; at: string }[] = [];
+      const seenNote: Record<string, boolean> = {};
+      for (const n of notesR.data ?? []) {
+        if (!n.client_id || seenNote[n.client_id]) continue;
+        seenNote[n.client_id] = true;                       // newest first, so this is the last word
+        if (n.author !== 'client' || n.created_at > dayAgo) continue;
+        const c = byId[String(n.client_id)];
+        if (!c || c.status === 'inactive') continue;
+        waiting.push({ who: c.name || c.email || 'Client', what: 'Message: ' + String(n.note || '').replace(/\s+/g, ' ').slice(0, 90), at: n.created_at });
+      }
+      const openById: Record<string, any> = {};
+      (openR.data ?? []).forEach((r: any) => { openById[String(r.id)] = r; });
+      const seenReq: Record<string, boolean> = {};
+      for (const m of msgsR.data ?? []) {
+        if (seenReq[m.request_id]) continue;
+        seenReq[m.request_id] = true;
+        if (m.sender !== 'client' || m.created_at > dayAgo) continue;
+        const r = openById[String(m.request_id)];
+        if (!r) continue;                                   // request already done
+        const c = byUser[String(r.user_id)];
+        if (!c || c.status === 'inactive') continue;
+        waiting.push({ who: c.name || c.email || 'Client', what: (r.type || 'Request') + ': ' + String(m.body || '').replace(/\s+/g, ' ').slice(0, 90), at: m.created_at });
+      }
+      if (waiting.length) {
+        waiting.sort((a, b) => (a.at < b.at ? -1 : 1));
+        const rows = waiting.map((w) => {
+          const days = Math.max(1, Math.round((now - new Date(w.at).getTime()) / DAY));
+          return '<p style="margin:0 0 10px;"><b>' + esc(w.who) + '</b> &middot; waiting ' + days + (days === 1 ? ' day' : ' days')
+            + '<br><span style="color:#5b6079;">' + esc(w.what) + '</span></p>';
+        }).join('');
+        const inner = '<p style="margin:0 0 16px;">' + waiting.length + (waiting.length === 1 ? ' conversation is' : ' conversations are')
+          + ' waiting on a reply from us, oldest first.</p>' + rows
+          + btn('https://portal.webeaze.io/admin#pulse', 'Open the queue');
+        if (await sendEmail(['billy@webeaze.io'], 'Waiting on you: ' + waiting.length + (waiting.length === 1 ? ' reply' : ' replies'), inner)) sent.waitingOnUs++;
+      }
+    } catch (e) { console.error('[lifecycle] waiting-on-us digest failed:', e); }
 
     console.log('[lifecycle] sent', JSON.stringify(sent));
     return json({ ok: true, sent });

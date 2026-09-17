@@ -106,6 +106,36 @@ Deno.serve(async (req) => {
 
     const inv = event.data && event.data.object;
     if (!inv) return json({ ok: true, ignored: 'no invoice' });
+
+    // ── An add-on the client approved and paid in the portal ──
+    // create-invoice stamps metadata.source, so this is the only invoice shape we act on besides the
+    // first subscription payment. Filing it as a normal request is what puts it in the work queue and
+    // on their history, rather than living only in Stripe.
+    const meta = inv.metadata || {};
+    if (String(meta.source || '') === 'portal-addon') {
+      const svc = createClient(Deno.env.get('SUPABASE_URL')!, Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!);
+      const addon = String(meta.addon || 'an add-on');
+      const uid = String(meta.user_id || '');
+      const paid = Math.round(Number(inv.amount_paid || 0) / 100);
+      if (!uid) { await emailAdmin('Add-on paid with no user id', ['Invoice ' + inv.id + ' for ' + addon + ' was paid but carried no user_id.']); return json({ ok: true, skipped: 'addon without user' }); }
+      // Stripe retries, so never file the same paid add-on twice.
+      const tag = '[invoice ' + String(inv.id) + ']';
+      const { data: dupe } = await svc.from('update_requests').select('id').eq('user_id', uid).ilike('notes', '%' + tag + '%').limit(1);
+      if (dupe && dupe.length) return json({ ok: true, ignored: 'addon already filed' });
+      const { error: reqErr } = await svc.from('update_requests').insert({
+        user_id: uid,
+        type: 'Other',
+        notes: 'Add-on purchase: ' + addon + ' ($' + paid + ' paid). Approved and paid in the portal. ' + tag,
+        priority: 'Normal',
+        status: 'Received',
+      });
+      if (reqErr) console.error('[stripe-webhook] add-on request insert failed:', reqErr.message);
+      await emailAdmin('Paid: ' + addon + ' ($' + paid + ')',
+        [String(meta.client_name || 'A client') + ' paid for ' + addon + '.',
+         reqErr ? 'Filing the work as a request FAILED, add it by hand.' : 'It is filed as a request and waiting in the queue.']);
+      return json({ ok: true, addon: addon, filed: !reqErr });
+    }
+
     if (inv.billing_reason !== 'subscription_create') {
       return json({ ok: true, ignored: 'not the first payment', billing_reason: inv.billing_reason });
     }

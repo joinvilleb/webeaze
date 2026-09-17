@@ -2,8 +2,14 @@
 // Creates a DRAFT Stripe invoice for a portal add-on, so Billy just reviews it and hits Send.
 // Nothing is charged automatically. Flat-rate add-ons use this; quoted ones file a request instead.
 //
-// Called with the client's JWT.  Body: { addon: string, amount: number }
-// Returns: { ok:true, invoiceId } on success, or { ok:false, fallback:'request', reason } so the
+// Called with the client's JWT.  Body: { addon: string, amount: number, pay?: boolean }
+//   pay:true  finalizes the invoice and returns hosted_invoice_url, so the client can approve and pay
+//             in the portal there and then (Stripe emails them a copy too). Nothing is ever charged
+//             without them pressing pay.
+//   otherwise it stays a DRAFT for Billy to review and send, which is how this worked before.
+// A finalize failure is never fatal: the invoice stays a draft and the portal falls back to the old
+// "we will email you an invoice" wording, so a Stripe hiccup cannot block the sale.
+// Returns: { ok:true, invoiceId, url? } on success, or { ok:false, fallback:'request', reason } so the
 //          portal can quietly file a request instead when we can't invoice (no Stripe customer, etc.).
 //
 // Deploy:  supabase functions deploy create-invoice   (Verify JWT ON; the portal sends a JWT)
@@ -51,6 +57,7 @@ Deno.serve(async (req) => {
     const body = await req.json().catch(() => ({} as any));
     const addon = String(body.addon || '').slice(0, 120).trim();
     const amount = Math.round(Number(body.amount) || 0);   // whole dollars
+    const payNow = body.pay === true;
     if (!addon || amount <= 0) return json({ ok: false, fallback: 'request', reason: 'bad input' });
 
     const authed = createClient(Deno.env.get('SUPABASE_URL')!, Deno.env.get('SUPABASE_ANON_KEY')!, { global: { headers: { Authorization: req.headers.get('Authorization') ?? '' } } });
@@ -70,17 +77,33 @@ Deno.serve(async (req) => {
       customer: c.stripe_customer_id,
       collection_method: 'send_invoice',
       days_until_due: 7,
-      auto_advance: 'false',   // stays a DRAFT for Billy to review and send
+      auto_advance: 'false',   // we finalize below only when asked; never auto-charge
       description: 'Add-on requested from the client portal: ' + addon,
       'metadata[source]': 'portal-addon',
       'metadata[addon]': addon,
+      // The webhook needs to know whose work this is once it is paid.
+      'metadata[user_id]': user.id,
+      'metadata[client_name]': String(c.name || c.email || ''),
+      'metadata[amount_usd]': String(amount),
     });
 
-    await emailTeam('Draft invoice ready: ' + addon + ' for ' + (c.name || c.email || 'a client'),
-      '<p><strong>' + (c.name || c.email) + '</strong> requested the add-on <strong>' + addon + '</strong> ($' + amount + ').</p>' +
-      '<p>A <strong>draft invoice</strong> is waiting in your Stripe dashboard, review it and hit Send when ready.</p>');
+    let payUrl = '';
+    if (payNow) {
+      try {
+        const fin = await stripe('invoices/' + inv.id + '/finalize', { auto_advance: 'false' });
+        payUrl = String(fin.hosted_invoice_url || '');
+      } catch (e) {
+        console.error('[create-invoice] finalize failed, leaving it a draft:', e);   // portal falls back
+      }
+    }
 
-    return json({ ok: true, invoiceId: inv.id });
+    await emailTeam((payUrl ? 'Invoice ready to pay: ' : 'Draft invoice ready: ') + addon + ' for ' + (c.name || c.email || 'a client'),
+      '<p><strong>' + (c.name || c.email) + '</strong> chose the add-on <strong>' + addon + '</strong> ($' + amount + ').</p>' +
+      (payUrl
+        ? '<p>It is finalized and they can pay it now. You get a second email the moment it is paid, and the work files itself as a request.</p>'
+        : '<p>A <strong>draft invoice</strong> is waiting in your Stripe dashboard, review it and hit Send when ready.</p>'));
+
+    return json({ ok: true, invoiceId: inv.id, url: payUrl || null });
   } catch (e) {
     console.error('[create-invoice] error:', e);
     // On any Stripe error, fall back to a request so the client is never left stuck.
