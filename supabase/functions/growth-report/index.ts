@@ -923,11 +923,13 @@ async function fetchMonthlyRecap(sb: any, userId: string) {
   return { done, monthLabel, windowStartISO: windowStart.toISOString(), windowEndISO: windowEnd.toISOString() };
 }
 
-// Count lead events (form fills, calls, emails) for a client in a window. Safe if the table
-// does not exist yet (returns 0), so the feature is inert until lead_events.sql is run.
+// Count real enquiries (a form someone filled in) for a client in a window. Deliberately NOT every
+// row: a tap on a phone number is interest, and a completed order is revenue, and counting either as
+// a "lead" put a number in the client's monthly email that their own phone log did not support.
+// Safe if the table does not exist yet (returns 0).
 async function countLeads(sb: any, userId: string, startISO: string, endISO?: string) {
   try {
-    let q = sb.from('lead_events').select('id', { count: 'exact', head: true }).eq('user_id', userId).gte('created_at', startISO);
+    let q = sb.from('lead_events').select('id', { count: 'exact', head: true }).eq('user_id', userId).eq('type', 'form').gte('created_at', startISO);
     if (endISO) q = q.lt('created_at', endISO);
     const { count } = await q;
     return count || 0;

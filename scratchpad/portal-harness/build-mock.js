@@ -14,7 +14,7 @@ const errs = '<script>window.__errs=[];addEventListener("error",e=>window.__errs
 const hide = `<script>setTimeout(function(){try{document.querySelectorAll('.tour-overlay,.chat-fab,.chat-teaser,.install-bar,#toast-wrap').forEach(function(n){n.style.display='none';});var tb=document.querySelector('.topbar');if(tb)tb.style.position='static';}catch(e){}},900);</script>`;
 for (const [src, dst] of [['index.html', 'mock.html'], ['admin.html', 'mockadmin.html']]) {
   let s = fs.readFileSync(path.join(OUT, src), 'utf8');
-  s = s.replace(/<script src="https:\/\/unpkg\.com\/@supabase[^>]*><\/script>/, '').replace('</head>', errs);
+  s = s.replace(/<script src="(?:https:\/\/unpkg\.com\/@supabase|vendor\/supabase)[^>]*><\/script>/, '').replace('</head>', errs);
   const a = s.indexOf('const SUPABASE_URL'); if (a < 0) throw new Error('no SUPABASE_URL in ' + src);
   s = s.slice(0, a) + '\n' + mock + '\n' + s.slice(a);
   const last = s.lastIndexOf('</body>');   // the first two are inside JS strings

@@ -143,6 +143,13 @@ Deno.serve(async (req) => {
     const source = clean(body.source, 80);
     const target = clean(body.target, 160);
 
+    // track.js already skips crawlers, but this endpoint is public and its key sits in the page
+    // source, so the same rule is enforced here. Answering ok keeps a bot from learning anything.
+    const ua = String(req.headers.get('user-agent') || '');
+    if (/bot|crawler|spider|crawling|headless|phantom|puppeteer|playwright|lighthouse|gtmetrix|pingdom|uptime|monitor|preview|facebookexternalhit|slurp|bingpreview|semrush|ahrefs|mj12|dotbot|petalbot|curl|wget|python-requests|go-http/i.test(ua)) {
+      return ok({ ok: true, skipped: 'bot' });
+    }
+
     const row: Record<string, unknown> = { user_id: key, type, page };
     if (device) row.device = device;
     if (source) row.source = source;
