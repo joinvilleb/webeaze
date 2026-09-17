@@ -34,6 +34,9 @@ SHOTS.push(
   })),
   { name: 'c-addon-ask', vw: 760, mobile: false, clip: '#addon-chat-card', js: go('addons') + settle(1600) + 'openAddonChat();' + settle(1200) + "document.querySelector('.addon-ask').style.visibility='hidden';" + settle(200) },
   { name: 'c-history-list', vw: 700, mobile: false, clip: '#view-history .card', js: go('history') + settle(1600) },
+  // The sign-in card, for the help articles about logging in. 420 css wide matches the old crops.
+  { name: 'c-login', vw: 430, mobile: false, clip: '.auth-card', js: `(function(){document.getElementById('loading-screen').style.display='none';document.querySelectorAll('.body,.topbar,#portal-screen').forEach(function(n){n.style.display='none';});document.getElementById('auth-screen').style.display='flex';})();` + settle(400) },
+  { name: 'c-reset', vw: 430, mobile: false, clip: '.auth-card', js: `(function(){document.getElementById('loading-screen').style.display='none';document.querySelectorAll('.body,.topbar,#portal-screen').forEach(function(n){n.style.display='none';});document.getElementById('auth-screen').style.display='flex';})();` + "hide('login-form'); show('reset-form');" + settle(400) },
   { name: 'c-onboarding', vw: 640, mobile: false, clip: '#onboarding-card', js: go('home') + settle(600) + 'showOnboarding(3);' + settle(800) },
 );
 
