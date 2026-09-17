@@ -12,9 +12,12 @@
 //   5) Needs-info     — 3 days after we asked a client a question and got nothing back. The request
 //                      is parked until they answer, and the original ask is quoted so they do not
 //                      have to go looking for what we wanted. Needs supabase/needs_info_followup.sql.
-//   6) Cold leads     — 2 days after an enquiry came in that the client never marked contacted. The
-//                      lead inbox only pays for itself if someone actually calls these people back.
-//                      One nudge per lead, stamped. Needs supabase/lead_followup.sql.
+//   6) Cold leads     — 2 days after a WRITTEN enquiry (form or email) that is not marked handled.
+//                      Deliberately cautious: almost nobody marks leads contacted (5 of 2105 when
+//                      this was written), so "not marked" cannot be read as "ignored". Hence: written
+//                      enquiries only, since a missed call is not something we can chase; a reminder
+//                      to mark them rather than an accusation; at most one email per client a week;
+//                      and one nudge per lead ever. Needs supabase/lead_followup.sql.
 //   7) Waiting on us  — an internal note to the team listing every conversation where the client
 //                      spoke last over a day ago (portal Messages and request threads). No client
 //                      ever sees this one, and it repeats daily until the queue is clear.
@@ -66,11 +69,11 @@ function coldLeadsInner(c: any, rows: any[]) {
   }).join('');
   const more = rows.length > 6 ? '<p style="margin:0 0 8px;color:#5b6079;">and ' + (rows.length - 6) + ' more</p>' : '';
   return '<p style="margin:0 0 16px;">Hey ' + esc(firstName(c.name)) + ',</p>' +
-    '<p style="margin:0 0 16px;">' + (rows.length === 1 ? 'Someone reached out through your website and has not heard back yet.' : rows.length + ' people reached out through your website and have not heard back yet.') + '</p>' +
+    '<p style="margin:0 0 16px;">' + (rows.length === 1 ? 'An enquiry came in through your website this week and is not marked as handled yet.' : rows.length + ' enquiries came in through your website this week and are not marked as handled yet.') + '</p>' +
     list + more +
-    '<p style="margin:16px 0;">Most people ring two or three businesses and go with whoever answers first, so a quick call today is usually worth more than anything we could change on the site.</p>' +
-    btn(PORTAL_URL + '/#leads', 'See who reached out') +
-    '<p style="margin:0 0 16px;">Already dealt with them? Mark them contacted in your portal and we will stop reminding you.</p>';
+    '<p style="margin:16px 0;">If you have already got back to ' + (rows.length === 1 ? 'them' : 'them all') + ', mark ' + (rows.length === 1 ? 'it' : 'them') + ' done in your portal and we will stop mentioning ' + (rows.length === 1 ? 'it' : 'them') + '. If not, most people ring two or three businesses and go with whoever answers first, so today is worth more than tomorrow.</p>' +
+    btn(PORTAL_URL + '/#leads', 'Open your leads') +
+    '<p style="margin:0 0 16px;">We send this at most once a week, and never twice about the same enquiry.</p>';
 }
 
 function winbackInner(c: any) {
@@ -236,7 +239,7 @@ Deno.serve(async (req) => {
     try {
       const { data: cold, error: coldErr } = await svc.from('lead_events')
         .select('id, user_id, type, name, created_at')
-        .neq('type', 'order')
+        .in('type', ['form', 'email'])   // a missed call is not ours to chase, and a booking click is not a question
         .is('contacted_at', null)
         .is('outcome', null)
         .is('lead_nudged_at', null)
@@ -249,6 +252,11 @@ Deno.serve(async (req) => {
         for (const l of cold ?? []) (byUser[l.user_id] = byUser[l.user_id] || []).push(l);
         for (const uid of Object.keys(byUser)) {
           const rows = byUser[uid];
+          // One of these a week, at most. The stamp on their other leads is the throttle, so no extra
+          // column is needed: if we nudged this client in the last 7 days, leave them alone.
+          const { data: recent } = await svc.from('lead_events')
+            .select('id').eq('user_id', uid).gte('lead_nudged_at', iso(now - 7 * DAY)).limit(1);
+          if (recent && recent.length) continue;
           const { data: c } = await svc.from('clients')
             .select('id, name, email, second_email, status, plan').eq('user_id', uid).maybeSingle();
           if (!c || !c.email || c.status === 'inactive') continue;
