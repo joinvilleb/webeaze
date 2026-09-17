@@ -13,6 +13,8 @@
 import { createClient } from 'jsr:@supabase/supabase-js@2';
 
 const DISPATCH_SECRET = Deno.env.get('CRON_SECRET') ?? '';
+const ANTHROPIC_API_KEY = Deno.env.get('ANTHROPIC_API_KEY') ?? '';
+const TRIAGE_MODEL = 'claude-haiku-4-5-20251001';
 const BOT_URL = 'https://webeaze-request-bot.webeaze-web-design.workers.dev/';
 const BOT_SECRET = Deno.env.get('BOT_SECRET') ?? '';
 
@@ -109,6 +111,72 @@ async function sendDoneEmail(r: any, c: any) {
   } catch (e) { console.error('[done email] send failed:', e); return false; }
 }
 
+// ── Ask the obvious question straight away ─────────────────────────────────
+// A request that cannot be started as written used to sit on Received until someone opened it, and
+// the client heard nothing for a day before being asked "which page?". The answer to that question is
+// knowable the moment the request lands, so it gets asked the moment the request lands. The bar is
+// deliberately high: only when a competent web person genuinely could not begin.
+async function triageMissingInfo(type: string, description: string, siteUrl: string) {
+  if (!ANTHROPIC_API_KEY) return null;
+  const system = [
+    'You triage website change requests for a small business web agency.',
+    'Decide whether a competent web person could START this work without asking anything.',
+    'Assume they can see the client\'s website, can find the obvious page, and can use reasonable judgement about wording, placement and styling.',
+    'Only say we must ask when the request is genuinely unworkable as written: the target is ambiguous between real options, or required content (the actual text, the photo, the price, the address) is simply not there.',
+    'Never ask for something the client already gave. Never ask a question whose answer you could reasonably assume. Never ask about scheduling or priority.',
+    'If you must ask, write ONE short message to the client: at most two questions, plain words, no greeting, no sign off, no apology. Under 40 words.',
+    'Reply with ONLY minified JSON: {"canStart":true} or {"canStart":false,"question":"..."}',
+  ].join(' ');
+  const user = 'Website: ' + (siteUrl || 'unknown') + '\nRequest type: ' + type + '\nWhat they wrote:\n' + description.slice(0, 1500);
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-api-key': ANTHROPIC_API_KEY, 'anthropic-version': '2023-06-01' },
+      body: JSON.stringify({ model: TRIAGE_MODEL, max_tokens: 300, system, messages: [{ role: 'user', content: user }] }),
+    });
+    if (!res.ok) { console.warn('[triage] anthropic ' + res.status); return null; }
+    const data = await res.json();
+    // Claude 5 models can return a thinking block first, so read every text block, not content[0].
+    const text = (data.content || []).filter((b: any) => b && b.type === 'text').map((b: any) => b.text).join('').trim();
+    const m = text.match(/\{[\s\S]*\}/);
+    if (!m) return null;
+    const parsed = JSON.parse(m[0]);
+    if (parsed.canStart !== false) return null;
+    const q = String(parsed.question || '').trim();
+    // A vague question is worse than no question: it costs the client a reply and tells us nothing.
+    if (q.length < 12 || q.length > 400) return null;
+    return q;
+  } catch (e) { console.error('[triage] failed:', e); return null; }
+}
+
+async function sendNeedsInfoEmail(r: any, c: any, question: string) {
+  const to = [c?.email, c?.second_email].map((a: unknown) => String(a ?? '').trim()).filter(Boolean)
+    .filter((a: string, i: number, all: string[]) => all.findIndex((b) => b.toLowerCase() === a.toLowerCase()) === i);
+  if (!to.length) return false;
+  const first = String(c?.name ?? '').trim().split(/\s+/)[0] || '';
+  const link = 'https://portal.webeaze.io/#history/' + encodeURIComponent(String(r?.id ?? ''));
+  const preheader = question.replace(/\s+/g, ' ').slice(0, 140);
+  const html =
+    '<div style="display:none;max-height:0;overflow:hidden;opacity:0;">' + escHtml(preheader) + '</div>' +
+    '<div style="display:none;max-height:0;overflow:hidden;opacity:0;">' + PREVIEW_PAD + '</div>' +
+    '<div style="max-width:560px;margin:0 auto;padding:32px 24px;font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:1.7;color:#1f2333;">' +
+    '<p style="margin:0 0 12px;">Hey' + (first ? ' ' + escHtml(first) : '') + ',</p>' +
+    '<p style="margin:0 0 16px;">Got your request. One thing before we start:</p>' +
+    '<div style="background:#f7f7fa;border:1px solid #e4e7f1;border-left:3px solid #7851a9;border-radius:8px;padding:14px 16px;margin:0 0 18px;">' +
+    emailParas(question, 'margin:0 0 10px;') + '</div>' +
+    '<p style="margin:0 0 16px;">Reply to this email or answer in your portal, whichever is easier, and we will get straight on it.</p>' +
+    '<div style="margin:20px 0 0;"><a href="' + link + '" style="display:inline-block;background:#7851a9;color:#ffffff;text-decoration:none;font-weight:600;font-size:15px;padding:12px 24px;border-radius:10px;">Answer in your portal</a></div>' +
+    '<p style="margin:28px 0 4px;">Best,</p><p style="margin:0;">WebEaze Web Design</p>' +
+    '</div>';
+  try {
+    const res = await fetch(MAILER_URL, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ from: 'WebEaze <support@webeaze.io>', to, subject: 'Quick question about your request' + reqRef(r?.id), html }),
+    });
+    return res.ok;
+  } catch (e) { console.error('[triage email] failed:', e); return false; }
+}
+
 // Process ONE request through the bot with the full safety gate. Returns a small result object.
 // opts.skipSchedule bypasses the "scheduled for a future date" skip (used by the sweep, where the
 // scheduled date has already arrived).
@@ -120,8 +188,31 @@ async function dispatchOne(service: any, record: any, opts: { skipSchedule?: boo
   if (!userId || !description) return { ok: true, skipped: 'missing user or description' };
   if (record.status && !['Received', 'New', 'In progress'].includes(record.status)) return { ok: true, skipped: `status ${record.status}` };
 
-  // ── Safety gate ── some requests must NEVER be auto-actioned; they stay pending for Billy.
   const tl = String(type).toLowerCase();
+
+  // ── Instant clarifying question ──
+  // Runs for every type except an emergency, where asking anything is the wrong move: a site that is
+  // down needs a person, now. Only fires on a fresh request, never on one already in flight.
+  if (!tl.includes('urgent') && !tl.includes('down') && (record.status === 'Received' || record.status === 'New') && !record.needs_info_message) {
+    const { data: tc } = await service.from('clients')
+      .select('email, second_email, name, site_url, status').eq('user_id', userId).maybeSingle();
+    if (tc && (tc.status || '').toLowerCase() !== 'inactive') {
+      const question = await triageMissingInfo(type, description, tc.site_url || '');
+      if (question) {
+        // The thread is the record; the two legacy columns keep the three-day chase and the admin
+        // panel working exactly as they do for a question Billy types himself.
+        await service.from('request_messages').insert({ request_id: requestId, user_id: userId, sender: 'team', body: question });
+        await service.from('update_requests').update({
+          status: 'Needs info', needs_info_message: question, needs_info_at: new Date().toISOString(),
+          client_reply: null, needs_info_reminded_at: null,
+        }).eq('id', requestId);
+        await sendNeedsInfoEmail({ id: requestId, type }, tc, question);
+        return { ok: true, handled: 'asked', question };
+      }
+    }
+  }
+
+  // ── Safety gate ── some requests must NEVER be auto-actioned; they stay pending for Billy.
   if (tl.includes('urgent') || tl.includes('down'))    return { ok: true, skipped: 'emergency: needs a human now' };
   if (tl.includes('bug') || tl.includes('broken'))     return { ok: true, skipped: 'bug fix: human until auto-rollback exists' };
   if (tl === 'other')                                  return { ok: true, skipped: 'ambiguous type: human triage' };
@@ -212,6 +303,13 @@ Deno.serve(async (req) => {
         } catch (e) { results.push({ id: rec.id, error: String(e).slice(0, 120) }); }
       }
       return json({ ok: true, mode: 'scheduled', due: (due || []).length, results });
+    }
+
+    // Dry run: what WOULD we ask about this request? Writes nothing, emails nobody. This is how the
+    // wording and the bar for asking get checked without filing a fake request on a real client.
+    if (body.mode === 'triage-preview') {
+      const q = await triageMissingInfo(String(body.type || 'Content update'), String(body.notes || ''), String(body.site || ''));
+      return json({ ok: true, wouldAsk: !!q, question: q });
     }
 
     // ── Normal: a single request from the DB webhook (or a direct call). ──
