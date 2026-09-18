@@ -14,14 +14,14 @@ values (
   true,
   now(),
   'Update',
-  'Leads now counts people you can reply to',
+  'Inquiries now counts people you can reply to',
   'product',
   'all',
-  'Your Leads number used to include every tap on your phone number, email link or booking button, so it was always higher than the number of people you could actually get back to.'
+  'The number on your home page used to include every tap on your phone number, email link or booking button, so it was always higher than the number of people you could actually get back to.'
   || E'\n\n'
-  || 'It now counts enquiries with details you can reply to, and shows taps on a second line underneath. You will probably see a smaller number this month than last.'
+  || 'It''s called Inquiries now, and it counts the people who left you details to reply to. Taps show on a second line underneath. You''ll probably see a smaller number this month than last.'
   || E'\n\n'
-  || 'Nothing has changed on your website and nobody has stopped getting in touch. We are just counting it the way you would count it.'
+  || 'Nothing has changed on your website and nobody has stopped getting in touch. We''re just counting it the way you would count it.'
 );
 
 -- Check what clients will see:
