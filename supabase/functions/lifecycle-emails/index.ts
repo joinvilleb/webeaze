@@ -69,9 +69,9 @@ function coldLeadsInner(c: any, rows: any[]) {
   }).join('');
   const more = rows.length > 6 ? '<p style="margin:0 0 8px;color:#5b6079;">and ' + (rows.length - 6) + ' more</p>' : '';
   return '<p style="margin:0 0 16px;">Hey ' + esc(firstName(c.name)) + ',</p>' +
-    '<p style="margin:0 0 16px;">' + (rows.length === 1 ? 'An enquiry came in through your website this week and is not marked as handled yet.' : rows.length + ' enquiries came in through your website this week and are not marked as handled yet.') + '</p>' +
+    '<p style="margin:0 0 16px;">' + (rows.length === 1 ? 'An inquiry came in through your website this week and isn\'t marked as handled yet.' : rows.length + ' inquiries came in through your website this week and aren\'t marked as handled yet.') + '</p>' +
     list + more +
-    '<p style="margin:16px 0;">If you have already got back to ' + (rows.length === 1 ? 'them' : 'them all') + ', mark ' + (rows.length === 1 ? 'it' : 'them') + ' done in your portal and we will stop mentioning ' + (rows.length === 1 ? 'it' : 'them') + '. If not, most people ring two or three businesses and go with whoever answers first, so today is worth more than tomorrow.</p>' +
+    '<p style="margin:16px 0;">If you\'ve already got back to ' + (rows.length === 1 ? 'them' : 'them all') + ', mark ' + (rows.length === 1 ? 'it' : 'them') + ' done in your portal and we\'ll stop mentioning ' + (rows.length === 1 ? 'it' : 'them') + '. If not, most people ring two or three businesses and go with whoever answers first, so today is worth more than tomorrow.</p>' +
     btn(PORTAL_URL + '/#leads', 'Open your leads') +
     '<p style="margin:0 0 16px;">We send this at most once a week, and never twice about the same enquiry.</p>';
 }
@@ -79,51 +79,51 @@ function coldLeadsInner(c: any, rows: any[]) {
 function winbackInner(c: any) {
   return '<p style="margin:0 0 16px;">Hey ' + esc(firstName(c.name)) + ',</p>' +
     '<p style="margin:0 0 16px;">It has been a couple of weeks since your plan with us ended, and we wanted to reach out once more before your website files are removed.</p>' +
-    '<p style="margin:0 0 16px;">If you would like to come back, we can reactivate your site and pick up right where we left off, no rebuild needed.</p>' +
+    '<p style="margin:0 0 16px;">If you\'d like to come back, we can reactivate your site and pick up right where we left off, no rebuild needed.</p>' +
     btn(PORTAL_URL, 'Reactivate my website') +
     '<p style="margin:0 0 16px;">Please note: after 30 days from cancellation, website files are permanently deleted and there are no extensions/exceptions to this policy.</p>' +
     '<p style="margin:0 0 16px;">Either way, thank you for having been part of us, and we wish you the best in your future endeavors.</p>';
 }
 function onboardingInner(c: any) {
   return '<p style="margin:0 0 16px;">Hey ' + esc(firstName(c.name)) + ',</p>' +
-    '<p style="margin:0 0 16px;">Welcome again! We noticed your Site Setup is not finished yet. We cannot start building your website until we have a few details about your business, to ensure you are happy with the final result.</p>' +
+    '<p style="margin:0 0 16px;">Welcome again! We noticed your Site Setup isn\'t finished yet. We can\'t start building your website until we have a few details about your business, so you\'re happy with the final result.</p>' +
     '<p style="margin:0 0 16px;">It only takes a few minutes. The sooner you complete it, the sooner your site goes live.</p>' +
     btn(PORTAL_URL + '/#setup', 'Finish your Site Setup') +
-    '<p style="margin:0 0 16px;">If you have questions or need help getting started, reply to this email and we will help you out.</p>';
+    '<p style="margin:0 0 16px;">If you have questions or need help getting started, reply to this email and we\'ll help you out.</p>';
 }
 // The follow-up quotes the ORIGINAL question. A bare "we are still waiting on you" makes them open
 // the portal to find out what for, which is the friction that stalled the request in the first place.
 function needsInfoInner(c: any, r: any) {
   return '<p style="margin:0 0 16px;">Hey ' + esc(firstName(c.name)) + ',</p>' +
-    '<p style="margin:0 0 14px;">We are still waiting to hear back on your ' +
-      esc(String(r.type || 'request').toLowerCase()) + ' request. It is paused until we do.</p>' +
+    '<p style="margin:0 0 14px;">We\'re still waiting to hear back on your ' +
+      esc(String(r.type || 'request').toLowerCase()) + ' request. It\'s paused until we do.</p>' +
     '<p style="margin:0 0 8px;">This is what we asked:</p>' +
     '<div style="background:#f7f7fa;border:1px solid #e4e7f1;border-left:3px solid #7851a9;border-radius:8px;padding:14px 16px;margin:0 0 18px;white-space:pre-wrap;">' +
       esc(r.needs_info_message) + '</div>' +
     btn(PORTAL_URL + '/#history/' + encodeURIComponent(String(r.id)), 'Answer in your portal') +
-    '<p style="margin:16px 0 0;">You can also just reply to this email and we will pick it up from there.</p>';
+    '<p style="margin:16px 0 0;">You can also just reply to this email and we\'ll pick it up from there.</p>';
 }
 function portalInner(c: any) {
   return '<p style="margin:0 0 16px;">Hey ' + esc(firstName(c.name)) + ',</p>' +
-    '<p style="margin:0 0 16px;">We set your client portal up when you joined, but it looks like you have not opened it yet. Everything we do for you lives in there.</p>' +
-    '<p style="margin:0 0 8px;">It is where you:</p>' +
+    '<p style="margin:0 0 16px;">We set your client portal up when you joined, but it looks like you haven\'t opened it yet. Everything we do for you lives in there.</p>' +
+    '<p style="margin:0 0 8px;">It\'s where you:</p>' +
     '<ul style="margin:0 0 16px;padding-left:20px;">' +
       '<li style="margin-bottom:8px;">Send us website changes and watch them get done</li>' +
       '<li style="margin-bottom:8px;">See who has been contacting you through your site</li>' +
       '<li style="margin-bottom:8px;">Check how your site is performing on Google</li>' +
     '</ul>' +
     btn(PORTAL_URL, 'Open your portal') +
-    '<p style="margin:0 0 16px;">If you cannot get in, or never received your login, just reply to this email and we will sort it out.</p>';
+    '<p style="margin:0 0 16px;">If you can\'t get in, or never received your login, just reply to this email and we\'ll sort it out.</p>';
 }
 function reviewInner(c: any) {
   return '<p style="margin:0 0 16px;">Hey ' + esc(firstName(c.name)) + ',</p>' +
-    '<p style="margin:0 0 16px;">Your website has been live for a couple of weeks now. How is it going? We hope it is already bringing you new leads and customers.</p>' +
-    '<p style="margin:0 0 8px;">Two quick things, only if you are happy so far:</p>' +
+    '<p style="margin:0 0 16px;">Your website has been live for a couple of weeks now. How\'s it going? We hope it\'s already bringing you new leads and customers.</p>' +
+    '<p style="margin:0 0 8px;">Two quick things, only if you\'re happy so far:</p>' +
     '<ul style="margin:0 0 16px;padding-left:20px;">' +
       '<li style="margin-bottom:8px;">A quick ' + link(REVIEW_URL, 'Google review') + ' genuinely means a lot to a small team like ours.</li>' +
       '<li style="margin-bottom:8px;">Know another business owner who needs a site? ' + link(PORTAL_URL + '/#referrals', 'Refer them') + ' and you get a free month when they sign up.</li>' +
     '</ul>' +
-    '<p style="margin:0 0 16px;">And if you would like any changes, just send us a request in your ' + link(PORTAL_URL, 'portal') + '. That is what we are here for.</p>';
+    '<p style="margin:0 0 16px;">And if you\'d like any changes, just send us a request in your ' + link(PORTAL_URL, 'portal') + '. That\'s what we\'re here for.</p>';
 }
 
 Deno.serve(async (req) => {
@@ -144,7 +144,7 @@ Deno.serve(async (req) => {
     for (const c of wb ?? []) {
       const to = [c.email, c.second_email].filter(Boolean) as string[];
       if (!to.length) continue;
-      if (await sendEmail(to, 'We would love to have you back at WebEaze', winbackInner(c))) {
+      if (await sendEmail(to, 'We\'d love to have you back at WebEaze', winbackInner(c))) {
         await svc.from('clients').update({ winback_email_at: iso(now) }).eq('id', c.id);
         sent.winback++;
       }
@@ -162,7 +162,7 @@ Deno.serve(async (req) => {
       const { data: subm } = await svc.from('site_submissions').select('submitted_at').eq('user_id', c.user_id).maybeSingle();
       if (subm && subm.submitted_at) { await svc.from('clients').update({ onboarding_nudge_at: iso(now) }).eq('id', c.id); continue; }
       if (!to.length) continue;
-      if (await sendEmail(to, 'Let us get your website started', onboardingInner(c))) {
+      if (await sendEmail(to, 'Let\'s get your website started', onboardingInner(c))) {
         await svc.from('clients').update({ onboarding_nudge_at: iso(now) }).eq('id', c.id);
         sent.onboarding++;
       }

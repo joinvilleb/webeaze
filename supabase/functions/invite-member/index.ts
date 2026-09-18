@@ -54,7 +54,7 @@ async function sendInviteEmail(to: string, link: string, businessName: string, e
   const biz = esc(businessName || 'your business');
   const html = '<div style="font-family:Helvetica,Arial,sans-serif;font-size:15px;color:#1e222b;line-height:1.65;max-width:520px;">'
     + '<p style="margin:0 0 12px;">Hi,</p>'
-    + '<p style="margin:0 0 14px;">You have been given access to the WebEaze portal for <strong>' + biz + '</strong>. '
+    + '<p style="margin:0 0 14px;">You\'ve been given access to the WebEaze portal for <strong>' + biz + '</strong>. '
     + (existing ? 'You already have an account, so this link signs you straight in.' : 'Use the link below to set a password and sign in.') + '</p>'
     + '<p style="margin:0 0 18px;"><a href="' + link + '" style="display:inline-block;background:#7851a9;color:#fff;text-decoration:none;font-weight:700;padding:12px 24px;border-radius:10px;">'
     + (existing ? 'Sign in to the portal' : 'Set your password') + '</a></p>'
@@ -119,7 +119,7 @@ Deno.serve(async (req) => {
       const clientId = isAdmin ? String(body.clientId || '') : ownClient!.id;
       const email = String(body.email || '').trim().toLowerCase();
       if (!EMAIL_RE.test(email)) return json({ ok: false, error: 'Enter a valid email address.' });
-      if (email === ADMIN) return json({ ok: false, error: 'That is the admin account.' });
+      if (email === ADMIN) return json({ ok: false, error: 'That\'s the admin account.' });
 
       const { data: client } = await service.from('clients')
         .select('id, user_id, name').eq('id', clientId).maybeSingle();
@@ -147,12 +147,12 @@ Deno.serve(async (req) => {
         actionLink = inv.data.properties.action_link;
       } else {
         const existing = await findUserByEmail(service, email);
-        if (!existing) return json({ ok: false, error: inv.error?.message || 'Could not create an account for that email.' });
+        if (!existing) return json({ ok: false, error: inv.error?.message || 'Couldn\'t create an account for that email.' });
         memberUserId = existing.id;
         alreadyExisted = true;
         const magic = await service.auth.admin.generateLink({ type: 'magiclink', email, options: { redirectTo: PORTAL_URL } });
         actionLink = magic.data?.properties?.action_link ?? null;
-        if (!actionLink) return json({ ok: false, error: magic.error?.message || 'Could not create a sign-in link for that email.' });
+        if (!actionLink) return json({ ok: false, error: magic.error?.message || 'Couldn\'t create a sign-in link for that email.' });
       }
       if (memberUserId === client.user_id) return json({ ok: false, error: 'That email is already the primary login.' });
 
@@ -182,7 +182,7 @@ Deno.serve(async (req) => {
         await sendInviteEmail(email, actionLink!, client.name || '', alreadyExisted);
       } catch (mailErr) {
         return json({ ok: true, invited: true, alreadyExisted, member, emailed: false,
-          error: 'Access granted, but the email did not send: ' + String((mailErr as any)?.message || mailErr) });
+          error: 'Access granted, but the email didn\'t send: ' + String((mailErr as any)?.message || mailErr) });
       }
       return json({ ok: true, invited: true, alreadyExisted, emailed: true, member });
     }
@@ -195,7 +195,7 @@ Deno.serve(async (req) => {
       if (!m) return json({ ok: false, error: 'Member not found.' });
       // A client may only remove someone from their OWN team, and never the primary login.
       if (!isAdmin && m.owner_user_id !== user.id) return json({ ok: false, error: 'not authorized' }, 403);
-      if (m.role === 'owner') return json({ ok: false, error: 'You cannot remove the primary login.' });
+      if (m.role === 'owner') return json({ ok: false, error: 'You can\'t remove the primary login.' });
       const { error } = await service.from('client_members').delete().eq('id', memberId);
       if (error) return json({ ok: false, error: error.message });
       return json({ ok: true, removed: true });

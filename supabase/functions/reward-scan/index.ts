@@ -95,7 +95,7 @@ function clientEmailHtml(reward: string) {
     '<div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#a0a6c4;margin-bottom:6px;">Your reward</div>',
     '<div style="font-size:17px;font-weight:800;color:#7851a9;">' + esc(reward) + '</div>',
     '</td></tr></table>',
-    '<p style="font-size:14px;color:#6b7094;line-height:1.65;margin:0;">There is nothing you need to do. We will apply it and send a note to your account in the portal once it is done.</p>',
+    '<p style="font-size:14px;color:#6b7094;line-height:1.65;margin:0;">There\'s nothing you need to do. We\'ll apply it and send a note to your account in the portal once it\'s done.</p>',
     '<p style="font-size:13px;color:#a0a6c4;line-height:1.6;margin:18px 0 0;">You can see your notes and milestones any time in your ',
     '<a href="' + PORTAL_URL + '" style="color:#7851a9;font-weight:700;text-decoration:none;">Client Portal</a>.</p>',
     '</td></tr><tr><td align="center" style="padding-top:24px;">',

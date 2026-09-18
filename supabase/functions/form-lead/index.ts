@@ -141,7 +141,7 @@ async function emailClient(client: any, lead: any, files: { name: string; url: s
         .join(', ') + '</p>' : '';
   // Say what did not make it, so "photos attached" with nothing below it is never a mystery.
   const missing = dropped.length
-    ? '<p class="wz-warn" style="margin:10px 0 0;font-size:14px;color:#b45309;">Could not attach: ' + esc(dropped.join(', '))
+    ? '<p class="wz-warn" style="margin:10px 0 0;font-size:14px;color:#b45309;">Couldn\'t attach: ' + esc(dropped.join(', '))
       + '. Ask them to email it to you directly.</p>' : '';
 
   const html = '<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">'
@@ -199,14 +199,14 @@ Deno.serve(async (req) => {
 
   // The client is identified by the last path segment: .../form-lead/<user_id>
   const key = (url.pathname.split('/').filter(Boolean).pop() || '').toLowerCase();
-  if (!UUID.test(key)) return fail(400, 'This form is not configured correctly. Please contact the site owner.');
+  if (!UUID.test(key)) return fail(400, 'This form isn\'t configured correctly. Please contact the site owner.');
 
   try {
     const service = createClient(Deno.env.get('SUPABASE_URL')!, Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!);
     const { data: client } = await service.from('clients')
       .select('user_id, site_url, plan, name, business_name, email, second_email')
       .eq('user_id', key).maybeSingle();
-    if (!client) return fail(404, 'This form is not configured correctly. Please contact the site owner.');
+    if (!client) return fail(404, 'This form isn\'t configured correctly. Please contact the site owner.');
 
     const siteHost = host(client.site_url || '');
     const originHost = host(req.headers.get('origin') || referer);
@@ -221,7 +221,7 @@ Deno.serve(async (req) => {
     // Measure the actual bytes. Content-Length is absent on a chunked request, so the header check
     // above is a courtesy to honest clients, not a bound.
     const raw = await req.arrayBuffer().catch(() => null);
-    if (!raw) return fail(400, 'That submission could not be read.');
+    if (!raw) return fail(400, 'That submission couldn\'t be read.');
     if (raw.byteLength > MAX_BODY) return fail(413, 'That submission is too large. Please send large files by email instead.');
     const body = () => new Response(raw, { headers: { 'content-type': req.headers.get('content-type') || '' } });
     if (ctype.includes('application/json')) {
@@ -229,7 +229,7 @@ Deno.serve(async (req) => {
       for (const k of Object.keys(j || {})) if (j[k] != null && typeof j[k] !== 'object') fields[k] = String(j[k]);
     } else {
       const fd = await body().formData().catch(() => null);
-      if (!fd) return fail(400, 'That submission could not be read.');
+      if (!fd) return fail(400, 'That submission couldn\'t be read.');
       for (const [k, v] of fd.entries()) {
         if (typeof v === 'string') {
           // A group of checkboxes shares one name; keep every answer rather than the last.
@@ -314,7 +314,7 @@ Deno.serve(async (req) => {
       const up = await service.storage.from(BUCKET).upload(path, new Uint8Array(await f.arrayBuffer()), {
         contentType: f.type || 'application/octet-stream', upsert: false,
       });
-      if (up.error) { console.warn('form-lead upload failed:', up.error.message); dropped.push((f.name || 'file') + ' (could not be saved)'); continue; }
+      if (up.error) { console.warn('form-lead upload failed:', up.error.message); dropped.push((f.name || 'file') + ' (couldn\'t be saved)'); continue; }
       const signed = await service.storage.from(BUCKET).createSignedUrl(path, 60 * 60 * 24 * 30);
       stored.push({ name: f.name || safeName, path, url: (signed.data && signed.data.signedUrl) || '' });
     }

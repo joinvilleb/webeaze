@@ -164,7 +164,7 @@ async function sendNeedsInfoEmail(r: any, c: any, question: string) {
     '<p style="margin:0 0 16px;">Got your request. One thing before we start:</p>' +
     '<div style="background:#f7f7fa;border:1px solid #e4e7f1;border-left:3px solid #7851a9;border-radius:8px;padding:14px 16px;margin:0 0 18px;">' +
     emailParas(question, 'margin:0 0 10px;') + '</div>' +
-    '<p style="margin:0 0 16px;">Reply to this email or answer in your portal, whichever is easier, and we will get straight on it.</p>' +
+    '<p style="margin:0 0 16px;">Reply to this email or answer in your portal, whichever is easier, and we\'ll get straight on it.</p>' +
     '<div style="margin:20px 0 0;"><a href="' + link + '" style="display:inline-block;background:#7851a9;color:#ffffff;text-decoration:none;font-weight:600;font-size:15px;padding:12px 24px;border-radius:10px;">Answer in your portal</a></div>' +
     '<p style="margin:28px 0 4px;">Best,</p><p style="margin:0;">WebEaze Web Design</p>' +
     '</div>';

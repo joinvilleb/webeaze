@@ -831,8 +831,8 @@ function summaryHtml(name: string, url: string, m: any, plan?: string, extra?: {
 
   // Growth gets the full AI summary; Essential gets a short one-line check-in (kept deliberately brief).
   const opening = adv
-    ? (rep?.summary ? esc(rep.summary) : ('Here is a quick update on how ' + esc(url || 'your website') + ' is doing.'))
-    : ('Here is your quick monthly check-in on how ' + esc(url || 'your website') + ' is doing.');
+    ? (rep?.summary ? esc(rep.summary) : ('Here\'s a quick update on how ' + esc(url || 'your website') + ' is doing.'))
+    : ('Here\'s your quick monthly check-in on how ' + esc(url || 'your website') + ' is doing.');
 
   // Leads lead: the concrete money number, highlighted in a subtle callout right up top when there is one.
   const leadHighlight = (leads && leads.count > 0)
@@ -854,17 +854,17 @@ function summaryHtml(name: string, url: string, m: any, plan?: string, extra?: {
       (adv && se.deltaPct != null ? ' (' + (se.deltaPct >= 0 ? 'up ' : 'down ') + Math.abs(se.deltaPct) + '%)' : ''));
   }
   const snap = lines.length
-    ? p('Here is a quick snapshot of your site right now:') + '<ul style="margin:0 0 15px;padding-left:20px;">' + lines.map((x) => `<li style="margin-bottom:6px;">${esc(x)}</li>`).join('') + '</ul>'
+    ? p('Here\'s a quick snapshot of your site right now:') + '<ul style="margin:0 0 15px;padding-left:20px;">' + lines.map((x) => `<li style="margin-bottom:6px;">${esc(x)}</li>`).join('') + '</ul>'
     : '';
 
   // Growth-only: what people searched + a deeper action plan.
   const searched = adv && rep?.searched ? p(esc(rep.searched)) : '';
   const recs = (adv && rep?.recommendations && rep.recommendations.length)
-    ? p('A couple of things we would suggest:') + '<ul style="margin:0 0 15px;padding-left:20px;">' + rep.recommendations.map((x: string) => `<li style="margin-bottom:6px;">${esc(x)}</li>`).join('') + '</ul>'
+    ? p('A couple of things we\'d suggest:') + '<ul style="margin:0 0 15px;padding-left:20px;">' + rep.recommendations.map((x: string) => `<li style="margin-bottom:6px;">${esc(x)}</li>`).join('') + '</ul>'
     : '';
   // Essential gets a soft nudge toward the deeper report instead.
   const upsell = !adv
-    ? p('You are on our Essential plan. Growth adds your search trends over time, the exact terms people use to find you, and a tailored action plan each month.')
+    ? p('You\'re on our Essential plan. Growth adds your search trends over time, the exact terms people use to find you, and a tailored action plan each month.')
     : '';
 
   // Monthly-only: a recap of what we shipped for them last month (empty on on-demand sends).
@@ -872,7 +872,7 @@ function summaryHtml(name: string, url: string, m: any, plan?: string, extra?: {
   const done = (extra?.done) || [];
   const shipped = !done.length ? ''
     : (adv
-        ? p('Here is what we took care of for you' + (extra?.monthLabel ? ' in ' + esc(extra.monthLabel) : ' this month') + ':')
+        ? p('Here\'s what we took care of for you' + (extra?.monthLabel ? ' in ' + esc(extra.monthLabel) : ' this month') + ':')
           + '<ul style="margin:0 0 15px;padding-left:20px;">'
           + done.map((r) => `<li style="margin-bottom:8px;"><strong>${esc(r.type || 'Update')}</strong>${r.resolution ? `<br><span style="color:#6b7094;white-space:pre-wrap;">${esc(r.resolution)}</span>` : ''}</li>`).join('')
           + '</ul>'
@@ -899,7 +899,7 @@ function summaryHtml(name: string, url: string, m: any, plan?: string, extra?: {
     searched,
     recs,
     upsell,
-    p('If you would like a hand with any of this, send us a request in your <a href="' + PORTAL_URL + '" style="color:#7851a9;font-weight:600;">client portal</a>.'),
+    p('If you\'d like a hand with any of this, send us a request in your <a href="' + PORTAL_URL + '" style="color:#7851a9;font-weight:600;">client portal</a>.'),
     p('Talk soon,<br>The WebEaze team'),
     '<div style="margin-top:26px;padding-top:16px;border-top:1px solid #eeeeee;font-size:12px;color:#9599b8;">WebEaze Web Design, 109 Pleasant Hill Drive, Camden-Wyoming, Delaware 19934, USA</div>',
     '</div></body></html>',

@@ -44,9 +44,9 @@ async function sendLink(to: string, link: string, name: string) {
     '<div style="display:none;max-height:0;overflow:hidden;opacity:0;">' + PREVIEW_PAD + '</div>' +
     '<div style="max-width:560px;margin:0 auto;padding:32px 24px;font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:1.7;color:#1f2333;">' +
     '<p style="margin:0 0 12px;">Hey' + (first ? ' ' + esc(first) : '') + ',</p>' +
-    '<p style="margin:0 0 20px;">Here is your way in. No password needed.</p>' +
+    '<p style="margin:0 0 20px;">Here\'s your way in. No password needed.</p>' +
     '<p style="margin:0 0 20px;"><a href="' + link + '" style="display:inline-block;background:#7851a9;color:#ffffff;text-decoration:none;font-weight:600;font-size:15px;padding:12px 24px;border-radius:10px;">Open my portal</a></p>' +
-    '<p style="margin:0 0 16px;color:#6b7094;font-size:13px;">The link works for one hour and only from this email. If you did not ask for it, you can ignore this: nobody can get in without it.</p>' +
+    '<p style="margin:0 0 16px;color:#6b7094;font-size:13px;">The link works for one hour and only from this email. If you didn\'t ask for it, you can ignore this: nobody can get in without it.</p>' +
     '<p style="margin:28px 0 4px;">Best,</p><p style="margin:0;">WebEaze Web Design</p>' +
     '<p style="margin:28px 0 0;font-size:12px;color:#9599b8;">WebEaze Web Design, 109 Pleasant Hill Drive, Camden-Wyoming, Delaware 19934, USA</p>' +
     '</div>';
