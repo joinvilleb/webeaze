@@ -116,8 +116,8 @@
     client_metrics: [{ user_id: UID, metrics, refreshed_at: checked }],
     lead_events,
     referrals: [
-      { id: 'rf1', referrer_user_id: UID, referred_name: 'Coral Gables Pool Service', status: 'Signed up', reward_amount: 149, reward_paid: true, created_at: ago(70) },
-      { id: 'rf2', referrer_user_id: UID, referred_name: 'Grove Handyman Co.', status: 'Pending', reward_amount: 149, reward_paid: false, created_at: ago(6) },
+      { id: 'rf1', referrer_user_id: UID, referred_name: 'Coral Gables Pool Service', status: 'Signed up', reward_amount: 50, reward_paid: true, created_at: ago(70) },
+      { id: 'rf2', referrer_user_id: UID, referred_name: 'Grove Handyman Co.', status: 'Pending', reward_amount: 50, reward_paid: false, created_at: ago(6) },
     ],
     portal_updates: [
       { id: 'pu1', published: true, published_at: ago(1), tag: 'New', title: 'Messages', category: 'product', audience: 'all', body: 'Website notes is now Messages: questions, files and your email replies in one place.' },
