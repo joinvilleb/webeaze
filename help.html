@@ -805,10 +805,12 @@
            that carry width/height attributes. */
         max-width: min(100%, 520px);
         max-height: 760px;
-        /* NOT width:auto. Every image now carries real width/height attributes, and width:auto
-           makes the browser ignore them for sizing, so it cannot reserve the space before the
-           file loads and the text below jumps. aspect-ratio from the attributes plus height:auto
-           lets it reserve correctly while max-width still caps the rendered size. */
+        /* Both auto. Browsers derive an aspect-ratio from the width/height attributes and
+           use it to reserve space even when both are auto, so there is no layout shift, and
+           the image still shrinks proportionally when max-height clamps a tall screenshot.
+           Setting width:auto only (leaving the attribute to drive width) squashed tall
+           portrait shots: login-screen.png rendered 520x760 from an 828x1326 source. */
+        width: auto;
         height: auto;
         border-radius: 12px;
         border: 1px solid rgba(255,255,255,.1);
