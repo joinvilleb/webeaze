@@ -77,6 +77,9 @@ const extraCss = `
 .article-related { margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--border, #e4e7f1); }
 .article-related h3 { font-size: 15px; font-weight: 800; text-transform: uppercase; letter-spacing: .06em; color: var(--muted, #6b7094); margin: 0 0 14px; }
 .article-related ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+/* Pages emit the links bare, with no <ul>, so the grid gap above never applied and the
+   three suggestions sat flush against each other on all 172 pages. */
+.article-related a + a { margin-top: 8px; }
 .article-related a { display: block; padding: 12px 15px; border: 1px solid var(--border, #e4e7f1); border-radius: 10px; font-weight: 600; color: var(--text, #0f1228); text-decoration: none; transition: border-color .15s, color .15s; }
 .article-related a:hover { border-color: var(--brand, #7851a9); color: var(--brand, #7851a9); }
 
@@ -136,11 +139,24 @@ function buildToc(headings) {
   return `<nav class="article-toc"><p class="toc-label">On this page</p><ul>${items}</ul></nav>`;
 }
 
+// Curated picks first, then scored fallback, so a new article never ships as a dead end.
+// Shared with scripts/backfill-related.js so the two cannot drift apart.
+const { relatedFor, buildIdf } = require('./related-algo.js');
+const RELATED_CORPUS = {};
+HELP_DATA.topics.forEach(t => t.articles.forEach(a => {
+  RELATED_CORPUS[a.slug] = { title: a.title, meta: a.meta || '', topicId: t.id };
+}));
+const RELATED_IDF = buildIdf(RELATED_CORPUS);
+const RELATED_USED = {};
+Object.values(RELATED_MAP).forEach(l => (l || []).forEach(x => { RELATED_USED[x] = (RELATED_USED[x] || 0) + 1; }));
+
 function buildRelated(slug) {
-  const rel = (RELATED_MAP[slug] || []).map(s => bySlug[s]).filter(Boolean).slice(0, 3);
-  if (!rel.length) return '';
-  const items = rel.map(r => `<li><a href="../${r.article.slug}/">${escText(r.article.title)}</a></li>`).join('');
-  return `<div class="article-related"><h3>Related articles</h3><ul>${items}</ul></div>`;
+  const picks = relatedFor(slug, RELATED_CORPUS, RELATED_MAP, RELATED_USED, 3, RELATED_IDF)
+    .map(s => bySlug[s]).filter(Boolean);
+  if (!picks.length) return '';
+  // Bare <a>, matching the markup already on all 172 pages.
+  const items = picks.map(r => `      <a href="../${r.article.slug}/">${escText(r.article.title)}</a>`).join('\n');
+  return `<div class="article-related">\n      <h3>Related articles</h3>\n${items}\n    </div>`;
 }
 
 // ── 5. Generate a page per article ──
