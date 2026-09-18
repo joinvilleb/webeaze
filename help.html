@@ -1004,7 +1004,9 @@
 
     /* CATEGORIES SECTION */
     .categories-section {
-      padding: 40px 0;
+      /* This is the first thing under the search now, not a footer afterthought,
+         so it no longer needs 40px of air above it. */
+      padding: 4px 0 8px;
       background: var(--dark-2);
     }
     .categories-heading {
@@ -1037,67 +1039,55 @@
       margin: 4px 0 0;
     }
     .category-section-label:first-child { padding-top: 0; }
+    /* Group colour is the orientation device. Three groups, three accents, so you can
+       tell where you are at a glance instead of reading eleven identical grey rows. */
+    .categories-grid { --g: #7851a9; }
+    .category-card[data-group="account"], .cat-group-label[data-group="account"] { --g: #7851a9; }
+    .category-card[data-group="website"], .cat-group-label[data-group="website"] { --g: #0d8f86; }
+    .category-card[data-group="new"],     .cat-group-label[data-group="new"]     { --g: #d97706; }
+
+    .main-grid.no-sidebar { grid-template-columns: 1fr; }
+    .cat-group-label {
+      grid-column: 1 / -1;
+      display: flex; align-items: center; gap: 9px;
+      font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em;
+      color: var(--g); margin: 26px 0 2px;
+    }
+    .cat-group-label:first-child { margin-top: 0; }
+    .cat-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--g); flex-shrink: 0; }
+
     .category-card {
       position: relative;
       background: #fff;
       border: 1px solid var(--line);
-      border-radius: 14px;
+      border-left: 3px solid var(--g);
+      border-radius: 12px;
       padding: 16px 18px;
       display: flex;
-      align-items: center;
-      gap: 14px;
+      align-items: flex-start;
+      gap: 13px;
       transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease;
       cursor: pointer;
     }
     .category-card:hover {
       transform: translateY(-2px);
-      border-color: rgba(120,81,169,.35);
-      box-shadow: 0 8px 22px rgba(120,81,169,.13);
+      border-color: var(--line);
+      border-left-color: var(--g);
+      box-shadow: 0 10px 26px rgba(15,18,40,.10);
     }
-    .category-card:focus-visible {
-      outline: 2px solid var(--brand);
-      outline-offset: 2px;
-    }
-    .category-card .icon {
-      width: 42px;
-      height: 42px;
-      background: rgba(120,81,169,.1);
-      border-radius: 11px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 17px;
-      color: var(--brand);
-      flex-shrink: 0;
-      transition: background .16s ease, color .16s ease;
-    }
-    .category-card:hover .icon {
-      background: var(--brand);
-      color: #fff;
-    }
+    .category-card:focus-visible { outline: 2px solid var(--g); outline-offset: 2px; }
+    /* No icon chip: the lavender rounded square was one more box on a page full of them. */
+    .category-card .cat-ico { font-size: 16px; color: var(--g); flex-shrink: 0; margin-top: 2px; width: 18px; text-align: center; }
     .category-card-text { flex: 1; min-width: 0; }
-    .category-card h3 {
-      font-size: 14px;
-      font-weight: 700;
-      margin: 0 0 3px;
-      line-height: 1.3;
-      color: #1a1a2e;
+    .category-card h3 { font-size: 14.5px; font-weight: 700; margin: 0 0 4px; line-height: 1.3; color: #1a1a2e; }
+    .category-card p {
+      display: block;
+      font-size: 12.5px; line-height: 1.55; color: var(--muted);
+      margin: 0 0 7px;
     }
-    .category-card .count {
-      font-size: 12px;
-      color: var(--muted);
-      font-weight: 500;
-    }
-    .category-card.all-read .count { color: var(--brand); font-weight: 600; }
-    .category-card .cat-arrow {
-      flex-shrink: 0;
-      color: #c4c8d4;
-      font-size: 13px;
-      transition: transform .16s ease, color .16s ease;
-    }
-    .category-card:hover .cat-arrow { color: var(--brand); transform: translateX(3px); }
-    .category-card p { display: none; }
-    .category-card .read-progress { display: none; }
+    .category-card .count { font-size: 11.5px; color: #9aa0b8; font-weight: 600; }
+    .category-card.all-read .count { color: var(--g); }
+    .category-card .cat-arrow, .category-card .read-progress { display: none; }
 
     /* Group filter chips */
     .group-chips {
@@ -2178,6 +2168,27 @@
     border-color: rgba(0,0,0,.09) !important;
     box-shadow: 0 2px 8px rgba(0,0,0,.05) !important;
   }
+
+  /* The rule above sets border-color wholesale, which wiped the category cards' group
+     accent. Restore it after, and colour the icon to match. Group colour is the whole
+     orientation device on the home page, so it has to survive the light-theme pass. */
+  .category-card { border-left-color: var(--g) !important; }
+  .category-card .cat-ico { color: var(--g) !important; }
+  .cat-group-label { color: var(--g) !important; }
+  .cat-dot { background: var(--g) !important; }
+
+  /* Recommended articles were nine identical 750x132 slabs. Tighter, hairline-separated
+     rows read as a list you can scan instead of a stack of boxes. */
+  .result-card {
+    background: transparent !important;
+    border: none !important;
+    border-bottom: 1px solid rgba(0,0,0,.07) !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    padding: 14px 4px !important;
+  }
+  .result-card:hover { background: rgba(120,81,169,.04) !important; }
+  .result-card .excerpt { font-size: 13px !important; margin-top: 3px !important; }
   .hero-search-wrap {
     background: transparent !important;
     border: none !important;
@@ -2813,6 +2824,15 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
 <!-- MAIN CONTENT -->
 <main>
   <div class="container container-narrow">
+
+<!-- CATEGORIES SECTION -->
+<section class="categories-section" id="categoriesSection">
+  <div class="container container-narrow">
+    <p class="categories-heading">Browse by category</p>
+    <div class="categories-grid" id="categoriesGrid"></div>
+  </div>
+</section>
+
     <button class="mobile-topics-toggle" id="mobileTopicsToggle">
       <span><i class="fas fa-list"></i> <span id="mobileToggleLabel">Browse Topics</span></span>
       <i class="fas fa-chevron-down toggle-chevron"></i>
@@ -2841,13 +2861,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
   </div>
 </main>
 
-<!-- CATEGORIES SECTION -->
-<section class="categories-section" id="categoriesSection">
-  <div class="container container-narrow">
-    <p class="categories-heading">Browse by Category</p>
-    <div class="categories-grid" id="categoriesGrid"></div>
-  </div>
-</section>
+
 
 
 
@@ -8163,6 +8177,20 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
   const $clearBtn = document.getElementById('clearBtn');
   const $live = document.getElementById('live');
   const $categoriesSection = document.getElementById('categoriesSection');
+  // The category grid and the sidebar listed the same 11 topics, so the home page carried
+  // its navigation twice. On the home view the grid is the navigation; the sidebar comes
+  // back once you are inside a topic or a search result, where it earns its place.
+  function setHomeGrid(on) {
+    $categoriesSection.style.display = on ? 'block' : 'none';
+    const sb = document.getElementById('sidebar');
+    const mt = document.getElementById('mobileTopicsToggle');
+    if (sb) sb.style.display = on ? 'none' : '';
+    if (mt) mt.style.display = on ? 'none' : '';
+    // .main-grid is a two column grid. With the sidebar removed the content area would
+    // otherwise sit in the narrow first column, so collapse the grid to one column.
+    const mg = document.querySelector('.main-grid');
+    if (mg) mg.classList.toggle('no-sidebar', !!on);
+  }
   const $categoriesGrid = document.getElementById('categoriesGrid');
 
   // ---- Renderers ----
@@ -8245,23 +8273,32 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
   let activeCategoryGroup = null;
 
   function renderCategories() {
-    const sorted = [...HELP_DATA.topics].sort((a, b) => TOPIC_ORDER.indexOf(a.id) - TOPIC_ORDER.indexOf(b.id));
-    $categoriesGrid.innerHTML = sorted.map(t => {
+    const sorted = [...HELP_DATA.topics].sort((a, b) => topicRank(a.id) - topicRank(b.id));
+    let html = '', lastGroup = null;
+    sorted.forEach(t => {
+      if (t.group !== lastGroup) {
+        const gm = GROUP_META.find(g => g.key === t.group);
+        html += `<p class="cat-group-label" data-group="${t.group}"><span class="cat-dot"></span>${gm ? gm.label : ''}</p>`;
+        lastGroup = t.group;
+      }
       const total = t.articles.length;
-      return `
-      <div class="category-card" role="button" tabindex="0"
+      const desc = TOPIC_DESC[t.id] || '';
+      html += `
+      <div class="category-card" data-group="${t.group}" role="button" tabindex="0"
         onclick="renderTopicResults('${t.id}')"
         onkeydown="if(event.key==='Enter' || event.key===' ') { event.preventDefault(); renderTopicResults('${t.id}'); }"
       >
-        <div class="icon"><i class="fas ${t.icon}"></i></div>
+        <i class="fas ${t.icon} cat-ico"></i>
         <div class="category-card-text">
           <h3>${t.title}</h3>
+          ${desc ? `<p>${desc}</p>` : ''}
           <div class="count">${total} article${total === 1 ? '' : 's'}</div>
         </div>
-        <i class="fas fa-chevron-right cat-arrow"></i>
       </div>`;
-    }).join('');
+    });
+    $categoriesGrid.innerHTML = html;
   }
+
 
   // ---- Referrer-based recommendations ----
   const REFERRER_MAP = {
@@ -8382,7 +8419,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
   function renderList(docs, q) {
     $article.hidden = true;
     $article.innerHTML = '';
-    $categoriesSection.style.display = q.trim() ? 'none' : 'block';
+    setHomeGrid(!q.trim());
 
     const readSlugs = new Set((lsGet(LS_READ) || []).map(r => r.slug));
 
@@ -8572,7 +8609,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
     const { topic, article } = found;
 
     $results.innerHTML = '';
-    $categoriesSection.style.display = 'none';
+    setHomeGrid(false);
     $article.hidden = false;
     $article.setAttribute('tabindex', '-1');
     $article.innerHTML = `
@@ -9117,7 +9154,7 @@ const LS_SAVED    = 'wz_help_saved';
       } else if (_q) {
         $search.value = _q;
         renderList(searchArticles(_q), _q);
-        if ($categoriesSection) $categoriesSection.style.display = 'none';
+        if ($categoriesSection) setHomeGrid(false);
       }
     } catch (err) {}
 
@@ -9173,7 +9210,7 @@ function renderTopicResults(topicId) {
   $search.value = '';
   $article.hidden = true;
   $article.innerHTML = '';
-  $categoriesSection.style.display = 'none';
+  setHomeGrid(false);
 
   const items = topic.articles.map(a => INDEX.find(x => x.slug === a.slug)).filter(Boolean);
 
@@ -9188,7 +9225,7 @@ function renderTopicResults(topicId) {
 
   $results.innerHTML = `
     <div class="topic-breadcrumb">
-      <a href="#" onclick="event.preventDefault(); $categoriesSection.style.display='block'; $results.innerHTML=''; renderCategories(); window.scrollTo({top:$categoriesSection.offsetTop - 80, behavior:'smooth'});">All Categories</a>
+      <a href="#" onclick="event.preventDefault(); setHomeGrid(true); $results.innerHTML=''; renderCategories(); window.scrollTo({top:$categoriesSection.offsetTop - 80, behavior:'smooth'});">All Categories</a>
       <i class="fas fa-chevron-right sep"></i>
       <span>${topic.title}</span>
     </div>
