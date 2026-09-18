@@ -625,9 +625,8 @@
       cursor: pointer;
     }
     .result-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 12px 40px rgba(0,0,0,.3);
-      border-color: rgba(120,81,169,.3);
+      background: rgba(120,81,169,.05);
+      border-color: rgba(120,81,169,.35);
     }
     .result-card .title {
       font-size: 17px;
@@ -672,7 +671,7 @@
     .result-card.compact { padding: 15px 18px; display: flex; align-items: center; }
     .result-card.compact .title { font-size: 15px; margin-bottom: 0; width: 100%; gap: 10px; }
     .result-card.compact .title i { opacity: .45; }
-    .result-card.compact:hover { transform: translateY(-2px); }
+    .result-card.compact:hover { transform: none; }
     .result-card.compact:hover .title i { opacity: 1; }
 
     /* ARTICLE */
@@ -1051,6 +1050,8 @@
     .category-card[data-group="new"],     .cat-group-label[data-group="new"]     { --g: #d97706; }
 
     .main-grid.no-sidebar { grid-template-columns: 1fr; }
+    .topic-group.is-current > .topic-header { color: var(--brand); font-weight: 700; }
+    .topic-group.is-current > .topic-header i:first-child { color: var(--brand); }
     .cat-group-label {
       grid-column: 1 / -1;
       display: flex; align-items: center; gap: 9px;
@@ -2183,6 +2184,9 @@
 
   /* Recommended articles were nine identical 750x132 slabs. Tighter, hairline-separated
      rows read as a list you can scan instead of a stack of boxes. */
+  /* One list style everywhere articles are listed: hairline rows, no boxes.
+     These were bordered cards, and in the topic view's 3 column grid the borders
+     read as spreadsheet rules. */
   .result-card {
     background: transparent !important;
     border: none !important;
@@ -2190,9 +2194,20 @@
     box-shadow: none !important;
     border-radius: 0 !important;
     padding: 14px 4px !important;
+    text-decoration: none !important;
   }
   .result-card:hover { background: rgba(120,81,169,.04) !important; }
+  .result-card:hover .title span { color: #7851a9 !important; }
+  .result-card .title span { text-decoration: none !important; }
   .result-card .excerpt { font-size: 13px !important; margin-top: 3px !important; }
+
+  /* Topic view: same rows, one column, so long question titles are not forced into
+     ragged 1 to 3 line cells across three columns. */
+  .results-grid.compact { grid-template-columns: 1fr !important; gap: 0 !important; }
+  .result-card.compact { padding: 15px 4px !important; }
+  .result-card.compact .title { font-size: 15.5px !important; }
+  .result-card.compact .title i { opacity: .3 !important; margin-left: auto; }
+  .result-card.compact:hover .title i { opacity: 1 !important; color: #7851a9 !important; }
   .hero-search-wrap {
     background: transparent !important;
     border: none !important;
@@ -8936,7 +8951,7 @@ const LS_SAVED    = 'wz_help_saved';
     'how-to-request-updates':       ['turnarounds-and-common-requests', 'what-counts-as-an-update', 'request-confirmation'],
     'what-counts-as-an-update':     ['how-to-request-updates', 'additional-pages', 'turnarounds-and-common-requests'],
     'turnarounds-and-common-requests': ['how-to-request-updates', 'request-confirmation', 'response-time'],
-    'additional-pages':             ['what-pages-should-i-have', 'which-plan-should-i-choose', 'multilingual-pages'],
+    'additional-pages':             ['what-pages-should-i-have', 'which-plan-should-i-choose', 'landing-page-for-promotion'],
     'what-pages-should-i-have':     ['about-page-content', 'what-is-a-hero-section', 'additional-pages'],
     'seo-optimization':             ['google-business-profile', 'geo-pages', 'how-long-does-seo-take'],
     'google-business-profile':      ['seo-optimization', 'not-showing-on-google-maps', 'get-more-google-reviews'],
@@ -9249,9 +9264,11 @@ function renderTopicResults(topicId) {
     <div class="results-grid compact">${items.map(cardHTMLLocal).join('')}</div>
   `;
 
-  document.querySelectorAll('.topic-group').forEach(g => g.classList.remove('open'));
+  // Highlight the current topic in the sidebar but do NOT expand it: the main list is
+  // already showing those exact articles, and opening it printed all of them twice.
+  document.querySelectorAll('.topic-group').forEach(g => { g.classList.remove('open'); g.classList.remove('is-current'); });
   const group = document.querySelector(`[data-topic="${topicId}"]`);
-  if (group) group.classList.add('open');
+  if (group) group.classList.add('is-current');
 
   $live.textContent = `Browsing: ${topic.title}`;
   // Scroll to the results, offsetting the fixed nav so the breadcrumb/header
