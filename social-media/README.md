@@ -10,6 +10,7 @@ month is a copied file and two commands, not a redesign.
       months/
         aug-sep-2026.js       content for that month
         sep-oct-2026.js
+        sep19-oct19-2026.js
       aug-sep-2026/
         png/                  <- the files you post
         captions.md           <- the words you paste
@@ -18,7 +19,7 @@ month is a copied file and two commands, not a redesign.
 
 ## Making next month
 
-    cp months/sep-oct-2026.js months/oct-nov-2026.js
+    cp months/sep19-oct19-2026.js months/oct-nov-2026.js
     # edit the posts array: change the copy, swap a client screenshot, add a holiday
     node build.js oct-nov-2026
     ./render.sh oct-nov-2026
@@ -77,4 +78,4 @@ Essential $169/mo · Growth $249/mo · one-time setup $199 · no contract
 One-time help $149 / $299 / $799 · free preview in 48 hours · live in 5 to 14 days
 Most content updates in 2 working days · Mon to Fri, 9 to 5 ET, closed major US holidays
 Agency $5k to $25k upfront · freelancer $1.5k to $8k
-Areas: DE, MD, PA, NJ, VA, Washington D.C.
+Areas: Miami and South Florida, plus DE, MD, PA, NJ, VA, Washington D.C.
