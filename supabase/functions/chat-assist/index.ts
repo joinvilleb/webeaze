@@ -33,7 +33,10 @@ const AI_MODEL = 'claude-sonnet-5';   // upgraded from Haiku 4.5: smarter replie
 const FROM = 'WebEaze <support@webeaze.io>';
 const TEAM = 'billy@webeaze.io';
 const KB_URL = 'https://portal.webeaze.io/help-content.json';
-const HELP_BASE = 'https://webeaze.io/help.html#/';   // a help article lives at HELP_BASE + slug
+const HELP_BASE = 'https://webeaze.io/help/';   // a help article lives at HELP_BASE + slug + '/'
+// Static page, not the hash router: it loads with a real title and content instead of booting
+// a router that then fetches one. Must match portal/index.html's HELP_BASE or one article ends
+// up with two different-looking URLs depending on which part of the product linked to it.
 const REQUEST_TYPES = ['Content update', 'New page or section', 'Design change', 'SEO or metadata', 'Bug or broken element', 'Other'];
 
 // A concise, accurate map of the client portal so Eaze can send clients to the EXACT place for a
@@ -278,7 +281,7 @@ Deno.serve(async (req) => {
 
     if (action === 'article' && parsed.article_slug) {
       const found = kb.find((a) => a.s === parsed.article_slug) || relevant.find((a) => a.s === parsed.article_slug);
-      if (found) reply += '\n\nHere is a guide that covers it: [' + found.t + '](' + HELP_BASE + found.s + ')';
+      if (found) reply += '\n\nHere is a guide that covers it: [' + found.t + '](' + HELP_BASE + found.s + '/)';
     } else if (action === 'request' && parsed.request_summary) {
       const type = REQUEST_TYPES.includes(String(parsed.request_type)) ? String(parsed.request_type) : 'Content update';
       const notes = String(parsed.request_summary).slice(0, 1200);

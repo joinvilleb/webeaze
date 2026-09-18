@@ -793,6 +793,11 @@
       text-decoration: underline;
     }
     .article-body a:hover { color: #fff; }
+    /* One image class, replacing img-fluid / my-3 / article-image / article-img / help-img,
+       all five of which were used in article bodies and defined nowhere. Every img now also
+       carries real width and height attributes so the browser reserves the space and the text
+       stops reflowing as each one loads. */
+    .article-body img.help-figure { display: block; }
     .article-body img {
         /* Screenshots used to fill the whole 698px column, so a tall panel shot read as a
            full-screen slab. Capping both dimensions lets portrait shots be limited by height
@@ -800,7 +805,10 @@
            that carry width/height attributes. */
         max-width: min(100%, 520px);
         max-height: 760px;
-        width: auto;
+        /* NOT width:auto. Every image now carries real width/height attributes, and width:auto
+           makes the browser ignore them for sizing, so it cannot reserve the space before the
+           file loads and the text below jumps. aspect-ratio from the attributes plus height:auto
+           lets it reserve correctly while max-width still caps the rendered size. */
         height: auto;
         border-radius: 12px;
         border: 1px solid rgba(255,255,255,.1);
@@ -2959,7 +2967,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
   <div class="footer-grid">
     <div class="footer-about">
       <div class="footer-brand">
-        <img loading="eager" src="images/webeaze-transparent-copy.png" alt="WebEaze">
+        <img loading="eager" src="images/webeaze-transparent-copy.png" alt="WebEaze" width="428" height="493" />
         <span>Help Center</span>
       </div>
       <p class="footer-tagline">Professional websites for small businesses. We build, host, and manage your site so you can focus on what matters.</p>
@@ -3030,18 +3038,18 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
           <p>You'll get an invite from us when your account is ready. Select "Accept invitation", set your password, and you're in.</p>
           
           <p>Bookmark <a href="https://portal.webeaze.io" target="_blank" rel="noopener">portal.webeaze.io</a> and sign in with your email and password. Check "Keep me signed in" to stay logged in between visits, <strong> but only on a device that's yours</strong>.</p>
-          <img src="images/assets/login-screen.png" alt="The portal login screen showing the email and password fields" />
+          <img loading="lazy" class="help-figure" src="images/assets/login-screen.png" alt="The portal login screen showing the email and password fields" width="828" height="1326" />
 
           <div class="alert alert-info mt-2"><strong>Your password is private.</strong> We can't see it since your password is encrypted. You can reset it any time if you forget it.</div>
 
           <p>To reset your password, select "Reset it" on the login page and we'll email you a link to set a new one.</p>
-          <img src="images/assets/reset-password.png" alt="The password reset screen" />
+          <img loading="lazy" class="help-figure" src="images/assets/reset-password.png" alt="The password reset screen" width="828" height="990" />
 
           <h2>Home page</h2> 
 
           <p><strong>Submit Requests</strong></p>
 
-            <img src="images/assets/home-page.png" alt="The portal home page showing the site report, new request, and account overview cards" />
+            <img loading="lazy" class="help-figure" src="images/assets/home-page.png" alt="The portal home page showing the site report, new request, and account overview cards" width="2200" height="1800" />
 
           <p>Select "Request a change" to to submit changes to your site. Attach files if needed. Once submitted, you'll be able to track the status of your request.</p>
 
@@ -3055,7 +3063,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
 
           <p><strong>Your plan</strong></p>
 
-             <img src="images/assets/manage-plan-entry.webp" alt="The account overview showing plan, status." />
+             <img loading="lazy" class="help-figure" src="images/assets/manage-plan-entry.webp" alt="The account overview showing plan, status." width="668" height="522" />
 
           <p>Your plan lives with the rest of your account details. Select your name in the top corner to open it, and you will see your plan, what it costs, when it renews, and a <a href="#/manage-your-plan">Manage plan</a> button.</p>
           
@@ -3067,7 +3075,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
 
           <h2>Messages</h2>
 
-            <img src="images/assets/notes-page.png" alt="The Messages page in the portal" />
+            <img loading="lazy" class="help-figure" src="images/assets/notes-page.png" alt="The Messages page in the portal" width="2200" height="2344" />
 
           <p>Your conversation with the WebEaze team. Ask questions, send files, and see your replies to our emails in one place. To change something on your website, submit a request instead so it gets tracked. <a href="#/messages">More about Messages</a>.</p>
 
@@ -3076,21 +3084,21 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
 
           <h2>Site report</h2>
 
-            <img src="images/assets/view-site-report.png" alt="The site report showing performance, SEO, security, and more" />
+            <img loading="lazy" class="help-figure" src="images/assets/view-site-report.png" alt="The site report showing performance, SEO, security, and more" width="2200" height="1760" />
 
           <p>The biggest benefit of the portal. See your site's performance, SEO, rankings, review performance, and more. Find it under <strong>Site report</strong> in the menu.</p>
         
 
           <h2>Your milestones</h2>
 
-           <img src="images/assets/milestones-page.png" alt="The milestones section showing badges for different achievements" />
+           <img loading="lazy" class="help-figure" src="images/assets/milestones-page.png" alt="The milestones section showing badges for different achievements" width="2200" height="2422" />
 
            <p>Earn rewards for being a client with us. You'll see your progress and achievements here and may be rewarded with special offers. Think a free month of service. Find it under <strong>Milestones</strong> in the menu.</p>
          
 
           <h2>Requests</h2>
 
-           <img src="images/assets/work-history.png" alt="The request history section showing a list of completed requests and total savings" />
+           <img loading="lazy" class="help-figure" src="images/assets/work-history.png" alt="The request history section showing a list of completed requests and total savings" width="2200" height="1800" />
 
           <p>See your complete record of past requests with us. Find it under <strong>Requests</strong> in the menu.</p>
 
@@ -3098,7 +3106,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
 
           <h2>Refer and earn</h2>
 
-           <img src="images/assets/referrals-section.png" alt="The referral program section showing current referrals and earnings" />
+           <img loading="lazy" class="help-figure" src="images/assets/referrals-section.png" alt="The referral program section showing current referrals and earnings" width="1604" height="1332" />
 
 
 
@@ -3107,7 +3115,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
          
           <h2>Support hours</h2>
 
-           <img src="portal-screenshots/08-support-hours.png" alt="The support section showing current status, upcoming holidays, and recent updates" />
+           <img loading="lazy" class="help-figure" src="portal-screenshots/08-support-hours.png" alt="The support section showing current status, upcoming holidays, and recent updates" width="2560" height="1926" />
           <p>Check our current support hours, view upcoming closures, and browse the Help Center. You can also find any applicable announcements from our team. Find it under <strong>Support hours</strong> in the menu.</p>
   
 
@@ -3124,7 +3132,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
 
         <p>Your <strong>portal dashboard</strong> is the home page of your Client Portal, where you view your live site report, submit a website request, and see your plan and account details at a glance. </p>
 
-          <img src="images/assets/home-page.png" alt="The portal home page showing the site report, new request, and account overview cards" />
+          <img loading="lazy" class="help-figure" src="images/assets/home-page.png" alt="The portal home page showing the site report, new request, and account overview cards" width="2200" height="1800" />
 
 
           <h2>Request a change</h2>
@@ -3146,27 +3154,27 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
 
           <h2>Search performance</h2>
           <p>You'll see live data: how often your site shows up in search, how many people click, and the exact searches bringing people to you with how your position has moved. Search and rankings are one card now, so the whole picture is in one place.</p>
-          <img src="images/assets/search-performance.png" alt="The search card showing how often you appear on Google, the trend over time, and the searches you rank for" />
+          <img loading="lazy" class="help-figure" src="images/assets/search-performance.png" alt="The search card showing how often you appear on Google, the trend over time, and the searches you rank for" width="1200" height="1400" />
 
           <h2>Your site scorecard</h2>
           <p>How your site is doing technically: speed, accessibility and search basics. When your speed is already strong we keep it to a line so the things worth acting on come first. Your reviews now have a card of their own, just below.</p>
-          <img src="images/assets/site-scorecard.png" alt="The site scorecard showing accessibility fixes, SEO and best practice scores, with site speed summarised underneath" />
+          <img loading="lazy" class="help-figure" src="images/assets/site-scorecard.png" alt="The site scorecard showing accessibility fixes, SEO and best practice scores, with site speed summarised underneath" width="1200" height="940" />
 
           <h2>Review radar</h2>
           <p>We keep an eye on your Google reviews so new ones don't slip by. Staying on top of reviews is one of the fastest ways to win more local trust.</p>
-          <img src="images/assets/review-radar.webp" alt="The review radar section tracking new Google reviews" />
+          <img loading="lazy" class="help-figure" src="images/assets/review-radar.webp" alt="The review radar section tracking new Google reviews" width="1164" height="336" />
 
           <h2>Compare locally</h2>
           <p>See how you stack up against similar businesses nearby, so you know where you lead and where there's room to catch up.</p>
-          <img src="images/assets/compare-locally.webp" alt="The compare locally section comparing your business to nearby competitors" />
+          <img loading="lazy" class="help-figure" src="images/assets/compare-locally.webp" alt="The compare locally section comparing your business to nearby competitors" width="1200" height="611" />
 
           <h2>Worth doing next</h2>
           <p>One suggestion at a time, drawn from your own site and search data, plus seasonal ideas worth acting on around now. We put the most valuable one in front of you rather than handing you a list to sort through. Choose <strong>What we'd do</strong> to see exactly what we'd change, then <strong>Yes, do this for me</strong> to file it as a request, or <strong>Not for me</strong> to bring up the next one.</p>
-          <img src="images/assets/worth-doing-next.webp" alt="The worth doing next section showing a single suggested improvement" />
+          <img loading="lazy" class="help-figure" src="images/assets/worth-doing-next.webp" alt="The worth doing next section showing a single suggested improvement" width="1200" height="508" />
 
           <h2>Business tools</h2>
           <p>A handful of practical extras built into your portal, including a QR code generator that points customers straight to your site or reviews.</p>
-          <img src="images/assets/business-tools.webp" alt="The business tools section" />
+          <img loading="lazy" class="help-figure" src="images/assets/business-tools.webp" alt="The business tools section" width="1200" height="1075" />
           
          <p>More features are coming soon!</p>
         ` },
@@ -3176,7 +3184,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
 
           <h2>Where to find your milestones</h2>
           <p>Open your portal and choose <strong>Milestones</strong> in the menu. A progress bar at the top shows how many you've earned and what's coming up next.</p>
-          <img src="images/assets/milestones-page.png" alt="The Milestones page showing earned badges, a progress bar, and locked milestones" />
+          <img loading="lazy" class="help-figure" src="images/assets/milestones-page.png" alt="The Milestones page showing earned badges, a progress bar, and locked milestones" width="2200" height="2422" />
 
           <h2>How milestones unlock</h2>
           <p>You don't have to claim anything. Milestones unlock on their own in two ways:</p>
@@ -3199,7 +3207,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
 
           <h2>Where to find it</h2>
           <p>Open your portal and choose <strong>Requests</strong> in the menu.</p>
-          <img src="images/assets/work-history.png" alt="The Request history page showing completed requests grouped by month, each with a status" />
+          <img loading="lazy" class="help-figure" src="images/assets/work-history.png" alt="The Request history page showing completed requests grouped by month, each with a status" width="2200" height="1800" />
 
           <h2>What you'll see</h2>
           <p>At the top are two quick stats: how many requests we've completed for your site, and an estimate of what you've saved versus hiring a developer. Below that, your requests are grouped by month.</p>
@@ -3226,7 +3234,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
 
           <h2>Where to find your leads</h2>
           <p>Open your portal and choose <strong>Inquiries</strong> in the menu. You'll also see a quick count on your Home page.</p>
-          <img src="images/assets/leads-page.png" alt="The Leads page in the portal, showing each person who sent a message with their details and a Draft a reply button" onerror="this.style.display='none'" />
+          <img loading="lazy" class="help-figure" src="images/assets/leads-page.png" alt="The Leads page in the portal, showing each person who sent a message with their details and a Draft a reply button" onerror="this.style.display='none'" width="2200" height="3584" />
           <p>The number at the top is your <strong>messages</strong> this month, the ones with details you can reply to. Under it, we tell you how many taps came in.</p>
           <p>Every message shows who reached out, which page they were on, whether they were on a phone or a computer, where they found you, and when. That's usually enough to know who to contact first.</p>
 
@@ -3238,13 +3246,13 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
             <li>As you work through them, set each one to <strong>Contacted</strong>, <strong>Won</strong> or <strong>Lost</strong>, so you can always see at a glance who is still waiting on you.</li>
           </ul>
 
-          <img src="images/assets/lead-followup.png" alt="A message in the portal showing the caller details, what they asked for, and an AI-drafted reply ready to copy or open in email" onerror="this.style.display='none'" />
+          <img loading="lazy" class="help-figure" src="images/assets/lead-followup.png" alt="A message in the portal showing the caller details, what they asked for, and an AI-drafted reply ready to copy or open in email" onerror="this.style.display='none'" width="1044" height="1450" />
           <div class="alert alert-info mt-2"><strong>Speed wins.</strong> The faster you follow up, the more likely you're to win the customer.</div>
 
           <h2>Other activity</h2>
           <p>Open <strong>Other activity</strong> to see every tap on your phone number, email address or booking buttons, with the page it happened on and the time.</p>
 
-          <img src="images/assets/lead-other-activity.png" alt="The Other activity list, showing taps on the phone number, email address and booking button with the page and time for each" onerror="this.style.display='none'" />
+          <img loading="lazy" class="help-figure" src="images/assets/lead-other-activity.png" alt="The Other activity list, showing taps on the phone number, email address and booking button with the page and time for each" onerror="this.style.display='none'" width="1044" height="864" />
           <p>There's nothing to reply to here, but the time is the useful part. If someone tapped your number at 8:41 and you have a missed call around then, that's the one worth chasing.</p>
 
           <h2>Your daily lead summary</h2>
@@ -3252,7 +3260,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
           <p>When enabled, once a day after working hours, we'll email you a summary of the leads your website brought in that day. </p>
           
 
-          <img src="images/assets/lead-daily-summary.png" alt="The daily lead summary switch at the bottom of the Leads page, turned on" onerror="this.style.display='none'" />
+          <img loading="lazy" class="help-figure" src="images/assets/lead-daily-summary.png" alt="The daily lead summary switch at the bottom of the Leads page, turned on" onerror="this.style.display='none'" width="1044" height="428" />
           <p>If you're on a Growth plan, you get a ready-to-send reply in that email, so you can follow up without even opening the portal.</p>
          
 
@@ -3288,7 +3296,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
 
           <h2>Where to find it</h2>
           <p>Go to your <a href="https://portal.webeaze.io/#notes" target="_blank" rel="noopener">client portal</a> &gt; <strong>Menu</strong> &gt; <strong>Messages</strong>. The newest messages sit at the bottom, right above the box where you write.</p>
-          <img src="portal-screenshots/05-messages.png" alt="The Messages page in the portal, showing messages from WebEaze alongside your own" />
+          <img loading="lazy" class="help-figure" src="portal-screenshots/05-messages.png" alt="The Messages page in the portal, showing messages from WebEaze alongside your own" width="2560" height="2344" />
 
           <h2>Send a message</h2>
           <p>Type in the box and press the <strong><i class="fas fa-paper-plane"></i></strong> button. Use the paperclip to attach photos, PDFs or documents, up to 5 per message.</p>
@@ -3299,7 +3307,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
 
           <h2>Save files to Files and links</h2>
           <p>When a message has a document, or a link to a shared folder on Google Drive, Dropbox or similar, select <strong>Save to Files and links</strong> under it. It's added to Files and links on <a href="https://portal.webeaze.io/#setup" target="_blank" rel="noopener">Your business info</a>, so it doesn't get lost as the conversation grows. We use what's there whenever we work on your site.</p>
-          <img src="images/assets/messages-save.png" alt="A message with a price list attached and the Save to Files and links option under it" />
+          <img loading="lazy" class="help-figure" src="images/assets/messages-save.png" alt="A message with a price list attached and the Save to Files and links option under it" width="1128" height="406" />
           <p>Once it's saved, the message shows <strong>In Files and links</strong>.</p>
 
           <h2>Turn a message into a request</h2>
@@ -3317,7 +3325,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
             <li>Enter the email address on your account and we'll send you a reset link.</li>
             <li>Open the link and choose a new password. You'll be signed in automatically.</li>
           </ul>
-          <img src="../../images/assets/reset-password.png" alt="The portal password reset screen" />
+          <img loading="lazy" class="help-figure" src="../../images/assets/reset-password.png" alt="The portal password reset screen" width="828" height="990" />
 
           <div class="alert alert-info mt-2"><strong>Your password is private.</strong> It's encrypted, so we can never see it or read it back to you. Resetting is the only way in if you've forgotten it.</div>
 
@@ -3334,7 +3342,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
 
           <h2 id="toc-2">Use "Keep me signed in"</h2>
           <p>When you sign in, check <strong>"Keep me signed in"</strong> to stay logged in between visits so you're not entering your password every time. Only use this on a device that belongs to you, never on a shared or public computer.</p>
-          <img src="../../images/assets/login-screen.png" alt="The portal login screen showing the email, password, and keep me signed in options" />
+          <img loading="lazy" class="help-figure" src="../../images/assets/login-screen.png" alt="The portal login screen showing the email, password, and keep me signed in options" width="828" height="1326" />
 
           <h2 id="toc-3">Still can't get in?</h2>
           <p>Check the following:</p>
@@ -3357,7 +3365,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
         
         <p>Submit requests through your <a href="https://portal.webeaze.io" target="_blank" rel="noopener">client portal</a> any time.</p>
 
-          <img loading="lazy" src="../../images/assets/request-composer.png" alt="The request form in the portal: pick what you need, and the typical turnaround appears under it" class="img-fluid my-3"/>
+          <img class="help-figure" loading="lazy" src="../../images/assets/request-composer.png" alt="The request form in the portal: pick what you need, and the typical turnaround appears under it" width="1280" height="690" />
         
 
           <h2 id="toc-0">What can I request?</h2>
@@ -3468,10 +3476,12 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
 
           <h2 id="toc-0">Track the status in your portal</h2>
           <p>Your request will show one of these statuses, updated as we work on it.</p>
+      <img class="help-figure" loading="lazy" src="images/assets/request-in-flight.png" alt="Request history in the portal: open requests at the top with their status, completed ones grouped by month" width="1368" height="1362" />
           <ul>
             <li><strong>Received</strong> means we have your request.</li>
             <li><strong>In progress</strong> means we're actively working on it.</li>
             <li><strong>Needs info</strong> means we need a bit more detail from you. You'll see a message from us in the portal with space to reply.</li>
+      <img class="help-figure" loading="lazy" src="images/assets/request-needs-info.png" alt="A request that needs your reply, opened from the portal, with our question and a box to answer it" width="1104" height="1070" />
             <li><strong>Completed</strong> means the change is live on your site. You'll also see a summary of exactly what was changed.</li>
           </ul>
 
@@ -3494,7 +3504,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
 
           <p>Your portal is the accurate answer. As a starting point:</p>
 
-          <img loading="lazy" src="images/assets/request-estimate.png" alt="The estimate shown in the portal for the request type you pick" class="img-fluid my-3"/>
+          <img class="help-figure" loading="lazy" src="images/assets/request-estimate.png" alt="The estimate shown in the portal for the request type you pick" width="1120" height="248" />
 
           <ul>
             <li>Content updates: same day to 1 day</li>
@@ -3518,6 +3528,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
          
 
           <h2 id="toc-0">Our working hours</h2>
+      <img class="help-figure" loading="lazy" src="images/assets/request-estimate.png" alt="The current turnaround for a request type, shown live in the portal" width="1120" height="248" />
           <p>We're online:
             <ul>
               <li>Monday-Friday, 9:00 a.m. to 5:00 p.m. Eastern Time (ET)</li>
@@ -3533,6 +3544,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
         <p><a href="../site-is-down/index.html">Time-sensitive requests</a> are handled immediately and resolved the same day, even if it's after working hours. </p>
 
       <p>Routine updates, even if they feel important to you, are handled in the order they're received. Most, if not all routine updates are complete within two working days.</p>
+      <img class="help-figure" loading="lazy" src="images/assets/request-estimate.png" alt="The live turnaround estimate shown under the request type you pick" width="1120" height="248" />
 
           <h2>Growth Plan priority</h2>
           <p>If you're on the Growth plan, you get priority handling on all requests.</p>
@@ -3549,7 +3561,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
           
           <p>It's easy. When you submit a <a href="https://portal.webeaze.io" target="_blank" rel="noopener">request</a>, select the dropdown for your preferred publish date. We'll get it done by that date for you.</p>
 
-          <img loading="lazy" src="../../images/assets/scheduled-support-howto.png" alt="Support schedule example: select a publish date when submitting a request." style="margin:20px 0;border-radius:8px;box-shadow:0 2px 6px rgba(0,0,0,.1);">
+          <img class="help-figure" loading="lazy" src="../../images/assets/scheduled-support-howto.png" alt="Support schedule example: select a publish date when submitting a request." style="margin:20px 0;border-radius:8px;box-shadow:0 2px 6px rgba(0,0,0,.1);" width="898" height="628" />
         
 
           <h2 id="toc-1">Perfect for</h2>
@@ -3679,7 +3691,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
 
           <p>You can update your basic business information in your <a href="https://portal.webeaze.io/#setup" target="_blank" rel="noopener" style="color:var(--gold);text-decoration:underline;">Client Portal</a>.</p>
 
-          <img loading="lazy" src="../../images/assets/site-setup-demo.gif" alt="Walkthrough of the Site Setup showing where to update business information." class="article-image">
+          <img class="help-figure" loading="lazy" src="../../images/assets/site-setup-demo.gif" alt="Walkthrough of the Site Setup showing where to update business information." width="400" height="406" />
 
           <h2 id="toc-0">Submit a request</h2>
 
@@ -3790,7 +3802,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
 
           <h2>Can a team member submit requests?</h2>
           <p>Yes. Anyone from your team can submit a request through the <a href="https://portal.webeaze.io" target="_blank" rel="noopener">client portal</a>. There's no account required. Ensure that they mention your business name/Website URL so we can add them to your account.</p>
-          <img src="images/assets/who-can-sign-in.png" alt="The Who can sign in card in the client portal, listing each email that can log in with its role tag and an Ask us to add a login button" onerror="this.style.display='none'" />
+          <img loading="lazy" class="help-figure" src="images/assets/who-can-sign-in.png" alt="The Who can sign in card in the client portal, listing each email that can log in with its role tag and an Ask us to add a login button" onerror="this.style.display='none'" width="2048" height="1438" />
 
           <h2>What about admin or backend access?</h2>
           <p>We don't share backend access to your site's hosting or CMS as a general practice. Unauthorized edits to templates, plugins, or code are a common source of site breakage. See <a href="#/self-management">Can I manage my own website?</a> for more on what is/isn't recommended.</p>
@@ -3813,18 +3825,18 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
 
          <p>Everything to do with your plan lives in one place. Go to your <a href="https://portal.webeaze.io" target="_blank" rel="noopener">portal</a> and select <i>Manage plan</i> on the "Your plan" card.</p>
 
-         <img loading="lazy" src="../../images/assets/manage-plan-entry.webp" alt="The Your plan card in the portal with the Manage plan button" class="img-fluid my-3"/>
+         <img class="help-figure" loading="lazy" src="../../images/assets/manage-plan-entry.webp" alt="The Your plan card in the portal with the Manage plan button" width="668" height="522" />
 
           <h2 id="toc-0">What you'll see</h2>
 
           <p>Your current plan and price, when it renews, your page allowance, and every invoice we've ever sent you.</p>
 
-          <img loading="lazy" src="../../images/assets/manage-plan.webp" alt="The Manage plan panel showing plan, renewal date, and invoices" class="img-fluid my-3"/>
+          <img class="help-figure" loading="lazy" src="../../images/assets/manage-plan.webp" alt="The Manage plan panel showing plan, renewal date, and invoices" width="840" height="1192" />
 
           <h2 id="toc-1">Change your plan</h2>
           <p>Select <i>Change plan</i>, then pick the plan you want. We'll show you exactly what it costs before anything changes. See <a href="../change-subscription/">Can I change my plan?</a> for how upgrades and downgrades work.</p>
 
-            <img loading="lazy" src="../../images/assets/change-plan.webp" alt="Choosing a different plan in the portal" class="img-fluid my-3"/>
+            <img class="help-figure" loading="lazy" src="../../images/assets/change-plan.webp" alt="Choosing a different plan in the portal" width="840" height="976" />
 
           <h2 id="toc-2">View past invoices</h2>
           <p>Your invoices are listed under the plan details, grouped by year. This year is open by default. Select any year to expand it, and use the download icon to save an invoice as a PDF for your records.</p>
@@ -3846,6 +3858,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
           <p>Your invoice is processed through <a href="https://stripe.com" target="_blank" rel="noopener">Stripe</a>, our secure payment provider. </p>
 
           <h2 id="toc-0">What you might see on your invoice</h2>
+      <img class="help-figure" loading="lazy" src="images/assets/manage-plan.webp" alt="The plan and billing screen in the portal, where invoices and payment details live" width="840" height="1192" />
           <dl class="term-list">
             <div class="term-item"><dt>Your Plan</dt><dd>Your recurring subscription fee for website maintenance, hosting, and more</dd></div>
             <div class="term-item"><dt>Setup &amp; Onboarding Fee</dt><dd>One-time $199 charge for initial website design and launch. Added to 1st invoice only</dd></div>
@@ -3889,7 +3902,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
 
         <p>Yes. Go to your <a href="https://portal.webeaze.io" target="_blank" rel="noopener">client portal</a> > <i>Manage plan</i> > <i>Change plan</i>, then pick the plan you want. We'll show you exactly what it costs before anything changes.</p>
 
-        <img loading="lazy" src="../../images/assets/change-plan.webp" alt="Choosing a different plan in the portal" class="img-fluid my-3"/>
+        <img class="help-figure" loading="lazy" src="../../images/assets/change-plan.webp" alt="Choosing a different plan in the portal" width="840" height="976" />
 
         <h2>How plan changes work</h2>
 
@@ -3923,7 +3936,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
 
           <p>Open your <a href="https://portal.webeaze.io" target="_blank" rel="noopener">client portal</a>, start a request, and choose <strong>Change my billing date</strong>. Pick the date you want, add a reason if you think it helps, and send it. We'll reply with an approval or a denial.</p>
 
-              <img src="images/assets/change-billing-date.png" alt="The client portal asking which day of the month you would like to be billed on, with a date picker and a note that the request will be approved or denied" onerror="this.style.display='none'" />
+              <img loading="lazy" class="help-figure" src="images/assets/change-billing-date.png" alt="The client portal asking which day of the month you would like to be billed on, with a date picker and a note that the request will be approved or denied" onerror="this.style.display='none'" width="1520" height="1154" />
 
     
         
@@ -3952,6 +3965,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
           <p>We bill all payments through <a href="https://stripe.com" target="_blank" rel="noopener noreferrer">Stripe</a>, which accepts all major credit and debit cards.</p>
           <ul>
             <li>Visa</li>
+      <img class="help-figure" loading="lazy" src="images/assets/manage-plan.webp" alt="The plan and billing screen in the portal, where your payment method is changed" width="840" height="1192" />
             <li>Mastercard</li>
             <li>American Express</li>
             <li>Discover</li>
@@ -3981,7 +3995,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
           <h2>Change your payment method</h2>
           <p>Follow the steps in the <a href="#/manage-your-plan">Manage Your Plan</a> article to update your payment information. Your payment will be processed after you update it.</p>
 
-          <img loading="lazy" src="images/assets/manage-plan-entry.webp" alt="The Your plan card in the portal with the Manage plan button" class="img-fluid my-3"/>
+          <img class="help-figure" loading="lazy" src="images/assets/manage-plan-entry.webp" alt="The Your plan card in the portal with the Manage plan button" width="668" height="522" />
 
   
 
@@ -4082,11 +4096,11 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
 
           <p>Log into your <a href="https://portal.webeaze.io" target="_blank" rel="noopener">client portal</a> and select <i>Manage plan</i> on the "Your plan" card.</p>
 
-          <img loading="lazy" src="../../images/assets/manage-plan-entry.webp" alt="The Your plan card in the portal with the Manage plan button" class="img-fluid my-3"/>
+          <img class="help-figure" loading="lazy" src="../../images/assets/manage-plan-entry.webp" alt="The Your plan card in the portal with the Manage plan button" width="668" height="522" />
 
           <p>Select <i>Cancel my plan</i> at the bottom of the panel.</p>
 
-          <img loading="lazy" src="../../images/assets/cancel-plan.webp" alt="The cancellation step listing what ends when the plan does" class="img-fluid my-3"/>
+          <img class="help-figure" loading="lazy" src="../../images/assets/cancel-plan.webp" alt="The cancellation step listing what ends when the plan does" width="840" height="812" />
 
           <p>Select <i>Continue to cancel</i> and follow the prompts to confirm. You'll get an email confirming the cancellation.</p>
 
@@ -4156,7 +4170,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
           <p>If your invoice isn't paid within 2 days following completion of your request, your balance becomes due, your arrangement is cancelled, and the balance due may be sent to a collections agency if necessary.</p>
             
           <p><strong>For consistency:</strong> Your arrangement and its benefits are listed in your <a href="https://portal.webeaze.io" target="_blank" rel="noopener noreferrer">client portal</a> and in the email you received.</p>
-          <img src="images/assets/billing-arrangement.png" alt="The Your billing arrangement panel in the client portal, showing the hourly rate and the monthly cap" onerror="this.style.display='none'" />
+          <img loading="lazy" class="help-figure" src="images/assets/billing-arrangement.png" alt="The Your billing arrangement panel in the client portal, showing the hourly rate and the monthly cap" onerror="this.style.display='none'" width="1044" height="1336" />
 
           <h2>Monthly maintenance caps</h2>
           <p>If your arrangement includes maintenance caps, here's how it works.</p>
@@ -4214,7 +4228,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
         <h2>Track it in your portal</h2>
 
         <p>If you're an active client, get your referral link and track your earnings over time from your <a href="https://portal.webeaze.io/#referrals">portal</a>. Go to <strong>Refer and earn</strong> in the menu.</p>
-        <img src="images/assets/referral-page.png" alt="The Refer and Earn page showing your referrals and earnings" />
+        <img loading="lazy" class="help-figure" src="images/assets/referral-page.png" alt="The Refer and Earn page showing your referrals and earnings" width="2200" height="3184" />
 
             </div>
           </details>
@@ -4448,7 +4462,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
 
         <p>Yes. Your plan comes with a set number of pages. Additional pages can be added beyond your limit at <strong>$199 per page</strong>.</p>
 
-          <img loading="lazy" src="images/assets/addon-extra-page.png" alt="The Additional Page add-on in the portal, $199 per page, with a Request this button" class="img-fluid my-3"/>
+          <img class="help-figure" loading="lazy" src="images/assets/addon-extra-page.png" alt="The Additional Page add-on in the portal, $199 per page, with a Request this button" width="1364" height="336" />
           
           <h2>How many pages do I get with my plan?</h2>
 
@@ -4527,7 +4541,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
 
           <h2>Types of galleries</h2>
 
-          <img loading="lazy" src="images/assets/gallery-example.png" alt="Photo gallery example" class="article-image" />
+          <img class="help-figure" loading="lazy" src="images/assets/gallery-example.png" alt="Photo gallery example" width="2554" height="1458" />
           <ul>
             <li><strong>Photo grid:</strong> A clean, responsive grid of images. Works well for contractors, landscapers, cleaning companies, and anyone wanting to show their work.</li>
             <li><strong>Portfolio with categories:</strong> Group your work by project type or service with filter tabs so visitors can browse what's relevant to them.</li>
@@ -4864,7 +4878,8 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
 
           <h2>Is it included in my plan?</h2>
           <p>Landing pages are a separate one-time add-on starting at <strong>$329</strong>.
-          <img src="../../images/assets/addons-page.png" alt="The Add-ons and upgrades page in your portal, showing Campaign / Landing Page listed from $329 alongside every other add-on" onerror="this.style.display='none'" /> They're not included in any plan because they require dedicated design work focused on conversion. That's beyond what's covered by standard page updates.</p>
+          <img loading="lazy" class="help-figure" src="../../images/assets/addons-page.png" alt="The Add-ons and upgrades page in your portal, showing Campaign / Landing Page listed from $329 alongside every other add-on" onerror="this.style.display='none'" width="2200" height="3042" /> They're not included in any plan because they require dedicated design work focused on conversion. That's beyond what's covered by standard page updates.</p>
+      <img loading="lazy" class="help-figure" src="images/assets/addon-landing-page.png" alt="The Campaign / Landing Page add-on in the portal, from $329, with a Request this button" onerror="this.style.display='none'" width="1364" height="336" />
 
           <div class="cta-row mt-2">
             <a class="btn-brand" href="https://portal.webeaze.io" target="_blank" rel="noopener">Request a Landing Page</a>
@@ -4876,7 +4891,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
 
       <p>Generally, yes. Password protection lets you create pages that only people with the right password can access. It's good for client portals, private content, and more.  </p>
 
-      <img loading="lazy" src="../../images/assets/login-screen.png" alt="Password-protected page example" class="article-image" />
+      <img class="help-figure" loading="lazy" src="../../images/assets/login-screen.png" alt="Password-protected page example" width="828" height="1326" />
         
 
           <h2 id="toc-0">Common uses</h2>
@@ -5142,7 +5157,8 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
         ` },
         { slug: 'booking-scheduling', title: 'Can you add a booking or scheduling system?', updated: '08-03-2026', meta: "Yes. We can embed Calendly, Square Appointments, Acuity, and others, or build a custom appointment request form.", body: `
 
-          <p>Yes. A booking or scheduling system can be added to your website. It's a common request from businesses that need to manage appointments/reservations.</p>
+          <p>
+      <img loading="lazy" class="help-figure" src="images/assets/addon-booking.png" alt="The Booking System add-on in the portal, from $329, with a Request this button" onerror="this.style.display='none'" width="1364" height="336" />Yes. A booking or scheduling system can be added to your website. It's a common request from businesses that need to manage appointments/reservations.</p>
 
           <h2 id="toc-0">What can be added</h2>
           <ul>
@@ -5156,7 +5172,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
           <p>If you already have an existing booking system, we can integrate it with your website at no extra cost.</p>
 
           <p>Building a custom booking form/system requires more time and thus is a one-time fee. Submit an add-on request through your <a href="https://portal.webeaze.io" target="_blank" rel="noopener">client portal</a>.</p>
-          <img src="../../images/assets/addons-page.png" alt="The Add-ons and upgrades page in your portal, showing every add-on and its price, with Booking System listed from $329" onerror="this.style.display='none'" />
+          <img loading="lazy" class="help-figure" src="../../images/assets/addons-page.png" alt="The Add-ons and upgrades page in your portal, showing every add-on and its price, with Booking System listed from $329" onerror="this.style.display='none'" width="2200" height="3042" />
 
         ` },
         { slug: 'crm-booking-integration', title: 'Can you connect my website to a CRM or booking tool?', updated: '08-03-2026', meta: "Yes. We can connect your site to HubSpot, Calendly, Mailchimp, live chat tools, and more so leads flow directly into your workflow.", body: `
@@ -5199,7 +5215,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
 
           <h2>Is it included in my plan?</h2>
           <p>Live Chat integration is a one-time fee. Request it by going to your <a href="https://portal.webeaze.io" target="_blank" rel="noopener">client portal</a> > <strong>Add-ons</strong>.
-          <img loading="lazy" src="images/assets/addon-describe-it.png" alt="The describe it box on the Add-ons page, where you say what you want and get a price back" class="img-fluid my-3"/>  </p>
+          <img class="help-figure" loading="lazy" src="images/assets/addon-describe-it.png" alt="The describe it box on the Add-ons page, where you say what you want and get a price back" width="1488" height="506" />  </p>
 
           <h2>Platform notes</h2>
           <ul>
@@ -5710,10 +5726,10 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
           <h2 id="toc-1">Make it easy</h2>
           <p>Share a direct link from your Google Business Profile by searching for your business on Google: </p>
 
-            <img loading="lazy" src="../../images/assets/gbp-get-reviews.png" alt="Screenshot of Google search results showing a business profile with a 'Write a review' button." class="article-image">
+            <img class="help-figure" loading="lazy" src="../../images/assets/gbp-get-reviews.png" alt="Screenshot of Google search results showing a business profile with a 'Write a review' button." width="994" height="1012" />
 
             <p>Then, copy the link:</p>
-            <img loading="lazy" src="../../images/assets/gbp-get-reviews-1.png" alt="Screenshot of Google Business Profile with 'Share review form' link highlighted." class="article-image">
+            <img class="help-figure" loading="lazy" src="../../images/assets/gbp-get-reviews-1.png" alt="Screenshot of Google Business Profile with 'Share review form' link highlighted." width="1878" height="94" />
             
             <p>Then, add it to:</p>
           <ul>
@@ -6066,7 +6082,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
         <h2>See it live in your portal</h2>
         <p>You can view your analytics directly in your portal. Choose <strong>Site report</strong> in the menu
         for live traffic, Google Search data, keyword rankings, and where you rank, all in one place.</p>
-        <img src="images/assets/view-site-report.png" alt="The site report showing performance, search data, and keyword rankings" />
+        <img loading="lazy" class="help-figure" src="images/assets/view-site-report.png" alt="The site report showing performance, search data, and keyword rankings" width="2200" height="1760" />
 
         <p>On this page, you'll find a report that summarizes the key metrics of your website's performance and any actions you should take. You can also find your URL and things we took care of related to it, leads counter, site speed, and more.</p>
 
@@ -6115,8 +6131,8 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
         <p>Check your site's status under <strong>Site report</strong> in the menu.
       A live indicator shows there, with a red banner if your site is down.</p>
 
-       <img class="article-image" src="images/assets/site-up.png" alt="Site is up status in the WebEaze Client Portal" />
-      <img src="images/assets/site-down.png" alt="The portal showing a site-down status banner" />
+       <img loading="lazy" class="help-figure" src="images/assets/site-up.png" alt="Site is up status in the WebEaze Client Portal" width="968" height="502" />
+      <img loading="lazy" class="help-figure" src="images/assets/site-down.png" alt="The portal showing a site-down status banner" width="952" height="374" />
         
      
 
@@ -6137,7 +6153,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
 
         <p>We're notified if there's an error on your website. <p>Check your site's status under <strong>Site report</strong> in the menu.
     A live indicator shows there, with a red banner if your site is down.</p>
-    <img src="images/assets/site-down.png" alt="The portal showing a site-down status banner" />
+    <img loading="lazy" class="help-figure" src="images/assets/site-down.png" alt="The portal showing a site-down status banner" width="952" height="374" />
 
           <h2>Common error messages</h2>
           <div class="error-list">
@@ -6255,7 +6271,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
           <h2>How to test your site speed</h2>
           <p>Use Google's free PageSpeed Insights tool at <a href="https://pagespeed.web.dev" target="_blank" rel="noopener">pagespeed.web.dev</a>. Enter your site URL and check both mobile and desktop results. It'll show your score and suggestions.</p>
 
-          <img loading="lazy" src="images/assets/site-speed-scores.png" alt="Site speed in your portal report, showing separate mobile and desktop scores with load times" class="img-fluid my-3"/>
+          <img class="help-figure" loading="lazy" src="images/assets/site-speed-scores.png" alt="Site speed in your portal report, showing separate mobile and desktop scores with load times" width="1200" height="584" />
 
           <h2>What to do next</h2>
           <p>If you're experiencing consistent slowness, submit a <a href="https://portal.webeaze.io" target="_blank" rel="noopener">request</a> and describe what you're seeing. Include the URL, the device you're on, and approximately when it's slowest. We'll investigate and make optimizations.</p>
@@ -6393,7 +6409,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
 
         <p>When you paste a link on Facebook, iMessage, WhatsApp, and others, they display a preview card with an image, title, and description. It looks like this: </p>
             
-            <img loading="lazy" src="images/assets/open-graph .png" alt="Screenshot of a social media preview card." class="article-image">
+            <img class="help-figure" loading="lazy" src="images/assets/open-graph .png" alt="Screenshot of a social media preview card." width="986" height="918" />
 
             <p>If the preview looks off, shows the wrong image, etc., it's usually an Open Graph (OG) issue.</p>
           
@@ -7033,7 +7049,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
       <p>After you create your account, follow the onboarding process. It's simple and helps you get your website up and running quickly.</p>
 
 
-          <img loading="lazy" src="../../images/assets/onboarding-process.png" alt="The onboarding process tracker inside the WebEaze client portal, showing each step of your website setup" class="img-fluid my-3" />
+          <img class="help-figure" loading="lazy" src="../../images/assets/onboarding-process.png" alt="The onboarding process tracker inside the WebEaze client portal, showing each step of your website setup" width="1248" height="1148" />
 
           <h2 id="toc-1">Website completion</h2>
           <p>You'll receive an email once your website is complete. Your onboarding steps will clear as well. Your plan includes unlimited updates, unless you're on a <a href="https://webeaze.io/help/custom-billing-arrangement">custom billing arrangement</a>.  </p>
@@ -7237,7 +7253,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
 
         <p>We begin working on your website, and you'll see status updates in your portal.</p>
 
-        <img src="images/assets/onboarding-process.png" alt="Website request status showing 'In Progress'" />
+        <img loading="lazy" class="help-figure" src="images/assets/onboarding-process.png" alt="Website request status showing 'In Progress'" width="1248" height="1148" />
 
         <h2>4. You review and approve</h2>
         <p>You'll see your website once it's ready in your portal. You can request up to <strong>3 minor revisions</strong> within 14 calendar days of delivery, as long as they fall within the original project scope. After 14 days, included revisions expire and any changes past that date are invoiced at the standard rate of $50.75/hour.</p>
@@ -7364,7 +7380,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
 
         <p>Once you create your account, you'll see your website onboarding steps. Please follow the instructions as requested to ensure your website is launched in a timely manner.</p>
 
-         <img loading="lazy" src="images/assets/onboarding-process.png" alt="The onboarding process tracker inside the WebEaze client portal, showing each step of your website build" class="img-fluid my-3" />
+         <img class="help-figure" loading="lazy" src="images/assets/onboarding-process.png" alt="The onboarding process tracker inside the WebEaze client portal, showing each step of your website build" width="1248" height="1148" />
           
           <h2>Website launch</h2>
 
@@ -7373,7 +7389,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
         { slug: 'how-do-we-collaborate', title: 'How do we collaborate about my site?', updated: '05-26-2026', meta: 'How to send edits and get quick replies while we are building your site.', body: `
 
         <p>The clearest place to keep everything is <strong>Messages</strong> in the menu. Ask us anything there and send files, and your replies to our emails show up there too. To change something on your site, submit a request so it gets tracked.</p>
-          <img src="images/assets/notes-page.png" alt="The Messages page of the portal" />
+          <img loading="lazy" class="help-figure" src="images/assets/notes-page.png" alt="The Messages page of the portal" width="2200" height="2344" />
 
           <p>If you need to submit info to us (like your business information or design preferences), use our <a href="https://portal.webeaze.io/#setup" target="_blank" rel="noopener">Site Setup</a>.</p>
 
@@ -7385,7 +7401,8 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
         ` },
         { slug: 'how-to-send-website-access', title: 'How to send us website access', updated: '08-16-2026', meta: 'Give us secure access on Wix, Squarespace, WordPress, or your domain registrar following these steps. ', body: `
 
-        <h2>Wix</h2>
+        <h2>
+      <img class="help-figure" loading="lazy" src="images/assets/secure-credentials.png" alt="The encrypted Share a password securely form in the portal, with fields for what the login is for, the username, and the password" width="882" height="1234" />Wix</h2>
           <ol>
             <li>Settings → Roles and Permissions → Invite People.</li>
             <li>Invite <code>support@webeaze.io</code> as Admin or Website Manager.</li>
@@ -7412,7 +7429,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
 
         <p>Some platforms don't support adding a manager or collaborator. In that case, share your login credentials through your <a href="https://portal.webeaze.io/#setup">portal</a>.</p>
 
-      <img loading="lazy" src="images/assets/secure-credentials.png" alt="Securely submit your login credentials through the Site Setup wizard in your client portal." class="article-image">
+      <img class="help-figure" loading="lazy" src="images/assets/secure-credentials.png" alt="Securely submit your login credentials through the Site Setup wizard in your client portal." width="882" height="1234" />
 
        
 
@@ -7436,6 +7453,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
         { slug: 'share-your-branding', title: 'How do I share my logo, colors, and fonts?', updated: '04-20-2026', meta: 'Use the site setup to share your logo, hex color codes, font preferences, and inspiration sites.', body: `
 
           <p>When you submit your content, include everything that represents your brand's visual identity. The more you give us upfront, the closer your first draft will be to what you're imagining.</p>
+      <img class="help-figure" loading="lazy" src="images/assets/setup-conversation.png" alt="The site setup conversation asking about brand colors, with the answers collected alongside it" width="1920" height="1300" />
 
           <h2>What to include</h2>
           <ul>
@@ -7614,7 +7632,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
           </ul>
 
           <p>You can update your business information at any time in your <a href="https://portal.webeaze.io/#setup" target="_blank" rel="noopener">client portal</a>.</p>
-          <img src="../../images/assets/business-info-summary.png" alt="Your business info in the portal after setup is submitted, showing each section of your details with an Edit button" onerror="this.style.display='none'" />
+          <img loading="lazy" class="help-figure" src="../../images/assets/business-info-summary.png" alt="Your business info in the portal after setup is submitted, showing each section of your details with an Edit button" onerror="this.style.display='none'" width="2200" height="6116" />
           
       
         ` },
@@ -7623,7 +7641,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
         <p>Most websites launch within <strong>5 to 14 working days</strong>.</p><p>Your exact launch date depends on your website's needs and how quickly you reply to our requests for information.</p>
 
           <p>You can follow your website's progress in real time inside your <a href="https://portal.webeaze.io" target="_blank" rel="noopener">client portal</a>. It shows exactly which stage your build is in, from onboarding through launch, and you can submit any requests there as needed.</p>
-          <img loading="lazy" src="images/assets/onboarding-process.png" alt="The onboarding process tracker inside the WebEaze client portal, showing each stage of your website build from onboarding through launch" class="img-fluid my-3" />
+          <img class="help-figure" loading="lazy" src="images/assets/onboarding-process.png" alt="The onboarding process tracker inside the WebEaze client portal, showing each stage of your website build from onboarding through launch" width="1248" height="1148" />
 
          <div class="alert alert-info mt-2"><strong>Note:</strong> In rare cases where there are significant delays or complex scope, the timeline can extend to 45 working days. You'll be communicated with launch updates throughout the process.</div>
 
@@ -7652,12 +7670,12 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
 
       <p>After you login to your <a href="https://portal.webeaze.io/#setup">Client Portal</a>, you'll be prompted to submit your <strong>Site Setup</strong>. </p>
 
-      <img class="article-img" src="../../images/assets/setup-conversation.png" alt="Site Setup page screenshot" loading="lazy">
+      <img class="help-figure" src="../../images/assets/setup-conversation.png" alt="Site Setup page screenshot" loading="lazy" width="1920" height="1300" />
 
       <p>If you choose to fill the form manually, it may take up to 15 minutes to complete. Please be as detailed as possible.</p>
 
       <figure class="article-video">
-        <img src="../../images/assets/site-setup-demo.gif" alt="Silent looping walkthrough of the site setup" loading="lazy">
+        <img class="help-figure" src="../../images/assets/site-setup-demo.gif" alt="Silent looping walkthrough of the site setup" loading="lazy" width="400" height="406" />
         <figcaption>How to use the Site setup form</figcaption>
       </figure>
 
@@ -7673,11 +7691,11 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
 
       <h2 id="toc-0">After submitting</h2>
 
-      <img class="article-img" src="../../images/assets/site-setup-info.png" alt="Content Submission Form screenshot" loading="lazy">
+      <img class="help-figure" src="../../images/assets/site-setup-info.png" alt="Content Submission Form screenshot" loading="lazy" width="1280" height="732" />
 
       <p>You'll get a confirmation email. Visit the <a href="https://portal.webeaze.io/#setup">Site setup</a> anytime you need to update your information.</p>
 
-      <img class="article-img" src="../../images/assets/site-setup-confirmation.png" alt="Site Setup confirmation email screenshot" loading="lazy">
+      <img class="help-figure" src="../../images/assets/site-setup-confirmation.png" alt="Site Setup confirmation email screenshot" loading="lazy" width="968" height="338" />
 
       <p>If you submitted the Site Setup form using Eaze, you'll see a confirmation message. Use Eaze if you ever need to make updates to your information.</p>
 
@@ -7688,7 +7706,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
 
         <p>You don't need to have everything perfectly prepared before you sign up. But having a few things ready upfront means we can start building faster and you'll see a first draft sooner.</p>
 
-          <img loading="lazy" src="images/assets/setup-conversation.png" alt="The site setup conversation, which asks for what it needs a few questions at a time" class="img-fluid my-3"/>
+          <img class="help-figure" loading="lazy" src="images/assets/setup-conversation.png" alt="The site setup conversation, which asks for what it needs a few questions at a time" width="1920" height="1300" />
 
           <h2>The basics</h2>
           <ul>
@@ -7783,7 +7801,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
 
         <p>Copywriting is essentially the content you see on your website. For example, our website homepage.</p>
 
-        <img loading="lazy" src="images/assets/website-homepage-cpy-example.png" alt="Example of copywriting on a website homepage" class="help-img" />
+        <img class="help-figure" loading="lazy" src="images/assets/website-homepage-cpy-example.png" alt="Example of copywriting on a website homepage" width="741" height="690" />
 
 
 
@@ -7924,7 +7942,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
 
         <p>You don't need a formal brand guide or color palette to get started. Many clients come to us without one, and that's completely fine.</p>
 
-          <img loading="lazy" src="images/assets/setup-conversation.png" alt="The site setup conversation asking what look and colors you have in mind" class="img-fluid my-3"/>
+          <img class="help-figure" loading="lazy" src="images/assets/setup-conversation.png" alt="The site setup conversation asking what look and colors you have in mind" width="1920" height="1300" />
 
           <h2>What we do</h2>
           <p>We'll select a color palette based on your industry, the tone of your business, and any visual references you share. We typically ask:</p>
