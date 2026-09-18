@@ -11,13 +11,16 @@ const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 
 const go = (view) => `navigateTo('${view}');`;
 const settle = (ms) => `await new Promise(r=>setTimeout(r,${ms || 1200}));`;
-// Desktop views: .body clip at 1120 (2240 wide). Mobile: 500 full page (1000 wide).
+// Desktop views: FULL PAGE at 1280 with the sidebar and topbar (2560 wide). The old .body clip at
+// 1120 stopped working when the portal got a permanent sidebar: the clip framed the content column
+// only, so every shot carried 272px of empty left padding and no navigation at all.
+// Mobile: 500 full page (1000 wide), which now includes the bottom tab bar.
 const VIEWS = { home: 'home', setup: 'setup', history: 'history', report: 'report', messages: 'notes', milestones: 'milestones', referrals: 'referrals', help: 'help', addons: 'addons', leads: 'leads', updates: 'updates' };
 const SHOTS = [];
 // A popup is position:fixed and scrolls inside itself; lay it flat on the page so the whole card is captured.
 const flat = "(function(){var m=document.getElementById('ask-modal');m.style.cssText+=';position:absolute;inset:auto;top:0;left:0;right:0;height:auto;min-height:0;background:transparent;backdrop-filter:none;overflow:visible;display:flex;justify-content:center;padding:24px 0;';var c=m.querySelector('.info-modal-card');c.style.maxHeight='none';c.style.overflow='visible';c.style.transform='none';var b=document.querySelector('.body');if(b)b.style.visibility='hidden';})();";
 for (const [name, view] of Object.entries(VIEWS)) {
-  SHOTS.push({ name: 'd-' + name, vw: 1120, mobile: false, clip: '.body', js: go(view) + settle(1600) + (view === 'notes' ? "document.getElementById('client-notes').style.maxHeight='none';" + settle(300) : '') });
+  SHOTS.push({ name: 'd-' + name, vw: 1280, mobile: false, full: true, topbar: true, js: go(view) + settle(1600) + (view === 'notes' ? "document.getElementById('client-notes').style.maxHeight='none';" + settle(300) : '') });
   SHOTS.push({ name: 'm-' + name, vw: 500, mobile: true, full: true, js: go(view) + settle(1600) + (view === 'notes' ? "document.getElementById('client-notes').style.maxHeight='none';" + settle(300) : '') });
   SHOTS.push({ name: 'a-' + name, vw: 1100, mobile: false, full: true, topbar: true, js: go(view) + settle(1600) + (view === 'notes' ? "document.getElementById('client-notes').style.maxHeight='none';" + settle(300) : '') });
 }

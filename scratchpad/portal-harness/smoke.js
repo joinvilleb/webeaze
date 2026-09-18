@@ -62,6 +62,50 @@ async function connect(url) {
   return { send, evalv, close: () => { ws.close(); chrome.kill(); } };
 }
 
+// Shell invariants, measured from the live layout at both widths.
+//
+// WHY: every one of these was shipped broken at least once, and all for the same reason. A rule
+// written ABOVE the rule it means to override loses on source order, silently: the CSS is valid, the
+// page renders, and the only symptom is a button in the wrong place. Reading the stylesheet does not
+// catch it. Measuring the rendered box does.
+const SHELL = [
+  { w: 1280, h: 900, mobile: false, name: 'desktop', checks: `[
+    ['sidebar is on screen', (function(){ var d=q('.drawer'); return d && Math.abs(box(d).left) < 2 && box(d).width > 180 && box(d).width < 400; })()],
+    ['content clears the sidebar', (function(){ var d=q('.drawer'), b=q('.body'); return d && b && parseFloat(css(b).paddingLeft) >= box(d).width - 1; })()],
+    ['topbar clears the sidebar', (function(){ var d=q('.drawer'), t=q('.topbar-inner'); return d && t && parseFloat(css(t).paddingLeft) >= box(d).width - 1; })()],
+    ['resize grip is visible', (function(){ var g=q('.sb-resize'); return g && css(g).display !== 'none' && box(g).width > 4; })()],
+    ['tab bar is hidden', (function(){ var t=q('.tabbar'); return !t || css(t).display === 'none'; })()],
+    ['hamburger is gone', (function(){ var h=q('.hamburger-btn'); return !h || css(h).display === 'none'; })()],
+    ['sidebar header lines up with the topbar, when there is one', (function(){ var a=q('.drawer-header'), b=q('.topbar'); if (!b || css(b).display === 'none') return true; return a && Math.abs(box(a).bottom - box(b).bottom) <= 1; })()],
+    ['account controls sit in the sidebar', (function(){ var r=q('.topbar-right'); return r && r.closest('.drawer-footer') !== null && box(r).width > 40; })()]
+  ]`},
+  { w: 390, h: 844, mobile: true, name: 'phone', checks: `[
+    ['tab bar is on screen', (function(){ var t=q('.tabbar'); return t && css(t).display !== 'none' && box(t).bottom <= innerHeight + 1 && box(t).height > 40; })()],
+    ['menu is put away', (function(){ var d=q('.drawer'); return d && box(d).top >= innerHeight - 2; })()],
+    ['content clears the tab bar', (function(){ var t=q('.tabbar'), b=q('.body'); return t && b && parseFloat(css(b).paddingBottom) >= box(t).height; })()],
+    ['chat button clears the tab bar', (function(){ var f=q('.chat-fab'), t=q('.tabbar'); if(!f||!t) return false; f.classList.add('visible'); var ok = box(f).bottom <= box(t).top + 1; return ok; })()],
+    ['logo is not tiny', (function(){ var l=q('.topbar-logo'); return l && parseFloat(css(l).fontSize) >= 19; })()],
+    ['sidebar grip is not in the way', (function(){ var g=q('.sb-resize'); return !g || css(g).display === 'none'; })()]
+  ]`},
+];
+
+async function checkShell(cdp, note) {
+  for (const s of SHELL) {
+    await cdp.send('Emulation.setDeviceMetricsOverride', { width: s.w, height: s.h, deviceScaleFactor: 1, mobile: s.mobile });
+    await sleep(900);
+    const raw = await cdp.evalv(`(function(){
+      var q = function(x){ return document.querySelector(x); };
+      var css = function(n){ return getComputedStyle(n); };
+      var box = function(n){ return n.getBoundingClientRect(); };
+      return JSON.stringify(${s.checks});
+    })()`);
+    JSON.parse(raw).forEach(([what, ok]) => {
+      if (ok) console.log('  ok   ' + s.name + ': ' + what);
+      else note('shell', s.name, what);
+    });
+  }
+}
+
 async function run() {
   const out = path.resolve(process.argv[2] || '/tmp/pmm');
   const fails = [];
@@ -95,6 +139,12 @@ async function run() {
       } catch (e) { note(label, view, String(e.message).slice(0, 200)); }
     }
   }
+
+  // Back to the portal for the layout checks: the loop above leaves us on the admin page.
+  console.log('\nshell');
+  await cdp.send('Page.navigate', { url: 'file://' + path.join(out, 'mock.html') });
+  await sleep(7000);
+  await checkShell(cdp, note);
 
   cdp.close();
   console.log('\n' + (fails.length ? fails.length + ' problem(s):\n - ' + fails.join('\n - ') : 'All good. Safe to deploy.'));
