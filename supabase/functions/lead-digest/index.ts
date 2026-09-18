@@ -128,7 +128,7 @@ function anonSummary(leads: any[]): string {
   });
   const tail = parts.some((x) => /phone/.test(x))
     ? ', so look for them in your call log rather than the portal.'
-    : ', so there is no message to read.';
+    : ', so there\'s no message to read.';
   return parts.join(' and ') + tail;
 }
 const plural = (n: number, w: string) => n + ' ' + w + (n === 1 ? '' : 's');
@@ -151,7 +151,7 @@ async function draftReply(bizName: string, lead: any): Promise<string | null> {
   if (!ANTHROPIC_API_KEY) return null;
   const CHANNEL: Record<string, string> = {
     form: lead.message ? ('They sent this through the website contact form: "' + String(lead.message).slice(0, 800) + '"') : 'They submitted the website contact form but left no message.',
-    call: 'They clicked to call the business from the website, so they are ready to talk.',
+    call: 'They clicked to call the business from the website, so they\'re ready to talk.',
     email: 'They clicked to email the business from the website.',
     contact: 'They clicked to book an appointment or request a quote from the website.',
   };
@@ -237,7 +237,9 @@ Deno.serve(async (req) => {
         skipped = leads.length - kept.length;
         leads = kept;
       }
-      if (!leads.length) continue;   // everything today was a pitch, so there is nothing to report
+      // A return, not a continue: this body is an async arrow passed to .map(), not the loop itself,
+      // and `continue` here is a syntax error that stopped the whole function from booting.
+      if (!leads.length) return;     // everything today was a pitch, so there's nothing to report
       const adv = /growth|elite/i.test(String(c.plan || ''));
       const first = String(c.name || '').trim().split(/\s+/)[0] || 'there';
       const n = leads.length;
@@ -315,7 +317,7 @@ Deno.serve(async (req) => {
         + (contactable > 0
             ? '<p style="margin:14px 0 16px;">The faster you follow up, the more likely you are to win the job.</p>'
             : adv
-              ? '<p style="margin:14px 0 16px;">Nothing to reply to on this one, but it is a sign your site is doing its job.</p>'
+              ? '<p style="margin:14px 0 16px;">Nothing to reply to on this one, but it\'s a sign your site is doing its job.</p>'
               : '<p style="margin:6px 0 16px;">Open your portal to see them and follow up.</p>')
         + '<p style="margin:0 0 18px;"><a href="' + PORTAL_URL + '" style="display:inline-block;background:#7851a9;color:#fff;text-decoration:none;font-weight:600;padding:11px 22px;border-radius:9px;">Open your portal</a></p>';
 
@@ -327,7 +329,7 @@ Deno.serve(async (req) => {
         subject,
         html: '<div style="font-family:Arial,Helvetica,sans-serif;font-size:15px;color:#1e222b;line-height:1.6;max-width:520px;">'
           + inner
-          + (skipped ? '<p style="color:#6b7280;font-size:12.5px;">' + skipped + ' suspected sales pitch' + (skipped === 1 ? '' : 'es') + ' left out of this email. ' + (skipped === 1 ? 'It is' : 'They are') + ' still in your portal if you want to look.</p>' : '')
+          + (skipped ? '<p style="color:#6b7280;font-size:12.5px;">' + skipped + ' suspected sales pitch' + (skipped === 1 ? '' : 'es') + ' left out of this email. ' + (skipped === 1 ? 'It\'s' : 'They\'re') + ' still in your portal if you want to look.</p>' : '')
           + '<p style="color:#6b7280;font-size:12.5px;border-top:1px solid #eee;padding-top:12px;margin-top:8px;">This is your daily lead summary from WebEaze. Every lead is also in <a href="' + PORTAL_URL + '" style="color:#7851a9;text-decoration:underline;">your portal</a> in real time. To stop these daily emails, open <a href="' + PORTAL_URL + '/#leads" style="color:#7851a9;text-decoration:underline;">Leads in your portal</a> and switch off the daily summary.</p>'
           + '<p style="color:#6b7280;font-size:12.5px;">The WebEaze team</p>'
           + '</div>',
