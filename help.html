@@ -115,7 +115,7 @@
       border-bottom: 1px solid var(--line);
     }
     .hero-content {
-      max-width: 640px;
+      max-width: 820px;
       margin: 0;
       text-align: left;
     }
@@ -142,7 +142,9 @@
     }
     .hero p { display: none; }
     .hero-search-wrap {
-      max-width: 400px;
+      /* 400px left the search at 28% of the band, which is what made the hero
+         read as mostly empty space. */
+      max-width: 620px;
       margin: 0;
       padding: 0;
       text-align: left;
@@ -495,7 +497,9 @@
 
     /* MAIN CONTENT */
     main {
-      padding: 60px 0 80px;
+      /* was 60px top, which left an 89px empty band between the search and the grid
+         now that the grid sits directly under the hero */
+      padding: 26px 0 80px;
     }
     .main-grid {
       display: grid;
@@ -1006,7 +1010,7 @@
     .categories-section {
       /* This is the first thing under the search now, not a footer afterthought,
          so it no longer needs 40px of air above it. */
-      padding: 4px 0 8px;
+      padding: 0 0 56px;
       background: var(--dark-2);
     }
     .categories-heading {
@@ -2810,7 +2814,15 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
           </button>
           <div class="search-typeahead" id="searchTypeahead" hidden></div>
         </div>
-
+      </div>
+      <!-- Sits outside .hero-search-wrap: that wrapper is capped at 620px for the input,
+           and the chips were wrapping to a second row inside it. -->
+      <div class="quick-links">
+        <a class="quick-link" href="#/how-to-request-updates"><i class="fas fa-pen-to-square"></i> Request a change</a>
+        <a class="quick-link" href="#/turnarounds-and-common-requests"><i class="fas fa-clock"></i> Turnaround</a>
+        <a class="quick-link" href="#/manage-your-plan"><i class="fas fa-credit-card"></i> Billing</a>
+        <a class="quick-link" href="#/not-showing-on-google"><i class="fas fa-magnifying-glass"></i> Not on Google</a>
+        <a class="quick-link" href="#/portal-login-help"><i class="fas fa-right-to-bracket"></i> Sign-in help</a>
       </div>
     </div>
   </div>
