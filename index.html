@@ -603,17 +603,19 @@ body {
    sections. Hidden until then so it never competes with the hero. */
 .jump-bar {
   position: fixed;
-  /* Sits on the header's bottom edge, set from JS. .wb-header is fixed at top:0 and slides up
-     65px when you scroll down, so a static top:65px left a gap once it hid, and top:0 put the bar
-     behind it while it was showing. */
-  top: 65px; left: 0; right: 0;
+  /* Rides the header. .wb-header is fixed at top:0, 65px tall, and slides up 65px when you scroll
+     down. Reading its position on scroll let the bar fall behind the header's own .25s transition,
+     which showed page content through the gap for a moment. Both now animate the same distance over
+     the same duration, so they cannot separate. */
+  top: calc(65px + var(--nav-off, 0px));
+  left: 0; right: 0;
   z-index: 900;
   background: rgba(255,255,255,.88);
   -webkit-backdrop-filter: saturate(160%) blur(14px);
   backdrop-filter: saturate(160%) blur(14px);
   border-bottom: 1px solid rgba(10,10,10,.07);
   transform: translateY(-100%);
-  transition: transform .28s ease;
+  transition: transform .28s ease, top .28s ease;   /* .28s ease, matching .wb-header in css/nav.css exactly */
 }
 .jump-bar.show { transform: translateY(0); }
 .jump-inner {
@@ -643,6 +645,7 @@ body {
   .jump-cta { display: none; }
 }
 @media (prefers-reduced-motion: reduce) { .jump-bar { transition: none; } }
+:root { --nav-off: 0px; }
 
 /* Anchored sections must clear the bar when jumped to, or the heading hides under it. */
 #work, #how, #portal, #pricing, #faq { scroll-margin-top: 126px; }   /* 65 header + 55 bar + breathing room */
@@ -3044,22 +3047,11 @@ window.WZ_CHAT_PAGE = {
     bar.classList.toggle('show', !es[0].isIntersecting);
   }, { rootMargin: '-60px 0px 0px 0px' }).observe(hero);
 
-  // Ride the header's bottom edge. It hides on scroll down and returns on scroll up, so a fixed
-  // offset is wrong half the time.
-  var header = document.querySelector('.wb-header');
-  if (header) {
-    var ticking = false;
-    var place = function () {
-      ticking = false;
-      bar.style.top = Math.max(0, header.getBoundingClientRect().bottom) + 'px';
-    };
-    addEventListener('scroll', function () {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(place);
-    }, { passive: true });
-    place();
-  }
+  // js/nav.js already announces when the header hides or returns. Driving off that event means the
+  // bar starts its move on the same frame the header does, rather than trailing it by a scroll tick.
+  document.addEventListener('wbNavVisibility', function (e) {
+    document.documentElement.style.setProperty('--nav-off', e.detail && e.detail.visible ? '0px' : '-65px');
+  });
 
   var links = [].slice.call(bar.querySelectorAll('.jump-link'));
   var sections = links.map(function (a) { return document.querySelector(a.getAttribute('href')); });
