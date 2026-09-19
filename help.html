@@ -110,14 +110,13 @@
 
     /* HERO */
     .hero {
-      padding: 32px 0 28px;
+      padding: 68px 0 60px;
       background: #fff;
-      border-bottom: 1px solid var(--line);
     }
     .hero-content {
-      max-width: 820px;
-      margin: 0;
-      text-align: left;
+      max-width: 760px;
+      margin: 0 auto;
+      text-align: center;
     }
     .hero-eyebrow {
       display: inline-flex;
@@ -134,18 +133,18 @@
       margin-bottom: .85rem;
     }
     .hero h1 {
-      font-size: clamp(24px, 3.5vw, 36px);
+      font-size: clamp(30px, 4.4vw, 46px);
       font-weight: 800;
       letter-spacing: -.04em;
-      margin: 0 0 20px;
+      margin: 0 0 28px;
       color: #0f172a;
     }
     .hero p { display: none; }
     .hero-search-wrap {
-      /* 400px left the search at 28% of the band, which is what made the hero
-         read as mostly empty space. */
-      max-width: 620px;
-      margin: 0;
+      /* The search is the main event on a help centre, so it gets the width.
+         At 620px left-aligned it read as a form field on a mostly empty band. */
+      max-width: 720px;
+      margin: 0 auto;
       padding: 0;
       text-align: left;
     }
@@ -166,13 +165,14 @@
     }
     .search-wrap input {
       width: 100%;
-      background: #f8f9fc;
-      border: 1.5px solid #e2e8f0;
-      border-radius: 12px;
-      padding: 16px 48px 16px 52px;
-      font-size: 16px;
+      background: #fff;
+      border: 1px solid #e3e6ef;
+      border-radius: 14px;
+      padding: 20px 52px 20px 58px;
+      font-size: 17px;
       color: #0f172a;
       font-family: inherit;
+      box-shadow: 0 6px 22px rgba(15,18,40,.07);
       transition: border-color .2s, box-shadow .2s;
     }
     .search-wrap input::placeholder { color: #94a3b8; }
@@ -180,15 +180,15 @@
       outline: none;
       border-color: var(--brand);
       background: #fff;
-      box-shadow: 0 0 0 4px rgba(120,81,169,.1);
+      box-shadow: 0 0 0 4px rgba(120,81,169,.1), 0 6px 22px rgba(15,18,40,.07);
     }
     .search-wrap .icon {
       position: absolute;
-      left: 18px;
+      left: 22px;
       top: 50%;
       transform: translateY(-50%);
       color: #94a3b8;
-      font-size: 16px;
+      font-size: 17px;
     }
     .search-wrap .clear {
       position: absolute;
@@ -236,7 +236,7 @@
       gap: 10px;
       margin-top: 12px;
     }
-    .hero .quick-links { justify-content: flex-start; flex-wrap: wrap; }
+    .hero .quick-links { justify-content: center; flex-wrap: wrap; margin-top: 18px; }
     .quick-link {
       display: inline-flex;
       align-items: center;
@@ -497,9 +497,9 @@
 
     /* MAIN CONTENT */
     main {
-      /* was 60px top, which left an 89px empty band between the search and the grid
-         now that the grid sits directly under the hero */
-      padding: 26px 0 80px;
+      /* The category band now ends right above this, so it needs real separation
+         rather than the 26px that had the heading clinging to the band's edge. */
+      padding: 56px 0 80px;
     }
     .main-grid {
       display: grid;
@@ -604,8 +604,9 @@
       margin-bottom: 20px;
     }
     .results-header h2 {
-      font-size: 20px;
+      font-size: 24px;
       font-weight: 700;
+      letter-spacing: -.02em;
       margin: 0;
     }
     .results-count {
@@ -686,13 +687,17 @@
       .search-card { padding: 24px 20px; }
       .recommended-row { margin-bottom: 24px; padding-bottom: 24px; }
       .quick-links-label { margin-top: 24px; }
-      .hero { padding: 24px 0 20px; }
-      main { padding: 32px 0 56px; }
-      .categories-section { padding: 40px 0; }
+      .hero { padding: 40px 0 36px; }
+      main { padding: 40px 0 56px; }
+      .categories-section { padding: 40px 0 44px; }
+      .cat-group-label { font-size: 19px; margin: 30px 0 12px; }
+      .category-card { padding: 18px 20px; }
     }
     @media (max-width: 480px) {
-      .hero { padding: 20px 0 16px; }
+      .hero { padding: 30px 0 28px; }
       .hero-search-wrap { padding: 0; }
+      .search-wrap input { padding: 16px 46px 16px 50px; font-size: 16px; }
+      .search-wrap .icon { left: 18px; font-size: 16px; }
       .article-view { padding: 18px; }
       .categories-section { padding: 28px 0; }
       main { padding: 20px 0 40px; }
@@ -1017,23 +1022,15 @@
 
     /* CATEGORIES SECTION */
     .categories-section {
-      /* This is the first thing under the search now, not a footer afterthought,
-         so it no longer needs 40px of air above it. */
-      padding: 0 0 56px;
+      /* Its own band now, so it carries real air on both sides rather than
+         butting straight into the search. */
+      padding: 56px 0 64px;
       background: var(--dark-2);
-    }
-    .categories-heading {
-      font-size: 13px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: .07em;
-      color: var(--muted);
-      margin-bottom: 16px;
     }
     .categories-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
+      gap: 14px;
     }
     @media (max-width: 860px) {
       .categories-grid { grid-template-columns: repeat(2, 1fr); }
@@ -1062,45 +1059,47 @@
     .main-grid.no-sidebar { grid-template-columns: 1fr; }
     .topic-group.is-current > .topic-header { color: var(--brand); font-weight: 700; }
     .topic-group.is-current > .topic-header i:first-child { color: var(--brand); }
+    /* A real heading, not a caps eyebrow. The group colour lives in the dot and the
+       card icons, which is enough to orient you without shouting. */
     .cat-group-label {
       grid-column: 1 / -1;
-      display: flex; align-items: center; gap: 9px;
-      font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em;
-      color: var(--g); margin: 26px 0 2px;
+      display: flex; align-items: center; gap: 10px;
+      font-size: 21px; font-weight: 700; letter-spacing: -.02em;
+      color: #0f172a; margin: 42px 0 14px;
     }
     .cat-group-label:first-child { margin-top: 0; }
-    .cat-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--g); flex-shrink: 0; }
+    .cat-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--g); flex-shrink: 0; }
 
+    /* Borderless tiles on a soft ground. They used to be the same colour as the band
+       behind them, so the border was the only thing making a card a card, and eleven
+       of those read as a page built out of boxes. */
     .category-card {
       position: relative;
       background: #fff;
-      border: 1px solid var(--line);
-      border-left: 3px solid var(--g);
-      border-radius: 12px;
-      padding: 16px 18px;
+      border: none;
+      border-radius: 16px;
+      padding: 22px 24px;
       display: flex;
       align-items: flex-start;
-      gap: 13px;
-      transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease;
+      gap: 15px;
+      transition: transform .16s ease, box-shadow .16s ease;
       cursor: pointer;
     }
     .category-card:hover {
       transform: translateY(-2px);
-      border-color: var(--line);
-      border-left-color: var(--g);
-      box-shadow: 0 10px 26px rgba(15,18,40,.10);
+      box-shadow: 0 12px 30px rgba(15,18,40,.10);
     }
     .category-card:focus-visible { outline: 2px solid var(--g); outline-offset: 2px; }
     /* No icon chip: the lavender rounded square was one more box on a page full of them. */
-    .category-card .cat-ico { font-size: 16px; color: var(--g); flex-shrink: 0; margin-top: 2px; width: 18px; text-align: center; }
+    .category-card .cat-ico { font-size: 19px; color: var(--g); flex-shrink: 0; margin-top: 1px; width: 22px; text-align: center; }
     .category-card-text { flex: 1; min-width: 0; }
-    .category-card h3 { font-size: 14.5px; font-weight: 700; margin: 0 0 4px; line-height: 1.3; color: #1a1a2e; }
+    .category-card h3 { font-size: 16px; font-weight: 700; margin: 0 0 6px; line-height: 1.3; color: #0f172a; letter-spacing: -.01em; }
     .category-card p {
       display: block;
-      font-size: 12.5px; line-height: 1.55; color: var(--muted);
-      margin: 0 0 7px;
+      font-size: 13.5px; line-height: 1.6; color: var(--muted);
+      margin: 0 0 10px;
     }
-    .category-card .count { font-size: 11.5px; color: #9aa0b8; font-weight: 600; }
+    .category-card .count { font-size: 12px; color: #9aa0b8; font-weight: 600; }
     .category-card.all-read .count { color: var(--g); }
     .category-card .cat-arrow, .category-card .read-progress { display: none; }
 
@@ -1239,7 +1238,7 @@
       gap: 10px;
       margin-bottom: 16px;
     }
-    .footer-brand img { height: 32px; width: auto; }   /* width:auto, or a width attribute stretches it */
+    .footer-brand img { height: 32px; width: auto; filter: brightness(10); opacity: .85; }   /* width:auto, or a width attribute stretches it */
     .footer-brand span { font-weight: 700; font-size: 1.1rem; }
     .footer-tagline {
       color: #a0a6c0;
@@ -2178,18 +2177,18 @@
 
   /* Cards, modal, sidebar, buttons */
   .search-card, .sidebar-card, .result-card, .article-view,
-  .category-card, .status-badge, .sc-btn, .info-btn, .quick-link {
+  .status-badge, .sc-btn, .info-btn, .quick-link {
     background: #f5f6fa !important;
     border-color: rgba(0,0,0,.09) !important;
     box-shadow: 0 2px 8px rgba(0,0,0,.05) !important;
   }
 
-  /* The rule above sets border-color wholesale, which wiped the category cards' group
-     accent. Restore it after, and colour the icon to match. Group colour is the whole
-     orientation device on the home page, so it has to survive the light-theme pass. */
-  .category-card { border-left-color: var(--g) !important; }
+  /* Category tiles are deliberately left out of the rule above: white on the band's
+     soft ground, no stroke and no resting shadow. Group colour survives in the icon
+     and the heading dot, which is where the orientation work actually happens. */
+  .category-card { background: #fff !important; border: none !important; box-shadow: none !important; }
+  .category-card:hover { box-shadow: 0 12px 30px rgba(15,18,40,.10) !important; }
   .category-card .cat-ico { color: var(--g) !important; }
-  .cat-group-label { color: var(--g) !important; }
   .cat-dot { background: var(--g) !important; }
 
   /* Recommended articles were nine identical 750x132 slabs. Tighter, hairline-separated
@@ -2203,7 +2202,7 @@
     border-bottom: 1px solid rgba(0,0,0,.07) !important;
     box-shadow: none !important;
     border-radius: 0 !important;
-    padding: 14px 4px !important;
+    padding: 18px 4px !important;
     text-decoration: none !important;
   }
   .result-card:hover { background: rgba(120,81,169,.04) !important; }
@@ -2272,12 +2271,13 @@
 
   /* Sections */
   section:not(.hero) { background: transparent !important; }
-  .categories-section { background: #f5f6fa !important; }
-  .categories-heading { color: #9ca3b0 !important; }
+  /* Needs the element qualifier: section:not(.hero) above outranks a bare class, so
+     this band silently rendered transparent and the tiles had nothing to sit on. */
+  section.categories-section { background: #f1f3f8 !important; }
   .contact-cta { background: #eceef8 !important; }
   .hero {
     background: #fff !important;
-    border-bottom: 1px solid rgba(0,0,0,.07) !important;
+    border-bottom: none !important;
   }
   .hero h1 { color: #0f172a !important; }
   .hero-eyebrow { color: #7851a9 !important; background: rgba(120,81,169,.09) !important; }
@@ -2858,17 +2858,19 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
 <!-- LIVE REGION -->
 <div id="live" class="sr-only" aria-live="polite" aria-atomic="true"></div>
 
-<!-- MAIN CONTENT -->
-<main>
-  <div class="container container-narrow">
-
 <!-- CATEGORIES SECTION -->
+<!-- Lives outside <main> so the soft ground runs edge to edge. Nested inside main's
+     narrow container it painted a single 1100px grey slab, which is the opposite of
+     a band. JS only toggles display and reads offsetTop, so the move is safe. -->
 <section class="categories-section" id="categoriesSection">
   <div class="container container-narrow">
-    <p class="categories-heading">Browse by category</p>
     <div class="categories-grid" id="categoriesGrid"></div>
   </div>
 </section>
+
+<!-- MAIN CONTENT -->
+<main>
+  <div class="container container-narrow">
 
     <button class="mobile-topics-toggle" id="mobileTopicsToggle">
       <span><i class="fas fa-list"></i> <span id="mobileToggleLabel">Browse Topics</span></span>
@@ -2970,7 +2972,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
     <div class="footer-about">
       <div class="footer-brand">
         <img loading="eager" src="images/webeaze-transparent-copy.png" alt="WebEaze">
-        <span>Help Center</span>
+        <span>WebEaze</span>
       </div>
       <p class="footer-tagline">Professional websites for small businesses. We build, host, and manage your site so you can focus on what matters.</p>
       <div class="footer-social">
@@ -8225,8 +8227,8 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
 
   // ---- Renderers ----
   const GROUP_META = [
-    { key: 'account', label: 'Your Account' },
-    { key: 'website', label: 'Your Website' },
+    { key: 'account', label: 'Your account' },
+    { key: 'website', label: 'Your website' },
     { key: 'new', label: 'New to WebEaze' }
   ];
   // Sidebar order. Must stay grouped: all 'account' topics, then 'website', then 'new'.
@@ -8421,7 +8423,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
     const topicCounts = lsGet(LS_TOPICS) || {};
 
     if (readHistory.length === 0) {
-      return { heading: 'Recommended Articles', items: FEATURED.map(s => INDEX.find(x => x.slug === s)).filter(Boolean), personalized: false };
+      return { heading: 'Recommended articles', items: FEATURED.map(s => INDEX.find(x => x.slug === s)).filter(Boolean), personalized: false };
     }
 
     const sortedTopics = Object.entries(topicCounts).sort((a, b) => b[1] - a[1]).map(([id]) => id);
@@ -8440,7 +8442,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
     }
 
     if (picks.length === 0) {
-      return { heading: 'Recommended Articles', items: FEATURED.map(s => INDEX.find(x => x.slug === s)).filter(Boolean), personalized: false };
+      return { heading: 'Recommended articles', items: FEATURED.map(s => INDEX.find(x => x.slug === s)).filter(Boolean), personalized: false };
     }
 
     return { heading: 'For You', items: picks.slice(0, 9), personalized: true };
