@@ -597,6 +597,56 @@ body {
 }
 .btn-secondary-brand:hover { border-color: var(--brand); color: var(--brand); text-decoration: none; }
 
+/* ── SECTION JUMP BAR ──
+   The page runs about seven screens with no way to move around it. This appears once the hero is
+   behind you and lets someone who wants pricing get there in one tap instead of scrolling past four
+   sections. Hidden until then so it never competes with the hero. */
+.jump-bar {
+  position: fixed;
+  /* Sits on the header's bottom edge, set from JS. .wb-header is fixed at top:0 and slides up
+     65px when you scroll down, so a static top:65px left a gap once it hid, and top:0 put the bar
+     behind it while it was showing. */
+  top: 65px; left: 0; right: 0;
+  z-index: 900;
+  background: rgba(255,255,255,.88);
+  -webkit-backdrop-filter: saturate(160%) blur(14px);
+  backdrop-filter: saturate(160%) blur(14px);
+  border-bottom: 1px solid rgba(10,10,10,.07);
+  transform: translateY(-100%);
+  transition: transform .28s ease;
+}
+.jump-bar.show { transform: translateY(0); }
+.jump-inner {
+  max-width: 1100px; margin: 0 auto; padding: 0 1.5rem;
+  height: 54px; display: flex; align-items: center; gap: 4px;
+}
+.jump-link {
+  font-size: .86rem; font-weight: 600; color: var(--muted);
+  text-decoration: none; padding: 7px 13px; border-radius: 8px;
+  white-space: nowrap; transition: color .15s, background .15s;
+}
+.jump-link:hover { color: var(--black); background: rgba(10,10,10,.045); text-decoration: none; }
+.jump-link.current { color: var(--brand); background: rgba(120,81,169,.09); }
+.jump-cta {
+  margin-left: auto; font-size: .84rem; font-weight: 700;
+  background: var(--brand); color: #fff; text-decoration: none;
+  padding: 9px 17px; border-radius: 9px; white-space: nowrap;
+  transition: background .15s;
+}
+.jump-cta:hover { background: var(--brand-dark); color: #fff; text-decoration: none; }
+@media (max-width: 720px) {
+  .jump-inner { height: 50px; gap: 0; overflow-x: auto; scrollbar-width: none; }
+  .jump-inner::-webkit-scrollbar { display: none; }
+  .jump-link { padding: 6px 8px; font-size: .78rem; }   /* all five fit a 375px screen without a cut-off edge */
+  /* The header already shows Free Preview on small screens, and keeping a second one here
+     pushed it off the edge of a scrolling bar where nobody would find it. */
+  .jump-cta { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { .jump-bar { transition: none; } }
+
+/* Anchored sections must clear the bar when jumped to, or the heading hides under it. */
+#work, #how, #portal, #pricing, #faq { scroll-margin-top: 126px; }   /* 65 header + 55 bar + breathing room */
+
 /* ── HERO ── */
 .hero {
   position: relative;
@@ -1974,6 +2024,18 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
 <main id="main-content">
 
   <!-- HERO -->
+  <!-- Section jump bar. Revealed by JS once the hero has scrolled past. -->
+<nav class="jump-bar" id="jumpBar" aria-label="Jump to a section">
+  <div class="jump-inner">
+    <a class="jump-link" href="#work">Work</a>
+    <a class="jump-link" href="#how">How it works</a>
+    <a class="jump-link" href="#portal">Your portal</a>
+    <a class="jump-link" href="#pricing">Pricing</a>
+    <a class="jump-link" href="#faq">FAQ</a>
+    <a class="jump-cta" href="consultation.html" data-webeaze-lead="contact">Free Preview</a>
+  </div>
+</nav>
+
   <section class="hero">
     <div class="hero-inner">
       <div class="hero-copy">
@@ -2049,7 +2111,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
 </script>
 
   <!-- PORTFOLIO -->
-  <section class="portfolio-section">
+  <section class="portfolio-section" id="work">
     <div class="portfolio-header container-tight reveal">
       <h2>Featured work.</h2>
       <p>These businesses trusted us to bring their vision to life.</p>
@@ -2214,7 +2276,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
   </section>
 
   <!-- PROCESS -->
-  <section class="process-section">
+  <section class="process-section" id="how">
     <div class="process-header container-tight reveal">
       <h2>How it works.</h2>
       <p>Demo, pay, build, and launch. Simple. </p>
@@ -2339,7 +2401,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
     .price-cta h2 { font-size: clamp(1.9rem, 3.6vw, 2.8rem); font-weight: 900; letter-spacing: -.03em; color: #0a0a0a; margin: 0 0 .9rem; }
     .price-cta p { font-size: 1.08rem; color: #374151; max-width: 520px; margin: 0 auto 2rem; line-height: 1.6; }
   </style>
-  <section class="portal-peek">
+  <section class="portal-peek" id="portal">
     <div class="container-tight">
    
      
@@ -2379,7 +2441,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
   </section>
 
   <!-- FAQ -->
-  <section class="faq-section">
+  <section class="faq-section" id="faq">
     <div class="faq-header container-tight reveal">
       <h2>Any questions?</h2>
     </div>
@@ -2968,6 +3030,50 @@ window.WZ_CHAT_PAGE = {
   </div>
 </div>
 <!-- chat-widget.js is now lazy-loaded by the deferred-scripts loader before </body> -->
+
+<script>
+/* Section jump bar: show it once the hero is behind you, and mark which section you are in.
+   IntersectionObserver rather than a scroll handler so it costs nothing while scrolling. */
+(function () {
+  var bar = document.getElementById('jumpBar');
+  var hero = document.querySelector('.hero');
+  if (!bar || !hero) return;
+
+  new IntersectionObserver(function (es) {
+    // Hero mostly out of view means the reader is into the page and the bar earns its space.
+    bar.classList.toggle('show', !es[0].isIntersecting);
+  }, { rootMargin: '-60px 0px 0px 0px' }).observe(hero);
+
+  // Ride the header's bottom edge. It hides on scroll down and returns on scroll up, so a fixed
+  // offset is wrong half the time.
+  var header = document.querySelector('.wb-header');
+  if (header) {
+    var ticking = false;
+    var place = function () {
+      ticking = false;
+      bar.style.top = Math.max(0, header.getBoundingClientRect().bottom) + 'px';
+    };
+    addEventListener('scroll', function () {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(place);
+    }, { passive: true });
+    place();
+  }
+
+  var links = [].slice.call(bar.querySelectorAll('.jump-link'));
+  var sections = links.map(function (a) { return document.querySelector(a.getAttribute('href')); });
+  var spy = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      var i = sections.indexOf(e.target);
+      if (i < 0) return;
+      links.forEach(function (l, j) { l.classList.toggle('current', j === i); });
+    });
+  }, { rootMargin: '-55% 0px -40% 0px' });
+  sections.forEach(function (el) { if (el) spy.observe(el); });
+})();
+</script>
 
 <!-- ── Geo-personalized hero badge ── -->
 <script>
