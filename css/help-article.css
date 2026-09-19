@@ -1298,41 +1298,14 @@
     .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 14px; }
     .table-scroll .table { margin: 0; border-radius: 14px; }
 
-    .mobile-topics-toggle {
-      display: none;
-      width: 100%;
-      padding: 13px 18px;
-      background: var(--dark-2);
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      color: #fff;
-      font-weight: 600;
-      font-size: 14px;
-      cursor: pointer;
-      margin-bottom: 16px;
-      justify-content: space-between;
-      align-items: center;
-      transition: border-color .15s, background .15s;
-    }
-    .mobile-topics-toggle:hover { border-color: var(--brand); background: rgba(120,81,169,.12); }
-    .mobile-topics-toggle.is-open { border-color: var(--brand); background: rgba(120,81,169,.12); }
-    .mobile-topics-toggle .toggle-chevron {
-      transition: transform .25s ease;
-      font-size: 12px;
-      color: var(--muted);
-    }
-    .mobile-topics-toggle.is-open .toggle-chevron { transform: rotate(180deg); }
     @media (max-width: 992px) {
-      .mobile-topics-toggle { display: flex; }
-      .sidebar {
-        display: none;
-        animation: sidebarSlideDown .22s ease both;
-      }
-      @keyframes sidebarSlideDown {
-        from { opacity: 0; transform: translateY(-8px); }
-        to   { opacity: 1; transform: translateY(0); }
-      }
-      .sidebar.open { display: block; max-width: 100%; overflow-x: hidden; }
+      /* No topic list on a phone. It listed the same articles the main column is
+         already showing, behind a button you had to press to find that out. The
+         breadcrumb goes back to all topics, which is the only trip it was saving.
+         The saved-articles card stays: it is hidden unless you have bookmarked
+         something, and it has no other home. */
+      .sidebar-nav { display: none; }
+      .sidebar { max-width: 100%; overflow-x: hidden; }
     }
 
   
@@ -2352,9 +2325,6 @@
   .scc-btn { background: #7851a9 !important; color: #fff !important; }
 
   /* Mobile topics toggle in light mode */
-  .mobile-topics-toggle { background: #f5f6fa !important; border-color: rgba(0,0,0,.1) !important; color: #1a1a2e !important; }
-  .mobile-topics-toggle:hover { background: #eceef8 !important; }
-  .mobile-topics-toggle i { color: #7851a9 !important; }
 
   /* Table scroll wrapper */
   .table-scroll { background: transparent !important; border: none !important; }
