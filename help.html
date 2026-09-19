@@ -519,77 +519,50 @@
     @media (max-width: 992px) {
       .sidebar { position: static; }
     }
-    .sidebar-card {
-      background: var(--dark-2);
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      padding: 20px;
-    }
+    /* The sidebar used to be a 280x727 bordered grey box holding a caps title, three
+       caps group labels and eleven collapsing rows. Expanding a row printed the same
+       article titles the main column was already showing. It is a plain list now. */
+    .sidebar-nav { padding: 0; }
     .sidebar-title {
-      font-size: 12px;
+      font-size: 15px;
       font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: .08em;
-      color: var(--muted);
-      margin-bottom: 16px;
+      letter-spacing: -.01em;
+      color: #0f172a;
+      margin: 0 0 14px;
     }
     .topic-section-label {
-      font-size: 10px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.09em;
-      color: var(--muted);
-      padding: 2px 12px 6px;
-      margin-top: 20px;
-    }
-    .topic-section-label:first-child { margin-top: 0; }
-    .topic-group {
-      margin-bottom: 4px;
-    }
-    .topic-group:last-child { margin-bottom: 0; }
-    .topic-header {
       display: flex;
       align-items: center;
-      gap: 10px;
-      font-size: 14px;
-      font-weight: 700;
-      color: #fff;
-      margin-bottom: 8px;
-      cursor: pointer;
-      padding: 8px 12px;
-      border-radius: 10px;
-      transition: background .2s;
-    }
-    .topic-header:hover { background: var(--dark-3); }
-    .topic-header i { color: var(--gold); font-size: 14px; width: 18px; text-align: center; }
-    .topic-header .chevron {
-      margin-left: auto;
-      font-size: 12px;
-      color: var(--muted);
-      transition: transform .2s;
-    }
-    .topic-group.open .topic-header .chevron { transform: rotate(180deg); }
-    .topic-links {
-      display: none;
-      padding-left: 38px;
-    }
-    .topic-group.open .topic-links { display: block; }
-    .topic-link {
-      display: block;
-      padding: 8px 12px;
-      font-size: 13px;
-      color: var(--muted);
-      border-radius: 8px;
-      transition: background .2s, color .2s;
-    }
-    .topic-link:hover, .topic-link.active {
-      background: var(--dark-3);
-      color: #fff;
-    }
-    .topic-link.active {
-      color: var(--gold);
+      gap: 8px;
+      font-size: 12.5px;
       font-weight: 600;
+      color: #8b90a6;
+      padding: 0 10px 6px;
+      margin-top: 22px;
     }
+    .topic-section-label:first-child { margin-top: 0; }
+    .topic-section-label .cat-dot { width: 6px; height: 6px; }
+    .topic-row {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #3d4256;
+      padding: 9px 10px;
+      border-radius: 9px;
+      cursor: pointer;
+      transition: background .15s, color .15s;
+    }
+    .topic-row:hover { background: #f1f3f8; color: #0f172a; }
+    .topic-row i { color: var(--g, #7851a9); font-size: 14px; width: 17px; text-align: center; }
+    .topic-row-count { margin-left: auto; font-size: 12px; color: #a3a8bd; font-weight: 600; }
+    .topic-row.is-current {
+      background: #f1f3f8;
+      color: #0f172a;
+      font-weight: 700;
+    }
+    .topic-row:focus-visible { outline: 2px solid var(--g, #7851a9); outline-offset: 1px; }
 
     /* CONTENT AREA */
     .content-area {
@@ -689,6 +662,11 @@
       .quick-links-label { margin-top: 24px; }
       .hero { padding: 40px 0 36px; }
       main { padding: 40px 0 56px; }
+      /* 9px padding left these at 39px, under the 44px tap minimum. */
+      .topic-row { padding: 12px 10px; }
+      /* A wrapped title pushes the read time to the right edge, which rebuilds the
+         column this redesign removed. The titles are the point on a phone. */
+      .row-time { display: none; }
       .categories-section { padding: 40px 0 44px; }
       .cat-group-label { font-size: 19px; margin: 30px 0 12px; }
       .category-card { padding: 18px 20px; }
@@ -1052,13 +1030,16 @@
     /* Group colour is the orientation device. Three groups, three accents, so you can
        tell where you are at a glance instead of reading eleven identical grey rows. */
     .categories-grid { --g: #7851a9; }
+    /* Any element can carry the group colour now, so the topic view inherits the same
+       orientation cue the home page uses instead of being uniformly purple. */
+    [data-group="account"] { --g: #7851a9; }
+    [data-group="website"] { --g: #0d8f86; }
+    [data-group="new"]     { --g: #d97706; }
     .category-card[data-group="account"], .cat-group-label[data-group="account"] { --g: #7851a9; }
     .category-card[data-group="website"], .cat-group-label[data-group="website"] { --g: #0d8f86; }
     .category-card[data-group="new"],     .cat-group-label[data-group="new"]     { --g: #d97706; }
 
     .main-grid.no-sidebar { grid-template-columns: 1fr; }
-    .topic-group.is-current > .topic-header { color: var(--brand); font-weight: 700; }
-    .topic-group.is-current > .topic-header i:first-child { color: var(--brand); }
     /* A real heading, not a caps eyebrow. The group colour lives in the dot and the
        card icons, which is enough to orient you without shouting. */
     .cat-group-label {
@@ -1157,11 +1138,17 @@
     .topic-breadcrumb a:hover { color: var(--brand); }
     .topic-breadcrumb .sep, .topic-breadcrumb i { font-size: 9px; color: #c7ccd6; }
     .topic-breadcrumb span { color: #1f2430; font-weight: 600; }
+    /* Breadcrumb, title, count and description read as one block instead of four
+       stacked things, and the group's colour dot carries over from the home page. */
+    .topic-head { margin-bottom: 22px; }
+    .topic-head .results-header { margin-bottom: 0; }
+    .topic-head .results-header h2 { display: flex; align-items: center; gap: 11px; }
     .topic-desc-line {
-      font-size: 14px;
+      font-size: 14.5px;
       color: var(--muted);
-      margin: -8px 0 20px;
+      margin: 8px 0 0;
       line-height: 1.6;
+      max-width: 620px;
     }
 
     .contact-cta {
@@ -2176,7 +2163,7 @@
   }
 
   /* Cards, modal, sidebar, buttons */
-  .search-card, .sidebar-card, .result-card, .article-view,
+  .search-card, .result-card, .article-view,
   .status-badge, .sc-btn, .info-btn, .quick-link {
     background: #f5f6fa !important;
     border-color: rgba(0,0,0,.09) !important;
@@ -2196,27 +2183,68 @@
   /* One list style everywhere articles are listed: hairline rows, no boxes.
      These were bordered cards, and in the topic view's 3 column grid the borders
      read as spreadsheet rules. */
+  /* One row style everywhere articles are listed. Three things made these read as a
+     spreadsheet: a rule running the full width under every row, an arrow parked in a
+     fixed right hand column, and a full bleed band on hover. The rule is inset and
+     sits between rows only, the hover is a rounded target, and the arrow is gone. */
   .result-card {
+    position: relative !important;
     background: transparent !important;
     border: none !important;
-    border-bottom: 1px solid rgba(0,0,0,.07) !important;
     box-shadow: none !important;
-    border-radius: 0 !important;
-    padding: 18px 4px !important;
+    border-radius: 10px !important;
+    padding: 16px 12px !important;
+    margin-inline: -12px !important;
     text-decoration: none !important;
   }
-  .result-card:hover { background: rgba(120,81,169,.04) !important; }
-  .result-card:hover .title span { color: #7851a9 !important; }
+  .result-card::after {
+    content: '';
+    position: absolute;
+    left: 12px; right: 12px; bottom: 0;
+    height: 1px;
+    background: rgba(15,18,40,.07);
+  }
+  .result-card:last-child::after { display: none; }
+  .result-card:hover { background: #f4f5f9 !important; }
+  .result-card:hover .title span { color: var(--g, #7851a9) !important; }
+  .result-card:focus-visible { outline: 2px solid var(--g, #7851a9); outline-offset: -2px; }
   .result-card .title span { text-decoration: none !important; }
   .result-card .excerpt { font-size: 13px !important; margin-top: 3px !important; }
 
   /* Topic view: same rows, one column, so long question titles are not forced into
      ragged 1 to 3 line cells across three columns. */
   .results-grid.compact { grid-template-columns: 1fr !important; gap: 0 !important; }
-  .result-card.compact { padding: 15px 4px !important; }
-  .result-card.compact .title { font-size: 15.5px !important; }
-  .result-card.compact .title i { opacity: .3 !important; margin-left: auto; }
-  .result-card.compact:hover .title i { opacity: 1 !important; color: #7851a9 !important; }
+  .result-card.compact { padding: 15px 12px !important; }
+  .result-card.compact .title {
+    font-size: 16px !important;
+    font-weight: 600 !important;
+    gap: 10px !important;
+    justify-content: flex-start !important;
+  }
+  /* Read time sits right after the title, not flush right. Right aligned it formed a
+     column of its own down the page, which is the look we are getting rid of. */
+  .result-card.compact .title > span:first-child { min-width: 0; }
+  .result-card.compact .title i {
+    opacity: 0 !important;
+    font-size: 12px !important;
+    color: var(--g, #7851a9) !important;
+    transition: opacity .15s ease;
+    flex-shrink: 0;
+    margin-left: auto !important;
+  }
+  .result-card.compact:hover .title i { opacity: 1 !important; }
+  .row-time { font-size: 12.5px; color: #a3a8bd; font-weight: 500; flex-shrink: 0; }
+  .row-badge {
+    flex-shrink: 0;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: .02em;
+    padding: 2px 7px;
+    border-radius: 100px;
+    color: #6b7180;
+    background: #eef0f6;
+  }
+  .row-badge.is-new { color: #0d8f86; background: rgba(13,143,134,.11); }
   .hero-search-wrap {
     background: transparent !important;
     border: none !important;
@@ -2257,12 +2285,11 @@
 
   /* Accent color — icons, badges, highlights */
   :root { --gold: #7851a9; }
-  .quick-link i, .topic-header i, .sc-btn i, .info-btn i,
+  .quick-link i, .sc-btn i, .info-btn i,
   .category-card .icon i, .hero-badge i, .notice i,
   .modal-tips ul li i, .request-list li i { color: #7851a9 !important; }
   .category-card:hover .icon i { color: #fff !important; }
   .hero-badge { color: #7851a9 !important; border-color: rgba(120,81,169,.25) !important; background: rgba(120,81,169,.07) !important; }
-  .topic-link.active { color: #7851a9 !important; }
   .page-nav-link.active { color: #7851a9 !important; }
   .btn-nav, .btn-brand { background: #7851a9 !important; color: #fff !important; }
   .history-pill:hover { border-color: #7851a9 !important; color: #7851a9 !important; }
@@ -2873,7 +2900,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
   <div class="container container-narrow">
 
     <button class="mobile-topics-toggle" id="mobileTopicsToggle">
-      <span><i class="fas fa-list"></i> <span id="mobileToggleLabel">Browse Topics</span></span>
+      <span><i class="fas fa-list"></i> <span id="mobileToggleLabel">Browse topics</span></span>
       <i class="fas fa-chevron-down toggle-chevron"></i>
     </button>
 
@@ -2885,10 +2912,10 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
           <div class="sidebar-title saved-title"><i class="fas fa-bookmark"></i> Saved</div>
           <div id="savedBody"></div>
         </div>
-        <div class="sidebar-card">
-          <div class="sidebar-title">Browse by Topic</div>
+        <nav class="sidebar-nav" aria-label="Help topics">
+          <h2 class="sidebar-title">All topics</h2>
           <div id="browseBody"></div>
-        </div>
+        </nav>
       </aside>
 
       <!-- CONTENT AREA -->
@@ -8248,41 +8275,37 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
     return p.length === 3 ? new Date(p[2], p[0] - 1, p[1]).getTime() : 0;
   }
 
-  function renderTopics() {
-    // Build a set of the top-5 most-read article slugs on this device
+  // Top-5 most-read article slugs on this device. Used to badge rows in the topic list.
+  function popularSlugSet() {
     const artCounts = lsGet(LS_ART_CNT) || {};
-    const popularSlugs = new Set(
+    return new Set(
       Object.entries(artCounts)
         .sort((a, b) => b[1] - a[1])
         .slice(0, 5)
         .filter(([, c]) => c >= 2) // must have at least 2 reads to earn the badge
         .map(([slug]) => slug)
     );
+  }
 
+  function renderTopics() {
     const sorted = [...HELP_DATA.topics].sort((a, b) => topicRank(a.id) - topicRank(b.id));
     let html = '';
     let lastGroup = null;
     sorted.forEach(t => {
       if (t.group !== lastGroup) {
         const gm = GROUP_META.find(g => g.key === t.group);
-        html += `<div class="topic-section-label">${gm ? gm.label : ''}</div>`;
+        html += `<p class="topic-section-label" data-group="${t.group}"><span class="cat-dot"></span>${gm ? gm.label : ''}</p>`;
         lastGroup = t.group;
       }
+      // One flat row per topic. The old row expanded to list its articles, which is
+      // exactly what the main column already shows, so it printed everything twice.
       html += `
-      <div class="topic-group" data-topic="${t.id}">
-        <div class="topic-header" onclick="this.parentElement.classList.toggle('open')">
-          <i class="fas ${t.icon}"></i>
-          <span>${t.title}</span>
-          <i class="fas fa-chevron-down chevron"></i>
-        </div>
-        <div class="topic-links">
-          ${t.articles.map(a => {
-            const isNew = parseArticleDate(a.updated) >= Date.now() - 14 * 24 * 60 * 60 * 1000;
-            const badge = isNew ? '<span class="new-badge">New</span>' : popularSlugs.has(a.slug) ? '<span class="popular-badge">Popular</span>' : '';
-            return `<a class="topic-link" href="#/${a.slug}">${a.title}${badge}</a>`;
-          }).join('')}
-        </div>
-      </div>`;
+      <a class="topic-row" data-topic="${t.id}" data-group="${t.group}" href="#"
+         onclick="event.preventDefault(); renderTopicResults('${t.id}');">
+        <i class="fas ${t.icon}"></i>
+        <span>${t.title}</span>
+        <span class="topic-row-count">${t.articles.length}</span>
+      </a>`;
     });
     $browseBody.innerHTML = html;
   }
@@ -8688,14 +8711,11 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
       setTimeout(() => $article.querySelector('.article-view')?.classList.remove('flash'), 800);
     });
 
-    // Highlight active in sidebar
-    Array.from(document.querySelectorAll('.topic-link')).forEach(a => {
-      a.classList.toggle('active', a.getAttribute('href') === `#/${slug}`);
-    });
-
-    // Open parent topic group
-    const parentGroup = document.querySelector(`[data-topic="${topic.id}"]`);
-    if (parentGroup) parentGroup.classList.add('open');
+    // Mark the article's topic in the sidebar. The rows are flat now, so there are no
+    // per-article links to highlight and no group left to expand.
+    document.querySelectorAll('.topic-row').forEach(r => r.classList.remove('is-current'));
+    const parentRow = document.querySelector(`.topic-row[data-topic="${topic.id}"]`);
+    if (parentRow) parentRow.classList.add('is-current');
 
     $live.textContent = `Opened: ${article.title}`;
     document.title = `${article.title} | Help Center - WebEaze`;
@@ -8754,7 +8774,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
     $sidebar.classList.toggle('open');
     const isOpen = $sidebar.classList.contains('open');
     $btn.classList.toggle('is-open', isOpen);
-    $label.textContent = isOpen ? 'Close Topics' : 'Browse Topics';
+    $label.textContent = isOpen ? 'Close topics' : 'Browse topics';
     if (isOpen) renderSavedSidebar();
   });
 
@@ -9244,11 +9264,19 @@ function renderTopicResults(topicId) {
   setHomeGrid(false);
 
   const items = topic.articles.map(a => INDEX.find(x => x.slug === a.slug)).filter(Boolean);
+  const popular = popularSlugSet();
+  const freshBy = {};
+  topic.articles.forEach(a => { freshBy[a.slug] = parseArticleDate(a.updated) >= Date.now() - 14 * 24 * 60 * 60 * 1000; });
 
   function cardHTMLLocal(d) {
+    // The arrow used to sit in a fixed right column on all 17 rows, which is most of
+    // what made this read as a table. Read time takes that slot; the chevron only
+    // appears under the cursor.
+    const badge = freshBy[d.slug] ? '<span class="row-badge is-new">New</span>'
+      : popular.has(d.slug) ? '<span class="row-badge">Popular</span>' : '';
     return `
       <a href="#/${d.slug}" class="result-card compact">
-        <div class="title"><span>${d.title}</span><i class="fas fa-arrow-right"></i></div>
+        <div class="title"><span>${d.title}</span>${badge}<span class="row-time">${d.readTime || 1} min</span><i class="fas fa-chevron-right"></i></div>
       </a>`;
   }
 
@@ -9256,22 +9284,24 @@ function renderTopicResults(topicId) {
 
   $results.innerHTML = `
     <div class="topic-breadcrumb">
-      <a href="#" onclick="event.preventDefault(); setHomeGrid(true); $results.innerHTML=''; renderCategories(); window.scrollTo({top:$categoriesSection.offsetTop - 80, behavior:'smooth'});">All Categories</a>
+      <a href="#" onclick="event.preventDefault(); setHomeGrid(true); $results.innerHTML=''; renderCategories(); window.scrollTo({top:$categoriesSection.offsetTop - 80, behavior:'smooth'});">All topics</a>
       <i class="fas fa-chevron-right sep"></i>
       <span>${topic.title}</span>
     </div>
-    <div class="results-header">
-      <h2>${topic.title}</h2>
-      <div class="results-count">${items.length} article${items.length === 1 ? '' : 's'}</div>
+    <div class="topic-head" data-group="${topic.group}">
+      <div class="results-header">
+        <h2><span class="cat-dot"></span>${topic.title}</h2>
+        <div class="results-count">${items.length} article${items.length === 1 ? '' : 's'}</div>
+      </div>
+      ${desc ? `<p class="topic-desc-line">${desc}</p>` : ''}
     </div>
-    ${desc ? `<p class="topic-desc-line">${desc}</p>` : ''}
-    <div class="results-grid compact">${items.map(cardHTMLLocal).join('')}</div>
+    <div class="results-grid compact" data-group="${topic.group}">${items.map(cardHTMLLocal).join('')}</div>
   `;
 
-  // Highlight the current topic in the sidebar but do NOT expand it: the main list is
-  // already showing those exact articles, and opening it printed all of them twice.
-  document.querySelectorAll('.topic-group').forEach(g => { g.classList.remove('open'); g.classList.remove('is-current'); });
-  const group = document.querySelector(`[data-topic="${topicId}"]`);
+  // Highlight the current topic in the sidebar. The rows no longer expand, so there is
+  // nothing to open: the main column is already showing those exact articles.
+  document.querySelectorAll('.topic-row').forEach(g => g.classList.remove('is-current'));
+  const group = document.querySelector(`.topic-row[data-topic="${topicId}"]`);
   if (group) group.classList.add('is-current');
 
   $live.textContent = `Browsing: ${topic.title}`;
