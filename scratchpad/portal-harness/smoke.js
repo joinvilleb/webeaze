@@ -77,7 +77,7 @@ const SHELL = [
     ['tab bar is hidden', (function(){ var t=q('.tabbar'); return !t || css(t).display === 'none'; })()],
     ['hamburger is gone', (function(){ var h=q('.hamburger-btn'); return !h || css(h).display === 'none'; })()],
     ['sidebar header lines up with the topbar, when there is one', (function(){ var a=q('.drawer-header'), b=q('.topbar'); if (!b || css(b).display === 'none') return true; return a && Math.abs(box(a).bottom - box(b).bottom) <= 1; })()],
-    ['account controls sit in the sidebar', (function(){ var r=q('.topbar-right'); return r && r.closest('.drawer-footer') !== null && box(r).width > 40; })()]
+    ['account control rides the page header', (function(){ var r=q('.topbar-right'); if(!r) return false; var h=r.closest('.portal-header, .detail-header'); return !!h && box(r).width > 20 && box(r).right <= box(h).right + 1; })()]
   ]`},
   { w: 390, h: 844, mobile: true, name: 'phone', checks: `[
     ['tab bar is on screen', (function(){ var t=q('.tabbar'); return t && css(t).display !== 'none' && box(t).bottom <= innerHeight + 1 && box(t).height > 40; })()],

@@ -682,6 +682,17 @@ async function generateNudges(c: { site_url?: string; name?: string }, refDate: 
 // here degrades to the previous snapshot on failure, which is what keeps the portal from blanking —
 // but it also means a refresh that pulled nothing looks identical to one that worked. The caller uses
 // diag to tell the client which specific source is not set up, instead of a blank "Report refreshed".
+// Has this client switched an email off in their account panel? A missing row, a missing column and
+// a failed read all mean "yes, send it": these emails go out today, and reading silence as "off"
+// would quietly stop everyone's mail the moment the new columns landed.
+async function wantsEmail(service: any, userId: string, column: string): Promise<boolean> {
+  try {
+    const { data, error } = await service.from('email_prefs').select(column).eq('user_id', userId).maybeSingle();
+    if (error) return true;
+    return !(data && data[column] === false);
+  } catch (_e) { return true; }
+}
+
 async function refreshClient(
   sb: any,
   c: { user_id: string; id?: string; site_url?: string; google_place_id?: string | null; plan?: string },
@@ -982,6 +993,7 @@ Deno.serve(async (req) => {
           lastMetrics = metrics;
           if (!emailEach) continue;                                     // refresh-only run: no email
           if (!c.email) continue;
+          if (!(await wantsEmail(service, c.user_id, 'growth_report'))) continue;   // they turned this one off
           const recap = await fetchMonthlyRecap(service, c.user_id);   // last month's completed work
           const leadCount = await countLeads(service, c.user_id, recap.windowStartISO, recap.windowEndISO);
           await sendEmail({

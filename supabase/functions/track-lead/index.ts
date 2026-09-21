@@ -33,6 +33,16 @@ const esc = (v: unknown) => String(v ?? '').replace(/[&<>"]/g, (ch) => ({ '&': '
 
 // Email the client the moment a real inquiry lands, with everything needed to answer it from the
 // phone in their hand: who, what they said, and one-tap call / reply links.
+// "Tell me the moment an inquiry arrives", from the account panel. Only an explicit false stops it:
+// this alert sends today, so silence has to keep meaning yes.
+async function wantsInstant(service: any, userId: string): Promise<boolean> {
+  try {
+    const { data, error } = await service.from('email_prefs').select('lead_instant').eq('user_id', userId).maybeSingle();
+    if (error) return true;
+    return !(data && data.lead_instant === false);
+  } catch (_e) { return true; }
+}
+
 async function alertLead(client: any, lead: any) {
   if (!RESEND_API_KEY) return;
   const to = [client && client.email, client && client.second_email].filter(Boolean);
@@ -177,7 +187,7 @@ Deno.serve(async (req) => {
     // hasDetails is only ever true on Growth/Elite (the name/email/phone/message above are gated on
     // `adv`), so this is inherently a Growth benefit: on Essential we do not store who they are, so
     // there would be nothing worth putting in an alert anyway.
-    if (type === 'form' && hasDetails) {
+    if (type === 'form' && hasDetails && await wantsInstant(service, client.user_id)) {
       await alertLead(client, { name, email, phone, message, page, device, source }).catch(() => {});
     }
     return ok({ ok: true, recorded: type });

@@ -196,13 +196,14 @@ Deno.serve(async (req) => {
   // A missing table therefore now means nobody is opted in and nothing sends, which is the safe
   // direction to fail: silence is recoverable, mailing everyone who never asked is not.
   const optedIn = new Set<string>();
+  const skipSpamFor = new Set<string>();
   {
     // digest_skip_spam is OPT-IN. Dropping a lead out of an email is the one place a wrong guess could
   // cost a real job, so a client has to ask for it. Selected defensively: the column may not exist.
   let prefsRes = await service.from('email_prefs').select('user_id, lead_digest, digest_skip_spam').eq('lead_digest', true);
   if (prefsRes.error) prefsRes = await service.from('email_prefs').select('user_id, lead_digest').eq('lead_digest', true);
   const prefs = prefsRes.data;
-  const skipSpamFor = new Set((prefs ?? []).filter((p: any) => p.digest_skip_spam).map((p: any) => p.user_id));
+  (prefs ?? []).filter((p: any) => p.digest_skip_spam).forEach((p: any) => { if (p.user_id) skipSpamFor.add(p.user_id); });
     (prefs || []).forEach((p: any) => { if (p.user_id) optedIn.add(p.user_id); });
   }
   if (!optedIn.size) return json({ ok: true, clients: 0, note: 'nobody is opted in to the daily digest' });
