@@ -54,6 +54,53 @@
 
     /* The footer and the dark panels are dark in BOTH themes, so this one does not invert. */
     --ink-fill: #0b0d13;
+
+    /* ── The other pages ──────────────────────────────────────────────────────────────
+       They were each built with their own vocabulary: --line where index says --border,
+       --ink where it says --text, --card and --bg where it says --surface. Rather than
+       rename tokens across twelve files and risk twelve regressions, every name any page
+       uses gets a dark value here. */
+    /* The page ground. index calls it --off-white, every other page calls it --bg, and missing
+       this one left six pages rendering a white body under light text. */
+    --bg: #0e1016;
+    --bg-2: #161922;
+    --bg-3: #1c202a;
+    --card: #14161d;
+    --ink: #e8eaf2;
+    --ink-2: #b6bccb;
+    --body: #c7ccdb;
+    --dim: #9096ab;
+    --muted2: #9096ab;
+    --line: #2a2e3a;
+    --brand-lite: #c3a4f0;
+
+    /* Accents lighten so they separate from a dark ground. */
+    --gold: #fbbf24;
+    --green: #34d399;
+    --amber: #fcd34d;
+    --blue: #60a5fa;
+    --gold-2: #fcd34d;
+    --muted2-2: #9096ab;
+    /* Gold behind white text stays dark, like the other *-fill tokens. */
+    --gold-fill: #8a5d0c;
+
+    /* Tints were mixed for white. At 8 to 9 percent they vanish on a dark ground, so they
+       carry roughly double the alpha here to stay visible as the same gesture. */
+    --brand-soft: rgba(167,127,224,.14);
+    --brand-mid: rgba(167,127,224,.20);
+    --brand-dim: rgba(167,127,224,.16);
+    --brand-border: rgba(167,127,224,.30);
+    --gold-soft: rgba(251,191,36,.14);
+    --gold-bg: rgba(251,191,36,.14);
+    --gold-border: rgba(251,191,36,.30);
+    --green-soft: rgba(52,211,153,.14);
+    --green-border: rgba(52,211,153,.30);
+    --amber-soft: rgba(252,211,77,.14);
+    --blue-soft: rgba(96,165,250,.14);
+
+    --shadow-sm: 0 2px 12px rgba(0,0,0,.45);
+    --shadow-md: 0 6px 28px rgba(0,0,0,.5);
+    --shadow-lg: 0 16px 52px rgba(0,0,0,.55);
   }
 
   /* Those always-dark panels take their text from tokens that DO invert, so on a dark page the
@@ -109,6 +156,12 @@
 
   /* The mobile drawer. This was the worst of it: a white sheet with pale grey links, so on a
      dark phone the menu opened as an unreadable slab. */
+  /* The hamburger bars are #374151, a dark slate that all but disappears against a dark header.
+     They carry the same weight as the nav links now. */
+  html:root .wb-hamburger span { background: #d7dae6; }
+  html:root .wb-hamburger:hover { background: rgba(255,255,255,.08); }
+  html:root .wb-hamburger:hover span { background: #ffffff; }
+
   html:root .wb-mobile-menu { background: #14161d; border-top-color: #2a2e3a; }
   html:root .wb-mob-backdrop { background: rgba(0,0,0,.55); }
   html:root .wb-mob-link, html:root .wb-mob-link:visited { color: #d7dae6; border-bottom-color: #242835; }
