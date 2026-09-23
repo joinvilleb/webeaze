@@ -96,6 +96,9 @@ function toText(html, annotate) {
     return label;
   });
   let s = annotated.replace(/<(script|style)[\s\S]*?<\/\1>/gi, '')
+    // An icon that stands in for words ("select [person icon] in the top right corner") has to read
+    // as words here, or the assistant quotes a step with a hole in it.
+    .replace(/<span[^>]*aria-label="([^"]*)"[^>]*>[\s\S]*?<\/span>/gi, (m, label) => label)
     .replace(/<br\s*\/?>/gi, '\n')
     .replace(/<\/(p|h[1-6]|li|div|ul|ol|tr|details|summary|blockquote)>/gi, '\n\n')
     .replace(/<li[^>]*>/gi, '- ')
@@ -116,8 +119,12 @@ function toHtml(html) {
     for (const a of attrs.matchAll(/([a-z-]+)\s*=\s*"([^"]*)"/gi)) {
       const name = a[1].toLowerCase(), val = a[2];
       if (/^on/i.test(name)) continue;                   // no inline handlers reach the portal
+      // role/aria-label ride along because an icon can now stand in for words ("select [person
+      // icon] in the top right corner"), and dropping its label leaves a screen reader with a hole
+      // in the sentence. They carry no behaviour.
       if (name === 'href' || name === 'src' || name === 'alt' || name === 'class'
-          || name === 'width' || name === 'height' || name === 'loading' || name === 'title') {
+          || name === 'width' || name === 'height' || name === 'loading' || name === 'title'
+          || name === 'role' || name === 'aria-label' || name === 'aria-hidden') {
         if ((name === 'href' || name === 'src') && /^\s*javascript:/i.test(val)) continue;
         keptAttrs.push(name + '="' + val.replace(/"/g, '&quot;') + '"');
       }
