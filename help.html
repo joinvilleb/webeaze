@@ -8240,7 +8240,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
 
   // Top-5 most-read article slugs on this device. Used to badge rows in the topic list.
   function popularSlugSet() {
-    const artCounts = lsGet(LS_ART_CNT) || {};
+    const artCounts = lsObj(LS_ART_CNT);
     return new Set(
       Object.entries(artCounts)
         .sort((a, b) => b[1] - a[1])
@@ -8393,7 +8393,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
   const LS_READ = 'wz_read_history';
 
   function getReadAge(slug) {
-    const history = lsGet(LS_READ) || [];
+    const history = lsArr(LS_READ).filter(r => r && r.slug);
     const entry = history.find(r => r.slug === slug);
     if (!entry) return null;
     const days = Math.floor((Date.now() - entry.ts) / 86400000);
@@ -8404,9 +8404,9 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
   }
 
   function getPersonalizedFeed() {
-    const readHistory = lsGet(LS_READ) || [];
+    const readHistory = lsArr(LS_READ).filter(r => r && r.slug);
     const readSlugs   = new Set(readHistory.map(r => r.slug));
-    const topicCounts = lsGet(LS_TOPICS) || {};
+    const topicCounts = lsObj(LS_TOPICS);
 
     if (readHistory.length === 0) {
       return { heading: 'Recommended articles', items: FEATURED.map(s => INDEX.find(x => x.slug === s)).filter(Boolean), personalized: false };
@@ -8439,7 +8439,7 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
     $article.innerHTML = '';
     setHomeGrid(!q.trim());
 
-    const readSlugs = new Set((lsGet(LS_READ) || []).map(r => r.slug));
+    const readSlugs = new Set(lsArr(LS_READ).filter(r => r && r.slug).map(r => r.slug));
 
     function cardBadge(slug) {
       const age = getReadAge(slug);
@@ -8740,6 +8740,15 @@ const LS_SAVED    = 'wz_help_saved';
   const SAVE_TTL    = 30 * 24 * 60 * 60 * 1000; // 30 days
 
   function lsGet(key) { try { return JSON.parse(localStorage.getItem(key)); } catch(e) { return null; } }
+  // `|| []` only catches null, so a value of the WRONG SHAPE sailed through and threw at `.map`.
+  // One object stored under a list's key took out the whole recommended list, and because that is
+  // rendered in one pass the home page simply ended at the category cards with nothing below them.
+  // Storage is shared with every other page on the origin and outlives any version of this file,
+  // so its shape is an assumption we do not get to make.
+  // Entries inside a stored list can be malformed too, so every read of a list whose items are
+  // dereferenced filters them at the point of reading rather than at each use.
+  function lsArr(key) { const v = lsGet(key); return Array.isArray(v) ? v : []; }
+  function lsObj(key) { const v = lsGet(key); return (v && typeof v === 'object' && !Array.isArray(v)) ? v : {}; }
   function lsSet(key, val) { try { localStorage.setItem(key, JSON.stringify(val)); } catch(e) {} }
 
   function initReturnVisitor() {
@@ -8747,7 +8756,7 @@ const LS_SAVED    = 'wz_help_saved';
   }
 
   // ---- 4. Bookmarks ----
-  function getSaved() { return lsGet(LS_SAVED) || []; }
+  function getSaved() { return lsArr(LS_SAVED).filter(s => s && s.slug); }
   function toggleSaved(slug, title) {
     let saved = getSaved();
     const idx = saved.findIndex(s => s.slug === slug);
@@ -8807,7 +8816,7 @@ const LS_SAVED    = 'wz_help_saved';
   function injectHelpfulRow(slug) {
     const $view = document.querySelector('.article-view');
     if (!$view || $view.querySelector('.helpful-row')) return;
-    const ratings = lsGet(LS_HELPFUL) || {};
+    const ratings = lsObj(LS_HELPFUL);
     const voted = ratings[slug];
     const row = document.createElement('div');
     row.className = 'helpful-row';
@@ -8823,7 +8832,7 @@ const LS_SAVED    = 'wz_help_saved';
       row.querySelectorAll('.helpful-btn').forEach(btn => {
         btn.addEventListener('click', () => {
           const vote = btn.dataset.vote;
-          const r = lsGet(LS_HELPFUL) || {};
+          const r = lsObj(LS_HELPFUL);
           r[slug] = vote;
           lsSet(LS_HELPFUL, r);
           row.innerHTML = `<p class="helpful-thanks">${vote === 'yes' ? 'Glad it helped.' : 'Thanks for the feedback. We will use it to improve.'}</p>`;
@@ -8893,16 +8902,16 @@ const LS_SAVED    = 'wz_help_saved';
 
     // Track topic reads
     if (topic && topic.id) {
-      const counts = lsGet(LS_TOPICS) || {};
+      const counts = lsObj(LS_TOPICS);
       counts[topic.id] = (counts[topic.id] || 0) + 1;
       lsSet(LS_TOPICS, counts);
     }
     // Track per-article view counts (drives dynamic popular badges)
-    const artCounts = lsGet(LS_ART_CNT) || {};
+    const artCounts = lsObj(LS_ART_CNT);
     artCounts[slug] = (artCounts[slug] || 0) + 1;
     lsSet(LS_ART_CNT, artCounts);
     // Track per-article read history
-    const history = lsGet(LS_READ) || [];
+    const history = lsArr(LS_READ).filter(r => r && r.slug);
     const filtered = history.filter(r => r.slug !== slug);
     filtered.unshift({ slug, title: article.title, topicTitle: topic.title, topicId: topic.id, ts: Date.now() });
     lsSet(LS_READ, filtered.slice(0, 20));
