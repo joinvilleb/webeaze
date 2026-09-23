@@ -521,6 +521,32 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
       transition: background .2s !important;
     }
     .hs-form .hs-button:hover { background: #6740a0 !important; }
+
+    /* The HubSpot form is injected at runtime, so it inherits nothing from the page's tokens and
+       every colour above is a hard !important. On a dark page that left the field labels as dark
+       slate on near black, which is the one thing on this page you actually have to read. */
+    @media (prefers-color-scheme: dark) {
+      .hs-form label,
+      .hs-form legend,
+      .hs-form .hs-field-desc { color: #d7dae6 !important; }
+      .hs-form input, .hs-form textarea, .hs-form select {
+        background: #1b1e27 !important;
+        border-color: rgba(255,255,255,.16) !important;
+        color: #e8eaf2 !important;
+      }
+      .hs-form input::placeholder, .hs-form textarea::placeholder { color: #8d93a8 !important; }
+      .hs-form input:focus, .hs-form textarea:focus, .hs-form select:focus {
+        background: #232733 !important;
+        border-color: #a77fe0 !important;
+        box-shadow: 0 0 0 3px rgba(167,127,224,.22) !important;
+      }
+      .hs-form .hs-button { background: #8257c4 !important; }
+      .hs-form .hs-button:hover { background: #9a72d8 !important; }
+      /* Required markers and validation text: red on dark needs to lift to stay legible. */
+      .hs-form .hs-form-required,
+      .hs-form .hs-error-msg,
+      .hs-form .hs-error-msgs label { color: #fca5a5 !important; }
+    }
     `;
     document.head.appendChild(s);
   })();
