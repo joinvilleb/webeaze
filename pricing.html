@@ -41,6 +41,7 @@
   --brand-2: #6841a0;
   --brand-3: #5c3090;
   --brand-4: #2a2340;
+  --brand-fill-lite: #9b72cc;
   --brand-fill: #7851a9;
   --brand-lite: #9b72cc;
   --brand-tint: #f3eefb;
@@ -272,6 +273,21 @@ h3{font-weight:700!important;letter-spacing:-.02em!important;}
   .footer-bottom{flex-direction:column;text-align:center;}
 }
 </style>
+  
+  <style>
+/* Dark palette derived from this page's own light tokens. It cannot live in css/theme.css:
+   generated names are page-local, so --brand-2 is a different colour on a different page.
+   html:root:root out-specifies theme.css, which is linked after this block. */
+@media (prefers-color-scheme: dark) {
+  html:root:root {
+    --brand-2: #b297d8;
+    --brand-3: #b594db;
+    --brand-4: #a797d8;
+    --surface-5: #231736;
+    --surface-6: #1a1a1a;
+  }
+}
+</style>
   <link rel="stylesheet" href="css/theme.css">
 </head>
 <body>
@@ -477,7 +493,7 @@ h3{font-weight:700!important;letter-spacing:-.02em!important;}
 <style>
   .finder-section { background: var(--off-white); padding: 1.5rem 0 2.75rem; }
   .finder-card { max-width: 620px; margin: 0 auto; background: var(--surface); border: 1px solid var(--border); border-radius: 20px; box-shadow: 0 12px 44px rgba(15,18,40,.07); overflow: hidden; }
-  .finder-head { display: flex; align-items: center; gap: 14px; padding: 18px 22px; background: linear-gradient(120deg, var(--brand), var(--brand-lite)); color: var(--on-accent); }
+  .finder-head { display: flex; align-items: center; gap: 14px; padding: 18px 22px; background: linear-gradient(120deg, var(--brand-fill), var(--brand-fill-lite)); color: var(--on-accent); }
   .finder-avatar { width: 42px; height: 42px; border-radius: 50%; background: rgba(255,255,255,.18); display: grid; place-items: center; font-size: 1.05rem; flex-shrink: 0; }
   .finder-title { font-weight: 700; font-size: 1.05rem; line-height: 1.2; }
   .finder-sub { font-size: .85rem; opacity: .85; }
