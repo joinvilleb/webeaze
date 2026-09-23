@@ -23,11 +23,11 @@ const AI_MODEL = 'claude-sonnet-5';   // upgraded from Haiku 4.5. Every task par
 // add-ons concierge so it only ever quotes real, current prices. Keep in sync with fee-schedule.html.
 const FEE_SCHEDULE = `All prices in USD. Sales tax may apply based on billing location.
 BUILDS & PROJECTS (one-time):
-- New Website Build: $799 (site from scratch, up to 3 custom pages + a contact page; no monthly plan required; domain sold separately)
+- New Website Build: $949 (site from scratch, up to 3 custom pages + a contact page; no monthly plan required; domain sold separately)
 - Website Revamp: $479 (full redesign of an existing site, up to 3 pages)
-- Web Project, Standard: $299 (updates across multiple pages of an existing site)
-- Web Project, Basic: $149 (updates to a single existing page)
-- Logo Design: $299 (2-3 concepts, 2 revision rounds, SVG/PNG/JPG files)
+- Web Project, Standard: $359 (updates across multiple pages of an existing site)
+- Web Project, Basic: $179 (updates to a single existing page)
+- Logo Design: $359 (2-3 concepts, 2 revision rounds, SVG/PNG/JPG files)
 INTEGRATIONS & SETUP:
 - E-commerce / Online Store Setup: $779 (covers the first 12 months of the store platform; renewals are the client's cost after year one)
 - Booking System Setup: from $389 (Calendly, Square, Acuity, etc.; the booking tool's own subscription is billed separately by that provider)
@@ -45,7 +45,7 @@ ADD-ONS & FEES:
 - Footer Credit Removal: $179 one-time (removes the "Built by WebEaze" credit permanently)
 - Same-Day Turnaround (rush): $89 per request
 - After-Hours Work: $109 per request
-- Website Setup & Onboarding: $239 one-time (waived on annual plans)
+- Website Setup & Onboarding: $99 one-time (waived on annual plans)
 - Site Reactivation: from $239; Site Transfer: $119; Domain Retrieval: $119
 - Custom Quote minimum fee: $119 (anything not listed is quoted after a quick review, with a written estimate)
 NOTES: Third-party platform subscriptions (booking, store, live chat, email tools) are always billed separately by that provider. Rush fees are per request, not per page. Plan tier monthly prices are NOT on this schedule, so those must be quoted rather than stated.`;
