@@ -1,0 +1,123 @@
+/* Dark theme for the public site.
+ *
+ * Pure CSS, driven by the device setting, so there is no toggle to find, no JavaScript, and no
+ * white flash before a script runs. Only the tokens are redefined; every rule on every page is
+ * untouched, which is why light mode is provably unchanged.
+ *
+ * `html:root` rather than `:root` on purpose: it raises specificity just enough that this file
+ * wins no matter where a page happens to put its own :root block relative to this link tag.
+ *
+ * TWO THINGS DO NOT INVERT, and getting this wrong is what makes a dark mode look broken:
+ *   --on-accent   white TEXT on a coloured fill. Same value in both themes, which is the whole
+ *                 reason it is separate from --surface, whose value is identical today.
+ *   *-fill        colours drawn BEHIND white text. They stay dark while their text-coloured
+ *                 twins go light, or white stops reading on them.
+ */
+@media (prefers-color-scheme: dark) {
+  html:root {
+    /* grounds and surfaces */
+    --off-white: #101219;
+    --white: #14161d;
+    --surface: #14161d;
+    --surface-2: #1b1e27;
+    --surface-3: #181b23;
+    --surface-4: #1b1e27;
+    --panel-dark: #1f222c;
+
+    /* text */
+    --text: #e8eaf2;
+    --black: #f2f3f7;
+    --muted: #a3a9bd;
+    --muted-2: #9096ab;
+    --ink-700: #c7ccdb;
+    --ink-600: #b6bccb;
+    --ink-500: #aab0c2;
+    --ink-450: #9aa0b8;
+
+    /* lines */
+    --border: #2a2e3a;
+    --line-2: #2c3040;
+    --line-3: #333847;
+    --line-4: #3b4150;
+    --brand-line: #35304a;
+
+    /* brand: text goes light, the fill stays dark enough for white on it */
+    --brand: #a77fe0;
+    --brand-light: #c3a4f0;
+    --brand-dark: #8f6bc8;
+    --brand-ink: #c0b5d8;
+    --brand-tint: #241d33;
+    --brand-fill: #8257c4;
+    --ink-fill: #2b2f3b;
+
+    --shadow: 0 4px 24px rgba(0,0,0,.5);
+
+    /* The footer and the dark panels are dark in BOTH themes, so this one does not invert. */
+    --ink-fill: #0b0d13;
+  }
+
+  /* Those always-dark panels take their text from tokens that DO invert, so on a dark page the
+     footer ended up dark grey on near-black. They are pinned to the light values they had. */
+  html:root .site-footer { color: #9ca3af; }
+  html:root .footer-tagline { color: #9ca3af; }
+  html:root .footer-col ul li a { color: #adb5bd; }
+  html:root .footer-legal { color: #8f95a6; }
+  html:root .footer-social a { color: #9ca3af; }
+
+  /* The jump bar is a translucent white strip, written as a literal rather than a token. */
+  html:root .jump-bar {
+    background: rgba(18,20,27,.88);
+    border-bottom-color: rgba(255,255,255,.08);
+  }
+  html:root .jump-link:hover { background: rgba(255,255,255,.06); }
+
+  /* The fake browser chrome in the portal preview. */
+  html:root .ppf-bar { background: #1b1e27; }
+
+  /* The hero is a photo behind a near-opaque CREAM scrim, sized for dark copy on a light wash.
+     Flip the scrim, or the headline turns light and sits on a light photo: the one place on this
+     page where a token swap alone is not enough, because the readability comes from the overlay
+     rather than from any colour a token controls. */
+  html:root .hero::after {
+    background:
+      linear-gradient(rgba(16,18,25,.88), rgba(16,18,25,.94)),
+      radial-gradient(1000px 520px at 50% -10%, rgba(167,127,224,.22), rgba(167,127,224,0) 70%);
+  }
+  /* The ghost CTA had a white fill to survive the photo. On the dark scrim it needs the opposite. */
+  html:root .hero .btn-secondary-brand {
+    background: rgba(255,255,255,.10);
+    border-color: rgba(255,255,255,.22);
+    color: var(--text);
+  }
+  html:root .hero .btn-secondary-brand:hover {
+    background: rgba(255,255,255,.17);
+    border-color: var(--brand);
+  }
+
+  /* css/nav.css has no tokens of its own, so its colours are literals and have to be named here.
+     These only apply on pages that link this file, so the rest of the site is untouched. */
+  html:root .wb-logo-word { color: #e8eaf2; }
+  /* The class is .wb-portal-btn, not .btn-nav-client. Measured rather than guessed: the element
+     reported rgb(120,81,169) even after the first override, which is how the real name turned up. */
+  html:root .btn-nav-client, html:root .wb-portal-btn { color: #c3a4f0; border-color: #8257c4; }
+  html:root .btn-nav-client:hover, html:root .wb-portal-btn:hover { background: #8257c4; color: #ffffff; }
+  html:root .wb-nav-link.wb-active { color: #c3a4f0; background: rgba(167,127,224,.12); }
+  html:root .wb-dd-item:hover { background: rgba(167,127,224,.12); color: #c3a4f0; }
+  html:root .wb-dd-item:hover i { color: #c3a4f0; }
+  html:root .wb-dd { background: #171a23; border-color: #2a2e3a; }
+
+  /* The shared nav and footer live in css/nav.css, which has no tokens of its own. */
+  html:root .wb-header { background: rgba(20,22,29,.92); border-bottom-color: #2a2e3a; }
+  html:root .wb-mob-menu { background: #14161d; }
+  html:root .wb-mob-link, html:root .wb-nav-link { color: #d7dae6; }
+  html:root img[src*="webeaze-transparent"] { filter: brightness(1.9); }
+}
+
+/* Only alive while the device setting actually changes, so nothing on the page carries a
+   transition cost for the other 99.99% of the time. */
+@media (prefers-reduced-motion: no-preference) {
+  html.theme-anim, html.theme-anim *, html.theme-anim *::before, html.theme-anim *::after {
+    transition: background-color .3s ease, color .3s ease, border-color .3s ease,
+                fill .3s ease, stroke .3s ease, box-shadow .3s ease !important;
+  }
+}
