@@ -22,10 +22,10 @@ Grass Goats Lawn Care in Dover, Delaware. Built, hosted and managed by us, so th
 Shorter days mean different hours. If your winter hours are not on your website yet, someone is going to drive over and find you closed. Send us a message and it is live in two working days. No hourly fee, no contract.
 
 **Sun Sep 27 — 05-what-it-costs.png**
-Two numbers, and that is the whole menu. Essential is $199 a month, Growth is $359, one-time setup is $239. No long-term contract. Nothing else appears on the bill later.
+Two numbers, and that is the whole menu. Essential is $199 a month, Growth is $359, one-time setup is $99. No long-term contract. Nothing else appears on the bill later.
 
 **Tue Sep 29 — 06-vs-agency.png**
-The upfront number is the whole problem. An agency wants $5,000 to $25,000 before you have seen anything. A freelancer wants $1,500 to $8,000. We ask $239 to set up, then a flat monthly fee. Same work, very different bill.
+The upfront number is the whole problem. An agency wants $5,000 to $25,000 before you have seen anything. A freelancer wants $1,500 to $8,000. We ask $99 to set up, then a flat monthly fee. Same work, very different bill.
 
 **Thu Oct 1 — 07-found-on-google.png**
 People start searching for holiday services earlier than you would think. Local SEO is on every plan, Google Business Profile management comes with Growth, and every site is written so AI search can quote you properly.

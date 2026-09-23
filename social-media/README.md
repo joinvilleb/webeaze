@@ -74,7 +74,7 @@ rather than running them back to back.
 
 ## Verified facts to draw on
 
-Essential $199/mo · Growth $299/mo · one-time setup $239 · no contract
+Essential $199/mo · Growth $299/mo · one-time setup $99 · no contract
 One-time help $179 / $299 / $949 · free preview in 48 hours · live in 5 to 14 days
 Most content updates in 2 working days · Mon to Fri, 9 to 5 ET, closed major US holidays
 Agency $5k to $25k upfront · freelancer $1.5k to $8k
