@@ -190,10 +190,18 @@ async function dispatchOne(service: any, record: any, opts: { skipSchedule?: boo
 
   const tl = String(type).toLowerCase();
 
+  // A request WE filed for them, from a phone call or an email or something we spotted. Billy already
+  // has the answer the question would ask, and "Quick question about your request" lands as a mistake
+  // when they never submitted one. The notes check is the fallback for rows written before
+  // request_logged_by_admin.sql was run, and for any path that sets the marker but not the column.
+  const loggedByAdmin = record.logged_by_admin === true
+    || /\(logged by WebEaze on your behalf\)\s*$/i.test(description);
+
   // ── Instant clarifying question ──
   // Runs for every type except an emergency, where asking anything is the wrong move: a site that is
-  // down needs a person, now. Only fires on a fresh request, never on one already in flight.
-  if (!tl.includes('urgent') && !tl.includes('down') && (record.status === 'Received' || record.status === 'New') && !record.needs_info_message) {
+  // down needs a person, now. Only fires on a fresh request, never on one already in flight, and
+  // never on one we filed ourselves.
+  if (!loggedByAdmin && !tl.includes('urgent') && !tl.includes('down') && (record.status === 'Received' || record.status === 'New') && !record.needs_info_message) {
     const { data: tc } = await service.from('clients')
       .select('email, second_email, name, site_url, status').eq('user_id', userId).maybeSingle();
     if (tc && (tc.status || '').toLowerCase() !== 'inactive') {
