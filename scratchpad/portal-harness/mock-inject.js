@@ -49,6 +49,13 @@
       { id: 'pu2', published: true, published_at: '2026-09-02T12:00:00Z', tag: 'Holiday hours', title: 'We are closed Thanksgiving week', category: 'company', audience: 'all', body: 'Our team is away 26 to 28 November.' },
     ],
     lead_events: [{ id: 'le1', user_id: UID, type: 'form', created_at: '2026-09-09T12:00:00Z' }],
+    addon_prices: [
+      { addon: 'New Website Build', stripe_price_id: 'price_1QaBcDeFgHiJkLmN', amount_usd: 949, invoiceable: true },
+      { addon: 'Logo Design', stripe_price_id: null, amount_usd: 359, invoiceable: true },
+      { addon: 'Remove Footer Credit', stripe_price_id: 'price_1QxYzAbCdEfGhIjK', amount_usd: 179, invoiceable: true },
+      { addon: 'Booking System', stripe_price_id: null, amount_usd: 389, invoiceable: false },
+      { addon: 'Additional Page', stripe_price_id: null, amount_usd: 229, invoiceable: false },
+    ],
     site_issues: [], chat_messages: [], referrals: [], prospects: [], prospect_targets: [], reward_grants: [], mockups: [],
   };
   // A fixture set (see fixtures-mike.js) replaces whole tables.
