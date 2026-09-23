@@ -808,6 +808,40 @@ async function refreshClient(
     }
     rv.quietMonths = quiet;
   }
+
+  // ── Speed budget ────────────────────────────────────────────────────────────
+  // A score on its own tells a client nothing: 71 is fine if it was 64 last month and alarming if it
+  // was 92. Keep the same monthly series as reviews and search, then say which way it moved.
+  // The budget is deliberately a DROP, not an absolute floor. A site that has always scored 60 is not
+  // failing today, and shouting at that client every month teaches them to ignore the report.
+  const sp3: any = metrics.speed;
+  if (sp3 && (sp3.mobile || sp3.desktop)) {
+    const smonth = new Date().toISOString().slice(0, 7);
+    const prevSpeed: any[] = (old.speed && Array.isArray(old.speed.monthly)) ? old.speed.monthly : [];
+    const shist = prevSpeed.filter((h: any) => h && h.month && h.month !== smonth);
+    shist.push({
+      month: smonth,
+      mobile: (sp3.mobile && sp3.mobile.score != null) ? sp3.mobile.score : null,
+      desktop: (sp3.desktop && sp3.desktop.score != null) ? sp3.desktop.score : null,
+      lcp: (sp3.mobile && sp3.mobile.lcpSeconds != null) ? sp3.mobile.lcpSeconds : null,
+    });
+    shist.sort((a: any, b: any) => String(a.month).localeCompare(String(b.month)));
+    sp3.monthly = shist.slice(-24);
+
+    // Compare against the best of the last six months rather than last month alone, so one bad
+    // measurement does not become the new normal that everything after it looks fine against.
+    const prior = sp3.monthly.slice(-7, -1).map((h: any) => h.mobile).filter((n: any) => n != null);
+    const best = prior.length ? Math.max.apply(null, prior) : null;
+    const now = (sp3.mobile && sp3.mobile.score != null) ? sp3.mobile.score : null;
+    sp3.mobileBest6 = best;
+    sp3.mobileDrop = (best != null && now != null) ? Math.max(0, best - now) : 0;
+    // 10 points is past measurement noise on PageSpeed and is the point a person notices the site.
+    sp3.overBudget = sp3.mobileDrop >= 10;
+    const lcpPrior = sp3.monthly.slice(-7, -1).map((h: any) => h.lcp).filter((n: any) => n != null);
+    const lcpBest = lcpPrior.length ? Math.min.apply(null, lcpPrior) : null;
+    const lcpNow = (sp3.mobile && sp3.mobile.lcpSeconds != null) ? sp3.mobile.lcpSeconds : null;
+    sp3.lcpSlipSeconds = (lcpBest != null && lcpNow != null) ? Math.max(0, +(lcpNow - lcpBest).toFixed(2)) : 0;
+  }
   // Keyword movement: compare each tracked query's position to the previous snapshot
   // (positive change = moved up, since a lower position number is better).
   // Only when THIS run actually pulled search data. metrics.search falls back to old.search above,
