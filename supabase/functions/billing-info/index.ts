@@ -75,7 +75,7 @@ function applyDiscounts(cents, sub) {
 }
 // What Stripe will actually bill this subscription next period, in cents, or null if it cannot say.
 // Mirrors upcomingRecurringCents in payment-status/index.ts: if you change one, change both. They
-// disagreeing is what put "$89.00/month" in the Manage plan panel while the client's own card said
+// disagreeing is what put "$109.00/month" in the Manage plan panel while the client's own card said
 // $129, because one asked Stripe and the other did the arithmetic itself.
 //
 // Proration is the trap: a mid-cycle change adds one-off lines whose total is not the recurring price.

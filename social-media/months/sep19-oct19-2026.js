@@ -33,11 +33,11 @@ module.exports = {
 
 { id:'05-what-it-costs', cls:'cream', footRight:'Every month, no surprises', inner:()=>`
   <div class="mid"><div class="eyebrow">WHAT IT ACTUALLY COSTS</div><h1>Two numbers.<br>That is the<br>whole menu.</h1>
-  ${rows([['Essential','$169/mo'],['Growth','$249/mo'],['One-time setup','$199'],['Long-term contract','None']])}</div>` },
+  ${rows([['Essential','$199/mo'],['Growth','$299/mo'],['One-time setup','$239'],['Long-term contract','None']])}</div>` },
 
 { id:'06-vs-agency', cls:'plum', footRight:'Same work, different bill', inner:()=>`
   <div class="mid"><div class="eyebrow light">WHY OWNERS SWITCH</div><h1 class="on-plum">The upfront<br>number is the<br>whole problem.</h1>
-  ${bars([['Agency','100','$5k to $25k',false],['Freelancer','45','$1.5k to $8k',false],['WebEaze','12','$199 setup',true]])}</div>` },
+  ${bars([['Agency','100','$5k to $25k',false],['Freelancer','45','$1.5k to $8k',false],['WebEaze','12','$239 setup',true]])}</div>` },
 
 { id:'07-found-on-google', cls:'cream', footRight:'Included on every plan', inner:()=>`
   <div class="mid"><div class="eyebrow">BEFORE THE HOLIDAY SEARCHES START</div><h1>People search<br>early. Be there<br>early.</h1>

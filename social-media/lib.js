@@ -176,7 +176,7 @@ const card = (p, depth) => `
     <span class="wordmark">WebEaze</span>
   </div>
   ${p.inner(depth)}
-  <div class="foot"><span>webeaze.io</span><span>${p.footRight || 'Websites from $169/mo'}</span></div>
+  <div class="foot"><span>webeaze.io</span><span>${p.footRight || 'Websites from $199/mo'}</span></div>
 </div>`;
 
 module.exports = { rows, checks, steps, tags, pills, stats, browser, bars, options, prompt, ico, CSS, FONTS, card };

@@ -18,8 +18,8 @@ WebEaze builds and manages websites for small businesses under a simple monthly 
 
 Plans currently available:
 
-- **Essential** ($169/mo): Up to 3 pages, unlimited updates, basic SEO, email support, monthly performance reports
-- **Growth** ($249/mo): Up to 6 pages, priority support, Google Business Profile management, Total Access Support, online review management
+- **Essential** ($199/mo): Up to 3 pages, unlimited updates, basic SEO, email support, monthly performance reports
+- **Growth** ($299/mo): Up to 6 pages, priority support, Google Business Profile management, Total Access Support, online review management
 
 One-time projects and add-ons (ads, AI chatbot, ecommerce, etc.) are also available for clients who need something outside the standard plans.
 

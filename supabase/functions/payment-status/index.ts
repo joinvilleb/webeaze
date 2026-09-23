@@ -174,7 +174,7 @@ Deno.serve(async (req) => {
           const cents = ((s.items && s.items.data) || []).reduce((t: number, it: any) =>
             t + (((it.price && it.price.unit_amount) || 0) * (it.quantity || 1)), 0);
           // Then apply any coupon. unit_amount is the LIST price: a client on Growth with 30% off
-          // still carries the $249 price object, and the discount lives beside it. Reading only
+          // still carries the $359 price object, and the discount lives beside it. Reading only
           // unit_amount reported the full price for every discounted client, forever, and no amount
           // of refreshing changed it because the number we were reading was never their number.
           amountCents = cents > 0 ? applyDiscounts(cents, s) : null;

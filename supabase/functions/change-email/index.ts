@@ -149,6 +149,9 @@ Deno.serve(async (req) => {
       }
 
       const link = PORTAL_URL + '/#confirm-email=' + token;
+      // If the confirmation cannot be sent, say exactly that, and spend the token: otherwise the
+      // portal would show "Waiting on" an address that never got an email.
+      try {
       await send(newEmail, 'Confirm your new WebEaze email address', shell(
         '<p style="margin:0 0 12px;">Hi,</p>'
         + '<p style="margin:0 0 14px;">You asked to sign in to your WebEaze portal with this address instead of <strong>'
@@ -157,6 +160,12 @@ Deno.serve(async (req) => {
         + 'text-decoration:none;font-weight:700;padding:12px 24px;border-radius:10px;">Confirm this address</a></p>'
         + '<p style="margin:0 0 6px;color:#6b7280;font-size:13px;">The link works for one hour. '
         + 'Until you use it, nothing changes and you keep signing in with your old address.</p>'));
+      } catch (e) {
+        console.error('[change-email] confirmation send failed', String(e).slice(0, 300));
+        await service.from('email_change_requests').update({ used_at: new Date().toISOString() }).eq('token', token)
+          .then(null, () => {});
+        return json({ ok: false, error: "We couldn't send the confirmation email to that address just now. Check it's typed correctly, or try again in a few minutes." }, 502);
+      }
 
       // The address losing the account hears about it too. A change nobody asked for should not be
       // silent for the person it happens to.

@@ -89,7 +89,7 @@ galaxygymnast.com
 **11 one-time** · cream
 Not everyone wants a monthly plan, and that is fine.
 
-One-time website help starts at $149 for a single-page fix, $299 for updates across pages, and $799 for a brand new website. You still get a client portal, and you own everything when it is done.
+One-time website help starts at $179 for a single-page fix, $299 for updates across pages, and $949 for a brand new website. You still get a client portal, and you own everything when it is done.
 
 ---
 

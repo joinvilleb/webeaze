@@ -120,6 +120,10 @@ async function doSend(sb: any, dailyCap: number) {
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: cors });
   if (req.method !== 'POST') return json({ error: 'Method not allowed' }, 405);
+  // Switched off 2026-09-22: Billy moved from cold email to postcards and is cancelling the mailbox.
+  // Nothing runs, whoever calls (cron, admin button) and whatever they ask for. To turn it back on,
+  // set the OUTREACH_ENABLED secret to 'true' and redeploy nothing.
+  if (Deno.env.get('OUTREACH_ENABLED') !== 'true') return json({ ok: true, disabled: true, message: 'Email outreach is switched off.' });
   const service = createClient(Deno.env.get('SUPABASE_URL')!, Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!);
 
   const cronSecret = req.headers.get('x-cron-secret') ?? '';

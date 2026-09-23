@@ -53,7 +53,7 @@ module.exports = {
 
 { id:'11-one-time', cls:'cream', footRight:'No monthly plan', inner:()=>`
   <div class="mid"><div class="eyebrow">PAY ONCE</div><h1>Not everyone wants<br>a monthly plan</h1>
-  ${rows([['Quick fix, one page','$149'],['Updates across pages','$299'],['A brand new website','$799'],['You own it all','Included']])}</div>` },
+  ${rows([['Quick fix, one page','$149'],['Updates across pages','$299'],['A brand new website','$949'],['You own it all','Included']])}</div>` },
 
 { id:'12-ask-why-started', cls:'plum', footRight:'We read every reply', inner:()=>`
   <div class="mid"><div class="eyebrow light">TELL US SOMETHING GOOD</div>
