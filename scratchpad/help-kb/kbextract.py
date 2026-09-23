@@ -10,6 +10,9 @@ def extract(page):
     b = m.group(1) if m else ''
     b = re.sub(r'<(script|style)[\s\S]*?</\1>', '', b)
     b = re.sub(r'<img[^>]*>', '', b)
+    # An icon standing in for words ("select [person icon] in the top right corner") has to read as
+    # words for the assistant, so a labelled icon becomes its label.
+    b = re.sub(r'<span[^>]*aria-label="([^"]*)"[^>]*>[\s\S]*?</span>', lambda mo: mo.group(1), b)
     def link(mo):
         href, text = mo.group(1).strip(), re.sub(r'<[^>]+>', '', mo.group(2)).strip()
         if not text: return ''
