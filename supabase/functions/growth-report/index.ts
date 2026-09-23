@@ -782,6 +782,31 @@ async function refreshClient(
     // The legacy Places fallback returns no recent-reviews array; keep the last known set so Review
     // Radar doesn't disappear on a transient miss from the primary (New) Places call.
     if ((!rv.recent || !rv.recent.length) && old.reviews && old.reviews.recent) rv.recent = old.reviews.recent;
+
+    // Review velocity: the running total, one entry per calendar month, carried forward from the
+    // previous snapshot. A single count says nothing on its own; the shape of the last twelve months
+    // is what tells a client whether reviews are still arriving or the listing has gone quiet.
+    // Same rollup shape as search.monthly, so the portal can read both the same way.
+    const rmonth = new Date().toISOString().slice(0, 7);          // YYYY-MM
+    const prevHist: any[] = (old.reviews && Array.isArray(old.reviews.monthly)) ? old.reviews.monthly : [];
+    const hist = prevHist.filter((h: any) => h && h.month && h.month !== rmonth);
+    hist.push({ month: rmonth, count: rv.count });
+    hist.sort((a: any, b: any) => String(a.month).localeCompare(String(b.month)));
+    rv.monthly = hist.slice(-24);   // keep two years, so a long-lived client never grows the row without bound
+
+    // Reviews gained over the last 90 days: the number a client can actually act on.
+    const rcut = new Date(Date.now() - 90 * 86400000).toISOString().slice(0, 7);
+    const win = rv.monthly.filter((h: any) => h.month >= rcut);
+    rv.gained90 = (win.length > 1) ? Math.max(0, (win[win.length - 1].count || 0) - (win[0].count || 0)) : 0;
+
+    // Whole months at a standstill, so the portal can say "nothing new since May" rather than drawing
+    // a flat line and leaving them to work out what it means.
+    let quiet = 0;
+    for (let i = rv.monthly.length - 1; i > 0; i--) {
+      if ((rv.monthly[i].count || 0) > (rv.monthly[i - 1].count || 0)) break;
+      quiet++;
+    }
+    rv.quietMonths = quiet;
   }
   // Keyword movement: compare each tracked query's position to the previous snapshot
   // (positive change = moved up, since a lower position number is better).
