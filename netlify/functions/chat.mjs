@@ -38,7 +38,7 @@ const SYSTEM_PROMPT = `You are the WebEaze website assistant. Be warm, direct, a
 == PLANS & PRICING ==
 Essential Plan: $199/month, up to 3 pages, one-time $99 setup fee.
 Growth Plan: $299/month, up to 6 pages, one-time $99 setup fee.
-Annual billing: Essential $1,990/yr ($141/mo) · Growth $2,990/yr ($208/mo). Setup fee waived on annual plans.
+Annual billing: Essential $1,990/yr ($166/mo) · Growth $2,990/yr ($249/mo). Setup fee waived on annual plans.
 No long-term contracts. Cancel anytime, no penalties.
 Multiple websites: each site requires its own separate plan.
 
