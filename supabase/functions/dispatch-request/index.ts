@@ -11,6 +11,7 @@
 //          add HTTP header x-dispatch-secret with your CRON_SECRET value.
 
 import { createClient } from 'jsr:@supabase/supabase-js@2';
+import { emailCopy } from '../_shared/email-template.ts';
 
 const DISPATCH_SECRET = Deno.env.get('CRON_SECRET') ?? '';
 const ANTHROPIC_API_KEY = Deno.env.get('ANTHROPIC_API_KEY') ?? '';
@@ -71,7 +72,7 @@ function reqRef(id: unknown) {
   return hex.length === 8 ? ' [#' + hex + ']' : '';
 }
 // r: { id, type, notes, resolution }   c: the clients row (email, second_email, name)
-async function sendDoneEmail(r: any, c: any) {
+async function sendDoneEmail(service: any, r: any, c: any) {
   // The partner address matters here: on a managed account the person who submitted is often not the
   // account holder. Duplicates are dropped so nobody reads the same message twice.
   const to = [c?.email, c?.second_email].map((a: unknown) => String(a ?? '').trim()).filter(Boolean)
@@ -82,29 +83,47 @@ async function sendDoneEmail(r: any, c: any) {
   const what = String(r?.resolution ?? '').trim();
   const link = 'https://portal.webeaze.io/#history/' + encodeURIComponent(String(r?.id ?? ''));
   const preheader = (what || 'Your request is complete.').replace(/\s+/g, ' ').slice(0, 140);
+  // Wording comes from admin when it has been edited there; these are the defaults and the last
+  // resort if the registry cannot be read. See supabase/functions/_shared/email-template.ts.
+  const copy = await emailCopy(service, 'request-complete', {
+    subject: 'Complete: {{request_type}}{{ref}}',
+    slots: {
+      greeting: 'Hey {{first_name}},',
+      lead: 'Your request is complete.',
+      asked_label: 'What you asked for',
+      changed_label: 'What we changed',
+      button: 'See it in your portal',
+      signoff: 'Best,\nWebEaze Web Design',
+    },
+  });
+  const vars = { first_name: first, request_type: doneSubject(r?.type), ref: reqRef(r?.id), business: c?.business_name || '' };
+  // "Hey {{first_name}}," with no name on file would read "Hey ,".
+  const greeting = copy.text('greeting', vars).replace(/\s+([,.!?])/g, '$1');
+  const signoff = (copy.text('signoff', vars) || 'Best,\nWebEaze Web Design').split('\n')
+    .map((line, i) => '<p style="' + (i === 0 ? 'margin:28px 0 4px;' : 'margin:0;') + '">' + line.trim() + '</p>').join('');
   const html =
     // Given nothing to show, a mail app scrapes the first words of the body for the line next to the
     // subject, which is the greeting. This hands it the sentence that actually says what happened.
     '<div style="display:none;max-height:0;overflow:hidden;opacity:0;">' + escHtml(preheader) + '</div>' +
     '<div style="display:none;max-height:0;overflow:hidden;opacity:0;">' + PREVIEW_PAD + '</div>' +
     '<div style="max-width:560px;margin:0 auto;padding:32px 24px;font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:1.7;color:#1f2333;">' +
-    '<p style="margin:0 0 12px;">Hey' + (first ? ' ' + escHtml(first) : '') + ',</p>' +
-    '<p style="margin:0 0 16px;">Your request is complete.</p>' +
+    '<p style="margin:0 0 12px;">' + greeting + '</p>' +
+    copy.paras('lead', vars) +
     (asked
-      ? '<p style="margin:0 0 8px;"><b>What you asked for</b></p>'
+      ? '<p style="margin:0 0 8px;"><b>' + copy.text('asked_label', vars) + '</b></p>'
         + '<div style="background:#f7f7fa;border:1px solid #e4e7f1;border-left:3px solid #cfd3e2;border-radius:8px;padding:14px 16px;margin:0 0 18px;">'
         + emailParas(asked, 'margin:0 0 10px;') + '</div>'
       : '') +
-    (what ? '<p style="margin:0 0 8px;"><b>What we changed</b></p>' + emailParas(what) : '') +
+    (what ? '<p style="margin:0 0 8px;"><b>' + copy.text('changed_label', vars) + '</b></p>' + emailParas(what) : '') +
     // emailParas zeroes the last paragraph's bottom margin, so the button needs its own top margin
     // or it sits flush against the final line.
-    '<div style="margin:20px 0 0;"><a href="' + link + '" style="display:inline-block;background:#7851a9;color:#ffffff;text-decoration:none;font-weight:600;font-size:15px;padding:12px 24px;border-radius:10px;">See it in your portal</a></div>' +
-    '<p style="margin:28px 0 4px;">Best,</p><p style="margin:0;">WebEaze Web Design</p>' +
+    '<div style="margin:20px 0 0;"><a href="' + link + '" style="display:inline-block;background:#7851a9;color:#ffffff;text-decoration:none;font-weight:600;font-size:15px;padding:12px 24px;border-radius:10px;">' + copy.text('button', vars) + '</a></div>' +
+    signoff +
     '</div>';
   try {
     const res = await fetch(MAILER_URL, {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ from: 'WebEaze <support@webeaze.io>', to, subject: 'Complete: ' + doneSubject(r?.type) + reqRef(r?.id), html }),
+      body: JSON.stringify({ from: 'WebEaze <support@webeaze.io>', to, subject: copy.subject(vars), html }),
     });
     if (!res.ok) { console.error('[done email] mailer ' + res.status + ': ' + (await res.text()).slice(0, 160)); return false; }
     return true;
@@ -149,29 +168,43 @@ async function triageMissingInfo(type: string, description: string, siteUrl: str
   } catch (e) { console.error('[triage] failed:', e); return null; }
 }
 
-async function sendNeedsInfoEmail(r: any, c: any, question: string) {
+async function sendNeedsInfoEmail(service: any, r: any, c: any, question: string) {
   const to = [c?.email, c?.second_email].map((a: unknown) => String(a ?? '').trim()).filter(Boolean)
     .filter((a: string, i: number, all: string[]) => all.findIndex((b) => b.toLowerCase() === a.toLowerCase()) === i);
   if (!to.length) return false;
   const first = String(c?.name ?? '').trim().split(/\s+/)[0] || '';
   const link = 'https://portal.webeaze.io/#history/' + encodeURIComponent(String(r?.id ?? ''));
   const preheader = question.replace(/\s+/g, ' ').slice(0, 140);
+  const copy = await emailCopy(service, 'request-question', {
+    subject: 'Quick question about your request{{ref}}',
+    slots: {
+      greeting: 'Hey {{first_name}},',
+      lead: 'Got your request. One thing before we start:',
+      closer: "Reply to this email or answer in your portal, whichever is easier, and we'll get on it.",
+      button: 'Answer in your portal',
+      signoff: 'Best,\nWebEaze Web Design',
+    },
+  });
+  const vars = { first_name: first, ref: reqRef(r?.id), business: c?.business_name || '' };
+  const greeting = copy.text('greeting', vars).replace(/\s+([,.!?])/g, '$1');
+  const signoff = (copy.text('signoff', vars) || 'Best,\nWebEaze Web Design').split('\n')
+    .map((line, i) => '<p style="' + (i === 0 ? 'margin:28px 0 4px;' : 'margin:0;') + '">' + line.trim() + '</p>').join('');
   const html =
     '<div style="display:none;max-height:0;overflow:hidden;opacity:0;">' + escHtml(preheader) + '</div>' +
     '<div style="display:none;max-height:0;overflow:hidden;opacity:0;">' + PREVIEW_PAD + '</div>' +
     '<div style="max-width:560px;margin:0 auto;padding:32px 24px;font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:1.7;color:#1f2333;">' +
-    '<p style="margin:0 0 12px;">Hey' + (first ? ' ' + escHtml(first) : '') + ',</p>' +
-    '<p style="margin:0 0 16px;">Got your request. One thing before we start:</p>' +
+    '<p style="margin:0 0 12px;">' + greeting + '</p>' +
+    copy.paras('lead', vars) +
     '<div style="background:#f7f7fa;border:1px solid #e4e7f1;border-left:3px solid #7851a9;border-radius:8px;padding:14px 16px;margin:0 0 18px;">' +
     emailParas(question, 'margin:0 0 10px;') + '</div>' +
-    '<p style="margin:0 0 16px;">Reply to this email or answer in your portal, whichever is easier, and we\'ll get straight on it.</p>' +
-    '<div style="margin:20px 0 0;"><a href="' + link + '" style="display:inline-block;background:#7851a9;color:#ffffff;text-decoration:none;font-weight:600;font-size:15px;padding:12px 24px;border-radius:10px;">Answer in your portal</a></div>' +
-    '<p style="margin:28px 0 4px;">Best,</p><p style="margin:0;">WebEaze Web Design</p>' +
+    copy.paras('closer', vars) +
+    '<div style="margin:20px 0 0;"><a href="' + link + '" style="display:inline-block;background:#7851a9;color:#ffffff;text-decoration:none;font-weight:600;font-size:15px;padding:12px 24px;border-radius:10px;">' + copy.text('button', vars) + '</a></div>' +
+    signoff +
     '</div>';
   try {
     const res = await fetch(MAILER_URL, {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ from: 'WebEaze <support@webeaze.io>', to, subject: 'Quick question about your request' + reqRef(r?.id), html }),
+      body: JSON.stringify({ from: 'WebEaze <support@webeaze.io>', to, subject: copy.subject(vars), html }),
     });
     return res.ok;
   } catch (e) { console.error('[triage email] failed:', e); return false; }
@@ -214,7 +247,7 @@ async function dispatchOne(service: any, record: any, opts: { skipSchedule?: boo
           status: 'Needs info', needs_info_message: question, needs_info_at: new Date().toISOString(),
           client_reply: null, needs_info_reminded_at: null,
         }).eq('id', requestId);
-        await sendNeedsInfoEmail({ id: requestId, type }, tc, question);
+        await sendNeedsInfoEmail(service, { id: requestId, type }, tc, question);
         return { ok: true, handled: 'asked', question };
       }
     }
@@ -268,7 +301,7 @@ async function dispatchOne(service: any, record: any, opts: { skipSchedule?: boo
     if (upErr) console.warn('[dispatch] could not mark done:', upErr.message);
     // Tell them. Nobody has a browser open on this path, so admin.html's email never runs, and the
     // change is already live on their site.
-    else await sendDoneEmail({ id: requestId, type, notes: description, resolution }, c);
+    else await sendDoneEmail(service, { id: requestId, type, notes: description, resolution }, c);
   }
   // Lightweight signal the auto-rollback watchdog looks for (a live auto-change just landed).
   if (bot && bot.merged) {

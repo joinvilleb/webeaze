@@ -1,0 +1,64 @@
+[
+  {
+    "key": "request-complete",
+    "name": "Request complete",
+    "audience": "client",
+    "when": "A request is marked Done in admin.",
+    "sentBy": "dispatch-request",
+    "editable": true,
+    "subject": "Complete: {{request_type}}{{ref}}",
+    "slots": {
+      "greeting": "Hey {{first_name}},",
+      "lead": "Your request is complete.",
+      "asked_label": "What you asked for",
+      "changed_label": "What we changed",
+      "button": "See it in your portal",
+      "signoff": "Best,\nWebEaze Web Design"
+    },
+    "vars": {
+      "first_name": "Their first name, blank if we do not have it",
+      "request_type": "The kind of request, e.g. Text and photos",
+      "ref": "The request reference, e.g. (#4821)",
+      "business": "Their business name"
+    },
+    "notes": "What they asked for and what we changed are their words and ours, printed as they were written. The two labels above them are editable; the text is not."
+  },
+  {
+    "key": "request-question",
+    "name": "Quick question about a request",
+    "audience": "client",
+    "when": "A request cannot be started as written, so the bot asks before anyone opens it.",
+    "sentBy": "dispatch-request",
+    "editable": true,
+    "subject": "Quick question about your request{{ref}}",
+    "slots": {
+      "greeting": "Hey {{first_name}},",
+      "lead": "Got your request. One thing before we start:",
+      "closer": "Reply to this email or answer in your portal, whichever is easier, and we'll get on it.",
+      "button": "Answer in your portal",
+      "signoff": "Best,\nWebEaze Web Design"
+    },
+    "vars": {
+      "first_name": "Their first name, blank if we do not have it",
+      "ref": "The request reference, e.g. (#4821)",
+      "business": "Their business name"
+    },
+    "notes": "The question itself is written per request and sits in the panel between the lead line and the closer."
+  },
+
+  { "key": "portal-invite",   "name": "Portal access invite",        "audience": "client", "when": "You invite someone, or a first payment creates the account.", "sentBy": "invite-member",    "editable": false },
+  { "key": "sign-in-link",    "name": "Sign-in link",                "audience": "client", "when": "Someone asks to sign in by email instead of a password.",      "sentBy": "login-link",       "editable": false },
+  { "key": "growth-report",   "name": "Monthly growth report",       "audience": "client", "when": "The first of the month, per client.",                          "sentBy": "growth-report",    "editable": false },
+  { "key": "new-inquiry",     "name": "New inquiry from your site",  "audience": "client", "when": "Someone fills in a form on their website.",                     "sentBy": "form-lead",        "editable": false },
+  { "key": "lead-digest",     "name": "Daily lead summary",          "audience": "client", "when": "Once a day, if anyone got in touch.",                          "sentBy": "lead-digest",      "editable": false },
+  { "key": "lifecycle-check", "name": "How is your website working", "audience": "client", "when": "A while after launch, once.",                                  "sentBy": "lifecycle-emails", "editable": false },
+  { "key": "lifecycle-setup", "name": "Your portal is waiting",      "audience": "client", "when": "Setup has not been submitted yet.",                            "sentBy": "lifecycle-emails", "editable": false },
+  { "key": "lifecycle-chase", "name": "Waiting on you",              "audience": "client", "when": "A request has been waiting on their reply for three days.",    "sentBy": "lifecycle-emails", "editable": false },
+  { "key": "email-change",    "name": "Confirm your new address",    "audience": "client", "when": "They change the email on their account.",                      "sentBy": "change-email",     "editable": false },
+  { "key": "reward",          "name": "Reward unlocked",             "audience": "client", "when": "A referral or milestone earns them something.",                "sentBy": "reward-scan",      "editable": false },
+  { "key": "inbound-note",    "name": "Reply posted to your portal", "audience": "client", "when": "They reply to one of our emails and it lands in Messages.",     "sentBy": "inbound-note",     "editable": false },
+
+  { "key": "site-watch",      "name": "Site watch alert",            "audience": "you",    "when": "A client site goes down or breaks a check.",                    "sentBy": "site-watch",       "editable": false },
+  { "key": "churn-digest",    "name": "Churn digest",                "audience": "you",    "when": "Weekly, for accounts going quiet.",                            "sentBy": "churn-digest",     "editable": false },
+  { "key": "invoice-drafted", "name": "Add-on invoice drafted",      "audience": "you",    "when": "A client orders a flat-rate add-on.",                          "sentBy": "create-invoice",   "editable": false }
+]
