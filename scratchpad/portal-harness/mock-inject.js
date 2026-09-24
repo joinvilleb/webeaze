@@ -20,7 +20,7 @@
       { id: 'q9', user_id: UID, type: 'SEO or metadata', status: 'Done', notes: 'Please add this review to my website as a testimonial: "Christi did an amazing job."', resolution: 'Added the review to your home page testimonials.', created_at: '2026-09-02T12:00:00Z', updated_at: '2026-09-08T15:00:00Z', completed_at: '2026-09-08T15:00:00Z' },
       { id: 'q1', user_id: UID, type: 'Content update', status: 'Needs info', notes: 'Hey billy, my cousin said he sent you some stuff for my flyers. I need to get new flyers asap.', needs_info_message: long, needs_info_at: '2026-09-10T14:00:00Z', created_at: '2026-09-03T12:00:00Z', updated_at: '2026-09-12T15:00:00Z' },
       { id: 'q2', user_id: UID, type: 'New page', status: 'In progress', notes: 'gallery page -remove the old images -take one picture of each service', created_at: '2026-08-28T12:00:00Z', updated_at: '2026-08-29T12:00:00Z' },
-      { id: 'q7', user_id: UID, type: 'Other', status: 'In progress', addon: 'Logo Design', addon_stage: 1,
+      { id: 'q7', user_id: UID, type: 'Other', status: 'In progress', addon: 'Logo Design', addon_stage: 2,
         addon_stages: ['Brief', 'Concepts', 'Your review', 'Final files'], scheduled_for: '2026-10-02',
         notes: 'Add-on purchase: Logo Design ($359 paid). Approved and paid in the portal. [invoice in_1Qtest]\n\nYour business name, exactly as it should appear\nAlvarez Landscaping LLC\n\nAny colours or styles you love, or cannot stand?\nGreens and browns. Nothing script, it never reads on a truck door.',
         created_at: '2026-09-19T12:00:00Z', updated_at: '2026-09-22T12:00:00Z' },

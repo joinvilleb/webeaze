@@ -96,3 +96,13 @@ grant select, insert on public.addon_orders to authenticated;
 create or replace view public.addon_lead_times as
   select addon, lead_days, stages from public.addon_prices;
 grant select on public.addon_lead_times to authenticated;
+
+-- ── Telling them when it is their turn ───────────────────────────────────────
+-- One stage on most add-ons puts the ball in the client's court ("Your review"), and a job sitting
+-- there unseen is the one place this whole flow stalls. Moving to it emails them.
+--
+-- This holds the stage we last emailed about, rather than a plain "emailed" flag, so that moving
+-- back to review for a second round does send a second email, while clicking the same stage twice
+-- sends nothing.
+alter table public.update_requests
+  add column if not exists addon_notified_stage smallint;
