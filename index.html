@@ -10,7 +10,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <style>body{margin:0}h1,h2,h3,h4,h5,h6{margin-top:0;margin-bottom:.5rem}p{margin-top:0;margin-bottom:1rem}ol,ul,dl{margin-top:0;margin-bottom:1rem}ol ol,ul ul,ol ul,ul ol{margin-bottom:0}hr{margin-top:1rem;margin-bottom:1rem;border:0;border-top:1px solid rgba(0,0,0,.1);box-sizing:content-box;height:0;overflow:visible}img,svg{vertical-align:middle}img{border-style:none}[hidden]{display:none!important}button,input,optgroup,select,textarea{margin:0;font-family:inherit;font-size:inherit;line-height:inherit}button{overflow:visible;text-transform:none;-webkit-appearance:button}[type=button],[type=reset],[type=submit]{-webkit-appearance:button}button:not(:disabled){cursor:pointer}button::-moz-focus-inner,[type=button]::-moz-focus-inner,[type=reset]::-moz-focus-inner,[type=submit]::-moz-focus-inner{padding:0;border-style:none}</style>
-<link rel="preload" as="image" href="images/hero-desk.webp" fetchpriority="high">
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"></noscript>
 <link rel="stylesheet" href="css/nav.css">
@@ -687,56 +686,35 @@ body {
 .hero {
   position: relative;
   background: var(--off-white);
-  padding: 6rem 0 5rem;
+  padding: 4.25rem 0 4.5rem;
   overflow: hidden;
 }
-/* Photo layer: pre-blurred WebP, drifts in on load */
-.hero::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: url('images/hero-desk.webp') center 46% / cover no-repeat;
-  animation: heroBgIn 1100ms cubic-bezier(.22,.61,.36,1) backwards;
-}
-/* Scrim layer: keeps the copy readable and ties the photo to the brand */
+/* One soft wash of brand at the top edge, and nothing else behind the copy. The ghost CTA needs no
+   backdrop-filter now that there is no photograph for it to survive. */
 .hero::after {
   content: "";
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background:
-    linear-gradient(rgba(247,246,241,.86), rgba(247,246,241,.93)),
-    radial-gradient(1000px 520px at 50% -10%, rgba(120,81,169,.16), rgba(120,81,169,0) 70%);
+  background: radial-gradient(1000px 520px at 50% -20%, rgba(120,81,169,.09), rgba(120,81,169,0) 70%);
 }
-/* The secondary CTA is a ghost button, so it needs a fill to survive the photo */
-.hero .btn-secondary-brand {
-  background: rgba(255,255,255,.72);
-  border-color: rgba(10,10,10,.12);
-  -webkit-backdrop-filter: blur(6px);
-  backdrop-filter: blur(6px);
-  transition: background .2s, border-color .2s, color .2s;
-}
-.hero .btn-secondary-brand:hover { background: rgba(255,255,255,.92); border-color: var(--brand); }
 
 /* Only a from-state, so the resting style stays fully visible.
    With fill-mode backwards nothing can get stranded at opacity 0 if the
-   animation never runs, e.g. .hero-trust is display:none on small screens. */
-@keyframes heroBgIn { from { opacity: 0; transform: scale(1.05); } }
+   animation never runs. */
 @keyframes heroRise { from { opacity: 0; transform: translateY(14px); } }
 .hero-headline,
 .hero-sub,
 .hero-ctas,
-.hero-trust {
+.hero-work {
   animation: heroRise 620ms cubic-bezier(.22,.61,.36,1) backwards;
 }
-.hero-sub   { animation-delay: 90ms; }
-.hero-ctas  { animation-delay: 180ms; }
-.hero-trust { animation-delay: 270ms; }
+.hero-sub  { animation-delay: 90ms; }
+.hero-ctas { animation-delay: 180ms; }
+.hero-work { animation-delay: 270ms; }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero::before,
-  .hero-headline, .hero-sub, .hero-ctas, .hero-trust { animation: none; }
+  .hero-headline, .hero-sub, .hero-ctas, .hero-work { animation: none; }
 }
 .hero-inner {
   position: relative;
@@ -760,12 +738,8 @@ body {
   letter-spacing: -.03em;
   color: var(--black);
   margin: 0 auto 1.25rem;
-  max-width: 18ch;
+  max-width: 22ch;
   text-wrap: balance;
-}
-.hero-headline em {
-  font-style: normal;
-  color: var(--brand);
 }
 .hero-sub {
   font-size: 1.12rem;
@@ -774,10 +748,61 @@ body {
   margin: 0 auto 2rem;
   line-height: 1.7;
 }
+.hero-sub a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: rgba(120,81,169,.45);
+  text-underline-offset: 3px;
+  transition: text-decoration-color .2s, color .2s;
+}
+.hero-sub a:hover { color: var(--brand); text-decoration-color: var(--brand); }
 .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; margin-bottom: 0; }
-.hero-trust { list-style: none; padding: 0; margin: 1.9rem 0 0; display: flex; flex-wrap: wrap; justify-content: center; gap: .5rem 1.5rem; font-size: .9rem; font-weight: 500; color: var(--muted); }
-.hero-trust li { display: inline-flex; align-items: center; gap: .4rem; }
-.hero-trust li > .svgi { color: var(--brand); font-size: .95rem; }
+/* On a phone the forced break plus a 2.1rem floor put the headline on four lines and pushed
+   everything else off the screen. The break is a desktop nicety, so it goes, and the two buttons
+   match widths instead of a wide one above a narrow one. */
+/* The work itself, in place of a photograph of nobody's desk. Full width, so the section is not one
+   more 760px centred column, and the cards are real links to the samples page. */
+.hero-work {
+  position: relative;
+  z-index: 1;
+  max-width: 1120px;
+  margin: 3.5rem auto 0;
+  padding: 0 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.15rem;
+}
+.hero-work .site-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+.hero-work .site-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(120,81,169,.45);
+  box-shadow: 0 14px 38px rgba(0,0,0,.10);
+}
+.hero-work .site-card:focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; }
+/* No traffic-light dots. The three coloured circles are the part of this device that reads as a
+   decoration of a browser rather than a real one, and the address is what carries the point. */
+@media (max-width: 760px) {
+  /* Three stacked screenshots push the CTAs off a phone screen entirely, so they run sideways with
+     a snap instead. The first card sits flush left so it never looks accidentally scrolled. */
+  .hero-work {
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: 76%;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: .25rem;
+    margin-top: 2.5rem;
+  }
+  .hero-work::-webkit-scrollbar { display: none; }
+  .hero-work .site-card { scroll-snap-align: center; }
+}
 /* Hero visual */
 .hero-visual {
   position: relative;
@@ -1877,9 +1902,13 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
 /* Hero mobile */
 @media (max-width: 600px) {
   .hero { padding: 3rem 0 2.5rem; }
-  .hero-headline { font-size: 2.3rem !important; line-height: 1.05; }
+  /* The forced break is a desktop nicety. Kept on a phone it put the headline on four lines and
+     pushed the buttons off the screen. */
+  .hero-headline { font-size: 1.95rem !important; line-height: 1.08; max-width: none; }
+  .hero-headline br { display: none; }
   .hero-sub { font-size: 1rem; margin-bottom: 1.5rem; }
-  .hero-ctas { flex-direction: column; gap: .75rem; align-items: center; }
+  .hero-ctas { flex-direction: column; gap: .75rem; align-items: stretch; }
+  .hero-ctas a { justify-content: center; }
   .btn-primary-brand,
   .btn-secondary-brand { padding: 1rem 1.5rem; }
   .hero-eyebrow { font-size: .75rem; }
@@ -2173,18 +2202,32 @@ src="https://www.facebook.com/tr?id=906444072428558&ev=PageView&noscript=1"
   <section class="hero">
     <div class="hero-inner">
       <div class="hero-copy">
-        <h1 class="hero-headline">Web design for your business, <em>handled for you.</em></h1>
-        <p class="hero-sub">We design, host, and manage your website, so you <a href="seo.html" style="color:inherit;text-decoration:underline;text-underline-offset:2px;">get found on Google</a> and win more customers. </p>
+        <h1 class="hero-headline">We build your website. <br>Then we keep it running.</h1>
+        <p class="hero-sub">Design, hosting and every update after, for one monthly price. Including the work that keeps you <a href="seo.html">found on Google</a>.</p>
         <div class="hero-ctas">
-          <a href="consultation.html" class="btn-primary-brand" data-webeaze-lead="contact"><svg class="svgi" aria-hidden="true"><use href="#i-arrow-right"/></svg> Get Your Free Preview</a>
-          <a href="samples.html" class="btn-secondary-brand">See Our Work</a>
+          <a href="consultation.html" class="btn-primary-brand" data-webeaze-lead="contact"><svg class="svgi" aria-hidden="true"><use href="#i-arrow-right"/></svg> Get a free preview</a>
+          <a href="samples.html" class="btn-secondary-brand">See our work</a>
         </div>
-        <ul class="hero-trust">
-          <li><svg class="svgi" aria-hidden="true"><use href="#i-check-circle"/></svg> Based in the USA</li>
-          <li><svg class="svgi" aria-hidden="true"><use href="#i-check-circle"/></svg> Live in 5-14 days</li>
-          <li><svg class="svgi" aria-hidden="true"><use href="#i-check-circle"/></svg> No commitment</li>
-        </ul>
       </div>
+    </div>
+    <!-- Real sites we run, not a stock photo of somebody's desk. Every name, domain and trade here
+         is already public on samples.html, so nothing is claimed that we cannot show. -->
+    <div class="hero-work">
+      <a class="site-card" href="samples.html">
+        <div class="site-card-bar"><span class="site-card-url">bearcarpetcare.com</span></div>
+        <img src="images/bear-carpet-care-home.webp" alt="The Bear Carpet Care website we built" width="1440" height="864" loading="lazy" decoding="async">
+        <div class="site-card-caption">Bear Carpet Care <span>Carpet cleaning</span></div>
+      </a>
+      <a class="site-card" href="samples.html">
+        <div class="site-card-bar"><span class="site-card-url">ibisprep.com</span></div>
+        <img src="images/ibis-prep-home.webp" alt="The Ibis Prep website we built" width="1200" height="607" loading="lazy" decoding="async">
+        <div class="site-card-caption">Ibis Prep <span>Tutoring</span></div>
+      </a>
+      <a class="site-card" href="samples.html">
+        <div class="site-card-bar"><span class="site-card-url">galaxygymnast.com</span></div>
+        <img src="images/galaxy-gymnast-home.webp" alt="The Galaxy Gymnastics website we built" width="1200" height="648" loading="lazy" decoding="async">
+        <div class="site-card-caption">Galaxy Gymnastics <span>Gymnastics</span></div>
+      </a>
     </div>
   </section>
 
@@ -3113,16 +3156,6 @@ function whyTabScroll(dir) {
   const returning = lsGet('wz_index_visited');
   lsSet('wz_index_visited', true);
 
-  if (returning) {
-    const $sub = document.getElementById('indexHeroSub');
-    if ($sub) {
-      if (count >= 5) {
-        $sub.textContent = "Welcome back. We're ready when you are. Just $199/month for a site that converts. ";
-      } else {
-        $sub.textContent = 'Welcome back. Your business is still waiting for its website. Make it happen today.';
-      }
-    }
-  }
 })();
 </script>
 
