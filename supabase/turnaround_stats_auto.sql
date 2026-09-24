@@ -6,6 +6,9 @@
 -- were as old as his last visit to that tab. A quiet week in the admin and the portal was quoting
 -- last week's pace against this week's queue, which is the opposite of "based on current levels".
 --
+-- RUN supabase/addon_delivery.sql FIRST: this reads update_requests.addon to keep add-ons out of the
+-- medians, and will not create the function without that column.
+--
 -- THE FIX: compute them in the database, and recompute whenever the queue actually changes. A
 -- request arriving, being completed, or changing status is exactly when these numbers move, so the
 -- trigger fires precisely when the answer is different and never otherwise.
@@ -43,6 +46,7 @@ begin
      where completed_at is not null
        and created_at is not null
        and type is not null          -- jsonb_object_agg raises on a null key, and this runs in a trigger
+       and addon is null             -- an add-on runs for weeks by design; see addon_delivery.sql
        and created_at > now() - interval '60 days'
   ), done as (
     select type, hrs from raw where hrs > 0 and hrs <= 720
@@ -64,12 +68,14 @@ begin
     from public.update_requests
    where status is distinct from 'Done'
      and status is distinct from 'Needs info'
-     and scheduled_for is null;
+     and scheduled_for is null
+     and addon is null;
 
   -- How much we actually finish per day, over the last 30.
   select round((count(*)::numeric / 30.0), 1) into per_day
     from public.update_requests
    where completed_at is not null
+     and addon is null
      and completed_at > now() - interval '30 days';
 
   update public.portal_settings

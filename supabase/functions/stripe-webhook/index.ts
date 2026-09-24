@@ -109,8 +109,11 @@ Deno.serve(async (req) => {
 
     // ── An add-on the client approved and paid in the portal ──
     // create-invoice stamps metadata.source, so this is the only invoice shape we act on besides the
-    // first subscription payment. Filing it as a normal request is what puts it in the work queue and
-    // on their history, rather than living only in Stripe.
+    // first subscription payment. It still becomes a row in update_requests, which is what puts it in
+    // the queue and on their history, but it is marked as an add-on: it carries its own named stages
+    // and its own delivery date, and both the on-time figure and the turnaround medians skip it. As a
+    // plain 'Other' request it was promised in 48 hours, counted late when it wasn't, and dragged the
+    // estimate on every ordinary request with it.
     const meta = inv.metadata || {};
     if (String(meta.source || '') === 'portal-addon') {
       const svc = createClient(Deno.env.get('SUPABASE_URL')!, Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!);
@@ -122,13 +125,46 @@ Deno.serve(async (req) => {
       const tag = '[invoice ' + String(inv.id) + ']';
       const { data: dupe } = await svc.from('update_requests').select('id').eq('user_id', uid).ilike('notes', '%' + tag + '%').limit(1);
       if (dupe && dupe.length) return json({ ok: true, ignored: 'addon already filed' });
-      const { error: reqErr } = await svc.from('update_requests').insert({
+      // The brief they filled in before paying, and how long we said the job takes.
+      const orderId = String(meta.order_id || '');
+      let brief = '';
+      if (orderId) {
+        const { data: ord } = await svc.from('addon_orders').select('answers').eq('id', orderId).maybeSingle();
+        const ans = (ord && Array.isArray(ord.answers)) ? ord.answers : [];
+        if (ans.length) brief = '\n\n' + ans.map((x: any) => String(x.q || '') + '\n' + String(x.a || '')).join('\n\n');
+      }
+      const { data: ap } = await svc.from('addon_prices').select('lead_days, stages').eq('addon', addon).maybeSingle();
+      const lead = Math.max(0, Number((ap && ap.lead_days) || 0));
+      // Working days, so a five-day job paid for on a Thursday is not promised for Tuesday.
+      let due: string | null = null;
+      if (lead > 0) {
+        const d = new Date(); let left = lead;
+        while (left > 0) { d.setDate(d.getDate() + 1); const w = d.getDay(); if (w !== 0 && w !== 6) left--; }
+        due = d.toISOString().slice(0, 10);
+      }
+      const stages = (ap && Array.isArray(ap.stages) && ap.stages.length) ? ap.stages : null;
+
+      const row: Record<string, unknown> = {
         user_id: uid,
         type: 'Other',
-        notes: 'Add-on purchase: ' + addon + ' ($' + paid + ' paid). Approved and paid in the portal. ' + tag,
+        notes: 'Add-on purchase: ' + addon + ' ($' + paid + ' paid). Approved and paid in the portal. ' + tag + brief,
         priority: 'Normal',
         status: 'Received',
-      });
+        addon: addon,
+        addon_stage: 0,
+        addon_stages: stages,
+      };
+      if (due) row.scheduled_for = due;
+      let { error: reqErr } = await svc.from('update_requests').insert(row);
+      // Before supabase/addon_delivery.sql has been run those columns do not exist. File it the old
+      // way rather than lose a paid job to a migration that has not happened yet.
+      if (reqErr && /column .* does not exist/i.test(reqErr.message || '')) {
+        console.warn('[stripe-webhook] add-on columns missing, filing plain:', reqErr.message);
+        ({ error: reqErr } = await svc.from('update_requests').insert({
+          user_id: uid, type: 'Other', priority: 'Normal', status: 'Received',
+          notes: 'Add-on purchase: ' + addon + ' ($' + paid + ' paid). Approved and paid in the portal. ' + tag + brief,
+        }));
+      }
       if (reqErr) console.error('[stripe-webhook] add-on request insert failed:', reqErr.message);
       await emailAdmin('Paid: ' + addon + ' ($' + paid + ')',
         [String(meta.client_name || 'A client') + ' paid for ' + addon + '.',

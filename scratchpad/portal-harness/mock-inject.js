@@ -20,6 +20,10 @@
       { id: 'q9', user_id: UID, type: 'SEO or metadata', status: 'Done', notes: 'Please add this review to my website as a testimonial: "Christi did an amazing job."', resolution: 'Added the review to your home page testimonials.', created_at: '2026-09-02T12:00:00Z', updated_at: '2026-09-08T15:00:00Z', completed_at: '2026-09-08T15:00:00Z' },
       { id: 'q1', user_id: UID, type: 'Content update', status: 'Needs info', notes: 'Hey billy, my cousin said he sent you some stuff for my flyers. I need to get new flyers asap.', needs_info_message: long, needs_info_at: '2026-09-10T14:00:00Z', created_at: '2026-09-03T12:00:00Z', updated_at: '2026-09-12T15:00:00Z' },
       { id: 'q2', user_id: UID, type: 'New page', status: 'In progress', notes: 'gallery page -remove the old images -take one picture of each service', created_at: '2026-08-28T12:00:00Z', updated_at: '2026-08-29T12:00:00Z' },
+      { id: 'q7', user_id: UID, type: 'Other', status: 'In progress', addon: 'Logo Design', addon_stage: 1,
+        addon_stages: ['Brief', 'Concepts', 'Your review', 'Final files'], scheduled_for: '2026-10-02',
+        notes: 'Add-on purchase: Logo Design ($359 paid). Approved and paid in the portal. [invoice in_1Qtest]\n\nYour business name, exactly as it should appear\nAlvarez Landscaping LLC\n\nAny colours or styles you love, or cannot stand?\nGreens and browns. Nothing script, it never reads on a truck door.',
+        created_at: '2026-09-19T12:00:00Z', updated_at: '2026-09-22T12:00:00Z' },
     ],
     request_messages: [
       { id: 'm1', request_id: 'q1', user_id: UID, sender: 'team', body: long, created_at: '2026-09-10T14:00:00Z' },
@@ -49,9 +53,14 @@
       { id: 'pu2', published: true, published_at: '2026-09-02T12:00:00Z', tag: 'Holiday hours', title: 'We are closed Thanksgiving week', category: 'company', audience: 'all', body: 'Our team is away 26 to 28 November.' },
     ],
     lead_events: [{ id: 'le1', user_id: UID, type: 'form', created_at: '2026-09-09T12:00:00Z' }],
+    addon_lead_times: [
+      { addon: 'Logo Design', lead_days: 7, stages: ['Brief','Concepts','Your review','Final files'] },
+      { addon: 'New Website Build', lead_days: 21, stages: ['Brief','Design','Build','Your review','Live'] },
+    ],
+    addon_orders: [],
     addon_prices: [
-      { addon: 'New Website Build', stripe_price_id: 'price_1QaBcDeFgHiJkLmN', amount_usd: 949, invoiceable: true },
-      { addon: 'Logo Design', stripe_price_id: null, amount_usd: 359, invoiceable: true },
+      { addon: 'New Website Build', stripe_price_id: 'price_1QaBcDeFgHiJkLmN', amount_usd: 949, invoiceable: true, lead_days: 21 },
+      { addon: 'Logo Design', stripe_price_id: null, amount_usd: 359, invoiceable: true, lead_days: 7 },
       { addon: 'Remove Footer Credit', stripe_price_id: 'price_1QxYzAbCdEfGhIjK', amount_usd: 179, invoiceable: true },
       { addon: 'Booking System', stripe_price_id: null, amount_usd: 389, invoiceable: false },
       { addon: 'Additional Page', stripe_price_id: null, amount_usd: 229, invoiceable: false },

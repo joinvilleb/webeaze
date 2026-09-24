@@ -64,6 +64,11 @@ Deno.serve(async (req) => {
     const body = await req.json().catch(() => ({} as any));
     const addon = String(body.addon || '').slice(0, 120).trim();
     const shown = Math.round(Number(body.amount) || 0);   // what the card said, for cross-checking only
+    // The brief, taken in the portal before this was called. Trimmed hard: it is client-supplied and
+    // ends up in an email and a request body.
+    const answers = (Array.isArray(body.answers) ? body.answers : []).slice(0, 10)
+      .map((x: any) => ({ q: String((x && x.q) || '').slice(0, 300), a: String((x && x.a) || '').slice(0, 2000) }))
+      .filter((x: { q: string; a: string }) => x.q && x.a);
     if (!addon) return json({ ok: false, fallback: 'request', reason: 'bad input' });
 
     const authed = createClient(Deno.env.get('SUPABASE_URL')!, Deno.env.get('SUPABASE_ANON_KEY')!, { global: { headers: { Authorization: req.headers.get('Authorization') ?? '' } } });
@@ -90,6 +95,15 @@ Deno.serve(async (req) => {
     else { item.amount = amount * 100; item.currency = 'usd'; item.description = addon; }
     await stripe('invoiceitems', item);
 
+    // The brief is stored before the invoice, so it exists even if Stripe then fails: the webhook
+    // finds it by invoice id when the money lands, and nothing about the job lives only in Stripe.
+    let orderId = '';
+    if (answers.length) {
+      const { data: ord } = await service.from('addon_orders')
+        .insert({ user_id: user.id, addon, answers }).select('id').maybeSingle();
+      orderId = (ord && ord.id) || '';
+    }
+
     const billed = priceId ? null : amount;   // with a price ID, Stripe's number is the one that counts
     const inv = await stripe('invoices', {
       customer: c.stripe_customer_id,
@@ -104,7 +118,9 @@ Deno.serve(async (req) => {
       'metadata[client_name]': String(c.name || c.email || ''),
       'metadata[amount_usd]': String(billed ?? ''),
       'metadata[priced_from]': priceId ? 'stripe_price' : 'addon_prices',
+      'metadata[order_id]': orderId,
     });
+    if (orderId) await service.from('addon_orders').update({ invoice_id: String(inv.id) }).eq('id', orderId);
 
     // Send, which also finalizes it. This is the step that actually puts the invoice in their inbox:
     // finalizing alone does not email anything, so for a while the portal promised a copy by email
@@ -138,6 +154,11 @@ Deno.serve(async (req) => {
         : (payUrl
           ? '<p>It is finalized and they have a Pay now link in the portal, but Stripe did not email it. Worth sending from the dashboard.</p>'
           : '<p>It is sitting in Stripe as a <strong>draft</strong>. Review it and hit Send.</p>'))
+      + (answers.length
+        ? '<hr style="border:none;border-top:1px solid #e6e8f0;margin:18px 0;">'
+          + '<p><strong>Their brief</strong></p>'
+          + answers.map((x) => '<p style="margin:0 0 10px;"><span style="color:#666b8b;">' + esc(x.q) + '</span><br>' + esc(x.a).replace(/\n/g, '<br>') + '</p>').join('')
+        : '')
       + mismatch + how);
 
     return json({ ok: true, invoiceId: inv.id, url: payUrl || null, emailed, amount: total || null });
