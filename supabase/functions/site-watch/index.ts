@@ -9,6 +9,7 @@
 // Schedule: see supabase/site_issues.sql (pg_cron, every 6 hours, x-cron-secret header)
 
 import { createClient } from 'jsr:@supabase/supabase-js@2';
+import { emailCopy } from '../_shared/email-template.ts';
 
 const CRON_SECRET = Deno.env.get('CRON_SECRET') ?? '';
 const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY') ?? '';
@@ -16,6 +17,10 @@ const FROM = 'WebEaze <support@webeaze.io>';
 const TEAM = 'billy@webeaze.io';
 const DOMAIN_WARN_DAYS = 30;   // warn when the domain expires within this many days
 const MAX_LINKS = 15;          // cap homepage links we test, to stay fast and polite
+// The rollback call below sends this, and it was never declared here: referencing it threw a
+// ReferenceError inside a try/catch that only logs, so the watchdog has never once managed to
+// revert an auto-change that took a site down. Same secret dispatch-request uses.
+const BOT_SECRET = Deno.env.get('BOT_SECRET') ?? '';
 const BOT_URL = 'https://webeaze-request-bot.webeaze-web-design.workers.dev/';
 const ROLLBACK_WINDOW_HOURS = 12;   // only auto-revert if a bot change went live this recently
 
@@ -158,6 +163,7 @@ Deno.serve(async (req) => {
             .select('id').eq('user_id', c.user_id).eq('status', 'fixed')
             .in('kind', ['proactive', 'auto_edit']).gte('fixed_at', since).limit(1);
           if (recent && recent.length) {
+            if (!BOT_SECRET) console.error('[site-watch] BOT_SECRET is not set, so the rollback cannot authenticate');
             try {
               // The rollback needs the secret too, and this is the call that matters most: it is the
               // watchdog undoing an auto-change that took a client's site down. Without the header the
@@ -210,10 +216,23 @@ Deno.serve(async (req) => {
   // One digest email to Billy for everything new this run.
   if (newIssues.length) {
     const rows = newIssues.map((i) => '<li style="margin-bottom:6px;"><strong>' + i.client + '</strong> (' + i.kind.replace('_', ' ') + '): ' + i.detail + '</li>').join('');
+    // Wording comes from admin when it has been edited there; these are the defaults and the last
+    // resort if the registry cannot be read. See supabase/functions/_shared/email-template.ts.
+    // The list of what broke stays in code: it is the findings, not the copy.
+    const copy = await emailCopy(service, 'site-watch', {
+      subject: 'Site watch: {{count}} new {{issue_word}} to look at',
+      slots: {
+        lead: 'The site watcher found {{count}} new {{issue_word}}:',
+        closer: 'Mark each fixed in the admin once handled, and the client will see it as "recently handled".',
+      },
+    });
+    const vars = { count: newIssues.length, issue_word: newIssues.length === 1 ? 'issue' : 'issues' };
     await sendEmail({
       from: FROM, to: [TEAM],
-      subject: 'Site watch: ' + newIssues.length + ' new issue' + (newIssues.length === 1 ? '' : 's') + ' to look at',
-      html: '<p>The site watcher found ' + newIssues.length + ' new issue' + (newIssues.length === 1 ? '' : 's') + ':</p><ul>' + rows + '</ul><p>Mark each fixed in the admin once handled, and the client will see it as "recently handled".</p>',
+      subject: copy.subject(vars),
+      // The empty style keeps the plain <p> this digest has always used, and still lets a blank line
+      // in the edited text become a second paragraph.
+      html: copy.paras('lead', vars, '') + '<ul>' + rows + '</ul>' + copy.paras('closer', vars, ''),
     });
   }
 

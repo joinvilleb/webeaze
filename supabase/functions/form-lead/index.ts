@@ -29,6 +29,7 @@
 // (--no-verify-jwt because the caller is an anonymous visitor submitting a form, not a logged-in user.)
 
 import { createClient } from 'jsr:@supabase/supabase-js@2';
+import { emailCopy } from '../_shared/email-template.ts';
 
 const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY') ?? '';
 const FROM = 'WebEaze <support@webeaze.io>';
@@ -110,16 +111,42 @@ function safeNext(next: string | null, siteHost: string, referer: string): strin
   try { const u = new URL(back); u.searchParams.set('sent', '1'); return u.toString(); } catch { return back; }
 }
 
-async function emailClient(client: any, lead: any, files: { name: string; url: string }[], dropped: string[], subject: string | null) {
+async function emailClient(service: any, client: any, lead: any, files: { name: string; url: string }[], dropped: string[], subject: string | null) {
   if (!RESEND_API_KEY) return { sent: false, reason: 'no RESEND_API_KEY' };
   const to = [client && client.email, client && client.second_email].filter(Boolean);
   if (!to.length) return { sent: false, reason: 'no client email' };
 
   const who = lead.name || 'Someone';
   const first = String((client && client.name) || '').trim().split(/\s+/)[0] || 'there';
-  const btn = (href: string, label: string, bg: string) =>
+  // Wording comes from admin when it has been edited there; these are the defaults and the last
+  // resort if the registry cannot be read. See supabase/functions/_shared/email-template.ts.
+  const copy = await emailCopy(service, 'new-inquiry', {
+    subject: 'New inquiry: {{who}}{{phone_suffix}}',
+    slots: {
+      intro: 'Hi {{first_name}}, a new inquiry just came in',
+      headline: '{{who}} wants to hear from you',
+      call_button: 'Call {{who_short}}',
+      email_button: 'Reply by email',
+      attached_label: 'Attached:',
+      dropped_note: 'Couldn\'t attach: {{dropped}}. Ask them to email it to you directly.',
+      footer: 'Replying quickly is the single biggest thing that wins this job. Everything is also in your',
+      portal_label: 'portal',
+    },
+  });
+  const vars = {
+    first_name: first,
+    who,
+    who_short: lead.name || 'them',
+    phone_suffix: lead.phone ? ' (' + lead.phone + ')' : '',
+    dropped: dropped.join(', '),
+    business: (client && (client.business_name || client.name)) || '',
+  };
+  // "Hi {{first_name}}," with no name on file would read "Hi , a new inquiry...".
+  const intro = copy.text('intro', vars).replace(/\s+([,.!?])/g, '$1');
+  // The label arrives already escaped from copy.text, so it is inserted as-is.
+  const btn = (href: string, labelHtml: string, bg: string) =>
     '<a href="' + esc(href) + '" style="display:inline-block;background:' + bg + ';color:#ffffff;text-decoration:none;'
-    + 'border-radius:9px;padding:12px 20px;font-weight:700;font-size:15px;margin:0 8px 8px 0;">' + esc(label) + '</a>';
+    + 'border-radius:9px;padding:12px 20px;font-weight:700;font-size:15px;margin:0 8px 8px 0;">' + labelHtml + '</a>';
   const row = (k: string, v: string) => v
     ? '<tr><td class="wz-row" style="padding:9px 0;border-bottom:1px solid #eef0f6;">'
       + '<div class="wz-m" style="font-size:12px;line-height:1.45;color:#6b7094;margin:0 0 3px;">' + esc(k) + '</div>'
@@ -128,21 +155,20 @@ async function emailClient(client: any, lead: any, files: { name: string; url: s
       + '</td></tr>' : '';
 
   const actions = [
-    lead.phone ? btn('tel:' + String(lead.phone).replace(/[^0-9+]/g, ''), 'Call ' + (lead.name || 'them'), '#7851a9') : '',
-    lead.email ? btn('mailto:' + lead.email + '?subject=' + encodeURIComponent('Re: your inquiry'), 'Reply by email', '#4b5563') : '',
+    lead.phone ? btn('tel:' + String(lead.phone).replace(/[^0-9+]/g, ''), copy.text('call_button', vars), '#7851a9') : '',
+    lead.email ? btn('mailto:' + lead.email + '?subject=' + encodeURIComponent('Re: your inquiry'), copy.text('email_button', vars), '#4b5563') : '',
   ].join('');
 
   // Everything the visitor typed that is not name/email/phone/message. On a job application that is
   // most of the form, so it is listed in full rather than summarised away.
   const extras = Object.keys(lead.extra || {}).map((k) => row(k, String(lead.extra[k]))).join('');
   const attach = files.length
-    ? '<p style="margin:14px 0 0;font-size:14px;color:#6b7094;">Attached: '
+    ? '<p style="margin:14px 0 0;font-size:14px;color:#6b7094;">' + copy.text('attached_label', vars) + ' '
       + files.map((f) => (f.url ? '<a href="' + esc(f.url) + '" style="color:#7851a9;font-weight:600;">' + esc(f.name) + '</a>' : esc(f.name)))
         .join(', ') + '</p>' : '';
   // Say what did not make it, so "photos attached" with nothing below it is never a mystery.
   const missing = dropped.length
-    ? '<p class="wz-warn" style="margin:10px 0 0;font-size:14px;color:#b45309;">Couldn\'t attach: ' + esc(dropped.join(', '))
-      + '. Ask them to email it to you directly.</p>' : '';
+    ? '<p class="wz-warn" style="margin:10px 0 0;font-size:14px;color:#b45309;">' + copy.text('dropped_note', vars) + '</p>' : '';
 
   const html = '<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">'
     + '<meta name="viewport" content="width=device-width,initial-scale=1">'
@@ -155,16 +181,16 @@ async function emailClient(client: any, lead: any, files: { name: string; url: s
     + '<tr><td align="center" style="padding:24px 12px;">'
     + '<table role="presentation" cellpadding="0" cellspacing="0" class="wz-card" style="width:100%;max-width:520px;background:#ffffff;border:1px solid #e4e7f1;border-radius:14px;">'
     + '<tr><td style="padding:26px 24px;font-family:Helvetica,Arial,sans-serif;">'
-    + '<p class="wz-m" style="margin:0 0 4px;font-size:13px;color:#6b7094;">Hi ' + esc(first) + ', a new inquiry just came in</p>'
-    + '<h1 class="wz-t" style="margin:0 0 14px;font-size:21px;color:#1f2333;">' + esc(who) + ' wants to hear from you</h1>'
+    + '<p class="wz-m" style="margin:0 0 4px;font-size:13px;color:#6b7094;">' + intro + '</p>'
+    + '<h1 class="wz-t" style="margin:0 0 14px;font-size:21px;color:#1f2333;">' + copy.text('headline', vars) + '</h1>'
     + (lead.message ? '<div class="wz-box" style="background:#f8f9fc;border-radius:10px;padding:14px 16px;margin:0 0 16px;">'
         + '<p class="wz-t" style="margin:0;font-size:15px;line-height:1.55;color:#1f2333;white-space:pre-wrap;">' + esc(lead.message) + '</p></div>' : '')
     + '<table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="margin:0 0 18px;width:100%;">'
     + row('Phone', lead.phone || '') + row('Email', lead.email || '') + row('Page', lead.page || '') + extras
     + '</table>' + actions + attach + missing
     + '<p class="wz-m" style="margin:16px 0 0;font-size:13px;line-height:1.6;color:#6b7094;">'
-    + 'Replying quickly is the single biggest thing that wins this job. Everything is also in your '
-    + '<a href="https://portal.webeaze.io" style="color:#7851a9;font-weight:600;">portal</a>.</p>'
+    + copy.text('footer', vars) + ' '
+    + '<a href="https://portal.webeaze.io" style="color:#7851a9;font-weight:600;">' + copy.text('portal_label', vars) + '</a>.</p>'
     + '</td></tr></table></td></tr></table></body></html>';
 
   const r = await fetch('https://api.resend.com/emails', {
@@ -176,7 +202,7 @@ async function emailClient(client: any, lead: any, files: { name: string; url: s
       // malformed one, which would turn a visitor's typo into a lost inquiry. The address is shown in
       // the body regardless, so the owner can still see it either way.
       reply_to: lead.email && MAILBOX.test(lead.email) ? lead.email : undefined,
-      subject: subject || ('New inquiry: ' + who + (lead.phone ? ' (' + lead.phone + ')' : '')),
+      subject: subject || copy.subject(vars),
       html,
     }),
   }).catch(() => null);
@@ -343,12 +369,12 @@ Deno.serve(async (req) => {
     // The submission must reach the owner even if storing it went wrong, so this is last and its
     // failure is reported rather than swallowed.
     const lead = { name, email, phone, message, page, extra };
-    let mail = floodedInbox ? { sent: false, reason: 'suppressed' } : await emailClient(client, lead, stored, dropped, subject);
+    let mail = floodedInbox ? { sent: false, reason: 'suppressed' } : await emailClient(service, client, lead, stored, dropped, subject);
     if (!mail.sent && !floodedInbox) {
       // One retry. Resend failing transiently is common enough, and the cost of not retrying is a
       // customer's inquiry sitting in a log line nobody reads.
       await new Promise((r) => setTimeout(r, 700));
-      mail = await emailClient(client, lead, stored, dropped, subject);
+      mail = await emailClient(service, client, lead, stored, dropped, subject);
     }
     if (!mail.sent && !floodedInbox) {
       console.error('form-lead: EMAIL NOT DELIVERED for', key, mail.reason);

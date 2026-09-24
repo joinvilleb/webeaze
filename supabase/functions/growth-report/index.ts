@@ -21,6 +21,7 @@
 // Schedule: see supabase/growth_report.sql
 
 import { createClient } from 'jsr:@supabase/supabase-js@2';
+import { emailCopy } from '../_shared/email-template.ts';
 
 const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY')!;
 const CRON_SECRET = Deno.env.get('CRON_SECRET') ?? '';
@@ -890,26 +891,61 @@ async function sendEmail(payload: Record<string, unknown>) {
   return res.json();
 }
 
+// Wording comes from admin when it has been edited there; these are the defaults and the last
+// resort if the registry cannot be read. See supabase/functions/_shared/email-template.ts.
+// The monthly run and the admin preview are the same email, so they share one key: only the numbers,
+// the AI summary and the lists differ between them, and none of those are wording anyone edits.
+const reportCopy = (service: any) => emailCopy(service, 'growth-report', {
+  subject: 'Your {{month_year}} growth report',
+  slots: {
+    header_label: 'Your {{report_period}} report',
+    greeting: 'Hi {{first_name}},',
+    opening: 'Here\'s a quick update on how {{site}} is doing.',
+    opening_essential: 'Here\'s your quick monthly check-in on how {{site}} is doing.',
+    leads_headline: 'new {{inquiry_word}} {{leads_label}}',
+    leads_note: 'Calls, emails, and contact-form messages from your website.',
+    snapshot_intro: 'Here\'s a quick snapshot of your site right now:',
+    shipped_intro: 'Here\'s what we took care of for you {{month_phrase}}:',
+    recs_intro: 'A couple of things we\'d suggest:',
+    upsell: 'You\'re on our Essential plan. Growth adds your search trends over time, the exact terms people use to find you, and a tailored action plan each month.',
+    closing: 'If you\'d like a hand with any of this, send us a request in your',
+    portal_label: 'client portal',
+    signoff: 'Talk soon,\nThe WebEaze team',
+  },
+});
+
 // A plain, personal email, as if a real person on the team wrote it (no tiles/cards).
 // `extra` carries the monthly-only recap (last month's completed work), folded in from the
 // retired Cloudflare mailer. Omitted on on-demand sends.
-function summaryHtml(name: string, url: string, m: any, plan?: string, extra?: { done?: Array<{ type?: string; resolution?: string }>; monthLabel?: string }, leads?: { count: number; label: string }) {
+function summaryHtml(copy: any, name: string, url: string, m: any, plan?: string, extra?: { done?: Array<{ type?: string; resolution?: string }>; monthLabel?: string }, leads?: { count: number; label: string }) {
   const first = (name || '').trim().split(/\s+/)[0] || 'there';
+  const vars = {
+    first_name: first,
+    site: url || 'your website',
+    report_period: extra?.monthLabel || 'website',
+    month_label: extra?.monthLabel || '',
+    // "in July" on the monthly run, "this month" on an on-demand send: one var, so the sentence
+    // around it stays a single editable line.
+    month_phrase: extra?.monthLabel ? ('in ' + extra.monthLabel) : 'this month',
+    inquiry_word: leads && leads.count === 1 ? 'inquiry' : 'inquiries',
+    leads_label: leads?.label || '',
+    leads_count: leads?.count ?? 0,
+  };
   const adv = /growth|elite/i.test(plan || '');   // Growth/Elite get the deeper report
   const s = m.speed, r = m.reviews, se = m.search, rep = m.report;
   const p = (t: string) => `<p style="margin:0 0 15px;">${t}</p>`;
 
   // Growth gets the full AI summary; Essential gets a short one-line check-in (kept deliberately brief).
   const opening = adv
-    ? (rep?.summary ? esc(rep.summary) : ('Here\'s a quick update on how ' + esc(url || 'your website') + ' is doing.'))
-    : ('Here\'s your quick monthly check-in on how ' + esc(url || 'your website') + ' is doing.');
+    ? (rep?.summary ? esc(rep.summary) : copy.text('opening', vars))
+    : copy.text('opening_essential', vars);
 
   // Leads lead: the concrete money number, highlighted in a subtle callout right up top when there is one.
   const leadHighlight = (leads && leads.count > 0)
     ? '<div style="background:#f7f6fb;border:1px solid #ece9f4;border-radius:12px;padding:15px 18px;margin:0 0 18px;">'
       + '<span style="font-size:30px;font-weight:800;color:#7851a9;letter-spacing:-.03em;vertical-align:middle;">' + leads.count + '</span>'
-      + '<span style="font-size:15px;color:#1f2333;font-weight:700;vertical-align:middle;">&nbsp;new ' + (leads.count === 1 ? 'inquiry' : 'inquiries') + ' ' + esc(leads.label) + '</span>'
-      + '<div style="font-size:13px;color:#6b7094;margin-top:3px;">Calls, emails, and contact-form messages from your website.</div>'
+      + '<span style="font-size:15px;color:#1f2333;font-weight:700;vertical-align:middle;">&nbsp;' + copy.text('leads_headline', vars) + '</span>'
+      + '<div style="font-size:13px;color:#6b7094;margin-top:3px;">' + copy.text('leads_note', vars) + '</div>'
       + '</div>'
     : '';
 
@@ -924,25 +960,23 @@ function summaryHtml(name: string, url: string, m: any, plan?: string, extra?: {
       (adv && se.deltaPct != null ? ' (' + (se.deltaPct >= 0 ? 'up ' : 'down ') + Math.abs(se.deltaPct) + '%)' : ''));
   }
   const snap = lines.length
-    ? p('Here\'s a quick snapshot of your site right now:') + '<ul style="margin:0 0 15px;padding-left:20px;">' + lines.map((x) => `<li style="margin-bottom:6px;">${esc(x)}</li>`).join('') + '</ul>'
+    ? p(copy.text('snapshot_intro', vars)) + '<ul style="margin:0 0 15px;padding-left:20px;">' + lines.map((x) => `<li style="margin-bottom:6px;">${esc(x)}</li>`).join('') + '</ul>'
     : '';
 
   // Growth-only: what people searched + a deeper action plan.
   const searched = adv && rep?.searched ? p(esc(rep.searched)) : '';
   const recs = (adv && rep?.recommendations && rep.recommendations.length)
-    ? p('A couple of things we\'d suggest:') + '<ul style="margin:0 0 15px;padding-left:20px;">' + rep.recommendations.map((x: string) => `<li style="margin-bottom:6px;">${esc(x)}</li>`).join('') + '</ul>'
+    ? p(copy.text('recs_intro', vars)) + '<ul style="margin:0 0 15px;padding-left:20px;">' + rep.recommendations.map((x: string) => `<li style="margin-bottom:6px;">${esc(x)}</li>`).join('') + '</ul>'
     : '';
   // Essential gets a soft nudge toward the deeper report instead.
-  const upsell = !adv
-    ? p('You\'re on our Essential plan. Growth adds your search trends over time, the exact terms people use to find you, and a tailored action plan each month.')
-    : '';
+  const upsell = !adv ? p(copy.text('upsell', vars)) : '';
 
   // Monthly-only: a recap of what we shipped for them last month (empty on on-demand sends).
   // Growth gets the detailed "what we did" list; Essential gets a short one-line count (keep it brief).
   const done = (extra?.done) || [];
   const shipped = !done.length ? ''
     : (adv
-        ? p('Here\'s what we took care of for you' + (extra?.monthLabel ? ' in ' + esc(extra.monthLabel) : ' this month') + ':')
+        ? p(copy.text('shipped_intro', vars))
           + '<ul style="margin:0 0 15px;padding-left:20px;">'
           + done.map((r) => `<li style="margin-bottom:8px;"><strong>${esc(r.type || 'Update')}</strong>${r.resolution ? `<br><span style="color:#6b7094;white-space:pre-wrap;">${esc(r.resolution)}</span>` : ''}</li>`).join('')
           + '</ul>'
@@ -950,7 +984,7 @@ function summaryHtml(name: string, url: string, m: any, plan?: string, extra?: {
 
   // Light branded header: the WebEaze logo + wordmark + which month's report this is. The wordmark is
   // real text so it still reads if the client's email blocks the logo image.
-  const reportLabel = extra?.monthLabel ? ('Your ' + esc(extra.monthLabel) + ' report') : 'Your website report';
+  const reportLabel = copy.text('header_label', vars);
   const header = '<div style="border-bottom:1px solid #eeeeee;padding-bottom:15px;margin-bottom:24px;">'
     + '<img src="https://webeaze.io/images/webeaze-transparent-copy.png" alt="" width="24" height="27" style="vertical-align:middle;margin-right:8px;" />'
     + '<span style="font-size:17px;font-weight:800;letter-spacing:-.02em;color:#1f2333;vertical-align:middle;">Web<span style="color:#7851a9;">Eaze</span></span>'
@@ -961,7 +995,8 @@ function summaryHtml(name: string, url: string, m: any, plan?: string, extra?: {
     '<body style="margin:0;background:#ffffff;">',
     '<div style="max-width:560px;margin:0 auto;padding:30px 26px;font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:1.65;color:#1f2333;">',
     header,
-    p('Hi ' + esc(first) + ','),
+    // "Hi {{first_name}}," with no name on file would read "Hi ,".
+    p(copy.text('greeting', vars).replace(/\s+([,.!?])/g, '$1')),
     p(opening),
     leadHighlight,
     snap,
@@ -969,8 +1004,9 @@ function summaryHtml(name: string, url: string, m: any, plan?: string, extra?: {
     searched,
     recs,
     upsell,
-    p('If you\'d like a hand with any of this, send us a request in your <a href="' + PORTAL_URL + '" style="color:#7851a9;font-weight:600;">client portal</a>.'),
-    p('Talk soon,<br>The WebEaze team'),
+    // The link is structure, so the sentence around it and the words on it are separate slots.
+    p(copy.text('closing', vars) + ' <a href="' + PORTAL_URL + '" style="color:#7851a9;font-weight:600;">' + copy.text('portal_label', vars) + '</a>.'),
+    p(copy.text('signoff', vars).split('\n').map((line: string) => line.trim()).join('<br>')),
     '<div style="margin-top:26px;padding-top:16px;border-top:1px solid #eeeeee;font-size:12px;color:#9599b8;">WebEaze Web Design, 109 Pleasant Hill Drive, Camden-Wyoming, Delaware 19934, USA</div>',
     '</div></body></html>',
   ].join('');
@@ -1046,6 +1082,9 @@ Deno.serve(async (req) => {
       // Calling with no `only` processes everyone but can time out past a few clients.
       let sent = 0;
       let lastMetrics: any = null;
+      // Read the wording once for the whole run, not once per client. A refresh-only run sends
+      // nothing, so it does not pay for it at all.
+      const copy = emailEach ? await reportCopy(service) : null;
       for (const c of clients ?? []) {
         try {
           const metrics = await refreshClient(service, c);
@@ -1057,8 +1096,8 @@ Deno.serve(async (req) => {
           const leadCount = await countLeads(service, c.user_id, recap.windowStartISO, recap.windowEndISO);
           await sendEmail({
             from: FROM, to: [c.email, c.second_email].filter(Boolean),
-            subject: 'Your ' + monthYear + ' growth report',
-            html: summaryHtml(c.name || '', c.site_url || '', metrics, c.plan, recap, { count: leadCount, label: 'in ' + recap.monthLabel }),
+            subject: copy!.subject({ month_year: monthYear }),
+            html: summaryHtml(copy, c.name || '', c.site_url || '', metrics, c.plan, recap, { count: leadCount, label: 'in ' + recap.monthLabel }),
           });
           sent++;
         } catch (e) { console.error('monthly client failed', c.user_id, e); }
@@ -1121,10 +1160,14 @@ Deno.serve(async (req) => {
             const monthStartISO = new Date(Date.UTC(nowM.getUTCFullYear(), nowM.getUTCMonth(), 1)).toISOString();
             leads = { count: await countLeads(service, c.user_id, monthStartISO), label: 'this month' };
           }
+          const copy = await reportCopy(service);
           await sendEmail({
             from: FROM, to: [recipient, isAdminPreview ? null : (c.second_email || null)].filter(Boolean),
-            subject: isAdminPreview ? ('[Monthly preview] ' + (c.name || c.site_url || 'client') + "'s report") : 'Your growth report',
-            html: summaryHtml(c.name || '', c.site_url || '', metrics, c.plan, recap, leads),
+            // The preview goes to Billy, so it keeps its own marker subject: that line is a label on
+            // his own inbox, not something a client ever reads. Everything in the body is the client's
+            // wording, from the same key.
+            subject: isAdminPreview ? ('[Monthly preview] ' + (c.name || c.site_url || 'client') + "'s report") : copy.subject({ month_year: '' }),
+            html: summaryHtml(copy, c.name || '', c.site_url || '', metrics, c.plan, recap, leads),
           });
           emailed = true; emailedTo = recipient;
         } catch (e) {

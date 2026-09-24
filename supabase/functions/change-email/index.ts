@@ -28,6 +28,7 @@
 //    the caller's token by hand below.)
 
 import { createClient } from 'jsr:@supabase/supabase-js@2';
+import { emailCopy } from '../_shared/email-template.ts';
 
 const cors = {
   'Access-Control-Allow-Origin': '*',
@@ -152,14 +153,32 @@ Deno.serve(async (req) => {
       // If the confirmation cannot be sent, say exactly that, and spend the token: otherwise the
       // portal would show "Waiting on" an address that never got an email.
       try {
-      await send(newEmail, 'Confirm your new WebEaze email address', shell(
-        '<p style="margin:0 0 12px;">Hi,</p>'
-        + '<p style="margin:0 0 14px;">You asked to sign in to your WebEaze portal with this address instead of <strong>'
-        + esc(oldEmail) + '</strong>. Confirm it and we will move it across.</p>'
-        + '<p style="margin:0 0 18px;"><a href="' + link + '" style="display:inline-block;background:#7851a9;color:#fff;'
-        + 'text-decoration:none;font-weight:700;padding:12px 24px;border-radius:10px;">Confirm this address</a></p>'
-        + '<p style="margin:0 0 6px;color:#6b7280;font-size:13px;">The link works for one hour. '
-        + 'Until you use it, nothing changes and you keep signing in with your old address.</p>'));
+        // Wording comes from admin when it has been edited there; these are the defaults and the last
+        // resort if the registry cannot be read. See supabase/functions/_shared/email-template.ts.
+        const copy = await emailCopy(service, 'email-change', {
+          subject: 'Confirm your new WebEaze email address',
+          slots: {
+            greeting: 'Hi,',
+            lead: 'You asked to sign in to your WebEaze portal with this address instead of {{old_email}}. Confirm it and we will move it across.',
+            button: 'Confirm this address',
+            fine_print: 'The link works for one hour. Until you use it, nothing changes and you keep signing in with your old address.',
+          },
+        });
+        // The old address is bold inside an editable sentence, and a slot is escaped prose, so no tag
+        // can travel through one. The address goes in wrapped in two control characters, which the
+        // escaping leaves alone, and those become the <strong> once the sentence is built. Take the
+        // placeholder out of the slot and the bold goes with it. The subject gets the plain values: a
+        // mail header has no tags in it.
+        const vars = { old_email: oldEmail, new_email: newEmail };
+        const bodyVars = { old_email: '\u0001' + oldEmail + '\u0002', new_email: '\u0001' + newEmail + '\u0002' };
+        const strong = (t: string) => t.split('\u0001').join('<strong>').split('\u0002').join('</strong>');
+        await send(newEmail, copy.subject(vars), shell(strong(
+          // "Hi {{old_email}}," with nothing to fill in would read "Hi ,".
+          '<p style="margin:0 0 12px;">' + copy.text('greeting', bodyVars).replace(/\s+([,.!?])/g, '$1') + '</p>'
+          + copy.paras('lead', bodyVars, 'margin:0 0 14px;')
+          + '<p style="margin:0 0 18px;"><a href="' + link + '" style="display:inline-block;background:#7851a9;color:#fff;'
+          + 'text-decoration:none;font-weight:700;padding:12px 24px;border-radius:10px;">' + copy.text('button', bodyVars) + '</a></p>'
+          + copy.paras('fine_print', bodyVars, 'margin:0 0 6px;color:#6b7280;font-size:13px;'))));
       } catch (e) {
         console.error('[change-email] confirmation send failed', String(e).slice(0, 300));
         await service.from('email_change_requests').update({ used_at: new Date().toISOString() }).eq('token', token)

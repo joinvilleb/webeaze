@@ -12,6 +12,7 @@
 // Schedule: see supabase/churn_digest.sql (pg_cron, weekly, x-cron-secret header)
 
 import { createClient } from 'jsr:@supabase/supabase-js@2';
+import { emailCopy } from '../_shared/email-template.ts';
 
 const CRON_SECRET = Deno.env.get('CRON_SECRET') ?? '';
 const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY') ?? '';
@@ -154,18 +155,32 @@ Deno.serve(async (req) => {
       + '</tr>';
   }).join('');
 
+  // Wording comes from admin when it has been edited there; these are the defaults and the last
+  // resort if the registry cannot be read. See supabase/functions/_shared/email-template.ts.
+  // The ranked table, and the reasons in it, are what the scoring found: they stay in code.
+  const copy = await emailCopy(service, 'churn-digest', {
+    subject: '{{count}} {{client_word}} to check on this week',
+    slots: {
+      heading: 'Reach out before they leave',
+      lead: '{{count}} active {{client_word}} showing churn signals this week, ranked by risk. Activity is based on their last request, leads, open issues, and renewal date.',
+      button: 'Open the admin',
+      footnote: 'You are getting this because these accounts crossed the churn-risk threshold. A quiet week means no email.',
+    },
+  });
+  const vars = { count: scored.length, client_word: scored.length > 1 ? 'clients' : 'client' };
+
   const html = '<div style="font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;max-width:560px;margin:0 auto;color:#0f1228;">'
-    + '<h2 style="font-size:18px;margin:0 0 4px;">Reach out before they leave</h2>'
-    + '<p style="font-size:13px;color:#6b7094;margin:0 0 16px;">' + scored.length + ' active client' + (scored.length > 1 ? 's' : '') + ' showing churn signals this week, ranked by risk. Activity is based on their last request, leads, open issues, and renewal date.</p>'
+    + '<h2 style="font-size:18px;margin:0 0 4px;">' + copy.text('heading', vars) + '</h2>'
+    + copy.paras('lead', vars, 'font-size:13px;color:#6b7094;margin:0 0 16px;')
     + '<table style="width:100%;border-collapse:collapse;">' + rows + '</table>'
-    + '<p style="margin:20px 0 0;"><a href="' + ADMIN_URL + '" style="display:inline-block;background:#7851a9;color:#fff;text-decoration:none;border-radius:10px;padding:11px 20px;font-size:14px;font-weight:700;">Open the admin</a></p>'
-    + '<p style="font-size:11px;color:#a0a6c4;margin-top:18px;">You are getting this because these accounts crossed the churn-risk threshold. A quiet week means no email.</p>'
+    + '<p style="margin:20px 0 0;"><a href="' + ADMIN_URL + '" style="display:inline-block;background:#7851a9;color:#fff;text-decoration:none;border-radius:10px;padding:11px 20px;font-size:14px;font-weight:700;">' + copy.text('button', vars) + '</a></p>'
+    + copy.paras('footnote', vars, 'font-size:11px;color:#a0a6c4;margin-top:18px;')
     + '</div>';
 
   await sendEmail({
     from: FROM,
     to: [TEAM],
-    subject: scored.length + ' client' + (scored.length > 1 ? 's' : '') + ' to check on this week',
+    subject: copy.subject(vars),
     html,
   });
 

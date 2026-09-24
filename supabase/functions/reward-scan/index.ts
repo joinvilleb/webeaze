@@ -20,6 +20,7 @@
 // Schedule: see supabase/reward_grants.sql (pg_cron + pg_net).
 
 import { createClient } from 'jsr:@supabase/supabase-js@2';
+import { emailCopy } from '../_shared/email-template.ts';
 
 const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY')!;
 const CRON_SECRET = Deno.env.get('CRON_SECRET') ?? '';
@@ -51,6 +52,12 @@ const json = (body: unknown, status = 200) =>
 const esc = (s: unknown) =>
   String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]!));
 
+// copy.text() escapes, because a slot is prose going into HTML. This email has a second subject line
+// (the milestone one) living in a slot, and a subject is plain text in a mail header: without this an
+// edited subject with an "&" in it would arrive reading "&amp;".
+const plain = (s: string) =>
+  s.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"');
+
 async function sendEmail(payload: Record<string, unknown>) {
   const res = await fetch('https://api.resend.com/emails', {
     method: 'POST',
@@ -62,42 +69,47 @@ async function sendEmail(payload: Record<string, unknown>) {
 }
 
 // The plain milestone email. Short on purpose: it is a pat on the back, not an announcement.
-function milestoneEmailHtml(name: string, title: string, blurb: string) {
+// Wording comes from admin when it has been edited there; the defaults are in rewardCopy() below.
+function milestoneEmailHtml(copy: any, name: string, title: string, blurb: string) {
+  const vars = { first_name: name, milestone: title };
   return [
     '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8" /></head>',
     '<body style="margin:0;padding:0;background:#f8f9fc;font-family:Helvetica,Arial,sans-serif;">',
     '<table width="100%" cellpadding="0" cellspacing="0" style="background:#f8f9fc;padding:40px 16px;">',
     '<tr><td align="center"><table width="100%" cellpadding="0" cellspacing="0" style="max-width:520px;">',
     '<tr><td style="background:#ffffff;border:1px solid #e4e7f1;border-radius:16px;padding:40px 36px;">',
-    '<div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.12em;color:#7851a9;margin-bottom:10px;">Milestone unlocked</div>',
+    '<div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.12em;color:#7851a9;margin-bottom:10px;">' + copy.text('milestone_eyebrow', vars) + '</div>',
     '<h1 style="font-size:20px;font-weight:800;color:#0f1228;margin:0 0 12px;">' + esc(title) + '</h1>',
-    '<p style="font-size:14px;color:#6b7094;line-height:1.65;margin:0 0 20px;">' + (name ? 'Nice one, ' + esc(name) + '. ' : '') + esc(blurb) + '</p>',
-    '<p style="font-size:14px;color:#6b7094;line-height:1.65;margin:0 0 24px;">Keep going and there are three rewards waiting further along, at 25, 50 and 100 completed requests. You can see how close you are in your portal.</p>',
-    '<p style="margin:0 0 4px;"><a href="' + PORTAL_URL + '/#milestones" style="display:inline-block;background:#7851a9;color:#ffffff;text-decoration:none;font-weight:700;font-size:15px;padding:12px 24px;border-radius:10px;">See your milestones</a></p>',
+    // The greeting is only printed when we have a name, so a missing one never reads "Nice one,.".
+    '<p style="font-size:14px;color:#6b7094;line-height:1.65;margin:0 0 20px;">' + (name ? copy.text('milestone_greeting', vars).replace(/\s+([,.!?])/g, '$1') + ' ' : '') + esc(blurb) + '</p>',
+    '<p style="font-size:14px;color:#6b7094;line-height:1.65;margin:0 0 24px;">' + copy.text('milestone_more', vars) + '</p>',
+    '<p style="margin:0 0 4px;"><a href="' + PORTAL_URL + '/#milestones" style="display:inline-block;background:#7851a9;color:#ffffff;text-decoration:none;font-weight:700;font-size:15px;padding:12px 24px;border-radius:10px;">' + copy.text('milestone_button', vars) + '</a></p>',
     '</td></tr><tr><td align="center" style="padding-top:24px;">',
     '<p style="font-size:12px;color:#a0a6c4;margin:0;">WebEaze Web Design, 109 Pleasant Hill Drive, Camden-Wyoming, Delaware 19934, USA</p>',
     '</td></tr></table></td></tr></table></body></html>',
   ].join('');
 }
 
-function clientEmailHtml(reward: string) {
+// The reward email: the same milestone moment, for the three milestones that carry a perk.
+function clientEmailHtml(copy: any, reward: string) {
+  const vars = { reward };
   return [
     '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8" /></head>',
     '<body style="margin:0;padding:0;background:#f8f9fc;font-family:Helvetica,Arial,sans-serif;">',
     '<table width="100%" cellpadding="0" cellspacing="0" style="background:#f8f9fc;padding:40px 16px;">',
     '<tr><td align="center"><table width="100%" cellpadding="0" cellspacing="0" style="max-width:520px;">',
     '<tr><td style="background:#ffffff;border:1px solid #e4e7f1;border-radius:16px;padding:40px 36px;">',
-    '<div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.12em;color:#7851a9;margin-bottom:10px;">Reward unlocked</div>',
-    '<h1 style="font-size:20px;font-weight:800;color:#0f1228;margin:0 0 12px;">A little something for sticking with us</h1>',
-    '<p style="font-size:14px;color:#6b7094;line-height:1.65;margin:0 0 24px;">Thanks for being such a loyal WebEaze client. You just unlocked a reward:</p>',
+    '<div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.12em;color:#7851a9;margin-bottom:10px;">' + copy.text('reward_eyebrow', vars) + '</div>',
+    '<h1 style="font-size:20px;font-weight:800;color:#0f1228;margin:0 0 12px;">' + copy.text('reward_heading', vars) + '</h1>',
+    '<p style="font-size:14px;color:#6b7094;line-height:1.65;margin:0 0 24px;">' + copy.text('reward_lead', vars) + '</p>',
     '<table width="100%" cellpadding="0" cellspacing="0" style="background:#faf7fd;border:1px solid #e6dcf3;border-radius:12px;margin-bottom:24px;">',
     '<tr><td style="padding:22px;text-align:center;">',
-    '<div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#a0a6c4;margin-bottom:6px;">Your reward</div>',
+    '<div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#a0a6c4;margin-bottom:6px;">' + copy.text('reward_label', vars) + '</div>',
     '<div style="font-size:17px;font-weight:800;color:#7851a9;">' + esc(reward) + '</div>',
     '</td></tr></table>',
-    '<p style="font-size:14px;color:#6b7094;line-height:1.65;margin:0;">There\'s nothing you need to do. We\'ll apply it and send a note to your account in the portal once it\'s done.</p>',
-    '<p style="font-size:13px;color:#a0a6c4;line-height:1.6;margin:18px 0 0;">You can see your notes and milestones any time in your ',
-    '<a href="' + PORTAL_URL + '" style="color:#7851a9;font-weight:700;text-decoration:none;">Client Portal</a>.</p>',
+    '<p style="font-size:14px;color:#6b7094;line-height:1.65;margin:0;">' + copy.text('reward_closer', vars) + '</p>',
+    '<p style="font-size:13px;color:#a0a6c4;line-height:1.6;margin:18px 0 0;">' + copy.text('reward_portal_line', vars) + ' ',
+    '<a href="' + PORTAL_URL + '" style="color:#7851a9;font-weight:700;text-decoration:none;">' + copy.text('reward_portal_link', vars) + '</a>.</p>',
     '</td></tr><tr><td align="center" style="padding-top:24px;">',
     '<p style="font-size:12px;color:#a0a6c4;margin:0;">WebEaze Web Design, 109 Pleasant Hill Drive, Camden-Wyoming, Delaware 19934, USA</p>',
     '</td></tr></table></td></tr></table></body></html>',
@@ -114,6 +126,31 @@ Deno.serve(async (req) => {
       Deno.env.get('SUPABASE_URL')!,
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!,
     );
+
+    // Wording comes from admin when it has been edited there; these are the defaults and the last
+    // resort if the registry cannot be read. See supabase/functions/_shared/email-template.ts.
+    //
+    // ONE key for both client emails, because they are the same moment told two ways: a milestone
+    // that carries a perk (the reward slots) and one that does not (the milestone slots). Read once
+    // per run and shared by every send, rather than once per client: the wording cannot differ.
+    let copyOnce: Promise<any> | null = null;
+    const rewardCopy = () => (copyOnce ||= emailCopy(sb, 'reward', {
+      subject: 'You unlocked a reward!',
+      slots: {
+        reward_eyebrow: 'Reward unlocked',
+        reward_heading: 'A little something for sticking with us',
+        reward_lead: 'Thanks for being such a loyal WebEaze client. You just unlocked a reward:',
+        reward_label: 'Your reward',
+        reward_closer: "There's nothing you need to do. We'll apply it and send a note to your account in the portal once it's done.",
+        reward_portal_line: 'You can see your notes and milestones any time in your',
+        reward_portal_link: 'Client Portal',
+        milestone_subject: '{{milestone}} - nice work',
+        milestone_eyebrow: 'Milestone unlocked',
+        milestone_greeting: 'Nice one, {{first_name}}.',
+        milestone_more: 'Keep going and there are three rewards waiting further along, at 25, 50 and 100 completed requests. You can see how close you are in your portal.',
+        milestone_button: 'See your milestones',
+      },
+    }));
 
     // Every request, with the dates that decide WHEN a milestone was earned.
     const { data: allReqs, error: reqErr } = await sb
@@ -169,9 +206,10 @@ Deno.serve(async (req) => {
         const to = [c.email, c.second_email].filter(Boolean) as string[];
         if (to.length) {
           try {
+            const copy = await rewardCopy();
             await sendEmail(r.reward
-              ? { from: FROM, to, subject: 'You unlocked a reward!', html: clientEmailHtml(r.reward) }
-              : { from: FROM, to, subject: r.milestone + ' - nice work', html: milestoneEmailHtml(String(c.name || '').split(' ')[0], r.milestone, r.blurb) });
+              ? { from: FROM, to, subject: copy.subject({ reward: r.reward, milestone: r.milestone }), html: clientEmailHtml(copy, r.reward) }
+              : { from: FROM, to, subject: plain(copy.text('milestone_subject', { milestone: r.milestone })), html: milestoneEmailHtml(copy, String(c.name || '').split(' ')[0], r.milestone, r.blurb) });
           } catch (e) { console.error('client email failed', to[0], e); }
         }
         // Always tell the team, perk or not: a milestone is a good reason to say something human.

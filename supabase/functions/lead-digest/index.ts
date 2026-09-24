@@ -90,6 +90,7 @@ function leadSpamCheck(l: any) {
 // Schedule: see supabase/lead_digest.sql (pg_cron, daily after 5pm ET, x-cron-secret header)
 
 import { createClient } from 'jsr:@supabase/supabase-js@2';
+import { emailCopy } from '../_shared/email-template.ts';
 
 const CRON_SECRET = Deno.env.get('CRON_SECRET') ?? '';
 const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY') ?? '';
@@ -103,6 +104,13 @@ const cors = {
 };
 const json = (b: unknown, s = 200) => new Response(JSON.stringify(b), { status: s, headers: { ...cors, 'Content-Type': 'application/json' } });
 const esc = (s: unknown) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]!));
+
+// Slots are prose, never HTML, so a link inside a sentence cannot be typed into one. Instead the
+// slot marks WHERE the link goes with a placeholder, the var behind that placeholder is one of these
+// invisible marks, and the code swaps each mark for the real anchor. One sentence, two links, so
+// they need a mark each.
+const MARK1 = '\u0001', MARK2 = '\u0002';
+const flink = (href: string, label: string) => '<a href="' + href + '" style="color:#7851a9;text-decoration:underline;">' + label + '</a>';
 
 const TYPE_LABEL: Record<string, string> = { form: 'form submission', call: 'phone call', email: 'email click', contact: 'quote or booking request' };
 
@@ -221,6 +229,30 @@ Deno.serve(async (req) => {
   const targets = Object.keys(byClient);
   if (!targets.length) return json({ ok: true, clients: 0, optedIn: optedIn.size, note: 'no leads in window' });
 
+  // Wording comes from admin when it has been edited there; these are the defaults and the last
+  // resort if the registry cannot be read. Read once for the whole run, above the per-client loop.
+  // See supabase/functions/_shared/email-template.ts.
+  const copy = await emailCopy(service, 'lead-digest', {
+    subject: 'Your website got {{lead_count}} {{lead_word}} today',
+    slots: {
+      greeting: 'Hi {{first_name}},',
+      headline_one: 'You got a new lead today{{lead_summary}}.',
+      headline_many: 'You got {{lead_count}} new leads today{{lead_summary}}.',
+      draft_label: 'Suggested reply, ready to send',
+      more_line: 'And {{more_count}} more in your portal.',
+      nudge_contactable: 'The faster you follow up, the more likely you are to win the job.',
+      nudge_anonymous: 'Nothing to reply to on this one, but it\'s a sign your site is doing its job.',
+      nudge_basic: 'Open your portal to see them and follow up.',
+      button: 'Open your portal',
+      spam_note_one: '{{skipped_count}} suspected sales pitch left out of this email. It\'s still in your portal if you want to look.',
+      spam_note_many: '{{skipped_count}} suspected sales pitches left out of this email. They\'re still in your portal if you want to look.',
+      footer: 'This is your daily lead summary from WebEaze. Every lead is also in {{portal_link}} in real time. To stop these daily emails, open {{leads_link}} and switch off the daily summary.',
+      portal_link_text: 'your portal',
+      leads_link_text: 'Leads in your portal',
+      signoff: 'The WebEaze team',
+    },
+  });
+
   let sent = 0;
   // Send in small concurrent batches so a growing client base never times out or trips Resend limits.
   const BATCH = 6;
@@ -257,9 +289,15 @@ Deno.serve(async (req) => {
         : (parts[0] || '');
       // "1 phone call" reads badly mid sentence; "a phone call" reads like a person wrote it.
       const one = breakdown.replace(/^1 /, /^[aeiou]/i.test(breakdown.slice(2)) ? 'an ' : 'a ');
-      const headline = n === 1
-        ? ('You got a new lead today' + (one ? ': ' + one : '') + '.')
-        : ('You got ' + n + ' new leads today' + (breakdown ? ': ' + breakdown : '') + '.');
+      const vars = {
+        first_name: first,
+        lead_count: n,
+        lead_word: n === 1 ? 'lead' : 'leads',
+        lead_summary: n === 1 ? (one ? ': ' + one : '') : (breakdown ? ': ' + breakdown : ''),
+        skipped_count: skipped,
+        portal_link: MARK1,
+        leads_link: MARK2,
+      };
 
       // Growth/Elite: one card per lead with contact details, a ready-to-send AI-drafted reply, and a
       // one-tap Call / Reply now (pre-filled with the draft) so they can act straight from the email.
@@ -282,7 +320,7 @@ Deno.serve(async (req) => {
           if (l.message) rows.push('<tr><td style="padding:4px 14px 4px 0;color:#6b7280;font-size:13px;vertical-align:top;">Message</td><td style="padding:4px 0;font-size:14px;">' + esc(l.message) + '</td></tr>');
           const draft = drafts.get(l);
           const draftBlock = draft
-            ? '<div style="background:#ffffff;border:1px solid #ece9f4;border-radius:8px;padding:10px 12px;margin-top:10px;"><div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#7851a9;margin-bottom:5px;">Suggested reply, ready to send</div><div style="font-size:13px;color:#1e222b;line-height:1.55;white-space:pre-wrap;">' + esc(draft) + '</div></div>'
+            ? '<div style="background:#ffffff;border:1px solid #ece9f4;border-radius:8px;padding:10px 12px;margin-top:10px;"><div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#7851a9;margin-bottom:5px;">' + copy.text('draft_label', vars) + '</div><div style="font-size:13px;color:#1e222b;line-height:1.55;white-space:pre-wrap;">' + esc(draft) + '</div></div>'
             : '';
           const ctas: string[] = [];
           if (l.phone) ctas.push(btn('tel:' + esc(l.phone), 'Call ' + esc(l.name || l.phone)));
@@ -298,7 +336,7 @@ Deno.serve(async (req) => {
         // was then announced as "1 more waiting in your portal": the same lead, counted twice, in an
         // email whose whole job is to tell you how many you got.
         const moreN = withDetails.length - shown.length;
-        const moreLine = moreN > 0 ? '<p style="font-size:13px;color:#6b7280;margin:2px 0 0;">And ' + moreN + ' more in your portal.</p>' : '';
+        const moreLine = moreN > 0 ? '<p style="font-size:13px;color:#6b7280;margin:2px 0 0;">' + copy.text('more_line', { ...vars, more_count: moreN }) + '</p>' : '';
         // Leads with nothing to show: someone tapped the phone number or the email link. There is no
         // card to render and nothing waiting for them in the portal either, so say what happened
         // instead of implying there is more to read.
@@ -309,20 +347,25 @@ Deno.serve(async (req) => {
         detailBlock = cards + moreLine + anonLine;
       }
 
-      const inner = '<p style="margin:0 0 12px;">Hi ' + esc(first) + ',</p>'
-        + '<p style="margin:0 0 6px;"><strong style="font-size:17px;">' + headline + '</strong></p>'
+      const inner = '<p style="margin:0 0 12px;">' + copy.text('greeting', vars).replace(/\s+([,.!?])/g, '$1') + '</p>'
+        + '<p style="margin:0 0 6px;"><strong style="font-size:17px;">' + copy.text(n === 1 ? 'headline_one' : 'headline_many', vars) + '</strong></p>'
         + detailBlock
         // Only push follow-up when there is someone to follow up WITH. Telling a client to move fast
         // on a lead that left no name and no number is advice they cannot act on, and it sends them
         // into the portal looking for contact details that were never captured.
         + (contactable > 0
-            ? '<p style="margin:14px 0 16px;">The faster you follow up, the more likely you are to win the job.</p>'
+            ? '<p style="margin:14px 0 16px;">' + copy.text('nudge_contactable', vars) + '</p>'
             : adv
-              ? '<p style="margin:14px 0 16px;">Nothing to reply to on this one, but it\'s a sign your site is doing its job.</p>'
-              : '<p style="margin:6px 0 16px;">Open your portal to see them and follow up.</p>')
-        + '<p style="margin:0 0 18px;"><a href="' + PORTAL_URL + '" style="display:inline-block;background:#7851a9;color:#fff;text-decoration:none;font-weight:600;padding:11px 22px;border-radius:9px;">Open your portal</a></p>';
+              ? '<p style="margin:14px 0 16px;">' + copy.text('nudge_anonymous', vars) + '</p>'
+              : '<p style="margin:6px 0 16px;">' + copy.text('nudge_basic', vars) + '</p>')
+        + '<p style="margin:0 0 18px;"><a href="' + PORTAL_URL + '" style="display:inline-block;background:#7851a9;color:#fff;text-decoration:none;font-weight:600;padding:11px 22px;border-radius:9px;">' + copy.text('button', vars) + '</a></p>';
 
-      const subject = n === 1 ? 'Your website got 1 lead today' : 'Your website got ' + n + ' leads today';
+      // A subject line is a mail header, where a control character is illegal: if a link placeholder
+      // is ever pasted into one, drop the mark rather than post it.
+      const subject = copy.subject(vars).split(MARK1).join('').split(MARK2).join('');
+      const footer = copy.text('footer', vars)
+        .split(MARK1).join(flink(PORTAL_URL, copy.text('portal_link_text', vars)))
+        .split(MARK2).join(flink(PORTAL_URL + '/#leads', copy.text('leads_link_text', vars)));
 
       await sendEmail({
         from: FROM,
@@ -330,9 +373,9 @@ Deno.serve(async (req) => {
         subject,
         html: '<div style="font-family:Arial,Helvetica,sans-serif;font-size:15px;color:#1e222b;line-height:1.6;max-width:520px;">'
           + inner
-          + (skipped ? '<p style="color:#6b7280;font-size:12.5px;">' + skipped + ' suspected sales pitch' + (skipped === 1 ? '' : 'es') + ' left out of this email. ' + (skipped === 1 ? 'It\'s' : 'They\'re') + ' still in your portal if you want to look.</p>' : '')
-          + '<p style="color:#6b7280;font-size:12.5px;border-top:1px solid #eee;padding-top:12px;margin-top:8px;">This is your daily lead summary from WebEaze. Every lead is also in <a href="' + PORTAL_URL + '" style="color:#7851a9;text-decoration:underline;">your portal</a> in real time. To stop these daily emails, open <a href="' + PORTAL_URL + '/#leads" style="color:#7851a9;text-decoration:underline;">Leads in your portal</a> and switch off the daily summary.</p>'
-          + '<p style="color:#6b7280;font-size:12.5px;">The WebEaze team</p>'
+          + (skipped ? '<p style="color:#6b7280;font-size:12.5px;">' + copy.text(skipped === 1 ? 'spam_note_one' : 'spam_note_many', vars) + '</p>' : '')
+          + '<p style="color:#6b7280;font-size:12.5px;border-top:1px solid #eee;padding-top:12px;margin-top:8px;">' + footer + '</p>'
+          + '<p style="color:#6b7280;font-size:12.5px;">' + copy.text('signoff', vars) + '</p>'
           + '</div>',
       });
       sent++;

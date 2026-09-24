@@ -23,6 +23,7 @@
 // Note for test mode: Stripe sends no emails on test keys, even though the send call succeeds.
 
 import { createClient } from 'jsr:@supabase/supabase-js@2';
+import { emailCopy } from '../_shared/email-template.ts';
 
 const STRIPE_SECRET_KEY = Deno.env.get('STRIPE_SECRET_KEY') ?? '';
 const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY') ?? '';
@@ -141,25 +142,58 @@ Deno.serve(async (req) => {
       } catch (e2) { console.error('[create-invoice] finalize failed too, leaving it a draft:', e2); }
     }
 
-    // Worth knowing about: the price on the card and the price on the invoice disagree. It means the
-    // portal's ADD_ONS and Stripe have drifted, and the client just saw the older of the two.
-    const mismatch = (shown > 0 && total && Math.abs(shown - total) >= 1)
-      ? '<p><strong>Heads up:</strong> the portal showed $' + shown + ' but the invoice is $' + total + '. Worth lining those up.</p>' : '';
-    const how = priceId ? '' : '<p class="n">Priced from <code>addon_prices</code>, not a Stripe product. Paste this add-on\'s price ID in admin under Money to put it on the real product.</p>';
-    await emailTeam(
-      (emailed ? 'Invoice sent: ' : 'Invoice ready (not emailed): ') + addon + ' for ' + (c.name || c.email || 'a client'),
-      '<p><strong>' + esc(c.name || c.email) + '</strong> bought <strong>' + esc(addon) + '</strong>' + (total ? ' ($' + total + ')' : '') + '.</p>'
-      + (emailed
-        ? '<p>Stripe has emailed it to them and they can pay from the portal too. You get another email the moment it is paid, and the work files itself as a request. Nothing for you to send.</p>'
-        : (payUrl
-          ? '<p>It is finalized and they have a Pay now link in the portal, but Stripe did not email it. Worth sending from the dashboard.</p>'
-          : '<p>It is sitting in Stripe as a <strong>draft</strong>. Review it and hit Send.</p>'))
-      + (answers.length
-        ? '<hr style="border:none;border-top:1px solid #e6e8f0;margin:18px 0;">'
-          + '<p><strong>Their brief</strong></p>'
-          + answers.map((x) => '<p style="margin:0 0 10px;"><span style="color:#666b8b;">' + esc(x.q) + '</span><br>' + esc(x.a).replace(/\n/g, '<br>') + '</p>').join('')
-        : '')
-      + mismatch + how);
+    // The invoice exists and Stripe may already have emailed it, so a failure to write the note
+    // to ourselves must not come back as ok:false: the portal reads that as "file it as a request
+    // instead" and the client would be charged and have a request raised for the same add-on.
+    try {
+      // Wording comes from admin when it has been edited there; these are the defaults and the last
+      // resort if the registry cannot be read. See supabase/functions/_shared/email-template.ts.
+      // Their brief, the prices and the note about where the price came from stay in code: they are
+      // the facts of this one invoice, not the copy.
+      const copy = await emailCopy(service, 'invoice-drafted', {
+        subject: 'Invoice {{state}}: {{addon}} for {{client_name}}',
+        slots: {
+          bought: 'bought',
+          status_sent: 'Stripe has emailed it to them and they can pay from the portal too. You get another email the moment it is paid, and the work files itself as a request. Nothing for you to send.',
+          status_finalized: 'It is finalized and they have a Pay now link in the portal, but Stripe did not email it. Worth sending from the dashboard.',
+          status_draft: 'It is sitting in Stripe as a draft. Review it and hit Send.',
+          brief_label: 'Their brief',
+          mismatch_label: 'Heads up:',
+          mismatch: 'the portal showed ${{shown}} but the invoice is ${{invoiced}}. Worth lining those up.',
+        },
+      });
+      const vars = {
+        state: emailed ? 'sent' : 'ready (not emailed)',
+        addon,
+        client_name: String(c.name || c.email || 'a client'),
+        shown: String(shown),
+        invoiced: String(total ?? ''),
+      };
+
+      // Worth knowing about: the price on the card and the price on the invoice disagree. It means the
+      // portal's ADD_ONS and Stripe have drifted, and the client just saw the older of the two.
+      const mismatch = (shown > 0 && total && Math.abs(shown - total) >= 1)
+        ? '<p><strong>' + copy.text('mismatch_label', vars) + '</strong> ' + copy.text('mismatch', vars) + '</p>' : '';
+      const how = priceId ? '' : '<p class="n">Priced from <code>addon_prices</code>, not a Stripe product. Paste this add-on\'s price ID in admin under Money to put it on the real product.</p>';
+      await emailTeam(
+        copy.subject(vars),
+        '<p><strong>' + esc(c.name || c.email) + '</strong> ' + copy.text('bought', vars) + ' <strong>' + esc(addon) + '</strong>' + (total ? ' ($' + total + ')' : '') + '.</p>'
+        // The empty style keeps the plain <p> these lines have always used, and still lets a blank line
+        // in the edited text become a second paragraph.
+        + (emailed
+          ? copy.paras('status_sent', vars, '')
+          : (payUrl
+            ? copy.paras('status_finalized', vars, '')
+            : copy.paras('status_draft', vars, '')))
+        + (answers.length
+          ? '<hr style="border:none;border-top:1px solid #e6e8f0;margin:18px 0;">'
+            + '<p><strong>' + copy.text('brief_label', vars) + '</strong></p>'
+            + answers.map((x) => '<p style="margin:0 0 10px;"><span style="color:#666b8b;">' + esc(x.q) + '</span><br>' + esc(x.a).replace(/\n/g, '<br>') + '</p>').join('')
+          : '')
+        + mismatch + how);
+    } catch (e) {
+      console.error('[create-invoice] team note failed, the invoice itself is fine:', e);
+    }
 
     return json({ ok: true, invoiceId: inv.id, url: payUrl || null, emailed, amount: total || null });
   } catch (e) {

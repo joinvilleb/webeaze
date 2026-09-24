@@ -21,6 +21,7 @@
 // (Keep JWT verification ON, the default; callers are the logged-in admin, and we check the email.)
 
 import { createClient } from 'jsr:@supabase/supabase-js@2';
+import { emailCopy } from '../_shared/email-template.ts';
 
 // supabase-js functions.invoke() sends apikey and x-client-info alongside authorization, so the
 // browser's preflight asks permission for all four. Allowing only two meant the preflight failed and
@@ -48,22 +49,46 @@ const FROM = 'WebEaze <support@webeaze.io>';
 // membership were created) while the person never heard a thing. generateLink() gives us the same
 // action link without sending anything, and Resend, which every other client email already goes
 // through, actually delivers it.
-async function sendInviteEmail(to: string, link: string, businessName: string, existing: boolean) {
+async function sendInviteEmail(service: any, to: string, link: string, businessName: string, existing: boolean) {
   if (!RESEND_API_KEY) throw new Error('RESEND_API_KEY is not set on invite-member, so the invite email cannot be sent.');
-  const esc = (t: string) => String(t ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]!));
-  const biz = esc(businessName || 'your business');
-  const html = '<div style="font-family:Helvetica,Arial,sans-serif;font-size:15px;color:#1e222b;line-height:1.65;max-width:520px;">'
-    + '<p style="margin:0 0 12px;">Hi,</p>'
-    + '<p style="margin:0 0 14px;">You\'ve been given access to the WebEaze portal for <strong>' + biz + '</strong>. '
-    + (existing ? 'You already have an account, so this link signs you straight in.' : 'Use the link below to set a password and sign in.') + '</p>'
+  // Wording comes from admin when it has been edited there; these are the defaults and the last
+  // resort if the registry cannot be read. See supabase/functions/_shared/email-template.ts.
+  const copy = await emailCopy(service, 'portal-invite', {
+    subject: 'Your WebEaze portal access',
+    slots: {
+      greeting: 'Hi,',
+      lead: 'You\'ve been given access to the WebEaze portal for {{business}}.',
+      lead_existing: 'You already have an account, so this link signs you in.',
+      lead_new: 'Use the link below to set a password and sign in.',
+      button_existing: 'Sign in to the portal',
+      button_new: 'Set your password',
+      expiry: 'The link expires in 24 hours. If it has, ask for a new invite.',
+      signoff: 'The WebEaze team',
+    },
+  });
+  const vars = { business: businessName || 'your business' };
+  // The business name is bold inside an editable sentence, and a slot is escaped prose, so no tag can
+  // travel through one. The name goes in wrapped in two control characters, which the escaping leaves
+  // alone, and those become the <strong> once the sentence is built. Take {{business}} out of the slot
+  // and the bold goes with it. The subject gets the plain value: a mail header has no tags in it.
+  const bodyVars = { business: '\u0001' + vars.business + '\u0002' };
+  const strong = (t: string) => t.split('\u0001').join('<strong>').split('\u0002').join('</strong>');
+  // "Hi {{business}}," with nothing on file would read "Hi ,".
+  const greeting = copy.text('greeting', bodyVars).replace(/\s+([,.!?])/g, '$1');
+  // Both halves are one paragraph, and a cleared slot must not leave a stray space behind.
+  const lead = [copy.text('lead', bodyVars), copy.text(existing ? 'lead_existing' : 'lead_new', bodyVars)]
+    .filter(Boolean).join(' ');
+  const html = strong('<div style="font-family:Helvetica,Arial,sans-serif;font-size:15px;color:#1e222b;line-height:1.65;max-width:520px;">'
+    + '<p style="margin:0 0 12px;">' + greeting + '</p>'
+    + '<p style="margin:0 0 14px;">' + lead + '</p>'
     + '<p style="margin:0 0 18px;"><a href="' + link + '" style="display:inline-block;background:#7851a9;color:#fff;text-decoration:none;font-weight:700;padding:12px 24px;border-radius:10px;">'
-    + (existing ? 'Sign in to the portal' : 'Set your password') + '</a></p>'
-    + '<p style="margin:0 0 14px;color:#6b7280;font-size:13px;">The link expires in 24 hours. If it has, ask for a new invite.</p>'
-    + '<p style="margin:0;color:#6b7280;font-size:13px;">The WebEaze team</p></div>';
+    + copy.text(existing ? 'button_existing' : 'button_new', bodyVars) + '</a></p>'
+    + '<p style="margin:0 0 14px;color:#6b7280;font-size:13px;">' + copy.text('expiry', bodyVars) + '</p>'
+    + '<p style="margin:0;color:#6b7280;font-size:13px;">' + copy.text('signoff', bodyVars) + '</p></div>');
   const res = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + RESEND_API_KEY },
-    body: JSON.stringify({ from: FROM, to: [to], subject: 'Your WebEaze portal access', html }),
+    body: JSON.stringify({ from: FROM, to: [to], subject: copy.subject(vars), html }),
   });
   if (!res.ok) throw new Error('Resend ' + res.status + ': ' + (await res.text()).slice(0, 160));
 }
@@ -179,7 +204,7 @@ Deno.serve(async (req) => {
       // Membership is saved, so access already works. The email is what tells them, and a failure
       // here is worth reporting rather than swallowing: an invite nobody receives is not an invite.
       try {
-        await sendInviteEmail(email, actionLink!, client.name || '', alreadyExisted);
+        await sendInviteEmail(service, email, actionLink!, client.name || '', alreadyExisted);
       } catch (mailErr) {
         return json({ ok: true, invited: true, alreadyExisted, member, emailed: false,
           error: 'Access granted, but the email didn\'t send: ' + String((mailErr as any)?.message || mailErr) });

@@ -20,6 +20,7 @@
 // Needs:  supabase/login_link_requests.sql, RESEND_API_KEY
 
 import { createClient } from 'jsr:@supabase/supabase-js@2';
+import { emailCopy } from '../_shared/email-template.ts';
 
 const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY') ?? '';
 const FROM = 'WebEaze <support@webeaze.io>';
@@ -32,28 +33,44 @@ const cors = {
   'Access-Control-Allow-Methods': 'POST, OPTIONS',
 };
 const json = (b: unknown, s = 200) => new Response(JSON.stringify(b), { status: s, headers: { ...cors, 'Content-Type': 'application/json' } });
-const esc = (t: unknown) => String(t ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]!));
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 // See wzMail in portal/index.html: stops the inbox preview reading on into the body.
 const PREVIEW_PAD = new Array(161).join('&#847;&zwnj;&nbsp;');
 
-async function sendLink(to: string, link: string, name: string) {
+async function sendLink(service: any, to: string, link: string, name: string) {
   const first = String(name || '').trim().split(/\s+/)[0];
+  // Wording comes from admin when it has been edited there; these are the defaults and the last
+  // resort if the registry cannot be read. See supabase/functions/_shared/email-template.ts.
+  const copy = await emailCopy(service, 'sign-in-link', {
+    subject: 'Your sign-in link',
+    slots: {
+      greeting: 'Hey {{first_name}},',
+      lead: 'Here\'s your way in. No password needed.',
+      button: 'Open my portal',
+      fine_print: 'The link works for one hour and only from this email. If you didn\'t ask for it, you can ignore this: nobody can get in without it.',
+      signoff: 'Best,\nWebEaze Web Design',
+    },
+  });
+  const vars = { first_name: first || '' };
+  // "Hey {{first_name}}," with no name on file would read "Hey ,".
+  const greeting = copy.text('greeting', vars).replace(/\s+([,.!?])/g, '$1');
+  const signoff = (copy.text('signoff', vars) || 'Best,\nWebEaze Web Design').split('\n')
+    .map((line, i) => '<p style="' + (i === 0 ? 'margin:28px 0 4px;' : 'margin:0;') + '">' + line.trim() + '</p>').join('');
   const html =
     '<div style="display:none;max-height:0;overflow:hidden;opacity:0;">Tap to sign in. The link works for one hour.</div>' +
     '<div style="display:none;max-height:0;overflow:hidden;opacity:0;">' + PREVIEW_PAD + '</div>' +
     '<div style="max-width:560px;margin:0 auto;padding:32px 24px;font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:1.7;color:#1f2333;">' +
-    '<p style="margin:0 0 12px;">Hey' + (first ? ' ' + esc(first) : '') + ',</p>' +
-    '<p style="margin:0 0 20px;">Here\'s your way in. No password needed.</p>' +
-    '<p style="margin:0 0 20px;"><a href="' + link + '" style="display:inline-block;background:#7851a9;color:#ffffff;text-decoration:none;font-weight:600;font-size:15px;padding:12px 24px;border-radius:10px;">Open my portal</a></p>' +
-    '<p style="margin:0 0 16px;color:#6b7094;font-size:13px;">The link works for one hour and only from this email. If you didn\'t ask for it, you can ignore this: nobody can get in without it.</p>' +
-    '<p style="margin:28px 0 4px;">Best,</p><p style="margin:0;">WebEaze Web Design</p>' +
+    '<p style="margin:0 0 12px;">' + greeting + '</p>' +
+    copy.paras('lead', vars, 'margin:0 0 20px;') +
+    '<p style="margin:0 0 20px;"><a href="' + link + '" style="display:inline-block;background:#7851a9;color:#ffffff;text-decoration:none;font-weight:600;font-size:15px;padding:12px 24px;border-radius:10px;">' + copy.text('button', vars) + '</a></p>' +
+    copy.paras('fine_print', vars, 'margin:0 0 16px;color:#6b7094;font-size:13px;') +
+    signoff +
     '<p style="margin:28px 0 0;font-size:12px;color:#9599b8;">WebEaze Web Design, 109 Pleasant Hill Drive, Camden-Wyoming, Delaware 19934, USA</p>' +
     '</div>';
   const res = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + RESEND_API_KEY },
-    body: JSON.stringify({ from: FROM, to: [to], subject: 'Your sign-in link', html }),
+    body: JSON.stringify({ from: FROM, to: [to], subject: copy.subject(vars), html }),
   });
   if (!res.ok) throw new Error('Resend ' + res.status + ': ' + (await res.text()).slice(0, 160));
 }
@@ -100,7 +117,7 @@ Deno.serve(async (req) => {
     const link = magic.data?.properties?.action_link;
     if (!link) { console.error('[login-link] generateLink failed:', magic.error?.message); return json({ ok: true }); }
 
-    await sendLink(email, link, name);
+    await sendLink(service, email, link, name);
     console.log('[login-link] sent to ' + email);
     return json({ ok: true, sent: true });
   } catch (e) {

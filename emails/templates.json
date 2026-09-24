@@ -45,20 +45,430 @@
     },
     "notes": "The question itself is written per request and sits in the panel between the lead line and the closer."
   },
-
-  { "key": "portal-invite",   "name": "Portal access invite",        "audience": "client", "when": "You invite someone, or a first payment creates the account.", "sentBy": "invite-member",    "editable": false },
-  { "key": "sign-in-link",    "name": "Sign-in link",                "audience": "client", "when": "Someone asks to sign in by email instead of a password.",      "sentBy": "login-link",       "editable": false },
-  { "key": "growth-report",   "name": "Monthly growth report",       "audience": "client", "when": "The first of the month, per client.",                          "sentBy": "growth-report",    "editable": false },
-  { "key": "new-inquiry",     "name": "New inquiry from your site",  "audience": "client", "when": "Someone fills in a form on their website.",                     "sentBy": "form-lead",        "editable": false },
-  { "key": "lead-digest",     "name": "Daily lead summary",          "audience": "client", "when": "Once a day, if anyone got in touch.",                          "sentBy": "lead-digest",      "editable": false },
-  { "key": "lifecycle-check", "name": "How is your website working", "audience": "client", "when": "A while after launch, once.",                                  "sentBy": "lifecycle-emails", "editable": false },
-  { "key": "lifecycle-setup", "name": "Your portal is waiting",      "audience": "client", "when": "Setup has not been submitted yet.",                            "sentBy": "lifecycle-emails", "editable": false },
-  { "key": "lifecycle-chase", "name": "Waiting on you",              "audience": "client", "when": "A request has been waiting on their reply for three days.",    "sentBy": "lifecycle-emails", "editable": false },
-  { "key": "email-change",    "name": "Confirm your new address",    "audience": "client", "when": "They change the email on their account.",                      "sentBy": "change-email",     "editable": false },
-  { "key": "reward",          "name": "Reward unlocked",             "audience": "client", "when": "A referral or milestone earns them something.",                "sentBy": "reward-scan",      "editable": false },
-  { "key": "inbound-note",    "name": "Reply posted to your portal", "audience": "client", "when": "They reply to one of our emails and it lands in Messages.",     "sentBy": "inbound-note",     "editable": false },
-
-  { "key": "site-watch",      "name": "Site watch alert",            "audience": "you",    "when": "A client site goes down or breaks a check.",                    "sentBy": "site-watch",       "editable": false },
-  { "key": "churn-digest",    "name": "Churn digest",                "audience": "you",    "when": "Weekly, for accounts going quiet.",                            "sentBy": "churn-digest",     "editable": false },
-  { "key": "invoice-drafted", "name": "Add-on invoice drafted",      "audience": "you",    "when": "A client orders a flat-rate add-on.",                          "sentBy": "create-invoice",   "editable": false }
+  {
+    "key": "portal-invite",
+    "name": "Portal access invite",
+    "audience": "client",
+    "when": "You invite someone, or a first payment creates the account.",
+    "sentBy": "invite-member",
+    "editable": true,
+    "subject": "Your WebEaze portal access",
+    "slots": {
+      "greeting": "Hi,",
+      "lead": "You've been given access to the WebEaze portal for {{business}}.",
+      "lead_existing": "You already have an account, so this link signs you in.",
+      "lead_new": "Use the link below to set a password and sign in.",
+      "button_existing": "Sign in to the portal",
+      "button_new": "Set your password",
+      "expiry": "The link expires in 24 hours. If it has, ask for a new invite.",
+      "signoff": "The WebEaze team"
+    },
+    "vars": {
+      "business": "Their business name, or 'your business' when we have none on file"
+    },
+    "notes": "One email with two faces: the lead line is followed by 'lead existing' when they already have an account and 'lead new' when they do not, and the button label switches the same way. The business name comes out bold."
+  },
+  {
+    "key": "sign-in-link",
+    "name": "Sign-in link",
+    "audience": "client",
+    "when": "Someone asks to sign in by email instead of a password.",
+    "sentBy": "login-link",
+    "editable": true,
+    "subject": "Your sign-in link",
+    "slots": {
+      "greeting": "Hey {{first_name}},",
+      "lead": "Here's your way in. No password needed.",
+      "button": "Open my portal",
+      "fine_print": "The link works for one hour and only from this email. If you didn't ask for it, you can ignore this: nobody can get in without it.",
+      "signoff": "Best,\nWebEaze Web Design"
+    },
+    "vars": {
+      "first_name": "Their first name, blank if we do not have it"
+    },
+    "notes": "The inbox preview line and the postal address in the footer stay in the code."
+  },
+  {
+    "key": "growth-report",
+    "name": "Monthly growth report",
+    "audience": "client",
+    "when": "The first of the month, per client.",
+    "sentBy": "growth-report",
+    "editable": true,
+    "subject": "Your {{month_year}} growth report",
+    "slots": {
+      "header_label": "Your {{report_period}} report",
+      "greeting": "Hi {{first_name}},",
+      "opening": "Here's a quick update on how {{site}} is doing.",
+      "opening_essential": "Here's your quick monthly check-in on how {{site}} is doing.",
+      "leads_headline": "new {{inquiry_word}} {{leads_label}}",
+      "leads_note": "Calls, emails, and contact-form messages from your website.",
+      "snapshot_intro": "Here's a quick snapshot of your site right now:",
+      "shipped_intro": "Here's what we took care of for you {{month_phrase}}:",
+      "recs_intro": "A couple of things we'd suggest:",
+      "upsell": "You're on our Essential plan. Growth adds your search trends over time, the exact terms people use to find you, and a tailored action plan each month.",
+      "closing": "If you'd like a hand with any of this, send us a request in your",
+      "portal_label": "client portal",
+      "signoff": "Talk soon,\nThe WebEaze team"
+    },
+    "vars": {
+      "month_year": "The month the report covers, with the year, e.g. July 2026. Empty on a report they asked for themselves, and the subject closes up around it",
+      "report_period": "What the header calls this report: the month name on the monthly run, the word website otherwise",
+      "first_name": "Their first name, or there if we do not have one",
+      "site": "Their website address, or the words your website if none is on file",
+      "inquiry_word": "inquiry or inquiries, matching the count beside it",
+      "leads_label": "When those inquiries came in, e.g. in July or this month",
+      "month_phrase": "in July on the monthly run, this month on an on-demand send",
+      "month_label": "Just the month name, e.g. July. Empty on an on-demand send",
+      "leads_count": "How many inquiries came in, the big number in the callout"
+    },
+    "notes": "Only the sentences are editable. The speed, rating and search lines, the AI summary, the recommendations, the list of work completed and the address footer all stay in code. Closing runs straight into the client portal link, so it deliberately ends without a full stop."
+  },
+  {
+    "key": "new-inquiry",
+    "name": "New inquiry from your site",
+    "audience": "client",
+    "when": "Someone fills in a form on their website.",
+    "sentBy": "form-lead",
+    "editable": true,
+    "subject": "New inquiry: {{who}}{{phone_suffix}}",
+    "slots": {
+      "intro": "Hi {{first_name}}, a new inquiry just came in",
+      "headline": "{{who}} wants to hear from you",
+      "call_button": "Call {{who_short}}",
+      "email_button": "Reply by email",
+      "attached_label": "Attached:",
+      "dropped_note": "Couldn't attach: {{dropped}}. Ask them to email it to you directly.",
+      "footer": "Replying quickly is the single biggest thing that wins this job. Everything is also in your",
+      "portal_label": "portal"
+    },
+    "vars": {
+      "first_name": "The client's first name, or there if we do not have one",
+      "who": "The visitor's name, or Someone if they did not give one",
+      "who_short": "The visitor's name for the call button, or them if they did not give one",
+      "phone_suffix": "The visitor's phone in brackets for the subject, e.g. (302-555-0101), or nothing",
+      "dropped": "The files we could not attach, comma separated",
+      "business": "The client's business name"
+    },
+    "notes": "A form that sets its own subject still overrides the subject line. The submitted details, the Phone, Email and Page labels and the visitor's own field names are printed as they came in and are not editable. Footer runs straight into the portal link, so it deliberately ends without a full stop."
+  },
+  {
+    "key": "lead-digest",
+    "name": "Daily lead summary",
+    "audience": "client",
+    "when": "Once a day, if anyone got in touch.",
+    "sentBy": "lead-digest",
+    "editable": true,
+    "subject": "Your website got {{lead_count}} {{lead_word}} today",
+    "slots": {
+      "greeting": "Hi {{first_name}},",
+      "headline_one": "You got a new lead today{{lead_summary}}.",
+      "headline_many": "You got {{lead_count}} new leads today{{lead_summary}}.",
+      "draft_label": "Suggested reply, ready to send",
+      "more_line": "And {{more_count}} more in your portal.",
+      "nudge_contactable": "The faster you follow up, the more likely you are to win the job.",
+      "nudge_anonymous": "Nothing to reply to on this one, but it's a sign your site is doing its job.",
+      "nudge_basic": "Open your portal to see them and follow up.",
+      "button": "Open your portal",
+      "spam_note_one": "{{skipped_count}} suspected sales pitch left out of this email. It's still in your portal if you want to look.",
+      "spam_note_many": "{{skipped_count}} suspected sales pitches left out of this email. They're still in your portal if you want to look.",
+      "footer": "This is your daily lead summary from WebEaze. Every lead is also in {{portal_link}} in real time. To stop these daily emails, open {{leads_link}} and switch off the daily summary.",
+      "portal_link_text": "your portal",
+      "leads_link_text": "Leads in your portal",
+      "signoff": "The WebEaze team"
+    },
+    "vars": {
+      "first_name": "Their first name",
+      "lead_count": "How many leads came in",
+      "lead_word": "lead or leads, to match the count",
+      "lead_summary": "The breakdown after the count, e.g. \": 2 form submissions and a phone call\"",
+      "more_count": "How many leads did not fit in the email",
+      "skipped_count": "How many suspected pitches were left out",
+      "portal_link": "Where the portal link goes in the footer",
+      "leads_link": "Where the Leads page link goes in the footer"
+    },
+    "notes": "Each lead card (the Name, Phone, Email and Message rows, the Call and Reply buttons, and the line about people who only tapped your number) is built per lead and is not editable."
+  },
+  {
+    "key": "lifecycle-check",
+    "name": "How is your website working",
+    "audience": "client",
+    "when": "A while after launch, once.",
+    "sentBy": "lifecycle-emails",
+    "editable": true,
+    "subject": "How is your website working out?",
+    "slots": {
+      "greeting": "Hey {{first_name}},",
+      "lead": "Your website has been live for a couple of weeks now. How's it going? We hope it's already bringing you new leads and customers.",
+      "asks_intro": "Two quick things, only if you're happy so far:",
+      "review_ask": "A quick {{review_link}} genuinely means a lot to a small team like ours.",
+      "review_link_text": "Google review",
+      "referral_ask": "Know another business owner who needs a site? {{referral_link}} and you get a free month when they sign up.",
+      "referral_link_text": "Refer them",
+      "closer": "And if you'd like any changes, just send us a request in your {{portal_link}}. That's what we're here for.",
+      "portal_link_text": "portal",
+      "signoff": "Best,\nWebEaze Web Design"
+    },
+    "vars": {
+      "first_name": "Their first name, \"there\" if we do not have it",
+      "review_link": "Where the Google review link goes",
+      "referral_link": "Where the referrals page link goes",
+      "portal_link": "Where the portal link goes"
+    },
+    "notes": "The three link addresses are fixed in code; the words around them, and the link text itself, are yours. Move a link placeholder and the link moves with it."
+  },
+  {
+    "key": "lifecycle-setup",
+    "name": "Your portal is waiting",
+    "audience": "client",
+    "when": "They have never opened their portal.",
+    "sentBy": "lifecycle-emails",
+    "editable": true,
+    "subject": "Your WebEaze portal is waiting",
+    "slots": {
+      "greeting": "Hey {{first_name}},",
+      "lead": "We set your client portal up when you joined, but it looks like you haven't opened it yet. Everything we do for you lives in there.",
+      "list_intro": "It's where you:",
+      "list_items": "Send us website changes and watch them get done\nSee who has been contacting you through your site\nCheck how your site is performing on Google",
+      "button": "Open your portal",
+      "closer": "If you can't get in, or never received your login, just reply to this email and we'll sort it out.",
+      "signoff": "Best,\nWebEaze Web Design"
+    },
+    "vars": {
+      "first_name": "Their first name, \"there\" if we do not have it"
+    },
+    "notes": "List items is one bullet per line, so a bullet can be added or removed here."
+  },
+  {
+    "key": "lifecycle-chase",
+    "name": "Waiting on you",
+    "audience": "client",
+    "when": "A request has been waiting on their reply for three days.",
+    "sentBy": "lifecycle-emails",
+    "editable": true,
+    "subject": "Still waiting on you: {{request_type}}",
+    "slots": {
+      "greeting": "Hey {{first_name}},",
+      "lead": "We're still waiting to hear back on your {{request_type_lower}} request. It's paused until we do.",
+      "asked_label": "This is what we asked:",
+      "button": "Answer in your portal",
+      "closer": "You can also just reply to this email and we'll pick it up from there.",
+      "signoff": "Best,\nWebEaze Web Design"
+    },
+    "vars": {
+      "first_name": "Their first name, \"there\" if we do not have it",
+      "request_type": "The kind of request as it is written, e.g. Text and photos",
+      "request_type_lower": "The same thing in lower case, for mid sentence"
+    },
+    "notes": "The question we asked is quoted underneath the label in the words it was asked in; that panel is not editable."
+  },
+  {
+    "key": "lifecycle-winback",
+    "name": "We'd love you back",
+    "audience": "client",
+    "when": "A couple of weeks after a plan ends, before the files are deleted.",
+    "sentBy": "lifecycle-emails",
+    "editable": true,
+    "subject": "We'd love to have you back at WebEaze",
+    "slots": {
+      "greeting": "Hey {{first_name}},",
+      "lead": "It has been a couple of weeks since your plan with us ended, and we wanted to reach out once more before your website files are removed.",
+      "offer": "If you'd like to come back, we can reactivate your site and pick up right where we left off, no rebuild needed.",
+      "button": "Reactivate my website",
+      "policy": "Please note: after 30 days from cancellation, website files are permanently deleted and there are no extensions/exceptions to this policy.",
+      "closer": "Either way, thank you for having been part of us, and we wish you the best in your future endeavors.",
+      "signoff": "Best,\nWebEaze Web Design"
+    },
+    "vars": {
+      "first_name": "Their first name, \"there\" if we do not have it"
+    },
+    "notes": "The 30 day deletion window is our policy, not a date this email works out."
+  },
+  {
+    "key": "lifecycle-onboarding",
+    "name": "Finish your site setup",
+    "audience": "client",
+    "when": "Setup has not been submitted yet.",
+    "sentBy": "lifecycle-emails",
+    "editable": true,
+    "subject": "Let's get your website started",
+    "slots": {
+      "greeting": "Hey {{first_name}},",
+      "lead": "Welcome again! We noticed your Site Setup isn't finished yet. We can't start building your website until we have a few details about your business, so you're happy with the final result.",
+      "nudge": "It only takes a few minutes. The sooner you complete it, the sooner your site goes live.",
+      "button": "Finish your Site Setup",
+      "closer": "If you have questions or need help getting started, reply to this email and we'll help you out.",
+      "signoff": "Best,\nWebEaze Web Design"
+    },
+    "vars": {
+      "first_name": "Their first name, \"there\" if we do not have it"
+    }
+  },
+  {
+    "key": "lifecycle-leads",
+    "name": "Enquiries still waiting",
+    "audience": "client",
+    "when": "Leads from their site have sat unhandled for a week.",
+    "sentBy": "lifecycle-emails",
+    "editable": true,
+    "subject": "{{enquiry_count}} {{enquiry_word}} {{is_are}} still waiting for you",
+    "slots": {
+      "greeting": "Hey {{first_name}},",
+      "lead": "{{enquiry_count}} {{inquiry_word}} came in through your website this week and {{isnt_arent}} marked as handled yet.",
+      "more_line": "and {{more_count}} more",
+      "follow_up": "If you've already got back to {{them}}, mark {{it}} done in your portal and we'll stop mentioning {{it}}. If not, most people ring two or three businesses and go with whoever answers first, so today is worth more than tomorrow.",
+      "button": "Open your leads",
+      "closer": "We send this at most once a week, and never twice about the same enquiry.",
+      "signoff": "Best,\nWebEaze Web Design"
+    },
+    "vars": {
+      "first_name": "Their first name, \"there\" if we do not have it",
+      "enquiry_count": "How many enquiries, or the word An when there is only one",
+      "enquiry_word": "enquiry or enquiries, to match the count",
+      "inquiry_word": "inquiry or inquiries, the spelling the body happens to use",
+      "is_are": "is or are, to match the count",
+      "isnt_arent": "isn't or aren't, to match the count",
+      "them": "them for one enquiry, them all for several",
+      "it": "it for one enquiry, them for several",
+      "more_count": "How many enquiries did not fit in the list"
+    },
+    "notes": "This email has always said enquiry in the subject and inquiry in the body. Both are editable now, so they can be made to agree. The list itself is built per enquiry and is not editable."
+  },
+  {
+    "key": "email-change",
+    "name": "Confirm your new address",
+    "audience": "client",
+    "when": "They change the email on their account.",
+    "sentBy": "change-email",
+    "editable": true,
+    "subject": "Confirm your new WebEaze email address",
+    "slots": {
+      "greeting": "Hi,",
+      "lead": "You asked to sign in to your WebEaze portal with this address instead of {{old_email}}. Confirm it and we will move it across.",
+      "button": "Confirm this address",
+      "fine_print": "The link works for one hour. Until you use it, nothing changes and you keep signing in with your old address."
+    },
+    "vars": {
+      "old_email": "The address they sign in with today",
+      "new_email": "The address they asked to move to"
+    },
+    "notes": "This is the confirmation sent to the NEW address only. The two other messages this sends, the heads-up to the old address and the 'your email is updated' note, are still in code."
+  },
+  {
+    "key": "reward",
+    "name": "Reward unlocked",
+    "audience": "client",
+    "when": "A referral or milestone earns them something.",
+    "sentBy": "reward-scan",
+    "editable": true,
+    "subject": "You unlocked a reward!",
+    "slots": {
+      "reward_eyebrow": "Reward unlocked",
+      "reward_heading": "A little something for sticking with us",
+      "reward_lead": "Thanks for being such a loyal WebEaze client. You just unlocked a reward:",
+      "reward_label": "Your reward",
+      "reward_closer": "There's nothing you need to do. We'll apply it and send a note to your account in the portal once it's done.",
+      "reward_portal_line": "You can see your notes and milestones any time in your",
+      "reward_portal_link": "Client Portal",
+      "milestone_subject": "{{milestone}} - nice work",
+      "milestone_eyebrow": "Milestone unlocked",
+      "milestone_greeting": "Nice one, {{first_name}}.",
+      "milestone_more": "Keep going and there are three rewards waiting further along, at 25, 50 and 100 completed requests. You can see how close you are in your portal.",
+      "milestone_button": "See your milestones"
+    },
+    "vars": {
+      "first_name": "Their first name. The greeting line is skipped entirely when we do not have one",
+      "milestone": "The milestone just reached, e.g. 5 requests completed",
+      "reward": "The perk unlocked, e.g. A free month, on us (reward variant only)"
+    },
+    "notes": "One key, two versions of the same moment: the reward slots are for a milestone that carries a perk, the milestone slots for one that does not. A key holds one subject, so the subject field is the reward version and milestone subject is the plain one. The milestone's own name, its blurb, the reward wording and the address footer stay in code."
+  },
+  {
+    "key": "team-waiting",
+    "name": "Conversations waiting on us",
+    "audience": "you",
+    "when": "Clients are waiting on a reply from us.",
+    "sentBy": "lifecycle-emails",
+    "editable": true,
+    "subject": "Waiting on you: {{waiting_count}} {{reply_word}}",
+    "slots": {
+      "lead": "{{waiting_count}} {{conversation_word}} {{is_are}} waiting on a reply from us, oldest first.",
+      "row_waiting": "waiting {{days}} {{day_word}}",
+      "button": "Open the queue",
+      "signoff": "Best,\nWebEaze Web Design"
+    },
+    "vars": {
+      "waiting_count": "How many conversations are waiting on us",
+      "reply_word": "reply or replies, to match the count",
+      "conversation_word": "conversation or conversations, to match the count",
+      "is_are": "is or are, to match the count",
+      "days": "How many days that one conversation has been waiting",
+      "day_word": "day or days, to match that number"
+    },
+    "notes": "Yours, not a client's, and deliberately separate from the client chase that shares the phrase. Each row is built per conversation; only the waiting line is wording."
+  },
+  {
+    "key": "site-watch",
+    "name": "Site watch alert",
+    "audience": "you",
+    "when": "A client site goes down or breaks a check.",
+    "sentBy": "site-watch",
+    "editable": true,
+    "subject": "Site watch: {{count}} new {{issue_word}} to look at",
+    "slots": {
+      "lead": "The site watcher found {{count}} new {{issue_word}}:",
+      "closer": "Mark each fixed in the admin once handled, and the client will see it as \"recently handled\"."
+    },
+    "vars": {
+      "count": "How many new issues this run found",
+      "issue_word": "issue or issues, to match the count"
+    },
+    "notes": "The list of what broke (client, kind, detail) is the findings, not copy, and stays in code."
+  },
+  {
+    "key": "churn-digest",
+    "name": "Churn digest",
+    "audience": "you",
+    "when": "Weekly, for accounts going quiet.",
+    "sentBy": "churn-digest",
+    "editable": true,
+    "subject": "{{count}} {{client_word}} to check on this week",
+    "slots": {
+      "heading": "Reach out before they leave",
+      "lead": "{{count}} active {{client_word}} showing churn signals this week, ranked by risk. Activity is based on their last request, leads, open issues, and renewal date.",
+      "button": "Open the admin",
+      "footnote": "You are getting this because these accounts crossed the churn-risk threshold. A quiet week means no email."
+    },
+    "vars": {
+      "count": "How many at-risk clients are in this digest",
+      "client_word": "client or clients, to match the count"
+    },
+    "notes": "The ranked table, the risk dots and the reason on each row are what the scoring found, so they stay in code."
+  },
+  {
+    "key": "invoice-drafted",
+    "name": "Add-on invoice drafted",
+    "audience": "you",
+    "when": "A client orders a flat-rate add-on.",
+    "sentBy": "create-invoice",
+    "editable": true,
+    "subject": "Invoice {{state}}: {{addon}} for {{client_name}}",
+    "slots": {
+      "bought": "bought",
+      "status_sent": "Stripe has emailed it to them and they can pay from the portal too. You get another email the moment it is paid, and the work files itself as a request. Nothing for you to send.",
+      "status_finalized": "It is finalized and they have a Pay now link in the portal, but Stripe did not email it. Worth sending from the dashboard.",
+      "status_draft": "It is sitting in Stripe as a draft. Review it and hit Send.",
+      "brief_label": "Their brief",
+      "mismatch_label": "Heads up:",
+      "mismatch": "the portal showed ${{shown}} but the invoice is ${{invoiced}}. Worth lining those up."
+    },
+    "vars": {
+      "state": "sent, or ready (not emailed) when Stripe would not send it",
+      "addon": "The add-on they ordered",
+      "client_name": "Their name, or their email, or a client when we have neither",
+      "shown": "The price the portal card showed them, in dollars",
+      "invoiced": "The price the invoice actually came to, in dollars"
+    },
+    "notes": "Exactly one of the three status lines prints, picked by what Stripe did. The client and add-on names, the price, their brief and the note about where the price came from are the facts of that one invoice and stay in code."
+  }
 ]

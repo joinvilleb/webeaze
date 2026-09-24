@@ -27,6 +27,7 @@
 // Schedule: pg_cron daily, x-cron-secret header — see supabase/lifecycle_emails.sql
 
 import { createClient } from 'jsr:@supabase/supabase-js@2';
+import { emailCopy } from '../_shared/email-template.ts';
 
 const CRON_SECRET = Deno.env.get('CRON_SECRET') ?? '';
 const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY') ?? '';
@@ -41,11 +42,13 @@ const esc = (s: unknown) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&
 const firstName = (name?: string) => (String(name || '').trim().split(/\s+/)[0] || 'there');
 const iso = (ms: number) => new Date(ms).toISOString();
 
-async function sendEmail(to: string[], subject: string, inner: string) {
+// signoff: the emails whose wording is editable in admin pass their own (it is a slot); every other
+// send leaves it out and keeps the default below, so nothing about them changes.
+async function sendEmail(to: string[], subject: string, inner: string, signoff?: string) {
   if (!RESEND_API_KEY || !to.length) return false;
   const html = '<div style="max-width:560px;margin:0 auto;padding:32px 24px;font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:1.7;color:#1f2333;">' +
     inner +
-    '<p style="margin:0 0 4px;">Best,</p><p style="margin:0;">WebEaze Web Design</p>' +
+    (signoff || '<p style="margin:0 0 4px;">Best,</p><p style="margin:0;">WebEaze Web Design</p>') +
     '<p style="margin:28px 0 0;font-size:12px;color:#9599b8;">WebEaze Web Design, 109 Pleasant Hill Drive, Camden-Wyoming, Delaware 19934, USA</p>' +
     '</div>';
   try {
@@ -61,69 +64,190 @@ const btn = (href: string, label: string) =>
   '<p style="margin:0 0 20px;"><a href="' + href + '" style="display:inline-block;background:#7851a9;color:#ffffff;text-decoration:none;font-weight:600;font-size:15px;padding:12px 24px;border-radius:10px;">' + label + '</a></p>';
 const link = (href: string, label: string) => '<a href="' + href + '" style="color:#7851a9;font-weight:600;text-decoration:none;">' + label + '</a>';
 
-function coldLeadsInner(c: any, rows: any[]) {
+// -- Editable wording ------------------------------------------------------
+// Slots are prose, never HTML, so a link inside a sentence cannot be typed into one. Instead the
+// slot marks WHERE the link goes with a placeholder, the var behind that placeholder is this
+// invisible mark, and the code swaps the mark for the real anchor. Move the placeholder and the
+// link moves with it; delete it and the sentence simply loses its link.
+const LINK_MARK = '\u0001';
+const withLink = (html: string, href: string, label: string) => html.split(LINK_MARK).join(link(href, label));
+// A subject line is a mail header, where a control character is illegal: if a link placeholder is
+// ever pasted into one, drop the mark rather than post it.
+const noMarks = (s: string) => s.split(LINK_MARK).join('');
+// The same two paragraphs sendEmail writes by default, but from the slot.
+const signoffHtml = (copy: any, vars: any) =>
+  (copy.text('signoff', vars) || 'Best,\nWebEaze Web Design').split('\n')
+    .map((line: string, i: number) => '<p style="' + (i === 0 ? 'margin:0 0 4px;' : 'margin:0;') + '">' + line.trim() + '</p>').join('');
+
+async function coldLeadsEmail(svc: any, c: any, rows: any[]) {
+  const copy = await emailCopy(svc, 'lifecycle-leads', {
+    subject: '{{enquiry_count}} {{enquiry_word}} {{is_are}} still waiting for you',
+    slots: {
+      greeting: 'Hey {{first_name}},',
+      lead: '{{enquiry_count}} {{inquiry_word}} came in through your website this week and {{isnt_arent}} marked as handled yet.',
+      more_line: 'and {{more_count}} more',
+      follow_up: 'If you\'ve already got back to {{them}}, mark {{it}} done in your portal and we\'ll stop mentioning {{it}}. If not, most people ring two or three businesses and go with whoever answers first, so today is worth more than tomorrow.',
+      button: 'Open your leads',
+      closer: 'We send this at most once a week, and never twice about the same enquiry.',
+      signoff: 'Best,\nWebEaze Web Design',
+    },
+  });
+  // One enquiry or several changes six words, so the words are vars and the sentence stays one slot.
+  const many = rows.length !== 1;
+  const vars = {
+    first_name: firstName(c.name),
+    enquiry_count: many ? String(rows.length) : 'An',
+    enquiry_word: many ? 'enquiries' : 'enquiry',
+    inquiry_word: many ? 'inquiries' : 'inquiry',
+    is_are: many ? 'are' : 'is',
+    isnt_arent: many ? 'aren\'t' : 'isn\'t',
+    them: many ? 'them all' : 'them',
+    it: many ? 'them' : 'it',
+  };
   const KIND: Record<string, string> = { form: 'a form enquiry', call: 'a phone call', email: 'an email', booking: 'a booking click' };
   const list = rows.slice(0, 6).map((l) => {
     const when = new Date(l.created_at).toLocaleDateString('en-US', { month: 'long', day: 'numeric' });
     return '<p style="margin:0 0 8px;">' + esc(l.name || KIND[l.type] || 'An enquiry') + ' &middot; ' + esc(when) + '</p>';
   }).join('');
-  const more = rows.length > 6 ? '<p style="margin:0 0 8px;color:#5b6079;">and ' + (rows.length - 6) + ' more</p>' : '';
-  return '<p style="margin:0 0 16px;">Hey ' + esc(firstName(c.name)) + ',</p>' +
-    '<p style="margin:0 0 16px;">' + (rows.length === 1 ? 'An inquiry came in through your website this week and isn\'t marked as handled yet.' : rows.length + ' inquiries came in through your website this week and aren\'t marked as handled yet.') + '</p>' +
+  const more = rows.length > 6 ? '<p style="margin:0 0 8px;color:#5b6079;">' + copy.text('more_line', { ...vars, more_count: rows.length - 6 }) + '</p>' : '';
+  const inner =
+    '<p style="margin:0 0 16px;">' + copy.text('greeting', vars).replace(/\s+([,.!?])/g, '$1') + '</p>' +
+    copy.paras('lead', vars, 'margin:0 0 16px;') +
     list + more +
-    '<p style="margin:16px 0;">If you\'ve already got back to ' + (rows.length === 1 ? 'them' : 'them all') + ', mark ' + (rows.length === 1 ? 'it' : 'them') + ' done in your portal and we\'ll stop mentioning ' + (rows.length === 1 ? 'it' : 'them') + '. If not, most people ring two or three businesses and go with whoever answers first, so today is worth more than tomorrow.</p>' +
-    btn(PORTAL_URL + '/#leads', 'Open your leads') +
-    '<p style="margin:0 0 16px;">We send this at most once a week, and never twice about the same enquiry.</p>';
+    copy.paras('follow_up', vars, 'margin:16px 0;') +
+    btn(PORTAL_URL + '/#leads', copy.text('button', vars)) +
+    copy.paras('closer', vars, 'margin:0 0 16px;');
+  return { subject: copy.subject(vars), inner, signoff: signoffHtml(copy, vars) };
 }
 
-function winbackInner(c: any) {
-  return '<p style="margin:0 0 16px;">Hey ' + esc(firstName(c.name)) + ',</p>' +
-    '<p style="margin:0 0 16px;">It has been a couple of weeks since your plan with us ended, and we wanted to reach out once more before your website files are removed.</p>' +
-    '<p style="margin:0 0 16px;">If you\'d like to come back, we can reactivate your site and pick up right where we left off, no rebuild needed.</p>' +
-    btn(PORTAL_URL, 'Reactivate my website') +
-    '<p style="margin:0 0 16px;">Please note: after 30 days from cancellation, website files are permanently deleted and there are no extensions/exceptions to this policy.</p>' +
-    '<p style="margin:0 0 16px;">Either way, thank you for having been part of us, and we wish you the best in your future endeavors.</p>';
+async function winbackEmail(svc: any, c: any) {
+  const copy = await emailCopy(svc, 'lifecycle-winback', {
+    subject: 'We\'d love to have you back at WebEaze',
+    slots: {
+      greeting: 'Hey {{first_name}},',
+      lead: 'It has been a couple of weeks since your plan with us ended, and we wanted to reach out once more before your website files are removed.',
+      offer: 'If you\'d like to come back, we can reactivate your site and pick up right where we left off, no rebuild needed.',
+      button: 'Reactivate my website',
+      policy: 'Please note: after 30 days from cancellation, website files are permanently deleted and there are no extensions/exceptions to this policy.',
+      closer: 'Either way, thank you for having been part of us, and we wish you the best in your future endeavors.',
+      signoff: 'Best,\nWebEaze Web Design',
+    },
+  });
+  const vars = { first_name: firstName(c.name) };
+  const inner =
+    '<p style="margin:0 0 16px;">' + copy.text('greeting', vars).replace(/\s+([,.!?])/g, '$1') + '</p>' +
+    copy.paras('lead', vars, 'margin:0 0 16px;') +
+    copy.paras('offer', vars, 'margin:0 0 16px;') +
+    btn(PORTAL_URL, copy.text('button', vars)) +
+    copy.paras('policy', vars, 'margin:0 0 16px;') +
+    copy.paras('closer', vars, 'margin:0 0 16px;');
+  return { subject: copy.subject(vars), inner, signoff: signoffHtml(copy, vars) };
 }
-function onboardingInner(c: any) {
-  return '<p style="margin:0 0 16px;">Hey ' + esc(firstName(c.name)) + ',</p>' +
-    '<p style="margin:0 0 16px;">Welcome again! We noticed your Site Setup isn\'t finished yet. We can\'t start building your website until we have a few details about your business, so you\'re happy with the final result.</p>' +
-    '<p style="margin:0 0 16px;">It only takes a few minutes. The sooner you complete it, the sooner your site goes live.</p>' +
-    btn(PORTAL_URL + '/#setup', 'Finish your Site Setup') +
-    '<p style="margin:0 0 16px;">If you have questions or need help getting started, reply to this email and we\'ll help you out.</p>';
+async function onboardingEmail(svc: any, c: any) {
+  const copy = await emailCopy(svc, 'lifecycle-onboarding', {
+    subject: 'Let\'s get your website started',
+    slots: {
+      greeting: 'Hey {{first_name}},',
+      lead: 'Welcome again! We noticed your Site Setup isn\'t finished yet. We can\'t start building your website until we have a few details about your business, so you\'re happy with the final result.',
+      nudge: 'It only takes a few minutes. The sooner you complete it, the sooner your site goes live.',
+      button: 'Finish your Site Setup',
+      closer: 'If you have questions or need help getting started, reply to this email and we\'ll help you out.',
+      signoff: 'Best,\nWebEaze Web Design',
+    },
+  });
+  const vars = { first_name: firstName(c.name) };
+  const inner =
+    '<p style="margin:0 0 16px;">' + copy.text('greeting', vars).replace(/\s+([,.!?])/g, '$1') + '</p>' +
+    copy.paras('lead', vars, 'margin:0 0 16px;') +
+    copy.paras('nudge', vars, 'margin:0 0 16px;') +
+    btn(PORTAL_URL + '/#setup', copy.text('button', vars)) +
+    copy.paras('closer', vars, 'margin:0 0 16px;');
+  return { subject: copy.subject(vars), inner, signoff: signoffHtml(copy, vars) };
 }
 // The follow-up quotes the ORIGINAL question. A bare "we are still waiting on you" makes them open
 // the portal to find out what for, which is the friction that stalled the request in the first place.
-function needsInfoInner(c: any, r: any) {
-  return '<p style="margin:0 0 16px;">Hey ' + esc(firstName(c.name)) + ',</p>' +
-    '<p style="margin:0 0 14px;">We\'re still waiting to hear back on your ' +
-      esc(String(r.type || 'request').toLowerCase()) + ' request. It\'s paused until we do.</p>' +
-    '<p style="margin:0 0 8px;">This is what we asked:</p>' +
+// Wording comes from admin when it has been edited there; these are the defaults and the last resort
+// if the registry cannot be read. See supabase/functions/_shared/email-template.ts.
+async function needsInfoEmail(svc: any, c: any, r: any) {
+  const copy = await emailCopy(svc, 'lifecycle-chase', {
+    subject: 'Still waiting on you: {{request_type}}',
+    slots: {
+      greeting: 'Hey {{first_name}},',
+      lead: 'We\'re still waiting to hear back on your {{request_type_lower}} request. It\'s paused until we do.',
+      asked_label: 'This is what we asked:',
+      button: 'Answer in your portal',
+      closer: 'You can also just reply to this email and we\'ll pick it up from there.',
+      signoff: 'Best,\nWebEaze Web Design',
+    },
+  });
+  const vars = {
+    first_name: firstName(c.name),
+    request_type: String(r.type || 'your request'),
+    request_type_lower: String(r.type || 'request').toLowerCase(),
+  };
+  const inner =
+    '<p style="margin:0 0 16px;">' + copy.text('greeting', vars).replace(/\s+([,.!?])/g, '$1') + '</p>' +
+    copy.paras('lead', vars, 'margin:0 0 14px;') +
+    copy.paras('asked_label', vars, 'margin:0 0 8px;') +
     '<div style="background:#f7f7fa;border:1px solid #e4e7f1;border-left:3px solid #7851a9;border-radius:8px;padding:14px 16px;margin:0 0 18px;white-space:pre-wrap;">' +
       esc(r.needs_info_message) + '</div>' +
-    btn(PORTAL_URL + '/#history/' + encodeURIComponent(String(r.id)), 'Answer in your portal') +
-    '<p style="margin:16px 0 0;">You can also just reply to this email and we\'ll pick it up from there.</p>';
+    btn(PORTAL_URL + '/#history/' + encodeURIComponent(String(r.id)), copy.text('button', vars)) +
+    copy.paras('closer', vars, 'margin:16px 0 0;');
+  return { subject: copy.subject(vars), inner, signoff: signoffHtml(copy, vars) };
 }
-function portalInner(c: any) {
-  return '<p style="margin:0 0 16px;">Hey ' + esc(firstName(c.name)) + ',</p>' +
-    '<p style="margin:0 0 16px;">We set your client portal up when you joined, but it looks like you haven\'t opened it yet. Everything we do for you lives in there.</p>' +
-    '<p style="margin:0 0 8px;">It\'s where you:</p>' +
-    '<ul style="margin:0 0 16px;padding-left:20px;">' +
-      '<li style="margin-bottom:8px;">Send us website changes and watch them get done</li>' +
-      '<li style="margin-bottom:8px;">See who has been contacting you through your site</li>' +
-      '<li style="margin-bottom:8px;">Check how your site is performing on Google</li>' +
-    '</ul>' +
-    btn(PORTAL_URL, 'Open your portal') +
-    '<p style="margin:0 0 16px;">If you can\'t get in, or never received your login, just reply to this email and we\'ll sort it out.</p>';
+async function portalEmail(svc: any, c: any) {
+  const copy = await emailCopy(svc, 'lifecycle-setup', {
+    subject: 'Your WebEaze portal is waiting',
+    slots: {
+      greeting: 'Hey {{first_name}},',
+      lead: 'We set your client portal up when you joined, but it looks like you haven\'t opened it yet. Everything we do for you lives in there.',
+      list_intro: 'It\'s where you:',
+      list_items: 'Send us website changes and watch them get done\nSee who has been contacting you through your site\nCheck how your site is performing on Google',
+      button: 'Open your portal',
+      closer: 'If you can\'t get in, or never received your login, just reply to this email and we\'ll sort it out.',
+      signoff: 'Best,\nWebEaze Web Design',
+    },
+  });
+  const vars = { first_name: firstName(c.name) };
+  // One line per bullet, so a bullet can be added or dropped without a deploy.
+  const items = copy.text('list_items', vars).split('\n').map((s: string) => s.trim()).filter(Boolean)
+    .map((s: string) => '<li style="margin-bottom:8px;">' + s + '</li>').join('');
+  const inner =
+    '<p style="margin:0 0 16px;">' + copy.text('greeting', vars).replace(/\s+([,.!?])/g, '$1') + '</p>' +
+    copy.paras('lead', vars, 'margin:0 0 16px;') +
+    copy.paras('list_intro', vars, 'margin:0 0 8px;') +
+    (items ? '<ul style="margin:0 0 16px;padding-left:20px;">' + items + '</ul>' : '') +
+    btn(PORTAL_URL, copy.text('button', vars)) +
+    copy.paras('closer', vars, 'margin:0 0 16px;');
+  return { subject: copy.subject(vars), inner, signoff: signoffHtml(copy, vars) };
 }
-function reviewInner(c: any) {
-  return '<p style="margin:0 0 16px;">Hey ' + esc(firstName(c.name)) + ',</p>' +
-    '<p style="margin:0 0 16px;">Your website has been live for a couple of weeks now. How\'s it going? We hope it\'s already bringing you new leads and customers.</p>' +
-    '<p style="margin:0 0 8px;">Two quick things, only if you\'re happy so far:</p>' +
+async function reviewEmail(svc: any, c: any) {
+  const copy = await emailCopy(svc, 'lifecycle-check', {
+    subject: 'How is your website working out?',
+    slots: {
+      greeting: 'Hey {{first_name}},',
+      lead: 'Your website has been live for a couple of weeks now. How\'s it going? We hope it\'s already bringing you new leads and customers.',
+      asks_intro: 'Two quick things, only if you\'re happy so far:',
+      review_ask: 'A quick {{review_link}} genuinely means a lot to a small team like ours.',
+      review_link_text: 'Google review',
+      referral_ask: 'Know another business owner who needs a site? {{referral_link}} and you get a free month when they sign up.',
+      referral_link_text: 'Refer them',
+      closer: 'And if you\'d like any changes, just send us a request in your {{portal_link}}. That\'s what we\'re here for.',
+      portal_link_text: 'portal',
+      signoff: 'Best,\nWebEaze Web Design',
+    },
+  });
+  const vars = { first_name: firstName(c.name), review_link: LINK_MARK, referral_link: LINK_MARK, portal_link: LINK_MARK };
+  const inner =
+    '<p style="margin:0 0 16px;">' + copy.text('greeting', vars).replace(/\s+([,.!?])/g, '$1') + '</p>' +
+    copy.paras('lead', vars, 'margin:0 0 16px;') +
+    copy.paras('asks_intro', vars, 'margin:0 0 8px;') +
     '<ul style="margin:0 0 16px;padding-left:20px;">' +
-      '<li style="margin-bottom:8px;">A quick ' + link(REVIEW_URL, 'Google review') + ' genuinely means a lot to a small team like ours.</li>' +
-      '<li style="margin-bottom:8px;">Know another business owner who needs a site? ' + link(PORTAL_URL + '/#referrals', 'Refer them') + ' and you get a free month when they sign up.</li>' +
+      '<li style="margin-bottom:8px;">' + withLink(copy.text('review_ask', vars), REVIEW_URL, copy.text('review_link_text', vars)) + '</li>' +
+      '<li style="margin-bottom:8px;">' + withLink(copy.text('referral_ask', vars), PORTAL_URL + '/#referrals', copy.text('referral_link_text', vars)) + '</li>' +
     '</ul>' +
-    '<p style="margin:0 0 16px;">And if you\'d like any changes, just send us a request in your ' + link(PORTAL_URL, 'portal') + '. That\'s what we\'re here for.</p>';
+    withLink(copy.paras('closer', vars, 'margin:0 0 16px;'), PORTAL_URL, copy.text('portal_link_text', vars));
+  return { subject: noMarks(copy.subject(vars)), inner, signoff: signoffHtml(copy, vars) };
 }
 
 Deno.serve(async (req) => {
@@ -144,7 +268,8 @@ Deno.serve(async (req) => {
     for (const c of wb ?? []) {
       const to = [c.email, c.second_email].filter(Boolean) as string[];
       if (!to.length) continue;
-      if (await sendEmail(to, 'We\'d love to have you back at WebEaze', winbackInner(c))) {
+      const mail = await winbackEmail(svc, c);
+      if (await sendEmail(to, mail.subject, mail.inner, mail.signoff)) {
         await svc.from('clients').update({ winback_email_at: iso(now) }).eq('id', c.id);
         sent.winback++;
       }
@@ -162,7 +287,8 @@ Deno.serve(async (req) => {
       const { data: subm } = await svc.from('site_submissions').select('submitted_at').eq('user_id', c.user_id).maybeSingle();
       if (subm && subm.submitted_at) { await svc.from('clients').update({ onboarding_nudge_at: iso(now) }).eq('id', c.id); continue; }
       if (!to.length) continue;
-      if (await sendEmail(to, 'Let\'s get your website started', onboardingInner(c))) {
+      const mail = await onboardingEmail(svc, c);
+      if (await sendEmail(to, mail.subject, mail.inner, mail.signoff)) {
         await svc.from('clients').update({ onboarding_nudge_at: iso(now) }).eq('id', c.id);
         sent.onboarding++;
       }
@@ -176,7 +302,8 @@ Deno.serve(async (req) => {
     for (const c of rv ?? []) {
       const to = [c.email, c.second_email].filter(Boolean) as string[];
       if (!to.length) continue;
-      if (await sendEmail(to, 'How is your website working out?', reviewInner(c))) {
+      const mail = await reviewEmail(svc, c);
+      if (await sendEmail(to, mail.subject, mail.inner, mail.signoff)) {
         await svc.from('clients').update({ review_nudge_at: iso(now) }).eq('id', c.id);
         sent.review++;
       }
@@ -200,7 +327,8 @@ Deno.serve(async (req) => {
       // Already been in? Mark handled so we stop checking them every day.
       if (signedIn) { await svc.from('clients').update({ portal_nudge_at: iso(now) }).eq('id', c.id); continue; }
       if (!to.length) continue;
-      if (await sendEmail(to, 'Your WebEaze portal is waiting', portalInner(c))) {
+      const mail = await portalEmail(svc, c);
+      if (await sendEmail(to, mail.subject, mail.inner, mail.signoff)) {
         await svc.from('clients').update({ portal_nudge_at: iso(now) }).eq('id', c.id);
         sent.portal++;
       }
@@ -225,7 +353,8 @@ Deno.serve(async (req) => {
             .select('id, name, email, second_email, status').eq('user_id', r.user_id).maybeSingle();
           if (!c || !c.email || c.status === 'inactive') continue;
           const to = [c.email, c.second_email].filter(Boolean) as string[];
-          if (await sendEmail(to, 'Still waiting on you: ' + String(r.type || 'your request'), needsInfoInner(c, r))) {
+          const mail = await needsInfoEmail(svc, c, r);
+          if (await sendEmail(to, mail.subject, mail.inner, mail.signoff)) {
             await svc.from('update_requests').update({ needs_info_reminded_at: iso(now) }).eq('id', r.id);
             sent.needsInfo++;
           }
@@ -266,7 +395,8 @@ Deno.serve(async (req) => {
           const { data: pref } = await svc.from('email_prefs').select('lead_digest').eq('user_id', uid).maybeSingle();
           if (pref && pref.lead_digest === false) continue;
           const to = [c.email, c.second_email].filter(Boolean) as string[];
-          if (await sendEmail(to, rows.length === 1 ? 'An enquiry is still waiting for you' : rows.length + ' enquiries are still waiting for you', coldLeadsInner(c, rows))) {
+          const mail = await coldLeadsEmail(svc, c, rows);
+          if (await sendEmail(to, mail.subject, mail.inner, mail.signoff)) {
             await svc.from('lead_events').update({ lead_nudged_at: iso(now) }).in('id', rows.map((r) => r.id));
             sent.coldLeads++;
           }
@@ -313,15 +443,33 @@ Deno.serve(async (req) => {
       }
       if (waiting.length) {
         waiting.sort((a, b) => (a.at < b.at ? -1 : 1));
+        // This one is our own alert, so it keeps its own key and its own words: nothing here is
+        // shared with the chase we send the client, which must never change when this is reworded.
+        const copy = await emailCopy(svc, 'team-waiting', {
+          subject: 'Waiting on you: {{waiting_count}} {{reply_word}}',
+          slots: {
+            lead: '{{waiting_count}} {{conversation_word}} {{is_are}} waiting on a reply from us, oldest first.',
+            row_waiting: 'waiting {{days}} {{day_word}}',
+            button: 'Open the queue',
+            signoff: 'Best,\nWebEaze Web Design',
+          },
+        });
+        const many = waiting.length !== 1;
+        const vars = {
+          waiting_count: waiting.length,
+          reply_word: many ? 'replies' : 'reply',
+          conversation_word: many ? 'conversations' : 'conversation',
+          is_are: many ? 'are' : 'is',
+        };
         const rows = waiting.map((w) => {
           const days = Math.max(1, Math.round((now - new Date(w.at).getTime()) / DAY));
-          return '<p style="margin:0 0 10px;"><b>' + esc(w.who) + '</b> &middot; waiting ' + days + (days === 1 ? ' day' : ' days')
+          return '<p style="margin:0 0 10px;"><b>' + esc(w.who) + '</b> &middot; '
+            + copy.text('row_waiting', { ...vars, days, day_word: days === 1 ? 'day' : 'days' })
             + '<br><span style="color:#5b6079;">' + esc(w.what) + '</span></p>';
         }).join('');
-        const inner = '<p style="margin:0 0 16px;">' + waiting.length + (waiting.length === 1 ? ' conversation is' : ' conversations are')
-          + ' waiting on a reply from us, oldest first.</p>' + rows
-          + btn('https://portal.webeaze.io/admin#pulse', 'Open the queue');
-        if (await sendEmail(['billy@webeaze.io'], 'Waiting on you: ' + waiting.length + (waiting.length === 1 ? ' reply' : ' replies'), inner)) sent.waitingOnUs++;
+        const inner = copy.paras('lead', vars, 'margin:0 0 16px;') + rows
+          + btn('https://portal.webeaze.io/admin#pulse', copy.text('button', vars));
+        if (await sendEmail(['billy@webeaze.io'], copy.subject(vars), inner, signoffHtml(copy, vars))) sent.waitingOnUs++;
       }
     } catch (e) { console.error('[lifecycle] waiting-on-us digest failed:', e); }
 
