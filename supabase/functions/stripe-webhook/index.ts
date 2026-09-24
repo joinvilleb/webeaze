@@ -138,9 +138,13 @@ Deno.serve(async (req) => {
       // Working days, so a five-day job paid for on a Thursday is not promised for Tuesday.
       let due: string | null = null;
       if (lead > 0) {
-        const d = new Date(); let left = lead;
-        while (left > 0) { d.setDate(d.getDate() + 1); const w = d.getDay(); if (w !== 0 && w !== 6) left--; }
-        due = d.toISOString().slice(0, 10);
+        // en-CA formats as YYYY-MM-DD, which is the whole reason it is used here.
+        const today = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date());
+        const [y, mo, da] = today.split('-').map(Number);
+        const d = new Date(Date.UTC(y, mo - 1, da));
+        let left = lead;
+        while (left > 0) { d.setUTCDate(d.getUTCDate() + 1); const w = d.getUTCDay(); if (w !== 0 && w !== 6) left--; }
+        due = d.toISOString().slice(0, 10);   // exact: this date is UTC midnight by construction
       }
       const stages = (ap && Array.isArray(ap.stages) && ap.stages.length) ? ap.stages : null;
 
