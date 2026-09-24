@@ -9578,15 +9578,16 @@ function renderTopicResults(topicId) {
 
     const systemPrompt = `You are the support assistant for WebEaze, a web design agency for small businesses based in Delaware, USA. You help clients with questions about plans, services, billing, website requests, and anything related to WebEaze.
 
-Be warm, concise, and helpful. Respond in plain conversational English — no bullet walls. Bold key terms with **word**. Include helpful links as [label](url) when relevant. Keep replies under 120 words unless the question truly needs more detail.
+Be warm, concise, and helpful. Respond in plain conversational English, not bullet walls. Bold key terms with **word**. Include helpful links as [label](url) when relevant. Keep replies under 120 words unless the question truly needs more detail.
 
 Key facts:
-- Plans: Essential ($29/mo), Growth ($99/mo), Elite ($179/mo) — all include unlimited update requests
+- Plans: Essential ($199/mo or $1,990/yr) and Growth ($299/mo or $2,990/yr), both with unlimited update requests and a one-time $99 setup fee
+- The Elite plan was discontinued in March 2026. Existing Elite clients keep it; nobody can start one.
 - Support email: support@webeaze.io
 - Submit requests: portal.webeaze.io
 - Contact page: contact-us.html
 - Billing portal: Stripe (accessible from account)
-- Based in Delaware, USA — remote-first, serving businesses nationwide
+- Based in Delaware, USA, remote-first, serving businesses nationwide
 
 Help center knowledge base:
 ${buildDetailedContext()}
@@ -9739,7 +9740,7 @@ If a question is outside WebEaze's scope, politely say so and offer to connect t
         if (/^(hi|hello|hey|yo|sup|what'?s up|howdy|hola|good\s?(morning|afternoon|evening|day)|greetings)\b/.test(msg)) {
           resolve(pick([
             "Hey there! What can I help you with today?",
-            "Hi! I'm here to help with anything WebEaze — plans, pricing, support, you name it.",
+            "Hi! I'm here to help with anything WebEaze: plans, pricing, support, you name it.",
             "Hello! What's on your mind?",
             "Hey! Good to hear from you. What can I help you figure out?"
           ]));
@@ -10457,7 +10458,7 @@ You can also [browse our Help Center](help.html) or [contact our team](contact-u
         if (/^(bye|goodbye|see ya|later|take care|that'?s (all|it)|nothing else|no more|i'?m good|all good)\b/.test(msg)) {
           resolve(pick([
             "Take care! I'm here if you need anything else.",
-            "No problem! Have a great day — come back anytime.",
+            "No problem! Have a great day, come back anytime.",
             "Sounds good! Reach out whenever you need help.",
             "Bye for now! Feel free to come back with any questions."
           ]));
@@ -10476,7 +10477,7 @@ You can also [browse our Help Center](help.html) or [contact our team](contact-u
         }
 
         // ── All substantive questions: compose from real article content ──
-        const intros = ["Sure! ", "Great question. ", "Happy to help with that. ", "Absolutely! ", "Good question — ", ""];
+        const intros = ["Sure! ", "Great question. ", "Happy to help with that. ", "Absolutely! ", "Good question, ", ""];
         const articles = findRelevantArticles(message);
 
         if (articles.length > 0 && articles[0].score >= 30) {
@@ -10503,7 +10504,7 @@ You can also [browse our Help Center](help.html) or [contact our team](contact-u
           resolve(response);
         } else {
           resolve(pick([
-            `I didn't quite catch that — can you try rephrasing?\n\n• [Pricing & plans](pricing.html)\n• [How updates work](help.html#/turnarounds-and-common-requests)\n• [Getting started](help.html#/getting-started)\n• [Contact our team](contact-us.html)`,
+            `I didn't quite catch that. Can you try rephrasing?\n\n• [Pricing & plans](pricing.html)\n• [How updates work](help.html#/turnarounds-and-common-requests)\n• [Getting started](help.html#/getting-started)\n• [Contact our team](contact-us.html)`,
             `Hmm, I'm not sure I followed that. Try asking differently, or check:\n\n• [See all plans](pricing.html)\n• [Request a change](https://portal.webeaze.io)\n• [Help Center](help.html)\n• [Talk to a real person](contact-us.html)`,
             `That one stumped me! Try the Help Center or reach out to our team.\n\n[Help Center](help.html) | [Contact us](contact-us.html)`
           ]));
