@@ -52,7 +52,8 @@ for (const slug of slugs) {
   raw.push({
     s: slug,
     t: noDash(decode(h1.replace(/<[^>]+>/g, '')).trim()),
-    m: noDash(decode(((html.match(/data-topic-label="([^"]*)"/) || [])[1] ? (html.match(/data-topic-label="([^"]*)"/) || [])[1] + '. ' : '') + ((html.match(/<meta name="description" content="([^"]*)"/) || [])[1] || '')).trim()),
+    m: noDash(decode((html.match(/<meta name="description" content="([^"]*)"/) || [])[1] || '').trim()),
+    c: noDash(decode((html.match(/data-topic-label="([^"]*)"/) || [])[1] || '').trim()),
     html: body,
   });
 }
@@ -134,7 +135,7 @@ function toHtml(html) {
   return s.replace(/\n{3,}/g, '\n\n').trim();
 }
 
-const content = raw.map(a => ({ s: a.s, t: a.t, m: a.m, b: toText(a.html, true) }));
+const content = raw.map(a => ({ s: a.s, t: a.t, m: a.m, c: a.c, b: toText(a.html, true) }));
 // The index is built from UNannotated text. Feeding it the annotated bodies pushed slug words and
 // URL fragments ("https", "webeaze", "pricing", "html") into the distinctive-term lists and changed
 // the search corpus for 117 of 172 articles.
