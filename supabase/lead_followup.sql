@@ -1,7 +1,7 @@
--- One nudge per uncontacted enquiry.
+-- One nudge per uncontacted inquiry.
 --
 -- WHY: the lead inbox only pays for itself if someone actually rings these people back. Two days
--- after an enquiry arrives with no contact recorded, the client gets one email listing who is still
+-- after an inquiry arrives with no contact recorded, the client gets one email listing who is still
 -- waiting. This column is what stops that becoming a daily drip: non-null means never nudge that
 -- lead again, exactly like update_requests.needs_info_reminded_at.
 --
@@ -19,7 +19,7 @@ create index if not exists lead_events_followup_idx
   where contacted_at is null and outcome is null and lead_nudged_at is null;
 
 -- Nothing that arrived before today gets chased: switching this on should not fire off a pile of
--- emails about enquiries that were dealt with by phone months ago.
+-- emails about inquiries that were dealt with by phone months ago.
 update public.lead_events
    set lead_nudged_at = now()
  where lead_nudged_at is null

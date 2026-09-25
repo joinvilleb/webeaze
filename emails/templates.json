@@ -306,33 +306,32 @@
   },
   {
     "key": "lifecycle-leads",
-    "name": "Enquiries still waiting",
+    "name": "Inquiries still waiting",
     "audience": "client",
     "when": "Leads from their site have sat unhandled for a week.",
     "sentBy": "lifecycle-emails",
     "editable": true,
-    "subject": "{{enquiry_count}} {{enquiry_word}} {{is_are}} still waiting for you",
+    "subject": "{{inquiry_count}} {{inquiry_word}} {{is_are}} still waiting for you",
     "slots": {
       "greeting": "Hey {{first_name}},",
-      "lead": "{{enquiry_count}} {{inquiry_word}} came in through your website this week and {{isnt_arent}} marked as handled yet.",
+      "lead": "{{inquiry_count}} {{inquiry_word}} came in through your website this week and {{isnt_arent}} marked as handled yet.",
       "more_line": "and {{more_count}} more",
       "follow_up": "If you've already got back to {{them}}, mark {{it}} done in your portal and we'll stop mentioning {{it}}. If not, most people ring two or three businesses and go with whoever answers first, so today is worth more than tomorrow.",
       "button": "Open your leads",
-      "closer": "We send this at most once a week, and never twice about the same enquiry.",
+      "closer": "We send this at most once a week, and never twice about the same inquiry.",
       "signoff": "Best,\nWebEaze Web Design"
     },
     "vars": {
       "first_name": "Their first name, \"there\" if we do not have it",
-      "enquiry_count": "How many enquiries, or the word An when there is only one",
-      "enquiry_word": "enquiry or enquiries, to match the count",
+      "inquiry_count": "How many inquiries, or the word An when there is only one",
       "inquiry_word": "inquiry or inquiries, the spelling the body happens to use",
       "is_are": "is or are, to match the count",
       "isnt_arent": "isn't or aren't, to match the count",
-      "them": "them for one enquiry, them all for several",
-      "it": "it for one enquiry, them for several",
-      "more_count": "How many enquiries did not fit in the list"
+      "them": "them for one inquiry, them all for several",
+      "it": "it for one inquiry, them for several",
+      "more_count": "How many inquiries did not fit in the list"
     },
-    "notes": "This email has always said enquiry in the subject and inquiry in the body. Both are editable now, so they can be made to agree. The list itself is built per enquiry and is not editable."
+    "notes": "This email has always said inquiry in the subject and inquiry in the body. Both are editable now, so they can be made to agree. The list itself is built per inquiry and is not editable."
   },
   {
     "key": "email-change",
@@ -470,5 +469,82 @@
       "invoiced": "The price the invoice actually came to, in dollars"
     },
     "notes": "Exactly one of the three status lines prints, picked by what Stripe did. The client and add-on names, the price, their brief and the note about where the price came from are the facts of that one invoice and stay in code."
+  },
+  {
+    "key": "dunning-first",
+    "name": "Card declined",
+    "audience": "client",
+    "when": "The moment Stripe reports a failed payment.",
+    "sentBy": "dunning",
+    "editable": true,
+    "subject": "Your card didn't go through",
+    "slots": {
+      "greeting": "Hey {{first_name}},",
+      "lead": "Your card was declined when we tried to take this month's payment. It happens all the time, usually an expired card or a bank being careful, and it takes a minute to sort.",
+      "reassure": "Nothing has changed with your website and nothing is at risk today. We'll try the card again over the next few days.",
+      "button": "Update your card",
+      "closer": "If the card is fine and you think this is a mistake, just reply to this email and we'll look into it with you.",
+      "signoff": "Best,\nWebEaze Web Design"
+    },
+    "vars": {
+      "first_name": "Their first name, \"there\" if we do not have it"
+    }
+  },
+  {
+    "key": "dunning-second",
+    "name": "Card declined, day three",
+    "audience": "client",
+    "when": "Three days into a run of failed payments, if the card still has not been fixed.",
+    "sentBy": "dunning",
+    "editable": true,
+    "subject": "Still no luck with your card",
+    "slots": {
+      "greeting": "Hey {{first_name}},",
+      "lead": "We've tried your card a few times since Tuesday and it's still being declined, so this month's payment hasn't gone through.",
+      "ask": "Updating the card takes about a minute and puts everything straight away. Your site, your email and your updates all carry on as normal once it goes through.",
+      "button": "Update your card",
+      "closer": "If something has changed on your end, or now isn't a good time, reply and tell us. We'd far rather work it out with you than have this run on.",
+      "signoff": "Best,\nWebEaze Web Design"
+    },
+    "vars": {
+      "first_name": "Their first name, \"there\" if we do not have it"
+    }
+  },
+  {
+    "key": "dunning-final",
+    "name": "Card declined, day seven",
+    "audience": "client",
+    "when": "A week in. The last email before a subscription lapses.",
+    "sentBy": "dunning",
+    "editable": true,
+    "subject": "Your website is at risk",
+    "slots": {
+      "greeting": "Hey {{first_name}},",
+      "lead": "It's been a week and your card is still being declined, so this month's payment is outstanding.",
+      "warn": "We have to be straight with you about what happens next: once a subscription lapses, the hosting it pays for goes with it, and that takes the website offline. We don't want that and we won't do it without talking to you first.",
+      "button": "Update your card",
+      "closer": "If money is tight right now, say so. We've sorted out payment plans with people before and we'd rather do that than lose you over a bad month.",
+      "signoff": "Best,\nWebEaze Web Design"
+    },
+    "vars": {
+      "first_name": "Their first name, \"there\" if we do not have it"
+    }
+  },
+  {
+    "key": "dunning-cleared",
+    "name": "Payment sorted",
+    "audience": "client",
+    "when": "A payment goes through after we chased them. Not sent if they were never chased.",
+    "sentBy": "dunning",
+    "editable": true,
+    "subject": "That's sorted, thank you",
+    "slots": {
+      "greeting": "Hey {{first_name}},",
+      "lead": "Your payment went through, so that's all sorted. Nothing more for you to do, and thank you for getting it sorted quickly.",
+      "signoff": "Best,\nWebEaze Web Design"
+    },
+    "vars": {
+      "first_name": "Their first name, \"there\" if we do not have it"
+    }
   }
 ]

@@ -2,7 +2,7 @@
 --
 -- WHY: the home tile used to count every tap on a phone number, email link or "book now" button as a
 -- lead. Across all clients that was 2105 events in 60 days with only 23 carrying a name. The tile now
--- counts enquiries you can reply to, with taps on a second line, so the number matches the inbox and
+-- counts inquiries you can reply to, with taps on a second line, so the number matches the inbox and
 -- matches their phone log. Their figure will drop sharply this month, and a drop with no explanation
 -- reads as "my website stopped working".
 --

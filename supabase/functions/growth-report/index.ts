@@ -1029,7 +1029,7 @@ async function fetchMonthlyRecap(sb: any, userId: string) {
   return { done, monthLabel, windowStartISO: windowStart.toISOString(), windowEndISO: windowEnd.toISOString() };
 }
 
-// Count real enquiries (a form someone filled in) for a client in a window. Deliberately NOT every
+// Count real inquiries (a form someone filled in) for a client in a window. Deliberately NOT every
 // row: a tap on a phone number is interest, and a completed order is revenue, and counting either as
 // a "lead" put a number in the client's monthly email that their own phone log did not support.
 // Safe if the table does not exist yet (returns 0).

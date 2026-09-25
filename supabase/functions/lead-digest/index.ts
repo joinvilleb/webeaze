@@ -2,7 +2,7 @@ const SPAM_SERVICE = /\b(seo|search engine optimi[sz]ation|digital marketing|onl
 const SPAM_OFFER = /\b(we (offer|provide|sell|specialis[sz]e|are an? [\w ]{0,40}(company|agency|team|firm|studio))|we can (help|fix|do|handle|redesign|rebuild|build|develop|rank|boost|grow|increase|double|generate)|we help|we work with|our (agency|company|team|platform|software|system|tool|service)s?)\b/i;
 // The nouns a trade customer actually types. One of these is near-proof of a real job.
 const SPAM_JOB_NOUN = /\b(carpet|rug|upholstery|sofa|couch|mattress|tile|grout|roof|gutter|shingle|siding|drain|pipe|leak|boiler|furnace|hvac|ac unit|air con|plumb|electric|wiring|outlet|lawn|garden|hedge|tree|fence|deck|patio|driveway|drywall|paint|floor|window|door|basement|attic|kitchen|bathroom|bedroom|garage|showroom|office|apartment|condo|house|home|property|stain|mould|mold|damp|flood|clean|repair|install|replace|quote|estimate|job|appointment|booking)\b/i;
-// A real enquiry is situated: a size, a date, a time, or a place.
+// A real inquiry is situated: a size, a date, a time, or a place.
 const SPAM_SITUATED = /(\b\d{2,5}\s?(sq\.? ?(ft|m)|square (feet|foot|metres|meters))|\b\d+\s?(bed|bath|room|storey|story|floor)s?\b|\b(today|tomorrow|tonight|this (week|weekend|morning|afternoon|month)|next (week|month)|mon|tues|wednes|thurs|fri|satur|sun)day\b|\b(asap|urgent|emergency|right away|as soon as)\b|\b\d{1,2}\s?(am|pm)\b)/i;
 const SPAM_FIRST_PERSON = /\b(my|our|i need|i want|i'?m looking|we need|we want|we just|we have|can you|do you|could you|would you)\b/i;
 // Deliberately NOT shorteners: what a phone produces when a customer shares an address, photos or
@@ -21,12 +21,12 @@ function leadSpamCheck(l: any) {
   SPAM_SERVICE.lastIndex = 0;
   const services = [...new Set((msg.match(SPAM_SERVICE) || []).map(s => s.toLowerCase()))];
   // A message with BOTH a selling verb and a marketing service in it is talking AT the business, not
-  // asking it for work. No genuine enquiry in testing had both, so this is the one place the
+  // asking it for work. No genuine inquiry in testing had both, so this is the one place the
   // suppressors are allowed to be overruled. Without it a pitch that says "book 30+ extra JOBS a
   // month this WEEK" borrows the trade's own vocabulary and cancels its own score.
   const pitching = SPAM_OFFER.test(msg) && services.length > 0;
 
-  // ── Suppressors. A real enquiry names a job, places it, or owns it. ──
+  // ── Suppressors. A real inquiry names a job, places it, or owns it. ──
   let suppress = 0;
   if (SPAM_JOB_NOUN.test(msg)) suppress -= 4;
   if (SPAM_SITUATED.test(msg)) suppress -= 3;
@@ -163,9 +163,9 @@ async function draftReply(bizName: string, lead: any): Promise<string | null> {
     email: 'They clicked to email the business from the website.',
     contact: 'They clicked to book an appointment or request a quote from the website.',
   };
-  const enquiry = (lead.name ? ('Their name: ' + String(lead.name).slice(0, 80) + '\n') : '') + (CHANNEL[lead.type] || 'A customer reached out through the website.');
+  const inquiry = (lead.name ? ('Their name: ' + String(lead.name).slice(0, 80) + '\n') : '') + (CHANNEL[lead.type] || 'A customer reached out through the website.');
   const system = "You are a small trade business owner writing a warm, professional follow-up reply to a customer inquiry you just received. Thank them, acknowledge what they asked about, and move things forward with a clear next step (a quick call, a quote, or a visit). Sound like a real, friendly, confident person, not a corporate script. Keep it short and ready to send. Do NOT invent specific facts like prices or dates unless the inquiry gives them. NEVER use em dashes. Return ONLY the reply text, no subject line, preamble, or quotes.";
-  const userMsg = 'Business name: ' + bizName + '\nThe customer inquiry:\n' + enquiry;
+  const userMsg = 'Business name: ' + bizName + '\nThe customer inquiry:\n' + inquiry;
   try {
     const res = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',

@@ -12,10 +12,10 @@
 //   5) Needs-info     — 3 days after we asked a client a question and got nothing back. The request
 //                      is parked until they answer, and the original ask is quoted so they do not
 //                      have to go looking for what we wanted. Needs supabase/needs_info_followup.sql.
-//   6) Cold leads     — 2 days after a WRITTEN enquiry (form or email) that is not marked handled.
+//   6) Cold leads     — 2 days after a WRITTEN inquiry (form or email) that is not marked handled.
 //                      Deliberately cautious: almost nobody marks leads contacted (5 of 2105 when
 //                      this was written), so "not marked" cannot be read as "ignored". Hence: written
-//                      enquiries only, since a missed call is not something we can chase; a reminder
+//                      inquiries only, since a missed call is not something we can chase; a reminder
 //                      to mark them rather than an accusation; at most one email per client a week;
 //                      and one nudge per lead ever. Needs supabase/lead_followup.sql.
 //   7) Waiting on us  — an internal note to the team listing every conversation where the client
@@ -81,33 +81,33 @@ const signoffHtml = (copy: any, vars: any) =>
 
 async function coldLeadsEmail(svc: any, c: any, rows: any[]) {
   const copy = await emailCopy(svc, 'lifecycle-leads', {
-    subject: '{{enquiry_count}} {{enquiry_word}} {{is_are}} still waiting for you',
+    subject: '{{inquiry_count}} {{inquiry_word}} {{is_are}} still waiting for you',
     slots: {
       greeting: 'Hey {{first_name}},',
-      lead: '{{enquiry_count}} {{inquiry_word}} came in through your website this week and {{isnt_arent}} marked as handled yet.',
+      lead: '{{inquiry_count}} {{inquiry_word}} came in through your website this week and {{isnt_arent}} marked as handled yet.',
       more_line: 'and {{more_count}} more',
       follow_up: 'If you\'ve already got back to {{them}}, mark {{it}} done in your portal and we\'ll stop mentioning {{it}}. If not, most people ring two or three businesses and go with whoever answers first, so today is worth more than tomorrow.',
       button: 'Open your leads',
-      closer: 'We send this at most once a week, and never twice about the same enquiry.',
+      closer: 'We send this at most once a week, and never twice about the same inquiry.',
       signoff: 'Best,\nWebEaze Web Design',
     },
   });
-  // One enquiry or several changes six words, so the words are vars and the sentence stays one slot.
+  // One inquiry or several changes six words, so the words are vars and the sentence stays one slot.
   const many = rows.length !== 1;
   const vars = {
     first_name: firstName(c.name),
-    enquiry_count: many ? String(rows.length) : 'An',
-    enquiry_word: many ? 'enquiries' : 'enquiry',
+    inquiry_count: many ? String(rows.length) : 'An',
+    inquiry_word: many ? 'inquiries' : 'inquiry',
     inquiry_word: many ? 'inquiries' : 'inquiry',
     is_are: many ? 'are' : 'is',
     isnt_arent: many ? 'aren\'t' : 'isn\'t',
     them: many ? 'them all' : 'them',
     it: many ? 'them' : 'it',
   };
-  const KIND: Record<string, string> = { form: 'a form enquiry', call: 'a phone call', email: 'an email', booking: 'a booking click' };
+  const KIND: Record<string, string> = { form: 'a form inquiry', call: 'a phone call', email: 'an email', booking: 'a booking click' };
   const list = rows.slice(0, 6).map((l) => {
     const when = new Date(l.created_at).toLocaleDateString('en-US', { month: 'long', day: 'numeric' });
-    return '<p style="margin:0 0 8px;">' + esc(l.name || KIND[l.type] || 'An enquiry') + ' &middot; ' + esc(when) + '</p>';
+    return '<p style="margin:0 0 8px;">' + esc(l.name || KIND[l.type] || 'An inquiry') + ' &middot; ' + esc(when) + '</p>';
   }).join('');
   const more = rows.length > 6 ? '<p style="margin:0 0 8px;color:#5b6079;">' + copy.text('more_line', { ...vars, more_count: rows.length - 6 }) + '</p>' : '';
   const inner =
@@ -362,9 +362,9 @@ Deno.serve(async (req) => {
       }
     } catch (e) { console.error('[lifecycle] needs-info follow-up failed:', e); }
 
-    // ── 6) Enquiries the client never got back to ──
+    // ── 6) Inquiries the client never got back to ──
     // The lead inbox is only worth anything if someone rings these people. Two days, so a Friday
-    // enquiry is not chased on a Saturday morning, and one nudge per lead so it never becomes a drip.
+    // inquiry is not chased on a Saturday morning, and one nudge per lead so it never becomes a drip.
     try {
       const { data: cold, error: coldErr } = await svc.from('lead_events')
         .select('id, user_id, type, name, created_at')
