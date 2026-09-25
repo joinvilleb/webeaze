@@ -49,6 +49,13 @@ async function stripe(path: string, body: Record<string, string | number> = {}) 
   return data;
 }
 
+async function stripeGet(path: string) {
+  const res = await fetch('https://api.stripe.com/v1/' + path, { headers: { Authorization: 'Bearer ' + STRIPE_SECRET_KEY } });
+  const data = await res.json();
+  if (!res.ok) throw new Error((data && data.error && data.error.message) || ('Stripe ' + res.status));
+  return data;
+}
+
 async function emailTeam(subject: string, html: string) {
   if (!RESEND_API_KEY) return;
   await fetch('https://api.resend.com/emails', {
@@ -90,12 +97,6 @@ Deno.serve(async (req) => {
     const amount = Math.round(Number(ap.amount_usd) || 0);
     if (!priceId && amount <= 0) return json({ ok: false, fallback: 'request', reason: 'no price on file' });
 
-    // 1) the line item, from the product where we have one. 2) the invoice, not yet finalized.
-    const item: Record<string, string | number> = { customer: c.stripe_customer_id };
-    if (priceId) { item.price = priceId; item.quantity = 1; }
-    else { item.amount = amount * 100; item.currency = 'usd'; item.description = addon; }
-    await stripe('invoiceitems', item);
-
     // The brief is stored before the invoice, so it exists even if Stripe then fails: the webhook
     // finds it by invoice id when the money lands, and nothing about the job lives only in Stripe.
     let orderId = '';
@@ -122,6 +123,29 @@ Deno.serve(async (req) => {
       'metadata[order_id]': orderId,
     });
     if (orderId) await service.from('addon_orders').update({ invoice_id: String(inv.id) }).eq('id', orderId);
+
+    // The line goes on THIS invoice by id, after it exists.
+    //
+    // It used to be created against the customer first and left for the invoice to pick up. Stripe's
+    // newer API versions default pending_invoice_items_behavior to 'exclude', so the invoice was
+    // created empty and the item stayed pending: a $0 invoice, which Stripe marks paid immediately,
+    // which fired invoice.paid, which filed the work as bought. The client owed nothing and we owed
+    // them a job. Naming the invoice removes the guess entirely.
+    const item: Record<string, string | number> = { customer: c.stripe_customer_id, invoice: String(inv.id) };
+    if (priceId) { item.price = priceId; item.quantity = 1; }
+    else { item.amount = amount * 100; item.currency = 'usd'; item.description = addon; }
+    await stripe('invoiceitems', item);
+
+    // Never send an empty invoice again. If the line did not land, say so and fall back to a request
+    // rather than bill somebody nothing and book the work.
+    const check = await stripeGet('invoices/' + inv.id);
+    if (!Number(check.amount_due)) {
+      console.error('[create-invoice] invoice ' + inv.id + ' came to zero, not sending');
+      await emailTeam('Add-on invoice came to $0, not sent',
+        ['<p>' + esc(addon) + ' for <strong>' + esc(c.name || c.email) + '</strong> produced a $0 invoice, so it was left as a draft and filed as a request instead.</p>',
+         '<p>Usually the price ID on that add-on: check it is a one-off price in the same mode as the API key.</p>'].join(''));
+      return json({ ok: false, fallback: 'request', reason: 'invoice totalled zero' });
+    }
 
     // Send, which also finalizes it. This is the step that actually puts the invoice in their inbox:
     // finalizing alone does not email anything, so for a while the portal promised a copy by email
