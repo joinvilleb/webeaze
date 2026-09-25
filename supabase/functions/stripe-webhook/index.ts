@@ -19,7 +19,7 @@
 //
 // In Stripe: Developers > Webhooks > Add endpoint
 //   URL:    https://gmgzhjxfypuyzzgqwona.supabase.co/functions/v1/stripe-webhook
-//   Events: invoice.paid
+//   Events: invoice.paid, invoice.payment_failed
 
 import { createClient } from 'jsr:@supabase/supabase-js@2';
 
@@ -88,6 +88,22 @@ async function emailAdmin(subject: string, lines: string[]) {
   }).catch(() => {});
 }
 
+// The chase lives in its own function so all four emails sit together and stay editable in admin.
+// Fire and forget: a webhook that waits on an email is a webhook Stripe retries when the email is
+// slow, and the case is already recorded by the time this is called.
+async function callDunning(userId: string, mode?: string) {
+  const base = Deno.env.get('SUPABASE_URL') ?? '';
+  const secret = Deno.env.get('CRON_SECRET') ?? '';
+  if (!base || !secret) { console.warn('[stripe-webhook] no CRON_SECRET, dunning not called'); return; }
+  try {
+    await fetch(base + '/functions/v1/dunning', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-cron-secret': secret },
+      body: JSON.stringify(mode ? { user_id: userId, mode } : { user_id: userId }),
+    });
+  } catch (e) { console.error('[stripe-webhook] dunning call failed:', e); }
+}
+
 Deno.serve(async (req) => {
   if (req.method !== 'POST') return json({ error: 'Method not allowed' }, 405);
 
@@ -102,10 +118,56 @@ Deno.serve(async (req) => {
 
   // Always 200 from here on. A non-2xx makes Stripe retry, and retrying a bug just repeats it.
   try {
-    if (event.type !== 'invoice.paid') return json({ ok: true, ignored: event.type });
+    if (event.type !== 'invoice.paid' && event.type !== 'invoice.payment_failed') {
+      return json({ ok: true, ignored: event.type });
+    }
 
     const inv = event.data && event.data.object;
     if (!inv) return json({ ok: true, ignored: 'no invoice' });
+
+    // ── A card that did not go through ──
+    // This used to be nobody's job. clients.payment_failed was a checkbox an admin ticked, and the
+    // portal's nudge only reached a client who happened to log in, so a failing card was silent
+    // until the subscription cancelled and the site went with it. Opening a case here is what makes
+    // the chase possible; the dunning function sends the first email straight away.
+    if (event.type === 'invoice.payment_failed') {
+      const svc = createClient(Deno.env.get('SUPABASE_URL')!, Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!);
+      const cust = typeof inv.customer === 'string' ? inv.customer : (inv.customer && inv.customer.id);
+      if (!cust) return json({ ok: true, skipped: 'no customer' });
+      const { data: c } = await svc.from('clients').select('user_id, payment_failed_at').eq('stripe_customer_id', cust).maybeSingle();
+      if (!c) return json({ ok: true, skipped: 'no client for customer' });
+      // Stripe retries the same invoice several times. Each retry is the same problem, so the clock
+      // starts on the FIRST failure and a retry never restarts it or re-sends the first email.
+      const fresh = !c.payment_failed_at;
+      if (fresh) {
+        await svc.from('clients').update({
+          payment_failed: true,
+          payment_failed_at: new Date().toISOString(),
+          dunning_stage: 0,
+        }).eq('user_id', c.user_id);
+      }
+      if (fresh) await callDunning(c.user_id);
+      return json({ ok: true, dunning: fresh ? 'opened' : 'already open' });
+    }
+
+    // ── Money arrived, so any open card case is over ──
+    // Cleared on ANY successful payment, not only a subscription one: if their card works well
+    // enough to buy an add-on, it is not failing, and chasing them after that reads as incompetence.
+    {
+      const svc = createClient(Deno.env.get('SUPABASE_URL')!, Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!);
+      const cust = typeof inv.customer === 'string' ? inv.customer : (inv.customer && inv.customer.id);
+      if (cust) {
+        const { data: c } = await svc.from('clients').select('user_id, payment_failed_at, dunning_stage').eq('stripe_customer_id', cust).maybeSingle();
+        if (c && c.payment_failed_at) {
+          await svc.from('clients').update({
+            payment_failed: false, payment_failed_at: null, dunning_stage: 0, dunning_last_at: null,
+          }).eq('user_id', c.user_id);
+          // Only somebody we actually chased gets told it is sorted. Clearing a case nobody heard
+          // about is housekeeping, and an email about it would be the first they knew of any of it.
+          if (Number(c.dunning_stage) >= 1) await callDunning(c.user_id, 'cleared');
+        }
+      }
+    }
 
     // ── An add-on the client approved and paid in the portal ──
     // create-invoice stamps metadata.source, so this is the only invoice shape we act on besides the
