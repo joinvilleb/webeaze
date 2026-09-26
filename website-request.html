@@ -1073,36 +1073,54 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
   function getET() {
     return new Date(new Date().toLocaleString('en-US', { timeZone: 'America/New_York' }));
   }
-  function computeHolidayClosures(year) {
-    function nth(n, dow, mo, y) {
-      var d = new Date(y, mo, 1), diff = (dow - d.getDay() + 7) % 7;
-      d.setDate(1 + diff + (n - 1) * 7); return d;
-    }
-    function lastMon(mo, y) {
-      var d = new Date(y, mo + 1, 0), diff = (d.getDay() - 1 + 7) % 7;
-      d.setDate(d.getDate() - diff); return d;
-    }
-    function obs(mo, day, y) {
-      var d = new Date(y, mo, day);
+  // The same closures the portal works out, from the same rules, so the two can never disagree.
+  // Two bugs lived in the old version of this: it built dates by round-tripping through
+  // toISOString, which lands a day early for anyone east of UTC, and it only loaded this year and
+  // next. The December break belongs to the year it STARTS in, so every 1 January this page
+  // forgot it was closed and told people support was available.
+  function holidayClosures(year) {
+    var nthDow = function (n, dow, month) {          // e.g. the 1st Monday of September
+      var d = new Date(year, month, 1);
+      d.setDate(1 + ((dow - d.getDay() + 7) % 7) + (n - 1) * 7);
+      return d;
+    };
+    var lastDow = function (dow, month) {            // e.g. the last Monday of May
+      var d = new Date(year, month + 1, 0);
+      d.setDate(d.getDate() - ((d.getDay() - dow + 7) % 7));
+      return d;
+    };
+    var observed = function (month, day) {           // a fixed date steps off the weekend
+      var d = new Date(year, month, day);
       if (d.getDay() === 6) d.setDate(d.getDate() - 1);
       if (d.getDay() === 0) d.setDate(d.getDate() + 1);
       return d;
-    }
-    function iso(d) { return d.toISOString().slice(0, 10); }
-    var tg = nth(4, 4, 10, year), tgEnd = new Date(tg);
-    tgEnd.setDate(tg.getDate() + 3);
+    };
+    var plus = function (d, n) { var x = new Date(d); x.setDate(x.getDate() + n); return x; };
+    var thanksgiving = nthDow(4, 4, 10);             // the 4th Thursday of November
     return [
-      { name: 'Memorial Day',      start: iso(lastMon(4, year)),    end: iso(lastMon(4, year)) },
-      { name: 'Independence Day',  start: iso(obs(6, 4, year)),     end: iso(obs(6, 4, year)) },
-      { name: 'Labor Day',         start: iso(nth(1, 1, 8, year)),  end: iso(nth(1, 1, 8, year)) },
-      { name: 'Thanksgiving',      start: iso(tg),                  end: iso(tgEnd) },
-      { name: 'December Holidays', start: year + '-12-24',          end: (year + 1) + '-01-02' }
+      { name: "New Year's Day",    start: new Date(year, 0, 1),   end: new Date(year, 0, 1) },
+      { name: 'Memorial Day',      start: lastDow(1, 4),          end: lastDow(1, 4) },
+      { name: 'Independence Day',  start: observed(6, 4),         end: observed(6, 4) },
+      { name: 'Labor Day',         start: nthDow(1, 1, 8),        end: nthDow(1, 1, 8) },
+      // We shut the Wednesday before Thanksgiving and come back the Monday after.
+      { name: 'Thanksgiving',      start: plus(thanksgiving, -1), end: plus(thanksgiving, 3) },
+      { name: 'December Holidays', start: new Date(year, 11, 24), end: new Date(year + 1, 0, 1) }
     ];
   }
+  var _closures = null;
   function getClosures() {
-    var yr = getET().getFullYear();
-    return computeHolidayClosures(yr).concat(computeHolidayClosures(yr + 1))
-      .map(function(c) { return { name: c.name, start: new Date(c.start + 'T00:00:00'), end: new Date(c.end + 'T23:59:59') }; });
+    var year = getET().getFullYear();
+    if (_closures && _closures.year === year) return _closures.list;
+    var list = holidayClosures(year - 1)
+      .concat(holidayClosures(year), holidayClosures(year + 1))
+      .map(function (c) {
+        var a = new Date(c.start); a.setHours(0, 0, 0, 0);
+        var b = new Date(c.end);   b.setHours(23, 59, 59, 999);
+        return { name: c.name, start: a, end: b };
+      })
+      .sort(function (a, b) { return a.start - b.start; });
+    _closures = { year: year, list: list };
+    return list;
   }
   function nextBusinessDay(et) {
     const cls = getClosures();
