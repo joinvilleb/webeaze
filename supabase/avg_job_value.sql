@@ -1,20 +1,18 @@
--- What a job is worth to the client, so the report can show what search is earning (2026-09-26).
+-- clients.avg_job_value — ADDED, THEN SET ASIDE (2026-09-26).
 --
--- The search card could already say a site was shown 26,346 times. Nobody can tell whether that is
--- good. The chain from there is all real data we already hold: impressions, clicks, and the leads
--- that arrived from Google. The one number missing is what a job is worth, and that is the client's
--- to tell us: inventing an industry average would put a figure on their report that is not theirs.
+-- The search card briefly ended with "at $350 a job, that is about $3,850 of work in play". The
+-- word was the problem: a restaurant has covers, a gym has members, a tutor has students, and there
+-- is no single noun for what these businesses sell that is not wrong for some of them. Rather than
+-- pick one and be wrong on a client's own report, the card stops at the measured chain.
 --
--- Optional. Null means the card shows the real chain and offers to work out the rest.
+-- The column stays because it is already in the database and empty columns cost nothing. If a value
+-- per enquiry is ever worth showing again, the word has to come from the client too, not just the
+-- number, and this is where the number would live.
 --
--- Safe to run more than once.
+-- Nothing reads it today. Safe to run, safe to skip.
 
 alter table public.clients
   add column if not exists avg_job_value numeric;
 
 comment on column public.clients.avg_job_value is
-  'What a typical job is worth to this client, in dollars. Set by them in the portal. Null = not told, and the report says so rather than guessing.';
-
--- The client sets their own. Existing policies already scope clients rows to their owner, so this
--- only has to make sure the column is writable through whatever policy governs the row.
--- Nothing else needed: no new table, no new policy.
+  'Unused. Kept from an attempt to value search traffic; the wording, not the number, is what stopped it.';
