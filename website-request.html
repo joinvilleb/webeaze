@@ -1107,20 +1107,40 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
   function nextBusinessDay(et) {
     const cls = getClosures();
     let d = new Date(et); d.setDate(d.getDate() + 1); d.setHours(0, 0, 0, 0);
-    for (let i = 0; i < 14; i++) {
+    // The old loop gave up after 14 days and returned whatever date it had reached WITHOUT checking
+    // it, so a long December break could name a day we were shut. Nothing unvalidated leaves here.
+    for (let i = 0; i < 400; i++) {
       if (d.getDay() !== 0 && d.getDay() !== 6 && !cls.some(c => d >= c.start && d <= c.end)) return d;
       d.setDate(d.getDate() + 1);
     }
-    return d;
+    return null;
   }
+  // Whole calendar days apart, which is the only thing "today" and "tomorrow" mean. Counting hours
+  // would put Friday 5pm and Monday 9am 64 hours apart and call that three days.
+  function dayGap(from, to) {
+    const a = new Date(from); a.setHours(0, 0, 0, 0);
+    const b = new Date(to);   b.setHours(0, 0, 0, 0);
+    return Math.round((b.getTime() - a.getTime()) / 86400000);
+  }
+  function relativeDay(from, to) {
+    const days = dayGap(from, to);
+    if (days <= 0) return 'today';
+    if (days === 1) return 'tomorrow';
+    if (days < 7) return to.toLocaleDateString('en-US', { weekday: 'long' });
+    // Past a week a bare weekday reads as the one coming, so date it.
+    return to.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
+  }
+  // Was hardcoded to only ever say "tomorrow" on a Sunday, so every other evening named a weekday the
+  // reader had to place against today. Matches the portal's wording now.
   function nextOpenLabel(et) {
     const nbd = nextBusinessDay(et);
-    const DAYS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-    if (et.getDay() === 0) {
-      const t = new Date(et); t.setDate(t.getDate() + 1); t.setHours(0, 0, 0, 0);
-      if (nbd.toDateString() === t.toDateString()) return 'tomorrow';
-    }
-    return DAYS[nbd.getDay()];
+    return nbd ? relativeDay(et, nbd) : null;
+  }
+  // "tomorrow morning" reads fine; "Monday, Jan 4 morning" does not, so a dated day gets "on".
+  function backMorning(et) {
+    const lbl = nextOpenLabel(et);
+    if (!lbl) return 'as soon as we are back';
+    return /\d/.test(lbl) ? ('on ' + lbl) : (lbl + ' morning');
   }
 
   function updateStatus() {
@@ -1130,18 +1150,20 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
     const now = getET(), day = now.getDay(), hour = now.getHours();
     const holiday = getClosures().find(c => now >= c.start && now <= c.end);
     const next = nextOpenLabel(now);
+    const back = next ? ('back ' + next + ' at 9am ET') : 'back soon';
     badge.className = 'status-badge';
     if (holiday) {
       badge.classList.add('holiday');
-      text.textContent = 'Closed for ' + holiday.name + '. Back ' + next + ' at 9am ET';
+      text.textContent = 'Closed for ' + holiday.name + '. ' + (next ? 'Back ' + next + ' at 9am ET' : 'Back soon');
     } else if (day === 0 || day === 6) {
       badge.classList.add('closed');
-      text.textContent = 'Support is back ' + next + ' at 9am ET';
+      text.textContent = 'Support is ' + back;
     } else if (hour >= 9 && hour < 17) {
       text.textContent = 'Support is available now';
     } else {
       badge.classList.add('away');
-      text.textContent = 'Support is back ' + (hour < 9 ? 'today' : next) + ' at 9am ET';
+      // Before opening we come back today; nextOpenLabel always starts from tomorrow.
+      text.textContent = hour < 9 ? 'Support is back today at 9am ET' : ('Support is ' + back);
     }
   }
   updateStatus();
@@ -1413,12 +1435,10 @@ h3 { font-weight: 700 !important; letter-spacing: -.02em !important; }
         } catch(e) { return false; }
       })();
       if (isHoliday) {
-        const next = nextOpenLabel(now);
-        $note.innerHTML = '<i class="fas fa-mug-hot"></i> We are closed today for a holiday. Submit your request and we will pick it up ' + next + ' morning.';
+        $note.innerHTML = '<i class="fas fa-mug-hot"></i> We are closed today for a holiday. Submit your request and we will pick it up ' + backMorning(now) + '.';
         $note.hidden = false;
       } else if (!isWeekend && isEvening) {
-        const next = nextOpenLabel(now);
-        $note.innerHTML = '<i class="fas fa-moon"></i> We are closed for the night. Submit your request and we will get on it ' + next + ' morning.';
+        $note.innerHTML = '<i class="fas fa-moon"></i> We are closed for the night. Submit your request and we will get on it ' + backMorning(now) + '.';
         $note.hidden = false;
       } else if (!isWeekend && isEarlyMorning) {
         $note.innerHTML = '<i class="fas fa-sun"></i> We are open at 9am ET. Submit your request and we will pick it up shortly.';
