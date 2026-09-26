@@ -41,17 +41,25 @@ const REQUEST_TYPES = ['Content update', 'New page or section', 'Design change',
 
 // A concise, accurate map of the client portal so Eaze can send clients to the EXACT place for a
 // task instead of answering only in the abstract. Menu names match the portal navigation verbatim.
+// The portal's navigation, VERBATIM. Eaze telling someone to open a menu item that is not there is
+// worse than not naming one at all, and this drifted: it still said "Website notes" months after
+// that section became Messages, and "Site setup" after it became Business info. When a section is
+// renamed in portal/index.html, rename it here and redeploy this function, or Eaze keeps sending
+// clients to a door that no longer exists.
 const PORTAL_GUIDE = [
-  'THE PORTAL (what the client can do and exactly where). When they ask how or where to do something, name the exact section:',
+  'THE PORTAL (what the client can do and exactly where). When they ask how or where to do something, name the exact section, spelled as the menu spells it:',
   '- Home: their dashboard with headline numbers, an activation checklist, and Account Information (their plan, price, next billing date, and Manage billing to change plan or payment method).',
-  '- Your site report: their real performance, site speed, Google reviews, and Google Search traffic (impressions, clicks, ranking). Growth/Elite also see keyword rankings and a monthly action plan. They can tap Refresh to update it or Email me to get it by email.',
-  '- Edit your website (a Beta feature, shown when it is available for their site): they can change parts of their live site themselves, business hours (with a live Open/Closed badge), an announcement bar, and a rotating Google reviews widget, then Save and publish. If it is not wired up on their site yet, that page tells them and they can ask us to finish setting it up.',
-  '- Website notes: a running two-way thread with our team. They can leave a note, question, photo, or file, and our replies appear here too (they can also just reply to our emails and it lands here).',
-  '- Site setup: self-serve setup tools, Connect your domain (we can take it over and cover the renewal cost), Send us your brand assets (logo, photos, brand files), Connect your Google reviews (a Growth feature), and Share a password securely (encrypted end to end).',
-  '- Request history: every website change they have requested, with status and simple stats.',
-  '- Milestones (their progress), Refer and Earn (referral rewards), Add-ons and upgrades (extra services and plan upgrades).',
-  '- Whats new (recent activity and portal updates) and Support hours (when the team is available).',
-  'For a change they could make themselves (hours, an announcement, the reviews widget) you may point them to Edit your website AND offer to just do it for them as a request, whichever they prefer. For uploading a logo or photos, or connecting a domain or Google reviews, point them to Site setup. Never invent a portal feature or menu that is not listed here.',
+  '- Requests: every website change they have asked for, each one a conversation they can reply in, with its status and when to expect it.',
+  '- Messages: a running two-way thread with our team about the account. They can leave a note, question, photo, or file, and our replies appear here too (they can also just reply to our emails and it lands here).',
+  '- Inquiries: the inquiries that came in through their website forms, with the contact details and what was asked.',
+  '- Site report: their real performance, site speed, Google reviews, and Google Search traffic (impressions, clicks, ranking). Growth/Elite also see keyword rankings and a monthly action plan. They can tap Refresh to update it or Email me to get it by email.',
+  '- Edit your website (Beta, shown when it is available for their site): they can change parts of their live site themselves, business hours (with a live Open/Closed badge), an announcement bar, and a rotating Google reviews widget, then Save and publish. If it is not wired up on their site yet, that page tells them and they can ask us to finish setting it up.',
+  '- Business info: their setup answers and everything we hold for them, in three tabs (details, files, connections). Connect your domain (we can take it over and cover the renewal cost), send brand assets (logo, photos, brand files), connect Google reviews (a Growth feature), and share a password securely (encrypted end to end).',
+  '- Your posts: social posts we have drafted for them to approve.',
+  '- Milestones (their progress), Refer and earn (referral rewards), Add-ons (extra services, bought from the portal), Year in review (their year summarised, in December and January).',
+  "- What's new (company news and recent portal changes) and Get help (search the help guides, see support hours, and reach us).",
+  'Some of these only appear on certain plans or once a feature is set up, so if they say they cannot see a section you named, that is why: check their plan rather than insisting it is there.',
+  'For a change they could make themselves (hours, an announcement, the reviews widget) you may point them to Edit your website AND offer to just do it for them as a request.',
 ].join('\n');
 
 const cors = { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type', 'Access-Control-Allow-Methods': 'POST, OPTIONS' };
