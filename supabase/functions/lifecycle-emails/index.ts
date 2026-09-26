@@ -27,6 +27,7 @@
 // Schedule: pg_cron daily, x-cron-secret header — see supabase/lifecycle_emails.sql
 
 import { createClient } from 'jsr:@supabase/supabase-js@2';
+import { leadActionUrl } from '../_shared/lead-token.ts';
 import { emailCopy } from '../_shared/email-template.ts';
 
 const CRON_SECRET = Deno.env.get('CRON_SECRET') ?? '';
@@ -84,10 +85,10 @@ async function coldLeadsEmail(svc: any, c: any, rows: any[]) {
     subject: '{{inquiry_count}} {{inquiry_word}} {{is_are}} still waiting for you',
     slots: {
       greeting: 'Hey {{first_name}},',
-      lead: '{{inquiry_count}} {{inquiry_word}} came in through your website this week and {{isnt_arent}} marked as handled yet.',
+      lead: '{{inquiry_count}} {{inquiry_word}} came in through your website and we have not heard how {{it}} went.',
       more_line: 'and {{more_count}} more',
-      follow_up: 'If you\'ve already got back to {{them}}, mark {{it}} done in your portal and we\'ll stop mentioning {{it}}. If not, most people ring two or three businesses and go with whoever answers first, so today is worth more than tomorrow.',
-      button: 'Open your leads',
+      follow_up: 'Already spoken to {{them}}? Tap below and we will stop mentioning {{it}}. If not, most people ring two or three businesses and go with whoever answers first, so today is worth more than tomorrow.',
+      button: 'Open your inquiries',
       closer: 'We send this at most once a week, and never twice about the same inquiry.',
       signoff: 'Best,\nWebEaze Web Design',
     },
@@ -98,17 +99,35 @@ async function coldLeadsEmail(svc: any, c: any, rows: any[]) {
     first_name: firstName(c.name),
     inquiry_count: many ? String(rows.length) : 'An',
     inquiry_word: many ? 'inquiries' : 'inquiry',
-    inquiry_word: many ? 'inquiries' : 'inquiry',
     is_are: many ? 'are' : 'is',
     isnt_arent: many ? 'aren\'t' : 'isn\'t',
     them: many ? 'them all' : 'them',
     it: many ? 'them' : 'it',
   };
   const KIND: Record<string, string> = { form: 'a form inquiry', call: 'a phone call', email: 'an email', booking: 'a booking click' };
-  const list = rows.slice(0, 6).map((l) => {
+  // One tap per inquiry, not one for the batch: "mark them all handled" is a lie the moment one of
+  // them is still open, and a client who cannot answer honestly answers not at all. Signed links, so
+  // no login and nothing guessable. Without a secret we simply omit them rather than send dead links.
+  const CRON = Deno.env.get('CRON_SECRET') ?? '';
+  const FN_BASE = (Deno.env.get('SUPABASE_URL') ?? '').replace(/\/$/, '');
+  const list = (await Promise.all(rows.slice(0, 6).map(async (l) => {
     const when = new Date(l.created_at).toLocaleDateString('en-US', { month: 'long', day: 'numeric' });
-    return '<p style="margin:0 0 8px;">' + esc(l.name || KIND[l.type] || 'An inquiry') + ' &middot; ' + esc(when) + '</p>';
-  }).join('');
+    const who = esc(l.name || KIND[l.type] || 'An inquiry');
+    let taps = '';
+    if (CRON && FN_BASE) {
+      const [reached, won] = await Promise.all([
+        leadActionUrl(FN_BASE, String(l.id), 'contacted', CRON),
+        leadActionUrl(FN_BASE, String(l.id), 'won', CRON),
+      ]);
+      taps = '<span style="white-space:nowrap;">'
+        + '<a href="' + reached + '" style="color:#7851a9;font-weight:600;text-decoration:none;">Reached them</a>'
+        + '<span style="color:#c9cdd8;"> | </span>'
+        + '<a href="' + won + '" style="color:#15803d;font-weight:600;text-decoration:none;">Won the job</a>'
+        + '</span>';
+    }
+    return '<p style="margin:0 0 10px;">' + who + ' &middot; ' + esc(when)
+      + (taps ? '<br>' + taps : '') + '</p>';
+  }))).join('');
   const more = rows.length > 6 ? '<p style="margin:0 0 8px;color:#5b6079;">' + copy.text('more_line', { ...vars, more_count: rows.length - 6 }) + '</p>' : '';
   const inner =
     '<p style="margin:0 0 16px;">' + copy.text('greeting', vars).replace(/\s+([,.!?])/g, '$1') + '</p>' +

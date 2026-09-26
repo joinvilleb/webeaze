@@ -30,6 +30,7 @@
 
 import { createClient } from 'jsr:@supabase/supabase-js@2';
 import { emailCopy } from '../_shared/email-template.ts';
+import { leadSpamCheck } from '../_shared/lead-spam.ts';
 
 const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY') ?? '';
 const FROM = 'WebEaze <support@webeaze.io>';
@@ -209,6 +210,53 @@ async function emailClient(service: any, client: any, lead: any, files: { name: 
   return { sent: !!(r && r.ok), reason: r && !r.ok ? 'resend ' + r.status : '' };
 }
 
+// The instant "we've got it" to whoever filled the form in.
+//
+// Speed is most of whether a trade business wins the job, and the owner is usually up a ladder. This
+// goes out the moment the form lands, in the client's name, with replies pointed at the client so a
+// conversation started here continues with them and never with us.
+//
+// Guardrails, because this is mail to someone else's customer: OFF unless the client turned it on,
+// never to a suspected pitch, never without a well-formed address, and never when the inbox is being
+// flooded. It also cannot fail the submission, which is why nothing here is awaited into the result.
+async function autoReplyToVisitor(client: any, lead: any, spammy: boolean) {
+  if (!RESEND_API_KEY) return { sent: false, reason: 'no key' };
+  if (!client || client.lead_autoreply !== true) return { sent: false, reason: 'off' };
+  if (spammy) return { sent: false, reason: 'suspected pitch' };
+  if (!lead.email || !MAILBOX.test(lead.email)) return { sent: false, reason: 'no address' };
+
+  const business = String(client.business_name || client.name || '').trim() || 'our team';
+  const first = String(lead.name || '').trim().split(/\s+/)[0];
+  const custom = String(client.lead_autoreply_text || '').trim();
+  const body = custom || ('Thanks for getting in touch. We have got your message and someone will '
+    + 'get back to you shortly. If it is urgent, calling us is the quickest way to reach someone.');
+  // Their name on the envelope, our domain behind it, and replies go to them. We cannot sign as
+  // their domain, and pretending to would land the whole thing in spam.
+  const from = business.replace(/["\\]/g, '') + ' <support@webeaze.io>';
+  const replyTo = [client.email, client.second_email].filter((e: string) => e && MAILBOX.test(e))[0];
+
+  const html = '<!doctype html><html><body style="margin:0;padding:24px;background:#f5f6fa;'
+    + 'font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:#1a1a2e;">'
+    + '<table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr><td align="center">'
+    + '<table role="presentation" width="100%" style="max-width:520px;background:#fff;border-radius:14px;padding:28px;">'
+    + '<tr><td>'
+    + (first ? '<p style="margin:0 0 14px;font-size:15px;">Hi ' + esc(first) + ',</p>' : '')
+    + '<p style="margin:0 0 16px;font-size:15px;line-height:1.65;">' + esc(body) + '</p>'
+    + '<p style="margin:0;font-size:15px;line-height:1.65;">' + esc(business) + '</p>'
+    + '</td></tr></table></td></tr></table></body></html>';
+
+  const r = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + RESEND_API_KEY },
+    body: JSON.stringify({
+      from, to: [lead.email], reply_to: replyTo || undefined,
+      subject: 'Thanks for getting in touch with ' + business,
+      html,
+    }),
+  }).catch(() => null);
+  return { sent: !!(r && r.ok), reason: r && !r.ok ? 'resend ' + r.status : '' };
+}
+
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: cors });
 
@@ -230,7 +278,7 @@ Deno.serve(async (req) => {
   try {
     const service = createClient(Deno.env.get('SUPABASE_URL')!, Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!);
     const { data: client } = await service.from('clients')
-      .select('user_id, site_url, plan, name, business_name, email, second_email')
+      .select('user_id, site_url, plan, name, business_name, email, second_email, lead_autoreply, lead_autoreply_text')
       .eq('user_id', key).maybeSingle();
     if (!client) return fail(404, 'This form isn\'t configured correctly. Please contact the site owner.');
 
@@ -360,6 +408,11 @@ Deno.serve(async (req) => {
     // Keep the storage PATH, not the signed URL: the URL expires in 30 days, the path does not, so a
     // fresh link can always be minted for a resume someone needs to look at again later.
     if (stored.length) row.attachments = stored.map((f) => ({ name: f.name, path: f.path }));
+    // Score it here, once, and KEEP the number. It used to be worked out fresh every time anything
+    // wanted to know, and thrown away, so 90 days of inquiries held not one recorded verdict and
+    // nothing could be filtered or counted after the fact.
+    const verdict = leadSpamCheck({ name, email, phone, message, page });
+    row.spam_score = verdict.score;
     const ins = await service.from('lead_events').insert(row);
     if (ins.error) {
       console.warn('form-lead insert failed:', ins.error.message);
@@ -389,7 +442,13 @@ Deno.serve(async (req) => {
       }
     }
 
-    return done({ delivered: mail.sent, attachments: stored.length, dropped });
+    // Last, and deliberately after the owner's copy: if anything here throws, the inquiry has
+    // already been delivered and recorded.
+    let acked = false;
+    try { acked = (await autoReplyToVisitor(client, lead, verdict.spam)).sent; }
+    catch (e) { console.warn('form-lead auto-reply failed:', e && (e as Error).message); }
+
+    return done({ delivered: mail.sent, attachments: stored.length, dropped, acked });
   } catch (e) {
     console.error('form-lead error:', e && (e as Error).message);
     return fail(500, 'Something went wrong sending that. Please try again, or call us instead.');
